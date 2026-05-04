@@ -1,14 +1,12 @@
 jest.mock("@getbrevo/brevo");
-jest.mock("@/lib/constants", () => ({
-   ...jest.requireActual("@/lib/constants"),
-   getBrevoApiKey: jest.fn().mockReturnValue("test-api-key"),
-   getBrevoSenderEmail: jest.fn().mockReturnValue("noreply@test.com"),
-   APP_NAME: "Vision Notes",
-}));
 
-import { BrevoClient } from "@getbrevo/brevo";
+import { Brevo, BrevoClient } from "@getbrevo/brevo";
+
+import { APP_NAME, getBrevoSenderEmail } from "@/lib/constants";
 
 import { BrevoEmailService } from "./brevo.email.service";
+import { EmailVerificationParams } from "./types";
+import { buildHtml, buildText } from "./utils";
 
 const brevoClientMock = BrevoClient as jest.MockedClass<typeof BrevoClient>;
 
@@ -24,32 +22,38 @@ brevoClientMock.mockImplementation(
 );
 
 describe("BrevoEmailService tests", () => {
-   let service: BrevoEmailService;
-
    beforeEach(() => {
       jest.clearAllMocks();
-      service = new BrevoEmailService();
    });
 
    it("sendVerificationEmail - sends email with correct params - test", async () => {
-      const params = {
+      const params: EmailVerificationParams = {
          to: "user@example.com",
          name: "Test User",
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
+      const service = new BrevoEmailService();
       await service.sendVerificationEmail(params);
 
+      const expectedRequest: Brevo.SendTransacEmailRequest = {
+         to: [
+            {
+               email: params.to,
+               name: params.name,
+            },
+         ],
+         sender: {
+            email: getBrevoSenderEmail(),
+            name: `${APP_NAME}`,
+         },
+         subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
+         htmlContent: buildHtml(APP_NAME, params.name, params.verificationUrl),
+         textContent: buildText(APP_NAME, params.name, params.verificationUrl),
+      };
+
       expect(sendTransacEmailMock).toHaveBeenCalledTimes(1);
-      expect(sendTransacEmailMock).toHaveBeenCalledWith(
-         expect.objectContaining({
-            to: [{ email: params.to, name: params.name }],
-            sender: expect.objectContaining({ email: "noreply@test.com" }),
-            subject: expect.stringContaining("E-Mail-Adresse bestätigen"),
-            htmlContent: expect.stringContaining(params.verificationUrl),
-            textContent: expect.stringContaining(params.verificationUrl),
-         })
-      );
+      expect(sendTransacEmailMock).toHaveBeenCalledWith(expectedRequest);
    });
 
    it("sendVerificationEmail - throws error on failure - test", async () => {
@@ -60,6 +64,7 @@ describe("BrevoEmailService tests", () => {
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
+      const service = new BrevoEmailService();
       await expect(service.sendVerificationEmail(params)).rejects.toThrow(
          "Brevo API error"
       );

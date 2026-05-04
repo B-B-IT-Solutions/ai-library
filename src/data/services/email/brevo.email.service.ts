@@ -1,4 +1,4 @@
-import { BrevoClient } from "@getbrevo/brevo";
+import { Brevo, BrevoClient } from "@getbrevo/brevo";
 
 import { APP_NAME, getBrevoApiKey, getBrevoSenderEmail } from "@/lib/constants";
 
@@ -20,12 +20,22 @@ export class BrevoEmailService implements IEmailService {
    async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
       const { to, name, verificationUrl } = params;
 
-      await this.client.transactionalEmails.sendTransacEmail({
-         to: [{ email: to, name }],
-         sender: { email: this.senderEmail, name: this.senderName },
+      const request: Brevo.SendTransacEmailRequest = {
+         to: [
+            {
+               email: to,
+               name,
+            },
+         ],
+         sender: {
+            email: this.senderEmail,
+            name: this.senderName,
+         },
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
          htmlContent: buildHtml(this.senderName, name, verificationUrl),
          textContent: buildText(this.senderName, name, verificationUrl),
-      });
+      };
+
+      await this.client.transactionalEmails.sendTransacEmail(request);
    }
 }
