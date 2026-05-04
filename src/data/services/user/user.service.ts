@@ -183,12 +183,7 @@ export class UserService {
    }
 
    async isEmailVerified(email: string): Promise<boolean | null> {
-      const emailVerified = await this.userRepository.pGetEmailVerified(email);
-
-      if (emailVerified === undefined) {
-         return null;
-      }
-      return emailVerified !== null;
+      return await this.userRepository.pGetEmailVerified(email);
    }
 
    async verifyEmail(email: string): Promise<void> {

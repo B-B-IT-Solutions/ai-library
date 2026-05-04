@@ -749,27 +749,36 @@ describe("isEmailVerified tests", () => {
    });
 
    it("user not found - test", async () => {
-      userRepoMock.pGetEmailVerified.mockResolvedValue(undefined);
-
-      const result = await userService.isEmailVerified("test@email.com");
-
-      expect(result).toBeNull();
-   });
-
-   it("email not verified - test", async () => {
+      const email = "test@email.com";
       userRepoMock.pGetEmailVerified.mockResolvedValue(null);
 
-      const result = await userService.isEmailVerified("test@email.com");
+      const result = await userService.isEmailVerified(email);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledWith(email);
    });
 
-   it("email verified - test", async () => {
-      userRepoMock.pGetEmailVerified.mockResolvedValue(new Date());
+   it("email verified false - test", async () => {
+      const email = "test@email.com";
+      userRepoMock.pGetEmailVerified.mockResolvedValue(false);
 
-      const result = await userService.isEmailVerified("test@email.com");
+      const result = await userService.isEmailVerified(email);
+
+      expect(result).toBe(false);
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledWith(email);
+   });
+
+   it("email verified true - test", async () => {
+      const email = "test@email.com";
+      userRepoMock.pGetEmailVerified.mockResolvedValue(true);
+
+      const result = await userService.isEmailVerified(email);
 
       expect(result).toBe(true);
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetEmailVerified).toHaveBeenCalledWith(email);
    });
 });
 
@@ -778,7 +787,7 @@ describe("verifyEmail tests", () => {
       jest.clearAllMocks();
    });
 
-   it("verifyEmail - calls pVerifyUserEmail - test", async () => {
+   it("user updated - test", async () => {
       const email = "test@email.com";
 
       await userService.verifyEmail(email);
