@@ -81,42 +81,42 @@ describe("verifyToken tests", () => {
    });
 
    it("token expired - test", async () => {
-      const token = dtestData.dVerificationToken();
-      token.expires = new Date("2025-09-27");
-      tokenRepoMock.pGetToken.mockResolvedValue(token);
+      const dToken = dtestData.dVerificationToken();
+      dToken.expires = new Date("2025-09-27");
+      tokenRepoMock.pGetToken.mockResolvedValue(dToken);
 
-      const result = await service.verifyToken(token.identifier, token.token);
+      const result = await service.verifyToken(dToken.identifier, dToken.token);
 
       expect(result).toBe(false);
       expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
-         token.identifier,
-         token.token
+         dToken.identifier,
+         dToken.token
       );
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledWith(
-         token.identifier,
-         token.token
+         dToken.identifier,
+         dToken.token
       );
    });
 
    it("token valid - test", async () => {
-      const token = dtestData.dVerificationToken();
-      token.expires = new Date("2035-09-27");
-      tokenRepoMock.pGetToken.mockResolvedValue(token);
+      const dToken = dtestData.dVerificationToken();
+      dToken.expires = new Date("2035-09-27");
+      tokenRepoMock.pGetToken.mockResolvedValue(dToken);
 
-      const result = await service.verifyToken(token.identifier, token.token);
+      const result = await service.verifyToken(dToken.identifier, dToken.token);
 
       expect(result).toBe(true);
       expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
-         token.identifier,
-         token.token
+         dToken.identifier,
+         dToken.token
       );
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledWith(
-         token.identifier,
-         token.token
+         dToken.identifier,
+         dToken.token
       );
    });
 });

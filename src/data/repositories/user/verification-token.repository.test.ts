@@ -33,25 +33,25 @@ describe("pCreateToken tests", () => {
    });
 
    it("token created - test", async () => {
-      const token = ptestData.pVerificationToken();
+      const pToken = ptestData.pVerificationToken();
       const expectedExpires = new Date(
          new Date(FIXED_NOW).getTime() + TOKEN_EXPIRY_MS
       );
 
       prismaMock.verificationToken.deleteMany.mockResolvedValue();
-      prismaMock.verificationToken.create.mockResolvedValue(token);
+      prismaMock.verificationToken.create.mockResolvedValue(pToken);
 
-      const result = await repository.pCreateToken(token.identifier);
+      const result = await repository.pCreateToken(pToken.identifier);
 
       const expectedDeleteArgs: VerificationTokenDeleteManyArgs = {
          where: {
-            identifier: token.identifier,
+            identifier: pToken.identifier,
          },
       };
 
       const expectedCreateArgs: VerificationTokenCreateArgs = {
          data: {
-            identifier: token.identifier,
+            identifier: pToken.identifier,
             token: FIXED_UUID,
             expires: expectedExpires,
          },
@@ -71,7 +71,7 @@ describe("pCreateToken tests", () => {
 
 describe("pGetToken tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("token null - test", async () => {
@@ -122,7 +122,7 @@ describe("pGetToken tests", () => {
 
 describe("pDeleteToken tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("token deleted - test", async () => {
