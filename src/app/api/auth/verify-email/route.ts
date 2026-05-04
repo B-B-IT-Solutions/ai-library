@@ -5,7 +5,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
    const searchParams = request.nextUrl.searchParams;
    const token = searchParams.get("token");
    const email = searchParams.get("email");
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
    await userService.verifyEmail(email);
 
    redirect("/auth/sign-in?verified=true");
-}
+};
 
 const getTokenService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
