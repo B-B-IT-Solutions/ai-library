@@ -30,7 +30,7 @@ export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
 
-      const service = getService();
+      const service = getUserService();
       await service.signUpUser(validatedData);
 
       redirect(
@@ -51,7 +51,7 @@ export const signInWithCredentials = async (data: DUserSignIn) => {
    try {
       const singInValues = signInSchema.parse(data);
 
-      const service = getService();
+      const service = getUserService();
       const isVerified = await service.isEmailVerified(singInValues.email);
       if (isVerified === false) {
          return {
@@ -82,8 +82,51 @@ export const signOutUser = async () => {
    await signOut({ redirectTo: "/p" });
 };
 
+export const resendVerificationEmail = async (
+   email: string
+): Promise<ActionResult> => {
+   try {
+      const userService = getUserService();
+      const isVerified = await userService.isEmailVerified(email);
+
+      if (isVerified === null) {
+         return {
+            success: false,
+            message: "E-Mail-Adresse nicht gefunden",
+         };
+      }
+      if (isVerified === true) {
+         return {
+            success: false,
+            message: "E-Mail-Adresse ist bereits bestätigt",
+         };
+      }
+
+      const user = await userService.getUserByEmail(email);
+      if (!user) {
+         return {
+            success: false,
+            message: "E-Mail-Adresse nicht gefunden",
+         };
+      }
+
+      const tokenService = getTokenService();
+      await tokenService.sendVerificationEmail(user.email, user.name);
+
+      return {
+         success: true,
+         message: "Verifizierungs-E-Mail wurde erneut gesendet",
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
 export const getUserById = async (userId: string): Promise<DUser> => {
-   const service = getService();
+   const service = getUserService();
    const user = await service.getUserById(userId);
    if (!user) {
       throw new Error("User not found");
@@ -98,7 +141,7 @@ export const updateUserProfile = async (
       const user = await requireUser();
       const validatedData = updateProfileSchema.parse(data);
 
-      const service = getService();
+      const service = getUserService();
       service.updateUser(user.id, validatedData);
 
       return {
@@ -123,7 +166,7 @@ export const updatePassword = async (
       const user = await requireUser();
       const validatedData = updatePasswordSchema.parse(data);
 
-      const service = getService();
+      const service = getUserService();
       await service.updatePassword(user.id, validatedData);
 
       await signOut({ redirect: false });
@@ -151,7 +194,7 @@ export const deleteUser = async (
       const validatedData = deleteAccountSchema.parse(data);
 
       await prisma.$transaction(async (tx) => {
-         const service = getService(tx);
+         const service = getUserService(tx);
          await service.deleteUser(user.id, validatedData);
       });
 
@@ -172,46 +215,12 @@ export const deleteUser = async (
    }
 };
 
-export const resendVerificationEmail = async (
-   email: string
-): Promise<ActionResult> => {
-   try {
-      const service = getService();
-      const isVerified = await service.isEmailVerified(email);
-
-      if (isVerified === null) {
-         return { success: false, message: "E-Mail-Adresse nicht gefunden" };
-      }
-      if (isVerified === true) {
-         return {
-            success: false,
-            message: "E-Mail-Adresse ist bereits bestätigt",
-         };
-      }
-
-      const user = await service.getUserByEmail(email);
-      if (!user) {
-         return { success: false, message: "E-Mail-Adresse nicht gefunden" };
-      }
-
-      const factory = new ServiceFactory(prisma);
-      await factory
-         .getVerificationTokenService()
-         .sendVerificationEmail(user.email, user.name);
-
-      return {
-         success: true,
-         message: "Verifizierungs-E-Mail wurde erneut gesendet",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
-const getService = (dbClient: DbClient = prisma) => {
+const getUserService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getUserService();
+};
+
+const getTokenService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getVerificationTokenService();
 };
