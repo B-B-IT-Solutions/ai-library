@@ -69,7 +69,6 @@ export const CatalogEntriesToolbar = ({
       <div className="mb-6 space-y-3" data-testid="catalog-entries-toolbar">
          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border bg-white px-5 py-3 shadow-sm">
             <div className="flex items-center gap-3">
-               <ListViewToggle currentView={viewMode} />
                <div className="relative flex-1 sm:flex-none">
                   <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <Input
@@ -110,6 +109,7 @@ export const CatalogEntriesToolbar = ({
                   {totalElements}{" "}
                   {totalElements === 1 ? "Vorlage" : "Vorlagen"}
                </span>
+               <ListViewToggle currentView={viewMode} />
             </div>
          </div>
 
