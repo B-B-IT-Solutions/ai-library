@@ -1,5 +1,6 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
+import { CatalogService } from "@/data/services/catalog";
 import {
    CollectionService,
    PublicCollectionService,
@@ -28,6 +29,7 @@ import { EMAIL_PROVIDER } from "@/lib/constants";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
+   private catalogService?: CatalogService;
    private userService?: UserService;
    private verificationTokenService?: VerificationTokenService;
    private cartService?: CartService;
@@ -69,6 +71,16 @@ export class ServiceFactory {
          );
       }
       return this.verificationTokenService;
+   }
+
+   getCatalogService(): CatalogService {
+      if (!this.catalogService) {
+         this.catalogService = new CatalogService(
+            this.repositories.catalogRepository(),
+            this.getTemplateService()
+         );
+      }
+      return this.catalogService;
    }
 
    getCartService(): CartService {

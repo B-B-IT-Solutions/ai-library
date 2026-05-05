@@ -5,3 +5,4 @@
 - [Competitor Weaknesses](competitor_weaknesses.md) — PromptBase: no workflow/testing; FlowGPT: no creator revenue; AIPRM: ChatGPT-only
 - [Strategic Build Priorities](build_priorities.md) — Ranked: Explore feed, in-platform testing, viral prompt sharing, creator dashboard, team workspaces
 - [Positioning Angles](positioning_angles.md) — Three validated messaging frames for differentiation
+- [Catalog Domain Architecture](architecture_catalog_domain.md) — PromptTemplateDescriptor ist user-private; Explore nutzt separates CatalogEntry-Modell mit Copy-Aktion

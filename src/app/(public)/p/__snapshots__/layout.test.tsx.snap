@@ -19,20 +19,10 @@ exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
             class="flex items-center gap-8"
           >
             <a
-              class="flex items-center gap-3 transition-opacity hover:opacity-80"
+              class="flex items-center gap-3"
               data-testid="mock-link"
               href="/p"
             >
-              <img
-                alt="Vision Notes logo"
-                class="drop-shadow-lg"
-                data-nimg="1"
-                decoding="async"
-                height="36"
-                src="/images/logo.svg"
-                style="color: transparent;"
-                width="36"
-              />
               <span
                 class="text-xl font-bold"
               >
@@ -68,7 +58,7 @@ exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
               data-testid="sign-up-link"
               href="/auth/sign-up"
             >
-              Registrieren
+              Kostenlos starten
             </a>
           </div>
         </div>

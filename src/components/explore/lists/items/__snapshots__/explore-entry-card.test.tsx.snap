@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ExploreEntryCard rendering tests ExploreEntryCard - renders title - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
+    data-slot="card"
+    data-testid="explore-entry-card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div
+          class="flex flex-wrap gap-1.5"
+        >
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs"
+            data-slot="badge"
+            data-testid="explore-entry-card-category"
+          >
+            Category 1
+          </span>
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs font-normal"
+            data-slot="badge"
+          >
+            GPT-4o
+          </span>
+        </div>
+      </div>
+      <h3
+        class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900"
+        data-testid="explore-entry-card-title"
+      >
+        Catalog Entry 1
+      </h3>
+    </div>
+    <div
+      class="px-6 flex-1 pb-3"
+      data-slot="card-content"
+    >
+      <p
+        class="line-clamp-2 text-sm text-slate-500"
+      >
+        Description for catalog entry 1
+      </p>
+      <div
+        class="mt-3 flex items-center gap-4 text-xs text-slate-400"
+      >
+        <span
+          class="flex items-center gap-1"
+          data-testid="explore-entry-card-field-count"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-layout-list h-3.5 w-3.5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="7"
+              rx="1"
+              width="7"
+              x="3"
+              y="3"
+            />
+            <rect
+              height="7"
+              rx="1"
+              width="7"
+              x="3"
+              y="14"
+            />
+            <path
+              d="M14 4h7"
+            />
+            <path
+              d="M14 9h7"
+            />
+            <path
+              d="M14 15h7"
+            />
+            <path
+              d="M14 20h7"
+            />
+          </svg>
+          3
+           
+          Felder
+        </span>
+        <span
+          class="flex items-center gap-1"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-copy h-3.5 w-3.5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="14"
+              rx="2"
+              ry="2"
+              width="14"
+              x="8"
+              y="8"
+            />
+            <path
+              d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+            />
+          </svg>
+          5
+          × übernommen
+        </span>
+      </div>
+    </div>
+    <div
+      class="flex items-center px-6 [.border-t]:pt-6 pt-0"
+      data-slot="card-footer"
+    >
+      <a
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full flex items-center gap-1.5"
+        data-slot="button"
+        data-testid="mock-link"
+        href="/explore/catalog-entry-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-book-open h-3.5 w-3.5"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 7v14"
+          />
+          <path
+            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+          />
+        </svg>
+        Ansehen
+      </a>
+    </div>
+  </div>
+</div>
+`;

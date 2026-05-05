@@ -528,6 +528,70 @@ model Subscription {
   @@map("subscription")
 }
 
+// Catalog / Explore Domain
+
+model CatalogCategory {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String         @unique @db.VarChar(250)
+  slug        String         @unique @db.VarChar(250)
+  description String?        @db.VarChar(500)
+  order       Int            @default(0)
+  entries     CatalogEntry[]
+  createdAt   DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  @@map("catalog_category")
+}
+
+enum CatalogEntryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+
+  @@map("catalog_entry_status")
+}
+
+model CatalogEntry {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug             String             @unique @db.VarChar(250)
+  title            String             @db.VarChar(250)
+  description      String             @db.VarChar(750)
+  recommendedModel String             @map("recommended_model") @db.VarChar(250)
+  content          String             @db.Text
+  status           CatalogEntryStatus @default(DRAFT)
+  categoryId       String?            @map("category_id") @db.Uuid
+  copyCount        Int                @default(0) @map("copy_count")
+  publishedAt      DateTime?          @map("published_at") @db.Timestamp(6)
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  category CatalogCategory?    @relation(fields: [categoryId], references: [id])
+  fields   CatalogEntryField[]
+
+  @@index([status])
+  @@index([categoryId])
+  @@map("catalog_entry")
+}
+
+model CatalogEntryField {
+  id             String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  catalogEntryId String                  @map("catalog_entry_id") @db.Uuid
+  name           String                  @db.VarChar(100)
+  label          String                  @db.VarChar(250)
+  description    String?                 @db.VarChar(500)
+  type           PromptTemplateFieldType
+  required       Boolean                 @default(true)
+  order          Int                     @default(0)
+  defaultValue   String?                 @map("default_value") @db.Text
+  options        Json?                   @db.JsonB
+
+  catalogEntry CatalogEntry @relation(fields: [catalogEntryId], references: [id], onDelete: Cascade)
+
+  @@unique([catalogEntryId, name])
+  @@index([catalogEntryId])
+  @@map("catalog_entry_field")
+}
+
 model SubscriptionHistory {
   id            String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId        String              @map("user_id") @db.Uuid
