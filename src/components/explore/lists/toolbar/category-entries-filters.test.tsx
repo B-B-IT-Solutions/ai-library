@@ -32,7 +32,10 @@ describe("CatalogEntriesToolbar rendering tests", () => {
 
    it("renders with LIST view mode", async () => {
       const { container } = renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} viewMode={DListViewMode.LIST} />,
+         <CatalogEntriesToolbar
+            {...defaultProps}
+            viewMode={DListViewMode.LIST}
+         />,
          "/explore"
       );
 
@@ -59,10 +62,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
    });
 
    it("opens filter sheet on mobile button click", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
 
       await waitFor(() =>
          assertInDocument(screen.getByTestId("mobile-filter-btn"))
