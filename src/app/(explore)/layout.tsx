@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import Link from "next/link";
 import { Compass } from "lucide-react";
+import Link from "next/link";
 
-import { isAuthenticated } from "@/data/actions/auth-utils";
 import { Button } from "@/components/shadcn/button";
+import { isAuthenticated } from "@/data/actions/auth-utils";
 import { APP_NAME } from "@/lib/constants";
 
 type ExploreLayoutProps = {

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -17,18 +16,7 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
             <div className="container mx-auto px-4 py-4">
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-8">
-                     <Link
-                        href="/p"
-                        className="flex items-center gap-3 transition-opacity hover:opacity-80"
-                     >
-                        <Image
-                           src="/images/logo.svg"
-                           width={36}
-                           height={36}
-                           alt={`${APP_NAME} logo`}
-                           priority={true}
-                           className="drop-shadow-lg"
-                        />
+                     <Link href="/p" className="flex items-center gap-3">
                         <span className="text-xl font-bold">{APP_NAME}</span>
                      </Link>
                      <nav className="hidden items-center gap-6 md:flex">
@@ -48,7 +36,7 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                      </Button>
                      <Button asChild>
                         <Link href="/auth/sign-up" data-testid="sign-up-link">
-                           Registrieren
+                           Kostenlos starten
                         </Link>
                      </Button>
                   </div>
