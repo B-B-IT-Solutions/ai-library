@@ -10,16 +10,16 @@ import { EMPTY_PAGE } from "../utils";
 import {
    copyCatalogEntryToUserLibrary,
    getCatalogCategories,
-   getCatalogEntriesPage,
-   getCatalogEntryBySlug,
+   getPublishedCatalogEntriesPage,
+   getPublishedCatalogEntryBySlug,
 } from "./catalog.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetPublishedEntriesPage =
-   CatalogService.prototype.getPublishedEntriesPage;
+   CatalogService.prototype.getPublishedCatalogEntriesPage;
 const sGetPublishedEntryBySlug =
-   CatalogService.prototype.getPublishedEntryBySlug;
+   CatalogService.prototype.getPublishedCatalogEntryBySlug;
 const sGetCategories = CatalogService.prototype.getCategories;
 const sCopyEntryToUserLibrary = CatalogService.prototype.copyEntryToUserLibrary;
 
@@ -39,110 +39,127 @@ const sCopyEntryToUserLibraryMock =
       typeof sCopyEntryToUserLibrary
    >;
 
-describe("getCatalogEntriesPage tests", () => {
+describe("getPublishedCatalogEntriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-   });
-
-   it("getCatalogEntriesPage - success - returns page - test", async () => {
-      const page = dtestData.dCatalogEntriesPage();
-      sGetPublishedEntriesPageMock.mockResolvedValue(page);
-
-      const result = await getCatalogEntriesPage();
-
-      expect(result).toEqual(page);
-      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledTimes(1);
-   });
-
-   it("getCatalogEntriesPage - service error - returns empty page - test", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
-      sGetPublishedEntriesPageMock.mockRejectedValue(new Error("DB error"));
-
-      const result = await getCatalogEntriesPage();
-
-      expect(result).toEqual(EMPTY_PAGE);
-      expect(console.error).toHaveBeenCalledTimes(1);
-
-      jest.restoreAllMocks();
    });
 
-   it("getCatalogEntriesPage - passes query to service - test", async () => {
-      const query = dtestData.dCatalogEntriesPageQuery();
-      const page = dtestData.dCatalogEntriesPage();
-      sGetPublishedEntriesPageMock.mockResolvedValue(page);
-
-      await getCatalogEntriesPage(query);
-
-      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledWith(query);
-   });
-});
-
-describe("getCatalogEntryBySlug tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("valid slug - test", async () => {
-      const entry = dtestData.dCatalogEntry();
-      sGetPublishedEntryBySlugMock.mockResolvedValue(entry);
-
-      const result = await getCatalogEntryBySlug("catalog-entry-1");
-
-      expect(result).toEqual(entry);
-      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledWith(
-         "catalog-entry-1"
-      );
-   });
-
-   it("empty slug - test", async () => {
-      jest.spyOn(console, "error").mockImplementation(() => {});
-
-      const result = await getCatalogEntryBySlug("");
-
-      expect(result).toBeNull();
-      expect(sGetPublishedEntryBySlugMock).not.toHaveBeenCalled();
-
-      jest.restoreAllMocks();
-   });
-
-   it("whitespace slug - test", async () => {
-      jest.spyOn(console, "error").mockImplementation(() => {});
-
-      const result = await getCatalogEntryBySlug("   ");
-
-      expect(result).toBeNull();
-      expect(sGetPublishedEntryBySlugMock).not.toHaveBeenCalled();
-
+   afterEach(() => {
       jest.restoreAllMocks();
    });
 
    it("service error - test", async () => {
-      jest.spyOn(console, "error").mockImplementation(() => {});
-      sGetPublishedEntryBySlugMock.mockRejectedValue(new Error("Not found"));
+      const error = new Error("DB error");
+      sGetPublishedEntriesPageMock.mockRejectedValue(error);
 
-      const result = await getCatalogEntryBySlug("valid-slug");
+      const result = await getPublishedCatalogEntriesPage();
 
-      expect(result).toBeNull();
+      expect(result).toEqual(EMPTY_PAGE);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledWith(undefined);
       expect(console.error).toHaveBeenCalledTimes(1);
+   });
 
+   it("success - query undefinend - test", async () => {
+      const page = dtestData.dCatalogEntriesPage();
+      sGetPublishedEntriesPageMock.mockResolvedValue(page);
+
+      const result = await getPublishedCatalogEntriesPage();
+
+      expect(result).toEqual(page);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledWith(undefined);
+   });
+
+   it("success - query definend - test", async () => {
+      const page = dtestData.dCatalogEntriesPage();
+      sGetPublishedEntriesPageMock.mockResolvedValue(page);
+
+      const query = dtestData.dCatalogEntriesPageQuery();
+      const result = await getPublishedCatalogEntriesPage(query);
+
+      expect(result).toEqual(page);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublishedEntriesPageMock).toHaveBeenCalledWith(query);
+   });
+});
+
+describe("getPublishedCatalogEntryBySlug tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
       jest.restoreAllMocks();
    });
 
-   it("entry not found - test", async () => {
-      sGetPublishedEntryBySlugMock.mockResolvedValue(null);
+   it("service error - test", async () => {
+      const error = new Error("Not found");
+      sGetPublishedEntryBySlugMock.mockRejectedValue(error);
 
-      const result = await getCatalogEntryBySlug("no-such-entry");
+      const slug = "valid-slug";
+      const result = await getPublishedCatalogEntryBySlug(slug);
 
       expect(result).toBeNull();
+      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledWith(slug);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("slug - empty - test", async () => {
+      const slug = "";
+      const result = await getPublishedCatalogEntryBySlug(slug);
+
+      expect(result).toBeNull();
+      expect(sGetPublishedEntryBySlugMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("slug - whitespace - test", async () => {
+      const slug = "   ";
+      const result = await getPublishedCatalogEntryBySlug(slug);
+
+      expect(result).toBeNull();
+      expect(sGetPublishedEntryBySlugMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("slug - valid - test", async () => {
+      const entry = dtestData.dCatalogEntry();
+      sGetPublishedEntryBySlugMock.mockResolvedValue(entry);
+
+      const slug = "catalog-entry-1";
+      const result = await getPublishedCatalogEntryBySlug(slug);
+
+      expect(result).toEqual(entry);
+      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledWith(slug);
    });
 });
 
 describe("getCatalogCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("getCatalogCategories - success - returns categories - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("service error - test", async () => {
+      const error = new Error("DB error");
+      sGetCategoriesMock.mockRejectedValue(error);
+
+      const result = await getCatalogCategories();
+
+      expect(result).toEqual([]);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("success - test", async () => {
       const categories = dtestData.dCatalogCategories();
       sGetCategoriesMock.mockResolvedValue(categories);
 
@@ -151,26 +168,19 @@ describe("getCatalogCategories tests", () => {
       expect(result).toEqual(categories);
       expect(sGetCategoriesMock).toHaveBeenCalledTimes(1);
    });
-
-   it("getCatalogCategories - service error - returns empty array - test", async () => {
-      jest.spyOn(console, "error").mockImplementation(() => {});
-      sGetCategoriesMock.mockRejectedValue(new Error("DB error"));
-
-      const result = await getCatalogCategories();
-
-      expect(result).toEqual([]);
-      expect(console.error).toHaveBeenCalledTimes(1);
-
-      jest.restoreAllMocks();
-   });
 });
 
 describe("copyCatalogEntryToUserLibrary tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("copyCatalogEntryToUserLibrary - unauthenticated - returns error - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("unauthenticated - returns error - test", async () => {
       requireUserMock.mockRejectedValue(new Error("Unauthorized"));
 
       const result = await copyCatalogEntryToUserLibrary("entry-uuid-0001");
@@ -182,7 +192,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       expect(sCopyEntryToUserLibraryMock).not.toHaveBeenCalled();
    });
 
-   it("copyCatalogEntryToUserLibrary - authenticated - success - returns templateId - test", async () => {
+   it("authenticated - success - returns templateId - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -198,7 +208,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       );
    });
 
-   it("copyCatalogEntryToUserLibrary - service throws - returns error result - test", async () => {
+   it("service throws - returns error result - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 

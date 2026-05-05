@@ -4,9 +4,9 @@ import { CatalogRepository } from "@/data/repositories/catalog";
 import { TemplateRepository } from "@/data/repositories/template";
 import {
    DCatalogCategory,
-   DCatalogEntry,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
+   DCatalogEntry,
 } from "@/data/types/domain/catalog";
 import {
    DPromptTemplateDescriptor,
@@ -26,13 +26,13 @@ export class CatalogService {
       this.templateRepository = templateRepository;
    }
 
-   async getPublishedEntriesPage(
+   async getPublishedCatalogEntriesPage(
       query?: DCatalogEntriesPageQuery
    ): Promise<DCatalogEntriesPage> {
       return await this.catalogRepository.pGetPublishedEntriesPage(query);
    }
 
-   async getPublishedEntryBySlug(
+   async getPublishedCatalogEntryBySlug(
       slug: string
    ): Promise<DCatalogEntry | null> {
       return await this.catalogRepository.pGetPublishedEntryBySlug(slug);
@@ -85,9 +85,7 @@ export class CatalogService {
       // fire & forget — do not await
       this.catalogRepository
          .pIncrementCopyCount(catalogEntryId)
-         .catch((err) =>
-            console.error("Failed to increment copy count:", err)
-         );
+         .catch((err) => console.error("Failed to increment copy count:", err));
 
       return newDescriptor;
    }

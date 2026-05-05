@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
+import { ExploreEntryDetail } from "@/components/explore";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 import {
-   getCatalogEntriesPage,
-   getCatalogEntryBySlug,
+   getPublishedCatalogEntriesPage,
+   getPublishedCatalogEntryBySlug,
 } from "@/data/actions/catalog";
-import { ExploreEntryDetail } from "@/components/explore";
 
 export const revalidate = 3600;
 
@@ -20,7 +20,7 @@ export const generateMetadata = async ({
    params,
 }: ExploreEntryPageProps): Promise<Metadata> => {
    const { slug } = await params;
-   const entry = await getCatalogEntryBySlug(slug);
+   const entry = await getPublishedCatalogEntryBySlug(slug);
 
    if (!entry) {
       return { title: "Vorlage nicht gefunden" };
@@ -40,7 +40,7 @@ const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
    const { slug } = await params;
 
    const [entry, authenticated] = await Promise.all([
-      getCatalogEntryBySlug(slug),
+      getPublishedCatalogEntryBySlug(slug),
       isAuthenticated(),
    ]);
 
@@ -57,7 +57,7 @@ const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
    }> = [];
 
    if (entry.category) {
-      const relatedPage = await getCatalogEntriesPage({
+      const relatedPage = await getPublishedCatalogEntriesPage({
          pagination: { pageNumber: 0, pageSize: 4 },
          filter: { categorySlug: entry.category.slug },
       });
@@ -73,7 +73,10 @@ const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
    }
 
    return (
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6" data-testid="explore-entry-page">
+      <div
+         className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+         data-testid="explore-entry-page"
+      >
          {/* Breadcrumb */}
          <Link
             href="/explore"

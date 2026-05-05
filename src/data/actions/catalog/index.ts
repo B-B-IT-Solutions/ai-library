@@ -1,6 +1,6 @@
 export {
-   getCatalogEntriesPage,
-   getCatalogEntryBySlug,
+   getPublishedCatalogEntriesPage,
+   getPublishedCatalogEntryBySlug,
    getCatalogCategories,
    copyCatalogEntryToUserLibrary,
 } from "./catalog.actions";

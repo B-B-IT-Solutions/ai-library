@@ -28,12 +28,15 @@ describe("getPublishedEntriesPage tests", () => {
       const page = dtestData.dCatalogEntriesPage();
       catalogRepoMock.pGetPublishedEntriesPage.mockResolvedValue(page);
 
-      const query: DCatalogEntriesPageQuery = dtestData.dCatalogEntriesPageQuery();
-      const result = await catalogService.getPublishedEntriesPage(query);
+      const query: DCatalogEntriesPageQuery =
+         dtestData.dCatalogEntriesPageQuery();
+      const result = await catalogService.getPublishedCatalogEntriesPage(query);
 
       expect(result).toEqual(page);
       expect(catalogRepoMock.pGetPublishedEntriesPage).toHaveBeenCalledTimes(1);
-      expect(catalogRepoMock.pGetPublishedEntriesPage).toHaveBeenCalledWith(query);
+      expect(catalogRepoMock.pGetPublishedEntriesPage).toHaveBeenCalledWith(
+         query
+      );
    });
 });
 
@@ -46,17 +49,21 @@ describe("getPublishedEntryBySlug tests", () => {
       const entry = dtestData.dCatalogEntry();
       catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(entry);
 
-      const result = await catalogService.getPublishedEntryBySlug("catalog-entry-1");
+      const result =
+         await catalogService.getPublishedCatalogEntryBySlug("catalog-entry-1");
 
       expect(result).toEqual(entry);
       expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledTimes(1);
-      expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledWith("catalog-entry-1");
+      expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledWith(
+         "catalog-entry-1"
+      );
    });
 
    it("getPublishedEntryBySlug - not found - returns null - test", async () => {
       catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(null);
 
-      const result = await catalogService.getPublishedEntryBySlug("non-existent");
+      const result =
+         await catalogService.getPublishedCatalogEntryBySlug("non-existent");
 
       expect(result).toBeNull();
    });
@@ -88,23 +95,36 @@ describe("copyEntryToUserLibrary tests", () => {
 
       await expect(
          catalogService.copyEntryToUserLibrary("missing-id", "user-1")
-      ).rejects.toThrow("CatalogEntry with ID missing-id not found or not published");
+      ).rejects.toThrow(
+         "CatalogEntry with ID missing-id not found or not published"
+      );
 
-      expect(templateRepoMock.pCreatePromptTemplateDescriptor).not.toHaveBeenCalled();
+      expect(
+         templateRepoMock.pCreatePromptTemplateDescriptor
+      ).not.toHaveBeenCalled();
    });
 
    it("copyEntryToUserLibrary - entry found - creates template descriptor - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
-      const result = await catalogService.copyEntryToUserLibrary(entry.id, "user-1");
+      const result = await catalogService.copyEntryToUserLibrary(
+         entry.id,
+         "user-1"
+      );
 
       expect(result).toEqual(descriptor);
-      expect(templateRepoMock.pCreatePromptTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pCreatePromptTemplateDescriptor).toHaveBeenCalledWith(
+      expect(
+         templateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         templateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(
          "user-1",
          expect.objectContaining({
             title: entry.title,
@@ -121,12 +141,15 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
       await catalogService.copyEntryToUserLibrary(entry.id, "user-1");
 
-      const callArgs = templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
+      const callArgs =
+         templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
       expect(callArgs.fields).toHaveLength(entry.fields.length);
       const firstField = callArgs.fields[0];
       const firstEntryField = entry.fields[0];
@@ -143,12 +166,15 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = { ...dtestData.dCatalogEntry(1), category: null };
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
       await catalogService.copyEntryToUserLibrary(entry.id, "user-1");
 
-      const callArgs = templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
+      const callArgs =
+         templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
       expect(callArgs.categories).toEqual([]);
    });
 
@@ -156,13 +182,17 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
       await catalogService.copyEntryToUserLibrary(entry.id, "user-1");
 
       // fire & forget — may be called async, but mock resolves immediately
-      expect(catalogRepoMock.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
+      expect(catalogRepoMock.pIncrementCopyCount).toHaveBeenCalledWith(
+         entry.id
+      );
    });
 
    it("copyEntryToUserLibrary - pIncrementCopyCount failure - does not throw - test", async () => {
@@ -171,11 +201,18 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(descriptor);
-      catalogRepoMock.pIncrementCopyCount.mockRejectedValue(new Error("DB error"));
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
+      catalogRepoMock.pIncrementCopyCount.mockRejectedValue(
+         new Error("DB error")
+      );
 
       // fire & forget — error is swallowed via .catch(), result is still returned
-      const result = await catalogService.copyEntryToUserLibrary(entry.id, "user-1");
+      const result = await catalogService.copyEntryToUserLibrary(
+         entry.id,
+         "user-1"
+      );
 
       // Give the microtask queue a chance to flush the .catch() handler
       await Promise.resolve();

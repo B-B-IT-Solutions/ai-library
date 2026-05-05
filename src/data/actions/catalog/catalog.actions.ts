@@ -14,19 +14,19 @@ import {
    DCatalogEntry,
 } from "@/data/types/domain/catalog";
 
-export const getCatalogEntriesPage = async (
+export const getPublishedCatalogEntriesPage = async (
    query?: DCatalogEntriesPageQuery
 ): Promise<DCatalogEntriesPage> => {
    try {
       const service = getService();
-      return await service.getPublishedEntriesPage(query);
+      return await service.getPublishedCatalogEntriesPage(query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
    }
 };
 
-export const getCatalogEntryBySlug = async (
+export const getPublishedCatalogEntryBySlug = async (
    slug: string
 ): Promise<DCatalogEntry | null> => {
    try {
@@ -34,7 +34,7 @@ export const getCatalogEntryBySlug = async (
          throw new Error("Invalid slug");
       }
       const service = getService();
-      return await service.getPublishedEntryBySlug(slug);
+      return await service.getPublishedCatalogEntryBySlug(slug);
    } catch (error) {
       console.error(formatError(error));
       return null;
