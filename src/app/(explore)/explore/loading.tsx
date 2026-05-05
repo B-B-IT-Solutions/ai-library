@@ -1,8 +1,11 @@
 import { Skeleton } from "@/components/shadcn/skeleton";
 
-const ExploreLoading = () => {
+export const ExplorePageLoading = () => {
    return (
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <div
+         className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+         data-testid="explore-page-loading"
+      >
          {/* Hero skeleton */}
          <div className="mb-8 flex flex-col items-center gap-3">
             <Skeleton className="h-10 w-96 max-w-full" />
@@ -26,7 +29,10 @@ const ExploreLoading = () => {
          {/* Grid skeleton */}
          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 9 }).map((_, i) => (
-               <div key={i} className="rounded-xl border bg-white p-5 space-y-3">
+               <div
+                  key={i}
+                  className="space-y-3 rounded-xl border bg-white p-5"
+               >
                   <div className="flex gap-2">
                      <Skeleton className="h-5 w-24 rounded-full" />
                      <Skeleton className="h-5 w-16 rounded-full" />
@@ -42,4 +48,4 @@ const ExploreLoading = () => {
    );
 };
 
-export default ExploreLoading;
+export default ExplorePageLoading;
