@@ -1,6 +1,6 @@
 "use server";
 
-import { isEmpty } from "es-toolkit/compat";
+import { isEmpty, trim } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
@@ -30,7 +30,7 @@ export const getCatalogEntryBySlug = async (
    slug: string
 ): Promise<DCatalogEntry | null> => {
    try {
-      if (isEmpty(slug)) {
+      if (isEmpty(trim(slug))) {
          throw new Error("Invalid slug");
       }
       const service = getService();

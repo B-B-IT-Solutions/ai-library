@@ -5,6 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { CatalogService } from "@/data/services/catalog";
+import { EMPTY_PAGE } from "../utils";
 
 import {
    copyCatalogEntryToUserLibrary,
@@ -15,32 +16,28 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetPublishedEntriesPage = CatalogService.prototype.getPublishedEntriesPage;
-const sGetPublishedEntryBySlug = CatalogService.prototype.getPublishedEntryBySlug;
+const sGetPublishedEntriesPage =
+   CatalogService.prototype.getPublishedEntriesPage;
+const sGetPublishedEntryBySlug =
+   CatalogService.prototype.getPublishedEntryBySlug;
 const sGetCategories = CatalogService.prototype.getCategories;
 const sCopyEntryToUserLibrary = CatalogService.prototype.copyEntryToUserLibrary;
 
-const sGetPublishedEntriesPageMock = sGetPublishedEntriesPage as jest.MockedFunction<
-   typeof sGetPublishedEntriesPage
->;
-const sGetPublishedEntryBySlugMock = sGetPublishedEntryBySlug as jest.MockedFunction<
-   typeof sGetPublishedEntryBySlug
->;
+const sGetPublishedEntriesPageMock =
+   sGetPublishedEntriesPage as jest.MockedFunction<
+      typeof sGetPublishedEntriesPage
+   >;
+const sGetPublishedEntryBySlugMock =
+   sGetPublishedEntryBySlug as jest.MockedFunction<
+      typeof sGetPublishedEntryBySlug
+   >;
 const sGetCategoriesMock = sGetCategories as jest.MockedFunction<
    typeof sGetCategories
 >;
-const sCopyEntryToUserLibraryMock = sCopyEntryToUserLibrary as jest.MockedFunction<
-   typeof sCopyEntryToUserLibrary
->;
-
-const CATALOG_EMPTY_PAGE = {
-   content: [],
-   pageNumber: 0,
-   pageSize: 12,
-   numberOfElements: 0,
-   totalPages: 0,
-   totalElements: 0,
-};
+const sCopyEntryToUserLibraryMock =
+   sCopyEntryToUserLibrary as jest.MockedFunction<
+      typeof sCopyEntryToUserLibrary
+   >;
 
 describe("getCatalogEntriesPage tests", () => {
    beforeEach(() => {
@@ -63,7 +60,7 @@ describe("getCatalogEntriesPage tests", () => {
 
       const result = await getCatalogEntriesPage();
 
-      expect(result).toEqual(CATALOG_EMPTY_PAGE);
+      expect(result).toEqual(EMPTY_PAGE);
       expect(console.error).toHaveBeenCalledTimes(1);
 
       jest.restoreAllMocks();
@@ -85,17 +82,19 @@ describe("getCatalogEntryBySlug tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getCatalogEntryBySlug - valid slug - returns entry - test", async () => {
+   it("valid slug - test", async () => {
       const entry = dtestData.dCatalogEntry();
       sGetPublishedEntryBySlugMock.mockResolvedValue(entry);
 
       const result = await getCatalogEntryBySlug("catalog-entry-1");
 
       expect(result).toEqual(entry);
-      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledWith("catalog-entry-1");
+      expect(sGetPublishedEntryBySlugMock).toHaveBeenCalledWith(
+         "catalog-entry-1"
+      );
    });
 
-   it("getCatalogEntryBySlug - empty slug - returns null without calling service - test", async () => {
+   it("empty slug - test", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
 
       const result = await getCatalogEntryBySlug("");
@@ -106,7 +105,7 @@ describe("getCatalogEntryBySlug tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getCatalogEntryBySlug - whitespace slug - returns null - test", async () => {
+   it("whitespace slug - test", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
 
       const result = await getCatalogEntryBySlug("   ");
@@ -117,7 +116,7 @@ describe("getCatalogEntryBySlug tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getCatalogEntryBySlug - service error - returns null - test", async () => {
+   it("service error - test", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
       sGetPublishedEntryBySlugMock.mockRejectedValue(new Error("Not found"));
 
@@ -129,7 +128,7 @@ describe("getCatalogEntryBySlug tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getCatalogEntryBySlug - entry not found - returns null - test", async () => {
+   it("entry not found - test", async () => {
       sGetPublishedEntryBySlugMock.mockResolvedValue(null);
 
       const result = await getCatalogEntryBySlug("no-such-entry");
@@ -193,7 +192,10 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       const result = await copyCatalogEntryToUserLibrary("entry-uuid-0001");
 
       expect(result).toEqual({ success: true, templateId: descriptor.id });
-      expect(sCopyEntryToUserLibraryMock).toHaveBeenCalledWith("entry-uuid-0001", user.id);
+      expect(sCopyEntryToUserLibraryMock).toHaveBeenCalledWith(
+         "entry-uuid-0001",
+         user.id
+      );
    });
 
    it("copyCatalogEntryToUserLibrary - service throws - returns error result - test", async () => {
@@ -201,7 +203,9 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       sCopyEntryToUserLibraryMock.mockRejectedValue(
-         new Error("CatalogEntry with ID entry-uuid-0001 not found or not published")
+         new Error(
+            "CatalogEntry with ID entry-uuid-0001 not found or not published"
+         )
       );
 
       const result = await copyCatalogEntryToUserLibrary("entry-uuid-0001");
