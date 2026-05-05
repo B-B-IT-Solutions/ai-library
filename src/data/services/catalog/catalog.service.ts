@@ -3,10 +3,10 @@ import { map } from "es-toolkit/compat";
 import { CatalogRepository } from "@/data/repositories/catalog";
 import { TemplateRepository } from "@/data/repositories/template";
 import {
-   DCatalogCategory,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntry,
+   DCatalogEntryCategory,
 } from "@/data/types/domain/catalog";
 import {
    DPromptTemplateDescriptor,
@@ -32,7 +32,7 @@ export class CatalogService {
       return await this.catalogRepository.pGetPublishedEntryBySlug(slug);
    }
 
-   async getCatalogEntryCategories(): Promise<DCatalogCategory[]> {
+   async getCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {
       return await this.catalogRepository.pGetCategories();
    }
 

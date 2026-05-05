@@ -22,7 +22,7 @@ export type DCatalogEntry = {
    recommendedModel: string;
    content: string;
    status: DCatalogEntryStatus;
-   category: DCatalogCategory | null;
+   category: DCatalogEntryCategory | null;
    fields: DCatalogEntryField[];
    copyCount: number;
    publishedAt: string | null;
@@ -35,7 +35,7 @@ export type DCatalogEntrySummary = Omit<DCatalogEntry, "content">;
 export type DCatalogEntryStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type DExploreSortMode = "newest" | "popular";
 
-export type DCatalogCategory = {
+export type DCatalogEntryCategory = {
    id: string;
    name: string;
    slug: string;

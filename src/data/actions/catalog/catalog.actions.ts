@@ -9,10 +9,10 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DCatalogCategory,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntry,
+   DCatalogEntryCategory,
    DCatalogEntryCopyResult,
 } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
@@ -45,7 +45,7 @@ export const getPublishedCatalogEntryBySlug = async (
 };
 
 export const getCatalogEntryCategories = async (): Promise<
-   DCatalogCategory[]
+   DCatalogEntryCategory[]
 > => {
    try {
       const service = getService();

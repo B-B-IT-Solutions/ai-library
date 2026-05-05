@@ -165,7 +165,7 @@ describe("sGetCatalogEntryCategoriesMock tests", () => {
    });
 
    it("success - test", async () => {
-      const categories = dtestData.dCatalogCategories();
+      const categories = dtestData.dCatalogEntryCategories();
       sGetCatalogEntryCategoriesMock.mockResolvedValue(categories);
 
       const result = await getCatalogEntryCategories();

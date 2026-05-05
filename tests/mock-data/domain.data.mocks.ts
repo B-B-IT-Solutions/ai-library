@@ -3,15 +3,15 @@ import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
 import { Sort, SortOrder } from "@/data/types/common";
+import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
-   DCatalogCategory,
-   DCatalogEntry,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
+   DCatalogEntry,
+   DCatalogEntryCategory,
    DCatalogEntryField,
    DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
-import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DCollection,
    DCollectionUpdate,
@@ -673,16 +673,17 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
    };
 };
 
-export const dCatalogCategory = (index = 1): DCatalogCategory => ({
+export const dCatalogEntryCategories = (count = 3): DCatalogEntryCategory[] => {
+   return range(0, count).map((i) => dCatalogEntryCategory(i + 1));
+};
+
+export const dCatalogEntryCategory = (index = 1): DCatalogEntryCategory => ({
    id: `cat-uuid-000${index}`,
    name: `Category ${index}`,
    slug: `category-${index}`,
    description: `Description for category ${index}`,
    order: index,
 });
-
-export const dCatalogCategories = (count = 3): DCatalogCategory[] =>
-   range(0, count).map((i) => dCatalogCategory(i + 1));
 
 export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    id: `field-uuid-000${index}`,
@@ -708,7 +709,7 @@ export const dCatalogEntry = (index = 1): DCatalogEntry => ({
    recommendedModel: "GPT-4o",
    content: `Template content with {{field_${index}}} placeholder`,
    status: "PUBLISHED",
-   category: dCatalogCategory(index),
+   category: dCatalogEntryCategory(index),
    fields: dCatalogEntryFields(3),
    copyCount: index * 5,
    publishedAt: new Date("2025-09-27").toISOString(),

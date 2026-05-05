@@ -13,7 +13,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { DCatalogCategory } from "@/data/types/domain/catalog";
+import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
 
 import {
@@ -24,7 +24,7 @@ import {
 } from "./explore-search-params";
 
 type ExploreFilterBarProps = {
-   categories: DCatalogCategory[];
+   categories: DCatalogEntryCategory[];
    totalElements: number;
 };
 
@@ -64,14 +64,11 @@ export const ExploreFilterBar = ({
    };
 
    return (
-      <div
-         className="space-y-4"
-         data-testid="explore-filter-bar"
-      >
+      <div className="space-y-4" data-testid="explore-filter-bar">
          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             {/* Search */}
             <div className="relative flex-1">
-               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                <Input
                   data-testid="explore-search-input"
                   placeholder="Vorlagen durchsuchen…"

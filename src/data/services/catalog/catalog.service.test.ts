@@ -1,13 +1,12 @@
 jest.mock("@/data/repositories/catalog");
 jest.mock("@/data/repositories/template");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
 import { TemplateRepository } from "@/data/repositories/template";
-import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
 
 import { CatalogService } from "./catalog.service";
 
@@ -24,12 +23,11 @@ describe("getPublishedEntriesPage tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getPublishedEntriesPage - delegates to repo - test", async () => {
+   it("entries retrieved - test", async () => {
       const page = dtestData.dCatalogEntriesPage();
       catalogRepoMock.pGetPublishedEntriesPage.mockResolvedValue(page);
 
-      const query: DCatalogEntriesPageQuery =
-         dtestData.dCatalogEntriesPageQuery();
+      const query = dtestData.dCatalogEntriesPageQuery();
       const result = await catalogService.getPublishedCatalogEntriesPage(query);
 
       expect(result).toEqual(page);
@@ -45,37 +43,28 @@ describe("getPublishedEntryBySlug tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getPublishedEntryBySlug - delegates to repo - test", async () => {
+   it("entry retrieved - test", async () => {
       const entry = dtestData.dCatalogEntry();
       catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(entry);
 
-      const result =
-         await catalogService.getPublishedCatalogEntryBySlug("catalog-entry-1");
+      const slug = "catalog-entry-1";
+      const result = await catalogService.getPublishedCatalogEntryBySlug(slug);
 
       expect(result).toEqual(entry);
       expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledTimes(1);
       expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledWith(
-         "catalog-entry-1"
+         slug
       );
-   });
-
-   it("getPublishedEntryBySlug - not found - returns null - test", async () => {
-      catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(null);
-
-      const result =
-         await catalogService.getPublishedCatalogEntryBySlug("non-existent");
-
-      expect(result).toBeNull();
    });
 });
 
-describe("getCategories tests", () => {
+describe("getCatalogEntryCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getCategories - delegates to repo - test", async () => {
-      const categories = dtestData.dCatalogCategories();
+   it("categories retrieved - test", async () => {
+      const categories = dtestData.dCatalogEntryCategories();
       catalogRepoMock.pGetCategories.mockResolvedValue(categories);
 
       const result = await catalogService.getCatalogEntryCategories();

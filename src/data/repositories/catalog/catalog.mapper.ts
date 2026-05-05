@@ -2,8 +2,8 @@ import { map } from "es-toolkit/compat";
 
 import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
 import {
-   DCatalogCategory,
    DCatalogEntry,
+   DCatalogEntryCategory,
    DCatalogEntryField,
    DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
@@ -11,7 +11,7 @@ import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
 
 export const toDCatalogCategory = (
    cat: CatalogCategory
-): DCatalogCategory => ({
+): DCatalogEntryCategory => ({
    id: cat.id,
    name: cat.name,
    slug: cat.slug,

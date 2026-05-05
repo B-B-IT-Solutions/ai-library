@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   DCatalogCategory,
+   DCatalogEntryCategory,
    DCatalogEntriesPage,
 } from "@/data/types/domain/catalog";
 
@@ -15,7 +15,7 @@ import { pageParam } from "./explore-search-params";
 
 type ExploreFeedProps = {
    initialEntries: DCatalogEntriesPage;
-   categories: DCatalogCategory[];
+   categories: DCatalogEntryCategory[];
 };
 
 export const ExploreFeed = ({

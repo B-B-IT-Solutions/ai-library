@@ -3,10 +3,10 @@ import { map } from "es-toolkit/compat";
 import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DCatalogCategory,
-   DCatalogEntry,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
+   DCatalogEntry,
+   DCatalogEntryCategory,
    DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
 
@@ -66,9 +66,7 @@ export class CatalogRepository {
       };
    }
 
-   async pGetPublishedEntryBySlug(
-      slug: string
-   ): Promise<DCatalogEntry | null> {
+   async pGetPublishedEntryBySlug(slug: string): Promise<DCatalogEntry | null> {
       const entry = await this.prisma.catalogEntry.findFirst({
          where: { slug, status: "PUBLISHED" },
          include: {
@@ -92,7 +90,7 @@ export class CatalogRepository {
       return entry ? toDCatalogEntry(entry as CatalogEntryWithRelations) : null;
    }
 
-   async pGetCategories(): Promise<DCatalogCategory[]> {
+   async pGetCategories(): Promise<DCatalogEntryCategory[]> {
       const categories = await this.prisma.catalogCategory.findMany({
          orderBy: { order: "asc" },
       });
@@ -118,7 +116,12 @@ export class CatalogRepository {
          ...(search
             ? {
                  OR: [
-                    { title: { contains: search, mode: "insensitive" as const } },
+                    {
+                       title: {
+                          contains: search,
+                          mode: "insensitive" as const,
+                       },
+                    },
                     {
                        description: {
                           contains: search,
@@ -128,9 +131,7 @@ export class CatalogRepository {
                  ],
               }
             : {}),
-         ...(categorySlug
-            ? { category: { slug: categorySlug } }
-            : {}),
+         ...(categorySlug ? { category: { slug: categorySlug } } : {}),
       };
    }
 
