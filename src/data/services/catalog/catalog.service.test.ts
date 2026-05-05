@@ -9,7 +9,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "../service.factory";
 import { TemplateService } from "../template";
 
-import { catalogEntryToPromptTemplateUpdate } from "./catalog.mapper";
+import { toPromptTemplateUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.service";
 
 const catalogRepo = new CatalogRepository(prisma);
@@ -125,7 +125,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
          userId
       );
 
-      const expectedTemplateData = catalogEntryToPromptTemplateUpdate(entry);
+      const expectedTemplateData = toPromptTemplateUpdate(entry);
 
       expect(result).toEqual(descriptor);
       expect(

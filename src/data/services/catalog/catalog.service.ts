@@ -1,5 +1,3 @@
-import { map } from "es-toolkit/compat";
-
 import { CatalogRepository } from "@/data/repositories/catalog";
 import {
    DCatalogEntriesPage,
@@ -7,14 +5,10 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
 } from "@/data/types/domain/catalog";
-import {
-   DPromptTemplateDescriptor,
-   DPromptTemplateFieldUpdate,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { TemplateService } from "../template";
 
-import { catalogEntryToPromptTemplateUpdate } from "./catalog.mapper";
+import { toPromptTemplateUpdate } from "./catalog.mapper";
 
 export class CatalogService {
    constructor(
@@ -51,7 +45,7 @@ export class CatalogService {
          );
       }
 
-      const templateData = catalogEntryToPromptTemplateUpdate(entry);
+      const templateData = toPromptTemplateUpdate(entry);
 
       const newDescriptor = await this.templateService.createTemplateDescriptor(
          userId,
