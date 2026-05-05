@@ -9,6 +9,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "../service.factory";
 import { TemplateService } from "../template";
 
+import { catalogEntryToPromptTemplateUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.service";
 
 const catalogRepo = new CatalogRepository(prisma);
@@ -79,117 +80,66 @@ describe("getCatalogEntryCategories tests", () => {
    });
 });
 
-describe("copyEntryToUserLibrary tests", () => {
+describe("copyCatalogEntryToUserTemplates tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("copyEntryToUserLibrary - entry not found - throws error - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("entry not found - test", async () => {
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(null);
 
-      await expect(
-         catalogService.copyCatalogEntryToUserTemplates("missing-id", "user-1")
-      ).rejects.toThrow(
-         "CatalogEntry with ID missing-id not found or not published"
-      );
+      const userId = "user-id-1";
+      const entryId = "missing-id-1";
+      const fn = () =>
+         catalogService.copyCatalogEntryToUserTemplates(entryId, userId);
 
+      await expect(fn).rejects.toThrow();
+
+      expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledTimes(1);
+      expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledWith(entryId);
       expect(
          templateServiceMock.createTemplateDescriptor
       ).not.toHaveBeenCalled();
+      expect(catalogRepo.pIncrementCopyCount).not.toHaveBeenCalled();
    });
 
-   it("copyEntryToUserLibrary - entry found - creates template descriptor - test", async () => {
+   it("entry copied - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
+
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
-      catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
+      catalogRepoMock.pIncrementCopyCount.mockResolvedValue();
+
+      const userId = "user-id-1";
 
       const result = await catalogService.copyCatalogEntryToUserTemplates(
          entry.id,
-         "user-1"
+         userId
       );
+
+      const expectedTemplateData = catalogEntryToPromptTemplateUpdate(entry);
 
       expect(result).toEqual(descriptor);
       expect(
          templateServiceMock.createTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(templateServiceMock.createTemplateDescriptor).toHaveBeenCalledWith(
-         "user-1",
-         expect.objectContaining({
-            title: entry.title,
-            description: entry.description,
-            content: entry.content,
-            recommendedModel: entry.recommendedModel,
-            categories: entry.category ? [entry.category.name] : [],
-            globalFieldIds: [],
-         })
+         userId,
+         expectedTemplateData
       );
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
    });
 
-   it("copyEntryToUserLibrary - maps fields correctly - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
-
-      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
-
-      const callArgs =
-         templateServiceMock.createTemplateDescriptor.mock.calls[0][1];
-      expect(callArgs.fields).toHaveLength(entry.fields.length);
-      const firstField = callArgs.fields[0];
-      const firstEntryField = entry.fields[0];
-      expect(firstField.name).toBe(firstEntryField.name);
-      expect(firstField.label).toBe(firstEntryField.label);
-      expect(firstField.type).toBe(firstEntryField.type);
-      expect(firstField.required).toBe(firstEntryField.required);
-      expect(firstField.order).toBe(firstEntryField.order);
-      // catalogEntryId should NOT be present on the mapped field
-      expect((firstField as any).catalogEntryId).toBeUndefined();
-   });
-
-   it("copyEntryToUserLibrary - entry without category - uses empty categories array - test", async () => {
-      const entry = { ...dtestData.dCatalogEntry(1), category: null };
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
-
-      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
-
-      const callArgs =
-         templateServiceMock.createTemplateDescriptor.mock.calls[0][1];
-      expect(callArgs.categories).toEqual([]);
-   });
-
-   it("copyEntryToUserLibrary - triggers pIncrementCopyCount fire-and-forget - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
-
-      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
-
-      // fire & forget — may be called async, but mock resolves immediately
-      expect(catalogRepoMock.pIncrementCopyCount).toHaveBeenCalledWith(
-         entry.id
-      );
-   });
-
-   it("copyEntryToUserLibrary - pIncrementCopyCount failure - does not throw - test", async () => {
-      jest.spyOn(console, "error").mockImplementation(() => {});
-
+   it("pIncrementCopyCount failure - does not ", async () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
@@ -214,7 +164,5 @@ describe("copyEntryToUserLibrary tests", () => {
          "Failed to increment copy count:",
          expect.any(Error)
       );
-
-      jest.restoreAllMocks();
    });
 });

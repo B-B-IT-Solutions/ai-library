@@ -14,6 +14,8 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { TemplateService } from "../template";
 
+import { catalogEntryToPromptTemplateUpdate } from "./catalog.mapper";
+
 export class CatalogService {
    constructor(
       private readonly catalogRepository: CatalogRepository,
@@ -49,26 +51,7 @@ export class CatalogService {
          );
       }
 
-      const fields: DPromptTemplateFieldUpdate[] = map(entry.fields, (f) => ({
-         name: f.name,
-         label: f.label,
-         description: f.description ?? undefined,
-         type: f.type,
-         required: f.required,
-         order: f.order,
-         defaultValue: f.defaultValue ?? undefined,
-         options: f.options,
-      }));
-
-      const templateData: DPromptTemplateUpdate = {
-         title: entry.title,
-         description: entry.description,
-         content: entry.content,
-         recommendedModel: entry.recommendedModel,
-         categories: entry.category ? [entry.category.name] : [],
-         fields,
-         globalFieldIds: [],
-      };
+      const templateData = catalogEntryToPromptTemplateUpdate(entry);
 
       const newDescriptor = await this.templateService.createTemplateDescriptor(
          userId,
@@ -76,10 +59,15 @@ export class CatalogService {
       );
 
       // fire & forget — do not await
-      this.catalogRepository
-         .pIncrementCopyCount(catalogEntryId)
-         .catch((err) => console.error("Failed to increment copy count:", err));
-
+      this.incrementCatalogEntryCopyCount(entry.id);
       return newDescriptor;
+   }
+
+   async incrementCatalogEntryCopyCount(catalogEntryId: string) {
+      try {
+         this.catalogRepository.pIncrementCopyCount(catalogEntryId);
+      } catch (err) {
+         console.error("Failed to increment copy count:", err);
+      }
    }
 }
