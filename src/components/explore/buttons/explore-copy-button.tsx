@@ -51,8 +51,9 @@ export const ExploreCopyButton = ({
             toast.success("Vorlage wurde in deine Library übernommen", {
                action: {
                   label: "Jetzt anzeigen",
-                  onClick: () =>
-                     router.push(`/templates/${result.data!.templateId}`),
+                  onClick: () => {
+                     router.push(`/templates/${result.data!.templateId}`);
+                  },
                },
                duration: 5000,
             });

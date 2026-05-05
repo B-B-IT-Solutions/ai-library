@@ -1,12 +1,13 @@
 jest.mock("@/data/actions/catalog");
 jest.mock("sonner");
 
+import { MouseEvent } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
-import { toast } from "sonner";
+import { Action, ExternalToast, toast } from "sonner";
 
 import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
@@ -196,11 +197,11 @@ describe("ExploreCopyButton - authenticated - functionality tests", () => {
 
       // Invoke the action onClick to verify router.push is called
       const toastCall = toastMock.success.mock.calls[0];
-      const toastOptions = toastCall[1] as { action: { onClick: () => void } };
-      toastOptions.action.onClick();
+      const toastOptions = toastCall[1] as ExternalToast;
+      const action = toastOptions.action as Action;
+      const event = null as unknown as MouseEvent<HTMLButtonElement>;
+      action.onClick(event);
 
-      expect(mockRouter.push).toHaveBeenCalledWith(
-         `/templates/${descriptor.id}`
-      );
+      expect(mockRouter.asPath).toEqual(`/templates/${descriptor.id}`);
    });
 });
