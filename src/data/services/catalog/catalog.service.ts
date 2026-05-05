@@ -16,8 +16,8 @@ import { TemplateService } from "../template";
 
 export class CatalogService {
    constructor(
-      private catalogRepository: CatalogRepository,
-      private templateService: TemplateService
+      private readonly catalogRepository: CatalogRepository,
+      private readonly templateService: TemplateService
    ) {}
 
    async getPublishedCatalogEntriesPage(
