@@ -1,13 +1,13 @@
 "use client";
 
 import { useTransition } from "react";
+import { Loader2, Plus, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { copyCatalogEntryToUserLibrary } from "@/data/actions/catalog";
+import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 
 type ExploreCopyButtonProps = {
    catalogEntryId: string;
@@ -25,8 +25,17 @@ export const ExploreCopyButton = ({
 
    if (!isAuthenticated) {
       return (
-         <Button asChild variant="outline" size="lg" className="w-full sm:w-auto" data-testid="explore-copy-btn-register">
-            <Link href={`/auth/sign-up?redirect=/explore/${slug}`} className="flex items-center gap-2">
+         <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="w-full sm:w-auto"
+            data-testid="explore-copy-btn-register"
+         >
+            <Link
+               href={`/auth/sign-up?redirect=/explore/${slug}`}
+               className="flex items-center gap-2"
+            >
                <UserPlus className="h-4 w-4" />
                Registrieren um zu übernehmen
             </Link>
@@ -36,7 +45,7 @@ export const ExploreCopyButton = ({
 
    const handleCopy = () => {
       startTransition(async () => {
-         const result = await copyCatalogEntryToUserLibrary(catalogEntryId);
+         const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
 
          if (result.success) {
             toast.success("Vorlage wurde in deine Library übernommen", {

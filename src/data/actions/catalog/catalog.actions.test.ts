@@ -11,7 +11,7 @@ import { EMPTY_PAGE } from "../utils";
 
 import {
    copyCatalogEntryToUserTemplates,
-   getCatalogCategories,
+   getCatalogEntryCategories,
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
 } from "./catalog.actions";
@@ -22,7 +22,8 @@ const sGetPublishedEntriesPage =
    CatalogService.prototype.getPublishedCatalogEntriesPage;
 const sGetPublishedEntryBySlug =
    CatalogService.prototype.getPublishedCatalogEntryBySlug;
-const sGetCategories = CatalogService.prototype.getCategories;
+const sGetCatalogEntryCategories =
+   CatalogService.prototype.getCatalogEntryCategories;
 const sCopyEntryToUserTemplates =
    CatalogService.prototype.copyEntryToUserTemplates;
 
@@ -34,9 +35,10 @@ const sGetPublishedEntryBySlugMock =
    sGetPublishedEntryBySlug as jest.MockedFunction<
       typeof sGetPublishedEntryBySlug
    >;
-const sGetCategoriesMock = sGetCategories as jest.MockedFunction<
-   typeof sGetCategories
->;
+const sGetCatalogEntryCategoriesMock =
+   sGetCatalogEntryCategories as jest.MockedFunction<
+      typeof sGetCatalogEntryCategories
+   >;
 const sCopyEntryToUserTemplatesMock =
    sCopyEntryToUserTemplates as jest.MockedFunction<
       typeof sCopyEntryToUserTemplates
@@ -142,7 +144,7 @@ describe("getPublishedCatalogEntryBySlug tests", () => {
    });
 });
 
-describe("getCatalogCategories tests", () => {
+describe("sGetCatalogEntryCategoriesMock tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -154,9 +156,9 @@ describe("getCatalogCategories tests", () => {
 
    it("service error - test", async () => {
       const error = new Error("DB error");
-      sGetCategoriesMock.mockRejectedValue(error);
+      sGetCatalogEntryCategoriesMock.mockRejectedValue(error);
 
-      const result = await getCatalogCategories();
+      const result = await getCatalogEntryCategories();
 
       expect(result).toEqual([]);
       expect(console.error).toHaveBeenCalledTimes(1);
@@ -164,12 +166,12 @@ describe("getCatalogCategories tests", () => {
 
    it("success - test", async () => {
       const categories = dtestData.dCatalogCategories();
-      sGetCategoriesMock.mockResolvedValue(categories);
+      sGetCatalogEntryCategoriesMock.mockResolvedValue(categories);
 
-      const result = await getCatalogCategories();
+      const result = await getCatalogEntryCategories();
 
       expect(result).toEqual(categories);
-      expect(sGetCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetCatalogEntryCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });
 

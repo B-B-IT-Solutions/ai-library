@@ -44,10 +44,12 @@ export const getPublishedCatalogEntryBySlug = async (
    }
 };
 
-export const getCatalogCategories = async (): Promise<DCatalogCategory[]> => {
+export const getCatalogEntryCategories = async (): Promise<
+   DCatalogCategory[]
+> => {
    try {
       const service = getService();
-      return await service.getCategories();
+      return await service.getCatalogEntryCategories();
    } catch (error) {
       console.error(formatError(error));
       return [];

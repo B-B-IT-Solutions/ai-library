@@ -32,7 +32,7 @@ export class CatalogService {
       return await this.catalogRepository.pGetPublishedEntryBySlug(slug);
    }
 
-   async getCategories(): Promise<DCatalogCategory[]> {
+   async getCatalogEntryCategories(): Promise<DCatalogCategory[]> {
       return await this.catalogRepository.pGetCategories();
    }
 

@@ -78,7 +78,7 @@ describe("getCategories tests", () => {
       const categories = dtestData.dCatalogCategories();
       catalogRepoMock.pGetCategories.mockResolvedValue(categories);
 
-      const result = await catalogService.getCategories();
+      const result = await catalogService.getCatalogEntryCategories();
 
       expect(result).toEqual(categories);
       expect(catalogRepoMock.pGetCategories).toHaveBeenCalledTimes(1);

@@ -4,7 +4,7 @@ import type { SearchParams } from "nuqs/server";
 import { ExploreFeed, exploreSearchParamsCache } from "@/components/explore";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 import {
-   getCatalogCategories,
+   getCatalogEntryCategories,
    getPublishedCatalogEntriesPage,
 } from "@/data/actions/catalog";
 import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
@@ -40,7 +40,7 @@ const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
 
    const [entries, categories] = await Promise.all([
       getPublishedCatalogEntriesPage(query),
-      getCatalogCategories(),
+      getCatalogEntryCategories(),
    ]);
 
    return (

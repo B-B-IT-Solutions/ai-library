@@ -8,13 +8,14 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { copyCatalogEntryToUserLibrary } from "@/data/actions/catalog";
+import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 
 import { ExploreCopyButton } from "./explore-copy-button";
 
-const copyCatalogEntryMock = copyCatalogEntryToUserLibrary as jest.MockedFunction<
-   typeof copyCatalogEntryToUserLibrary
->;
+const copyCatalogEntryMock =
+   copyCatalogEntryToUserTemplates as jest.MockedFunction<
+      typeof copyCatalogEntryToUserTemplates
+   >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
 const CATALOG_ENTRY_ID = "entry-uuid-0001";
@@ -52,7 +53,9 @@ describe("ExploreCopyButton - unauthenticated - rendering tests", () => {
       );
 
       await waitFor(() => {
-         expect(screen.queryByTestId("explore-copy-btn")).not.toBeInTheDocument();
+         expect(
+            screen.queryByTestId("explore-copy-btn")
+         ).not.toBeInTheDocument();
       });
    });
 });
@@ -85,7 +88,9 @@ describe("ExploreCopyButton - authenticated - rendering tests", () => {
       );
 
       await waitFor(() => {
-         expect(screen.queryByTestId("explore-copy-btn-register")).not.toBeInTheDocument();
+         expect(
+            screen.queryByTestId("explore-copy-btn-register")
+         ).not.toBeInTheDocument();
       });
    });
 });
@@ -182,6 +187,8 @@ describe("ExploreCopyButton - authenticated - functionality tests", () => {
       const toastOptions = toastCall[1] as { action: { onClick: () => void } };
       toastOptions.action.onClick();
 
-      expect(mockRouter.push).toHaveBeenCalledWith(`/templates/${descriptor.id}`);
+      expect(mockRouter.push).toHaveBeenCalledWith(
+         `/templates/${descriptor.id}`
+      );
    });
 });
