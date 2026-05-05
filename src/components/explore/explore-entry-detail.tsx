@@ -1,4 +1,4 @@
-import { Copy, Tag, Cpu, LayoutList, Info } from "lucide-react";
+import { Copy, Cpu, Info, LayoutList, Tag } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import {
