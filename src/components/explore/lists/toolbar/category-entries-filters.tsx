@@ -1,9 +1,9 @@
 "use client";
 
+import { filter, includes, isEmpty } from "es-toolkit/compat";
 import { Clock, Search, TrendingUp } from "lucide-react";
-import { useQueryState } from "nuqs";
+import { debounce, useQueryState } from "nuqs";
 
-import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
 import {
@@ -14,7 +14,13 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
+import { DListSortByMode } from "@/data/types/domain/common";
 import { cn } from "@/lib/utils";
+import {
+   f_categoriesParam,
+   f_searchParam,
+   sortByParam,
+} from "../../explore-search-params";
 
 type ExploreFilterBarProps = {
    categories: DCatalogEntryCategory[];
@@ -25,25 +31,70 @@ export const ExploreFilterBar = ({
    categories,
    totalElements,
 }: ExploreFilterBarProps) => {
-   const [q, setQ] = useQueryState("q", qParam.withOptions({ shallow: false }));
-   const [category, setCategory] = useQueryState(
-      "category",
-      categoryParam.withOptions({ shallow: false })
+   const [q, setQ] = useQueryState(
+      "search",
+      f_searchParam.withOptions({ shallow: false })
+   );
+   const [f_categories, setFCategories] = useQueryState(
+      "f_categories",
+      f_categoriesParam.withOptions({ shallow: false })
    );
    const [sort, setSort] = useQueryState(
-      "sort",
-      sortParam.withOptions({ shallow: false })
+      "sortBy",
+      sortByParam.withOptions({ shallow: false })
    );
    const handleSearchChange = (value: string) => {
       setQ(value);
    };
 
    const handleCategoryChange = (slug: string) => {
-      setCategory(slug === category ? "" : slug);
+      const isActive = includes(f_categories, slug);
+      const newCollectionIds = isActive
+         ? filter(f_categories, (id) => id !== slug)
+         : [...f_categories, slug];
+
+      setFCategories(newCollectionIds, {
+         limitUrlUpdates: debounce(400),
+      });
    };
 
-   const handleSortChange = (value: string) => {
-      setSort(value as "newest" | "popular");
+   const handleSortChange = (value: DListSortByMode) => {
+      setSort(value);
+   };
+
+   const cats = () => {
+      return (
+         <div
+            className="flex flex-wrap gap-2"
+            data-testid="explore-category-filter"
+         >
+            <Button
+               variant={isEmpty(f_categories) ? "default" : "outline"}
+               size="sm"
+               onClick={() => handleCategoryChange("")}
+               className="h-7 rounded-full px-3 text-xs"
+            >
+               Alle ({totalElements})
+            </Button>
+            {categories.map((cat) => (
+               <Button
+                  key={cat.id}
+                  variant={
+                     includes(f_categories, cat.slug) ? "default" : "outline"
+                  }
+                  size="sm"
+                  onClick={() => handleCategoryChange(cat.slug)}
+                  className={cn(
+                     "h-7 rounded-full px-3 text-xs",
+                     includes(f_categories, cat.slug) && "font-semibold"
+                  )}
+                  data-testid={`explore-category-pill-${cat.slug}`}
+               >
+                  {cat.name}
+               </Button>
+            ))}
+         </div>
+      );
    };
 
    return (
@@ -70,13 +121,13 @@ export const ExploreFilterBar = ({
                   <SelectValue />
                </SelectTrigger>
                <SelectContent>
-                  <SelectItem value="newest">
+                  <SelectItem value={DListSortByMode.DATE_DESC}>
                      <span className="flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
                         Neueste
                      </span>
                   </SelectItem>
-                  <SelectItem value="popular">
+                  <SelectItem value={DListSortByMode.TITLE_ASC}>
                      <span className="flex items-center gap-1.5">
                         <TrendingUp className="h-3.5 w-3.5" />
                         Beliebteste
@@ -86,37 +137,7 @@ export const ExploreFilterBar = ({
             </Select>
          </div>
 
-         {/* Category pills */}
-         {categories.length > 0 && (
-            <div
-               className="flex flex-wrap gap-2"
-               data-testid="explore-category-filter"
-            >
-               <Button
-                  variant={category === "" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => handleCategoryChange("")}
-                  className="h-7 rounded-full px-3 text-xs"
-               >
-                  Alle ({totalElements})
-               </Button>
-               {categories.map((cat) => (
-                  <Button
-                     key={cat.id}
-                     variant={category === cat.slug ? "default" : "outline"}
-                     size="sm"
-                     onClick={() => handleCategoryChange(cat.slug)}
-                     className={cn(
-                        "h-7 rounded-full px-3 text-xs",
-                        category === cat.slug && "font-semibold"
-                     )}
-                     data-testid={`explore-category-pill-${cat.slug}`}
-                  >
-                     {cat.name}
-                  </Button>
-               ))}
-            </div>
-         )}
+         {cats()}
       </div>
    );
 };

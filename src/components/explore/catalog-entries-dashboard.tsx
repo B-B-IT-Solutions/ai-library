@@ -54,7 +54,7 @@ export const CatalogEntriesDashboard = async () => {
                </div>
             </div>
 
-            {/* <ExploreFilterBar categories={categories} totalElements={1} /> */}
+            <ExploreFilterBar categories={categories} totalElements={1} />
 
             <div className="flex-1 overflow-y-auto p-6">
                <CatalogEntryItems

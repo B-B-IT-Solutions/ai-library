@@ -16,7 +16,7 @@ type ExplorePageProps = {
    searchParams: Promise<SearchParams>;
 };
 
-const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
+export const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
    await exploreSearchParamsCache.parse(searchParams);
 
    return (
@@ -24,7 +24,6 @@ const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
          className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
          data-testid="explore-page"
       >
-         {/* Hero */}
          <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
                KI Prompt-Vorlagen entdecken
