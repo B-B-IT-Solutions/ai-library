@@ -1,20 +1,36 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { useState } from "react";
+import { Filter, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 
+import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
+import {
+   Sheet,
+   SheetContent,
+   SheetTitle,
+   SheetTrigger,
+} from "@/components/shadcn/sheet";
 import { ListViewToggle } from "@/components/shared/buttons";
+import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
 import { f_searchParam } from "../../catalog-search-params";
-
+import { CatalogFilterContent } from "../sidebar/catalog-filter-content";
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {
    viewMode: DListViewMode;
+   categories: DCatalogEntryCategory[];
+   totalElements: number;
 };
 
-export const CatalogEntriesToolbar = ({ viewMode }: Props) => {
+export const CatalogEntriesToolbar = ({
+   viewMode,
+   categories,
+   totalElements,
+}: Props) => {
+   const [sheetOpen, setSheetOpen] = useState(false);
    const [q, setQ] = useQueryState(
       "f_search",
       f_searchParam.withOptions({ shallow: false })
@@ -25,15 +41,39 @@ export const CatalogEntriesToolbar = ({ viewMode }: Props) => {
          className="mb-4 flex items-center justify-between rounded-xl border bg-white px-5 py-3 shadow-sm"
          data-testid="catalog-entries-toolbar"
       >
-         <div className="relative">
-            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <Input
-               data-testid="explore-search-input"
-               placeholder="Suchen…"
-               value={q || ""}
-               onChange={(e) => setQ(e.target.value || null)}
-               className="h-8 w-48 pl-9 text-sm sm:w-64"
-            />
+         <div className="flex items-center gap-3">
+            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+               <SheetTrigger asChild>
+                  <Button
+                     variant="outline"
+                     size="sm"
+                     className="h-8 gap-2 md:hidden"
+                     data-testid="mobile-filter-btn"
+                  >
+                     <Filter className="h-4 w-4" />
+                     Filter
+                  </Button>
+               </SheetTrigger>
+               <SheetContent side="left" className="w-72 p-0">
+                  <SheetTitle className="sr-only">Filter</SheetTitle>
+                  <CatalogFilterContent
+                     categories={categories}
+                     totalElements={totalElements}
+                     onSelect={() => setSheetOpen(false)}
+                  />
+               </SheetContent>
+            </Sheet>
+
+            <div className="relative">
+               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+               <Input
+                  data-testid="explore-search-input"
+                  placeholder="Suchen…"
+                  value={q || ""}
+                  onChange={(e) => setQ(e.target.value || null)}
+                  className="h-8 w-48 pl-9 text-sm sm:w-64"
+               />
+            </div>
          </div>
 
          <div className="flex items-center gap-3">

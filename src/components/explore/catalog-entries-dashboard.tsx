@@ -44,7 +44,11 @@ export const CatalogEntriesDashboard = async () => {
             <CatalogSidebar categories={categories} totalElements={1} />
 
             <div className="min-w-0 flex-1">
-               <CatalogEntriesToolbar viewMode={viewMode} />
+               <CatalogEntriesToolbar
+                  viewMode={viewMode}
+                  categories={categories}
+                  totalElements={1}
+               />
                <CatalogEntryItems
                   viewMode={viewMode}
                   groupBy={groupBy}
