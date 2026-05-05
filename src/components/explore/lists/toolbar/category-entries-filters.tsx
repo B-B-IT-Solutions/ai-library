@@ -37,53 +37,70 @@ export const CatalogEntriesToolbar = ({
       f_searchParam.withOptions({ shallow: false })
    );
 
+   const filterSheet = (
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+         <SheetTrigger asChild>
+            <Button
+               variant="outline"
+               className="h-9 flex-1 gap-2 sm:h-8 sm:flex-none md:hidden"
+               data-testid="mobile-filter-btn"
+            >
+               <Filter className="h-4 w-4" />
+               Filter
+            </Button>
+         </SheetTrigger>
+         <SheetContent side="left" className="w-72 p-0">
+            <SheetTitle className="sr-only">Filter</SheetTitle>
+            <CatalogFilterContent
+               categories={categories}
+               totalElements={totalElements}
+               onSelect={() => setSheetOpen(false)}
+            />
+         </SheetContent>
+      </Sheet>
+   );
+
    return (
       <div
          className="mb-4 rounded-xl border bg-white px-5 py-3 shadow-sm"
          data-testid="catalog-entries-toolbar"
       >
-         <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:justify-between">
-            {/* Search — volle Breite auf Mobile (order 1), inline auf Desktop */}
-            <div className="relative order-1 w-full sm:w-64">
+         {/* Mobile */}
+         <div className="flex flex-col gap-2 sm:hidden">
+            <div className="relative">
                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                <Input
                   data-testid="explore-search-input"
                   placeholder="Suchen…"
                   value={q || ""}
                   onChange={(e) => setQ(e.target.value || null)}
-                  className="h-9 w-full pl-9 sm:h-8"
+                  className="h-9 w-full pl-9"
                />
             </div>
-
-            {/* Filter-Button — nur Mobile (< md), order 2 */}
-            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-               <SheetTrigger asChild>
-                  <Button
-                     variant="outline"
-                     className="order-2 h-9 flex-1 gap-2 md:hidden"
-                     data-testid="mobile-filter-btn"
-                  >
-                     <Filter className="h-4 w-4" />
-                     Filter
-                  </Button>
-               </SheetTrigger>
-               <SheetContent side="left" className="w-72 p-0">
-                  <SheetTitle className="sr-only">Filter</SheetTitle>
-                  <CatalogFilterContent
-                     categories={categories}
-                     totalElements={totalElements}
-                     onSelect={() => setSheetOpen(false)}
-                  />
-               </SheetContent>
-            </Sheet>
-
-            {/* Sort — order 3 auf Mobile (halbe Breite), rechts auf Desktop */}
-            <div className="order-3">
-               <CatalogSortBySelect />
+            <div className="flex gap-2">
+               {filterSheet}
+               <div className="flex-1">
+                  <CatalogSortBySelect />
+               </div>
             </div>
+         </div>
 
-            {/* ViewToggle — nur Desktop */}
-            <div className="order-4 hidden sm:block">
+         {/* Desktop */}
+         <div className="hidden items-center justify-between sm:flex">
+            <div className="flex items-center gap-3">
+               {filterSheet}
+               <div className="relative">
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Input
+                     placeholder="Suchen…"
+                     value={q || ""}
+                     onChange={(e) => setQ(e.target.value || null)}
+                     className="h-8 w-64 pl-9 text-sm"
+                  />
+               </div>
+            </div>
+            <div className="flex items-center gap-3">
+               <CatalogSortBySelect />
                <ListViewToggle currentView={viewMode} />
             </div>
          </div>
