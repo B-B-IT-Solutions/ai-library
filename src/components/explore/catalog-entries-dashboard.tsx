@@ -10,7 +10,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DCatalogEntriesFilter } from "@/data/types/domain/catalog";
 
 import { catalogEntrySearchParamsCache } from "./catalog-search-params";
-import { CatalogEntriesToolbar, CatalogEntryItems } from "./lists";
+import { CatalogEntriesToolbar, CatalogEntryItems, CatalogSidebar } from "./lists";
 
 export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
@@ -37,19 +37,21 @@ export const CatalogEntriesDashboard = async () => {
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-         <div data-testid="catalog-entries-dashboard">
-            <CatalogEntriesToolbar
-               categories={categories}
-               totalElements={1}
-               viewMode={viewMode}
-            />
+         <div
+            className="flex gap-6"
+            data-testid="catalog-entries-dashboard"
+         >
+            <CatalogSidebar categories={categories} totalElements={1} />
 
-            <CatalogEntryItems
-               viewMode={viewMode}
-               groupBy={groupBy}
-               sortBy={sortBy}
-               filters={filters}
-            />
+            <div className="min-w-0 flex-1">
+               <CatalogEntriesToolbar viewMode={viewMode} />
+               <CatalogEntryItems
+                  viewMode={viewMode}
+                  groupBy={groupBy}
+                  sortBy={sortBy}
+                  filters={filters}
+               />
+            </div>
          </div>
       </HydrationBoundary>
    );
