@@ -80,7 +80,9 @@ export const CatalogEntriesToolbar = ({
 
             <div className="flex items-center gap-3">
                <CatalogSortBySelect />
-               <ListViewToggle currentView={viewMode} />
+               <div className="hidden sm:block">
+                  <ListViewToggle currentView={viewMode} />
+               </div>
             </div>
          </div>
       </div>
