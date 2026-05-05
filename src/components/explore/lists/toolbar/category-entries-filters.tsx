@@ -79,7 +79,7 @@ export const CatalogEntriesToolbar = ({
             </div>
             <div className="flex gap-2">
                {filterSheet}
-               <div className="flex-1">
+               <div>
                   <CatalogSortBySelect />
                </div>
             </div>
