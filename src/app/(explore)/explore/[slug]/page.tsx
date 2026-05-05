@@ -12,14 +12,6 @@ import {
 
 export const revalidate = 3600;
 
-export type PageParams = {
-   slug: string;
-};
-
-export type PageProps = {
-   params: Promise<PageParams>;
-};
-
 export const generateMetadata = async ({
    params,
 }: PageProps): Promise<Metadata> => {
@@ -38,6 +30,14 @@ export const generateMetadata = async ({
          description: entry.description,
       },
    };
+};
+
+export type PageParams = {
+   slug: string;
+};
+
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
 const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
@@ -63,7 +63,7 @@ const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
    if (entry.category) {
       const relatedPage = await getPublishedCatalogEntriesPage({
          pagination: { pageNumber: 0, pageSize: 4 },
-         filter: { categories: entry.category.slug },
+         filter: { categories: [entry.category.slug] },
       });
       relatedEntries = relatedPage.content
          .filter((e) => e.id !== entry.id)

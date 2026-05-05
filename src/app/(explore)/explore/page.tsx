@@ -14,11 +14,11 @@ export const metadata: Metadata = {
       "Entdecke kuratierte AI-Prompt-Vorlagen mit strukturierten Feldern. Kostenlos durchsuchen, filtern und in deine Library übernehmen.",
 };
 
-type ExplorePageProps = {
+export type PageProps = {
    searchParams: Promise<SearchParams>;
 };
 
-export const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
+export const ExplorePage = async ({ searchParams }: PageProps) => {
    await exploreSearchParamsCache.parse(searchParams);
 
    return (
