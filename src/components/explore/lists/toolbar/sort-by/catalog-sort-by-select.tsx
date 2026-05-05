@@ -38,7 +38,7 @@ export const CatalogSortBySelect: FC = () => {
             className="h-9 w-full sm:h-8 sm:w-[170px]"
             data-testid="catalog-sort-by-select"
          >
-            <SortIcon className="h-4 w-4 sm:hidden" />
+            <SortIcon className="h-4 w-4 sm:hidden" data-testid="sort-mobile-icon" />
             <span className="hidden sm:contents">
                <SelectValue />
             </span>

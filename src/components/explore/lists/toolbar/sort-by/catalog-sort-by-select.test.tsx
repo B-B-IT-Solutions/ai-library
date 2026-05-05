@@ -2,11 +2,16 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
 
+import { DListSortByMode } from "@/data/types/domain/common";
+
 import { CatalogSortBySelect } from "./catalog-sort-by-select";
 
 const assertRendered = () => {
    assertInDocument(screen.getByTestId("catalog-sort-by-select"));
 };
+
+const getMobileIconClass = () =>
+   screen.getByTestId("sort-mobile-icon").getAttribute("class") ?? "";
 
 describe("CatalogSortBySelect rendering tests", () => {
    it("renders with default sort (DATE_DESC)", async () => {
@@ -15,9 +20,7 @@ describe("CatalogSortBySelect rendering tests", () => {
          "/explore"
       );
 
-      await waitFor(() => {
-         assertRendered();
-      });
+      await waitFor(() => assertRendered());
 
       expect(container).toMatchSnapshot();
    });
@@ -26,12 +29,10 @@ describe("CatalogSortBySelect rendering tests", () => {
       const { container } = renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=asc(createdAt)"
+         `sort=${DListSortByMode.DATE_ASC}`
       );
 
-      await waitFor(() => {
-         assertRendered();
-      });
+      await waitFor(() => assertRendered());
 
       expect(container).toMatchSnapshot();
    });
@@ -40,12 +41,10 @@ describe("CatalogSortBySelect rendering tests", () => {
       const { container } = renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=asc(title)"
+         `sort=${DListSortByMode.TITLE_ASC}`
       );
 
-      await waitFor(() => {
-         assertRendered();
-      });
+      await waitFor(() => assertRendered());
 
       expect(container).toMatchSnapshot();
    });
@@ -54,14 +53,89 @@ describe("CatalogSortBySelect rendering tests", () => {
       const { container } = renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=desc(title)"
+         `sort=${DListSortByMode.TITLE_DESC}`
       );
 
-      await waitFor(() => {
-         assertRendered();
-      });
+      await waitFor(() => assertRendered());
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("CatalogSortBySelect mobile icon tests", () => {
+   it("shows Clock icon for DATE_DESC", async () => {
+      renderWithRouter(
+         <CatalogSortBySelect />,
+         "/explore",
+         `sort=${DListSortByMode.DATE_DESC}`
+      );
+
+      await waitFor(() => assertRendered());
+
+      expect(getMobileIconClass()).toContain("lucide-clock");
+   });
+
+   it("shows ClockArrowDown icon for DATE_ASC", async () => {
+      renderWithRouter(
+         <CatalogSortBySelect />,
+         "/explore",
+         `sort=${DListSortByMode.DATE_ASC}`
+      );
+
+      await waitFor(() => assertRendered());
+
+      expect(getMobileIconClass()).toContain("lucide-clock-arrow-down");
+   });
+
+   it("shows ArrowDownAZ icon for TITLE_ASC", async () => {
+      renderWithRouter(
+         <CatalogSortBySelect />,
+         "/explore",
+         `sort=${DListSortByMode.TITLE_ASC}`
+      );
+
+      await waitFor(() => assertRendered());
+
+      expect(getMobileIconClass()).toContain("lucide-arrow-down-a-z");
+   });
+
+   it("shows ArrowUpAZ icon for TITLE_DESC", async () => {
+      renderWithRouter(
+         <CatalogSortBySelect />,
+         "/explore",
+         `sort=${DListSortByMode.TITLE_DESC}`
+      );
+
+      await waitFor(() => assertRendered());
+
+      expect(getMobileIconClass()).toContain("lucide-arrow-up-a-z");
+   });
+
+   it("icon changes after selecting a new sort option", async () => {
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(
+         <CatalogSortBySelect />,
+         "/explore",
+         `sort=${DListSortByMode.DATE_DESC}`,
+         onUrlUpdateFn
+      );
+
+      await waitFor(() => assertRendered());
+      expect(getMobileIconClass()).toContain("lucide-clock");
+
+      await userEvent.click(screen.getByTestId("catalog-sort-by-select"));
+
+      await waitFor(() =>
+         assertInDocument(screen.getByTestId("sort-title-asc"))
+      );
+
+      await userEvent.click(screen.getByTestId("sort-title-asc"));
+
+      await waitFor(() => {
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         const event = onUrlUpdateFn.mock.calls[0]![0]!;
+         expect(event.queryString).toBe(`?sort=${DListSortByMode.TITLE_ASC}`);
+      });
    });
 });
 
@@ -75,7 +149,7 @@ describe("CatalogSortBySelect functionality tests", () => {
       renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=desc(createdAt)",
+         `sort=${DListSortByMode.DATE_DESC}`,
          onUrlUpdateFn
       );
 
@@ -83,16 +157,16 @@ describe("CatalogSortBySelect functionality tests", () => {
 
       await userEvent.click(screen.getByTestId("catalog-sort-by-select"));
 
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("sort-date-asc"));
-      });
+      await waitFor(() =>
+         assertInDocument(screen.getByTestId("sort-date-asc"))
+      );
 
       await userEvent.click(screen.getByTestId("sort-date-asc"));
 
       await waitFor(() => {
          expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
          const event = onUrlUpdateFn.mock.calls[0]![0]!;
-         expect(event.queryString).toBe("?sort=asc(createdAt)");
+         expect(event.queryString).toBe(`?sort=${DListSortByMode.DATE_ASC}`);
          expect(event.options).toEqual({
             history: "replace",
             scroll: false,
@@ -106,7 +180,7 @@ describe("CatalogSortBySelect functionality tests", () => {
       renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=desc(createdAt)",
+         `sort=${DListSortByMode.DATE_DESC}`,
          onUrlUpdateFn
       );
 
@@ -114,16 +188,16 @@ describe("CatalogSortBySelect functionality tests", () => {
 
       await userEvent.click(screen.getByTestId("catalog-sort-by-select"));
 
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("sort-title-asc"));
-      });
+      await waitFor(() =>
+         assertInDocument(screen.getByTestId("sort-title-asc"))
+      );
 
       await userEvent.click(screen.getByTestId("sort-title-asc"));
 
       await waitFor(() => {
          expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
          const event = onUrlUpdateFn.mock.calls[0]![0]!;
-         expect(event.queryString).toBe("?sort=asc(title)");
+         expect(event.queryString).toBe(`?sort=${DListSortByMode.TITLE_ASC}`);
       });
    });
 
@@ -132,7 +206,7 @@ describe("CatalogSortBySelect functionality tests", () => {
       renderWithRouter(
          <CatalogSortBySelect />,
          "/explore",
-         "sort=desc(createdAt)",
+         `sort=${DListSortByMode.DATE_DESC}`,
          onUrlUpdateFn
       );
 
@@ -140,16 +214,16 @@ describe("CatalogSortBySelect functionality tests", () => {
 
       await userEvent.click(screen.getByTestId("catalog-sort-by-select"));
 
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("sort-title-desc"));
-      });
+      await waitFor(() =>
+         assertInDocument(screen.getByTestId("sort-title-desc"))
+      );
 
       await userEvent.click(screen.getByTestId("sort-title-desc"));
 
       await waitFor(() => {
          expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
          const event = onUrlUpdateFn.mock.calls[0]![0]!;
-         expect(event.queryString).toBe("?sort=desc(title)");
+         expect(event.queryString).toBe(`?sort=${DListSortByMode.TITLE_DESC}`);
       });
    });
 });
