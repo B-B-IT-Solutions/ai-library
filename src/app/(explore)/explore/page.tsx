@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
-import { exploreSearchParamsCache } from "@/components/explore";
-import { CatalogEntriesDashboard } from "@/components/explore/catalog-entries-dashboard";
+import {
+   CatalogEntriesDashboard,
+   exploreSearchParamsCache,
+} from "@/components/explore";
 
 export const revalidate = 300;
 

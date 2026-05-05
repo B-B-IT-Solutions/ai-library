@@ -1,5 +1,6 @@
 "use client";
 
+import { isNull } from "es-toolkit";
 import { filter, includes, isEmpty } from "es-toolkit/compat";
 import { Clock, Search, TrendingUp } from "lucide-react";
 import { debounce, useQueryState } from "nuqs";
@@ -47,15 +48,19 @@ export const ExploreFilterBar = ({
       setQ(value);
    };
 
-   const handleCategoryChange = (slug: string) => {
-      const isActive = includes(f_categories, slug);
-      const newCollectionIds = isActive
-         ? filter(f_categories, (id) => id !== slug)
-         : [...f_categories, slug];
+   const handleCategoryChange = (slug: string | null) => {
+      if (isNull(slug)) {
+         setFCategories(null);
+      } else {
+         const isActive = includes(f_categories, slug);
+         const newCategories = isActive
+            ? filter(f_categories, (id) => id !== slug)
+            : [...f_categories, slug];
 
-      setFCategories(newCollectionIds, {
-         limitUrlUpdates: debounce(400),
-      });
+         setFCategories(newCategories, {
+            limitUrlUpdates: debounce(400),
+         });
+      }
    };
 
    const handleSortChange = (value: DListSortByMode) => {
@@ -71,7 +76,7 @@ export const ExploreFilterBar = ({
             <Button
                variant={isEmpty(f_categories) ? "default" : "outline"}
                size="sm"
-               onClick={() => handleCategoryChange("")}
+               onClick={() => handleCategoryChange(null)}
                className="h-7 rounded-full px-3 text-xs"
             >
                Alle ({totalElements})
