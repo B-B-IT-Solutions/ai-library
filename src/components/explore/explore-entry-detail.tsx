@@ -11,7 +11,7 @@ import {
 import { Separator } from "@/components/shadcn/separator";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
-import { ExploreCopyButton } from "./explore-copy-button";
+import { ExploreCopyButton } from "./buttons/explore-copy-button";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
    TEXT: "Text",
@@ -52,7 +52,10 @@ export const ExploreEntryDetail = ({
          <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
                {category && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
+                  <Badge
+                     variant="secondary"
+                     className="flex items-center gap-1"
+                  >
                      <Tag className="h-3 w-3" />
                      {category.name}
                   </Badge>
@@ -62,7 +65,10 @@ export const ExploreEntryDetail = ({
                   {recommendedModel}
                </Badge>
                {copyCount > 0 && (
-                  <Badge variant="outline" className="flex items-center gap-1 text-slate-500">
+                  <Badge
+                     variant="outline"
+                     className="flex items-center gap-1 text-slate-500"
+                  >
                      <Copy className="h-3 w-3" />
                      {copyCount}× übernommen
                   </Badge>
@@ -98,7 +104,8 @@ export const ExploreEntryDetail = ({
                   </h2>
                </div>
                <p className="text-sm text-slate-500">
-                  Diese Vorlage hat strukturierte Felder, die du nach dem Übernehmen befüllen kannst.
+                  Diese Vorlage hat strukturierte Felder, die du nach dem
+                  Übernehmen befüllen kannst.
                </p>
 
                <div className="space-y-3">
@@ -116,7 +123,10 @@ export const ExploreEntryDetail = ({
                                     <span className="ml-1 text-red-500">*</span>
                                  )}
                               </CardTitle>
-                              <Badge variant="outline" className="shrink-0 text-xs font-normal">
+                              <Badge
+                                 variant="outline"
+                                 className="shrink-0 text-xs font-normal"
+                              >
                                  {FIELD_TYPE_LABELS[field.type] ?? field.type}
                               </Badge>
                            </div>

@@ -34,7 +34,9 @@ describe("ExploreEntryCard rendering tests", () => {
       render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
-         expect(screen.queryByTestId("explore-entry-card-category")).not.toBeInTheDocument();
+         expect(
+            screen.queryByTestId("explore-entry-card-category")
+         ).not.toBeInTheDocument();
       });
    });
 
@@ -43,7 +45,9 @@ describe("ExploreEntryCard rendering tests", () => {
       render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
-         const fieldCount = screen.getByTestId("explore-entry-card-field-count");
+         const fieldCount = screen.getByTestId(
+            "explore-entry-card-field-count"
+         );
          assertInDocument(fieldCount);
          expect(fieldCount).toHaveTextContent(`${entry.fields.length}`);
       });
@@ -99,7 +103,9 @@ describe("ExploreEntryCard rendering tests", () => {
       render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
-         const fieldCount = screen.getByTestId("explore-entry-card-field-count");
+         const fieldCount = screen.getByTestId(
+            "explore-entry-card-field-count"
+         );
          expect(fieldCount).toHaveTextContent("1 Feld");
       });
    });
@@ -110,7 +116,9 @@ describe("ExploreEntryCard rendering tests", () => {
       render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
-         const fieldCount = screen.getByTestId("explore-entry-card-field-count");
+         const fieldCount = screen.getByTestId(
+            "explore-entry-card-field-count"
+         );
          expect(fieldCount).toHaveTextContent("3 Felder");
       });
    });

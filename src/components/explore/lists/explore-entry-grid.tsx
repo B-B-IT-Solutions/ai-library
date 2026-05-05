@@ -1,7 +1,7 @@
 import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
 
 import { ExploreEmptyState } from "./explore-empty-state";
-import { ExploreEntryCard } from "./explore-entry-card";
+import { ExploreEntryCard } from "./items";
 
 type ExploreEntryGridProps = {
    entries: DCatalogEntrySummary[];

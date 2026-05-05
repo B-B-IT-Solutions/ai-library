@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { BookOpen, Copy, LayoutList } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -21,8 +21,15 @@ export const ExploreEntryCard = ({
    entry,
    className,
 }: ExploreEntryCardProps) => {
-   const { slug, title, description, category, recommendedModel, fields, copyCount } =
-      entry;
+   const {
+      slug,
+      title,
+      description,
+      category,
+      recommendedModel,
+      fields,
+      copyCount,
+   } = entry;
 
    return (
       <Card
@@ -50,7 +57,7 @@ export const ExploreEntryCard = ({
                </div>
             </div>
             <h3
-               className="mt-2 line-clamp-2 text-base font-semibold leading-snug text-slate-900"
+               className="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900"
                data-testid="explore-entry-card-title"
             >
                {title}

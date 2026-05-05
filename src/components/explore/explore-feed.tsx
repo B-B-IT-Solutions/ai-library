@@ -9,9 +9,8 @@ import {
    DCatalogEntryCategory,
 } from "@/data/types/domain/catalog";
 
-import { ExploreEntryGrid } from "./explore-entry-grid";
-import { ExploreFilterBar } from "./explore-filter-bar";
 import { pageParam } from "./explore-search-params";
+import { ExploreEntryGrid, ExploreFilterBar } from "./lists";
 
 type Props = {
    initialEntries: DCatalogEntriesPage;

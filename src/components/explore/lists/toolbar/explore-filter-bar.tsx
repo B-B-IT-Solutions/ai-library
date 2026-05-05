@@ -1,7 +1,7 @@
 "use client";
 
+import { Clock, Search, TrendingUp } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { Search, TrendingUp, Clock } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -15,13 +15,12 @@ import {
 } from "@/components/shadcn/select";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
-
 import {
    categoryParam,
    pageParam,
    qParam,
    sortParam,
-} from "./explore-search-params";
+} from "../../explore-search-params";
 
 type ExploreFilterBarProps = {
    categories: DCatalogEntryCategory[];
