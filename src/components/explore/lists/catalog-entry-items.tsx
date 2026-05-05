@@ -15,6 +15,7 @@ import {
 
 import { CatalogEntriesEmpty } from "./catalog-entries-empty";
 import { CatalogEntriesGrid } from "./catalog-entries-grid";
+import { CatalogEntriesList } from "./catalog-entries-list";
 
 type Props = {
    viewMode: DListViewMode;
@@ -53,6 +54,19 @@ export const CatalogEntryItems = ({
 
    if (isEmpty(entries)) {
       return <CatalogEntriesEmpty />;
+   }
+
+   if (viewMode === DListViewMode.LIST) {
+      return (
+         <InfiniteScroll
+            hasMore={hasNextPage}
+            isLoading={isFetching}
+            next={fetchNextPage}
+            threshold={0.7}
+         >
+            <CatalogEntriesList entries={entries} />
+         </InfiniteScroll>
+      );
    }
 
    return (
