@@ -65,12 +65,14 @@ describe("getCatalogEntryCategories tests", () => {
 
    it("categories retrieved - test", async () => {
       const categories = dtestData.dCatalogEntryCategories();
-      catalogRepoMock.pGetCategories.mockResolvedValue(categories);
+      catalogRepoMock.pGetCatalogEntryCategories.mockResolvedValue(categories);
 
       const result = await catalogService.getCatalogEntryCategories();
 
       expect(result).toEqual(categories);
-      expect(catalogRepoMock.pGetCategories).toHaveBeenCalledTimes(1);
+      expect(catalogRepoMock.pGetCatalogEntryCategories).toHaveBeenCalledTimes(
+         1
+      );
    });
 });
 

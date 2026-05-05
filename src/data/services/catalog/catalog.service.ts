@@ -33,7 +33,7 @@ export class CatalogService {
    }
 
    async getCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {
-      return await this.catalogRepository.pGetCategories();
+      return await this.catalogRepository.pGetCatalogEntryCategories();
    }
 
    async copyCatalogEntryToUserTemplates(

@@ -90,7 +90,7 @@ export class CatalogRepository {
       return entry ? toDCatalogEntry(entry as CatalogEntryWithRelations) : null;
    }
 
-   async pGetCategories(): Promise<DCatalogEntryCategory[]> {
+   async pGetCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {
       const categories = await this.prisma.catalogCategory.findMany({
          orderBy: { order: "asc" },
       });

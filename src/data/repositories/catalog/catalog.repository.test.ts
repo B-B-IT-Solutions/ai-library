@@ -5,8 +5,12 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
 
+import {
+   toDCatalogCategory,
+   toDCatalogEntry,
+   toDCatalogEntrySummary,
+} from "./catalog.mapper";
 import { CatalogRepository } from "./catalog.repository";
-import { toDCatalogCategory, toDCatalogEntry, toDCatalogEntrySummary } from "./catalog.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const catalogRepository = new CatalogRepository(prismaMock);
@@ -17,7 +21,10 @@ describe("pGetPublishedEntriesPage tests", () => {
    });
 
    it("pGetPublishedEntriesPage - no query - returns page with defaults - test", async () => {
-      const entries = [ptestData.pCatalogEntryWithRelations(1), ptestData.pCatalogEntryWithRelations(2)];
+      const entries = [
+         ptestData.pCatalogEntryWithRelations(1),
+         ptestData.pCatalogEntryWithRelations(2),
+      ];
       prismaMock.catalogEntry.findMany.mockResolvedValue(entries as any);
       prismaMock.catalogEntry.count.mockResolvedValue(2);
 
@@ -97,7 +104,12 @@ describe("pGetPublishedEntriesPage tests", () => {
                status: "PUBLISHED",
                OR: [
                   { title: { contains: "marketing", mode: "insensitive" } },
-                  { description: { contains: "marketing", mode: "insensitive" } },
+                  {
+                     description: {
+                        contains: "marketing",
+                        mode: "insensitive",
+                     },
+                  },
                ],
             }),
          })
@@ -145,7 +157,8 @@ describe("pGetPublishedEntryBySlug tests", () => {
       const entry = ptestData.pCatalogEntryWithRelations(1);
       prismaMock.catalogEntry.findFirst.mockResolvedValue(entry as any);
 
-      const result = await catalogRepository.pGetPublishedEntryBySlug("catalog-entry-1");
+      const result =
+         await catalogRepository.pGetPublishedEntryBySlug("catalog-entry-1");
 
       expect(result).toEqual(toDCatalogEntry(entry));
       expect(prismaMock.catalogEntry.findFirst).toHaveBeenCalledWith({
@@ -157,7 +170,8 @@ describe("pGetPublishedEntryBySlug tests", () => {
    it("pGetPublishedEntryBySlug - entry not found - returns null - test", async () => {
       prismaMock.catalogEntry.findFirst.mockResolvedValue(null);
 
-      const result = await catalogRepository.pGetPublishedEntryBySlug("non-existent");
+      const result =
+         await catalogRepository.pGetPublishedEntryBySlug("non-existent");
 
       expect(result).toBeNull();
    });
@@ -184,7 +198,8 @@ describe("pGetPublishedEntryById tests", () => {
       const entry = ptestData.pCatalogEntryWithRelations(1);
       prismaMock.catalogEntry.findFirst.mockResolvedValue(entry as any);
 
-      const result = await catalogRepository.pGetPublishedEntryById("entry-uuid-0001");
+      const result =
+         await catalogRepository.pGetPublishedEntryById("entry-uuid-0001");
 
       expect(result).toEqual(toDCatalogEntry(entry));
       expect(prismaMock.catalogEntry.findFirst).toHaveBeenCalledWith({
@@ -196,7 +211,8 @@ describe("pGetPublishedEntryById tests", () => {
    it("pGetPublishedEntryById - entry not found - returns null - test", async () => {
       prismaMock.catalogEntry.findFirst.mockResolvedValue(null);
 
-      const result = await catalogRepository.pGetPublishedEntryById("non-existent");
+      const result =
+         await catalogRepository.pGetPublishedEntryById("non-existent");
 
       expect(result).toBeNull();
    });
@@ -211,7 +227,7 @@ describe("pGetCategories tests", () => {
       const categories = ptestData.pCatalogCategories(3);
       prismaMock.catalogCategory.findMany.mockResolvedValue(categories as any);
 
-      const result = await catalogRepository.pGetCategories();
+      const result = await catalogRepository.pGetCatalogEntryCategories();
 
       expect(result).toHaveLength(3);
       expect(result[0]).toEqual(toDCatalogCategory(categories[0]));
