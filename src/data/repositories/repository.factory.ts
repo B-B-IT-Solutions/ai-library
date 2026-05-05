@@ -32,13 +32,6 @@ export class RepositoryFactory {
       this.prisma = prisma;
    }
 
-   catalogRepository(): CatalogRepository {
-      if (!this.catalogRepo) {
-         this.catalogRepo = new CatalogRepository(this.prisma);
-      }
-      return this.catalogRepo;
-   }
-
    userRepository(): UserRepository {
       if (!this.userRepo) {
          this.userRepo = new UserRepository(this.prisma);
@@ -53,6 +46,13 @@ export class RepositoryFactory {
          );
       }
       return this.verificationTokenRepo;
+   }
+
+   catalogRepository(): CatalogRepository {
+      if (!this.catalogRepo) {
+         this.catalogRepo = new CatalogRepository(this.prisma);
+      }
+      return this.catalogRepo;
    }
 
    cartRepository(): CartRepository {
