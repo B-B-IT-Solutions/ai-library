@@ -110,7 +110,7 @@ export class CatalogRepository {
          return base;
       }
 
-      const { search, categories: categorySlug } = filter;
+      const { search, categories } = filter;
 
       return {
          ...base,
@@ -132,7 +132,7 @@ export class CatalogRepository {
                  ],
               }
             : {}),
-         ...(categorySlug ? { category: { slug: categorySlug } } : {}),
+         ...(categories ? { category: { slug: categories[0] } } : {}),
       };
    }
 
