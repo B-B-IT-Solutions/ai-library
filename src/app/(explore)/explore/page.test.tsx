@@ -2,7 +2,7 @@ jest.mock("@/components/explore", () => ({
    CatalogEntriesDashboard: () => {
       return <div data-testid="catalog-entries-dashboard" />;
    },
-   exploreSearchParamsCache: {
+   catalogEntrySearchParamsCache: {
       parse: jest.fn(),
    },
 }));
@@ -11,13 +11,13 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { exploreSearchParamsCache } from "@/components/explore";
+import { catalogEntrySearchParamsCache } from "@/components/explore";
 
 import { ExplorePage, metadata, PageProps } from "./page";
 
-const exploreSearchParamsCacheMock =
-   exploreSearchParamsCache.parse as jest.MockedFunction<
-      typeof exploreSearchParamsCache.parse
+const catalogEntrySearchParamsCacheMock =
+   catalogEntrySearchParamsCache.parse as jest.MockedFunction<
+      typeof catalogEntrySearchParamsCache.parse
    >;
 
 const expectedMetadata: Metadata = {
@@ -50,8 +50,8 @@ describe("ExplorePage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(exploreSearchParamsCacheMock).toHaveBeenCalledTimes(1);
-         expect(exploreSearchParamsCacheMock).toHaveBeenCalledWith(
+         expect(catalogEntrySearchParamsCacheMock).toHaveBeenCalledTimes(1);
+         expect(catalogEntrySearchParamsCacheMock).toHaveBeenCalledWith(
             props.searchParams
          );
       });

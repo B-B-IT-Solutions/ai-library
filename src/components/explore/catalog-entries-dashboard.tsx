@@ -5,28 +5,28 @@ import {
 } from "@tanstack/react-query";
 
 import { getCatalogEntryCategories } from "@/data/actions/catalog";
-import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
+import { infiniteLoadCatalogEntryDescriptorsOptions } from "@/data/ts-queries/catalog";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCatalogEntriesFilter } from "@/data/types/domain/catalog";
 
-import { exploreSearchParamsCache } from "./explore-search-params";
+import { catalogEntrySearchParamsCache } from "./catalog-search-params";
 import { CatalogEntryItems, ExploreFilterBar } from "./lists";
 
 export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
 
-   const viewMode = exploreSearchParamsCache.get("view");
-   const groupBy = exploreSearchParamsCache.get("group");
-   const sortBy = exploreSearchParamsCache.get("sort");
+   const viewMode = catalogEntrySearchParamsCache.get("view");
+   const groupBy = catalogEntrySearchParamsCache.get("group");
+   const sortBy = catalogEntrySearchParamsCache.get("sort");
 
    const filters: DCatalogEntriesFilter = {
-      search: exploreSearchParamsCache.get("f_search"),
-      categories: exploreSearchParamsCache.get("f_categories"),
+      search: catalogEntrySearchParamsCache.get("f_search"),
+      categories: catalogEntrySearchParamsCache.get("f_categories"),
    };
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadTemplateDescriptorsOptions({
+         infiniteLoadCatalogEntryDescriptorsOptions({
             filters,
             sort: resolveSort(sortBy),
          })

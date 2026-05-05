@@ -3,7 +3,7 @@ import type { SearchParams } from "nuqs/server";
 
 import {
    CatalogEntriesDashboard,
-   exploreSearchParamsCache,
+   catalogEntrySearchParamsCache,
 } from "@/components/explore";
 
 export const revalidate = 300;
@@ -19,7 +19,7 @@ export type PageProps = {
 };
 
 export const ExplorePage = async ({ searchParams }: PageProps) => {
-   await exploreSearchParamsCache.parse(searchParams);
+   await catalogEntrySearchParamsCache.parse(searchParams);
 
    return (
       <div

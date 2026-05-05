@@ -27,7 +27,7 @@ export const f_searchParam = parseAsString.withDefault("");
 
 export const f_categoriesParam = parseAsArrayOf(parseAsString).withDefault([]);
 
-export const exploreSearchParams = {
+export const catalogEntrySearchParams = {
    view: viewParam,
    group: groupByParam,
    sort: sortByParam,
@@ -35,5 +35,6 @@ export const exploreSearchParams = {
    f_categories: f_categoriesParam,
 };
 
-export const exploreSearchParamsCache =
-   createSearchParamsCache(exploreSearchParams);
+export const catalogEntrySearchParamsCache = createSearchParamsCache(
+   catalogEntrySearchParams
+);

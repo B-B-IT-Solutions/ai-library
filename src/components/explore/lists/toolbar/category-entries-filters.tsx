@@ -21,7 +21,7 @@ import {
    f_categoriesParam,
    f_searchParam,
    sortByParam,
-} from "../../explore-search-params";
+} from "../../catalog-search-params";
 
 type ExploreFilterBarProps = {
    categories: DCatalogEntryCategory[];
@@ -103,7 +103,7 @@ export const ExploreFilterBar = ({
    };
 
    return (
-      <div className="space-y-4" data-testid="explore-filter-bar">
+      <div className="space-y-4" data-testid="catalog-entries-filter">
          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             {/* Search */}
             <div className="relative flex-1">
@@ -111,7 +111,7 @@ export const ExploreFilterBar = ({
                <Input
                   data-testid="explore-search-input"
                   placeholder="Vorlagen durchsuchen…"
-                  value={q}
+                  value={q || ""}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-9"
                />
@@ -126,7 +126,7 @@ export const ExploreFilterBar = ({
                   <SelectValue />
                </SelectTrigger>
                <SelectContent>
-                  <SelectItem value={DListSortByMode.DATE_ASC}>
+                  <SelectItem value={DListSortByMode.DATE_DESC}>
                      <span className="flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
                         Neueste

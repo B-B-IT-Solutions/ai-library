@@ -1,1 +1,6 @@
-export { useInfiniteLoadCatalogEntryDescriptors } from "./catalog";
+export {
+   useInfiniteLoadCatalogEntryDescriptors,
+   infiniteLoadCatalogEntryDescriptorsOptions,
+} from "./catalog";
+
+export type { LoadCatalogEntriesParams } from "./types";
