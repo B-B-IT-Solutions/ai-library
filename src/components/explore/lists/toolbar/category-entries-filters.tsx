@@ -78,7 +78,7 @@ export const CatalogEntriesToolbar = ({
             </Sheet>
 
             {/* Sort — order 3 auf Mobile (halbe Breite), rechts auf Desktop */}
-            <div className="order-3 flex-1 sm:flex-none">
+            <div className="order-3">
                <CatalogSortBySelect />
             </div>
 
