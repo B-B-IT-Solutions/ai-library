@@ -42,7 +42,7 @@ export class CatalogService {
       return await this.catalogRepository.pGetCategories();
    }
 
-   async copyEntryToUserLibrary(
+   async copyEntryToUserTemplates(
       catalogEntryId: string,
       userId: string
    ): Promise<DPromptTemplateDescriptor> {

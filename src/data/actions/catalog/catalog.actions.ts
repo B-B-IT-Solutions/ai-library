@@ -1,6 +1,7 @@
 "use server";
 
 import { isEmpty, trim } from "es-toolkit/compat";
+import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
@@ -12,7 +13,9 @@ import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntry,
+   DCatalogEntryCopyResult,
 } from "@/data/types/domain/catalog";
+import { ActionResult } from "@/data/types/utils";
 
 export const getPublishedCatalogEntriesPage = async (
    query?: DCatalogEntriesPageQuery
@@ -51,21 +54,34 @@ export const getCatalogCategories = async (): Promise<DCatalogCategory[]> => {
    }
 };
 
-export const copyCatalogEntryToUserLibrary = async (
+export const copyCatalogEntryToUserTemplates = async (
    catalogEntryId: string
-): Promise<
-   { success: true; templateId: string } | { success: false; error: string }
-> => {
+): Promise<ActionResult<DCatalogEntryCopyResult>> => {
    try {
+      if (!isValidUuid(catalogEntryId)) {
+         throw new Error("Invalid CatalogEntry ID.");
+      }
+
       const user = await requireUser();
       const service = getService();
-      const descriptor = await service.copyEntryToUserLibrary(
+      const descriptor = await service.copyEntryToUserTemplates(
          catalogEntryId,
          user.id
       );
-      return { success: true, templateId: descriptor.id };
+
+      return {
+         success: true,
+         message: "Vorlage erfolgreich übernommen.",
+         data: {
+            templateId: descriptor.id,
+         },
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht übernommen werden.",
+      };
    }
 };
 

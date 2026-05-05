@@ -2,5 +2,5 @@ export {
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
    getCatalogCategories,
-   copyCatalogEntryToUserLibrary,
+   copyCatalogEntryToUserTemplates as copyCatalogEntryToUserLibrary,
 } from "./catalog.actions";

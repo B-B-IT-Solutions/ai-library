@@ -55,3 +55,7 @@ export type DCatalogEntryField = {
    defaultValue: string | null;
    options?: string[];
 };
+
+export type DCatalogEntryCopyResult = {
+   templateId: string;
+};
