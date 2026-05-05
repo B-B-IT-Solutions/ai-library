@@ -66,18 +66,18 @@ export const CatalogEntriesToolbar = ({
    };
 
    return (
-      <div data-testid="catalog-entries-toolbar">
-         <div className="flex items-center justify-between border-b bg-white px-6 py-3">
+      <div className="mb-6 space-y-3" data-testid="catalog-entries-toolbar">
+         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border bg-white px-5 py-3 shadow-sm">
             <div className="flex items-center gap-3">
                <ListViewToggle currentView={viewMode} />
-               <div className="relative">
+               <div className="relative flex-1 sm:flex-none">
                   <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <Input
                      data-testid="explore-search-input"
                      placeholder="Suchen…"
                      value={q || ""}
                      onChange={(e) => setQ(e.target.value || null)}
-                     className="h-8 w-60 pl-9 text-sm"
+                     className="h-8 w-full pl-9 text-sm sm:w-60"
                   />
                </div>
                {hasActiveFilters && (
@@ -85,7 +85,7 @@ export const CatalogEntriesToolbar = ({
                      variant="ghost"
                      size="sm"
                      onClick={handleResetFilters}
-                     className="h-8 gap-1.5 px-2 text-xs text-slate-500 hover:text-slate-900"
+                     className="h-8 shrink-0 gap-1.5 px-2 text-xs text-slate-500 hover:text-slate-900"
                      data-testid="reset-filters-btn"
                   >
                      <X className="h-3.5 w-3.5" />
@@ -104,7 +104,7 @@ export const CatalogEntriesToolbar = ({
             <div className="flex items-center gap-3">
                <CatalogSortBySelect />
                <span
-                  className="min-w-[80px] text-right text-sm text-slate-500"
+                  className="min-w-[80px] shrink-0 text-right text-sm text-slate-500"
                   data-testid="entry-count"
                >
                   {totalElements}{" "}
@@ -115,7 +115,7 @@ export const CatalogEntriesToolbar = ({
 
          {!isEmpty(categories) && (
             <div
-               className="flex items-center gap-2 overflow-x-auto border-b bg-white px-6 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+               className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                data-testid="explore-category-filter"
             >
                <Button

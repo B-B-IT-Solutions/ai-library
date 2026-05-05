@@ -37,24 +37,19 @@ export const CatalogEntriesDashboard = async () => {
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-         <div
-            className="flex h-full flex-col bg-slate-50"
-            data-testid="catalog-entries-dashboard"
-         >
+         <div data-testid="catalog-entries-dashboard">
             <CatalogEntriesToolbar
                categories={categories}
                totalElements={1}
                viewMode={viewMode}
             />
 
-            <div className="flex-1 overflow-y-auto p-6">
-               <CatalogEntryItems
-                  viewMode={viewMode}
-                  groupBy={groupBy}
-                  sortBy={sortBy}
-                  filters={filters}
-               />
-            </div>
+            <CatalogEntryItems
+               viewMode={viewMode}
+               groupBy={groupBy}
+               sortBy={sortBy}
+               filters={filters}
+            />
          </div>
       </HydrationBoundary>
    );
