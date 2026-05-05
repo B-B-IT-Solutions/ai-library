@@ -17,6 +17,7 @@ import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
 import { f_searchParam } from "../../catalog-search-params";
 import { CatalogFilterContent } from "../sidebar/catalog-filter-content";
+
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {

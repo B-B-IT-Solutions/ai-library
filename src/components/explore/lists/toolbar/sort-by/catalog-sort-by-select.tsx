@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { ArrowDownAZ, ArrowUpAZ, Clock } from "lucide-react";
+import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown, Clock } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import {
@@ -26,10 +26,13 @@ export const CatalogSortBySelect: FC = () => {
          onValueChange={(value: DListSortByMode) => setSort(value)}
       >
          <SelectTrigger
-            className="h-8 w-full sm:w-[170px]"
+            className="h-9 w-full sm:h-8 sm:w-[170px]"
             data-testid="catalog-sort-by-select"
          >
-            <SelectValue />
+            <ArrowUpDown className="h-4 w-4 sm:hidden" />
+            <span className="hidden sm:contents">
+               <SelectValue />
+            </span>
          </SelectTrigger>
          <SelectContent>
             <SelectItem
