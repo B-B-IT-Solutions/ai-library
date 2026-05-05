@@ -1,27 +1,24 @@
 "use client";
 
-import { useQueryState } from "nuqs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useQueryState } from "nuqs";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   DCatalogEntryCategory,
    DCatalogEntriesPage,
+   DCatalogEntryCategory,
 } from "@/data/types/domain/catalog";
 
 import { ExploreEntryGrid } from "./explore-entry-grid";
 import { ExploreFilterBar } from "./explore-filter-bar";
 import { pageParam } from "./explore-search-params";
 
-type ExploreFeedProps = {
+type Props = {
    initialEntries: DCatalogEntriesPage;
    categories: DCatalogEntryCategory[];
 };
 
-export const ExploreFeed = ({
-   initialEntries,
-   categories,
-}: ExploreFeedProps) => {
+export const ExploreFeed = ({ initialEntries, categories }: Props) => {
    const [page, setPage] = useQueryState(
       "page",
       pageParam.withOptions({ shallow: false })
