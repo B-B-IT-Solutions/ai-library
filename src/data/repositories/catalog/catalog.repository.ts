@@ -64,7 +64,10 @@ export class CatalogRepository {
 
    async pGetPublishedEntryBySlug(slug: string): Promise<DCatalogEntry | null> {
       const entry = await this.prisma.catalogEntry.findFirst({
-         where: { slug, status: "PUBLISHED" },
+         where: {
+            slug,
+            status: "PUBLISHED",
+         },
          include: {
             category: true,
             fields: true,
@@ -103,7 +106,9 @@ export class CatalogRepository {
    private resolveWhereInput(filter?: DCatalogEntriesPageQuery["filter"]) {
       const base = { status: "PUBLISHED" as const };
 
-      if (!filter) return base;
+      if (!filter) {
+         return base;
+      }
 
       const { search, categorySlug } = filter;
 
