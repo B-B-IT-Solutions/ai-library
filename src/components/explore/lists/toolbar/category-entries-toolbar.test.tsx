@@ -9,7 +9,7 @@ import {
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { CatalogEntriesToolbar } from "./category-entries-filters";
+import { CatalogEntriesToolbar } from "./category-entries-toolbar";
 
 const defaultProps = {
    viewMode: DListViewMode.GRID,
@@ -67,10 +67,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
    });
 
    it("shows empty search input when no search param is set", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
 
       await waitFor(() => {
          const input = screen.getByTestId(
@@ -142,10 +139,7 @@ describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
    });
 
    it("filter sheet is closed by default", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
 
       await waitFor(() =>
          assertInDocument(screen.getByTestId("mobile-filter-btn"))
@@ -155,10 +149,7 @@ describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
    });
 
    it("clicking filter button opens the sheet with categories", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
 
       await waitFor(() =>
          assertInDocument(screen.getByTestId("mobile-filter-btn"))
@@ -168,23 +159,14 @@ describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
 
       await waitFor(() => {
          assertInDocument(screen.getByTestId("explore-category-filter"));
-         assertInDocument(
-            screen.getByTestId("sidebar-category-category-1")
-         );
-         assertInDocument(
-            screen.getByTestId("sidebar-category-category-2")
-         );
-         assertInDocument(
-            screen.getByTestId("sidebar-category-category-3")
-         );
+         assertInDocument(screen.getByTestId("sidebar-category-category-1"));
+         assertInDocument(screen.getByTestId("sidebar-category-category-2"));
+         assertInDocument(screen.getByTestId("sidebar-category-category-3"));
       });
    });
 
    it("selecting a category in the sheet closes it", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
 
       await waitFor(() =>
          assertInDocument(screen.getByTestId("mobile-filter-btn"))
@@ -196,14 +178,10 @@ describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
          assertInDocument(screen.getByTestId("sidebar-category-category-1"))
       );
 
-      await userEvent.click(
-         screen.getByTestId("sidebar-category-category-1")
-      );
+      await userEvent.click(screen.getByTestId("sidebar-category-category-1"));
 
       await waitFor(() => {
-         assertNotInDocument(
-            screen.queryByTestId("explore-category-filter")
-         );
+         assertNotInDocument(screen.queryByTestId("explore-category-filter"));
       });
    });
 });
