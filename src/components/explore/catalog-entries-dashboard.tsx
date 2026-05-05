@@ -4,18 +4,13 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import {
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
-} from "@/data/actions/template";
-import { preloadCollectionsOptions } from "@/data/ts-queries/library";
+import { getCatalogEntryCategories } from "@/data/actions/catalog";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCatalogEntriesFilter } from "@/data/types/domain/catalog";
 
-import { CreateTemplateButton } from "./buttons";
 import { exploreSearchParamsCache } from "./explore-search-params";
-import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
+import { CatalogEntryItems, ExploreFilterBar } from "./lists";
 
 export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
@@ -25,9 +20,8 @@ export const CatalogEntriesDashboard = async () => {
    const sortBy = exploreSearchParamsCache.get("sort");
 
    const filters: DCatalogEntriesFilter = {
-      search: exploreSearchParamsCache.get("search"),
-      categories: exploreSearchParamsCache.get("category"),
-      models: exploreSearchParamsCache.get("f_models"),
+      search: exploreSearchParamsCache.get("f_search"),
+      categories: exploreSearchParamsCache.get("f_categories"),
    };
 
    await Promise.all([
@@ -37,11 +31,9 @@ export const CatalogEntriesDashboard = async () => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
-   const categories = await getTemplateDescriptorCategories();
-   const models = await getTemplateDescriptorModels();
+   const categories = await getCatalogEntryCategories();
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -59,23 +51,13 @@ export const CatalogEntriesDashboard = async () => {
                         Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
                      </p>
                   </div>
-                  <div className="flex items-center gap-3">
-                     <CreateTemplateButton />
-                  </div>
                </div>
-
-               <CollectionsFilter filters={filters} />
             </div>
 
-            <TemplatesToolbar
-               viewMode={viewMode}
-               filters={filters}
-               categories={categories}
-               models={models}
-            />
+            {/* <ExploreFilterBar categories={categories} totalElements={1} /> */}
 
             <div className="flex-1 overflow-y-auto p-6">
-               <TemplateItems
+               <CatalogEntryItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

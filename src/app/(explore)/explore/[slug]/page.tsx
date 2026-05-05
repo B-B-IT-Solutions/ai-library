@@ -63,7 +63,7 @@ const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
    if (entry.category) {
       const relatedPage = await getPublishedCatalogEntriesPage({
          pagination: { pageNumber: 0, pageSize: 4 },
-         filter: { categorySlug: entry.category.slug },
+         filter: { categories: entry.category.slug },
       });
       relatedEntries = relatedPage.content
          .filter((e) => e.id !== entry.id)

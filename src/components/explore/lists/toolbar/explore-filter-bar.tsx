@@ -15,11 +15,6 @@ import {
 } from "@/components/shadcn/select";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
-import {
-   categoryParam,
-   qParam,
-   sortParam,
-} from "../../explore-search-params";
 
 type ExploreFilterBarProps = {
    categories: DCatalogEntryCategory[];

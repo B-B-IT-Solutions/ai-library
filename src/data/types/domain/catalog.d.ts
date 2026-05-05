@@ -1,17 +1,12 @@
-import { Page, Pagination } from "@/data/types/common";
+import { Page, PageQuery } from "@/data/types/common";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
+export type DCatalogEntriesPageQuery = PageQuery<DCatalogEntriesFilter>;
 export type DCatalogEntriesPage = Page<DCatalogEntrySummary>;
 
 export type DCatalogEntriesFilter = {
    search?: string;
-   categorySlug?: string;
-};
-
-export type DCatalogEntriesPageQuery = {
-   pagination?: Pagination;
-   sort?: DExploreSortMode;
-   filter?: DCatalogEntriesFilter;
+   categories?: string[];
 };
 
 export type DCatalogEntry = {
@@ -33,7 +28,6 @@ export type DCatalogEntry = {
 export type DCatalogEntrySummary = Omit<DCatalogEntry, "content">;
 
 export type DCatalogEntryStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
-export type DExploreSortMode = "newest" | "popular";
 
 export type DCatalogEntryCategory = {
    id: string;

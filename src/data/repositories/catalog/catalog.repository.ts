@@ -110,7 +110,7 @@ export class CatalogRepository {
          return base;
       }
 
-      const { search, categorySlug } = filter;
+      const { search, categories: categorySlug } = filter;
 
       return {
          ...base,

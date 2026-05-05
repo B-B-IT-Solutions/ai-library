@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 import { Sort, SortOrder } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
+   DCatalogEntriesFilter,
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntry,
@@ -698,8 +699,9 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: undefined,
 });
 
-export const dCatalogEntryFields = (count = 3): DCatalogEntryField[] =>
-   range(0, count).map((i) => dCatalogEntryField(i + 1));
+export const dCatalogEntryFields = (count = 3): DCatalogEntryField[] => {
+   return range(0, count).map((i) => dCatalogEntryField(i + 1));
+};
 
 export const dCatalogEntry = (index = 1): DCatalogEntry => ({
    id: `entry-uuid-000${index}`,
@@ -722,8 +724,9 @@ export const dCatalogEntrySummary = (index = 1): DCatalogEntrySummary => {
    return rest;
 };
 
-export const dCatalogEntrySummaries = (count = 3): DCatalogEntrySummary[] =>
-   range(0, count).map((i) => dCatalogEntrySummary(i + 1));
+export const dCatalogEntrySummaries = (count = 3): DCatalogEntrySummary[] => {
+   return range(0, count).map((i) => dCatalogEntrySummary(i + 1));
+};
 
 export const dCatalogEntriesPage = (count = 3): DCatalogEntriesPage => {
    const content = dCatalogEntrySummaries(count);
@@ -737,11 +740,24 @@ export const dCatalogEntriesPage = (count = 3): DCatalogEntriesPage => {
    };
 };
 
-export const dCatalogEntriesPageQuery = (): DCatalogEntriesPageQuery => ({
-   pagination: { pageNumber: 0, pageSize: 12 },
-   sort: "newest",
-   filter: { search: "test", categorySlug: "category-1" },
-});
+export const dCatalogEntriesPageQuery = (
+   index = 1
+): DCatalogEntriesPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dCatalogEntriesFilter(index),
+   };
+};
+
+export const dCatalogEntriesFilter = (index = 1): DCatalogEntriesFilter => {
+   return {
+      search: `search ${index}`,
+      categories: [`cat-${index}`],
+   };
+};
 
 export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {

@@ -1,10 +1,10 @@
 import { Search } from "lucide-react";
 
-export const ExploreEmptyState = () => {
+export const CatalogEntriesEmpty = () => {
    return (
       <div
          className="flex flex-col items-center justify-center py-24 text-center"
-         data-testid="explore-empty-state"
+         data-testid="catalog-entries-empty"
       >
          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
             <Search className="h-8 w-8 text-slate-400" />

@@ -10,9 +10,9 @@ import {
    DCatalogEntryCategory,
    DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
+import { DListViewMode } from "@/data/types/domain/common";
 
-import { categoryParam, qParam, sortParam } from "./explore-search-params";
-import { ExploreEntryGrid, ExploreFilterBar } from "./lists";
+import { CatalogEntryItems, ExploreFilterBar } from "./lists";
 
 type Props = {
    initialEntries: DCatalogEntriesPage;
@@ -21,9 +21,6 @@ type Props = {
 
 export const ExploreFeed = ({ initialEntries, categories }: Props) => {
    // Read current filter values from URL (ExploreFilterBar manages writing)
-   const [q] = useQueryState("q", qParam);
-   const [category] = useQueryState("category", categoryParam);
-   const [sort] = useQueryState("sort", sortParam);
 
    const [entries, setEntries] = useState<DCatalogEntrySummary[]>(
       initialEntries.content
@@ -54,11 +51,6 @@ export const ExploreFeed = ({ initialEntries, categories }: Props) => {
       try {
          const result = await getPublishedCatalogEntriesPage({
             pagination: { pageNumber: nextPageRef.current, pageSize: 12 },
-            sort: sort ?? "newest",
-            filter: {
-               search: q || undefined,
-               categorySlug: category || undefined,
-            },
          });
 
          setEntries((prev) => [...prev, ...result.content]);
@@ -67,7 +59,7 @@ export const ExploreFeed = ({ initialEntries, categories }: Props) => {
       } finally {
          setIsLoading(false);
       }
-   }, [isLoading, hasMore, q, category, sort]);
+   }, [isLoading, hasMore]);
 
    return (
       <div className="space-y-6" data-testid="explore-feed">
@@ -82,7 +74,7 @@ export const ExploreFeed = ({ initialEntries, categories }: Props) => {
             next={loadMore}
             threshold={0.7}
          >
-            <ExploreEntryGrid entries={entries} />
+            {/* <CatalogEntryItems viewMode={DListViewMode.GRID} /> */}
          </InfiniteScroll>
       </div>
    );

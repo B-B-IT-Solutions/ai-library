@@ -121,7 +121,7 @@ describe("pGetPublishedEntriesPage tests", () => {
       prismaMock.catalogEntry.count.mockResolvedValue(0);
 
       const query: DCatalogEntriesPageQuery = {
-         filter: { categorySlug: "marketing" },
+         filter: { categories: "marketing" },
       };
 
       await catalogRepository.pGetPublishedEntriesPage(query);

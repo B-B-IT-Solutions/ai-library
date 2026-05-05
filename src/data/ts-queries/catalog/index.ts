@@ -1,0 +1,1 @@
+export { useInfiniteLoadCatalogEntryDescriptors } from "./catalog";

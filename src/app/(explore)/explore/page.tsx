@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
-import { ExploreFeed, exploreSearchParamsCache } from "@/components/explore";
-import {
-   getCatalogEntryCategories,
-   getPublishedCatalogEntriesPage,
-} from "@/data/actions/catalog";
-import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
+import { exploreSearchParamsCache } from "@/components/explore";
+import { CatalogEntriesDashboard } from "@/components/explore/catalog-entries-dashboard";
 
 export const revalidate = 300;
 
@@ -22,24 +18,6 @@ type ExplorePageProps = {
 
 const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
    await exploreSearchParamsCache.parse(searchParams);
-
-   const q = exploreSearchParamsCache.get("q");
-   const category = exploreSearchParamsCache.get("category");
-   const sort = exploreSearchParamsCache.get("sort");
-
-   const query: DCatalogEntriesPageQuery = {
-      pagination: { pageNumber: 0, pageSize: 12 },
-      sort,
-      filter: {
-         search: q || undefined,
-         categorySlug: category || undefined,
-      },
-   };
-
-   const [entries, categories] = await Promise.all([
-      getPublishedCatalogEntriesPage(query),
-      getCatalogEntryCategories(),
-   ]);
 
    return (
       <div
@@ -59,7 +37,7 @@ const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
             </p>
          </div>
 
-         <ExploreFeed initialEntries={entries} categories={categories} />
+         <CatalogEntriesDashboard />
       </div>
    );
 };

@@ -1,24 +1,39 @@
 import {
    createSearchParamsCache,
+   parseAsArrayOf,
    parseAsString,
    parseAsStringEnum,
 } from "nuqs/server";
 
-import { DExploreSortMode } from "@/data/types/domain/catalog";
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 
-export const qParam = parseAsString.withDefault("");
-export const categoryParam = parseAsString.withDefault("");
-export const sortParam = parseAsStringEnum<DExploreSortMode>([
-   "newest",
-   "popular",
-]).withDefault("newest");
+export const viewParam = parseAsStringEnum<DListViewMode>(
+   Object.values(DListViewMode)
+).withDefault(DListViewMode.GRID);
+
+export const groupByParam = parseAsStringEnum<DListGroupByMode>(
+   Object.values(DListGroupByMode)
+).withDefault(DListGroupByMode.NONE);
+
+export const sortByParam = parseAsStringEnum<DListSortByMode>(
+   Object.values(DListSortByMode)
+).withDefault(DListSortByMode.DATE_DESC);
+
+export const f_searchParam = parseAsString.withDefault("");
+
+export const f_categoriesParam = parseAsArrayOf(parseAsString).withDefault([]);
 
 export const exploreSearchParams = {
-   q: qParam,
-   category: categoryParam,
-   sort: sortParam,
+   view: viewParam,
+   group: groupByParam,
+   sort: sortByParam,
+   f_search: f_searchParam,
+   f_categories: f_categoriesParam,
 };
 
-export const exploreSearchParamsCache = createSearchParamsCache(
-   exploreSearchParams
-);
+export const exploreSearchParamsCache =
+   createSearchParamsCache(exploreSearchParams);
