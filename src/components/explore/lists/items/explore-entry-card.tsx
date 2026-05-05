@@ -12,15 +12,12 @@ import {
 import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
 
-type ExploreEntryCardProps = {
+type Props = {
    entry: DCatalogEntrySummary;
    className?: string;
 };
 
-export const ExploreEntryCard = ({
-   entry,
-   className,
-}: ExploreEntryCardProps) => {
+export const ExploreEntryCard = ({ entry, className }: Props) => {
    const {
       slug,
       title,

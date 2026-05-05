@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 
-type ExploreCopyButtonProps = {
+type Props = {
    catalogEntryId: string;
    slug: string;
    isAuthenticated: boolean;
@@ -19,7 +19,7 @@ export const ExploreCopyButton = ({
    catalogEntryId,
    slug,
    isAuthenticated,
-}: ExploreCopyButtonProps) => {
+}: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
@@ -51,7 +51,8 @@ export const ExploreCopyButton = ({
             toast.success("Vorlage wurde in deine Library übernommen", {
                action: {
                   label: "Jetzt anzeigen",
-                  onClick: () => router.push(`/templates/${result.templateId}`),
+                  onClick: () =>
+                     router.push(`/templates/${result.data!.templateId}`),
                },
                duration: 5000,
             });

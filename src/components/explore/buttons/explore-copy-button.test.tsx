@@ -9,6 +9,8 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
+import { ActionResult } from "@/data/types/utils";
 
 import { ExploreCopyButton } from "./explore-copy-button";
 
@@ -102,10 +104,15 @@ describe("ExploreCopyButton - authenticated - functionality tests", () => {
 
    it("authenticated - copy success - shows success toast - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      copyCatalogEntryMock.mockResolvedValue({
+
+      const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
-         templateId: descriptor.id,
-      });
+         message: "Erfolgreich copiert",
+         data: {
+            templateId: descriptor.id,
+         },
+      };
+      copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
          <ExploreCopyButton
@@ -135,10 +142,11 @@ describe("ExploreCopyButton - authenticated - functionality tests", () => {
    });
 
    it("authenticated - copy failure - shows error toast - test", async () => {
-      copyCatalogEntryMock.mockResolvedValue({
+      const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: false,
-         error: "Something went wrong",
-      });
+         message: "Vorlage konnte nicht copiert werden",
+      };
+      copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
          <ExploreCopyButton
@@ -162,10 +170,14 @@ describe("ExploreCopyButton - authenticated - functionality tests", () => {
 
    it("authenticated - success - toast action navigates to template - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      copyCatalogEntryMock.mockResolvedValue({
+      const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
-         templateId: descriptor.id,
-      });
+         message: "Erfolgreich copiert",
+         data: {
+            templateId: descriptor.id,
+         },
+      };
+      copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
          <ExploreCopyButton
