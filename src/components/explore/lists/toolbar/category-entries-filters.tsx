@@ -33,7 +33,7 @@ export const ExploreFilterBar = ({
    totalElements,
 }: ExploreFilterBarProps) => {
    const [q, setQ] = useQueryState(
-      "search",
+      "f_search",
       f_searchParam.withOptions({ shallow: false })
    );
    const [f_categories, setFCategories] = useQueryState(

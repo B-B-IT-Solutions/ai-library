@@ -19,16 +19,10 @@ export const resolveWhereInput = (
    if (filter.search) {
       where.OR = [
          {
-            title: {
-               contains: filter.search,
-               mode: "insensitive",
-            },
+            title: { contains: filter.search, mode: "insensitive" },
          },
          {
-            description: {
-               contains: filter.search,
-               mode: "insensitive",
-            },
+            description: { contains: filter.search, mode: "insensitive" },
          },
       ];
    }

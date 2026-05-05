@@ -570,7 +570,6 @@ model CatalogEntry {
 
   @@index([status])
   @@index([categoryId])
-  @@index([copyCount])
   @@map("catalog_entry")
 }
 
