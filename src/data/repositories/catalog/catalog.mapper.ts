@@ -54,6 +54,12 @@ export const toDCatalogEntry = (
    updatedAt: entry.updatedAt.toISOString(),
 });
 
+export const toDCatalogEntrySummaries = (
+   entries: CatalogEntryWithRelations[]
+): DCatalogEntrySummary[] => {
+   return map(entries, (e) => toDCatalogEntrySummary(e));
+};
+
 export const toDCatalogEntrySummary = (
    entry: CatalogEntryWithRelations
 ): DCatalogEntrySummary => {

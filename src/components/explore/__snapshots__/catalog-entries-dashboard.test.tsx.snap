@@ -7,26 +7,6 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
     data-testid="catalog-entries-dashboard"
   >
     <div
-      class="space-y-4 border-b bg-white px-6 py-4"
-    >
-      <div
-        class="flex items-center justify-between"
-      >
-        <div>
-          <h1
-            class="text-2xl font-bold text-slate-900"
-          >
-            Meine Prompt-Vorlagen
-          </h1>
-          <p
-            class="mt-1 text-sm text-slate-600"
-          >
-            Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
       class="space-y-4"
       data-testid="catalog-entries-filter"
     >

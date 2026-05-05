@@ -7,13 +7,16 @@ import {
    DCatalogEntriesPageQuery,
    DCatalogEntry,
    DCatalogEntryCategory,
-   DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
+import {
+   CatalogEntryCountArgs,
+   CatalogEntryFindManyArgs,
+} from "@/generated/prisma/models";
 
 import {
    toDCatalogCategory,
    toDCatalogEntry,
-   toDCatalogEntrySummary,
+   toDCatalogEntrySummaries,
 } from "./catalog.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -34,24 +37,29 @@ export class CatalogRepository {
       const where = resolveWhereInput(filter);
       const orderBy = resolveOrderBy(sort);
 
+      const findManyArgs = {
+         where,
+         include: {
+            category: true,
+            fields: true,
+         },
+         orderBy,
+         skip,
+         take: pageSize,
+      } satisfies CatalogEntryFindManyArgs;
+
+      const countArgs = {
+         where,
+      } satisfies CatalogEntryCountArgs;
+
       const [entries, totalElements] = await Promise.all([
-         this.prisma.catalogEntry.findMany({
-            where,
-            include: {
-               category: true,
-               fields: true,
-            },
-            orderBy,
-            skip,
-            take: pageSize,
-         }) as Promise<CatalogEntryWithRelations[]>,
-         this.prisma.catalogEntry.count({ where }),
+         this.prisma.catalogEntry.findMany(findManyArgs) as Promise<
+            CatalogEntryWithRelations[]
+         >,
+         this.prisma.catalogEntry.count(countArgs),
       ]);
 
-      const content: DCatalogEntrySummary[] = map(
-         entries,
-         toDCatalogEntrySummary
-      );
+      const content = toDCatalogEntrySummaries(entries);
 
       return {
          content,

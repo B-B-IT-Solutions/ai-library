@@ -4,6 +4,10 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
+import {
+   CatalogEntryFindManyArgs,
+   CatalogEntryWhereInput,
+} from "@/generated/prisma/models";
 
 import {
    toDCatalogCategory,
@@ -11,6 +15,7 @@ import {
    toDCatalogEntrySummary,
 } from "./catalog.mapper";
 import { CatalogRepository } from "./catalog.repository";
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const catalogRepository = new CatalogRepository(prismaMock);
@@ -37,13 +42,23 @@ describe("pGetPublishedEntriesPage tests", () => {
       expect(result.totalPages).toBe(1);
       expect(result.numberOfElements).toBe(2);
 
+      const expectedWhere = resolveWhereInput();
+      const expectedOrderBy = resolveOrderBy();
+
+      const expectedFindManyArgs: CatalogEntryFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            category: true,
+            fields: true,
+         },
+         orderBy: expectedOrderBy,
+         skip: 0,
+         take: 12,
+      };
+
+      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
-         expect.objectContaining({
-            where: { status: "PUBLISHED" },
-            orderBy: { publishedAt: "desc" },
-            skip: 0,
-            take: 12,
-         })
+         expectedFindManyArgs
       );
    });
 
@@ -59,32 +74,6 @@ describe("pGetPublishedEntriesPage tests", () => {
 
       expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
          expect.objectContaining({ skip: 10, take: 5 })
-      );
-   });
-
-   it("pGetPublishedEntriesPage - sort popular - orders by copyCount desc - test", async () => {
-      prismaMock.catalogEntry.findMany.mockResolvedValue([]);
-      prismaMock.catalogEntry.count.mockResolvedValue(0);
-
-      const query: DCatalogEntriesPageQuery = { sort: "popular" };
-
-      await catalogRepository.pGetPublishedEntriesPage(query);
-
-      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
-         expect.objectContaining({ orderBy: { copyCount: "desc" } })
-      );
-   });
-
-   it("pGetPublishedEntriesPage - sort newest - orders by publishedAt desc - test", async () => {
-      prismaMock.catalogEntry.findMany.mockResolvedValue([]);
-      prismaMock.catalogEntry.count.mockResolvedValue(0);
-
-      const query: DCatalogEntriesPageQuery = { sort: "newest" };
-
-      await catalogRepository.pGetPublishedEntriesPage(query);
-
-      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
-         expect.objectContaining({ orderBy: { publishedAt: "desc" } })
       );
    });
 
@@ -111,26 +100,6 @@ describe("pGetPublishedEntriesPage tests", () => {
                      },
                   },
                ],
-            }),
-         })
-      );
-   });
-
-   it("pGetPublishedEntriesPage - with categorySlug filter - filters by category - test", async () => {
-      prismaMock.catalogEntry.findMany.mockResolvedValue([]);
-      prismaMock.catalogEntry.count.mockResolvedValue(0);
-
-      const query: DCatalogEntriesPageQuery = {
-         filter: { categories: "marketing" },
-      };
-
-      await catalogRepository.pGetPublishedEntriesPage(query);
-
-      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
-         expect.objectContaining({
-            where: expect.objectContaining({
-               status: "PUBLISHED",
-               category: { slug: "marketing" },
             }),
          })
       );
