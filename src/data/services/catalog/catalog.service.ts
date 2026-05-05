@@ -1,7 +1,6 @@
 import { map } from "es-toolkit/compat";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
-import { TemplateRepository } from "@/data/repositories/template";
 import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
@@ -13,11 +12,12 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { TemplateService } from "../template";
 
 export class CatalogService {
    constructor(
       private catalogRepository: CatalogRepository,
-      private templateRepository: TemplateRepository
+      private templateService: TemplateService
    ) {}
 
    async getPublishedCatalogEntriesPage(
@@ -70,11 +70,10 @@ export class CatalogService {
          globalFieldIds: [],
       };
 
-      const newDescriptor =
-         await this.templateRepository.pCreatePromptTemplateDescriptor(
-            userId,
-            templateData
-         );
+      const newDescriptor = await this.templateService.createTemplateDescriptor(
+         userId,
+         templateData
+      );
 
       // fire & forget — do not await
       this.catalogRepository

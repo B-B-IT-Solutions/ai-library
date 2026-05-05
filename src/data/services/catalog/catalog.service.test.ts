@@ -1,22 +1,25 @@
 jest.mock("@/data/repositories/catalog");
-jest.mock("@/data/repositories/template");
+jest.mock("@/data/services/template");
 
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
-import { TemplateRepository } from "@/data/repositories/template";
+import { ServiceFactory } from "../service.factory";
+import { TemplateService } from "../template";
 
 import { CatalogService } from "./catalog.service";
 
 const catalogRepo = new CatalogRepository(prisma);
 const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
 
-const templateRepo = new TemplateRepository(prisma);
-const templateRepoMock = templateRepo as DeepMockProxy<TemplateRepository>;
+const serviceFactory = new ServiceFactory(prisma);
+const templateService = serviceFactory.getTemplateService();
 
-const catalogService = new CatalogService(catalogRepoMock, templateRepoMock);
+const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
+
+const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
 
 describe("getPublishedEntriesPage tests", () => {
    beforeEach(() => {
@@ -91,7 +94,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
 
       expect(
-         templateRepoMock.pCreatePromptTemplateDescriptor
+         templateServiceMock.createTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
@@ -99,7 +102,7 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
@@ -111,11 +114,9 @@ describe("copyEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(descriptor);
       expect(
-         templateRepoMock.pCreatePromptTemplateDescriptor
+         templateServiceMock.createTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
-      expect(
-         templateRepoMock.pCreatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(
+      expect(templateServiceMock.createTemplateDescriptor).toHaveBeenCalledWith(
          "user-1",
          expect.objectContaining({
             title: entry.title,
@@ -132,7 +133,7 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
@@ -140,7 +141,7 @@ describe("copyEntryToUserLibrary tests", () => {
       await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
 
       const callArgs =
-         templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
+         templateServiceMock.createTemplateDescriptor.mock.calls[0][1];
       expect(callArgs.fields).toHaveLength(entry.fields.length);
       const firstField = callArgs.fields[0];
       const firstEntryField = entry.fields[0];
@@ -157,7 +158,7 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = { ...dtestData.dCatalogEntry(1), category: null };
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
@@ -165,7 +166,7 @@ describe("copyEntryToUserLibrary tests", () => {
       await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
 
       const callArgs =
-         templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
+         templateServiceMock.createTemplateDescriptor.mock.calls[0][1];
       expect(callArgs.categories).toEqual([]);
    });
 
@@ -173,7 +174,7 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
@@ -192,7 +193,7 @@ describe("copyEntryToUserLibrary tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       const descriptor = dtestData.dPromptTemplateDescriptor();
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       catalogRepoMock.pIncrementCopyCount.mockRejectedValue(
