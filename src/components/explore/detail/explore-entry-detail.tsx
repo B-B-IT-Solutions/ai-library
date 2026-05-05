@@ -10,8 +10,7 @@ import {
 } from "@/components/shadcn/card";
 import { Separator } from "@/components/shadcn/separator";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
-
-import { ExploreCopyButton } from "./buttons/explore-copy-button";
+import { ExploreCopyButton } from "../buttons/explore-copy-button";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
    TEXT: "Text",
