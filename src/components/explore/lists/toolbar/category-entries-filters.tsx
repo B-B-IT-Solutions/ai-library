@@ -28,7 +28,7 @@ type ExploreFilterBarProps = {
    totalElements: number;
 };
 
-export const ExploreFilterBar = ({
+export const CatalogEntriesFilter = ({
    categories,
    totalElements,
 }: ExploreFilterBarProps) => {

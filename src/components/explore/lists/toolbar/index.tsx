@@ -1,1 +1,1 @@
-export { ExploreFilterBar } from "./category-entries-filters";
+export { CatalogEntriesFilter } from "./category-entries-filters";
