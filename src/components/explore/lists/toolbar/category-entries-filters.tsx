@@ -12,10 +12,8 @@ import { ListViewToggle } from "@/components/shared/buttons";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
 import { cn } from "@/lib/utils";
-import {
-   f_categoriesParam,
-   f_searchParam,
-} from "../../catalog-search-params";
+import { f_categoriesParam, f_searchParam } from "../../catalog-search-params";
+
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {
@@ -67,7 +65,7 @@ export const CatalogEntriesToolbar = ({
 
    return (
       <div className="mb-6 space-y-3" data-testid="catalog-entries-toolbar">
-         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border bg-white px-5 py-3 shadow-sm">
+         <div className="flex flex-col gap-3 rounded-xl border bg-white px-5 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
                <div className="relative flex-1 sm:flex-none">
                   <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -79,25 +77,6 @@ export const CatalogEntriesToolbar = ({
                      className="h-8 w-full pl-9 text-sm sm:w-60"
                   />
                </div>
-               {hasActiveFilters && (
-                  <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={handleResetFilters}
-                     className="h-8 shrink-0 gap-1.5 px-2 text-xs text-slate-500 hover:text-slate-900"
-                     data-testid="reset-filters-btn"
-                  >
-                     <X className="h-3.5 w-3.5" />
-                     Zurücksetzen
-                     <Badge
-                        variant="secondary"
-                        className="h-4 px-1.5 text-xs"
-                        data-testid="active-filter-count"
-                     >
-                        {activeFilterCount}
-                     </Badge>
-                  </Button>
-               )}
             </div>
 
             <div className="flex items-center gap-3">
@@ -106,8 +85,7 @@ export const CatalogEntriesToolbar = ({
                   className="min-w-[80px] shrink-0 text-right text-sm text-slate-500"
                   data-testid="entry-count"
                >
-                  {totalElements}{" "}
-                  {totalElements === 1 ? "Vorlage" : "Vorlagen"}
+                  {totalElements} {totalElements === 1 ? "Vorlage" : "Vorlagen"}
                </span>
                <ListViewToggle currentView={viewMode} />
             </div>
@@ -144,6 +122,28 @@ export const CatalogEntriesToolbar = ({
                      </Button>
                   );
                })}
+               {hasActiveFilters && (
+                  <>
+                     <div className="mx-1 h-4 w-px shrink-0 bg-slate-200" />
+                     <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleResetFilters}
+                        className="h-8 shrink-0 gap-1.5 px-2 text-xs text-slate-400 hover:text-slate-700"
+                        data-testid="reset-filters-btn"
+                     >
+                        <X className="h-3.5 w-3.5" />
+                        Filter löschen
+                        <Badge
+                           variant="secondary"
+                           className="h-4 px-1.5 text-xs"
+                           data-testid="active-filter-count"
+                        >
+                           {activeFilterCount}
+                        </Badge>
+                     </Button>
+                  </>
+               )}
             </div>
          )}
       </div>
