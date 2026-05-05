@@ -1,4 +1,5 @@
 import { RepositoryFactory } from "@/data/repositories";
+import { CatalogService } from "@/data/services/catalog";
 import { CartService } from "@/data/services/cart";
 import {
    CollectionService,
@@ -28,6 +29,7 @@ import { EMAIL_PROVIDER } from "@/lib/constants";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
+   private catalogService?: CatalogService;
    private userService?: UserService;
    private verificationTokenService?: VerificationTokenService;
    private cartService?: CartService;
@@ -46,6 +48,16 @@ export class ServiceFactory {
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
+   }
+
+   getCatalogService(): CatalogService {
+      if (!this.catalogService) {
+         this.catalogService = new CatalogService(
+            this.repositories.catalogRepository(),
+            this.repositories.templateRepository()
+         );
+      }
+      return this.catalogService;
    }
 
    getUserService(): UserService {

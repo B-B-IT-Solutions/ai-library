@@ -1,5 +1,6 @@
 import { PrismaClient } from "@/generated/prisma/client";
 
+import { seedCatalog } from "./seeds/catalog.seed";
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
 import {
@@ -149,6 +150,8 @@ export const main = async () => {
          },
       });
    }
+
+   await seedCatalog(prisma);
 
    console.log("\n✅ Data inserts finished successfully!");
    console.log(`\nSummary:`);

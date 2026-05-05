@@ -1,6 +1,7 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
+import { CatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
@@ -12,6 +13,7 @@ import { UserRepository, VerificationTokenRepository } from "./user";
 
 export class RepositoryFactory {
    private prisma: DbClient;
+   private catalogRepo?: CatalogRepository;
    private userRepo?: UserRepository;
    private verificationTokenRepo?: VerificationTokenRepository;
    private cartRepo?: CartRepository;
@@ -28,6 +30,13 @@ export class RepositoryFactory {
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
+   }
+
+   catalogRepository(): CatalogRepository {
+      if (!this.catalogRepo) {
+         this.catalogRepo = new CatalogRepository(this.prisma);
+      }
+      return this.catalogRepo;
    }
 
    userRepository(): UserRepository {

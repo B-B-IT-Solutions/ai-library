@@ -3,6 +3,7 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
+import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
 import { PLibraryCollection } from "@/data/types/db/collection";
 import {
    OrderItemProduct,
@@ -28,6 +29,9 @@ import { UserUpdateData } from "@/data/types/db/user";
 import {
    Cart,
    CartItem,
+   CatalogCategory,
+   CatalogEntry,
+   CatalogEntryField,
    GlobalTemplateField,
    LibraryCollectionEntry,
    Order,
@@ -694,5 +698,72 @@ export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
       order: index,
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogCategory = (index = 1): CatalogCategory => {
+   return {
+      id: `cat-uuid-000${index}`,
+      name: `Category ${index}`,
+      slug: `category-${index}`,
+      description: `Description for category ${index}`,
+      order: index,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogCategories = (count = 3): CatalogCategory[] =>
+   range(0, count).map((i) => pCatalogCategory(i + 1));
+
+export const pCatalogEntryField = (
+   index = 1,
+   catalogEntryId = "entry-uuid-0001"
+): CatalogEntryField => {
+   return {
+      id: `field-uuid-000${index}`,
+      catalogEntryId,
+      name: `field_${index}`,
+      label: `Field Label ${index}`,
+      description: `Field description ${index}`,
+      type: "TEXT",
+      required: true,
+      order: index,
+      defaultValue: null,
+      options: null,
+   };
+};
+
+export const pCatalogEntryFields = (
+   count = 3,
+   catalogEntryId = "entry-uuid-0001"
+): CatalogEntryField[] =>
+   range(0, count).map((i) => pCatalogEntryField(i + 1, catalogEntryId));
+
+export const pCatalogEntry = (index = 1): CatalogEntry => {
+   return {
+      id: `entry-uuid-000${index}`,
+      slug: `catalog-entry-${index}`,
+      title: `Catalog Entry ${index}`,
+      description: `Description for catalog entry ${index}`,
+      recommendedModel: "GPT-4o",
+      content: `Template content with {{field_${index}}} placeholder`,
+      status: "PUBLISHED",
+      categoryId: `cat-uuid-000${index}`,
+      copyCount: index * 5,
+      publishedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogEntryWithRelations = (
+   index = 1
+): CatalogEntryWithRelations => {
+   const entry = pCatalogEntry(index);
+   return {
+      ...entry,
+      category: pCatalogCategory(index),
+      fields: pCatalogEntryFields(3, entry.id),
    };
 };

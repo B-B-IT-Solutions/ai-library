@@ -3,6 +3,14 @@ import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
 import { Sort, SortOrder } from "@/data/types/common";
+import {
+   DCatalogCategory,
+   DCatalogEntry,
+   DCatalogEntriesPage,
+   DCatalogEntriesPageQuery,
+   DCatalogEntryField,
+   DCatalogEntrySummary,
+} from "@/data/types/domain/catalog";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DCollection,
@@ -664,6 +672,75 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
+
+export const dCatalogCategory = (index = 1): DCatalogCategory => ({
+   id: `cat-uuid-000${index}`,
+   name: `Category ${index}`,
+   slug: `category-${index}`,
+   description: `Description for category ${index}`,
+   order: index,
+});
+
+export const dCatalogCategories = (count = 3): DCatalogCategory[] =>
+   range(0, count).map((i) => dCatalogCategory(i + 1));
+
+export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
+   id: `field-uuid-000${index}`,
+   catalogEntryId: `entry-uuid-0001`,
+   name: `field_${index}`,
+   label: `Field Label ${index}`,
+   description: `Field description ${index}`,
+   type: "TEXT",
+   required: true,
+   order: index,
+   defaultValue: null,
+   options: undefined,
+});
+
+export const dCatalogEntryFields = (count = 3): DCatalogEntryField[] =>
+   range(0, count).map((i) => dCatalogEntryField(i + 1));
+
+export const dCatalogEntry = (index = 1): DCatalogEntry => ({
+   id: `entry-uuid-000${index}`,
+   slug: `catalog-entry-${index}`,
+   title: `Catalog Entry ${index}`,
+   description: `Description for catalog entry ${index}`,
+   recommendedModel: "GPT-4o",
+   content: `Template content with {{field_${index}}} placeholder`,
+   status: "PUBLISHED",
+   category: dCatalogCategory(index),
+   fields: dCatalogEntryFields(3),
+   copyCount: index * 5,
+   publishedAt: new Date("2025-09-27").toISOString(),
+   createdAt: new Date("2025-09-27").toISOString(),
+   updatedAt: new Date("2025-09-27").toISOString(),
+});
+
+export const dCatalogEntrySummary = (index = 1): DCatalogEntrySummary => {
+   const { content: _content, ...rest } = dCatalogEntry(index);
+   return rest;
+};
+
+export const dCatalogEntrySummaries = (count = 3): DCatalogEntrySummary[] =>
+   range(0, count).map((i) => dCatalogEntrySummary(i + 1));
+
+export const dCatalogEntriesPage = (count = 3): DCatalogEntriesPage => {
+   const content = dCatalogEntrySummaries(count);
+   return {
+      content,
+      pageNumber: 0,
+      pageSize: 12,
+      numberOfElements: content.length,
+      totalPages: 1,
+      totalElements: content.length,
+   };
+};
+
+export const dCatalogEntriesPageQuery = (): DCatalogEntriesPageQuery => ({
+   pagination: { pageNumber: 0, pageSize: 12 },
+   sort: "newest",
+   filter: { search: "test", categorySlug: "category-1" },
+});
 
 export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
