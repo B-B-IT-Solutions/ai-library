@@ -65,7 +65,7 @@ export class CatalogService {
 
    async incrementCatalogEntryCopyCount(catalogEntryId: string) {
       try {
-         this.catalogRepository.pIncrementCopyCount(catalogEntryId);
+         await this.catalogRepository.pIncrementCopyCount(catalogEntryId);
       } catch (err) {
          console.error("Failed to increment copy count:", err);
       }

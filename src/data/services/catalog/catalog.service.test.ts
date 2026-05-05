@@ -160,7 +160,7 @@ describe("incrementCatalogEntryCopyCount tests", () => {
 
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
-      expect(console.error).toHaveBeenCalledWith(1);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("success - test", async () => {
