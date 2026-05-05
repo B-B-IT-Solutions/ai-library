@@ -24,8 +24,8 @@ const sGetPublishedEntryBySlug =
    CatalogService.prototype.getPublishedCatalogEntryBySlug;
 const sGetCatalogEntryCategories =
    CatalogService.prototype.getCatalogEntryCategories;
-const sCopyEntryToUserTemplates =
-   CatalogService.prototype.copyEntryToUserTemplates;
+const sCopyCatalogEntryToUserTemplates =
+   CatalogService.prototype.copyCatalogEntryToUserTemplates;
 
 const sGetPublishedEntriesPageMock =
    sGetPublishedEntriesPage as jest.MockedFunction<
@@ -39,9 +39,9 @@ const sGetCatalogEntryCategoriesMock =
    sGetCatalogEntryCategories as jest.MockedFunction<
       typeof sGetCatalogEntryCategories
    >;
-const sCopyEntryToUserTemplatesMock =
-   sCopyEntryToUserTemplates as jest.MockedFunction<
-      typeof sCopyEntryToUserTemplates
+const sCopyCatalogEntryToUserTemplatesMock =
+   sCopyCatalogEntryToUserTemplates as jest.MockedFunction<
+      typeof sCopyCatalogEntryToUserTemplates
    >;
 
 describe("getPublishedCatalogEntriesPage tests", () => {
@@ -197,7 +197,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sCopyEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sCopyCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid CatalogEntry ID.");
    });
@@ -217,7 +217,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCopyEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sCopyCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -227,7 +227,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sCopyEntryToUserTemplatesMock.mockRejectedValue(error);
+      sCopyCatalogEntryToUserTemplatesMock.mockRejectedValue(error);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
@@ -239,8 +239,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sCopyEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sCopyEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
          catalogEntryId,
          user.id
       );
@@ -253,7 +253,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      sCopyEntryToUserTemplatesMock.mockResolvedValue(descriptor);
+      sCopyCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
       const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
@@ -268,8 +268,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
 
-      expect(sCopyEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sCopyEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
          catalogEntryId,
          user.id
       );

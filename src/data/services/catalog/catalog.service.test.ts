@@ -94,7 +94,7 @@ describe("copyEntryToUserLibrary tests", () => {
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(null);
 
       await expect(
-         catalogService.copyEntryToUserTemplates("missing-id", "user-1")
+         catalogService.copyCatalogEntryToUserTemplates("missing-id", "user-1")
       ).rejects.toThrow(
          "CatalogEntry with ID missing-id not found or not published"
       );
@@ -113,7 +113,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
-      const result = await catalogService.copyEntryToUserTemplates(
+      const result = await catalogService.copyCatalogEntryToUserTemplates(
          entry.id,
          "user-1"
       );
@@ -146,7 +146,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
-      await catalogService.copyEntryToUserTemplates(entry.id, "user-1");
+      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
 
       const callArgs =
          templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
@@ -171,7 +171,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
-      await catalogService.copyEntryToUserTemplates(entry.id, "user-1");
+      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
 
       const callArgs =
          templateRepoMock.pCreatePromptTemplateDescriptor.mock.calls[0][1];
@@ -187,7 +187,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue(undefined);
 
-      await catalogService.copyEntryToUserTemplates(entry.id, "user-1");
+      await catalogService.copyCatalogEntryToUserTemplates(entry.id, "user-1");
 
       // fire & forget — may be called async, but mock resolves immediately
       expect(catalogRepoMock.pIncrementCopyCount).toHaveBeenCalledWith(
@@ -209,7 +209,7 @@ describe("copyEntryToUserLibrary tests", () => {
       );
 
       // fire & forget — error is swallowed via .catch(), result is still returned
-      const result = await catalogService.copyEntryToUserTemplates(
+      const result = await catalogService.copyCatalogEntryToUserTemplates(
          entry.id,
          "user-1"
       );
