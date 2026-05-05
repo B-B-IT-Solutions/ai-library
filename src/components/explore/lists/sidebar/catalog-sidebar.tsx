@@ -7,10 +7,7 @@ import { debounce, useQueryState } from "nuqs";
 
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
-import {
-   f_categoriesParam,
-   f_searchParam,
-} from "../../catalog-search-params";
+import { f_categoriesParam, f_searchParam } from "../../catalog-search-params";
 
 type Props = {
    categories: DCatalogEntryCategory[];
@@ -48,7 +45,7 @@ export const CatalogSidebar: FC<Props> = ({ categories, totalElements }) => {
 
    return (
       <aside
-         className="hidden w-56 shrink-0 md:block"
+         className="hidden w-64 shrink-0 md:block"
          data-testid="catalog-sidebar"
       >
          <div className="rounded-xl border bg-white shadow-sm">
@@ -71,7 +68,10 @@ export const CatalogSidebar: FC<Props> = ({ categories, totalElements }) => {
                <p className="px-2 pb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                   Kategorien
                </p>
-               <div className="space-y-0.5" data-testid="explore-category-filter">
+               <div
+                  className="space-y-0.5"
+                  data-testid="explore-category-filter"
+               >
                   <button
                      onClick={() => handleCategoryToggle(null)}
                      className={cn(

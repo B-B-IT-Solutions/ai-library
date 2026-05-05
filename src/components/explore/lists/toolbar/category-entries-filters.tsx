@@ -7,6 +7,7 @@ import { Input } from "@/components/shadcn/input";
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
 import { f_searchParam } from "../../catalog-search-params";
+
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {
