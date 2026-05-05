@@ -15,6 +15,7 @@ import {
    toDCatalogEntry,
    toDCatalogEntrySummary,
 } from "./catalog.mapper";
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class CatalogRepository {
    constructor(private readonly prisma: DbClient) {}
@@ -27,11 +28,11 @@ export class CatalogRepository {
       const pageSize = pagination?.pageSize ?? 12;
       const skip = pageNumber * pageSize;
 
-      const sort = query?.sort ?? "newest";
+      const sort = query?.sort;
       const filter = query?.filter;
 
-      const where = this.resolveWhereInput(filter);
-      const orderBy = this.resolveOrderBy(sort);
+      const where = resolveWhereInput(filter);
+      const orderBy = resolveOrderBy(sort);
 
       const [entries, totalElements] = await Promise.all([
          this.prisma.catalogEntry.findMany({
@@ -101,45 +102,5 @@ export class CatalogRepository {
          where: { id: catalogEntryId },
          data: { copyCount: { increment: 1 } },
       });
-   }
-
-   private resolveWhereInput(filter?: DCatalogEntriesPageQuery["filter"]) {
-      const base = { status: "PUBLISHED" as const };
-
-      if (!filter) {
-         return base;
-      }
-
-      const { search, categories } = filter;
-
-      return {
-         ...base,
-         ...(search
-            ? {
-                 OR: [
-                    {
-                       title: {
-                          contains: search,
-                          mode: "insensitive" as const,
-                       },
-                    },
-                    {
-                       description: {
-                          contains: search,
-                          mode: "insensitive" as const,
-                       },
-                    },
-                 ],
-              }
-            : {}),
-         ...(categories ? { category: { slug: categories[0] } } : {}),
-      };
-   }
-
-   private resolveOrderBy(sort: "newest" | "popular") {
-      if (sort === "popular") {
-         return { copyCount: "desc" as const };
-      }
-      return { publishedAt: "desc" as const };
    }
 }
