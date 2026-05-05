@@ -12,13 +12,17 @@ import {
 
 export const revalidate = 3600;
 
-type ExploreEntryPageProps = {
-   params: Promise<{ slug: string }>;
+export type PageParams = {
+   slug: string;
+};
+
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
 export const generateMetadata = async ({
    params,
-}: ExploreEntryPageProps): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> => {
    const { slug } = await params;
    const entry = await getPublishedCatalogEntryBySlug(slug);
 
@@ -36,7 +40,7 @@ export const generateMetadata = async ({
    };
 };
 
-const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
+const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
    const { slug } = await params;
 
    const [entry, authenticated] = await Promise.all([
@@ -45,7 +49,7 @@ const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
    ]);
 
    if (!entry) {
-      notFound();
+      return notFound();
    }
 
    // Load related entries from the same category (exclude current)
@@ -95,4 +99,4 @@ const ExploreEntryPage = async ({ params }: ExploreEntryPageProps) => {
    );
 };
 
-export default ExploreEntryPage;
+export default ExploreCatalogEntryPage;
