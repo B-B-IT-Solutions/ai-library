@@ -10,7 +10,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DCatalogEntriesFilter } from "@/data/types/domain/catalog";
 
 import { catalogEntrySearchParamsCache } from "./catalog-search-params";
-import { CatalogEntryItems, ExploreFilterBar } from "./lists";
+import { CatalogEntriesFilter, CatalogEntryItems } from "./lists";
 
 export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
@@ -54,7 +54,7 @@ export const CatalogEntriesDashboard = async () => {
                </div>
             </div>
 
-            <ExploreFilterBar categories={categories} totalElements={1} />
+            <CatalogEntriesFilter categories={categories} totalElements={1} />
 
             <div className="flex-1 overflow-y-auto p-6">
                <CatalogEntryItems
