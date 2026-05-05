@@ -1,6 +1,37 @@
 import { Page, Pagination } from "@/data/types/common";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
+export type DCatalogEntriesPage = Page<DCatalogEntrySummary>;
+
+export type DCatalogEntriesFilter = {
+   search?: string;
+   categorySlug?: string;
+};
+
+export type DCatalogEntriesPageQuery = {
+   pagination?: Pagination;
+   sort?: DExploreSortMode;
+   filter?: DCatalogEntriesFilter;
+};
+
+export type DCatalogEntry = {
+   id: string;
+   slug: string;
+   title: string;
+   description: string;
+   recommendedModel: string;
+   content: string;
+   status: DCatalogEntryStatus;
+   category: DCatalogCategory | null;
+   fields: DCatalogEntryField[];
+   copyCount: number;
+   publishedAt: string | null;
+   createdAt: string;
+   updatedAt: string;
+};
+
+export type DCatalogEntrySummary = Omit<DCatalogEntry, "content">;
+
 export type DCatalogEntryStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type DExploreSortMode = "newest" | "popular";
 
@@ -23,35 +54,4 @@ export type DCatalogEntryField = {
    order: number;
    defaultValue: string | null;
    options?: string[];
-};
-
-export type DCatalogEntry = {
-   id: string;
-   slug: string;
-   title: string;
-   description: string;
-   recommendedModel: string;
-   content: string;
-   status: DCatalogEntryStatus;
-   category: DCatalogCategory | null;
-   fields: DCatalogEntryField[];
-   copyCount: number;
-   publishedAt: string | null;
-   createdAt: string;
-   updatedAt: string;
-};
-
-export type DCatalogEntrySummary = Omit<DCatalogEntry, "content">;
-
-export type DCatalogEntriesPage = Page<DCatalogEntrySummary>;
-
-export type DCatalogEntriesFilter = {
-   search?: string;
-   categorySlug?: string;
-};
-
-export type DCatalogEntriesPageQuery = {
-   pagination?: Pagination;
-   sort?: DExploreSortMode;
-   filter?: DCatalogEntriesFilter;
 };
