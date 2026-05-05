@@ -7,5 +7,4 @@ export {
    qParam,
    categoryParam,
    sortParam,
-   pageParam,
 } from "./explore-search-params";

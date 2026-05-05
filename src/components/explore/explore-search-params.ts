@@ -1,6 +1,5 @@
 import {
    createSearchParamsCache,
-   parseAsInteger,
    parseAsString,
    parseAsStringEnum,
 } from "nuqs/server";
@@ -13,13 +12,11 @@ export const sortParam = parseAsStringEnum<DExploreSortMode>([
    "newest",
    "popular",
 ]).withDefault("newest");
-export const pageParam = parseAsInteger.withDefault(0);
 
 export const exploreSearchParams = {
    q: qParam,
    category: categoryParam,
    sort: sortParam,
-   page: pageParam,
 };
 
 export const exploreSearchParamsCache = createSearchParamsCache(

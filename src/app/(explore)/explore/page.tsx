@@ -26,10 +26,9 @@ const ExplorePage = async ({ searchParams }: ExplorePageProps) => {
    const q = exploreSearchParamsCache.get("q");
    const category = exploreSearchParamsCache.get("category");
    const sort = exploreSearchParamsCache.get("sort");
-   const page = exploreSearchParamsCache.get("page");
 
    const query: DCatalogEntriesPageQuery = {
-      pagination: { pageNumber: page, pageSize: 12 },
+      pagination: { pageNumber: 0, pageSize: 12 },
       sort,
       filter: {
          search: q || undefined,

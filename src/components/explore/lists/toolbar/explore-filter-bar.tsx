@@ -17,7 +17,6 @@ import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
 import {
    categoryParam,
-   pageParam,
    qParam,
    sortParam,
 } from "../../explore-search-params";
@@ -40,26 +39,16 @@ export const ExploreFilterBar = ({
       "sort",
       sortParam.withOptions({ shallow: false })
    );
-   const [, setPage] = useQueryState(
-      "page",
-      pageParam.withOptions({ shallow: false })
-   );
-
-   const resetPage = () => setPage(0);
-
    const handleSearchChange = (value: string) => {
       setQ(value);
-      resetPage();
    };
 
    const handleCategoryChange = (slug: string) => {
       setCategory(slug === category ? "" : slug);
-      resetPage();
    };
 
    const handleSortChange = (value: string) => {
       setSort(value as "newest" | "popular");
-      resetPage();
    };
 
    return (
