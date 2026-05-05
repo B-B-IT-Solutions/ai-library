@@ -138,31 +138,39 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
    });
+});
 
-   it("pIncrementCopyCount failure - does not ", async () => {
+describe("incrementCatalogEntryCopyCount tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - test ", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      catalogRepoMock.pIncrementCopyCount.mockRejectedValue(
-         new Error("DB error")
-      );
 
-      // fire & forget — error is swallowed via .catch(), result is still returned
-      const result = await catalogService.copyCatalogEntryToUserTemplates(
-         entry.id,
-         "user-1"
-      );
+      const error = new Error("DB error");
+      catalogRepoMock.pIncrementCopyCount.mockRejectedValue(error);
 
-      // Give the microtask queue a chance to flush the .catch() handler
-      await Promise.resolve();
+      await catalogService.incrementCatalogEntryCopyCount(entry.id);
 
-      expect(result).toEqual(descriptor);
-      expect(console.error).toHaveBeenCalledWith(
-         "Failed to increment copy count:",
-         expect.any(Error)
-      );
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
+      expect(console.error).toHaveBeenCalledWith(1);
+   });
+
+   it("success - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+
+      catalogRepoMock.pIncrementCopyCount.mockResolvedValue();
+
+      await catalogService.incrementCatalogEntryCopyCount(entry.id);
+
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
+      expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);
    });
 });
