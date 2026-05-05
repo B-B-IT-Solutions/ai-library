@@ -1,1 +1,1 @@
-export { CatalogEntriesFilter } from "./category-entries-filters";
+export { CatalogEntriesToolbar } from "./category-entries-filters";

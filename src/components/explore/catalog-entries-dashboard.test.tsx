@@ -54,7 +54,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 
 const assertRendered = () => {
    const dashboard = screen.getByTestId("catalog-entries-dashboard");
-   const filter = screen.getByTestId("catalog-entries-filter");
+   const filter = screen.getByTestId("catalog-entries-toolbar");
    const entries = screen.getByTestId("catalog-entries-grid");
 
    assertInDocument(dashboard);

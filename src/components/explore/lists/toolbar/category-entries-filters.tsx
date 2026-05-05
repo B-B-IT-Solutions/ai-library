@@ -1,37 +1,34 @@
 "use client";
 
-import { isNull } from "es-toolkit";
+import { useMemo } from "react";
 import { filter, includes, isEmpty } from "es-toolkit/compat";
-import { Clock, Search, TrendingUp } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { debounce, useQueryState } from "nuqs";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/shadcn/select";
+import { ListViewToggle } from "@/components/shared/buttons";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
-import { DListSortByMode } from "@/data/types/domain/common";
+import { DListViewMode } from "@/data/types/domain/common";
 import { cn } from "@/lib/utils";
 import {
    f_categoriesParam,
    f_searchParam,
-   sortByParam,
 } from "../../catalog-search-params";
+import { CatalogSortBySelect } from "./sort-by";
 
-type ExploreFilterBarProps = {
+type Props = {
    categories: DCatalogEntryCategory[];
    totalElements: number;
+   viewMode: DListViewMode;
 };
 
-export const CatalogEntriesFilter = ({
+export const CatalogEntriesToolbar = ({
    categories,
    totalElements,
-}: ExploreFilterBarProps) => {
+   viewMode,
+}: Props) => {
    const [q, setQ] = useQueryState(
       "f_search",
       f_searchParam.withOptions({ shallow: false })
@@ -40,109 +37,115 @@ export const CatalogEntriesFilter = ({
       "f_categories",
       f_categoriesParam.withOptions({ shallow: false })
    );
-   const [sort, setSort] = useQueryState(
-      "sortBy",
-      sortByParam.withOptions({ shallow: false })
-   );
-   const handleSearchChange = (value: string) => {
-      setQ(value);
-   };
 
-   const handleCategoryChange = (slug: string | null) => {
-      if (isNull(slug)) {
+   const hasActiveFilters = useMemo(
+      () => !isEmpty(q) || !isEmpty(f_categories),
+      [q, f_categories]
+   );
+
+   const activeFilterCount = useMemo(
+      () => (isEmpty(q) ? 0 : 1) + f_categories.length,
+      [q, f_categories]
+   );
+
+   const handleCategoryToggle = (slug: string | null) => {
+      if (slug === null) {
          setFCategories(null);
       } else {
          const isActive = includes(f_categories, slug);
-         const newCategories = isActive
-            ? filter(f_categories, (id) => id !== slug)
+         const next = isActive
+            ? filter(f_categories, (s) => s !== slug)
             : [...f_categories, slug];
-
-         setFCategories(newCategories, {
-            limitUrlUpdates: debounce(400),
-         });
+         setFCategories(next, { limitUrlUpdates: debounce(400) });
       }
    };
 
-   const handleSortChange = (value: DListSortByMode) => {
-      setSort(value);
-   };
-
-   const cats = () => {
-      return (
-         <div
-            className="flex flex-wrap gap-2"
-            data-testid="explore-category-filter"
-         >
-            <Button
-               variant={isEmpty(f_categories) ? "default" : "outline"}
-               size="sm"
-               onClick={() => handleCategoryChange(null)}
-               className="h-7 rounded-full px-3 text-xs"
-            >
-               Alle ({totalElements})
-            </Button>
-            {categories.map((cat) => (
-               <Button
-                  key={cat.id}
-                  variant={
-                     includes(f_categories, cat.slug) ? "default" : "outline"
-                  }
-                  size="sm"
-                  onClick={() => handleCategoryChange(cat.slug)}
-                  className={cn(
-                     "h-7 rounded-full px-3 text-xs",
-                     includes(f_categories, cat.slug) && "font-semibold"
-                  )}
-                  data-testid={`explore-category-pill-${cat.slug}`}
-               >
-                  {cat.name}
-               </Button>
-            ))}
-         </div>
-      );
+   const handleResetFilters = () => {
+      setQ(null);
+      setFCategories(null);
    };
 
    return (
-      <div className="space-y-4" data-testid="catalog-entries-filter">
-         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* Search */}
-            <div className="relative flex-1">
-               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
-               <Input
-                  data-testid="explore-search-input"
-                  placeholder="Vorlagen durchsuchen…"
-                  value={q || ""}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-9"
-               />
+      <div data-testid="catalog-entries-toolbar">
+         <div className="flex items-center justify-between border-b bg-white px-6 py-3">
+            <div className="flex items-center gap-3">
+               <ListViewToggle currentView={viewMode} />
+               <div className="relative">
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Input
+                     data-testid="explore-search-input"
+                     placeholder="Suchen…"
+                     value={q || ""}
+                     onChange={(e) => setQ(e.target.value || null)}
+                     className="h-8 w-60 pl-9 text-sm"
+                  />
+               </div>
+               {hasActiveFilters && (
+                  <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={handleResetFilters}
+                     className="h-8 gap-1.5 px-2 text-xs text-slate-500 hover:text-slate-900"
+                     data-testid="reset-filters-btn"
+                  >
+                     <X className="h-3.5 w-3.5" />
+                     Zurücksetzen
+                     <Badge
+                        variant="secondary"
+                        className="h-4 px-1.5 text-xs"
+                        data-testid="active-filter-count"
+                     >
+                        {activeFilterCount}
+                     </Badge>
+                  </Button>
+               )}
             </div>
 
-            {/* Sort */}
-            <Select value={sort} onValueChange={handleSortChange}>
-               <SelectTrigger
-                  className="w-full sm:w-44"
-                  data-testid="explore-sort-select"
+            <div className="flex items-center gap-3">
+               <CatalogSortBySelect />
+               <span
+                  className="min-w-[80px] text-right text-sm text-slate-500"
+                  data-testid="entry-count"
                >
-                  <SelectValue />
-               </SelectTrigger>
-               <SelectContent>
-                  <SelectItem value={DListSortByMode.DATE_DESC}>
-                     <span className="flex items-center gap-1.5">
-                        <Clock className="h-3.5 w-3.5" />
-                        Neueste
-                     </span>
-                  </SelectItem>
-                  <SelectItem value={DListSortByMode.TITLE_ASC}>
-                     <span className="flex items-center gap-1.5">
-                        <TrendingUp className="h-3.5 w-3.5" />
-                        Beliebteste
-                     </span>
-                  </SelectItem>
-               </SelectContent>
-            </Select>
+                  {totalElements}{" "}
+                  {totalElements === 1 ? "Vorlage" : "Vorlagen"}
+               </span>
+            </div>
          </div>
 
-         {cats()}
+         {!isEmpty(categories) && (
+            <div
+               className="flex items-center gap-2 overflow-x-auto border-b bg-white px-6 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+               data-testid="explore-category-filter"
+            >
+               <Button
+                  variant={isEmpty(f_categories) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleCategoryToggle(null)}
+                  className="h-7 shrink-0 rounded-full px-3 text-xs"
+               >
+                  Alle ({totalElements})
+               </Button>
+               {categories.map((cat) => {
+                  const isActive = includes(f_categories, cat.slug);
+                  return (
+                     <Button
+                        key={cat.id}
+                        variant={isActive ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleCategoryToggle(cat.slug)}
+                        className={cn(
+                           "h-7 shrink-0 rounded-full px-3 text-xs",
+                           isActive && "font-semibold"
+                        )}
+                        data-testid={`explore-category-pill-${cat.slug}`}
+                     >
+                        {cat.name}
+                     </Button>
+                  );
+               })}
+            </div>
+         )}
       </div>
    );
 };
