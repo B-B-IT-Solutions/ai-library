@@ -126,7 +126,7 @@ export const ExploreFilterBar = ({
                   <SelectValue />
                </SelectTrigger>
                <SelectContent>
-                  <SelectItem value={DListSortByMode.DATE_DESC}>
+                  <SelectItem value={DListSortByMode.DATE_ASC}>
                      <span className="flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
                         Neueste
