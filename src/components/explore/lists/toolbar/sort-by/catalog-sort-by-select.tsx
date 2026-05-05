@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown, Clock } from "lucide-react";
+import { ArrowDownAZ, ArrowUpAZ, Clock, ClockArrowDown } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import {
@@ -14,11 +14,20 @@ import {
 import { DListSortByMode } from "@/data/types/domain/common";
 import { sortByParam } from "../../../catalog-search-params";
 
+const SORT_ICONS: Record<DListSortByMode, FC<{ className?: string }>> = {
+   [DListSortByMode.DATE_DESC]: Clock,
+   [DListSortByMode.DATE_ASC]: ClockArrowDown,
+   [DListSortByMode.TITLE_ASC]: ArrowDownAZ,
+   [DListSortByMode.TITLE_DESC]: ArrowUpAZ,
+};
+
 export const CatalogSortBySelect: FC = () => {
    const [sort, setSort] = useQueryState(
       "sort",
       sortByParam.withOptions({ shallow: false })
    );
+
+   const SortIcon = SORT_ICONS[sort];
 
    return (
       <Select
@@ -29,7 +38,7 @@ export const CatalogSortBySelect: FC = () => {
             className="h-9 w-full sm:h-8 sm:w-[170px]"
             data-testid="catalog-sort-by-select"
          >
-            <ArrowUpDown className="h-4 w-4 sm:hidden" />
+            <SortIcon className="h-4 w-4 sm:hidden" />
             <span className="hidden sm:contents">
                <SelectValue />
             </span>
@@ -49,7 +58,7 @@ export const CatalogSortBySelect: FC = () => {
                data-testid="sort-date-asc"
             >
                <span className="flex items-center gap-2">
-                  <Clock className="h-3.5 w-3.5" />
+                  <ClockArrowDown className="h-3.5 w-3.5" />
                   Älteste zuerst
                </span>
             </SelectItem>
