@@ -129,14 +129,14 @@ export const CatalogEntriesToolbar = ({
                         variant="ghost"
                         size="sm"
                         onClick={handleResetFilters}
-                        className="h-7 shrink-0 gap-1 px-2 text-xs text-slate-500 hover:text-slate-900"
+                        className="h-7 shrink-0 gap-1 px-2 text-xs text-slate-400 hover:text-slate-700"
                         data-testid="reset-filters-btn"
                      >
                         <X className="h-3 w-3" />
                         Filter löschen
                         <Badge
                            variant="secondary"
-                           className="h-4 px-1 text-xs"
+                           className="h-4 px-1.5 text-xs"
                            data-testid="active-filter-count"
                         >
                            {activeFilterCount}
