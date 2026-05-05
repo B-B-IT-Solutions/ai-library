@@ -21,13 +21,13 @@ const SORT_ICONS: Record<DListSortByMode, FC<{ className?: string }>> = {
    [DListSortByMode.TITLE_DESC]: ArrowUpAZ,
 };
 
-export const CatalogSortBySelect: FC = () => {
+export const CatalogSortBySelect = () => {
    const [sort, setSort] = useQueryState(
       "sort",
       sortByParam.withOptions({ shallow: false })
    );
 
-   const SortIcon = SORT_ICONS[sort];
+   const SortIcon = SORT_ICONS[sort ?? DListSortByMode.DATE_DESC];
 
    return (
       <Select
