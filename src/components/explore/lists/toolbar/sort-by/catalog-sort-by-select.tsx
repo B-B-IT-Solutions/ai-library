@@ -26,7 +26,7 @@ export const CatalogSortBySelect: FC = () => {
          onValueChange={(value: DListSortByMode) => setSort(value)}
       >
          <SelectTrigger
-            className="h-8 w-[170px]"
+            className="h-8 w-full sm:w-[170px]"
             data-testid="catalog-sort-by-select"
          >
             <SelectValue />
