@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 import { ExploreFeed, exploreSearchParamsCache } from "@/components/explore";
-import { isAuthenticated } from "@/data/actions/auth-utils";
 import {
    getCatalogEntryCategories,
    getPublishedCatalogEntriesPage,
