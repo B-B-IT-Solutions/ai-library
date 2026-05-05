@@ -17,11 +17,7 @@ import {
 } from "./catalog.mapper";
 
 export class CatalogRepository {
-   private prisma: DbClient;
-
-   constructor(prisma: DbClient) {
-      this.prisma = prisma;
-   }
+   constructor(private readonly prisma: DbClient) {}
 
    async pGetPublishedEntriesPage(
       query?: DCatalogEntriesPageQuery
