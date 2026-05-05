@@ -15,16 +15,10 @@ import {
 } from "@/data/types/domain/prompt.template";
 
 export class CatalogService {
-   private catalogRepository: CatalogRepository;
-   private templateRepository: TemplateRepository;
-
    constructor(
-      catalogRepository: CatalogRepository,
-      templateRepository: TemplateRepository
-   ) {
-      this.catalogRepository = catalogRepository;
-      this.templateRepository = templateRepository;
-   }
+      private catalogRepository: CatalogRepository,
+      private templateRepository: TemplateRepository
+   ) {}
 
    async getPublishedCatalogEntriesPage(
       query?: DCatalogEntriesPageQuery
