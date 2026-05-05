@@ -1,6 +1,6 @@
 import { RepositoryFactory } from "@/data/repositories";
-import { CatalogService } from "@/data/services/catalog";
 import { CartService } from "@/data/services/cart";
+import { CatalogService } from "@/data/services/catalog";
 import {
    CollectionService,
    PublicCollectionService,
@@ -50,16 +50,6 @@ export class ServiceFactory {
       this.repositories = new RepositoryFactory(prisma);
    }
 
-   getCatalogService(): CatalogService {
-      if (!this.catalogService) {
-         this.catalogService = new CatalogService(
-            this.repositories.catalogRepository(),
-            this.repositories.templateRepository()
-         );
-      }
-      return this.catalogService;
-   }
-
    getUserService(): UserService {
       if (!this.userService) {
          this.userService = new UserService(
@@ -81,6 +71,16 @@ export class ServiceFactory {
          );
       }
       return this.verificationTokenService;
+   }
+
+   getCatalogService(): CatalogService {
+      if (!this.catalogService) {
+         this.catalogService = new CatalogService(
+            this.repositories.catalogRepository(),
+            this.getTemplateService()
+         );
+      }
+      return this.catalogService;
    }
 
    getCartService(): CartService {
