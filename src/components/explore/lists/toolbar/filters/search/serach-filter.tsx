@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import { Input } from "@/components/shadcn/input";
-import { f_searchParam } from "../../../catalog-search-params";
+import { f_searchParam } from "../../../../catalog-search-params";
 
 export const SearchFilter = () => {
    const [search, setSearch] = useQueryState(

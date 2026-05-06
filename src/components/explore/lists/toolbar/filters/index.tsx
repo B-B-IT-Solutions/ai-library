@@ -1,1 +1,1 @@
-export { SearchFilter } from "./serach-filter";
+export { SearchFilter } from "./search/serach-filter";
