@@ -18,6 +18,11 @@ const getPublishedCatalogEntriesPageMock =
       typeof getPublishedCatalogEntriesPage
    >;
 
+const assertEmptyRendered = () => {
+   const empty = screen.getByTestId("catalog-entries-empty");
+   assertInDocument(empty);
+};
+
 const assertGridRendered = () => {
    const entries = screen.getByTestId("catalog-entries-grid");
    assertInDocument(entries);
@@ -38,16 +43,46 @@ const assertGetLibraryEntriesPageCalled = (
 };
 
 describe("CatalogEntryItems rendering tests", () => {
-   beforeAll(() => {
-      const page = dtestData.dCatalogEntriesPage();
-      getPublishedCatalogEntriesPageMock.mockResolvedValue(page);
-   });
-
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("CatalogEntryItems - view grid - test", async () => {
+   it("entries empty - test", async () => {
+      const page = dtestData.dCatalogEntriesPage(0);
+      getPublishedCatalogEntriesPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dCatalogEntriesFilter();
+
+      const { container } = renderWithRouter(
+         <CatalogEntryItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={filters}
+         />
+      );
+
+      const expectedPayload: DCatalogEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "createdAt", order: "desc" },
+      };
+
+      await waitFor(() => {
+         assertEmptyRendered();
+         assertGetLibraryEntriesPageCalled(expectedPayload);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("view grid - test", async () => {
+      const page = dtestData.dCatalogEntriesPage();
+      getPublishedCatalogEntriesPageMock.mockResolvedValue(page);
+
       const filters = dtestData.dCatalogEntriesFilter();
 
       const { container } = renderWithRouter(
@@ -76,7 +111,10 @@ describe("CatalogEntryItems rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CatalogEntryItems - view list - test", async () => {
+   it("view list - test", async () => {
+      const page = dtestData.dCatalogEntriesPage();
+      getPublishedCatalogEntriesPageMock.mockResolvedValue(page);
+
       const filters = dtestData.dCatalogEntriesFilter();
 
       const { container } = renderWithRouter(
