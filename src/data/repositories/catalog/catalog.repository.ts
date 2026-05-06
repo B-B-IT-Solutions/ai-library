@@ -12,6 +12,7 @@ import {
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
+   CatalogCategoryFindManyArgs,
    CatalogEntryCountArgs,
    CatalogEntryFindFirstArgs,
    CatalogEntryFindManyArgs,
@@ -19,6 +20,7 @@ import {
 } from "@/generated/prisma/models";
 
 import {
+   toDCatalogCategories,
    toDCatalogCategory,
    toDCatalogEntries,
    toDCatalogEntryWithContent,
@@ -127,10 +129,13 @@ export class CatalogRepository {
    }
 
    async pGetCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {
-      const categories = await this.prisma.catalogCategory.findMany({
+      const args = {
          orderBy: { order: "asc" },
-      });
-      return map(categories, (c) => toDCatalogCategory(c));
+      } satisfies CatalogCategoryFindManyArgs;
+
+      const categories = await this.prisma.catalogCategory.findMany(args);
+
+      return toDCatalogCategories(categories);
    }
 
    async pIncrementCopyCount(catalogEntryId: string): Promise<void> {

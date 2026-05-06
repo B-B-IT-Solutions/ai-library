@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { DCatalogEntriesPage } from "@/data/types/domain/catalog";
 import {
+   CatalogCategoryFindManyArgs,
    CatalogEntryCountArgs,
    CatalogEntryFindFirstArgs,
    CatalogEntryFindManyArgs,
@@ -12,7 +13,7 @@ import {
 } from "@/generated/prisma/models";
 
 import {
-   toDCatalogCategory,
+   toDCatalogCategories,
    toDCatalogEntries,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
@@ -24,7 +25,7 @@ const catalogRepository = new CatalogRepository(prismaMock);
 
 describe("pGetPublishedEntriesPage tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("no query - test", async () => {
@@ -123,7 +124,7 @@ describe("pGetPublishedEntriesPage tests", () => {
 
 describe("pGetPublishedEntryById tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("entry null - test", async () => {
@@ -184,7 +185,7 @@ describe("pGetPublishedEntryById tests", () => {
 
 describe("pGetPublishedEntryBySlug tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("entry null - test", async () => {
@@ -247,26 +248,32 @@ describe("pGetPublishedEntryBySlug tests", () => {
 
 describe("pGetCategories tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("categories retrieved - test", async () => {
       const categories = ptestData.pCatalogCategories(3);
-      prismaMock.catalogCategory.findMany.mockResolvedValue(categories as any);
+      prismaMock.catalogCategory.findMany.mockResolvedValue(categories);
 
       const result = await catalogRepository.pGetCatalogEntryCategories();
 
-      expect(result).toHaveLength(3);
-      expect(result[0]).toEqual(toDCatalogCategory(categories[0]));
-      expect(prismaMock.catalogCategory.findMany).toHaveBeenCalledWith({
+      const expectedResult = toDCatalogCategories(categories);
+
+      const expectedArgs: CatalogCategoryFindManyArgs = {
          orderBy: { order: "asc" },
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.catalogCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.catalogCategory.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
    });
 });
 
 describe("pIncrementCopyCount tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    it("count incremented - test", async () => {

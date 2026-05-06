@@ -43,7 +43,7 @@ export const toDCatalogEntry = (
       description: entry.description,
       recommendedModel: entry.recommendedModel,
       status: entry.status,
-      category: toDCatalogCategory(entry.category),
+      category: entry.category ? toDCatalogCategory(entry.category) : null,
       fields: map(entry.fields, toDCatalogEntryField).sort(
          (a, b) => a.order - b.order
       ),
@@ -54,19 +54,22 @@ export const toDCatalogEntry = (
    };
 };
 
+export const toDCatalogCategories = (
+   cats: CatalogCategory[]
+): DCatalogEntryCategory[] => {
+   return map(cats, (c) => toDCatalogCategory(c));
+};
+
 export const toDCatalogCategory = (
-   cat: CatalogCategory | null
-): DCatalogEntryCategory | null => {
-   if (cat) {
-      return {
-         id: cat.id,
-         name: cat.name,
-         slug: cat.slug,
-         description: cat.description,
-         order: cat.order,
-      };
-   }
-   return null;
+   cat: CatalogCategory
+): DCatalogEntryCategory => {
+   return {
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description,
+      order: cat.order,
+   };
 };
 
 export const toDCatalogEntryField = (

@@ -14,6 +14,7 @@ import {
 import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
 
 import {
+   toDCatalogCategories,
    toDCatalogCategory,
    toDCatalogEntries,
    toDCatalogEntriesWithContent,
@@ -53,7 +54,7 @@ export const toDCatalogEntryInternal = (
       description: entry.description,
       recommendedModel: entry.recommendedModel,
       status: entry.status,
-      category: toDCatalogCategoryInternal(entry.category),
+      category: entry.category ? toDCatalogCategory(entry.category) : null,
       fields: map(entry.fields, toDCatalogEntryFieldInternal).sort(
          (a, b) => a.order - b.order
       ),
@@ -64,19 +65,22 @@ export const toDCatalogEntryInternal = (
    };
 };
 
+export const toDCatalogCategoriesInternal = (
+   cats: CatalogCategory[]
+): DCatalogEntryCategory[] => {
+   return map(cats, (c) => toDCatalogCategoryInternal(c));
+};
+
 const toDCatalogCategoryInternal = (
-   cat: CatalogCategory | null
-): DCatalogEntryCategory | null => {
-   if (cat) {
-      return {
-         id: cat.id,
-         name: cat.name,
-         slug: cat.slug,
-         description: cat.description,
-         order: cat.order,
-      };
-   }
-   return null;
+   cat: CatalogCategory
+): DCatalogEntryCategory => {
+   return {
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description,
+      order: cat.order,
+   };
 };
 
 const toDCatalogEntryFieldInternal = (
@@ -122,21 +126,30 @@ describe("toDCatalogEntries tests", () => {
    });
 
    it("toDCatalogEntry test", async () => {
-      const entry = ptestData.pCatalogEntryWithRelations();
-      const result = toDCatalogEntry(entry);
-      const expectedResult = toDCatalogEntryInternal(entry);
+      const entry1 = ptestData.pCatalogEntryWithRelations();
+      const result1 = toDCatalogEntry(entry1);
+      const expectedResult1 = toDCatalogEntryInternal(entry1);
+      expect(result1).toEqual(expectedResult1);
+
+      const entry2 = ptestData.pCatalogEntryWithRelations();
+      entry2.category = null;
+      const result2 = toDCatalogEntry(entry2);
+      const expectedResult2 = toDCatalogEntryInternal(entry2);
+      expect(result2).toEqual(expectedResult2);
+   });
+
+   it("toDCatalogCategories test", async () => {
+      const categories = ptestData.pCatalogCategories();
+      const result = toDCatalogCategories(categories);
+      const expectedResult = toDCatalogCategoriesInternal(categories);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDCatalogCategory test", async () => {
       const category = ptestData.pCatalogCategory();
-      const result1 = toDCatalogCategory(category);
-      const expectedResult1 = toDCatalogCategoryInternal(category);
-      expect(result1).toEqual(expectedResult1);
-
-      const result2 = toDCatalogCategory(null);
-      const expectedResult2 = toDCatalogCategoryInternal(null);
-      expect(result2).toEqual(expectedResult2);
+      const result = toDCatalogCategory(category);
+      const expectedResult = toDCatalogCategoryInternal(category);
+      expect(result).toEqual(expectedResult);
    });
 
    it("toDCatalogEntryField test", async () => {
