@@ -1,8 +1,10 @@
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
-import { fi } from "zod/v4/locales";
 
-import { DCatalogEntry, DCatalogEntryField } from "@/data/types/domain/catalog";
+import {
+   DCatalogEntryField,
+   DCatalogEntryWithContent,
+} from "@/data/types/domain/catalog";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
@@ -15,7 +17,7 @@ import {
 } from "./catalog.mapper";
 
 const toPromptTemplateUpdateInternal = (
-   entry: DCatalogEntry
+   entry: DCatalogEntryWithContent
 ): DPromptTemplateUpdate => {
    const fields = toPromptTemplateFieldUpdatesInternal(entry.fields);
 
@@ -57,14 +59,14 @@ describe("toPromptTemplateUpdate tests", () => {
    });
 
    it("toPromptTemplateUpdate test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       const result = toPromptTemplateUpdate(entry);
       const expectedResult = toPromptTemplateUpdateInternal(entry);
       expect(result).toEqual(expectedResult);
    });
 
    it("toPromptTemplateUpdate - category null - test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       entry.category = null;
 
       const result = toPromptTemplateUpdate(entry);

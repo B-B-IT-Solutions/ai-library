@@ -1,13 +1,16 @@
 import { map } from "es-toolkit/compat";
 
-import { DCatalogEntry, DCatalogEntryField } from "@/data/types/domain/catalog";
+import {
+   DCatalogEntryField,
+   DCatalogEntryWithContent,
+} from "@/data/types/domain/catalog";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
 export const toPromptTemplateUpdate = (
-   entry: DCatalogEntry
+   entry: DCatalogEntryWithContent
 ): DPromptTemplateUpdate => {
    const fields = toPromptTemplateFieldUpdates(entry.fields);
 

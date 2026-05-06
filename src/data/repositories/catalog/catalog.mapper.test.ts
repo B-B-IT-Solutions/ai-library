@@ -54,7 +54,9 @@ export const toDCatalogEntryInternal = (
       description: entry.description,
       recommendedModel: entry.recommendedModel,
       status: entry.status,
-      category: entry.category ? toDCatalogCategory(entry.category) : null,
+      category: entry.category
+         ? toDCatalogCategoryInternal(entry.category)
+         : null,
       fields: map(entry.fields, toDCatalogEntryFieldInternal).sort(
          (a, b) => a.order - b.order
       ),
