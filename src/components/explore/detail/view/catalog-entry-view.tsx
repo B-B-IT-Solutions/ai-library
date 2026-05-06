@@ -38,16 +38,64 @@ export const CatalogEntryView = ({
    isAuthenticated,
    relatedEntries = [],
 }: Props) => {
-   const { title, description, category, recommendedModel, copyCount } = entry;
+   const header = () => {
+      const { title, description, category, recommendedModel, copyCount } =
+         entry;
+      return (
+         <div className="space-y-4">
+            <div className="flex flex-wrap gap-2">
+               {category && (
+                  <Badge
+                     variant="secondary"
+                     className="flex items-center gap-1"
+                  >
+                     <Tag className="h-3 w-3" />
+                     {category.name}
+                  </Badge>
+               )}
+               <Badge variant="outline" className="flex items-center gap-1">
+                  <Cpu className="h-3 w-3" />
+                  {recommendedModel}
+               </Badge>
+               {copyCount > 0 && (
+                  <Badge
+                     variant="outline"
+                     className="flex items-center gap-1 text-slate-500"
+                  >
+                     <Copy className="h-3 w-3" />
+                     {copyCount}× übernommen
+                  </Badge>
+               )}
+            </div>
+
+            <div>
+               <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                  {title}
+               </h1>
+               <p className="mt-2 text-base text-slate-600">{description}</p>
+            </div>
+
+            {/* CTA */}
+            <div className="flex flex-wrap gap-3">
+               <ExploreCopyButton
+                  catalogEntryId={entry.id}
+                  slug={entry.slug}
+                  isAuthenticated={isAuthenticated}
+               />
+            </div>
+         </div>
+      );
+   };
 
    const fields = () => {
-      if (!isEmpty(entry.fields)) {
+      const { fields } = entry;
+      if (!isEmpty(fields)) {
          return (
             <div className="space-y-4">
                <div className="flex items-center gap-2">
                   <LayoutList className="h-5 w-5 text-slate-400" />
                   <h2 className="text-lg font-semibold text-slate-900">
-                     Formularfelder ({entry.fields.length})
+                     Formularfelder ({fields.length})
                   </h2>
                </div>
                <p className="text-sm text-slate-500">
@@ -56,7 +104,7 @@ export const CatalogEntryView = ({
                </p>
 
                <div className="space-y-3">
-                  {entry.fields.map((field) => (
+                  {fields.map((field) => (
                      <Card
                         key={field.id}
                         className="border-slate-200"
@@ -106,61 +154,9 @@ export const CatalogEntryView = ({
       }
    };
 
-   return (
-      <div
-         className="mx-auto max-w-3xl space-y-8"
-         data-testid="explore-entry-detail"
-      >
-         {/* Header */}
-         <div className="space-y-4">
-            <div className="flex flex-wrap gap-2">
-               {category && (
-                  <Badge
-                     variant="secondary"
-                     className="flex items-center gap-1"
-                  >
-                     <Tag className="h-3 w-3" />
-                     {category.name}
-                  </Badge>
-               )}
-               <Badge variant="outline" className="flex items-center gap-1">
-                  <Cpu className="h-3 w-3" />
-                  {recommendedModel}
-               </Badge>
-               {copyCount > 0 && (
-                  <Badge
-                     variant="outline"
-                     className="flex items-center gap-1 text-slate-500"
-                  >
-                     <Copy className="h-3 w-3" />
-                     {copyCount}× übernommen
-                  </Badge>
-               )}
-            </div>
-
-            <div>
-               <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                  {title}
-               </h1>
-               <p className="mt-2 text-base text-slate-600">{description}</p>
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-wrap gap-3">
-               <ExploreCopyButton
-                  catalogEntryId={entry.id}
-                  slug={entry.slug}
-                  isAuthenticated={isAuthenticated}
-               />
-            </div>
-         </div>
-
-         <Separator />
-
-         {fields()}
-
-         {/* Related entries */}
-         {relatedEntries.length > 0 && (
+   const relatedPrompts = () => {
+      if (!isEmpty(relatedEntries)) {
+         return (
             <>
                <Separator />
                <div className="space-y-4">
@@ -186,9 +182,12 @@ export const CatalogEntryView = ({
                   </div>
                </div>
             </>
-         )}
+         );
+      }
+   };
 
-         {/* Copy CTA bottom */}
+   const cta = () => {
+      return (
          <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
             <div className="flex justify-center">
                <Info className="h-5 w-5 text-slate-400" />
@@ -207,6 +206,23 @@ export const CatalogEntryView = ({
                />
             </div>
          </div>
+      );
+   };
+
+   return (
+      <div
+         className="mx-auto max-w-3xl space-y-8"
+         data-testid="catalog-entry-view"
+      >
+         {header()}
+
+         <Separator />
+
+         {fields()}
+
+         {relatedPrompts()}
+
+         {cta()}
       </div>
    );
 };
