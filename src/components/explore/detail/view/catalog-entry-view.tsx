@@ -1,3 +1,4 @@
+import { isEmpty } from "es-toolkit/compat";
 import { Copy, Cpu, Info, LayoutList, Tag } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -26,7 +27,7 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
    EMAIL: "E-Mail",
 };
 
-type ExploreEntryDetailProps = {
+type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
    relatedEntries?: DCatalogEntrySummary[];
@@ -36,9 +37,74 @@ export const CatalogEntryView = ({
    entry,
    isAuthenticated,
    relatedEntries = [],
-}: ExploreEntryDetailProps) => {
-   const { title, description, category, recommendedModel, fields, copyCount } =
-      entry;
+}: Props) => {
+   const { title, description, category, recommendedModel, copyCount } = entry;
+
+   const fields = () => {
+      if (!isEmpty(entry.fields)) {
+         return (
+            <div className="space-y-4">
+               <div className="flex items-center gap-2">
+                  <LayoutList className="h-5 w-5 text-slate-400" />
+                  <h2 className="text-lg font-semibold text-slate-900">
+                     Formularfelder ({entry.fields.length})
+                  </h2>
+               </div>
+               <p className="text-sm text-slate-500">
+                  Diese Vorlage hat strukturierte Felder, die du nach dem
+                  Übernehmen befüllen kannst.
+               </p>
+
+               <div className="space-y-3">
+                  {entry.fields.map((field) => (
+                     <Card
+                        key={field.id}
+                        className="border-slate-200"
+                        data-testid={`explore-field-preview-${field.name}`}
+                     >
+                        <CardHeader className="pb-2">
+                           <div className="flex items-start justify-between gap-2">
+                              <CardTitle className="text-sm font-semibold text-slate-800">
+                                 {field.label}
+                                 {field.required && (
+                                    <span className="ml-1 text-red-500">*</span>
+                                 )}
+                              </CardTitle>
+                              <Badge
+                                 variant="outline"
+                                 className="shrink-0 text-xs font-normal"
+                              >
+                                 {FIELD_TYPE_LABELS[field.type] ?? field.type}
+                              </Badge>
+                           </div>
+                           {field.description && (
+                              <CardDescription className="text-xs">
+                                 {field.description}
+                              </CardDescription>
+                           )}
+                        </CardHeader>
+                        {field.options && field.options.length > 0 && (
+                           <CardContent className="pt-0">
+                              <div className="flex flex-wrap gap-1.5">
+                                 {field.options.map((opt) => (
+                                    <Badge
+                                       key={opt}
+                                       variant="secondary"
+                                       className="text-xs font-normal"
+                                    >
+                                       {opt}
+                                    </Badge>
+                                 ))}
+                              </div>
+                           </CardContent>
+                        )}
+                     </Card>
+                  ))}
+               </div>
+            </div>
+         );
+      }
+   };
 
    return (
       <div
@@ -91,68 +157,7 @@ export const CatalogEntryView = ({
 
          <Separator />
 
-         {/* Fields Preview */}
-         {fields.length > 0 && (
-            <div className="space-y-4">
-               <div className="flex items-center gap-2">
-                  <LayoutList className="h-5 w-5 text-slate-400" />
-                  <h2 className="text-lg font-semibold text-slate-900">
-                     Formularfelder ({fields.length})
-                  </h2>
-               </div>
-               <p className="text-sm text-slate-500">
-                  Diese Vorlage hat strukturierte Felder, die du nach dem
-                  Übernehmen befüllen kannst.
-               </p>
-
-               <div className="space-y-3">
-                  {fields.map((field) => (
-                     <Card
-                        key={field.id}
-                        className="border-slate-200"
-                        data-testid={`explore-field-preview-${field.name}`}
-                     >
-                        <CardHeader className="pb-2">
-                           <div className="flex items-start justify-between gap-2">
-                              <CardTitle className="text-sm font-semibold text-slate-800">
-                                 {field.label}
-                                 {field.required && (
-                                    <span className="ml-1 text-red-500">*</span>
-                                 )}
-                              </CardTitle>
-                              <Badge
-                                 variant="outline"
-                                 className="shrink-0 text-xs font-normal"
-                              >
-                                 {FIELD_TYPE_LABELS[field.type] ?? field.type}
-                              </Badge>
-                           </div>
-                           {field.description && (
-                              <CardDescription className="text-xs">
-                                 {field.description}
-                              </CardDescription>
-                           )}
-                        </CardHeader>
-                        {field.options && field.options.length > 0 && (
-                           <CardContent className="pt-0">
-                              <div className="flex flex-wrap gap-1.5">
-                                 {field.options.map((opt) => (
-                                    <Badge
-                                       key={opt}
-                                       variant="secondary"
-                                       className="text-xs font-normal"
-                                    >
-                                       {opt}
-                                    </Badge>
-                                 ))}
-                              </div>
-                           </CardContent>
-                        )}
-                     </Card>
-                  ))}
-               </div>
-            </div>
-         )}
+         {fields()}
 
          {/* Related entries */}
          {relatedEntries.length > 0 && (
