@@ -515,17 +515,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                   data-testid="home-link"
                   href="/"
                 >
-                  <img
-                    alt="Vision Notes logo"
-                    class="shrink-0"
-                    data-nimg="1"
-                    decoding="async"
-                    height="32"
-                    loading="lazy"
-                    src="/images/logo.svg"
-                    style="color: transparent;"
-                    width="32"
-                  />
                   <span
                     class="truncate text-lg font-bold"
                   >
@@ -1002,17 +991,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                   data-testid="home-link"
                   href="/"
                 >
-                  <img
-                    alt="Vision Notes logo"
-                    class="shrink-0"
-                    data-nimg="1"
-                    decoding="async"
-                    height="32"
-                    loading="lazy"
-                    src="/images/logo.svg"
-                    style="color: transparent;"
-                    width="32"
-                  />
                   <span
                     class="truncate text-lg font-bold"
                   >
