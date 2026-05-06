@@ -9,8 +9,11 @@ import {
    CardTitle,
 } from "@/components/shadcn/card";
 import { Separator } from "@/components/shadcn/separator";
-import { DCatalogEntry } from "@/data/types/domain/catalog";
-import { ExploreCopyButton } from "../buttons/explore-copy-button";
+import {
+   DCatalogEntry,
+   DCatalogEntrySummary,
+} from "@/data/types/domain/catalog";
+import { ExploreCopyButton } from "../../buttons/explore-copy-button";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
    TEXT: "Text",
@@ -26,15 +29,10 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
 type ExploreEntryDetailProps = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
-   relatedEntries?: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      description: string;
-   }>;
+   relatedEntries?: DCatalogEntrySummary[];
 };
 
-export const ExploreEntryDetail = ({
+export const CatalogEntryView = ({
    entry,
    isAuthenticated,
    relatedEntries = [],

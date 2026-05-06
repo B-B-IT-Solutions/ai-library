@@ -1,1 +1,1 @@
-export { ExploreEntryDetail } from "./explore-entry-detail";
+export { CatalogEntryView } from "./view/catalog-entry-view";
