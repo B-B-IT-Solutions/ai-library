@@ -716,7 +716,7 @@ export const dCatalogEntryWithContent = (
 ): DCatalogEntryWithContent => {
    return {
       ...dCatalogEntry(index),
-      content: `content ${index}`,
+      content: `Template content with {{field_${index}}} placeholder`,
    };
 };
 
