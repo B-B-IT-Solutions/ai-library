@@ -35,7 +35,7 @@ describe("ExploreCopyButton - unauthenticated - rendering tests", () => {
       );
 
       await waitFor(() => {
-         const btn = screen.getByTestId("explore-copy-btn-register");
+         const btn = screen.getByTestId("catalog-entry-copy-btn");
          assertInDocument(btn);
          expect(btn).toHaveAttribute(
             "href",
@@ -92,7 +92,7 @@ describe("ExploreCopyButton - authenticated - rendering tests", () => {
 
       await waitFor(() => {
          expect(
-            screen.queryByTestId("explore-copy-btn-register")
+            screen.queryByTestId("catalog-entry-copy-btn")
          ).not.toBeInTheDocument();
       });
    });

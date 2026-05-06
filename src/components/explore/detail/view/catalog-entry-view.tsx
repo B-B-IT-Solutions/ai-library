@@ -30,19 +30,19 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
 type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
-   relatedEntries?: DCatalogEntrySummary[];
+   relatedEntries: DCatalogEntrySummary[];
 };
 
 export const CatalogEntryView = ({
    entry,
    isAuthenticated,
-   relatedEntries = [],
+   relatedEntries,
 }: Props) => {
    const header = () => {
       const { title, description, category, recommendedModel, copyCount } =
          entry;
       return (
-         <div className="space-y-4">
+         <div className="space-y-4" data-testid="header">
             <div className="flex flex-wrap gap-2">
                {category && (
                   <Badge
@@ -91,7 +91,7 @@ export const CatalogEntryView = ({
       const { fields } = entry;
       if (!isEmpty(fields)) {
          return (
-            <div className="space-y-4">
+            <div className="space-y-4" data-testid="fields">
                <div className="flex items-center gap-2">
                   <LayoutList className="h-5 w-5 text-slate-400" />
                   <h2 className="text-lg font-semibold text-slate-900">
@@ -108,7 +108,7 @@ export const CatalogEntryView = ({
                      <Card
                         key={field.id}
                         className="border-slate-200"
-                        data-testid={`explore-field-preview-${field.name}`}
+                        data-testid="field"
                      >
                         <CardHeader className="pb-2">
                            <div className="flex items-start justify-between gap-2">
@@ -159,7 +159,7 @@ export const CatalogEntryView = ({
          return (
             <>
                <Separator />
-               <div className="space-y-4">
+               <div className="space-y-4" data-testid="related-entries">
                   <h2 className="text-lg font-semibold text-slate-900">
                      Mehr aus dieser Kategorie
                   </h2>
@@ -169,7 +169,7 @@ export const CatalogEntryView = ({
                            key={related.id}
                            href={`/explore/${related.slug}`}
                            className="group rounded-lg border border-slate-200 p-4 transition-colors hover:border-slate-300 hover:bg-slate-50"
-                           data-testid="explore-related-entry"
+                           data-testid="related-entry"
                         >
                            <h3 className="font-medium text-slate-900 group-hover:text-slate-700">
                               {related.title}
@@ -188,7 +188,10 @@ export const CatalogEntryView = ({
 
    const cta = () => {
       return (
-         <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
+         <div
+            className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center"
+            data-testid="cta"
+         >
             <div className="flex justify-center">
                <Info className="h-5 w-5 text-slate-400" />
             </div>

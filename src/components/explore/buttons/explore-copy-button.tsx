@@ -30,7 +30,7 @@ export const ExploreCopyButton = ({
             variant="outline"
             size="lg"
             className="w-full sm:w-auto"
-            data-testid="explore-copy-btn-register"
+            data-testid="catalog-entry-register-btn"
          >
             <Link
                href={`/auth/sign-up?redirect=/explore/${slug}`}
@@ -69,7 +69,7 @@ export const ExploreCopyButton = ({
          disabled={isPending}
          size="lg"
          className="w-full sm:w-auto"
-         data-testid="explore-copy-btn"
+         data-testid="catalog-entry-copy-btn"
       >
          {isPending ? (
             <>
