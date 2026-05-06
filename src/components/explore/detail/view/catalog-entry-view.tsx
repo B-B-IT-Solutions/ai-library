@@ -1,4 +1,4 @@
-import { isEmpty } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Copy, Cpu, Info, LayoutList, Tag } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -14,9 +14,10 @@ import {
    DCatalogEntry,
    DCatalogEntrySummary,
 } from "@/data/types/domain/catalog";
+import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { ExploreCopyButton } from "../../buttons/explore-copy-button";
 
-const FIELD_TYPE_LABELS: Record<string, string> = {
+const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
    TEXT: "Text",
    TEXTAREA: "Mehrzeiliger Text",
    SELECT: "Auswahl",
@@ -122,7 +123,7 @@ export const CatalogEntryView = ({
                                  variant="outline"
                                  className="shrink-0 text-xs font-normal"
                               >
-                                 {FIELD_TYPE_LABELS[field.type] ?? field.type}
+                                 {FIELD_TYPE_LABELS[field.type]}
                               </Badge>
                            </div>
                            {field.description && (
@@ -131,10 +132,10 @@ export const CatalogEntryView = ({
                               </CardDescription>
                            )}
                         </CardHeader>
-                        {field.options && field.options.length > 0 && (
+                        {!isEmpty(field.options) && (
                            <CardContent className="pt-0">
                               <div className="flex flex-wrap gap-1.5">
-                                 {field.options.map((opt) => (
+                                 {map(field.options, (opt) => (
                                     <Badge
                                        key={opt}
                                        variant="secondary"
@@ -164,7 +165,7 @@ export const CatalogEntryView = ({
                      Mehr aus dieser Kategorie
                   </h2>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                     {relatedEntries.map((related) => (
+                     {map(relatedEntries, (related) => (
                         <a
                            key={related.id}
                            href={`/explore/${related.slug}`}
