@@ -16,7 +16,12 @@ export const ExploreLayout = async ({ children }: Props) => {
    const headerBtns = () => {
       if (authenticated) {
          return (
-            <Button asChild size="sm" variant="outline">
+            <Button
+               asChild
+               size="sm"
+               variant="outline"
+               data-testid="templates-link"
+            >
                <Link href="/">Zur Library</Link>
             </Button>
          );
@@ -24,10 +29,14 @@ export const ExploreLayout = async ({ children }: Props) => {
       return (
          <>
             <Button asChild size="sm" variant="ghost">
-               <Link href="/auth/sign-in">Anmelden</Link>
+               <Link href="/auth/sign-in" data-testid="sign-in-link">
+                  Anmelden
+               </Link>
             </Button>
             <Button asChild size="sm">
-               <Link href="/auth/sign-up">Kostenlos starten</Link>
+               <Link href="/auth/sign-up" data-testid="sign-up-link">
+                  Kostenlos starten
+               </Link>
             </Button>
          </>
       );
@@ -50,22 +59,7 @@ export const ExploreLayout = async ({ children }: Props) => {
                   Entdecken
                </Link>
 
-               <div className="flex items-center gap-2">
-                  {authenticated ? (
-                     <Button asChild size="sm" variant="outline">
-                        <Link href="/">Zur Library</Link>
-                     </Button>
-                  ) : (
-                     <>
-                        <Button asChild size="sm" variant="ghost">
-                           <Link href="/auth/sign-in">Anmelden</Link>
-                        </Button>
-                        <Button asChild size="sm">
-                           <Link href="/auth/sign-up">Kostenlos starten</Link>
-                        </Button>
-                     </>
-                  )}
-               </div>
+               <div className="flex items-center gap-2">{headerBtns()}</div>
             </div>
          </header>
 

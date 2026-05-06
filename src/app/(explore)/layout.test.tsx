@@ -1,7 +1,6 @@
 jest.mock("@/data/actions/auth-utils");
 
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 
 import { isAuthenticated } from "@/data/actions/auth-utils";
@@ -20,6 +19,19 @@ const assertRendered = () => {
    assertInDocument(test1);
 };
 
+const assertTemplatesLinkRendered = () => {
+   const link = screen.getByTestId("templates-link");
+   assertInDocument(link);
+};
+
+const assertLoginLinksRendered = () => {
+   const signInLink = screen.getByTestId("sign-in-link");
+   const signUpLink = screen.getByTestId("sign-up-link");
+
+   assertInDocument(signInLink);
+   assertInDocument(signUpLink);
+};
+
 describe("ExploreLayout rendering tests", () => {
    it("authenticate true - test", async () => {
       isAuthenticatedMock.mockResolvedValue(true);
@@ -30,6 +42,7 @@ describe("ExploreLayout rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertTemplatesLinkRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -44,6 +57,7 @@ describe("ExploreLayout rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertLoginLinksRendered();
       });
 
       expect(container).toMatchSnapshot();
