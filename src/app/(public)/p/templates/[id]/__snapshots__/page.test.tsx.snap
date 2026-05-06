@@ -39,9 +39,9 @@ exports[`PublicTemplatePage rendering tests descriptor retrieved - template retr
                     class="transition-colors hover:text-foreground"
                     data-slot="breadcrumb-link"
                     data-testid="root-link"
-                    href="/p/marketplace"
+                    href="/p/collections/token-1"
                   >
-                    Bibliothek
+                    name 1
                   </a>
                 </li>
                 <li
