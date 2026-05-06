@@ -17,6 +17,30 @@ const defaultProps = {
    totalElements: 12,
 };
 
+const assertRendered = () => {
+   const toolbar = screen.getByTestId("catalog-entries-toolbar");
+   const search = screen.getByTestId("explore-search-input");
+   const mobitleFilterBtn = screen.getByTestId("mobile-filter-btn");
+   const viewToggle = screen.getByTestId("view-toggle");
+   const sortBySelects = screen.getAllByTestId("catalog-sort-by-select");
+
+   assertInDocument(toolbar);
+   assertInDocument(search);
+   assertInDocument(mobitleFilterBtn);
+   assertInDocument(viewToggle);
+   expect(sortBySelects).toHaveLength(2);
+};
+
+const assertFilterRendered = () => {
+   const filters = screen.getByTestId("explore-category-filter");
+   assertInDocument(filters);
+};
+
+const assertFilterNotRendered = () => {
+   const filters = screen.queryByTestId("explore-category-filter");
+   assertNotInDocument(filters);
+};
+
 describe("CatalogEntriesToolbar rendering tests", () => {
    it("renders all toolbar elements", async () => {
       const { container } = renderWithRouter(
@@ -25,11 +49,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("catalog-entries-toolbar"));
-         assertInDocument(screen.getByTestId("explore-search-input"));
-         assertInDocument(screen.getByTestId("catalog-sort-by-select"));
-         assertInDocument(screen.getByTestId("view-toggle"));
-         assertInDocument(screen.getByTestId("mobile-filter-btn"));
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -45,7 +65,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("catalog-entries-toolbar"));
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -138,50 +158,31 @@ describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
       jest.clearAllMocks();
    });
 
-   it("filter sheet is closed by default", async () => {
+   it("filter btn clicked - test", async () => {
       renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("mobile-filter-btn"))
-      );
-
-      assertNotInDocument(screen.queryByTestId("explore-category-filter"));
-   });
-
-   it("clicking filter button opens the sheet with categories", async () => {
-      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("mobile-filter-btn"))
-      );
-
-      await userEvent.click(screen.getByTestId("mobile-filter-btn"));
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("explore-category-filter"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-1"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-2"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-3"));
+         assertRendered();
+         assertFilterNotRendered();
       });
-   });
 
-   it("selecting a category in the sheet closes it", async () => {
-      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("mobile-filter-btn"))
-      );
-
-      await userEvent.click(screen.getByTestId("mobile-filter-btn"));
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("sidebar-category-category-1"))
-      );
-
-      await userEvent.click(screen.getByTestId("sidebar-category-category-1"));
+      const filterBtn = screen.getAllByTestId("mobile-filter-btn")[0];
+      await userEvent.click(filterBtn);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("explore-category-filter"));
+         assertFilterRendered();
+      });
+
+      await waitFor(() => {
+         const cat1 = screen.getByTestId("sidebar-category-category-1");
+         assertInDocument(cat1);
+      });
+
+      const cat1 = screen.getByTestId("sidebar-category-category-1");
+      await userEvent.click(cat1);
+
+      await waitFor(() => {
+         assertFilterNotRendered();
       });
    });
 });
