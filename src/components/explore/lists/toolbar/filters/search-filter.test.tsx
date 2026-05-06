@@ -1,188 +1,96 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   assertNotInDocument,
-   dtestData,
-   renderWithRouter,
-} from "@tests";
+import { assertInDocument, renderWithRouter } from "@tests";
 
-import { DListViewMode } from "@/data/types/domain/common";
-
-import { CatalogEntriesToolbar } from "./catalog-entries-toolbar";
-
-const defaultProps = {
-   viewMode: DListViewMode.GRID,
-   categories: dtestData.dCatalogEntryCategories(3),
-   totalElements: 12,
-};
+import { SearchFilter } from "./serach-filter";
 
 const assertRendered = () => {
-   const toolbar = screen.getByTestId("catalog-entries-toolbar");
-   const search = screen.getByTestId("explore-search-input");
-   const mobitleFilterBtn = screen.getByTestId("mobile-filter-btn");
-   const viewToggle = screen.getByTestId("view-toggle");
-   const sortBySelects = screen.getAllByTestId("catalog-sort-by-select");
+   const filter = screen.getByTestId("search-filter");
+   const input = screen.getByTestId("search-input");
 
-   assertInDocument(toolbar);
-   assertInDocument(search);
-   assertInDocument(mobitleFilterBtn);
-   assertInDocument(viewToggle);
-   expect(sortBySelects).toHaveLength(2);
+   assertInDocument(filter);
+   assertInDocument(input);
 };
 
-const assertFilterRendered = () => {
-   const filters = screen.getByTestId("explore-category-filter");
-   assertInDocument(filters);
+const assertInputValue = (value: string) => {
+   const input = screen.getByTestId("search-input") as HTMLInputElement;
+
+   assertInDocument(input);
+   expect(input.value).toBe(value);
 };
 
-const assertFilterNotRendered = () => {
-   const filters = screen.queryByTestId("explore-category-filter");
-   assertNotInDocument(filters);
-};
-
-describe("CatalogEntriesToolbar rendering tests", () => {
-   it("renders all toolbar elements", async () => {
-      const { container } = renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore"
-      );
+describe("SearchFilter rendering tests", () => {
+   it("input value empty - test", async () => {
+      const { container } = renderWithRouter(<SearchFilter />, "/explore");
 
       await waitFor(() => {
          assertRendered();
+         assertInputValue("");
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("renders with LIST view mode", async () => {
-      const { container } = renderWithRouter(
-         <CatalogEntriesToolbar
-            {...defaultProps}
-            viewMode={DListViewMode.LIST}
-         />,
-         "/explore"
-      );
+   it("input value defined - test", async () => {
+      renderWithRouter(<SearchFilter />, "/explore", "f_search=test");
+
+      await waitFor(() => {
+         assertRendered();
+         assertInputValue("test");
+      });
+   });
+});
+
+describe("CatalogEntriesToolbar functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("search input - test", async () => {
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<SearchFilter />, "/explore", "", onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
       });
 
-      expect(container).toMatchSnapshot();
-   });
+      const input = screen.getByTestId("search-input");
 
-   it("reflects active search value from URL", async () => {
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore",
-         "f_search=test"
-      );
+      const value = "test1";
+      await userEvent.type(input, value);
 
-      await waitFor(() => {
-         const input = screen.getByTestId(
-            "explore-search-input"
-         ) as HTMLInputElement;
-         expect(input.value).toBe("test");
-      });
-   });
+      const expectedPayload1 = {
+         options: {
+            history: "replace",
+            scroll: false,
+            shallow: false,
+         },
+         queryString: `?f_search=${value}`,
+      };
 
-   it("shows empty search input when no search param is set", async () => {
-      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
-
-      await waitFor(() => {
-         const input = screen.getByTestId(
-            "explore-search-input"
-         ) as HTMLInputElement;
-         expect(input.value).toBe("");
-      });
-   });
-});
-
-describe("CatalogEntriesToolbar search interaction tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("typing in search updates the URL", async () => {
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore",
-         "",
-         onUrlUpdateFn
-      );
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("explore-search-input"))
-      );
-
-      await userEvent.type(
-         screen.getByTestId("explore-search-input"),
-         "Marketing"
-      );
+      const expectedPayload2 = {
+         options: {
+            history: "replace",
+            scroll: false,
+            shallow: false,
+         },
+         queryString: "",
+      };
 
       await waitFor(() => {
          expect(onUrlUpdateFn).toHaveBeenCalled();
-         const lastCall =
-            onUrlUpdateFn.mock.calls[onUrlUpdateFn.mock.calls.length - 1]![0]!;
-         expect(lastCall.queryString).toContain("f_search=Marketing");
+         expect(onUrlUpdateFn).toHaveBeenLastCalledWith(
+            expect.objectContaining(expectedPayload1)
+         );
       });
-   });
 
-   it("clearing search removes the URL param", async () => {
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <CatalogEntriesToolbar {...defaultProps} />,
-         "/explore",
-         "f_search=test",
-         onUrlUpdateFn
-      );
-
-      await waitFor(() =>
-         assertInDocument(screen.getByTestId("explore-search-input"))
-      );
-
-      await userEvent.clear(screen.getByTestId("explore-search-input"));
+      await userEvent.clear(input);
 
       await waitFor(() => {
          expect(onUrlUpdateFn).toHaveBeenCalled();
-         const lastCall =
-            onUrlUpdateFn.mock.calls[onUrlUpdateFn.mock.calls.length - 1]![0]!;
-         expect(lastCall.queryString).not.toContain("f_search");
-      });
-   });
-});
-
-describe("CatalogEntriesToolbar mobile filter sheet tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("filter btn clicked - test", async () => {
-      renderWithRouter(<CatalogEntriesToolbar {...defaultProps} />, "/explore");
-
-      await waitFor(() => {
-         assertRendered();
-         assertFilterNotRendered();
-      });
-
-      const filterBtn = screen.getAllByTestId("mobile-filter-btn")[0];
-      await userEvent.click(filterBtn);
-
-      await waitFor(() => {
-         assertFilterRendered();
-      });
-
-      await waitFor(() => {
-         const cat1 = screen.getByTestId("sidebar-category-category-1");
-         assertInDocument(cat1);
-      });
-
-      const cat1 = screen.getByTestId("sidebar-category-category-1");
-      await userEvent.click(cat1);
-
-      await waitFor(() => {
-         assertFilterNotRendered();
+         expect(onUrlUpdateFn).toHaveBeenLastCalledWith(
+            expect.objectContaining(expectedPayload2)
+         );
       });
    });
 });

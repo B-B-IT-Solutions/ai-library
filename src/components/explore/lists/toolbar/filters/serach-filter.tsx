@@ -16,7 +16,7 @@ export const SearchFilter = () => {
       <div className="relative" data-testid="search-filter">
          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
          <Input
-            data-testid="explore-search-input"
+            data-testid="search-input"
             placeholder="Suchen…"
             value={search || ""}
             onChange={(e) => setSearch(e.target.value || null)}
