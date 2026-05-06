@@ -64,13 +64,6 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                   className="flex min-w-0 items-center gap-2"
                   data-testid="home-link"
                >
-                  <Image
-                     src="/images/logo.svg"
-                     width={32}
-                     height={32}
-                     alt={`${APP_NAME} logo`}
-                     className="shrink-0"
-                  />
                   <span className="truncate text-lg font-bold">{APP_NAME}</span>
                </Link>
                <SidebarTrigger
