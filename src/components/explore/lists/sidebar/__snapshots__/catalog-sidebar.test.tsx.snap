@@ -21,6 +21,7 @@ exports[`CatalogSidebar rendering tests renders sidebar with categories 1`] = `
         </div>
         <div
           class="p-3"
+          data-testid="categories-filter"
         >
           <p
             class="px-2 pb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase"
@@ -29,10 +30,10 @@ exports[`CatalogSidebar rendering tests renders sidebar with categories 1`] = `
           </p>
           <div
             class="space-y-0.5"
-            data-testid="explore-category-filter"
           >
             <button
               class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors bg-primary/10 font-medium text-primary"
+              data-testid="category-all"
             >
               Alle
               <span
@@ -43,7 +44,7 @@ exports[`CatalogSidebar rendering tests renders sidebar with categories 1`] = `
             </button>
             <button
               class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
-              data-testid="sidebar-category-category-1"
+              data-testid="category-category-1"
             >
               <span
                 class="flex-1"
@@ -53,7 +54,7 @@ exports[`CatalogSidebar rendering tests renders sidebar with categories 1`] = `
             </button>
             <button
               class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
-              data-testid="sidebar-category-category-2"
+              data-testid="category-category-2"
             >
               <span
                 class="flex-1"
@@ -63,7 +64,7 @@ exports[`CatalogSidebar rendering tests renders sidebar with categories 1`] = `
             </button>
             <button
               class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
-              data-testid="sidebar-category-category-3"
+              data-testid="category-category-3"
             >
               <span
                 class="flex-1"

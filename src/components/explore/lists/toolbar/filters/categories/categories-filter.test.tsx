@@ -52,8 +52,14 @@ describe("CategoriesFilter functionality tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const onUrlUpdateFn = jest.fn();
+      const onSelectFn = jest.fn();
+
       renderWithRouter(
-         <CategoriesFilter categories={categories} totalElements={10} />,
+         <CategoriesFilter
+            categories={categories}
+            totalElements={10}
+            onSelect={onSelectFn}
+         />,
          "/explore",
          "",
          onUrlUpdateFn
@@ -61,6 +67,8 @@ describe("CategoriesFilter functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(onSelectFn).not.toHaveBeenCalled();
       });
 
       const cat1 = screen.getByTestId("category-category-1");
@@ -81,6 +89,8 @@ describe("CategoriesFilter functionality tests", () => {
          expect(onUrlUpdateFn).toHaveBeenLastCalledWith(
             expect.objectContaining(expectedPayload)
          );
+
+         expect(onSelectFn).toHaveBeenCalled();
       });
    });
 
@@ -88,8 +98,14 @@ describe("CategoriesFilter functionality tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const onUrlUpdateFn = jest.fn();
+      const onSelectFn = jest.fn();
+
       renderWithRouter(
-         <CategoriesFilter categories={categories} totalElements={10} />,
+         <CategoriesFilter
+            categories={categories}
+            totalElements={10}
+            onSelect={onSelectFn}
+         />,
          "/explore",
          "f_categories=category-1",
          onUrlUpdateFn
@@ -97,6 +113,8 @@ describe("CategoriesFilter functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(onSelectFn).not.toHaveBeenCalled();
       });
 
       const cat1 = screen.getByTestId("category-category-1");
@@ -117,6 +135,7 @@ describe("CategoriesFilter functionality tests", () => {
          expect(onUrlUpdateFn).toHaveBeenLastCalledWith(
             expect.objectContaining(expectedPayload)
          );
+         expect(onSelectFn).toHaveBeenCalled();
       });
    });
 
@@ -124,8 +143,14 @@ describe("CategoriesFilter functionality tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const onUrlUpdateFn = jest.fn();
+      const onSelectFn = jest.fn();
+
       renderWithRouter(
-         <CategoriesFilter categories={categories} totalElements={10} />,
+         <CategoriesFilter
+            categories={categories}
+            totalElements={10}
+            onSelect={onSelectFn}
+         />,
          "/explore",
          "f_categories=category-1&f_categories=category-2",
          onUrlUpdateFn
@@ -133,6 +158,8 @@ describe("CategoriesFilter functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(onSelectFn).not.toHaveBeenCalled();
       });
 
       const catAll = screen.getByTestId("category-all");
@@ -153,6 +180,7 @@ describe("CategoriesFilter functionality tests", () => {
          expect(onUrlUpdateFn).toHaveBeenLastCalledWith(
             expect.objectContaining(expectedPayload)
          );
+         expect(onSelectFn).toHaveBeenCalled();
       });
    });
 });
