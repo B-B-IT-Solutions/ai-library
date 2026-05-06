@@ -9,7 +9,7 @@ import {
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { CatalogEntriesToolbar } from "./category-entries-toolbar";
+import { CatalogEntriesToolbar } from "./catalog-entries-toolbar";
 
 const defaultProps = {
    viewMode: DListViewMode.GRID,

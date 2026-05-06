@@ -1,1 +1,1 @@
-export { CatalogEntriesToolbar } from "./category-entries-toolbar";
+export { CatalogEntriesToolbar } from "./catalog-entries-toolbar";
