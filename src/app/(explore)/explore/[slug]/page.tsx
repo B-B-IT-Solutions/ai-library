@@ -67,7 +67,7 @@ export const CatalogEntryPage = async ({ params }: PageProps) => {
    return (
       <div
          className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
-         data-testid="explore-entry-page"
+         data-testid="catalog-entry-page"
       >
          {/* Breadcrumb */}
          <Link
