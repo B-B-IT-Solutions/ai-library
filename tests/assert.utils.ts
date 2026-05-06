@@ -49,6 +49,15 @@ export const assertHasAttributeWithValue = (
    expect(component.getAttribute(attribute)).toEqual(value);
 };
 
+export const assertHasAttributeWithValueContaining = (
+   component: HTMLElement,
+   attribute: string,
+   value: string
+) => {
+   assertHasAttribute(component, attribute);
+   expect(component.getAttribute(attribute)).toContain(value);
+};
+
 export const assertHasAttribute = (
    component: HTMLElement,
    attribute: string

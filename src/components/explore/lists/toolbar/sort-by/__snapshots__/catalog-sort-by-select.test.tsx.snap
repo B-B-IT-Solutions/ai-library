@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CatalogSortBySelect rendering tests renders with DATE_ASC sort 1`] = `
+exports[`CatalogSortBySelect rendering tests DATE_ASC sort - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -106,7 +106,7 @@ exports[`CatalogSortBySelect rendering tests renders with DATE_ASC sort 1`] = `
 </div>
 `;
 
-exports[`CatalogSortBySelect rendering tests renders with TITLE_ASC sort 1`] = `
+exports[`CatalogSortBySelect rendering tests TITLE_ASC sort - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -218,7 +218,7 @@ exports[`CatalogSortBySelect rendering tests renders with TITLE_ASC sort 1`] = `
 </div>
 `;
 
-exports[`CatalogSortBySelect rendering tests renders with TITLE_DESC sort 1`] = `
+exports[`CatalogSortBySelect rendering tests TITLE_DESC sort - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -330,7 +330,7 @@ exports[`CatalogSortBySelect rendering tests renders with TITLE_DESC sort 1`] = 
 </div>
 `;
 
-exports[`CatalogSortBySelect rendering tests renders with default sort (DATE_DESC) 1`] = `
+exports[`CatalogSortBySelect rendering tests default (DATE_DESC) sort - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"

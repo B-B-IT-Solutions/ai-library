@@ -6,6 +6,7 @@ export {
    assertHasClass,
    assertHasNoClass,
    assertHasAttributeWithValue,
+   assertHasAttributeWithValueContaining,
    assertHasAttribute,
    assertHasNoAttribute,
    assertHasStyle,
