@@ -574,8 +574,7 @@ model CatalogEntry {
 }
 
 model CatalogEntryContent {
-  id             String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  catalogEntryId String @unique @map("catalog_entry_id") @db.Uuid
+  catalogEntryId String @id @map("catalog_entry_id") @db.Uuid
   content        String @db.Text
 
   catalogEntry CatalogEntry @relation(fields: [catalogEntryId], references: [id], onDelete: Cascade)

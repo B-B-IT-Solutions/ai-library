@@ -1,18 +1,14 @@
 -- CreateTable
 CREATE TABLE "catalog_entry_content" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "catalog_entry_id" UUID NOT NULL,
     "content" TEXT NOT NULL,
 
-    CONSTRAINT "catalog_entry_content_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "catalog_entry_content_pkey" PRIMARY KEY ("catalog_entry_id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "catalog_entry_content_catalog_entry_id_key" ON "catalog_entry_content"("catalog_entry_id");
-
 -- MigrateData: move existing content into the new table
-INSERT INTO "catalog_entry_content" ("id", "catalog_entry_id", "content")
-SELECT gen_random_uuid(), "id", "content"
+INSERT INTO "catalog_entry_content" ("catalog_entry_id", "content")
+SELECT "id", "content"
 FROM "catalog_entry";
 
 -- AlterTable: drop the content column from catalog_entry

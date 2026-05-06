@@ -741,7 +741,6 @@ export const pCatalogEntryContent = (
    catalogEntryId = "entry-uuid-0001"
 ): CatalogEntryContent => {
    return {
-      id: `content-uuid-000${index}`,
       catalogEntryId,
       content: `Template content with {{field_${index}}} placeholder`,
    };
