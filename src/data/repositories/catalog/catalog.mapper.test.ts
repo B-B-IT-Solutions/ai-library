@@ -26,7 +26,7 @@ import {
 export const toDCatalogEntriesWithContentInternal = (
    entries: CatalogEntryWithContent[]
 ): DCatalogEntryWithContent[] => {
-   return map(entries, (e) => toDCatalogEntryWithContent(e));
+   return map(entries, (e) => toDCatalogEntryWithContentInternal(e));
 };
 
 export const toDCatalogEntryWithContentInternal = (
@@ -41,7 +41,7 @@ export const toDCatalogEntryWithContentInternal = (
 export const toDCatalogEntriesInternal = (
    entries: CatalogEntryWithRelations[]
 ): DCatalogEntry[] => {
-   return map(entries, (e) => toDCatalogEntry(e));
+   return map(entries, (e) => toDCatalogEntryInternal(e));
 };
 
 export const toDCatalogEntryInternal = (
