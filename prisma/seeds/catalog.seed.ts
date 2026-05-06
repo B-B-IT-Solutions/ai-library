@@ -484,7 +484,9 @@ export const seedCatalog = async (prisma: PrismaClientType) => {
             publishedAt: new Date(),
             categoryId: categoryId ?? null,
             content: {
-               create: { content: entry.content },
+               create: {
+                  content: entry.content,
+               },
             },
             fields: {
                create: entry.fields.map((f) => ({
