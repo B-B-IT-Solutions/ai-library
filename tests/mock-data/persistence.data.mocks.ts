@@ -701,20 +701,46 @@ export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
    };
 };
 
-export const pCatalogCategory = (index = 1): CatalogCategory => {
+export const pCatalogEntriesWithRelations = (
+   count = 3
+): CatalogEntryWithRelations[] => {
+   return range(0, count).map((i) => pCatalogEntryWithRelations(i + 1));
+};
+
+export const pCatalogEntryWithRelations = (
+   index = 1
+): CatalogEntryWithRelations => {
+   const entry = pCatalogEntry(index);
    return {
-      id: `cat-uuid-000${index}`,
-      name: `Category ${index}`,
-      slug: `category-${index}`,
-      description: `Description for category ${index}`,
-      order: index,
+      ...entry,
+      category: pCatalogCategory(index),
+      fields: pCatalogEntryFields(3, entry.id),
+   };
+};
+
+export const pCatalogEntry = (index = 1): CatalogEntry => {
+   return {
+      id: `entry-uuid-000${index}`,
+      slug: `catalog-entry-${index}`,
+      title: `Catalog Entry ${index}`,
+      description: `Description for catalog entry ${index}`,
+      recommendedModel: "GPT-4o",
+      content: `Template content with {{field_${index}}} placeholder`,
+      status: "PUBLISHED",
+      categoryId: `cat-uuid-000${index}`,
+      copyCount: index * 5,
+      publishedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
    };
 };
 
-export const pCatalogCategories = (count = 3): CatalogCategory[] =>
-   range(0, count).map((i) => pCatalogCategory(i + 1));
+export const pCatalogEntryFields = (
+   count = 3,
+   catalogEntryId = "entry-uuid-0001"
+): CatalogEntryField[] => {
+   return range(0, count).map((i) => pCatalogEntryField(i + 1, catalogEntryId));
+};
 
 export const pCatalogEntryField = (
    index = 1,
@@ -734,36 +760,18 @@ export const pCatalogEntryField = (
    };
 };
 
-export const pCatalogEntryFields = (
-   count = 3,
-   catalogEntryId = "entry-uuid-0001"
-): CatalogEntryField[] =>
-   range(0, count).map((i) => pCatalogEntryField(i + 1, catalogEntryId));
-
-export const pCatalogEntry = (index = 1): CatalogEntry => {
-   return {
-      id: `entry-uuid-000${index}`,
-      slug: `catalog-entry-${index}`,
-      title: `Catalog Entry ${index}`,
-      description: `Description for catalog entry ${index}`,
-      recommendedModel: "GPT-4o",
-      content: `Template content with {{field_${index}}} placeholder`,
-      status: "PUBLISHED",
-      categoryId: `cat-uuid-000${index}`,
-      copyCount: index * 5,
-      publishedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
-      updatedAt: new Date("2025-09-27"),
-   };
+export const pCatalogCategories = (count = 3): CatalogCategory[] => {
+   return range(0, count).map((i) => pCatalogCategory(i + 1));
 };
 
-export const pCatalogEntryWithRelations = (
-   index = 1
-): CatalogEntryWithRelations => {
-   const entry = pCatalogEntry(index);
+export const pCatalogCategory = (index = 1): CatalogCategory => {
    return {
-      ...entry,
-      category: pCatalogCategory(index),
-      fields: pCatalogEntryFields(3, entry.id),
+      id: `cat-uuid-000${index}`,
+      name: `Category ${index}`,
+      slug: `category-${index}`,
+      description: `Description for category ${index}`,
+      order: index,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
    };
 };

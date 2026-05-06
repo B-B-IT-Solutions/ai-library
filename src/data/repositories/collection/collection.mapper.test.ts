@@ -35,10 +35,6 @@ const toDCollectionInternal = (c: PLibraryCollection): DCollection => {
 };
 
 describe("toDCollections tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
    it("toDCollections test", async () => {
       const collections = ptestData.pTemplateCollections();
       const result = toDCollections(collections);
