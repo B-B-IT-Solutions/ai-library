@@ -27,9 +27,6 @@ export const CatalogSortBySelect = () => {
       sortByParam.withOptions({ shallow: false })
    );
 
-   console.log(sort);
-
-   // const SortIcon = SORT_ICONS[sort ?? DListSortByMode.DATE_DESC];
    const SortIcon = SORT_ICONS[sort];
 
    return (
