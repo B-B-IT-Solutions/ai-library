@@ -4,7 +4,7 @@ jest.mock("./catalog-search-params");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
-import { parseAsStringEnum } from "nuqs/server";
+import { parseAsString, parseAsStringEnum } from "nuqs/server";
 
 import {
    getCatalogEntryCategories,
@@ -20,6 +20,7 @@ import {
 import { CatalogEntriesDashboard } from "./catalog-entries-dashboard";
 import {
    catalogEntrySearchParamsCache,
+   f_searchParam,
    sortByParam,
 } from "./catalog-search-params";
 
@@ -41,9 +42,15 @@ const exploreSearchParamsCacheMock =
       typeof catalogEntrySearchParamsCache
    >;
 
+const searchParamMock = f_searchParam as DeepMockProxy<typeof f_searchParam>;
+
 const sortByParamMock = sortByParam as DeepMockProxy<typeof sortByParam>;
 
-const mockSortByParamOptions = () => {
+const mockSearchParam = () => {
+   return parseAsString.withDefault("");
+};
+
+const mockSortByParam = () => {
    return parseAsStringEnum<DListSortByMode>(
       Object.values(DListSortByMode)
    ).withDefault(DListSortByMode.DATE_DESC);
@@ -97,8 +104,12 @@ describe("CatalogEntriesDashboard rendering tests", () => {
 
    it("rendered test", async () => {
       exploreSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-      const sortByOptions = mockSortByParamOptions();
-      sortByParamMock.withOptions.mockReturnValue(sortByOptions);
+
+      const sortByMock = mockSortByParam();
+      sortByParamMock.withOptions.mockReturnValue(sortByMock);
+
+      const searchMock = mockSearchParam();
+      searchParamMock.withOptions.mockReturnValue(searchMock);
 
       const categories = dtestData.dCatalogEntryCategories();
       getCatalogEntryCategoriesMock.mockResolvedValue(categories);

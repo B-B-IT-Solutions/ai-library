@@ -18,7 +18,7 @@ export const SearchFilter = () => {
          <Input
             data-testid="search-input"
             placeholder="Suchen…"
-            value={search || ""}
+            value={search}
             onChange={(e) => setSearch(e.target.value || null)}
             className="h-9 w-full pl-9 sm:h-8 sm:w-64 sm:pl-9 sm:text-sm"
          />
