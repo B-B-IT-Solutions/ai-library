@@ -74,7 +74,7 @@ exports[`CatalogEntryCopyButton rendering tests isAuthenticated true - test 1`] 
         d="M12 5v14"
       />
     </svg>
-    In meine Library übernehmen
+    In meine Bibliothek übernehmen
   </button>
 </div>
 `;

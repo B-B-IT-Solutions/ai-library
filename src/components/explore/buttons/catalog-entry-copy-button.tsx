@@ -79,7 +79,7 @@ export const CatalogEntryCopyButton = ({
          ) : (
             <>
                <Plus className="mr-2 h-4 w-4" />
-               In meine Library übernehmen
+               In meine Bibliothek übernehmen
             </>
          )}
       </Button>

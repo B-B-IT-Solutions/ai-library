@@ -185,7 +185,7 @@ exports[`CatalogEntryView rendering tests field.options empty - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>
@@ -567,7 +567,7 @@ exports[`CatalogEntryView rendering tests field.options empty - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>
@@ -760,7 +760,7 @@ exports[`CatalogEntryView rendering tests fields empty - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>
@@ -909,7 +909,7 @@ exports[`CatalogEntryView rendering tests fields empty - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>
@@ -1102,7 +1102,7 @@ exports[`CatalogEntryView rendering tests relatedEntries defined - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>
@@ -1511,7 +1511,7 @@ exports[`CatalogEntryView rendering tests relatedEntries defined - test 1`] = `
               d="M12 5v14"
             />
           </svg>
-          In meine Library übernehmen
+          In meine Bibliothek übernehmen
         </button>
       </div>
     </div>

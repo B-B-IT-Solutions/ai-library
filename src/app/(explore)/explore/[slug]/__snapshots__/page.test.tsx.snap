@@ -186,7 +186,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
                 d="M12 5v14"
               />
             </svg>
-            In meine Library übernehmen
+            In meine Bibliothek übernehmen
           </button>
         </div>
       </div>
@@ -527,7 +527,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
                 d="M12 5v14"
               />
             </svg>
-            In meine Library übernehmen
+            In meine Bibliothek übernehmen
           </button>
         </div>
       </div>
@@ -749,7 +749,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
                 d="M12 5v14"
               />
             </svg>
-            In meine Library übernehmen
+            In meine Bibliothek übernehmen
           </button>
         </div>
       </div>
@@ -1142,7 +1142,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
                 d="M12 5v14"
               />
             </svg>
-            In meine Library übernehmen
+            In meine Bibliothek übernehmen
           </button>
         </div>
       </div>
