@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CategoriesFilter rendering tests filter not select - test 1`] = `
+<div>
+  <div
+    class="p-3"
+    data-testid="categories-filter"
+  >
+    <p
+      class="px-2 pb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+    >
+      Kategorien
+    </p>
+    <div
+      class="space-y-0.5"
+    >
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors bg-primary/10 font-medium text-primary"
+        data-testid="category-all"
+      >
+        Alle
+        <span
+          class="ml-auto text-xs text-slate-400"
+        >
+          10
+        </span>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-category-1"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 1
+        </span>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-category-2"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 2
+        </span>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-category-3"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 3
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CategoriesFilter rendering tests filter select - test 1`] = `
+<div>
+  <div
+    class="p-3"
+    data-testid="categories-filter"
+  >
+    <p
+      class="px-2 pb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+    >
+      Kategorien
+    </p>
+    <div
+      class="space-y-0.5"
+    >
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-all"
+      >
+        Alle
+        <span
+          class="ml-auto text-xs text-slate-400"
+        >
+          42
+        </span>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors bg-primary/10 font-medium text-primary"
+        data-testid="category-category-1"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 1
+        </span>
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-check h-3.5 w-3.5 shrink-0"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 6 9 17l-5-5"
+          />
+        </svg>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-category-2"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 2
+        </span>
+      </button>
+      <button
+        class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
+        data-testid="category-category-3"
+      >
+        <span
+          class="flex-1"
+        >
+          Category 3
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

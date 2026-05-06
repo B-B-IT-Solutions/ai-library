@@ -4,6 +4,7 @@ jest.mock("./catalog-search-params");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import { parseAsString, parseAsStringEnum } from "nuqs/server";
 
 import {
    getCatalogEntryCategories,
@@ -17,7 +18,11 @@ import {
 } from "@/data/types/domain/common";
 
 import { CatalogEntriesDashboard } from "./catalog-entries-dashboard";
-import { catalogEntrySearchParamsCache } from "./catalog-search-params";
+import {
+   catalogEntrySearchParamsCache,
+   f_searchParam,
+   sortByParam,
+} from "./catalog-search-params";
 
 type CacheKey = Parameters<typeof catalogEntrySearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof catalogEntrySearchParamsCache.get>;
@@ -32,10 +37,24 @@ const getPublishedCatalogEntriesPageMock =
       typeof getPublishedCatalogEntriesPage
    >;
 
+const searchParamMock = f_searchParam as DeepMockProxy<typeof f_searchParam>;
+
+const sortByParamMock = sortByParam as DeepMockProxy<typeof sortByParam>;
+
 const exploreSearchParamsCacheMock =
    catalogEntrySearchParamsCache as DeepMockProxy<
       typeof catalogEntrySearchParamsCache
    >;
+
+const mockSearchParam = () => {
+   return parseAsString.withDefault("");
+};
+
+const mockSortByParam = () => {
+   return parseAsStringEnum<DListSortByMode>(
+      Object.values(DListSortByMode)
+   ).withDefault(DListSortByMode.DATE_DESC);
+};
 
 const mockSearchParams = (key: CacheKey): CacheValue => {
    switch (key) {
@@ -54,11 +73,13 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 
 const assertRendered = () => {
    const dashboard = screen.getByTestId("catalog-entries-dashboard");
-   const filter = screen.getByTestId("catalog-entries-filter");
+   const sidebar = screen.getByTestId("catalog-entries-sidebar");
+   const toolbar = screen.getByTestId("catalog-entries-toolbar");
    const entries = screen.getByTestId("catalog-entries-grid");
 
    assertInDocument(dashboard);
-   assertInDocument(filter);
+   assertInDocument(sidebar);
+   assertInDocument(toolbar);
    assertInDocument(entries);
 };
 
@@ -83,6 +104,12 @@ describe("CatalogEntriesDashboard rendering tests", () => {
 
    it("rendered test", async () => {
       exploreSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+
+      const sortByMock = mockSortByParam();
+      sortByParamMock.withOptions.mockReturnValue(sortByMock);
+
+      const searchMock = mockSearchParam();
+      searchParamMock.withOptions.mockReturnValue(searchMock);
 
       const categories = dtestData.dCatalogEntryCategories();
       getCatalogEntryCategoriesMock.mockResolvedValue(categories);

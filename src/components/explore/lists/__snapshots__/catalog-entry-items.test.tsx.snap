@@ -1,6 +1,52 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CatalogEntryItems rendering tests CatalogEntryItems - view grid - test 1`] = `
+exports[`CatalogEntryItems rendering tests entries empty - test 1`] = `
+<div>
+  <div
+    class="flex flex-col items-center justify-center py-24 text-center"
+    data-testid="catalog-entries-empty"
+  >
+    <div
+      class="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-search h-8 w-8 text-slate-400"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m21 21-4.34-4.34"
+        />
+        <circle
+          cx="11"
+          cy="11"
+          r="8"
+        />
+      </svg>
+    </div>
+    <h3
+      class="mt-4 text-lg font-semibold text-slate-900"
+    >
+      Keine Vorlagen gefunden
+    </h3>
+    <p
+      class="mt-2 max-w-sm text-sm text-slate-500"
+    >
+      Versuche andere Suchbegriffe oder entferne die aktiven Filter.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CatalogEntryItems rendering tests view grid - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
@@ -502,7 +548,7 @@ exports[`CatalogEntryItems rendering tests CatalogEntryItems - view grid - test 
 </div>
 `;
 
-exports[`CatalogEntryItems rendering tests CatalogEntryItems - view list - test 1`] = `
+exports[`CatalogEntryItems rendering tests view list - test 1`] = `
 <div>
   <div
     class="space-y-4"
