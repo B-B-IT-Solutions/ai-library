@@ -10,7 +10,7 @@ import {
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
 } from "@/data/actions/catalog";
-import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
+import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 export const revalidate = 3600;
 
@@ -54,7 +54,7 @@ export const CatalogEntryPage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   let relatedEntries: DCatalogEntrySummary[] = [];
+   let relatedEntries: DCatalogEntry[] = [];
 
    if (entry.category) {
       const relatedPage = await getPublishedCatalogEntriesPage({

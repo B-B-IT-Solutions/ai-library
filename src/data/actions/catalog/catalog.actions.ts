@@ -14,6 +14,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryCopyResult,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
@@ -31,7 +32,7 @@ export const getPublishedCatalogEntriesPage = async (
 
 export const getPublishedCatalogEntryBySlug = async (
    slug: string
-): Promise<DCatalogEntry | null> => {
+): Promise<DCatalogEntryWithContent | null> => {
    try {
       if (isEmpty(trim(slug))) {
          throw new Error("Invalid slug");

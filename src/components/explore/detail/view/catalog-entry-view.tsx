@@ -12,7 +12,7 @@ import {
 import { Separator } from "@/components/shadcn/separator";
 import {
    DCatalogEntry,
-   DCatalogEntrySummary,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { CatalogEntryCopyButton } from "../../buttons";
@@ -29,9 +29,9 @@ const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
 };
 
 type Props = {
-   entry: DCatalogEntry;
+   entry: DCatalogEntryWithContent;
    isAuthenticated: boolean;
-   relatedEntries: DCatalogEntrySummary[];
+   relatedEntries: DCatalogEntry[];
 };
 
 export const CatalogEntryView = ({

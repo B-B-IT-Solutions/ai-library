@@ -6,13 +6,15 @@ const catalogCategories = [
    {
       name: "Marketing & Content",
       slug: "marketing-content",
-      description: "Vorlagen für Content-Marketing, Social Media und Werbetexte",
+      description:
+         "Vorlagen für Content-Marketing, Social Media und Werbetexte",
       order: 1,
    },
    {
       name: "Coding & Development",
       slug: "coding-development",
-      description: "Vorlagen für Programmierung, Code-Reviews und technische Aufgaben",
+      description:
+         "Vorlagen für Programmierung, Code-Reviews und technische Aufgaben",
       order: 2,
    },
    {
@@ -24,7 +26,8 @@ const catalogCategories = [
    {
       name: "Research & Analysis",
       slug: "research-analysis",
-      description: "Vorlagen für Recherche, Analyse und wissenschaftliche Aufgaben",
+      description:
+         "Vorlagen für Recherche, Analyse und wissenschaftliche Aufgaben",
       order: 4,
    },
    {
@@ -81,7 +84,13 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 2,
-            options: ["Formell", "Informell", "Humorvoll", "Sachlich", "Inspirierend"],
+            options: [
+               "Formell",
+               "Informell",
+               "Humorvoll",
+               "Sachlich",
+               "Inspirierend",
+            ],
          },
       ],
    },
@@ -98,7 +107,8 @@ const catalogEntries = [
          {
             name: "empfaenger",
             label: "Empfänger",
-            description: "An wen geht die E-Mail? (z.B. Geschäftspartner, Kunde)",
+            description:
+               "An wen geht die E-Mail? (z.B. Geschäftspartner, Kunde)",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -138,7 +148,16 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 0,
-            options: ["TypeScript", "JavaScript", "Python", "Java", "Go", "Rust", "C#", "PHP"],
+            options: [
+               "TypeScript",
+               "JavaScript",
+               "Python",
+               "Java",
+               "Go",
+               "Rust",
+               "C#",
+               "PHP",
+            ],
          },
          {
             name: "code_snippet",
@@ -155,7 +174,13 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 2,
-            options: ["Sicherheit", "Performance", "Lesbarkeit", "Testbarkeit", "Allgemein"],
+            options: [
+               "Sicherheit",
+               "Performance",
+               "Lesbarkeit",
+               "Testbarkeit",
+               "Allgemein",
+            ],
          },
       ],
    },
@@ -372,7 +397,12 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 2,
-            options: ["Informational", "Transactional", "Navigational", "Commercial Investigation"],
+            options: [
+               "Informational",
+               "Transactional",
+               "Navigational",
+               "Commercial Investigation",
+            ],
          },
       ],
    },
@@ -450,10 +480,14 @@ export const seedCatalog = async (prisma: PrismaClientType) => {
             title: entry.title,
             description: entry.description,
             recommendedModel: entry.recommendedModel,
-            content: entry.content,
             status: "PUBLISHED",
             publishedAt: new Date(),
             categoryId: categoryId ?? null,
+            content: {
+               create: {
+                  content: entry.content,
+               },
+            },
             fields: {
                create: entry.fields.map((f) => ({
                   name: f.name,
@@ -462,7 +496,7 @@ export const seedCatalog = async (prisma: PrismaClientType) => {
                   type: f.type,
                   required: f.required,
                   order: f.order,
-                  options: (f as { options?: string[] }).options ?? null,
+                  options: (f as { options?: string[] }).options ?? undefined,
                })),
             },
          },

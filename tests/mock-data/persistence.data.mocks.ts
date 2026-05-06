@@ -3,7 +3,10 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
-import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
+import {
+   CatalogEntryWithContent,
+   CatalogEntryWithRelations,
+} from "@/data/types/db/catalog";
 import { PLibraryCollection } from "@/data/types/db/collection";
 import {
    OrderItemProduct,
@@ -31,6 +34,7 @@ import {
    CartItem,
    CatalogCategory,
    CatalogEntry,
+   CatalogEntryContent,
    CatalogEntryField,
    GlobalTemplateField,
    LibraryCollectionEntry,
@@ -701,6 +705,22 @@ export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
    };
 };
 
+export const pCatalogEntriesWithContent = (
+   count = 3
+): CatalogEntryWithContent[] => {
+   return range(0, count).map((i) => pCatalogEntryWithContent(i + 1));
+};
+
+export const pCatalogEntryWithContent = (
+   index = 1
+): CatalogEntryWithContent => {
+   const entry = pCatalogEntryWithRelations(index);
+   return {
+      ...entry,
+      content: pCatalogEntryContent(index, entry.id),
+   };
+};
+
 export const pCatalogEntriesWithRelations = (
    count = 3
 ): CatalogEntryWithRelations[] => {
@@ -725,13 +745,22 @@ export const pCatalogEntry = (index = 1): CatalogEntry => {
       title: `Catalog Entry ${index}`,
       description: `Description for catalog entry ${index}`,
       recommendedModel: "GPT-4o",
-      content: `Template content with {{field_${index}}} placeholder`,
       status: "PUBLISHED",
       categoryId: `cat-uuid-000${index}`,
       copyCount: index * 5,
       publishedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogEntryContent = (
+   index = 1,
+   catalogEntryId = "entry-uuid-0001"
+): CatalogEntryContent => {
+   return {
+      catalogEntryId,
+      content: `Template content with {{field_${index}}} placeholder`,
    };
 };
 

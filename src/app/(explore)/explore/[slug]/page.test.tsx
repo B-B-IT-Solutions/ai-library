@@ -74,7 +74,7 @@ describe("CatalogEntryPage rendering tests", () => {
    });
 
    it("entry retrieved - category null - test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       entry.category = null;
 
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
@@ -105,7 +105,7 @@ describe("CatalogEntryPage rendering tests", () => {
    });
 
    it("entry retrieved - test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
       isAuthenticatedMock.mockResolvedValue(true);
 
@@ -173,7 +173,7 @@ describe("CatalogEntryPage functionality tests", () => {
    });
 
    it("generateMetadata- entry defined - test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
 
       const pageParams: PageParams = {

@@ -66,7 +66,7 @@ const assertCopyBtnRendered = () => {
 
 describe("CatalogEntryView rendering tests", () => {
    it("relatedEntries empty - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
+      const entry = dtestData.dCatalogEntryWithContent(1);
 
       const { container } = render(
          <CatalogEntryView
@@ -87,8 +87,8 @@ describe("CatalogEntryView rendering tests", () => {
    });
 
    it("relatedEntries defined - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
-      const relatedEntries = dtestData.dCatalogEntrySummaries();
+      const entry = dtestData.dCatalogEntryWithContent(1);
+      const relatedEntries = dtestData.dCatalogEntries();
 
       const { container } = render(
          <CatalogEntryView
@@ -109,9 +109,9 @@ describe("CatalogEntryView rendering tests", () => {
    });
 
    it("fields empty - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
+      const entry = dtestData.dCatalogEntryWithContent(1);
       entry.fields = [];
-      const relatedEntries = dtestData.dCatalogEntrySummaries();
+      const relatedEntries = dtestData.dCatalogEntries();
 
       const { container } = render(
          <CatalogEntryView
@@ -132,9 +132,9 @@ describe("CatalogEntryView rendering tests", () => {
    });
 
    it("field.options empty - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
+      const entry = dtestData.dCatalogEntryWithContent(1);
       entry.fields[0].options = [];
-      const relatedEntries = dtestData.dCatalogEntrySummaries();
+      const relatedEntries = dtestData.dCatalogEntries();
 
       const { container } = render(
          <CatalogEntryView

@@ -1,25 +1,36 @@
 import { map } from "es-toolkit/compat";
 
-import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
+import {
+   CatalogEntryWithContent,
+   CatalogEntryWithRelations,
+} from "@/data/types/db/catalog";
 import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
-   DCatalogEntrySummary,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
 
-export const toDCatalogEntrySummaries = (
-   entries: CatalogEntryWithRelations[]
-): DCatalogEntrySummary[] => {
-   return map(entries, (e) => toDCatalogEntrySummary(e));
+export const toDCatalogEntriesWithContent = (
+   entries: CatalogEntryWithContent[]
+): DCatalogEntryWithContent[] => {
+   return map(entries, (e) => toDCatalogEntryWithContent(e));
 };
 
-export const toDCatalogEntrySummary = (
-   entry: CatalogEntryWithRelations
-): DCatalogEntrySummary => {
-   const { content: _content, ...rest } = toDCatalogEntry(entry);
-   return rest;
+export const toDCatalogEntryWithContent = (
+   entry: CatalogEntryWithContent
+): DCatalogEntryWithContent => {
+   return {
+      ...toDCatalogEntry(entry),
+      content: entry.content.content,
+   };
+};
+
+export const toDCatalogEntries = (
+   entries: CatalogEntryWithRelations[]
+): DCatalogEntry[] => {
+   return map(entries, (e) => toDCatalogEntry(e));
 };
 
 export const toDCatalogEntry = (
@@ -31,9 +42,8 @@ export const toDCatalogEntry = (
       title: entry.title,
       description: entry.description,
       recommendedModel: entry.recommendedModel,
-      content: entry.content,
       status: entry.status,
-      category: toDCatalogCategory(entry.category),
+      category: entry.category ? toDCatalogCategory(entry.category) : null,
       fields: map(entry.fields, toDCatalogEntryField).sort(
          (a, b) => a.order - b.order
       ),
@@ -44,19 +54,22 @@ export const toDCatalogEntry = (
    };
 };
 
+export const toDCatalogCategories = (
+   cats: CatalogCategory[]
+): DCatalogEntryCategory[] => {
+   return map(cats, (c) => toDCatalogCategory(c));
+};
+
 export const toDCatalogCategory = (
-   cat: CatalogCategory | null
-): DCatalogEntryCategory | null => {
-   if (cat) {
-      return {
-         id: cat.id,
-         name: cat.name,
-         slug: cat.slug,
-         description: cat.description,
-         order: cat.order,
-      };
-   }
-   return null;
+   cat: CatalogCategory
+): DCatalogEntryCategory => {
+   return {
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description,
+      order: cat.order,
+   };
 };
 
 export const toDCatalogEntryField = (

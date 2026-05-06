@@ -557,7 +557,6 @@ model CatalogEntry {
   title            String             @db.VarChar(250)
   description      String             @db.VarChar(750)
   recommendedModel String             @map("recommended_model") @db.VarChar(250)
-  content          String             @db.Text
   status           CatalogEntryStatus @default(DRAFT)
   categoryId       String?            @map("category_id") @db.Uuid
   copyCount        Int                @default(0) @map("copy_count")
@@ -567,10 +566,20 @@ model CatalogEntry {
 
   category CatalogCategory?    @relation(fields: [categoryId], references: [id])
   fields   CatalogEntryField[]
+  content  CatalogEntryContent?
 
   @@index([status])
   @@index([categoryId])
   @@map("catalog_entry")
+}
+
+model CatalogEntryContent {
+  catalogEntryId String @id @map("catalog_entry_id") @db.Uuid
+  content        String @db.Text
+
+  catalogEntry CatalogEntry @relation(fields: [catalogEntryId], references: [id], onDelete: Cascade)
+
+  @@map("catalog_entry_content")
 }
 
 model CatalogEntryField {

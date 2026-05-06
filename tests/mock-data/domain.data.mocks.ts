@@ -11,7 +11,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
-   DCatalogEntrySummary,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
    DCollection,
@@ -675,7 +675,7 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
 };
 
 export const dCatalogEntriesPage = (count = 3): DCatalogEntriesPage => {
-   const content = dCatalogEntrySummaries(count);
+   const content = dCatalogEntries(count);
    return {
       content,
       pageNumber: 0,
@@ -705,13 +705,31 @@ export const dCatalogEntriesFilter = (index = 1): DCatalogEntriesFilter => {
    };
 };
 
+export const dCatalogEntriesWithContent = (
+   count = 3
+): DCatalogEntryWithContent[] => {
+   return range(0, count).map((i) => dCatalogEntryWithContent(i + 1));
+};
+
+export const dCatalogEntryWithContent = (
+   index = 1
+): DCatalogEntryWithContent => {
+   return {
+      ...dCatalogEntry(index),
+      content: `Template content with {{field_${index}}} placeholder`,
+   };
+};
+
+export const dCatalogEntries = (count = 3): DCatalogEntry[] => {
+   return range(0, count).map((i) => dCatalogEntry(i + 1));
+};
+
 export const dCatalogEntry = (index = 1): DCatalogEntry => ({
    id: `entry-uuid-000${index}`,
    slug: `catalog-entry-${index}`,
    title: `Catalog Entry ${index}`,
    description: `Description for catalog entry ${index}`,
    recommendedModel: "GPT-4o",
-   content: `Template content with {{field_${index}}} placeholder`,
    status: "PUBLISHED",
    category: dCatalogEntryCategory(index),
    fields: dCatalogEntryFields(3),
@@ -749,15 +767,6 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    defaultValue: null,
    options: ["option-1", "option-2", "option-3"],
 });
-
-export const dCatalogEntrySummaries = (count = 3): DCatalogEntrySummary[] => {
-   return range(0, count).map((i) => dCatalogEntrySummary(i + 1));
-};
-
-export const dCatalogEntrySummary = (index = 1): DCatalogEntrySummary => {
-   const { content: _content, ...rest } = dCatalogEntry(index);
-   return rest;
-};
 
 export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {

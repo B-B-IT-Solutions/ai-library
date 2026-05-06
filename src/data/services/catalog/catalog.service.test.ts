@@ -48,7 +48,7 @@ describe("getPublishedEntryBySlug tests", () => {
    });
 
    it("entry retrieved - test", async () => {
-      const entry = dtestData.dCatalogEntry();
+      const entry = dtestData.dCatalogEntryWithContent();
       catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(entry);
 
       const slug = "catalog-entry-1";
@@ -109,7 +109,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
    });
 
    it("entry copied - test", async () => {
-      const entry = dtestData.dCatalogEntry(1);
+      const entry = dtestData.dCatalogEntryWithContent(1);
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();

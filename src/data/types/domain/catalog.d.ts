@@ -2,7 +2,7 @@ import { Page, PageQuery } from "@/data/types/common";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 export type DCatalogEntriesPageQuery = PageQuery<DCatalogEntriesFilter>;
-export type DCatalogEntriesPage = Page<DCatalogEntrySummary>;
+export type DCatalogEntriesPage = Page<DCatalogEntry>;
 
 export type DCatalogEntriesFilter = {
    search?: string;
@@ -15,7 +15,6 @@ export type DCatalogEntry = {
    title: string;
    description: string;
    recommendedModel: string;
-   content: string;
    status: DCatalogEntryStatus;
    category: DCatalogEntryCategory | null;
    fields: DCatalogEntryField[];
@@ -25,7 +24,9 @@ export type DCatalogEntry = {
    updatedAt: string;
 };
 
-export type DCatalogEntrySummary = Omit<DCatalogEntry, "content">;
+export type DCatalogEntryWithContent = DCatalogEntry & {
+   content: string;
+};
 
 export type DCatalogEntryStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 
