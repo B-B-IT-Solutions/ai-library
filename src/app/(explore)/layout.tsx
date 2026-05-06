@@ -6,15 +6,47 @@ import { Button } from "@/components/shadcn/button";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 import { APP_NAME } from "@/lib/constants";
 
-type ExploreLayoutProps = {
+type Props = {
    children: ReactNode;
 };
 
-const ExploreLayout = async ({ children }: ExploreLayoutProps) => {
+export const ExploreLayout = async ({ children }: Props) => {
    const authenticated = await isAuthenticated();
 
+   const headerBtns = () => {
+      if (authenticated) {
+         return (
+            <Button
+               asChild
+               size="sm"
+               variant="outline"
+               data-testid="templates-link"
+            >
+               <Link href="/">Zur Library</Link>
+            </Button>
+         );
+      }
+      return (
+         <>
+            <Button asChild size="sm" variant="ghost">
+               <Link href="/auth/sign-in" data-testid="sign-in-link">
+                  Anmelden
+               </Link>
+            </Button>
+            <Button asChild size="sm">
+               <Link href="/auth/sign-up" data-testid="sign-up-link">
+                  Kostenlos starten
+               </Link>
+            </Button>
+         </>
+      );
+   };
+
    return (
-      <div className="flex min-h-screen flex-col bg-slate-50">
+      <div
+         className="flex min-h-screen flex-col bg-slate-50"
+         data-testid="explore-layout"
+      >
          {/* Nav */}
          <header className="sticky top-0 z-40 border-b bg-white shadow-sm">
             <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -27,22 +59,7 @@ const ExploreLayout = async ({ children }: ExploreLayoutProps) => {
                   Entdecken
                </Link>
 
-               <div className="flex items-center gap-2">
-                  {authenticated ? (
-                     <Button asChild size="sm" variant="outline">
-                        <Link href="/">Zur Library</Link>
-                     </Button>
-                  ) : (
-                     <>
-                        <Button asChild size="sm" variant="ghost">
-                           <Link href="/auth/sign-in">Anmelden</Link>
-                        </Button>
-                        <Button asChild size="sm">
-                           <Link href="/auth/sign-up">Kostenlos starten</Link>
-                        </Button>
-                     </>
-                  )}
-               </div>
+               <div className="flex items-center gap-2">{headerBtns()}</div>
             </div>
          </header>
 

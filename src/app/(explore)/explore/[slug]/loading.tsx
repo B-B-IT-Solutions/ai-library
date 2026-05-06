@@ -1,8 +1,11 @@
 import { Skeleton } from "@/components/shadcn/skeleton";
 
-const ExploreEntryLoading = () => {
+export const CatalogEntryPageLoading = () => {
    return (
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <div
+         className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+         data-testid="catalog-entry-page-loading"
+      >
          {/* Back link skeleton */}
          <Skeleton className="mb-6 h-5 w-40" />
 
@@ -24,7 +27,7 @@ const ExploreEntryLoading = () => {
             <div className="space-y-4">
                <Skeleton className="h-7 w-48" />
                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="rounded-lg border p-4 space-y-2">
+                  <div key={i} className="space-y-2 rounded-lg border p-4">
                      <Skeleton className="h-5 w-32" />
                      <Skeleton className="h-4 w-64" />
                   </div>
@@ -35,4 +38,4 @@ const ExploreEntryLoading = () => {
    );
 };
 
-export default ExploreEntryLoading;
+export default CatalogEntryPageLoading;

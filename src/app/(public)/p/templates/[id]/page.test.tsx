@@ -1,10 +1,12 @@
 jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getPublicCollectionByToken } from "@/data/actions/collection";
 import {
    getPublicPromptTemplate,
    getPublicTemplateDescriptor,
@@ -26,6 +28,11 @@ const getPublicTemplateDescriptorMock =
 const getPublicPromptTemplateMock =
    getPublicPromptTemplate as jest.MockedFunction<
       typeof getPublicPromptTemplate
+   >;
+
+const getPublicCollectionByTokenMock =
+   getPublicCollectionByToken as jest.MockedFunction<
+      typeof getPublicCollectionByToken
    >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -63,6 +70,7 @@ describe("PublicTemplatePage rendering tests", () => {
          );
          expect(notFoundMock).toHaveBeenCalledTimes(1);
          expect(getPublicPromptTemplateMock).not.toHaveBeenCalled();
+         expect(getPublicCollectionByTokenMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -75,7 +83,7 @@ describe("PublicTemplatePage rendering tests", () => {
       getPublicPromptTemplateMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
-      const searchParams: PageSearchParams = { col: "collection-token-1" };
+      const searchParams: PageSearchParams = {};
 
       const props: PageProps = {
          params: Promise.resolve(params),
@@ -93,6 +101,7 @@ describe("PublicTemplatePage rendering tests", () => {
          expect(getPublicPromptTemplateMock).toHaveBeenCalledWith(
             descriptor.promptTemplateId
          );
+         expect(getPublicCollectionByTokenMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -105,6 +114,9 @@ describe("PublicTemplatePage rendering tests", () => {
 
       const template = dtestData.dPromptTemplate();
       getPublicPromptTemplateMock.mockResolvedValue(template);
+
+      const collection = dtestData.dCollection();
+      getPublicCollectionByTokenMock.mockResolvedValue(collection);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const searchParams: PageSearchParams = { col: "collection-token-1" };
@@ -125,6 +137,10 @@ describe("PublicTemplatePage rendering tests", () => {
          expect(getPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPublicPromptTemplateMock).toHaveBeenCalledWith(
             descriptor.promptTemplateId
+         );
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
+            searchParams.col
          );
       });
 

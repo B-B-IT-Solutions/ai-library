@@ -1,3 +1,4 @@
+import { isEmpty, map } from "es-toolkit/compat";
 import { Copy, Cpu, Info, LayoutList, Tag } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -9,10 +10,14 @@ import {
    CardTitle,
 } from "@/components/shadcn/card";
 import { Separator } from "@/components/shadcn/separator";
-import { DCatalogEntry } from "@/data/types/domain/catalog";
-import { ExploreCopyButton } from "../buttons/explore-copy-button";
+import {
+   DCatalogEntry,
+   DCatalogEntrySummary,
+} from "@/data/types/domain/catalog";
+import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { CatalogEntryCopyButton } from "../../buttons";
 
-const FIELD_TYPE_LABELS: Record<string, string> = {
+const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
    TEXT: "Text",
    TEXTAREA: "Mehrzeiliger Text",
    SELECT: "Auswahl",
@@ -23,32 +28,22 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
    EMAIL: "E-Mail",
 };
 
-type ExploreEntryDetailProps = {
+type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
-   relatedEntries?: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      description: string;
-   }>;
+   relatedEntries: DCatalogEntrySummary[];
 };
 
-export const ExploreEntryDetail = ({
+export const CatalogEntryView = ({
    entry,
    isAuthenticated,
-   relatedEntries = [],
-}: ExploreEntryDetailProps) => {
-   const { title, description, category, recommendedModel, fields, copyCount } =
-      entry;
-
-   return (
-      <div
-         className="mx-auto max-w-3xl space-y-8"
-         data-testid="explore-entry-detail"
-      >
-         {/* Header */}
-         <div className="space-y-4">
+   relatedEntries,
+}: Props) => {
+   const header = () => {
+      const { title, description, category, recommendedModel, copyCount } =
+         entry;
+      return (
+         <div className="space-y-4" data-testid="header">
             <div className="flex flex-wrap gap-2">
                {category && (
                   <Badge
@@ -83,19 +78,21 @@ export const ExploreEntryDetail = ({
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3">
-               <ExploreCopyButton
+               <CatalogEntryCopyButton
                   catalogEntryId={entry.id}
                   slug={entry.slug}
                   isAuthenticated={isAuthenticated}
                />
             </div>
          </div>
+      );
+   };
 
-         <Separator />
-
-         {/* Fields Preview */}
-         {fields.length > 0 && (
-            <div className="space-y-4">
+   const fields = () => {
+      const { fields } = entry;
+      if (!isEmpty(fields)) {
+         return (
+            <div className="space-y-4" data-testid="fields">
                <div className="flex items-center gap-2">
                   <LayoutList className="h-5 w-5 text-slate-400" />
                   <h2 className="text-lg font-semibold text-slate-900">
@@ -112,7 +109,7 @@ export const ExploreEntryDetail = ({
                      <Card
                         key={field.id}
                         className="border-slate-200"
-                        data-testid={`explore-field-preview-${field.name}`}
+                        data-testid="field"
                      >
                         <CardHeader className="pb-2">
                            <div className="flex items-start justify-between gap-2">
@@ -126,7 +123,7 @@ export const ExploreEntryDetail = ({
                                  variant="outline"
                                  className="shrink-0 text-xs font-normal"
                               >
-                                 {FIELD_TYPE_LABELS[field.type] ?? field.type}
+                                 {FIELD_TYPE_LABELS[field.type]}
                               </Badge>
                            </div>
                            {field.description && (
@@ -135,10 +132,10 @@ export const ExploreEntryDetail = ({
                               </CardDescription>
                            )}
                         </CardHeader>
-                        {field.options && field.options.length > 0 && (
+                        {!isEmpty(field.options) && (
                            <CardContent className="pt-0">
                               <div className="flex flex-wrap gap-1.5">
-                                 {field.options.map((opt) => (
+                                 {map(field.options, (opt) => (
                                     <Badge
                                        key={opt}
                                        variant="secondary"
@@ -154,23 +151,26 @@ export const ExploreEntryDetail = ({
                   ))}
                </div>
             </div>
-         )}
+         );
+      }
+   };
 
-         {/* Related entries */}
-         {relatedEntries.length > 0 && (
+   const relatedPrompts = () => {
+      if (!isEmpty(relatedEntries)) {
+         return (
             <>
                <Separator />
-               <div className="space-y-4">
+               <div className="space-y-4" data-testid="related-entries">
                   <h2 className="text-lg font-semibold text-slate-900">
                      Mehr aus dieser Kategorie
                   </h2>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                     {relatedEntries.map((related) => (
+                     {map(relatedEntries, (related) => (
                         <a
                            key={related.id}
                            href={`/explore/${related.slug}`}
                            className="group rounded-lg border border-slate-200 p-4 transition-colors hover:border-slate-300 hover:bg-slate-50"
-                           data-testid="explore-related-entry"
+                           data-testid="related-entry"
                         >
                            <h3 className="font-medium text-slate-900 group-hover:text-slate-700">
                               {related.title}
@@ -183,10 +183,16 @@ export const ExploreEntryDetail = ({
                   </div>
                </div>
             </>
-         )}
+         );
+      }
+   };
 
-         {/* Copy CTA bottom */}
-         <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
+   const cta = () => {
+      return (
+         <div
+            className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center"
+            data-testid="cta"
+         >
             <div className="flex justify-center">
                <Info className="h-5 w-5 text-slate-400" />
             </div>
@@ -197,13 +203,30 @@ export const ExploreEntryDetail = ({
                Die Kopie gehört dir – du kannst sie beliebig anpassen.
             </p>
             <div className="mt-4 flex justify-center">
-               <ExploreCopyButton
+               <CatalogEntryCopyButton
                   catalogEntryId={entry.id}
                   slug={entry.slug}
                   isAuthenticated={isAuthenticated}
                />
             </div>
          </div>
+      );
+   };
+
+   return (
+      <div
+         className="mx-auto max-w-3xl space-y-8"
+         data-testid="catalog-entry-view"
+      >
+         {header()}
+
+         <Separator />
+
+         {fields()}
+
+         {relatedPrompts()}
+
+         {cta()}
       </div>
    );
 };

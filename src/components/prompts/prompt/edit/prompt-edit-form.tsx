@@ -37,18 +37,11 @@ type Props =
         mode: "edit";
         onCancel?: () => void;
         onSuccess?: () => void;
-     }
-   | {
-        prompt: DPromptUpdate;
-        mode: "review-template";
-        onCancel?: () => void;
-        onSuccess?: () => void;
      };
 
 export const PromptEditForm = ({ prompt, mode }: Props) => {
    const router = useRouter();
    const isEdit = mode === "edit";
-   const isReview = mode === "review-template";
 
    const initValues = () => {
       if (isEdit) {
@@ -56,15 +49,6 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
             title: prompt.title,
             content: prompt.content,
             categories: prompt.categories.map((c) => c.name),
-            recommendedModel: prompt.recommendedModel,
-            followUpPrompts: prompt.followUpPrompts,
-         };
-      }
-      if (isReview) {
-         return {
-            title: prompt.title,
-            content: prompt.content,
-            categories: prompt.categories,
             recommendedModel: prompt.recommendedModel,
             followUpPrompts: prompt.followUpPrompts,
          };

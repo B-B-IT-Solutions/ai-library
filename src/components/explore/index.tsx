@@ -1,5 +1,5 @@
 export { CatalogEntriesDashboard } from "./catalog-entries-dashboard";
-export { ExploreEntryDetail } from "./detail";
+export { CatalogEntryView } from "./detail";
 
 export {
    catalogEntrySearchParamsCache,

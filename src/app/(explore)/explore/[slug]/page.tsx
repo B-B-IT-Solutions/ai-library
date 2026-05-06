@@ -1,14 +1,16 @@
+import { filter } from "es-toolkit/compat";
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ExploreEntryDetail } from "@/components/explore";
+import { CatalogEntryView } from "@/components/explore";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 import {
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
 } from "@/data/actions/catalog";
+import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
 
 export const revalidate = 3600;
 
@@ -40,7 +42,7 @@ export type PageProps = {
    params: Promise<PageParams>;
 };
 
-const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
+export const CatalogEntryPage = async ({ params }: PageProps) => {
    const { slug } = await params;
 
    const [entry, authenticated] = await Promise.all([
@@ -52,34 +54,20 @@ const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   // Load related entries from the same category (exclude current)
-   let relatedEntries: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      description: string;
-   }> = [];
+   let relatedEntries: DCatalogEntrySummary[] = [];
 
    if (entry.category) {
       const relatedPage = await getPublishedCatalogEntriesPage({
          pagination: { pageNumber: 0, pageSize: 4 },
          filter: { categories: [entry.category.slug] },
       });
-      relatedEntries = relatedPage.content
-         .filter((e) => e.id !== entry.id)
-         .slice(0, 3)
-         .map((e) => ({
-            id: e.id,
-            slug: e.slug,
-            title: e.title,
-            description: e.description,
-         }));
+      relatedEntries = filter(relatedPage.content, (e) => e.id !== entry.id);
    }
 
    return (
       <div
          className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
-         data-testid="explore-entry-page"
+         data-testid="catalog-entry-page"
       >
          {/* Breadcrumb */}
          <Link
@@ -90,7 +78,7 @@ const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
             Zurück zur Übersicht
          </Link>
 
-         <ExploreEntryDetail
+         <CatalogEntryView
             entry={entry}
             isAuthenticated={authenticated}
             relatedEntries={relatedEntries}
@@ -99,4 +87,4 @@ const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
    );
 };
 
-export default ExploreCatalogEntryPage;
+export default CatalogEntryPage;

@@ -1,44 +1,12 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ExploreCopyButton - authenticated - rendering tests authenticated - renders copy button - test 1`] = `
-<div>
-  <button
-    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
-    data-slot="button"
-    data-testid="explore-copy-btn"
-  >
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-plus mr-2 h-4 w-4"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5 12h14"
-      />
-      <path
-        d="M12 5v14"
-      />
-    </svg>
-    In meine Library übernehmen
-  </button>
-</div>
-`;
-
-exports[`ExploreCopyButton - unauthenticated - rendering tests unauthenticated - renders register link - test 1`] = `
+exports[`CatalogEntryCopyButton rendering tests isAuthenticated false - test 1`] = `
 <div>
   <a
     class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto flex items-center gap-2"
     data-slot="button"
-    data-testid="explore-copy-btn-register"
-    href="/auth/sign-up?redirect=/explore/catalog-entry-1"
+    data-testid="catalog-entry-register-btn"
+    href="/auth/sign-up?redirect=/explore/entry-slug-1"
   >
     <svg
       aria-hidden="true"
@@ -76,5 +44,37 @@ exports[`ExploreCopyButton - unauthenticated - rendering tests unauthenticated -
     </svg>
     Registrieren um zu übernehmen
   </a>
+</div>
+`;
+
+exports[`CatalogEntryCopyButton rendering tests isAuthenticated true - test 1`] = `
+<div>
+  <button
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
+    data-slot="button"
+    data-testid="catalog-entry-copy-btn"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-plus mr-2 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5 12h14"
+      />
+      <path
+        d="M12 5v14"
+      />
+    </svg>
+    In meine Bibliothek übernehmen
+  </button>
 </div>
 `;
