@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CatalogEntryPageLoading rendering tests rendered - test 1`] = `
+<div>
+  <div
+    class="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+    data-testid="catalog-entry-page-loading"
+  >
+    <div
+      class="bg-accent animate-pulse rounded-md mb-6 h-5 w-40"
+      data-slot="skeleton"
+    />
+    <div
+      class="mx-auto max-w-3xl space-y-8"
+    >
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="flex gap-2"
+        >
+          <div
+            class="bg-accent animate-pulse h-6 w-32 rounded-full"
+            data-slot="skeleton"
+          />
+          <div
+            class="bg-accent animate-pulse h-6 w-20 rounded-full"
+            data-slot="skeleton"
+          />
+        </div>
+        <div
+          class="bg-accent animate-pulse rounded-md h-9 w-full"
+          data-slot="skeleton"
+        />
+        <div
+          class="bg-accent animate-pulse rounded-md h-5 w-5/6"
+          data-slot="skeleton"
+        />
+        <div
+          class="bg-accent animate-pulse rounded-md h-12 w-64"
+          data-slot="skeleton"
+        />
+      </div>
+      <div
+        class="bg-accent animate-pulse rounded-md h-px w-full"
+        data-slot="skeleton"
+      />
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="bg-accent animate-pulse rounded-md h-7 w-48"
+          data-slot="skeleton"
+        />
+        <div
+          class="space-y-2 rounded-lg border p-4"
+        >
+          <div
+            class="bg-accent animate-pulse rounded-md h-5 w-32"
+            data-slot="skeleton"
+          />
+          <div
+            class="bg-accent animate-pulse rounded-md h-4 w-64"
+            data-slot="skeleton"
+          />
+        </div>
+        <div
+          class="space-y-2 rounded-lg border p-4"
+        >
+          <div
+            class="bg-accent animate-pulse rounded-md h-5 w-32"
+            data-slot="skeleton"
+          />
+          <div
+            class="bg-accent animate-pulse rounded-md h-4 w-64"
+            data-slot="skeleton"
+          />
+        </div>
+        <div
+          class="space-y-2 rounded-lg border p-4"
+        >
+          <div
+            class="bg-accent animate-pulse rounded-md h-5 w-32"
+            data-slot="skeleton"
+          />
+          <div
+            class="bg-accent animate-pulse rounded-md h-4 w-64"
+            data-slot="skeleton"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
