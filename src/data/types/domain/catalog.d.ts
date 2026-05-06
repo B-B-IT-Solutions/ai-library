@@ -2,7 +2,7 @@ import { Page, PageQuery } from "@/data/types/common";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 export type DCatalogEntriesPageQuery = PageQuery<DCatalogEntriesFilter>;
-export type DCatalogEntriesPage = Page<DCatalogEntryWithContent>;
+export type DCatalogEntriesPage = Page<DCatalogEntry>;
 
 export type DCatalogEntriesFilter = {
    search?: string;

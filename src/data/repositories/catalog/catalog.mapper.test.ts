@@ -15,6 +15,7 @@ import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
 
 import {
    toDCatalogCategory,
+   toDCatalogEntries,
    toDCatalogEntriesWithContent,
    toDCatalogEntry,
    toDCatalogEntryField,
@@ -112,7 +113,14 @@ describe("toDCatalogEntriesWithContent tests", () => {
    });
 });
 
-describe("toDCatalogEntry tests", () => {
+describe("toDCatalogEntries tests", () => {
+   it("toDCatalogEntries", async () => {
+      const entries = ptestData.pCatalogEntriesWithRelations();
+      const result = toDCatalogEntries(entries);
+      const expectedResult = toDCatalogEntriesInternal(entries);
+      expect(result).toEqual(expectedResult);
+   });
+
    it("toDCatalogEntry test", async () => {
       const entry = ptestData.pCatalogEntryWithRelations();
       const result = toDCatalogEntry(entry);
