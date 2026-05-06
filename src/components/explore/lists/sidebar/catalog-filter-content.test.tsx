@@ -14,7 +14,6 @@ const assertRendered = () => {
    const categories = screen.getByTestId("categories-filter");
 
    assertInDocument(filters);
-
    assertInDocument(categories);
 };
 
