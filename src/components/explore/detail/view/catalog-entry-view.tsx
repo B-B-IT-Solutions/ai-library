@@ -29,9 +29,9 @@ const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
 };
 
 type Props = {
-   entry: DCatalogEntry;
+   entry: DCatalogEntryWithContent;
    isAuthenticated: boolean;
-   relatedEntries: DCatalogEntryWithContent[];
+   relatedEntries: DCatalogEntry[];
 };
 
 export const CatalogEntryView = ({

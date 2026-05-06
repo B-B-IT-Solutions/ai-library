@@ -22,7 +22,7 @@ describe("CatalogEntriesList rendering tests", () => {
    });
 
    it("entries with items - test", async () => {
-      const entries = dtestData.dCatalogEntrySummaries();
+      const entries = dtestData.dCatalogEntries();
 
       const { container } = renderWithReactQuery(
          <CatalogEntriesList entries={entries} />

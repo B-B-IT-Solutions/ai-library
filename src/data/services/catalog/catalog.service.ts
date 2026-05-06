@@ -2,8 +2,8 @@ import { CatalogRepository } from "@/data/repositories/catalog";
 import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
-   DCatalogEntry,
    DCatalogEntryCategory,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { TemplateService } from "../template";
@@ -24,7 +24,7 @@ export class CatalogService {
 
    async getPublishedCatalogEntryBySlug(
       slug: string
-   ): Promise<DCatalogEntry | null> {
+   ): Promise<DCatalogEntryWithContent | null> {
       return await this.catalogRepository.pGetPublishedEntryBySlug(slug);
    }
 

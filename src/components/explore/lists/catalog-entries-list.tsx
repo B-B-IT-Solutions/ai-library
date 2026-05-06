@@ -1,11 +1,11 @@
 import { map } from "es-toolkit/compat";
 
-import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
+import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 import { ExploreEntryCard } from "./items";
 
 type Props = {
-   entries: DCatalogEntryWithContent[];
+   entries: DCatalogEntry[];
 };
 
 export const CatalogEntriesList = ({ entries }: Props) => {
