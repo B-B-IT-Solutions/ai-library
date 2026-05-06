@@ -26,12 +26,12 @@ const assertRendered = () => {
 };
 
 const assertFilterRendered = () => {
-   const filters = screen.getByTestId("explore-category-filter");
+   const filters = screen.getByTestId("categories-filter");
    assertInDocument(filters);
 };
 
 const assertFilterNotRendered = () => {
-   const filters = screen.queryByTestId("explore-category-filter");
+   const filters = screen.queryByTestId("categories-filter");
    assertNotInDocument(filters);
 };
 
@@ -105,11 +105,11 @@ describe("CatalogEntriesToolbar mobile funtionality tests", () => {
       });
 
       await waitFor(() => {
-         const cat1 = screen.getByTestId("sidebar-category-category-1");
+         const cat1 = screen.getByTestId("category-category-1");
          assertInDocument(cat1);
       });
 
-      const cat1 = screen.getByTestId("sidebar-category-category-1");
+      const cat1 = screen.getByTestId("category-category-1");
       await userEvent.click(cat1);
 
       await waitFor(() => {

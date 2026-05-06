@@ -7,10 +7,8 @@ import { debounce, useQueryState } from "nuqs";
 
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
-import {
-   f_categoriesParam,
-   f_searchParam,
-} from "../../catalog-search-params";
+import { f_categoriesParam, f_searchParam } from "../../catalog-search-params";
+import { CategoriesFilter } from "../toolbar/filters";
 
 type Props = {
    categories: DCatalogEntryCategory[];
@@ -66,7 +64,11 @@ export const CatalogFilterContent: FC<Props> = ({
                </button>
             )}
          </div>
-
+         <CategoriesFilter
+            categories={categories}
+            totalElements={totalElements}
+            onSelect={onSelect}
+         />
          <div className="p-3">
             <p className="px-2 pb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                Kategorien

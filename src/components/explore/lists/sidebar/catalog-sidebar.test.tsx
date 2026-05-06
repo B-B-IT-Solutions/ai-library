@@ -23,10 +23,10 @@ describe("CatalogSidebar rendering tests", () => {
 
       await waitFor(() => {
          assertInDocument(screen.getByTestId("catalog-sidebar"));
-         assertInDocument(screen.getByTestId("explore-category-filter"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-1"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-2"));
-         assertInDocument(screen.getByTestId("sidebar-category-category-3"));
+         assertInDocument(screen.getByTestId("categories-filter"));
+         assertInDocument(screen.getByTestId("category-category-1"));
+         assertInDocument(screen.getByTestId("category-category-2"));
+         assertInDocument(screen.getByTestId("category-category-3"));
       });
 
       expect(container).toMatchSnapshot();
@@ -36,9 +36,9 @@ describe("CatalogSidebar rendering tests", () => {
       renderWithRouter(<CatalogSidebar {...defaultProps} />, "/explore");
 
       await waitFor(() => {
-         expect(
-            screen.getByTestId("explore-category-filter").textContent
-         ).toContain("12");
+         expect(screen.getByTestId("categories-filter").textContent).toContain(
+            "12"
+         );
       });
    });
 
