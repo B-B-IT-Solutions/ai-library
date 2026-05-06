@@ -15,8 +15,8 @@ import {
 
 import {
    toDCatalogCategory,
+   toDCatalogEntriesWithContent,
    toDCatalogEntry,
-   toDCatalogEntrySummaries,
 } from "./catalog.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -59,7 +59,7 @@ export class CatalogRepository {
          this.prisma.catalogEntry.count(countArgs),
       ]);
 
-      const content = toDCatalogEntrySummaries(entries);
+      const content = toDCatalogEntriesWithContent(entries);
 
       return {
          content,

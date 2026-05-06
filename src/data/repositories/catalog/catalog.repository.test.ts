@@ -12,7 +12,7 @@ import {
 import {
    toDCatalogCategory,
    toDCatalogEntry,
-   toDCatalogEntrySummary,
+   toDCatalogEntryWithContent,
 } from "./catalog.mapper";
 import { CatalogRepository } from "./catalog.repository";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
@@ -112,7 +112,7 @@ describe("pGetPublishedEntriesPage tests", () => {
 
       const result = await catalogRepository.pGetPublishedEntriesPage();
 
-      expect(result.content[0]).toEqual(toDCatalogEntrySummary(entry));
+      expect(result.content[0]).toEqual(toDCatalogEntryWithContent(entry));
       expect((result.content[0] as any).content).toBeUndefined();
    });
 });

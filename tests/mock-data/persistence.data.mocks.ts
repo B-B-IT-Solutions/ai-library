@@ -3,7 +3,10 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
-import { CatalogEntryWithRelations } from "@/data/types/db/catalog";
+import {
+   CatalogEntryWithContent,
+   CatalogEntryWithRelations,
+} from "@/data/types/db/catalog";
 import { PLibraryCollection } from "@/data/types/db/collection";
 import {
    OrderItemProduct,
@@ -702,6 +705,22 @@ export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
    };
 };
 
+export const pCatalogEntriesWithContent = (
+   count = 3
+): CatalogEntryWithContent[] => {
+   return range(0, count).map((i) => pCatalogEntryWithContent(i + 1));
+};
+
+export const pCatalogEntryWithContent = (
+   index = 1
+): CatalogEntryWithContent => {
+   const entry = pCatalogEntryWithRelations(index);
+   return {
+      ...entry,
+      content: pCatalogEntryContent(index, entry.id),
+   };
+};
+
 export const pCatalogEntriesWithRelations = (
    count = 3
 ): CatalogEntryWithRelations[] => {
@@ -716,7 +735,6 @@ export const pCatalogEntryWithRelations = (
       ...entry,
       category: pCatalogCategory(index),
       fields: pCatalogEntryFields(3, entry.id),
-      content: pCatalogEntryContent(index, entry.id),
    };
 };
 

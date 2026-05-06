@@ -11,7 +11,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
-   DCatalogEntrySummary,
+   DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
    DCollection,
@@ -750,11 +750,13 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: ["option-1", "option-2", "option-3"],
 });
 
-export const dCatalogEntrySummaries = (count = 3): DCatalogEntrySummary[] => {
+export const dCatalogEntrySummaries = (
+   count = 3
+): DCatalogEntryWithContent[] => {
    return range(0, count).map((i) => dCatalogEntrySummary(i + 1));
 };
 
-export const dCatalogEntrySummary = (index = 1): DCatalogEntrySummary => {
+export const dCatalogEntrySummary = (index = 1): DCatalogEntryWithContent => {
    const { content: _content, ...rest } = dCatalogEntry(index);
    return rest;
 };

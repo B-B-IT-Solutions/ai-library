@@ -9,11 +9,11 @@ import {
    CardFooter,
    CardHeader,
 } from "@/components/shadcn/card";
-import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
+import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   entry: DCatalogEntrySummary;
+   entry: DCatalogEntryWithContent;
    className?: string;
 };
 

@@ -1,9 +1,9 @@
-import { DCatalogEntrySummary } from "@/data/types/domain/catalog";
+import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
 import { ExploreEntryCard } from "./items";
 
 type Props = {
-   entries: DCatalogEntrySummary[];
+   entries: DCatalogEntryWithContent[];
 };
 
 export const CatalogEntriesGrid = ({ entries }: Props) => {

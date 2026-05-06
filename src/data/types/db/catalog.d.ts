@@ -8,5 +8,8 @@ import {
 export type CatalogEntryWithRelations = CatalogEntry & {
    category: CatalogCategory | null;
    fields: CatalogEntryField[];
-   content: CatalogEntryContent | null;
+};
+
+export type CatalogEntryWithContent = CatalogEntryWithRelations & {
+   content: CatalogEntryContent;
 };
