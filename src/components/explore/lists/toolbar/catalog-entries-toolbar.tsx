@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Filter, Search } from "lucide-react";
-import { useQueryState } from "nuqs";
+import { Filter } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { Input } from "@/components/shadcn/input";
 import {
    Sheet,
    SheetContent,
@@ -15,9 +13,9 @@ import {
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
-import { f_searchParam } from "../../catalog-search-params";
 import { CatalogFilterContent } from "../sidebar/catalog-filter-content";
 
+import { SearchFilter } from "./filters";
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {
@@ -32,10 +30,6 @@ export const CatalogEntriesToolbar = ({
    totalElements,
 }: Props) => {
    const [sheetOpen, setSheetOpen] = useState(false);
-   const [search, setSearch] = useQueryState(
-      "f_search",
-      f_searchParam.withOptions({ shallow: false })
-   );
 
    const filterSheet = () => {
       return (
@@ -69,16 +63,7 @@ export const CatalogEntriesToolbar = ({
       >
          {/* Mobile */}
          <div className="flex flex-col gap-2 sm:hidden">
-            <div className="relative">
-               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
-               <Input
-                  data-testid="explore-search-input"
-                  placeholder="Suchen…"
-                  value={search || ""}
-                  onChange={(e) => setSearch(e.target.value || null)}
-                  className="h-9 w-full pl-9"
-               />
-            </div>
+            <SearchFilter />
             <div className="flex gap-2">
                {filterSheet()}
                <div>
@@ -90,15 +75,7 @@ export const CatalogEntriesToolbar = ({
          {/* Desktop */}
          <div className="hidden items-center justify-between sm:flex">
             <div className="flex items-center gap-3">
-               <div className="relative">
-                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input
-                     placeholder="Suchen…"
-                     value={search || ""}
-                     onChange={(e) => setSearch(e.target.value || null)}
-                     className="h-8 w-64 pl-9 text-sm"
-                  />
-               </div>
+               <SearchFilter />
             </div>
             <div className="flex items-center gap-3">
                <CatalogSortBySelect />
