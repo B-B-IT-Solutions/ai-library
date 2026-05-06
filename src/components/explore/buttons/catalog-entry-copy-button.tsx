@@ -15,7 +15,7 @@ type Props = {
    isAuthenticated: boolean;
 };
 
-export const ExploreCopyButton = ({
+export const CatalogEntryCopyButton = ({
    catalogEntryId,
    slug,
    isAuthenticated,
