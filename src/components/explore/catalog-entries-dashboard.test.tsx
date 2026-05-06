@@ -37,14 +37,14 @@ const getPublishedCatalogEntriesPageMock =
       typeof getPublishedCatalogEntriesPage
    >;
 
+const searchParamMock = f_searchParam as DeepMockProxy<typeof f_searchParam>;
+
+const sortByParamMock = sortByParam as DeepMockProxy<typeof sortByParam>;
+
 const exploreSearchParamsCacheMock =
    catalogEntrySearchParamsCache as DeepMockProxy<
       typeof catalogEntrySearchParamsCache
    >;
-
-const searchParamMock = f_searchParam as DeepMockProxy<typeof f_searchParam>;
-
-const sortByParamMock = sortByParam as DeepMockProxy<typeof sortByParam>;
 
 const mockSearchParam = () => {
    return parseAsString.withDefault("");
