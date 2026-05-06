@@ -13,7 +13,7 @@ import {
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
-import { CatalogFilterContent } from "../sidebar/catalog-filter-content";
+import { CatalogEntryFilters } from "./filters/catalog-entry-filters";
 
 import { SearchFilter } from "./filters";
 import { CatalogSortBySelect } from "./sort-by";
@@ -46,7 +46,7 @@ export const CatalogEntriesToolbar = ({
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
                <SheetTitle className="sr-only">Filter</SheetTitle>
-               <CatalogFilterContent
+               <CatalogEntryFilters
                   categories={categories}
                   totalElements={totalElements}
                   onSelect={() => setSheetOpen(false)}

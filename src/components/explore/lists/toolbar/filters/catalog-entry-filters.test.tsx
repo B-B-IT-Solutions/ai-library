@@ -7,7 +7,7 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { CatalogFilterContent } from "./catalog-filter-content";
+import { CatalogEntryFilters } from "./catalog-entry-filters";
 
 const assertRendered = () => {
    const filters = screen.getByTestId("catalog-entry-filters");
@@ -27,12 +27,12 @@ const assertResetBtnNotRendered = () => {
    assertNotInDocument(resetBtn);
 };
 
-describe("CatalogFilterContent rendering tests", () => {
+describe("CatalogEntryFilters rendering tests", () => {
    it("without filters - test", async () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogFilterContent categories={categories} totalElements={21} />,
+         <CatalogEntryFilters categories={categories} totalElements={21} />,
          "/explore"
       );
 
@@ -48,7 +48,7 @@ describe("CatalogFilterContent rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogFilterContent categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} totalElements={20} />,
          "/explore",
          "f_search=test"
       );
@@ -65,7 +65,7 @@ describe("CatalogFilterContent rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogFilterContent categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} totalElements={20} />,
          "/explore",
          "f_categories=category-1"
       );
@@ -79,7 +79,7 @@ describe("CatalogFilterContent rendering tests", () => {
    });
 });
 
-describe("CatalogFilterContent interaction tests", () => {
+describe("CatalogEntryFilters interaction tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -90,7 +90,7 @@ describe("CatalogFilterContent interaction tests", () => {
       const onUrlUpdateFn = jest.fn();
 
       renderWithRouter(
-         <CatalogFilterContent categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} totalElements={20} />,
          "/explore",
          "f_search=test&f_categories=category-1",
          onUrlUpdateFn
@@ -127,7 +127,7 @@ describe("CatalogFilterContent interaction tests", () => {
       const onSelectFn = jest.fn();
 
       renderWithRouter(
-         <CatalogFilterContent
+         <CatalogEntryFilters
             categories={categories}
             totalElements={10}
             onSelect={onSelectFn}

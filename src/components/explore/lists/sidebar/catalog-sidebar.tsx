@@ -1,6 +1,5 @@
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
-
-import { CatalogFilterContent } from "./catalog-filter-content";
+import { CatalogEntryFilters } from "../toolbar/filters";
 
 type Props = {
    categories: DCatalogEntryCategory[];
@@ -14,7 +13,7 @@ export const CatalogSidebar = ({ categories, totalElements }: Props) => {
          data-testid="catalog-entries-sidebar"
       >
          <div className="rounded-xl border bg-white shadow-sm">
-            <CatalogFilterContent
+            <CatalogEntryFilters
                categories={categories}
                totalElements={totalElements}
             />

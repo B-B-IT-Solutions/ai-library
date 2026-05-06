@@ -1,12 +1,14 @@
 "use client";
 
-import { FC } from "react";
 import { isEmpty } from "es-toolkit/compat";
 import { useQueryState } from "nuqs";
 
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
-import { f_categoriesParam, f_searchParam } from "../../catalog-search-params";
-import { CategoriesFilter } from "../toolbar/filters";
+import {
+   f_categoriesParam,
+   f_searchParam,
+} from "../../../catalog-search-params";
+import { CategoriesFilter } from ".";
 
 type Props = {
    categories: DCatalogEntryCategory[];
@@ -14,11 +16,11 @@ type Props = {
    onSelect?: () => void;
 };
 
-export const CatalogFilterContent: FC<Props> = ({
+export const CatalogEntryFilters = ({
    categories,
    totalElements,
    onSelect,
-}) => {
+}: Props) => {
    const [search, setSearch] = useQueryState(
       "f_search",
       f_searchParam.withOptions({ shallow: false })

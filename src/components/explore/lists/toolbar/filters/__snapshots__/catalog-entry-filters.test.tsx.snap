@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CatalogFilterContent rendering tests categories filter - test 1`] = `
+exports[`CatalogEntryFilters rendering tests categories filter - test 1`] = `
 <div>
   <div
     data-testid="catalog-entry-filters"
@@ -96,7 +96,7 @@ exports[`CatalogFilterContent rendering tests categories filter - test 1`] = `
 </div>
 `;
 
-exports[`CatalogFilterContent rendering tests search filter - test 1`] = `
+exports[`CatalogEntryFilters rendering tests search filter - test 1`] = `
 <div>
   <div
     data-testid="catalog-entry-filters"
@@ -175,7 +175,7 @@ exports[`CatalogFilterContent rendering tests search filter - test 1`] = `
 </div>
 `;
 
-exports[`CatalogFilterContent rendering tests without filters - test 1`] = `
+exports[`CatalogEntryFilters rendering tests without filters - test 1`] = `
 <div>
   <div
     data-testid="catalog-entry-filters"
