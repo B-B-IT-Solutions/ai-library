@@ -31,7 +31,7 @@ export const toDCatalogEntry = (
       title: entry.title,
       description: entry.description,
       recommendedModel: entry.recommendedModel,
-      content: entry.content,
+      content: entry.content?.content ?? "",
       status: entry.status,
       category: toDCatalogCategory(entry.category),
       fields: map(entry.fields, toDCatalogEntryField).sort(

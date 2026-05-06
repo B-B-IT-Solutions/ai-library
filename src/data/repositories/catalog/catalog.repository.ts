@@ -80,6 +80,7 @@ export class CatalogRepository {
          include: {
             category: true,
             fields: true,
+            content: true,
          },
       });
 
@@ -92,6 +93,7 @@ export class CatalogRepository {
          include: {
             category: true,
             fields: true,
+            content: true,
          },
       });
 

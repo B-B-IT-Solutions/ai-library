@@ -132,7 +132,7 @@ describe("pGetPublishedEntryBySlug tests", () => {
       expect(result).toEqual(toDCatalogEntry(entry));
       expect(prismaMock.catalogEntry.findFirst).toHaveBeenCalledWith({
          where: { slug: "catalog-entry-1", status: "PUBLISHED" },
-         include: { category: true, fields: true },
+         include: { category: true, fields: true, content: true },
       });
    });
 
@@ -173,7 +173,7 @@ describe("pGetPublishedEntryById tests", () => {
       expect(result).toEqual(toDCatalogEntry(entry));
       expect(prismaMock.catalogEntry.findFirst).toHaveBeenCalledWith({
          where: { id: "entry-uuid-0001", status: "PUBLISHED" },
-         include: { category: true, fields: true },
+         include: { category: true, fields: true, content: true },
       });
    });
 
