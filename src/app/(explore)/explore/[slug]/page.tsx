@@ -42,7 +42,7 @@ export type PageProps = {
    params: Promise<PageParams>;
 };
 
-export const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
+export const CatalogEntryPage = async ({ params }: PageProps) => {
    const { slug } = await params;
 
    const [entry, authenticated] = await Promise.all([
@@ -87,4 +87,4 @@ export const ExploreCatalogEntryPage = async ({ params }: PageProps) => {
    );
 };
 
-export default ExploreCatalogEntryPage;
+export default CatalogEntryPage;
