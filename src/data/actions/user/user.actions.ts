@@ -123,7 +123,7 @@ export const resendVerificationEmail = async (
          };
       }
 
-      const tokenService = getTokenService();
+      const tokenService = getEmailVerificationService();
       await tokenService.sendVerificationEmail(user.email, user.name);
 
       return {
@@ -277,17 +277,12 @@ export const resetPassword = async (
       }
 
       const userService = getUserService();
-      const user = await userService.getUserByEmail(email);
-      if (!user) {
-         return {
-            success: false,
-            message: "Benutzer nicht gefunden",
-         };
-      }
+      await userService.resetPassword(email, validatedData);
 
-      await userService.resetPassword(user.id, validatedData);
-
-      return { success: true, message: "Passwort erfolgreich zurückgesetzt" };
+      return {
+         success: true,
+         message: "Passwort erfolgreich zurückgesetzt",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
@@ -302,7 +297,7 @@ const getUserService = (dbClient: DbClient = prisma) => {
    return factory.getUserService();
 };
 
-const getTokenService = (dbClient: DbClient = prisma) => {
+const getEmailVerificationService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getVerificationTokenService();
 };
