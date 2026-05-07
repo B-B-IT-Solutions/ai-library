@@ -61,6 +61,7 @@ export class ServiceFactory {
          this.userService = new UserService(
             this.repositories.userRepository(),
             this.getVerificationTokenService(),
+            this.getPasswordResetService(),
             this.getCartService(),
             this.getOrderService(),
             this.getIubendaService()

@@ -265,19 +265,8 @@ export const resetPassword = async (
    try {
       const validatedData = resetPasswordSchema.parse(data);
 
-      const resetService = getPasswordResetService();
-      const valid = await resetService.consumeToken(email, token);
-
-      if (!valid) {
-         return {
-            success: false,
-            message:
-               "Der Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an.",
-         };
-      }
-
       const userService = getUserService();
-      await userService.resetPassword(email, validatedData);
+      await userService.resetPassword(email, token, validatedData);
 
       return {
          success: true,
@@ -287,7 +276,8 @@ export const resetPassword = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: "Fehler beim Zurücksetzen des Passworts",
+         message:
+            "Fehler beim Zurücksetzen des Passworts. Der Link ist möflicherweise ungültig oder abgelaufen. Bitte fordere einen neuen an.",
       };
    }
 };

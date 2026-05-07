@@ -20,7 +20,10 @@ import {
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
-import { VerificationTokenService } from "@/data/services/user";
+import {
+   PasswordResetService,
+   VerificationTokenService,
+} from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DResetPassword,
@@ -50,12 +53,15 @@ const cartService = serviceFactory.getCartService();
 const orderService = serviceFactory.getOrderService();
 const iubendaService = serviceFactory.getIubendaService();
 const verificationTokenService = serviceFactory.getVerificationTokenService();
+const passwordResetService = serviceFactory.getPasswordResetService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
 const verificationTokenServiceMock =
    verificationTokenService as DeepMockProxy<VerificationTokenService>;
+const passwordResetServiceMock =
+   passwordResetService as DeepMockProxy<PasswordResetService>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -63,6 +69,7 @@ const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 const userService = new UserService(
    userRepoMock,
    verificationTokenServiceMock,
+   passwordResetServiceMock,
    cartServiceMock,
    orderServiceMock,
    iubendaServiceMock
@@ -583,6 +590,7 @@ describe("resetPassword tests", () => {
 
    it("user null - test", async () => {
       const email = "test@email.com";
+      const token = "generated-reset-token-1";
       userRepoMock.pGetUserByEmail.mockResolvedValue(null);
 
       const data: DResetPassword = {
@@ -590,19 +598,51 @@ describe("resetPassword tests", () => {
          confirmPassword: "12345679",
       };
 
-      const fn = async () => await userService.resetPassword(email, data);
+      const fn = async () =>
+         await userService.resetPassword(email, token, data);
 
       expect(fn).rejects.toThrow("User not found");
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(email);
+      expect(passwordResetServiceMock.consumeToken).not.toHaveBeenCalled();
+      expect(hashMock).not.toHaveBeenCalled();
+      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
+   });
+
+   it("token invalid - test", async () => {
+      const token = "generated-reset-token-1";
+
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+      passwordResetServiceMock.consumeToken.mockResolvedValue(false);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () =>
+         await userService.resetPassword(user.email, token, data);
+
+      expect(fn).rejects.toThrow("Invalid password reset token");
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
+      // expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
+      //    user.email,
+      //    token
+      // );
       expect(hashMock).not.toHaveBeenCalled();
       expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
    });
 
    it("password updated - test", async () => {
+      const token = "generated-reset-token-1";
+
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
-      compareMock.mockResolvedValue(true);
+      passwordResetServiceMock.consumeToken.mockResolvedValue(true);
+
       const hashedPassword = "hashed-password-1";
       hashMock.mockResolvedValue(hashedPassword);
 
@@ -611,10 +651,15 @@ describe("resetPassword tests", () => {
          confirmPassword: "12345679",
       };
 
-      await userService.resetPassword(user.email, data);
+      await userService.resetPassword(user.email, token, data);
 
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
+         user.email,
+         token
+      );
       expect(hashMock).toHaveBeenCalledTimes(1);
       expect(hashMock).toHaveBeenCalledWith(data.password);
       expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);

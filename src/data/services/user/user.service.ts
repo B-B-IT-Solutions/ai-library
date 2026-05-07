@@ -7,7 +7,10 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
-import { VerificationTokenService } from "@/data/services/user";
+import {
+   PasswordResetService,
+   VerificationTokenService,
+} from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DResetPassword,
@@ -28,6 +31,7 @@ export class UserService {
    constructor(
       private readonly userRepository: UserRepository,
       private readonly verificationTokenService: VerificationTokenService,
+      private readonly passwordResetServcie: PasswordResetService,
       private readonly cartService: CartService,
       private readonly orderService: OrderService,
       private readonly iubendaService: IubendaService
@@ -136,10 +140,24 @@ export class UserService {
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
-   async resetPassword(email: string, data: DResetPassword): Promise<void> {
+   async resetPassword(
+      email: string,
+      token: string,
+      data: DResetPassword
+   ): Promise<void> {
       const user = await this.userRepository.pGetUserByEmail(email);
       if (!user) {
          throw new Error("User not found");
+      }
+
+      const valid = await this.passwordResetServcie.consumeToken(
+         user.email,
+         token
+      );
+      console.log("passwordResetServcie");
+      console.log(valid);
+      if (!valid) {
+         throw new Error("Invalid password reset token");
       }
 
       const hashedPassword = await hash(data.password);
