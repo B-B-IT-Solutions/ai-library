@@ -23,7 +23,11 @@ import {
    PublicTemplateService,
    TemplateService,
 } from "@/data/services/template";
-import { UserService, VerificationTokenService } from "@/data/services/user";
+import {
+   PasswordResetTokenService,
+   UserService,
+   VerificationTokenService,
+} from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
 
@@ -33,6 +37,7 @@ export class ServiceFactory {
    private publicCatalogService?: PublicCatalogService;
    private userService?: UserService;
    private verificationTokenService?: VerificationTokenService;
+   private passwordResetTokenService?: PasswordResetTokenService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
    private publicCollectionService?: PublicCollectionService;
@@ -72,6 +77,16 @@ export class ServiceFactory {
          );
       }
       return this.verificationTokenService;
+   }
+
+   getPasswordResetTokenService(): PasswordResetTokenService {
+      if (!this.passwordResetTokenService) {
+         this.passwordResetTokenService = new PasswordResetTokenService(
+            this.repositories.passwordResetTokenRepository(),
+            this.getEmailService()
+         );
+      }
+      return this.passwordResetTokenService;
    }
 
    getCatalogService(): CatalogService {

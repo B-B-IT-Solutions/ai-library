@@ -2,6 +2,8 @@ import z from "zod";
 
 import {
    deleteAccountSchema,
+   forgotPasswordSchema,
+   resetPasswordSchema,
    signInSchema,
    signUpSchema,
    updatePasswordSchema,
@@ -49,3 +51,7 @@ export type DVerificationToken = {
    token: string;
    expires: Date;
 };
+
+export type DForgotPassword = z.infer<typeof forgotPasswordSchema>;
+
+export type DResetPassword = z.infer<typeof resetPasswordSchema>;

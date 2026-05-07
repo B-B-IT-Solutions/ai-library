@@ -10,8 +10,13 @@ import {
 } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
-import type { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import type { EmailVerificationParams, PasswordResetEmailParams } from "./types";
+import {
+   buildHtml,
+   buildPasswordResetHtml,
+   buildPasswordResetText,
+   buildText,
+} from "./utils";
 
 export class SmtpEmailService implements IEmailService {
    private senderName: string;
@@ -39,6 +44,29 @@ export class SmtpEmailService implements IEmailService {
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
          html: buildHtml(this.senderName, name, verificationUrl),
          text: buildText(this.senderName, name, verificationUrl),
+      };
+      await transporter.sendMail(mailOptions);
+   }
+
+   async sendPasswordResetEmail(
+      params: PasswordResetEmailParams
+   ): Promise<void> {
+      const { to, name, resetUrl } = params;
+
+      const transportOptions: SMTPTransport.Options = {
+         host: getSmtpHost(),
+         port: getSmtpPort(),
+         secure: false,
+         auth: undefined,
+      };
+      const transporter = nodemailer.createTransport(transportOptions);
+
+      const mailOptions: Mail.Options = {
+         from: `"${this.senderName}" <${this.senderEmail}>`,
+         to,
+         subject: `${this.senderName} – Passwort zurücksetzen`,
+         html: buildPasswordResetHtml(this.senderName, name, resetUrl),
+         text: buildPasswordResetText(this.senderName, name, resetUrl),
       };
       await transporter.sendMail(mailOptions);
    }

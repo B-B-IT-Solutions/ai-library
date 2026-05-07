@@ -51,3 +51,21 @@ export const updatePasswordSchema = z
 export const deleteAccountSchema = z.object({
    password: z.string().min(1, "Passwort ist erforderlich"),
 });
+
+export const forgotPasswordSchema = z.object({
+   email: z.email("Ungültige E-Mail-Adresse"),
+});
+
+export const resetPasswordSchema = z
+   .object({
+      password: z
+         .string()
+         .min(6, "Passwort muss mindestens 6 Zeichen lang sein"),
+      confirmPassword: z
+         .string()
+         .min(1, "Passwort bestätigen ist erforderlich"),
+   })
+   .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwörter stimmen nicht überein",
+      path: ["confirmPassword"],
+   });

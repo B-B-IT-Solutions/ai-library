@@ -3,8 +3,13 @@ import { Brevo, BrevoClient } from "@getbrevo/brevo";
 import { APP_NAME, getBrevoApiKey, getBrevoSenderEmail } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
-import type { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import type { EmailVerificationParams, PasswordResetEmailParams } from "./types";
+import {
+   buildHtml,
+   buildPasswordResetHtml,
+   buildPasswordResetText,
+   buildText,
+} from "./utils";
 
 export class BrevoEmailService implements IEmailService {
    private client: BrevoClient;
@@ -34,6 +39,29 @@ export class BrevoEmailService implements IEmailService {
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
          htmlContent: buildHtml(this.senderName, name, verificationUrl),
          textContent: buildText(this.senderName, name, verificationUrl),
+      };
+
+      try {
+         await this.client.transactionalEmails.sendTransacEmail(request);
+      } catch (error) {
+         console.error(error);
+      }
+   }
+
+   async sendPasswordResetEmail(
+      params: PasswordResetEmailParams
+   ): Promise<void> {
+      const { to, name, resetUrl } = params;
+
+      const request: Brevo.SendTransacEmailRequest = {
+         to: [{ email: to, name }],
+         sender: {
+            email: this.senderEmail,
+            name: this.senderName,
+         },
+         subject: `${this.senderName} – Passwort zurücksetzen`,
+         htmlContent: buildPasswordResetHtml(this.senderName, name, resetUrl),
+         textContent: buildPasswordResetText(this.senderName, name, resetUrl),
       };
 
       try {

@@ -182,6 +182,11 @@ export class UserService {
       );
    }
 
+   async resetPassword(userId: string, newPassword: string): Promise<void> {
+      const hashedPassword = await hash(newPassword);
+      await this.userRepository.pUpdatePassword(userId, hashedPassword);
+   }
+
    async isEmailVerified(email: string): Promise<boolean | null> {
       return await this.userRepository.pGetEmailVerified(email);
    }

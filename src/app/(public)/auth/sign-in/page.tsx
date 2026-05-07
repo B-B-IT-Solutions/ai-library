@@ -27,6 +27,7 @@ export type PageSearchParams = {
    callbackUrl?: string;
    verified?: string;
    error?: string;
+   password_reset?: string;
 };
 
 export type PageProps = {
@@ -34,7 +35,7 @@ export type PageProps = {
 };
 
 export const SignInPage = async ({ searchParams }: PageProps) => {
-   const { callbackUrl, verified, error } = await searchParams;
+   const { callbackUrl, verified, error, password_reset } = await searchParams;
 
    const session = await auth();
 
@@ -43,6 +44,17 @@ export const SignInPage = async ({ searchParams }: PageProps) => {
    }
 
    const banners = () => {
+      if (password_reset === "true") {
+         return (
+            <div
+               className="mb-4 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700"
+               data-testid="password-reset-banner"
+            >
+               Passwort erfolgreich zurückgesetzt. Du kannst dich jetzt
+               anmelden.
+            </div>
+         );
+      }
       if (verified === "true") {
          return (
             <div

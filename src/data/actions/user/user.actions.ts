@@ -10,6 +10,8 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   DForgotPassword,
+   DResetPassword,
    DSignUpResult,
    DUser,
    DUserAccountDelete,
@@ -21,6 +23,8 @@ import {
 import { ActionResult } from "@/data/types/utils";
 import {
    deleteAccountSchema,
+   forgotPasswordSchema,
+   resetPasswordSchema,
    signInSchema,
    signUpSchema,
    updatePasswordSchema,
@@ -225,6 +229,71 @@ export const deleteUser = async (
    }
 };
 
+export const requestPasswordReset = async (
+   data: DForgotPassword
+): Promise<ActionResult> => {
+   try {
+      const { email } = forgotPasswordSchema.parse(data);
+
+      const userService = getUserService();
+      const user = await userService.getUserByEmail(email);
+
+      if (user) {
+         const resetService = getPasswordResetTokenService();
+         await resetService.sendPasswordResetEmail(user.email, user.name);
+      }
+
+      return {
+         success: true,
+         message:
+            "Falls ein Konto mit dieser E-Mail existiert, wurde eine E-Mail gesendet.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Fehler beim Senden der E-Mail",
+      };
+   }
+};
+
+export const resetPassword = async (
+   email: string,
+   token: string,
+   data: DResetPassword
+): Promise<ActionResult> => {
+   try {
+      const { password } = resetPasswordSchema.parse(data);
+
+      const resetService = getPasswordResetTokenService();
+      const valid = await resetService.consumeToken(email, token);
+
+      if (!valid) {
+         return {
+            success: false,
+            message:
+               "Der Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an.",
+         };
+      }
+
+      const userService = getUserService();
+      const user = await userService.getUserByEmail(email);
+      if (!user) {
+         return { success: false, message: "Benutzer nicht gefunden" };
+      }
+
+      await userService.resetPassword(user.id, password);
+
+      return { success: true, message: "Passwort erfolgreich zurückgesetzt" };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Fehler beim Zurücksetzen des Passworts",
+      };
+   }
+};
+
 const getUserService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getUserService();
@@ -233,4 +302,9 @@ const getUserService = (dbClient: DbClient = prisma) => {
 const getTokenService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getVerificationTokenService();
+};
+
+const getPasswordResetTokenService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getPasswordResetTokenService();
 };
