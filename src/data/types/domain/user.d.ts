@@ -52,6 +52,12 @@ export type DVerificationToken = {
    expires: Date;
 };
 
+export type DResetPasswordToken = {
+   identifier: string;
+   token: string;
+   expires: Date;
+};
+
 export type DForgotPassword = z.infer<typeof forgotPasswordSchema>;
 
 export type DResetPassword = z.infer<typeof resetPasswordSchema>;

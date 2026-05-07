@@ -73,6 +73,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import {
+   DResetPasswordToken,
    DUser,
    DUserCreate,
    DUserInternal,
@@ -111,6 +112,14 @@ export const dUserInternal = (index = 1): DUserInternal => {
 };
 
 export const dVerificationToken = (index = 1): DVerificationToken => {
+   return {
+      identifier: `user${index}@email.com`,
+      token: `token-${index}`,
+      expires: new Date("2035-09-27"),
+   };
+};
+
+export const dResetPasswordToken = (index = 1): DResetPasswordToken => {
    return {
       identifier: `user${index}@email.com`,
       token: `token-${index}`,

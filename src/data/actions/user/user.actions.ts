@@ -239,7 +239,7 @@ export const requestPasswordReset = async (
       const user = await userService.getUserByEmail(email);
 
       if (user) {
-         const resetService = getPasswordResetTokenService();
+         const resetService = getPasswordResetService();
          await resetService.sendPasswordResetEmail(user.email, user.name);
       }
 
@@ -265,7 +265,7 @@ export const resetPassword = async (
    try {
       const { password } = resetPasswordSchema.parse(data);
 
-      const resetService = getPasswordResetTokenService();
+      const resetService = getPasswordResetService();
       const valid = await resetService.consumeToken(email, token);
 
       if (!valid) {
@@ -304,7 +304,7 @@ const getTokenService = (dbClient: DbClient = prisma) => {
    return factory.getVerificationTokenService();
 };
 
-const getPasswordResetTokenService = (dbClient: DbClient = prisma) => {
+const getPasswordResetService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getPasswordResetTokenService();
+   return factory.getPasswordResetService();
 };

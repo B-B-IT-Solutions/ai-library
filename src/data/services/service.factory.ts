@@ -24,7 +24,7 @@ import {
    TemplateService,
 } from "@/data/services/template";
 import {
-   PasswordResetTokenService,
+   PasswordResetService,
    UserService,
    VerificationTokenService,
 } from "@/data/services/user";
@@ -37,7 +37,7 @@ export class ServiceFactory {
    private publicCatalogService?: PublicCatalogService;
    private userService?: UserService;
    private verificationTokenService?: VerificationTokenService;
-   private passwordResetTokenService?: PasswordResetTokenService;
+   private passwordResetService?: PasswordResetService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
    private publicCollectionService?: PublicCollectionService;
@@ -79,14 +79,14 @@ export class ServiceFactory {
       return this.verificationTokenService;
    }
 
-   getPasswordResetTokenService(): PasswordResetTokenService {
-      if (!this.passwordResetTokenService) {
-         this.passwordResetTokenService = new PasswordResetTokenService(
+   getPasswordResetService(): PasswordResetService {
+      if (!this.passwordResetService) {
+         this.passwordResetService = new PasswordResetService(
             this.repositories.passwordResetRepository(),
             this.getEmailService()
          );
       }
-      return this.passwordResetTokenService;
+      return this.passwordResetService;
    }
 
    getCatalogService(): CatalogService {

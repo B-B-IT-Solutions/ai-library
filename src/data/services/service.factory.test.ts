@@ -11,7 +11,11 @@ import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
 import { PublicTemplateService, TemplateService } from "./template";
-import { UserService, VerificationTokenService } from "./user";
+import {
+   PasswordResetService,
+   UserService,
+   VerificationTokenService,
+} from "./user";
 
 const serviceFactory = new ServiceFactory(prisma);
 
@@ -37,6 +41,19 @@ describe("getVerificationTokenService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getVerificationTokenService();
       const service2 = serviceFactory.getVerificationTokenService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getPasswordResetService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getPasswordResetService();
+      expect(service).toBeInstanceOf(PasswordResetService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getPasswordResetService();
+      const service2 = serviceFactory.getPasswordResetService();
       expect(service1).toBe(service2);
    });
 });

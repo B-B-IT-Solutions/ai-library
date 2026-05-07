@@ -2,7 +2,7 @@ import { PasswordResetRepository } from "@/data/repositories/user";
 import { IEmailService, PasswordResetEmailParams } from "@/data/services/email";
 import { APP_URL } from "@/lib/constants";
 
-export class PasswordResetTokenService {
+export class PasswordResetService {
    constructor(
       private readonly tokenRepo: PasswordResetRepository,
       private readonly emailService: IEmailService
@@ -33,7 +33,9 @@ export class PasswordResetTokenService {
 
    async consumeToken(email: string, token: string): Promise<boolean> {
       const valid = await this.verifyToken(email, token);
-      if (!valid) return false;
+      if (!valid) {
+         return false;
+      }
 
       await this.tokenRepo.pDeleteToken(email, token);
       return true;
