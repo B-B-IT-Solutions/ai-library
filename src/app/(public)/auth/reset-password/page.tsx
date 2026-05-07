@@ -26,7 +26,7 @@ type PageProps = {
    searchParams: Promise<PageSearchParams>;
 };
 
-const ResetPasswordPage = async ({ searchParams }: PageProps) => {
+export const ResetPasswordPage = async ({ searchParams }: PageProps) => {
    const session = await auth();
 
    if (session) {
