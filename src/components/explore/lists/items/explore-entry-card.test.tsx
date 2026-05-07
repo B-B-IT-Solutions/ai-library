@@ -67,14 +67,14 @@ describe("ExploreEntryCard rendering tests", () => {
       });
    });
 
-   it("ExploreEntryCard - renders Ansehen link with correct href - test", async () => {
+   it("ExploreEntryCard - title is a link to detail page - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
-         const link = screen.getByRole("link", { name: /Ansehen/i });
-         assertInDocument(link);
-         expect(link).toHaveAttribute("href", `/explore/${entry.slug}`);
+         const title = screen.getByTestId("explore-entry-card-title");
+         assertInDocument(title);
+         expect(title).toHaveAttribute("href", `/explore/${entry.slug}`);
       });
    });
 

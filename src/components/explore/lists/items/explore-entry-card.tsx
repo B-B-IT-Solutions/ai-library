@@ -1,9 +1,8 @@
-import { BookOpen, Copy, LayoutList } from "lucide-react";
+import { Copy, LayoutList } from "lucide-react";
 import Link from "next/link";
 
 import { CatalogEntryUseLazyButton } from "@/components/explore/buttons";
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import {
    Card,
    CardContent,
@@ -54,12 +53,13 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
                   </Badge>
                </div>
             </div>
-            <h3
-               className="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900"
+            <Link
+               href={`/explore/${slug}`}
+               className="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
                data-testid="explore-entry-card-title"
             >
                {title}
-            </h3>
+            </Link>
          </CardHeader>
 
          <CardContent className="flex-1 pb-3">
@@ -83,18 +83,7 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
          </CardContent>
 
          <CardFooter className="pt-0">
-            <div className="flex w-full gap-2">
-               <CatalogEntryUseLazyButton slug={slug} />
-               <Button asChild variant="outline" size="sm" className="flex-1">
-                  <Link
-                     href={`/explore/${slug}`}
-                     className="flex items-center gap-1.5"
-                  >
-                     <BookOpen className="h-3.5 w-3.5" />
-                     Ansehen
-                  </Link>
-               </Button>
-            </div>
+            <CatalogEntryUseLazyButton slug={slug} />
          </CardFooter>
       </Card>
    );
