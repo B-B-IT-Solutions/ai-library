@@ -136,14 +136,14 @@ export class UserService {
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
-   async resetPassword(userId: string, data: DResetPassword): Promise<void> {
-      const user = await this.userRepository.pGetUserById(userId);
+   async resetPassword(email: string, data: DResetPassword): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(email);
       if (!user) {
          throw new Error("User not found");
       }
 
       const hashedPassword = await hash(data.password);
-      await this.userRepository.pUpdatePassword(userId, hashedPassword);
+      await this.userRepository.pUpdatePassword(user.id, hashedPassword);
    }
 
    async deleteUser(userId: string, data: DUserAccountDelete) {

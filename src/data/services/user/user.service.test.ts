@@ -486,7 +486,7 @@ describe("updatePassword tests", () => {
       jest.clearAllMocks();
    });
 
-   it("updatePassword - user null - test", async () => {
+   it("user null - test", async () => {
       const userId = "user-id-1";
       userRepoMock.pGetUserById.mockResolvedValue(null);
 
@@ -505,7 +505,7 @@ describe("updatePassword tests", () => {
       expect(hashMock).not.toHaveBeenCalled();
    });
 
-   it("updatePassword - user.password null - test", async () => {
+   it("user.password null - test", async () => {
       const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserById.mockResolvedValue(user);
@@ -581,27 +581,27 @@ describe("resetPassword tests", () => {
       jest.clearAllMocks();
    });
 
-   it("resetPassword - user null - test", async () => {
-      const userId = "user-id-1";
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+   it("user null - test", async () => {
+      const email = "test@email.com";
+      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
 
       const data: DResetPassword = {
          password: "12345679",
          confirmPassword: "12345679",
       };
 
-      const fn = async () => await userService.resetPassword(userId, data);
+      const fn = async () => await userService.resetPassword(email, data);
 
       expect(fn).rejects.toThrow("User not found");
-      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(email);
       expect(hashMock).not.toHaveBeenCalled();
       expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
    });
 
-   it("resetPassword - password updated - test", async () => {
+   it("password updated - test", async () => {
       const user = dtestData.dUserInternal();
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
       const hashedPassword = "hashed-password-1";
       hashMock.mockResolvedValue(hashedPassword);
@@ -611,10 +611,10 @@ describe("resetPassword tests", () => {
          confirmPassword: "12345679",
       };
 
-      await userService.resetPassword(user.id, data);
+      await userService.resetPassword(user.email, data);
 
-      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
       expect(hashMock).toHaveBeenCalledTimes(1);
       expect(hashMock).toHaveBeenCalledWith(data.password);
       expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);
