@@ -17,12 +17,12 @@ export const metadata: Metadata = {
    title: "Passwort zurücksetzen",
 };
 
-type PageSearchParams = {
+export type PageSearchParams = {
    token?: string;
    email?: string;
 };
 
-type PageProps = {
+export type PageProps = {
    searchParams: Promise<PageSearchParams>;
 };
 

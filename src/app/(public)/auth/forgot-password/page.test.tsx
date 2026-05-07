@@ -35,7 +35,7 @@ const assertRendered = () => {
 
 describe("ForgotPasswordPage rendering tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("user signed in - test", async () => {

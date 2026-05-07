@@ -91,7 +91,7 @@ const assertLegalNoticesLinksRendered = () => {
 
 describe("SignInPage rendering tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("user already signed in - callbackUrl defined - rendered test", async () => {

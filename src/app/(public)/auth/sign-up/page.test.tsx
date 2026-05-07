@@ -45,7 +45,7 @@ const assertRendered = () => {
 
 describe("SignUpPage rendering tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("SignUpPage - user already signed in - callbackUrl defined - rendered test", async () => {
