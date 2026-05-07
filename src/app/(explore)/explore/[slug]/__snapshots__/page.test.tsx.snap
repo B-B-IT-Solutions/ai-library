@@ -162,6 +162,51 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
           class="flex flex-wrap gap-3"
         >
           <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
+            data-slot="button"
+            data-testid="catalog-entry-use-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-wand-sparkles mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"
+              />
+              <path
+                d="m14 7 3 3"
+              />
+              <path
+                d="M5 6v4"
+              />
+              <path
+                d="M19 14v4"
+              />
+              <path
+                d="M10 2v2"
+              />
+              <path
+                d="M7 8H3"
+              />
+              <path
+                d="M21 16h-4"
+              />
+              <path
+                d="M11 3H9"
+              />
+            </svg>
+            Prompt anwenden
+          </button>
+          <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
             data-slot="button"
             data-testid="catalog-entry-copy-btn"
@@ -500,8 +545,53 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
           Die Kopie gehört dir – du kannst sie beliebig anpassen.
         </p>
         <div
-          class="mt-4 flex justify-center"
+          class="mt-4 flex justify-center gap-3"
         >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
+            data-slot="button"
+            data-testid="catalog-entry-use-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-wand-sparkles mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"
+              />
+              <path
+                d="m14 7 3 3"
+              />
+              <path
+                d="M5 6v4"
+              />
+              <path
+                d="M19 14v4"
+              />
+              <path
+                d="M10 2v2"
+              />
+              <path
+                d="M7 8H3"
+              />
+              <path
+                d="M21 16h-4"
+              />
+              <path
+                d="M11 3H9"
+              />
+            </svg>
+            Prompt anwenden
+          </button>
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
             data-slot="button"
@@ -724,6 +814,51 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
         <div
           class="flex flex-wrap gap-3"
         >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
+            data-slot="button"
+            data-testid="catalog-entry-use-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-wand-sparkles mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"
+              />
+              <path
+                d="m14 7 3 3"
+              />
+              <path
+                d="M5 6v4"
+              />
+              <path
+                d="M19 14v4"
+              />
+              <path
+                d="M10 2v2"
+              />
+              <path
+                d="M7 8H3"
+              />
+              <path
+                d="M21 16h-4"
+              />
+              <path
+                d="M11 3H9"
+              />
+            </svg>
+            Prompt anwenden
+          </button>
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
             data-slot="button"
@@ -1115,8 +1250,53 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
           Die Kopie gehört dir – du kannst sie beliebig anpassen.
         </p>
         <div
-          class="mt-4 flex justify-center"
+          class="mt-4 flex justify-center gap-3"
         >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
+            data-slot="button"
+            data-testid="catalog-entry-use-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-wand-sparkles mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"
+              />
+              <path
+                d="m14 7 3 3"
+              />
+              <path
+                d="M5 6v4"
+              />
+              <path
+                d="M19 14v4"
+              />
+              <path
+                d="M10 2v2"
+              />
+              <path
+                d="M7 8H3"
+              />
+              <path
+                d="M21 16h-4"
+              />
+              <path
+                d="M11 3H9"
+              />
+            </svg>
+            Prompt anwenden
+          </button>
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto"
             data-slot="button"
