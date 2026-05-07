@@ -1,3 +1,9 @@
+jest.mock("@/components/shared/auth", () => ({
+   SignUpForm: () => {
+      return <div data-testid="sign-up-form" />;
+   },
+}));
+
 import { screen, waitFor } from "@testing-library/dom";
 import {
    assertInDocument,
@@ -28,7 +34,7 @@ const assertRendered = () => {
    const header = screen.getByTestId("card-header");
    const title = screen.getByTestId("card-title");
    const description = screen.getByTestId("card-description");
-   const signUpForm = screen.getByTestId("sign-up-form-mock");
+   const signUpForm = screen.getByTestId("sign-up-form");
 
    assertInDocument(page);
    assertInDocument(header);
