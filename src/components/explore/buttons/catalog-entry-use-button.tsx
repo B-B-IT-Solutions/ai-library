@@ -37,7 +37,7 @@ export const CatalogEntryUseButton = ({ entry }: Props) => {
             onClick={() => setIsOpen(true)}
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto"
             data-testid="catalog-entry-use-btn"
          >
             <Wand2 className="mr-2 h-4 w-4" />

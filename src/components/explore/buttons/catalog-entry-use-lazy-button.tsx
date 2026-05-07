@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Loader2, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -16,46 +16,28 @@ import {
 
 type Props = {
    slug: string;
-   recommendedModel?: string;
 };
 
 export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
-   const [isLoading, setIsLoading] = useState(false);
+   const [isPending, startTransition] = useTransition();
    const [entry, setEntry] = useState<DCatalogEntryWithContent | null>(null);
    const [isOpen, setIsOpen] = useState(false);
 
    const handleClick = async () => {
-      setIsLoading(true);
-      const data = await getPublishedCatalogEntryBySlug(slug);
-      setIsLoading(false);
-
-      if (data) {
-         setEntry(data);
-         setIsOpen(true);
-      } else {
-         toast.error("Vorlage konnte nicht geladen werden");
-      }
+      startTransition(async () => {
+         const data = await getPublishedCatalogEntryBySlug(slug);
+         if (data) {
+            setEntry(data);
+            setIsOpen(true);
+         } else {
+            toast.error("Vorlage konnte nicht geladen werden");
+         }
+      });
    };
 
-   return (
-      <>
-         <Button
-            onClick={handleClick}
-            disabled={isLoading}
-            variant="default"
-            size="sm"
-            className="flex-1"
-            data-testid="catalog-entry-use-lazy-btn"
-         >
-            {isLoading ? (
-               <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-            ) : (
-               <Wand2 className="mr-1.5 h-3.5 w-3.5" />
-            )}
-            Anwenden
-         </Button>
-
-         {isOpen && entry && (
+   const dialog = () => {
+      if (isOpen && entry) {
+         return (
             <UseTemplateDialog
                descriptor={toCatalogEntryDescriptor(entry)}
                templateData={toCatalogEntryTemplateData(entry)}
@@ -64,7 +46,28 @@ export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
                   setEntry(null);
                }}
             />
-         )}
+         );
+      }
+   };
+
+   return (
+      <>
+         <Button
+            onClick={handleClick}
+            disabled={isPending}
+            variant="default"
+            size="sm"
+            className="flex-1 cursor-pointer"
+            data-testid="catalog-entry-use-lazy-btn"
+         >
+            {isPending ? (
+               <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+            ) : (
+               <Wand2 className="mr-1.5 h-3.5 w-3.5" />
+            )}
+            Anwenden
+         </Button>
+         {dialog()}
       </>
    );
 };

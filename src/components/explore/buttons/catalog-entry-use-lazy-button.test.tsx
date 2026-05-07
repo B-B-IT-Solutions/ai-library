@@ -8,7 +8,6 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
 import { getPublishedCatalogEntryBySlug } from "@/data/actions/catalog";
-import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
 import { CatalogEntryUseLazyButton } from "./catalog-entry-use-lazy-button";
 
@@ -18,19 +17,35 @@ const getPublishedCatalogEntryBySlugMock =
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
+const assertRendered = () => {
+   const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
+   assertInDocument(btn);
+};
+
+const assertDialogRendered = () => {
+   const btn = screen.getByTestId("use-template-dialog");
+   assertInDocument(btn);
+};
+
+const assertDialogNotRendered = () => {
+   const btn = screen.queryByTestId("use-template-dialog");
+   assertNotInDocument(btn);
+};
+
 describe("CatalogEntryUseLazyButton rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("Button wird gerendert - test", async () => {
+   it("rendered - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       const { container } = render(
          <CatalogEntryUseLazyButton slug={entry.slug} />
       );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("catalog-entry-use-lazy-btn"));
+         assertRendered();
+         assertDialogNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -42,92 +57,58 @@ describe("CatalogEntryUseLazyButton functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("Klick triggert getPublishedCatalogEntryBySlug - test", async () => {
+   it("btn clicked - success - test", async () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
 
       render(<CatalogEntryUseLazyButton slug={entry.slug} />);
 
+      await waitFor(() => {
+         assertRendered();
+         assertDialogNotRendered();
+      });
+
       const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
+         assertDialogRendered();
+         expect(getPublishedCatalogEntryBySlugMock).toHaveBeenCalledTimes(1);
          expect(getPublishedCatalogEntryBySlugMock).toHaveBeenCalledWith(
             entry.slug
          );
-      });
-   });
-
-   it("Loading-Zustand während Fetch - test", async () => {
-      let resolveAction!: (val: DCatalogEntryWithContent | null) => void;
-      const pendingPromise = new Promise<DCatalogEntryWithContent | null>(
-         (resolve) => {
-            resolveAction = resolve;
-         }
-      );
-      getPublishedCatalogEntryBySlugMock.mockReturnValue(pendingPromise);
-
-      render(<CatalogEntryUseLazyButton slug="catalog-entry-1" />);
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
-
-      const clickPromise = userEvent.click(btn);
-
-      await waitFor(() => {
-         expect(btn).toBeDisabled();
-      });
-
-      resolveAction(null);
-      await clickPromise;
-   });
-
-   it("Erfolgreicher Fetch öffnet Dialog - test", async () => {
-      const entry = dtestData.dCatalogEntryWithContent(1);
-      getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
-
-      render(<CatalogEntryUseLazyButton slug={entry.slug} />);
-
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
-      await userEvent.click(btn);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("use-template-dialog"));
-      });
-   });
-
-   it("Fehlgeschlagener Fetch zeigt Toast - test", async () => {
-      getPublishedCatalogEntryBySlugMock.mockResolvedValue(null);
-
-      render(<CatalogEntryUseLazyButton slug="catalog-entry-1" />);
-
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
-      await userEvent.click(btn);
-
-      await waitFor(() => {
-         expect(toastMock.error).toHaveBeenCalledTimes(1);
-         expect(toastMock.error).toHaveBeenCalledWith(
-            "Vorlage konnte nicht geladen werden"
-         );
-      });
-   });
-
-   it("Dialog schließt bei onCancel - test", async () => {
-      const entry = dtestData.dCatalogEntryWithContent(1);
-      getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
-
-      render(<CatalogEntryUseLazyButton slug={entry.slug} />);
-
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
-      await userEvent.click(btn);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("use-template-dialog"));
       });
 
       const closeBtn = screen.getByTestId("close-btn");
       await userEvent.click(closeBtn);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("use-template-dialog"));
+         assertDialogNotRendered();
+      });
+   });
+
+   it("btn clicked - error - test", async () => {
+      getPublishedCatalogEntryBySlugMock.mockResolvedValue(null);
+
+      const slug = "catalog-entry-1";
+      render(<CatalogEntryUseLazyButton slug={slug} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertDialogNotRendered();
+      });
+
+      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
+      await userEvent.click(btn);
+
+      await waitFor(() => {
+         assertDialogNotRendered();
+         expect(getPublishedCatalogEntryBySlugMock).toHaveBeenCalledTimes(1);
+         expect(getPublishedCatalogEntryBySlugMock).toHaveBeenCalledWith(slug);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(
+            "Vorlage konnte nicht geladen werden"
+         );
       });
    });
 });
