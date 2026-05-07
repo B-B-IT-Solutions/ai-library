@@ -19,6 +19,18 @@ type Props = {
 export const CatalogEntryUseButton = ({ entry }: Props) => {
    const [isOpen, setIsOpen] = useState(false);
 
+   const dialog = () => {
+      if (isOpen) {
+         return (
+            <UseTemplateDialog
+               descriptor={toCatalogEntryDescriptor(entry)}
+               templateData={toCatalogEntryTemplateData(entry)}
+               onCancel={() => setIsOpen(false)}
+            />
+         );
+      }
+   };
+
    return (
       <>
          <Button
@@ -31,14 +43,7 @@ export const CatalogEntryUseButton = ({ entry }: Props) => {
             <Wand2 className="mr-2 h-4 w-4" />
             Prompt anwenden
          </Button>
-
-         {isOpen && (
-            <UseTemplateDialog
-               descriptor={toCatalogEntryDescriptor(entry)}
-               templateData={toCatalogEntryTemplateData(entry)}
-               onCancel={() => setIsOpen(false)}
-            />
-         )}
+         {dialog()}
       </>
    );
 };
