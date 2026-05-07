@@ -762,7 +762,7 @@ describe("requestPasswordReset tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sRequestPasswordResetMock).toHaveBeenCalledTimes(1);
-      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data.email);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -784,7 +784,7 @@ describe("requestPasswordReset tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sRequestPasswordResetMock).toHaveBeenCalledTimes(1);
-      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data.email);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data);
    });
 });
 

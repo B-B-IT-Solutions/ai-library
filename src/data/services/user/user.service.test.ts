@@ -26,6 +26,7 @@ import {
 } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   DForgotPassword,
    DResetPassword,
    DUserAccountDelete,
    DUserCreate,
@@ -819,6 +820,50 @@ describe("verifyEmail tests", () => {
 
       expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledWith(email);
+   });
+});
+
+describe("requestPasswordReset tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("user null - test", async () => {
+      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
+
+      const data: DForgotPassword = {
+         email: "test@email.com",
+      };
+
+      const fn = async () => await userService.requestPasswordReset(data);
+
+      expect(fn).rejects.toThrow("User not found");
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(data.email);
+      expect(
+         passwordResetServiceMock.sendPasswordResetEmail
+      ).not.toHaveBeenCalled();
+   });
+
+   it("password reset requested - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+      passwordResetServiceMock.sendPasswordResetEmail.mockResolvedValue();
+
+      const data: DForgotPassword = {
+         email: "test@email.com",
+      };
+
+      await userService.requestPasswordReset(data);
+
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+      expect(
+         passwordResetServiceMock.sendPasswordResetEmail
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         passwordResetServiceMock.sendPasswordResetEmail
+      ).toHaveBeenCalledWith(user.email, user.name);
    });
 });
 

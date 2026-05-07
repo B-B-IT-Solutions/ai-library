@@ -13,6 +13,7 @@ import {
 } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   DForgotPassword,
    DResetPassword,
    DUser,
    DUserAccountDelete,
@@ -194,8 +195,8 @@ export class UserService {
       await this.userRepository.pVerifyUserEmail(email);
    }
 
-   async requestPasswordReset(email: string): Promise<void> {
-      const user = await this.userRepository.pGetUserByEmail(email);
+   async requestPasswordReset(data: DForgotPassword): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(data.email);
       if (!user) {
          throw new Error("User not found");
       }

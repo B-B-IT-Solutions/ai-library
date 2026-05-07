@@ -233,10 +233,10 @@ export const requestPasswordReset = async (
    data: DForgotPassword
 ): Promise<ActionResult> => {
    try {
-      const { email } = forgotPasswordSchema.parse(data);
+      const validatedData = forgotPasswordSchema.parse(data);
 
       const userService = getUserService();
-      await userService.requestPasswordReset(email);
+      await userService.requestPasswordReset(validatedData);
 
       return {
          success: true,
