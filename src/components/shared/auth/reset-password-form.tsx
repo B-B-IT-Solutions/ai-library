@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,12 @@ import { resetPassword } from "@/data/actions/user";
 import { DResetPassword } from "@/data/types/domain/user";
 import { resetPasswordSchema } from "@/data/types/validators/user";
 
+import {
+   getPasswordStrength,
+   getStrengthColor,
+   getStrengthWidth,
+} from "./utils";
+
 type Props = {
    email: string;
    token: string;
@@ -33,10 +39,17 @@ export const ResetPasswordForm = ({ email, token }: Props) => {
       formState: { isSubmitting, errors },
       control,
       setError,
+      watch,
    } = useForm<DResetPassword>({
       resolver: zodResolver(resetPasswordSchema),
       defaultValues: { password: "", confirmPassword: "" },
    });
+
+   const password = watch("password");
+   const passwordStrength = useMemo(
+      () => getPasswordStrength(password || ""),
+      [password]
+   );
 
    const onSubmit: SubmitHandler<DResetPassword> = async (data) => {
       const result = await resetPassword(email, token, data);
@@ -103,6 +116,25 @@ export const ResetPasswordForm = ({ email, token }: Props) => {
                            )}
                         </button>
                      </div>
+                     {password && passwordStrength && (
+                        <div className="space-y-1">
+                           <div className="flex gap-1">
+                              <div className="h-1 flex-1 rounded-full bg-gray-200">
+                                 <div
+                                    className={`h-full rounded-full transition-all duration-300 ${getStrengthColor(
+                                       passwordStrength
+                                    )} ${getStrengthWidth(passwordStrength)}`}
+                                 />
+                              </div>
+                           </div>
+                           <p className="text-xs text-muted-foreground capitalize">
+                              Passwortstärke:{" "}
+                              <span className="font-medium">
+                                 {passwordStrength}
+                              </span>
+                           </p>
+                        </div>
+                     )}
                      {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                      )}
