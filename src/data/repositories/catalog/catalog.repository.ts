@@ -1,5 +1,3 @@
-import { map } from "es-toolkit/compat";
-
 import {
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
@@ -21,7 +19,6 @@ import {
 
 import {
    toDCatalogCategories,
-   toDCatalogCategory,
    toDCatalogEntries,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
