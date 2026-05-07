@@ -33,13 +33,7 @@ export class SmtpEmailService implements IEmailService {
    async sendVerificationEmail(params: EmailVerificationParams) {
       const { to, name, verificationUrl } = params;
 
-      const transportOptions: SMTPTransport.Options = {
-         host: getSmtpHost(),
-         port: getSmtpPort(),
-         secure: false,
-         auth: undefined,
-      };
-      const transporter = nodemailer.createTransport(transportOptions);
+      const transporter = this.getTransporter();
 
       const mailOptions: Mail.Options = {
          from: `"${this.senderName}" <${this.senderEmail}>`,
@@ -54,13 +48,7 @@ export class SmtpEmailService implements IEmailService {
    async sendPasswordResetEmail(params: PasswordResetEmailParams) {
       const { to, name, resetUrl } = params;
 
-      const transportOptions: SMTPTransport.Options = {
-         host: getSmtpHost(),
-         port: getSmtpPort(),
-         secure: false,
-         auth: undefined,
-      };
-      const transporter = nodemailer.createTransport(transportOptions);
+      const transporter = this.getTransporter();
 
       const mailOptions: Mail.Options = {
          from: `"${this.senderName}" <${this.senderEmail}>`,
@@ -70,5 +58,15 @@ export class SmtpEmailService implements IEmailService {
          text: passwordResetText(this.senderName, name, resetUrl),
       };
       await transporter.sendMail(mailOptions);
+   }
+
+   getTransporter() {
+      const transportOptions: SMTPTransport.Options = {
+         host: getSmtpHost(),
+         port: getSmtpPort(),
+         secure: false,
+         auth: undefined,
+      };
+      return nodemailer.createTransport(transportOptions);
    }
 }
