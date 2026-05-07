@@ -13,11 +13,7 @@ import { redirect } from "next/navigation";
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/repositories/prisma";
-import {
-   PasswordResetService,
-   UserService,
-   VerificationTokenService,
-} from "@/data/services/user";
+import { UserService, VerificationTokenService } from "@/data/services/user";
 import {
    DForgotPassword,
    DResetPassword,
@@ -52,6 +48,8 @@ const sGetUserByEmail = UserService.prototype.getUserByEmail;
 const sUpdateUser = UserService.prototype.updateUser;
 const sUpdatePassword = UserService.prototype.updatePassword;
 const sDeleteUser = UserService.prototype.deleteUser;
+const sRequestPasswordReset = UserService.prototype.requestPasswordReset;
+const sResetPassword = UserService.prototype.resetPassword;
 
 const sSendVerificationEmail =
    VerificationTokenService.prototype.sendVerificationEmail;
@@ -86,14 +84,9 @@ const sSendVerificationEmailMock =
 
 const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
 
-const sSendPasswordResetEmail =
-   PasswordResetService.prototype.sendPasswordResetEmail;
-const sResetPassword = UserService.prototype.resetPassword;
-
-const sSendPasswordResetEmailMock =
-   sSendPasswordResetEmail as jest.MockedFunction<
-      typeof sSendPasswordResetEmail
-   >;
+const sRequestPasswordResetMock = sRequestPasswordReset as jest.MockedFunction<
+   typeof sRequestPasswordReset
+>;
 const sResetPasswordMock = sResetPassword as jest.MockedFunction<
    typeof sResetPassword
 >;
@@ -737,7 +730,7 @@ describe("requestPasswordReset tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("invalid email - returns error - test", async () => {
+   it("invalid form data - test", async () => {
       const data: DForgotPassword = { email: "not-an-email" };
 
       const result = await requestPasswordReset(data);
@@ -748,62 +741,17 @@ describe("requestPasswordReset tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sGetUserByEmailMock).not.toHaveBeenCalled();
-      expect(sSendPasswordResetEmailMock).not.toHaveBeenCalled();
+      expect(sRequestPasswordResetMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("user not found - returns success without sending email - test", async () => {
-      sGetUserByEmailMock.mockResolvedValue(null);
-
-      const data: DForgotPassword = { email: "unknown@email.com" };
-
-      const result = await requestPasswordReset(data);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message:
-            "Falls ein Konto mit dieser E-Mail existiert, wurde eine E-Mail gesendet.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserByEmailMock).toHaveBeenCalledWith(data.email);
-      expect(sSendPasswordResetEmailMock).not.toHaveBeenCalled();
-   });
-
-   it("user found - email sent - returns success - test", async () => {
-      const user = dtestData.dUser();
-      sGetUserByEmailMock.mockResolvedValue(user);
-      sSendPasswordResetEmailMock.mockResolvedValue(undefined);
-
-      const data: DForgotPassword = { email: user.email };
-
-      const result = await requestPasswordReset(data);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message:
-            "Falls ein Konto mit dieser E-Mail existiert, wurde eine E-Mail gesendet.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserByEmailMock).toHaveBeenCalledWith(data.email);
-      expect(sSendPasswordResetEmailMock).toHaveBeenCalledTimes(1);
-      expect(sSendPasswordResetEmailMock).toHaveBeenCalledWith(
-         user.email,
-         user.name
-      );
-   });
-
-   it("email service throws - returns error - test", async () => {
-      const user = dtestData.dUser();
-      sGetUserByEmailMock.mockResolvedValue(user);
+   it("service error - test", async () => {
       const error = new Error("SMTP error");
-      sSendPasswordResetEmailMock.mockRejectedValue(error);
+      sRequestPasswordResetMock.mockRejectedValue(error);
 
-      const data: DForgotPassword = { email: user.email };
+      const data: DForgotPassword = {
+         email: "test@email.com",
+      };
 
       const result = await requestPasswordReset(data);
 
@@ -813,8 +761,30 @@ describe("requestPasswordReset tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledTimes(1);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data.email);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("password reset rquested - test", async () => {
+      sRequestPasswordResetMock.mockResolvedValue(undefined);
+
+      const data: DForgotPassword = {
+         email: "test@email.com",
+      };
+
+      const result = await requestPasswordReset(data);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message:
+            "Falls ein Konto mit dieser E-Mail existiert, wurde eine E-Mail gesendet.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledTimes(1);
+      expect(sRequestPasswordResetMock).toHaveBeenCalledWith(data.email);
    });
 });
 

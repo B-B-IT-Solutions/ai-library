@@ -236,12 +236,7 @@ export const requestPasswordReset = async (
       const { email } = forgotPasswordSchema.parse(data);
 
       const userService = getUserService();
-      const user = await userService.getUserByEmail(email);
-
-      if (user) {
-         const resetService = getPasswordResetService();
-         await resetService.sendPasswordResetEmail(user.email, user.name);
-      }
+      await userService.requestPasswordReset(email);
 
       return {
          success: true,
@@ -290,9 +285,4 @@ const getUserService = (dbClient: DbClient = prisma) => {
 const getEmailVerificationService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getVerificationTokenService();
-};
-
-const getPasswordResetService = (dbClient: DbClient = prisma) => {
-   const factory = new ServiceFactory(dbClient);
-   return factory.getPasswordResetService();
 };

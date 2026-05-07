@@ -194,6 +194,18 @@ export class UserService {
       await this.userRepository.pVerifyUserEmail(email);
    }
 
+   async requestPasswordReset(email: string): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(email);
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      await this.passwordResetServcie.sendPasswordResetEmail(
+         user.email,
+         user.name
+      );
+   }
+
    async resetPassword(
       email: string,
       token: string,
