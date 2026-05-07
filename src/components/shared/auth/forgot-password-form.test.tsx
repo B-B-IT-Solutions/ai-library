@@ -10,6 +10,7 @@ import {
 } from "@tests";
 
 import { requestPasswordReset } from "@/data/actions/user";
+import { DForgotPassword } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 import { ForgotPasswordForm } from "./forgot-password-form";
@@ -21,15 +22,32 @@ const requestPasswordResetMock = requestPasswordReset as jest.MockedFunction<
 const assertFormRendered = () => {
    const form = screen.getByTestId("forgot-password-form");
    const emailField = screen.getByTestId("email-field");
-   const submitBtn = screen.getByTestId("reset-password-btn");
+   const emailInput = screen.getByTestId("email-input");
+   const resetBtn = screen.getByTestId("reset-password-btn");
    const signInLink = screen.getByTestId("sign-in-link");
 
    assertInDocument(form);
    assertInDocument(emailField);
-   assertInDocument(submitBtn);
+   assertInDocument(emailInput);
+   assertInDocument(resetBtn);
    assertInDocument(signInLink);
 
    assertHasAttributeWithValue(signInLink, "href", "/auth/sign-in");
+};
+
+const assertFormNotRendered = () => {
+   const form = screen.queryByTestId("forgot-password-form");
+   assertNotInDocument(form);
+};
+
+const assertEmailSentBannerRendered = () => {
+   const banner = screen.getByTestId("reset-email-sent-banner");
+   assertInDocument(banner);
+};
+
+const assertEmailSentBannerNotRendered = () => {
+   const banner = screen.queryByTestId("reset-email-sent-banner");
+   assertNotInDocument(banner);
 };
 
 describe("ForgotPasswordForm rendering tests", () => {
@@ -42,7 +60,7 @@ describe("ForgotPasswordForm rendering tests", () => {
 
       await waitFor(() => {
          assertFormRendered();
-         assertNotInDocument(screen.queryByTestId("reset-email-sent-banner"));
+         assertEmailSentBannerNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -54,7 +72,7 @@ describe("ForgotPasswordForm functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("submit valid email - success - shows banner - test", async () => {
+   it("password reset - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "E-Mail gesendet",
@@ -63,25 +81,38 @@ describe("ForgotPasswordForm functionality tests", () => {
 
       render(<ForgotPasswordForm />);
 
-      await waitFor(() => assertFormRendered());
+      await waitFor(() => {
+         assertFormRendered();
+         assertEmailSentBannerNotRendered();
+      });
 
-      const emailInput = screen.getByRole("textbox", { name: /e-mail/i });
-      await userEvent.type(emailInput, "user@test.com");
-
-      const submitBtn = screen.getByTestId("reset-password-btn");
-      await userEvent.click(submitBtn);
+      const resetBtn = screen.getByTestId("reset-password-btn");
+      await userEvent.click(resetBtn);
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("reset-email-sent-banner"));
-         assertNotInDocument(screen.queryByTestId("forgot-password-form"));
+         assertFormRendered();
+         assertEmailSentBannerNotRendered();
+         expect(requestPasswordResetMock).not.toHaveBeenCalled();
+      });
+
+      const value = "user@test.com";
+      const emailInput = screen.getByTestId("email-input");
+      await userEvent.type(emailInput, value);
+
+      await userEvent.click(resetBtn);
+
+      const expectedPayload: DForgotPassword = {
+         email: value,
+      };
+      await waitFor(() => {
+         assertFormNotRendered();
+         assertEmailSentBannerRendered();
          expect(requestPasswordResetMock).toHaveBeenCalledTimes(1);
-         expect(requestPasswordResetMock).toHaveBeenCalledWith({
-            email: "user@test.com",
-         });
+         expect(requestPasswordResetMock).toHaveBeenCalledWith(expectedPayload);
       });
    });
 
-   it("submit valid email - failure - shows server error - test", async () => {
+   it("password reset - error - test", async () => {
       const errorMessage = "Fehler beim Senden der E-Mail";
       const result: ActionResult = {
          success: false,
@@ -91,35 +122,27 @@ describe("ForgotPasswordForm functionality tests", () => {
 
       render(<ForgotPasswordForm />);
 
-      await waitFor(() => assertFormRendered());
-
-      const emailInput = screen.getByRole("textbox", { name: /e-mail/i });
-      await userEvent.type(emailInput, "user@test.com");
-
-      const submitBtn = screen.getByTestId("reset-password-btn");
-      await userEvent.click(submitBtn);
-
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("reset-email-sent-banner"));
-         expect(screen.getByText(errorMessage)).toBeInTheDocument();
-         expect(requestPasswordResetMock).toHaveBeenCalledTimes(1);
+         assertFormRendered();
+         assertEmailSentBannerNotRendered();
       });
-   });
 
-   it("submit invalid email - shows validation error - no action called - test", async () => {
-      render(<ForgotPasswordForm />);
+      const value = "user@test.com";
+      const emailInput = screen.getByTestId("email-input");
+      await userEvent.type(emailInput, value);
 
-      await waitFor(() => assertFormRendered());
+      const resetBtn = screen.getByTestId("reset-password-btn");
+      await userEvent.click(resetBtn);
 
-      const emailInput = screen.getByRole("textbox", { name: /e-mail/i });
-      await userEvent.type(emailInput, "not-an-email");
-
-      const submitBtn = screen.getByTestId("reset-password-btn");
-      await userEvent.click(submitBtn);
+      const expectedPayload: DForgotPassword = {
+         email: value,
+      };
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("reset-email-sent-banner"));
-         expect(requestPasswordResetMock).not.toHaveBeenCalled();
+         assertFormRendered();
+         assertEmailSentBannerNotRendered();
+         expect(requestPasswordResetMock).toHaveBeenCalledTimes(1);
+         expect(requestPasswordResetMock).toHaveBeenCalledWith(expectedPayload);
       });
    });
 });

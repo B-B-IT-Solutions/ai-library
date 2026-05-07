@@ -91,6 +91,7 @@ export const ForgotPasswordForm = () => {
                            placeholder="ihre@beispiel.com"
                            aria-invalid={fieldState.invalid}
                            className="h-11 pl-10 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
+                           data-testid="email-input"
                         />
                      </div>
                      {fieldState.invalid && (
