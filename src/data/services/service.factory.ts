@@ -87,7 +87,7 @@ export class ServiceFactory {
    getPublicCatalogService(): PublicCatalogService {
       if (!this.publicCatalogService) {
          this.publicCatalogService = new PublicCatalogService(
-            this.repositories.catalogRepository()
+            this.repositories.publicCatalogRepository()
          );
       }
       return this.publicCatalogService;

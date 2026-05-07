@@ -1,4 +1,4 @@
-import { CatalogRepository } from "@/data/repositories/catalog";
+import { PublicCatalogRepository } from "@/data/repositories/catalog";
 import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
@@ -7,7 +7,7 @@ import {
 } from "@/data/types/domain/catalog";
 
 export class PublicCatalogService {
-   constructor(private readonly catalogRepository: CatalogRepository) {}
+   constructor(private readonly catalogRepository: PublicCatalogRepository) {}
 
    async getPublishedCatalogEntriesPage(
       query?: DCatalogEntriesPageQuery

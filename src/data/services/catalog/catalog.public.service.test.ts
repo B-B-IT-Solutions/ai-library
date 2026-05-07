@@ -3,13 +3,13 @@ jest.mock("@/data/repositories/catalog");
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { CatalogRepository } from "@/data/repositories/catalog";
+import { PublicCatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
 
 import { PublicCatalogService } from "./catalog.public.service";
 
-const catalogRepo = new CatalogRepository(prisma);
-const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
+const catalogRepo = new PublicCatalogRepository(prisma);
+const catalogRepoMock = catalogRepo as DeepMockProxy<PublicCatalogRepository>;
 
 const catalogService = new PublicCatalogService(catalogRepoMock);
 
