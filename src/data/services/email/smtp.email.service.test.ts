@@ -64,7 +64,7 @@ describe("sendVerificationEmail tests", () => {
    });
 
    it("email sent - test", async () => {
-      const info = ctestData.sentMessageInfo();
+      const info = ctestData.nodemailderSentMessageInfo();
       sendMailMock.mockResolvedValue(info);
 
       const params: EmailVerificationParams = {
@@ -120,7 +120,7 @@ describe("sendPasswordResetEmail tests", () => {
    });
 
    it("email sent - test", async () => {
-      const info = ctestData.sentMessageInfo();
+      const info = ctestData.nodemailderSentMessageInfo();
       sendMailMock.mockResolvedValue(info);
 
       const params: PasswordResetEmailParams = {

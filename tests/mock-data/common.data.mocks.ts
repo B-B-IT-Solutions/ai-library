@@ -1,3 +1,4 @@
+import { Brevo } from "@getbrevo/brevo";
 import {
    MutationObserverLoadingResult,
    UseMutationResult,
@@ -68,7 +69,9 @@ export const uuid = (index = 1) => {
    return encoder.encode(`mock-uuid-${index}`);
 };
 
-export const sentMessageInfo = (index = 1): SMTPTransport.SentMessageInfo => {
+export const nodemailderSentMessageInfo = (
+   index = 1
+): SMTPTransport.SentMessageInfo => {
    return {
       envelope: {
          from: "from@email.com",
@@ -79,5 +82,13 @@ export const sentMessageInfo = (index = 1): SMTPTransport.SentMessageInfo => {
       rejected: [],
       pending: [],
       response: `respons ${index}`,
+   };
+};
+
+export const brevoSendTransacEmailResponse = (
+   index = 1
+): Brevo.SendTransacEmailResponse => {
+   return {
+      messageId: `message-id-${index}`,
    };
 };
