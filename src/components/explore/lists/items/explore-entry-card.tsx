@@ -1,6 +1,7 @@
 import { BookOpen, Copy, LayoutList } from "lucide-react";
 import Link from "next/link";
 
+import { CatalogEntryUseLazyButton } from "@/components/explore/buttons";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -82,15 +83,18 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
          </CardContent>
 
          <CardFooter className="pt-0">
-            <Button asChild variant="outline" size="sm" className="w-full">
-               <Link
-                  href={`/explore/${slug}`}
-                  className="flex items-center gap-1.5"
-               >
-                  <BookOpen className="h-3.5 w-3.5" />
-                  Ansehen
-               </Link>
-            </Button>
+            <div className="flex w-full gap-2">
+               <CatalogEntryUseLazyButton slug={slug} />
+               <Button asChild variant="outline" size="sm" className="flex-1">
+                  <Link
+                     href={`/explore/${slug}`}
+                     className="flex items-center gap-1.5"
+                  >
+                     <BookOpen className="h-3.5 w-3.5" />
+                     Ansehen
+                  </Link>
+               </Button>
+            </div>
          </CardFooter>
       </Card>
    );

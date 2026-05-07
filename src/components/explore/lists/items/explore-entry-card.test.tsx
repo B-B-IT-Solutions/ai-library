@@ -125,4 +125,13 @@ describe("ExploreEntryCard rendering tests", () => {
          expect(fieldCount).toHaveTextContent("3 Felder");
       });
    });
+
+   it("ExploreEntryCard - renders use lazy button - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+      render(<ExploreEntryCard entry={entry} />);
+
+      await waitFor(() => {
+         assertInDocument(screen.getByTestId("catalog-entry-use-lazy-btn"));
+      });
+   });
 });
