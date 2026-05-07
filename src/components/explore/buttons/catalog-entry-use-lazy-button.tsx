@@ -57,7 +57,7 @@ export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
             disabled={isPending}
             variant="default"
             size="sm"
-            className="w-full cursor-pointer"
+            className="flex-1 cursor-pointer"
             data-testid="catalog-entry-use-lazy-btn"
          >
             {isPending ? (

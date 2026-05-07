@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
 import { ExploreEntryCard } from "./explore-entry-card";
@@ -132,6 +133,31 @@ describe("ExploreEntryCard rendering tests", () => {
 
       await waitFor(() => {
          assertInDocument(screen.getByTestId("catalog-entry-use-lazy-btn"));
+      });
+   });
+
+   it("ExploreEntryCard - renders context menu trigger - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+      render(<ExploreEntryCard entry={entry} />);
+
+      await waitFor(() => {
+         assertInDocument(
+            screen.getByTestId("explore-entry-card-menu-trigger")
+         );
+      });
+   });
+
+   it("ExploreEntryCard - context menu opens and shows Ansehen link - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+      render(<ExploreEntryCard entry={entry} />);
+
+      const trigger = screen.getByTestId("explore-entry-card-menu-trigger");
+      await userEvent.click(trigger);
+
+      await waitFor(() => {
+         const viewLink = screen.getByTestId("explore-entry-card-view-link");
+         assertInDocument(viewLink);
+         expect(viewLink).toHaveAttribute("href", `/explore/${entry.slug}`);
       });
    });
 });
