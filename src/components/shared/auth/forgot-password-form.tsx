@@ -62,8 +62,8 @@ export const ForgotPasswordForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         data-testid="forgot-password-form"
          className="space-y-5"
+         data-testid="forgot-password-form"
       >
          <FieldGroup>
             <Controller
@@ -130,7 +130,7 @@ export const ForgotPasswordForm = () => {
             <Link
                href="/auth/sign-in"
                className="font-medium text-primary underline-offset-4 transition-colors hover:text-primary/80 hover:underline"
-               data-testid="back-to-sign-in-link"
+               data-testid="sign-in-link"
             >
                Zurück zur Anmeldung
             </Link>
