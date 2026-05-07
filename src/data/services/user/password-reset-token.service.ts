@@ -1,10 +1,10 @@
-import { PasswordResetTokenRepository } from "@/data/repositories/user";
+import { PasswordResetRepository } from "@/data/repositories/user";
 import { IEmailService, PasswordResetEmailParams } from "@/data/services/email";
 import { APP_URL } from "@/lib/constants";
 
 export class PasswordResetTokenService {
    constructor(
-      private readonly tokenRepo: PasswordResetTokenRepository,
+      private readonly tokenRepo: PasswordResetRepository,
       private readonly emailService: IEmailService
    ) {}
 

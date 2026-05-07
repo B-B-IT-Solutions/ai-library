@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
-import { PasswordResetTokenRepository } from "@/data/repositories/user";
+import { PasswordResetRepository } from "@/data/repositories/user";
 import {
    BrevoEmailService,
    PasswordResetEmailParams,
@@ -20,14 +20,10 @@ const serviceFactory = new ServiceFactory(prisma);
 const emailService = serviceFactory.getEmailService();
 const emailServiceMock = emailService as DeepMockProxy<BrevoEmailService>;
 
-const tokenRepo = new PasswordResetTokenRepository(prisma);
-const tokenRepoMock =
-   tokenRepo as DeepMockProxy<PasswordResetTokenRepository>;
+const tokenRepo = new PasswordResetRepository(prisma);
+const tokenRepoMock = tokenRepo as DeepMockProxy<PasswordResetRepository>;
 
-const service = new PasswordResetTokenService(
-   tokenRepoMock,
-   emailServiceMock
-);
+const service = new PasswordResetTokenService(tokenRepoMock, emailServiceMock);
 
 describe("sendPasswordResetEmail tests", () => {
    beforeEach(() => {

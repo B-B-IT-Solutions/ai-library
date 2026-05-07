@@ -11,7 +11,7 @@ import {
    VerificationTokenFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { VerificationTokenRepository } from "./verification-token.repository";
+import { VerificationTokenRepository } from "./email-verification.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const repository = new VerificationTokenRepository(prismaMock);

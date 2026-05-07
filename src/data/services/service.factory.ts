@@ -82,7 +82,7 @@ export class ServiceFactory {
    getPasswordResetTokenService(): PasswordResetTokenService {
       if (!this.passwordResetTokenService) {
          this.passwordResetTokenService = new PasswordResetTokenService(
-            this.repositories.passwordResetTokenRepository(),
+            this.repositories.passwordResetRepository(),
             this.getEmailService()
          );
       }
