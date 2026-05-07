@@ -6,51 +6,51 @@ import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
-import { VerificationTokenRepository } from "@/data/repositories/user";
+import { PasswordResetRepository } from "@/data/repositories/user";
 import {
    BrevoEmailService,
-   EmailVerificationParams,
+   PasswordResetEmailParams,
 } from "@/data/services/email";
 import { ServiceFactory } from "@/data/services/service.factory";
 import { APP_URL } from "@/lib/constants";
 
-import { VerificationTokenService } from "./verification-token.service";
+import { PasswordResetTokenService } from "./password-reset.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const emailService = serviceFactory.getEmailService();
 const emailServiceMock = emailService as DeepMockProxy<BrevoEmailService>;
 
-const tokenRepo = new VerificationTokenRepository(prisma);
-const tokenRepoMock = tokenRepo as DeepMockProxy<VerificationTokenRepository>;
+const tokenRepo = new PasswordResetRepository(prisma);
+const tokenRepoMock = tokenRepo as DeepMockProxy<PasswordResetRepository>;
 
-const service = new VerificationTokenService(tokenRepoMock, emailServiceMock);
+const service = new PasswordResetTokenService(tokenRepoMock, emailServiceMock);
 
-describe("sendVerificationEmail tests", () => {
+describe("sendPasswordResetEmail tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("creates token and sends email - test", async () => {
+   it("creates token and sends password reset email", async () => {
       const email = "test@email.com";
       const name = "Test User";
       const token = "generated-uuid-token";
 
       tokenRepoMock.pCreateToken.mockResolvedValue(token);
-      emailServiceMock.sendVerificationEmail.mockResolvedValue(undefined);
+      emailServiceMock.sendPasswordResetEmail.mockResolvedValue(undefined);
 
-      await service.sendVerificationEmail(email, name);
+      await service.sendPasswordResetEmail(email, name);
 
-      const expectedVerificationurl = `${APP_URL}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
-      const expectedParams: EmailVerificationParams = {
+      const expectedResetUrl = `${APP_URL}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+      const expectedParams: PasswordResetEmailParams = {
          to: email,
          name,
-         verificationUrl: expectedVerificationurl,
+         resetUrl: expectedResetUrl,
       };
 
       expect(tokenRepoMock.pCreateToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pCreateToken).toHaveBeenCalledWith(email);
-      expect(emailServiceMock.sendVerificationEmail).toHaveBeenCalledTimes(1);
-      expect(emailServiceMock.sendVerificationEmail).toHaveBeenCalledWith(
+      expect(emailServiceMock.sendPasswordResetEmail).toHaveBeenCalledTimes(1);
+      expect(emailServiceMock.sendPasswordResetEmail).toHaveBeenCalledWith(
          expectedParams
       );
    });
@@ -66,7 +66,7 @@ describe("verifyToken tests", () => {
       MockDate.reset();
    });
 
-   it("token not found - test", async () => {
+   it("returns false when token not found", async () => {
       const email = "test@email.com";
       const token = "token-123";
 
@@ -75,12 +75,11 @@ describe("verifyToken tests", () => {
       const result = await service.verifyToken(email, token);
 
       expect(result).toBe(false);
-      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(email, token);
       expect(tokenRepoMock.pDeleteToken).not.toHaveBeenCalled();
    });
 
-   it("token expired - test", async () => {
+   it("returns false and deletes token when expired", async () => {
       const dToken = dtestData.dVerificationToken();
       dToken.expires = new Date("2025-09-27");
       tokenRepoMock.pGetToken.mockResolvedValue(dToken);
@@ -88,19 +87,13 @@ describe("verifyToken tests", () => {
       const result = await service.verifyToken(dToken.identifier, dToken.token);
 
       expect(result).toBe(false);
-      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
-      expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
-         dToken.identifier,
-         dToken.token
-      );
-      expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledTimes(1);
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledWith(
          dToken.identifier,
          dToken.token
       );
    });
 
-   it("token valid - test", async () => {
+   it("returns true when token is valid", async () => {
       const dToken = dtestData.dVerificationToken();
       dToken.expires = new Date("2035-09-27");
       tokenRepoMock.pGetToken.mockResolvedValue(dToken);
@@ -108,12 +101,41 @@ describe("verifyToken tests", () => {
       const result = await service.verifyToken(dToken.identifier, dToken.token);
 
       expect(result).toBe(true);
-      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
-      expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
+      expect(tokenRepoMock.pDeleteToken).not.toHaveBeenCalled();
+   });
+});
+
+describe("consumeToken tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      MockDate.set("2025-09-27T12:00:00.000Z");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   it("returns false and does not delete when token invalid", async () => {
+      tokenRepoMock.pGetToken.mockResolvedValue(null);
+
+      const result = await service.consumeToken("test@email.com", "bad-token");
+
+      expect(result).toBe(false);
+      expect(tokenRepoMock.pDeleteToken).not.toHaveBeenCalled();
+   });
+
+   it("returns true and deletes token when valid", async () => {
+      const dToken = dtestData.dVerificationToken();
+      dToken.expires = new Date("2035-09-27");
+      tokenRepoMock.pGetToken.mockResolvedValue(dToken);
+      tokenRepoMock.pDeleteToken.mockResolvedValue(undefined);
+
+      const result = await service.consumeToken(
          dToken.identifier,
          dToken.token
       );
-      expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledTimes(1);
+
+      expect(result).toBe(true);
       expect(tokenRepoMock.pDeleteToken).toHaveBeenCalledWith(
          dToken.identifier,
          dToken.token

@@ -22,7 +22,10 @@ export class PasswordResetRepository {
    ): Promise<DVerificationToken | null> {
       const args = {
          where: {
-            identifier_token: { identifier: email, token },
+            identifier_token: {
+               identifier: email,
+               token,
+            },
          },
       } satisfies PasswordResetTokenFindUniqueArgs;
 

@@ -40,6 +40,7 @@ import {
    LibraryCollectionEntry,
    Order,
    OrderItem,
+   PasswordResetToken,
    Product,
    ProductExample,
    ProductFeature,
@@ -93,6 +94,14 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
 };
 
 export const pVerificationToken = (index = 1): VerificationToken => {
+   return {
+      identifier: `user${index}@email.com`,
+      token: `token-${index}`,
+      expires: new Date("2025-09-27"),
+   };
+};
+
+export const pPasswordResetToken = (index = 1): PasswordResetToken => {
    return {
       identifier: `user${index}@email.com`,
       token: `token-${index}`,
