@@ -1,7 +1,7 @@
 import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
-import { CatalogService } from "./catalog";
+import { CatalogService, PublicCatalogService } from "./catalog";
 import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
@@ -50,6 +50,19 @@ describe("getCatalogService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getCatalogService();
       const service2 = serviceFactory.getCatalogService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getPublicCatalogService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getPublicCatalogService();
+      expect(service).toBeInstanceOf(PublicCatalogService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getPublicCatalogService();
+      const service2 = serviceFactory.getPublicCatalogService();
       expect(service1).toBe(service2);
    });
 });

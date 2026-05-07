@@ -2,7 +2,7 @@ jest.mock("@/data/services/catalog");
 
 import { dtestData } from "@tests";
 
-import { CatalogService } from "@/data/services/catalog";
+import { PublicCatalogService } from "@/data/services/catalog";
 import { EMPTY_PAGE } from "../utils";
 
 import {
@@ -12,11 +12,11 @@ import {
 } from "./catalog.public.actions";
 
 const sGetPublishedEntriesPage =
-   CatalogService.prototype.getPublishedCatalogEntriesPage;
+   PublicCatalogService.prototype.getPublishedCatalogEntriesPage;
 const sGetPublishedEntryBySlug =
-   CatalogService.prototype.getPublishedCatalogEntryBySlug;
+   PublicCatalogService.prototype.getPublishedCatalogEntryBySlug;
 const sGetCatalogEntryCategories =
-   CatalogService.prototype.getCatalogEntryCategories;
+   PublicCatalogService.prototype.getCatalogEntryCategories;
 
 const sGetPublishedEntriesPageMock =
    sGetPublishedEntriesPage as jest.MockedFunction<

@@ -54,5 +54,5 @@ export const getCatalogEntryCategories = async (): Promise<
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getCatalogService();
+   return factory.getPublicCatalogService();
 };
