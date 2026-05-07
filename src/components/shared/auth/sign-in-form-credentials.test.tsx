@@ -42,6 +42,13 @@ const assertFieldsRendered = () => {
    assertInDocument(signInBtn);
    assertInDocument(singUpLink);
    assertInDocument(forgotPasswordLink);
+
+   assertHasAttributeWithValue(singUpLink, "href", "/auth/sign-up");
+   assertHasAttributeWithValue(
+      forgotPasswordLink,
+      "href",
+      "/auth/forgot-password"
+   );
 };
 
 const assertCallbackUrl = (url: string) => {
