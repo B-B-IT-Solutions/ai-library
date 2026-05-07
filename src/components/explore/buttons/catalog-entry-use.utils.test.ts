@@ -1,10 +1,17 @@
+import { dtestData, ptestData } from "@tests";
+
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
 
-export const toCatalogEntryDescriptor = (
+import {
+   toCatalogEntryDescriptor,
+   toCatalogEntryTemplateData,
+} from "./catalog-entry-use.utils";
+
+const toCatalogEntryDescriptorInternal = (
    entry: DCatalogEntryWithContent
 ): DPromptTemplateDescriptor => {
    return {
@@ -20,7 +27,7 @@ export const toCatalogEntryDescriptor = (
    };
 };
 
-export const toCatalogEntryTemplateData = (
+const toCatalogEntryTemplateDataInternal = (
    entry: DCatalogEntryWithContent
 ): DPromptTemplateDataPromptGeneration => {
    return {
@@ -41,3 +48,25 @@ export const toCatalogEntryTemplateData = (
       })),
    };
 };
+
+describe("utils tests", () => {
+   it("toCatalogEntryDescriptor test", async () => {
+      const entry1 = dtestData.dCatalogEntryWithContent();
+      const result1 = toCatalogEntryDescriptor(entry1);
+      const expectedResult1 = toCatalogEntryDescriptorInternal(entry1);
+      expect(result1).toEqual(expectedResult1);
+
+      const entry2 = dtestData.dCatalogEntryWithContent();
+      entry2.category = null;
+      const result2 = toCatalogEntryDescriptor(entry2);
+      const expectedResult2 = toCatalogEntryDescriptorInternal(entry2);
+      expect(result2).toEqual(expectedResult2);
+   });
+
+   it("toCatalogEntryTemplateData test", async () => {
+      const entry = dtestData.dCatalogEntryWithContent();
+      const result = toCatalogEntryTemplateData(entry);
+      const expectedResult = toCatalogEntryTemplateDataInternal(entry);
+      expect(result).toEqual(expectedResult);
+   });
+});
