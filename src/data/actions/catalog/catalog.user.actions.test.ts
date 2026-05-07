@@ -86,8 +86,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
       expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
-         catalogEntryId,
-         user.id
+         user.id,
+         catalogEntryId
       );
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
@@ -115,8 +115,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
       expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
-         catalogEntryId,
-         user.id
+         user.id,
+         catalogEntryId
       );
    });
 });

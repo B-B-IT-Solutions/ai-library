@@ -21,8 +21,8 @@ export const copyCatalogEntryToUserTemplates = async (
       const user = await requireUser();
       const service = getService();
       const descriptor = await service.copyCatalogEntryToUserTemplates(
-         catalogEntryId,
-         user.id
+         user.id,
+         catalogEntryId
       );
 
       return {

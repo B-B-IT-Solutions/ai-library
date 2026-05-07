@@ -96,7 +96,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
       const entryId = "missing-id-1";
       const fn = () =>
-         catalogService.copyCatalogEntryToUserTemplates(entryId, userId);
+         catalogService.copyCatalogEntryToUserTemplates(userId, entryId);
 
       await expect(fn).rejects.toThrow();
 
@@ -121,8 +121,8 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
 
       const result = await catalogService.copyCatalogEntryToUserTemplates(
-         entry.id,
-         userId
+         userId,
+         entry.id
       );
 
       const expectedTemplateData = toPromptTemplateUpdate(entry);

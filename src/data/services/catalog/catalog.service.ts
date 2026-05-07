@@ -33,8 +33,8 @@ export class CatalogService {
    }
 
    async copyCatalogEntryToUserTemplates(
-      catalogEntryId: string,
-      userId: string
+      userId: string,
+      catalogEntryId: string
    ): Promise<DPromptTemplateDescriptor> {
       const entry =
          await this.catalogRepository.pGetPublishedEntryById(catalogEntryId);
