@@ -624,14 +624,14 @@ describe("resetPassword tests", () => {
       const fn = async () =>
          await userService.resetPassword(user.email, token, data);
 
-      expect(fn).rejects.toThrow("Invalid password reset token");
+      await expect(fn).rejects.toThrow("Invalid password reset token");
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
       expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
-      // expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
-      //    user.email,
-      //    token
-      // );
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
+         user.email,
+         token
+      );
       expect(hashMock).not.toHaveBeenCalled();
       expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
    });

@@ -154,8 +154,6 @@ export class UserService {
          user.email,
          token
       );
-      console.log("passwordResetServcie");
-      console.log(valid);
       if (!valid) {
          throw new Error("Invalid password reset token");
       }
