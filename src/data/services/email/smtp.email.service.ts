@@ -30,7 +30,7 @@ export class SmtpEmailService implements IEmailService {
       this.senderEmail = getSmtpFrom();
    }
 
-   async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
+   async sendVerificationEmail(params: EmailVerificationParams) {
       const { to, name, verificationUrl } = params;
 
       const transportOptions: SMTPTransport.Options = {
@@ -51,9 +51,7 @@ export class SmtpEmailService implements IEmailService {
       await transporter.sendMail(mailOptions);
    }
 
-   async sendPasswordResetEmail(
-      params: PasswordResetEmailParams
-   ): Promise<void> {
+   async sendPasswordResetEmail(params: PasswordResetEmailParams) {
       const { to, name, resetUrl } = params;
 
       const transportOptions: SMTPTransport.Options = {

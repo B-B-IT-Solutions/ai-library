@@ -25,7 +25,7 @@ export class BrevoEmailService implements IEmailService {
       this.senderName = APP_NAME;
    }
 
-   async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
+   async sendVerificationEmail(params: EmailVerificationParams) {
       const { to, name, verificationUrl } = params;
 
       const request: Brevo.SendTransacEmailRequest = {
@@ -59,9 +59,7 @@ export class BrevoEmailService implements IEmailService {
       }
    }
 
-   async sendPasswordResetEmail(
-      params: PasswordResetEmailParams
-   ): Promise<void> {
+   async sendPasswordResetEmail(params: PasswordResetEmailParams) {
       const { to, name, resetUrl } = params;
 
       const request: Brevo.SendTransacEmailRequest = {
