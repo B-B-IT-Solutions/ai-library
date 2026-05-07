@@ -1,3 +1,9 @@
+jest.mock("@/components/shared/auth", () => ({
+   ForgotPasswordForm: () => {
+      return <div data-testid="forgot-password-form" />;
+   },
+}));
+
 import { screen, waitFor } from "@testing-library/dom";
 import {
    assertInDocument,
@@ -21,7 +27,7 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("forgot-password-page");
-   const form = screen.getByTestId("forgot-password-form-mock");
+   const form = screen.getByTestId("forgot-password-form");
 
    assertInDocument(page);
    assertInDocument(form);

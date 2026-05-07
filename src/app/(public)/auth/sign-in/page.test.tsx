@@ -1,3 +1,9 @@
+jest.mock("@/components/shared/auth", () => ({
+   CredentialsSignInForm: () => {
+      return <div data-testid="signin-form-credentails" />;
+   },
+}));
+
 import { screen, waitFor } from "@testing-library/dom";
 import {
    assertHasAttributeWithValue,
@@ -26,7 +32,7 @@ const assertRendered = () => {
    const header = screen.getByTestId("card-header");
    const title = screen.getByTestId("card-title");
    const description = screen.getByTestId("card-description");
-   const credentialsForm = screen.getByTestId("signin-form-credentails-mock");
+   const credentialsForm = screen.getByTestId("signin-form-credentails");
 
    assertInDocument(page);
    assertInDocument(header);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ForgotPasswordPage rendering tests user not signed in - renders page - test 1`] = `
+exports[`ForgotPasswordPage rendering tests user not signed in - test 1`] = `
 <div>
   <div
     class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
@@ -50,7 +50,7 @@ exports[`ForgotPasswordPage rendering tests user not signed in - renders page - 
           data-slot="card-content"
         >
           <div
-            data-testid="forgot-password-form-mock"
+            data-testid="forgot-password-form"
           />
         </div>
       </div>
@@ -59,4 +59,4 @@ exports[`ForgotPasswordPage rendering tests user not signed in - renders page - 
 </div>
 `;
 
-exports[`ForgotPasswordPage rendering tests user signed in - redirects to home - test 1`] = `<div />`;
+exports[`ForgotPasswordPage rendering tests user signed in - test 1`] = `<div />`;
