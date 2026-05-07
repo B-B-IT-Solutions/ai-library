@@ -53,8 +53,8 @@ export const ResetPasswordForm = ({ email, token }: Props) => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         data-testid="reset-password-form"
          className="space-y-5"
+         data-testid="reset-password-form"
       >
          <FieldGroup>
             <Controller
@@ -83,6 +83,7 @@ export const ResetPasswordForm = ({ email, token }: Props) => {
                            placeholder="Mindestens 6 Zeichen"
                            aria-invalid={fieldState.invalid}
                            className="h-11 pr-10 pl-10 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
+                           data-testid="password-input"
                         />
                         <button
                            type="button"
@@ -134,6 +135,7 @@ export const ResetPasswordForm = ({ email, token }: Props) => {
                            placeholder="Passwort wiederholen"
                            aria-invalid={fieldState.invalid}
                            className="h-11 pr-10 pl-10 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
+                           data-testid="confirm-password-input"
                         />
                         <button
                            type="button"
