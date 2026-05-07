@@ -10,6 +10,7 @@ import {
 import { VerificationTokenService } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   DResetPassword,
    DUser,
    DUserAccountDelete,
    DUserCreate,
@@ -117,7 +118,6 @@ export class UserService {
       if (!user) {
          throw new Error("User not found");
       }
-
       if (!user.password) {
          // e.g. when using google login
          throw new Error("User doesn't have a password");
@@ -133,6 +133,16 @@ export class UserService {
 
       const hashedPassword = await hash(data.newPassword);
 
+      await this.userRepository.pUpdatePassword(userId, hashedPassword);
+   }
+
+   async resetPassword(userId: string, data: DResetPassword): Promise<void> {
+      const user = await this.userRepository.pGetUserById(userId);
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      const hashedPassword = await hash(data.password);
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
@@ -180,11 +190,6 @@ export class UserService {
          user.email,
          user.name
       );
-   }
-
-   async resetPassword(userId: string, newPassword: string): Promise<void> {
-      const hashedPassword = await hash(newPassword);
-      await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
    async isEmailVerified(email: string): Promise<boolean | null> {

@@ -263,7 +263,7 @@ export const resetPassword = async (
    data: DResetPassword
 ): Promise<ActionResult> => {
    try {
-      const { password } = resetPasswordSchema.parse(data);
+      const validatedData = resetPasswordSchema.parse(data);
 
       const resetService = getPasswordResetService();
       const valid = await resetService.consumeToken(email, token);
@@ -279,10 +279,13 @@ export const resetPassword = async (
       const userService = getUserService();
       const user = await userService.getUserByEmail(email);
       if (!user) {
-         return { success: false, message: "Benutzer nicht gefunden" };
+         return {
+            success: false,
+            message: "Benutzer nicht gefunden",
+         };
       }
 
-      await userService.resetPassword(user.id, password);
+      await userService.resetPassword(user.id, validatedData);
 
       return { success: true, message: "Passwort erfolgreich zurückgesetzt" };
    } catch (error) {

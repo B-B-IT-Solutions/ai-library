@@ -23,6 +23,7 @@ import { OrderService } from "@/data/services/order";
 import { VerificationTokenService } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   DResetPassword,
    DUserAccountDelete,
    DUserCreate,
    DUserPasswordUpdate,
@@ -572,6 +573,55 @@ describe("updatePassword tests", () => {
       );
       expect(hashMock).toHaveBeenCalledTimes(1);
       expect(hashMock).toHaveBeenCalledWith(data.newPassword);
+   });
+});
+
+describe("resetPassword tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("resetPassword - user null - test", async () => {
+      const userId = "user-id-1";
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () => await userService.resetPassword(userId, data);
+
+      expect(fn).rejects.toThrow("User not found");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
+      expect(hashMock).not.toHaveBeenCalled();
+      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
+   });
+
+   it("resetPassword - password updated - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+      compareMock.mockResolvedValue(true);
+      const hashedPassword = "hashed-password-1";
+      hashMock.mockResolvedValue(hashedPassword);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      await userService.resetPassword(user.id, data);
+
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(hashMock).toHaveBeenCalledTimes(1);
+      expect(hashMock).toHaveBeenCalledWith(data.password);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledWith(
+         user.id,
+         hashedPassword
+      );
    });
 });
 
