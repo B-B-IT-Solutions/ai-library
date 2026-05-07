@@ -17,7 +17,7 @@ export const metadata: Metadata = {
    title: "Passwort vergessen",
 };
 
-const ForgotPasswordPage = async () => {
+export const ForgotPasswordPage = async () => {
    const session = await auth();
 
    if (session) {
