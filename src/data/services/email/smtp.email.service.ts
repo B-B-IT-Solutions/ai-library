@@ -10,12 +10,15 @@ import {
 } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
-import type { EmailVerificationParams, PasswordResetEmailParams } from "./types";
+import type {
+   EmailVerificationParams,
+   PasswordResetEmailParams,
+} from "./types";
 import {
-   buildHtml,
-   buildPasswordResetHtml,
-   buildPasswordResetText,
-   buildText,
+   emailVerificationHtml,
+   emailVerificationText,
+   passwordResetHtml,
+   passwordResetText,
 } from "./utils";
 
 export class SmtpEmailService implements IEmailService {
@@ -42,8 +45,8 @@ export class SmtpEmailService implements IEmailService {
          from: `"${this.senderName}" <${this.senderEmail}>`,
          to,
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         html: buildHtml(this.senderName, name, verificationUrl),
-         text: buildText(this.senderName, name, verificationUrl),
+         html: emailVerificationHtml(this.senderName, name, verificationUrl),
+         text: emailVerificationText(this.senderName, name, verificationUrl),
       };
       await transporter.sendMail(mailOptions);
    }
@@ -65,8 +68,8 @@ export class SmtpEmailService implements IEmailService {
          from: `"${this.senderName}" <${this.senderEmail}>`,
          to,
          subject: `${this.senderName} – Passwort zurücksetzen`,
-         html: buildPasswordResetHtml(this.senderName, name, resetUrl),
-         text: buildPasswordResetText(this.senderName, name, resetUrl),
+         html: passwordResetHtml(this.senderName, name, resetUrl),
+         text: passwordResetText(this.senderName, name, resetUrl),
       };
       await transporter.sendMail(mailOptions);
    }

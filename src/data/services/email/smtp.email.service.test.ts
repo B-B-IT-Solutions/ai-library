@@ -20,7 +20,7 @@ import {
 
 import { SmtpEmailService } from "./smtp.email.service";
 import { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import { emailVerificationHtml, emailVerificationText } from "./utils";
 
 const nodemailerMock = nodemailer as jest.Mocked<typeof nodemailer>;
 const sendMailMock = jest.fn().mockResolvedValue({});
@@ -56,8 +56,16 @@ describe("SmtpEmailService tests", () => {
          from: `"${APP_NAME}" <${getSmtpFrom()}>`,
          to: params.to,
          subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
-         html: buildHtml(APP_NAME, params.name, params.verificationUrl),
-         text: buildText(APP_NAME, params.name, params.verificationUrl),
+         html: emailVerificationHtml(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
+         text: emailVerificationText(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
       };
 
       expect(nodemailerMock.createTransport).toHaveBeenCalledTimes(1);

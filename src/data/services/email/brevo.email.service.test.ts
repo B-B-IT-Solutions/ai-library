@@ -6,7 +6,7 @@ import { APP_NAME, getBrevoSenderEmail } from "@/lib/constants";
 
 import { BrevoEmailService } from "./brevo.email.service";
 import { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import { emailVerificationHtml, emailVerificationText } from "./utils";
 
 const brevoClientMock = BrevoClient as jest.MockedClass<typeof BrevoClient>;
 
@@ -54,8 +54,16 @@ describe("BrevoEmailService tests", () => {
             name: `${APP_NAME}`,
          },
          subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
-         htmlContent: buildHtml(APP_NAME, params.name, params.verificationUrl),
-         textContent: buildText(APP_NAME, params.name, params.verificationUrl),
+         htmlContent: emailVerificationHtml(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
+         textContent: emailVerificationText(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
       };
 
       expect(sendTransacEmailMock).toHaveBeenCalledTimes(1);
@@ -86,8 +94,16 @@ describe("BrevoEmailService tests", () => {
             name: `${APP_NAME}`,
          },
          subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
-         htmlContent: buildHtml(APP_NAME, params.name, params.verificationUrl),
-         textContent: buildText(APP_NAME, params.name, params.verificationUrl),
+         htmlContent: emailVerificationHtml(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
+         textContent: emailVerificationText(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
       };
 
       expect(sendTransacEmailMock).toHaveBeenCalledTimes(1);

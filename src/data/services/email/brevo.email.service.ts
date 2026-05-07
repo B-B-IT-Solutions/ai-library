@@ -3,12 +3,15 @@ import { Brevo, BrevoClient } from "@getbrevo/brevo";
 import { APP_NAME, getBrevoApiKey, getBrevoSenderEmail } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
-import type { EmailVerificationParams, PasswordResetEmailParams } from "./types";
+import type {
+   EmailVerificationParams,
+   PasswordResetEmailParams,
+} from "./types";
 import {
-   buildHtml,
-   buildPasswordResetHtml,
-   buildPasswordResetText,
-   buildText,
+   emailVerificationHtml,
+   emailVerificationText,
+   passwordResetHtml,
+   passwordResetText,
 } from "./utils";
 
 export class BrevoEmailService implements IEmailService {
@@ -37,8 +40,16 @@ export class BrevoEmailService implements IEmailService {
             name: this.senderName,
          },
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         htmlContent: buildHtml(this.senderName, name, verificationUrl),
-         textContent: buildText(this.senderName, name, verificationUrl),
+         htmlContent: emailVerificationHtml(
+            this.senderName,
+            name,
+            verificationUrl
+         ),
+         textContent: emailVerificationText(
+            this.senderName,
+            name,
+            verificationUrl
+         ),
       };
 
       try {
@@ -60,8 +71,8 @@ export class BrevoEmailService implements IEmailService {
             name: this.senderName,
          },
          subject: `${this.senderName} – Passwort zurücksetzen`,
-         htmlContent: buildPasswordResetHtml(this.senderName, name, resetUrl),
-         textContent: buildPasswordResetText(this.senderName, name, resetUrl),
+         htmlContent: passwordResetHtml(this.senderName, name, resetUrl),
+         textContent: passwordResetText(this.senderName, name, resetUrl),
       };
 
       try {

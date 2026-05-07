@@ -1,4 +1,4 @@
-export const buildHtml = (
+export const emailVerificationHtml = (
    senderName: string,
    userName: string,
    verificationUrl: string
@@ -19,7 +19,7 @@ export const buildHtml = (
 </html>`;
 };
 
-export const buildText = (
+export const emailVerificationText = (
    senderName: string,
    userName: string,
    verificationUrl: string
@@ -27,7 +27,7 @@ export const buildText = (
    return `Hallo ${userName},\n\nWillkommen bei ${senderName}! Bitte bestätige deine E-Mail-Adresse:\n\n${verificationUrl}\n\nDieser Link ist 24 Stunden gültig.\n\nFalls du kein Konto erstellt hast, kannst du diese E-Mail ignorieren.`;
 };
 
-export const buildPasswordResetHtml = (
+export const passwordResetHtml = (
    senderName: string,
    userName: string,
    resetUrl: string
@@ -48,7 +48,7 @@ export const buildPasswordResetHtml = (
 </html>`;
 };
 
-export const buildPasswordResetText = (
+export const passwordResetText = (
    senderName: string,
    userName: string,
    resetUrl: string
