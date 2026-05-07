@@ -4,4 +4,6 @@ export {
    updateProfileSchema,
    updatePasswordSchema,
    deleteAccountSchema,
+   forgotPasswordSchema,
+   resetPasswordSchema,
 } from "./user.schema";

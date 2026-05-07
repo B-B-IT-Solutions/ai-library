@@ -10,7 +10,11 @@ import { RepositoryFactory } from "./repository.factory";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
-import { UserRepository, VerificationTokenRepository } from "./user";
+import {
+   PasswordResetRepository,
+   UserRepository,
+   VerificationTokenRepository,
+} from "./user";
 
 describe("RepositoryFactory tests", () => {
    let mockPrisma: PrismaClient;
@@ -43,6 +47,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.verificationTokenRepository();
          const repository2 = factory.verificationTokenRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("passwordResetRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.passwordResetRepository();
+         expect(repository).toBeInstanceOf(PasswordResetRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.passwordResetRepository();
+         const repository2 = factory.passwordResetRepository();
          expect(repository1).toBe(repository2);
       });
    });

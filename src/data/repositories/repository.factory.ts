@@ -9,7 +9,11 @@ import { PromptRepository } from "./prompt";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
-import { UserRepository, VerificationTokenRepository } from "./user";
+import {
+   PasswordResetRepository,
+   UserRepository,
+   VerificationTokenRepository,
+} from "./user";
 
 export class RepositoryFactory {
    private prisma: DbClient;
@@ -17,6 +21,7 @@ export class RepositoryFactory {
    private publicCatalogRepo?: PublicCatalogRepository;
    private userRepo?: UserRepository;
    private verificationTokenRepo?: VerificationTokenRepository;
+   private passwordResetRepo?: PasswordResetRepository;
    private cartRepo?: CartRepository;
    private collectionRepo?: CollectionRepository;
    private publicCollectionRepo?: PublicCollectionRepository;
@@ -47,6 +52,13 @@ export class RepositoryFactory {
          );
       }
       return this.verificationTokenRepo;
+   }
+
+   passwordResetRepository(): PasswordResetRepository {
+      if (!this.passwordResetRepo) {
+         this.passwordResetRepo = new PasswordResetRepository(this.prisma);
+      }
+      return this.passwordResetRepo;
    }
 
    catalogRepository(): CatalogRepository {

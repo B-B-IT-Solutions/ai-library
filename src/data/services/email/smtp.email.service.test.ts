@@ -7,6 +7,7 @@ jest.mock("@/lib/constants", () => ({
    APP_NAME: "Vision Notes",
 }));
 
+import { ctestData } from "@tests";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
@@ -19,8 +20,13 @@ import {
 } from "@/lib/constants";
 
 import { SmtpEmailService } from "./smtp.email.service";
-import { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import { EmailVerificationParams, PasswordResetEmailParams } from "./types";
+import {
+   emailVerificationHtml,
+   emailVerificationText,
+   passwordResetHtml,
+   passwordResetText,
+} from "./utils";
 
 const nodemailerMock = nodemailer as jest.Mocked<typeof nodemailer>;
 const sendMailMock = jest.fn().mockResolvedValue({});
@@ -31,12 +37,36 @@ nodemailerMock.createTransport.mockReturnValue({
 
 const service = new SmtpEmailService();
 
-describe("SmtpEmailService tests", () => {
+const expectedTransportOptions: SMTPTransport.Options = {
+   host: getSmtpHost(),
+   port: getSmtpPort(),
+   secure: false,
+   auth: undefined,
+};
+
+describe("sendVerificationEmail tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("sends email with correct params - test", async () => {
+   it("smtp error - test", async () => {
+      const error = new Error("SMTP connection refused");
+      sendMailMock.mockRejectedValue(error);
+
+      const params: EmailVerificationParams = {
+         to: "user@example.com",
+         name: "Test User",
+         verificationUrl: "https://example.com/verify?token=abc123",
+      };
+
+      const fn = async () => await service.sendVerificationEmail(params);
+      await expect(fn).rejects.toThrow("SMTP connection refused");
+   });
+
+   it("email sent - test", async () => {
+      const info = ctestData.nodemailderSentMessageInfo();
+      sendMailMock.mockResolvedValue(info);
+
       const params: EmailVerificationParams = {
          to: "user@example.com",
          name: "Test User",
@@ -45,19 +75,20 @@ describe("SmtpEmailService tests", () => {
 
       await service.sendVerificationEmail(params);
 
-      const expectedTransportOptions: SMTPTransport.Options = {
-         host: getSmtpHost(),
-         port: getSmtpPort(),
-         secure: false,
-         auth: undefined,
-      };
-
       const expectedMailOptions: Mail.Options = {
          from: `"${APP_NAME}" <${getSmtpFrom()}>`,
          to: params.to,
          subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
-         html: buildHtml(APP_NAME, params.name, params.verificationUrl),
-         text: buildText(APP_NAME, params.name, params.verificationUrl),
+         html: emailVerificationHtml(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
+         text: emailVerificationText(
+            APP_NAME,
+            params.name,
+            params.verificationUrl
+         ),
       };
 
       expect(nodemailerMock.createTransport).toHaveBeenCalledTimes(1);
@@ -67,17 +98,52 @@ describe("SmtpEmailService tests", () => {
       expect(sendMailMock).toHaveBeenCalledTimes(1);
       expect(sendMailMock).toHaveBeenCalledWith(expectedMailOptions);
    });
+});
 
-   it("throws error on failure - test", async () => {
-      sendMailMock.mockRejectedValue(new Error("SMTP connection refused"));
-      const params = {
+describe("sendPasswordResetEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("smtp error - test", async () => {
+      const error = new Error("SMTP connection refused");
+      sendMailMock.mockRejectedValue(error);
+
+      const params: PasswordResetEmailParams = {
          to: "user@example.com",
          name: "Test User",
-         verificationUrl: "https://example.com/verify?token=abc123",
+         resetUrl: "https://example.com/verify?token=abc123",
       };
 
-      await expect(service.sendVerificationEmail(params)).rejects.toThrow(
-         "SMTP connection refused"
+      const fn = async () => await service.sendPasswordResetEmail(params);
+      await expect(fn).rejects.toThrow("SMTP connection refused");
+   });
+
+   it("email sent - test", async () => {
+      const info = ctestData.nodemailderSentMessageInfo();
+      sendMailMock.mockResolvedValue(info);
+
+      const params: PasswordResetEmailParams = {
+         to: "user@example.com",
+         name: "Test User",
+         resetUrl: "https://example.com/verify?token=abc123",
+      };
+
+      await service.sendPasswordResetEmail(params);
+
+      const expectedMailOptions: Mail.Options = {
+         from: `"${APP_NAME}" <${getSmtpFrom()}>`,
+         to: params.to,
+         subject: `${APP_NAME} – Passwort zurücksetzen`,
+         html: passwordResetHtml(APP_NAME, params.name, params.resetUrl),
+         text: passwordResetText(APP_NAME, params.name, params.resetUrl),
+      };
+
+      expect(nodemailerMock.createTransport).toHaveBeenCalledTimes(1);
+      expect(nodemailerMock.createTransport).toHaveBeenCalledWith(
+         expectedTransportOptions
       );
+      expect(sendMailMock).toHaveBeenCalledTimes(1);
+      expect(sendMailMock).toHaveBeenCalledWith(expectedMailOptions);
    });
 });

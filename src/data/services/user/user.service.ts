@@ -7,9 +7,14 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
-import { VerificationTokenService } from "@/data/services/user";
+import {
+   PasswordResetService,
+   VerificationTokenService,
+} from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   DForgotPassword,
+   DResetPassword,
    DUser,
    DUserAccountDelete,
    DUserCreate,
@@ -27,6 +32,7 @@ export class UserService {
    constructor(
       private readonly userRepository: UserRepository,
       private readonly verificationTokenService: VerificationTokenService,
+      private readonly passwordResetServcie: PasswordResetService,
       private readonly cartService: CartService,
       private readonly orderService: OrderService,
       private readonly iubendaService: IubendaService
@@ -117,7 +123,6 @@ export class UserService {
       if (!user) {
          throw new Error("User not found");
       }
-
       if (!user.password) {
          // e.g. when using google login
          throw new Error("User doesn't have a password");
@@ -188,5 +193,39 @@ export class UserService {
 
    async verifyEmail(email: string): Promise<void> {
       await this.userRepository.pVerifyUserEmail(email);
+   }
+
+   async requestPasswordReset(data: DForgotPassword): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(data.email);
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      await this.passwordResetServcie.sendPasswordResetEmail(
+         user.email,
+         user.name
+      );
+   }
+
+   async resetPassword(
+      email: string,
+      token: string,
+      data: DResetPassword
+   ): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(email);
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      const valid = await this.passwordResetServcie.consumeToken(
+         user.email,
+         token
+      );
+      if (!valid) {
+         throw new Error("Invalid password reset token");
+      }
+
+      const hashedPassword = await hash(data.password);
+      await this.userRepository.pUpdatePassword(user.id, hashedPassword);
    }
 }

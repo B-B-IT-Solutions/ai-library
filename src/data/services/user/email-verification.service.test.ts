@@ -14,7 +14,7 @@ import {
 import { ServiceFactory } from "@/data/services/service.factory";
 import { APP_URL } from "@/lib/constants";
 
-import { VerificationTokenService } from "./verification-token.service";
+import { VerificationTokenService } from "./email-verification.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const emailService = serviceFactory.getEmailService();

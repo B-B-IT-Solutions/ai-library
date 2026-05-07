@@ -10,6 +10,8 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   DForgotPassword,
+   DResetPassword,
    DSignUpResult,
    DUser,
    DUserAccountDelete,
@@ -21,6 +23,8 @@ import {
 import { ActionResult } from "@/data/types/utils";
 import {
    deleteAccountSchema,
+   forgotPasswordSchema,
+   resetPasswordSchema,
    signInSchema,
    signUpSchema,
    updatePasswordSchema,
@@ -119,7 +123,7 @@ export const resendVerificationEmail = async (
          };
       }
 
-      const tokenService = getTokenService();
+      const tokenService = getEmailVerificationService();
       await tokenService.sendVerificationEmail(user.email, user.name);
 
       return {
@@ -225,12 +229,60 @@ export const deleteUser = async (
    }
 };
 
+export const requestPasswordReset = async (
+   data: DForgotPassword
+): Promise<ActionResult> => {
+   try {
+      const validatedData = forgotPasswordSchema.parse(data);
+
+      const userService = getUserService();
+      await userService.requestPasswordReset(validatedData);
+
+      return {
+         success: true,
+         message:
+            "Falls ein Konto mit dieser E-Mail existiert, wurde eine E-Mail gesendet.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Fehler beim Senden der E-Mail",
+      };
+   }
+};
+
+export const resetPassword = async (
+   email: string,
+   token: string,
+   data: DResetPassword
+): Promise<ActionResult> => {
+   try {
+      const validatedData = resetPasswordSchema.parse(data);
+
+      const userService = getUserService();
+      await userService.resetPassword(email, token, validatedData);
+
+      return {
+         success: true,
+         message: "Passwort erfolgreich zurückgesetzt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message:
+            "Fehler beim Zurücksetzen des Passworts. Der Link ist möflicherweise ungültig oder abgelaufen. Bitte fordere einen neuen an.",
+      };
+   }
+};
+
 const getUserService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getUserService();
 };
 
-const getTokenService = (dbClient: DbClient = prisma) => {
+const getEmailVerificationService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getVerificationTokenService();
 };

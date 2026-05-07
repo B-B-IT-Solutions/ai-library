@@ -1,12 +1,16 @@
 import { ZodError } from "zod";
 
 import {
+   DForgotPassword,
+   DResetPassword,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
 } from "@/data/types/domain/user";
 
 import {
+   forgotPasswordSchema,
+   resetPasswordSchema,
    signInSchema,
    signUpSchema,
    updatePasswordSchema,
@@ -124,6 +128,46 @@ describe("updatePasswordSchema tests", () => {
       };
 
       const fn = () => updatePasswordSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("forgotPasswordSchema tests", () => {
+   it("valid email - test", () => {
+      const data: DForgotPassword = { email: "test@email.com" };
+      expect(forgotPasswordSchema.parse(data)).toEqual(data);
+   });
+
+   it("invalid email - test", () => {
+      const fn = () => forgotPasswordSchema.parse({ email: "not-an-email" });
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("resetPasswordSchema tests", () => {
+   it("valid passwords - test", () => {
+      const data: DResetPassword = {
+         password: "newpass1",
+         confirmPassword: "newpass1",
+      };
+      expect(resetPasswordSchema.parse(data)).toEqual(data);
+   });
+
+   it("passwords do not match - test", () => {
+      const fn = () =>
+         resetPasswordSchema.parse({
+            password: "newpass1",
+            confirmPassword: "different",
+         });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("password too short - test", () => {
+      const fn = () =>
+         resetPasswordSchema.parse({
+            password: "abc",
+            confirmPassword: "abc",
+         });
       expect(fn).toThrow(ZodError);
    });
 });

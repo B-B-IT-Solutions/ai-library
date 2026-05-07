@@ -1,14 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SignUpPage rendering tests SignUpPage - user already signed in - callbackUrl defined - rendered test 1`] = `<div />`;
-
-exports[`SignUpPage rendering tests SignUpPage - user already signed in - callbackUrl undefined - rendered test 1`] = `<div />`;
-
-exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered test 1`] = `
+exports[`ForgotPasswordPage rendering tests user not signed in - test 1`] = `
 <div>
   <div
     class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
-    data-testid="sign-up-page"
+    data-testid="forgot-password-page"
   >
     <div
       class="w-full max-w-md"
@@ -20,7 +16,6 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
         <div
           class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 space-y-6 pb-6"
           data-slot="card-header"
-          data-testid="card-header"
         >
           <a
             class="flex flex-col items-center gap-3"
@@ -39,16 +34,14 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
             <div
               class="text-center text-3xl font-bold tracking-tight"
               data-slot="card-title"
-              data-testid="card-title"
             >
-              Konto erstellen
+              Passwort vergessen
             </div>
             <div
               class="text-muted-foreground text-center text-base"
               data-slot="card-description"
-              data-testid="card-description"
             >
-              Erstelle dein Konto und leg direkt los
+              Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.
             </div>
           </div>
         </div>
@@ -57,7 +50,7 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
           data-slot="card-content"
         >
           <div
-            data-testid="sign-up-form"
+            data-testid="forgot-password-form"
           />
         </div>
       </div>
@@ -65,3 +58,5 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
   </div>
 </div>
 `;
+
+exports[`ForgotPasswordPage rendering tests user signed in - test 1`] = `<div />`;

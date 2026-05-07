@@ -81,6 +81,15 @@ model VerificationToken {
   @@map("verification_token")
 }
 
+model PasswordResetToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("password_reset_token")
+}
+
 model PromptDescriptor {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId           String           @map("user_id") @db.Uuid

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
@@ -11,7 +11,7 @@ import {
    VerificationTokenFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { VerificationTokenRepository } from "./verification-token.repository";
+import { VerificationTokenRepository } from "./email-verification.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const repository = new VerificationTokenRepository(prismaMock);

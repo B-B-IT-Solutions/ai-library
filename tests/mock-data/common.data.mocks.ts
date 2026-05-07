@@ -1,7 +1,9 @@
+import { Brevo } from "@getbrevo/brevo";
 import {
    MutationObserverLoadingResult,
    UseMutationResult,
 } from "@tanstack/react-query";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 type MediaQueryFn = (query: string) => MediaQueryList;
 
@@ -65,4 +67,28 @@ export const useMutationObserverLoadingResult = (
 export const uuid = (index = 1) => {
    const encoder = new TextEncoder();
    return encoder.encode(`mock-uuid-${index}`);
+};
+
+export const nodemailderSentMessageInfo = (
+   index = 1
+): SMTPTransport.SentMessageInfo => {
+   return {
+      envelope: {
+         from: "from@email.com",
+         to: ["to@email.com"],
+      },
+      messageId: `message-id-${index}`,
+      accepted: [],
+      rejected: [],
+      pending: [],
+      response: `respons ${index}`,
+   };
+};
+
+export const brevoSendTransacEmailResponse = (
+   index = 1
+): Brevo.SendTransacEmailResponse => {
+   return {
+      messageId: `message-id-${index}`,
+   };
 };

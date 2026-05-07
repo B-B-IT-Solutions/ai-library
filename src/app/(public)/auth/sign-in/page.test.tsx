@@ -1,3 +1,9 @@
+jest.mock("@/components/shared/auth", () => ({
+   CredentialsSignInForm: () => {
+      return <div data-testid="signin-form-credentails" />;
+   },
+}));
+
 import { screen, waitFor } from "@testing-library/dom";
 import {
    assertHasAttributeWithValue,
@@ -26,7 +32,7 @@ const assertRendered = () => {
    const header = screen.getByTestId("card-header");
    const title = screen.getByTestId("card-title");
    const description = screen.getByTestId("card-description");
-   const credentialsForm = screen.getByTestId("signin-form-credentails-mock");
+   const credentialsForm = screen.getByTestId("signin-form-credentails");
 
    assertInDocument(page);
    assertInDocument(header);
@@ -35,19 +41,33 @@ const assertRendered = () => {
    assertInDocument(credentialsForm);
 };
 
+const assertPasswordResetBannerRendered = () => {
+   const passwordReset = screen.getByTestId("password-reset-banner");
+   const verified = screen.queryByTestId("verified-banner");
+   const error = screen.queryByTestId("error-banner");
+
+   assertInDocument(passwordReset);
+   assertNotInDocument(verified);
+   assertNotInDocument(error);
+};
+
 const assertVerifiedBannerRendered = () => {
    const verified = screen.getByTestId("verified-banner");
+   const passwordReset = screen.queryByTestId("password-reset-banner");
    const error = screen.queryByTestId("error-banner");
 
    assertInDocument(verified);
+   assertNotInDocument(passwordReset);
    assertNotInDocument(error);
 };
 
 const assertErrorBannerRendered = () => {
    const error = screen.getByTestId("error-banner");
+   const passwordReset = screen.queryByTestId("password-reset-banner");
    const verified = screen.queryByTestId("verified-banner");
 
    assertInDocument(error);
+   assertNotInDocument(passwordReset);
    assertNotInDocument(verified);
 };
 
@@ -71,7 +91,7 @@ const assertLegalNoticesLinksRendered = () => {
 
 describe("SignInPage rendering tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("user already signed in - callbackUrl defined - rendered test", async () => {
@@ -124,6 +144,26 @@ describe("SignInPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertLegalNoticesLinksRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("user not signed in - searchParams - password_reset true - rendered test", async () => {
+      authMock.mockResolvedValue(null);
+      const searchParams: PageSearchParams = {
+         callbackUrl: "/callback/test-1",
+         password_reset: "true",
+      };
+      const props: PageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+      const { container } = await renderAsyncRSC(SignInPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+         assertPasswordResetBannerRendered();
          assertLegalNoticesLinksRendered();
       });
 

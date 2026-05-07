@@ -46,8 +46,6 @@ module.exports = {
       "^strip-markdown$": "<rootDir>/__mocks__/strip-markdown.ts",
       "^remark-gfm$": "<rootDir>/__mocks__/remark-gfm.ts",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
-      "^@/components/shared/auth$":
-         "<rootDir>/__mocks__/@/components/shared/auth.tsx",
       "^@radix-ui/react-alert-dialog$":
          "<rootDir>/__mocks__/@radix-ui/react-alert-dialog.tsx",
       "^@radix-ui/react-dialog$":

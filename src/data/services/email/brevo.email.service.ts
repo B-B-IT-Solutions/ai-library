@@ -3,8 +3,16 @@ import { Brevo, BrevoClient } from "@getbrevo/brevo";
 import { APP_NAME, getBrevoApiKey, getBrevoSenderEmail } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
-import type { EmailVerificationParams } from "./types";
-import { buildHtml, buildText } from "./utils";
+import type {
+   EmailVerificationParams,
+   PasswordResetEmailParams,
+} from "./types";
+import {
+   emailVerificationHtml,
+   emailVerificationText,
+   passwordResetHtml,
+   passwordResetText,
+} from "./utils";
 
 export class BrevoEmailService implements IEmailService {
    private client: BrevoClient;
@@ -17,7 +25,7 @@ export class BrevoEmailService implements IEmailService {
       this.senderName = APP_NAME;
    }
 
-   async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
+   async sendVerificationEmail(params: EmailVerificationParams) {
       const { to, name, verificationUrl } = params;
 
       const request: Brevo.SendTransacEmailRequest = {
@@ -32,8 +40,37 @@ export class BrevoEmailService implements IEmailService {
             name: this.senderName,
          },
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         htmlContent: buildHtml(this.senderName, name, verificationUrl),
-         textContent: buildText(this.senderName, name, verificationUrl),
+         htmlContent: emailVerificationHtml(
+            this.senderName,
+            name,
+            verificationUrl
+         ),
+         textContent: emailVerificationText(
+            this.senderName,
+            name,
+            verificationUrl
+         ),
+      };
+
+      try {
+         await this.client.transactionalEmails.sendTransacEmail(request);
+      } catch (error) {
+         console.error(error);
+      }
+   }
+
+   async sendPasswordResetEmail(params: PasswordResetEmailParams) {
+      const { to, name, resetUrl } = params;
+
+      const request: Brevo.SendTransacEmailRequest = {
+         to: [{ email: to, name }],
+         sender: {
+            email: this.senderEmail,
+            name: this.senderName,
+         },
+         subject: `${this.senderName} – Passwort zurücksetzen`,
+         htmlContent: passwordResetHtml(this.senderName, name, resetUrl),
+         textContent: passwordResetText(this.senderName, name, resetUrl),
       };
 
       try {
