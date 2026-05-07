@@ -583,93 +583,6 @@ describe("updatePassword tests", () => {
    });
 });
 
-describe("resetPassword tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("user null - test", async () => {
-      const email = "test@email.com";
-      const token = "generated-reset-token-1";
-      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
-
-      const data: DResetPassword = {
-         password: "12345679",
-         confirmPassword: "12345679",
-      };
-
-      const fn = async () =>
-         await userService.resetPassword(email, token, data);
-
-      expect(fn).rejects.toThrow("User not found");
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(email);
-      expect(passwordResetServiceMock.consumeToken).not.toHaveBeenCalled();
-      expect(hashMock).not.toHaveBeenCalled();
-      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
-   });
-
-   it("token invalid - test", async () => {
-      const token = "generated-reset-token-1";
-
-      const user = dtestData.dUserInternal();
-      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
-      passwordResetServiceMock.consumeToken.mockResolvedValue(false);
-
-      const data: DResetPassword = {
-         password: "12345679",
-         confirmPassword: "12345679",
-      };
-
-      const fn = async () =>
-         await userService.resetPassword(user.email, token, data);
-
-      await expect(fn).rejects.toThrow("Invalid password reset token");
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
-      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
-      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
-         user.email,
-         token
-      );
-      expect(hashMock).not.toHaveBeenCalled();
-      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
-   });
-
-   it("password updated - test", async () => {
-      const token = "generated-reset-token-1";
-
-      const user = dtestData.dUserInternal();
-      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
-      passwordResetServiceMock.consumeToken.mockResolvedValue(true);
-
-      const hashedPassword = "hashed-password-1";
-      hashMock.mockResolvedValue(hashedPassword);
-
-      const data: DResetPassword = {
-         password: "12345679",
-         confirmPassword: "12345679",
-      };
-
-      await userService.resetPassword(user.email, token, data);
-
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
-      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
-      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
-         user.email,
-         token
-      );
-      expect(hashMock).toHaveBeenCalledTimes(1);
-      expect(hashMock).toHaveBeenCalledWith(data.password);
-      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledWith(
-         user.id,
-         hashedPassword
-      );
-   });
-});
-
 describe("deleteUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -906,5 +819,92 @@ describe("verifyEmail tests", () => {
 
       expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledWith(email);
+   });
+});
+
+describe("resetPassword tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("user null - test", async () => {
+      const email = "test@email.com";
+      const token = "generated-reset-token-1";
+      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () =>
+         await userService.resetPassword(email, token, data);
+
+      expect(fn).rejects.toThrow("User not found");
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(email);
+      expect(passwordResetServiceMock.consumeToken).not.toHaveBeenCalled();
+      expect(hashMock).not.toHaveBeenCalled();
+      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
+   });
+
+   it("token invalid - test", async () => {
+      const token = "generated-reset-token-1";
+
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+      passwordResetServiceMock.consumeToken.mockResolvedValue(false);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () =>
+         await userService.resetPassword(user.email, token, data);
+
+      await expect(fn).rejects.toThrow("Invalid password reset token");
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
+         user.email,
+         token
+      );
+      expect(hashMock).not.toHaveBeenCalled();
+      expect(userRepoMock.pUpdatePassword).not.toHaveBeenCalled();
+   });
+
+   it("password updated - test", async () => {
+      const token = "generated-reset-token-1";
+
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+      passwordResetServiceMock.consumeToken.mockResolvedValue(true);
+
+      const hashedPassword = "hashed-password-1";
+      hashMock.mockResolvedValue(hashedPassword);
+
+      const data: DResetPassword = {
+         password: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      await userService.resetPassword(user.email, token, data);
+
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledTimes(1);
+      expect(passwordResetServiceMock.consumeToken).toHaveBeenCalledWith(
+         user.email,
+         token
+      );
+      expect(hashMock).toHaveBeenCalledTimes(1);
+      expect(hashMock).toHaveBeenCalledWith(data.password);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledWith(
+         user.id,
+         hashedPassword
+      );
    });
 });

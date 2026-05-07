@@ -140,28 +140,6 @@ export class UserService {
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
-   async resetPassword(
-      email: string,
-      token: string,
-      data: DResetPassword
-   ): Promise<void> {
-      const user = await this.userRepository.pGetUserByEmail(email);
-      if (!user) {
-         throw new Error("User not found");
-      }
-
-      const valid = await this.passwordResetServcie.consumeToken(
-         user.email,
-         token
-      );
-      if (!valid) {
-         throw new Error("Invalid password reset token");
-      }
-
-      const hashedPassword = await hash(data.password);
-      await this.userRepository.pUpdatePassword(user.id, hashedPassword);
-   }
-
    async deleteUser(userId: string, data: DUserAccountDelete) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
@@ -214,5 +192,27 @@ export class UserService {
 
    async verifyEmail(email: string): Promise<void> {
       await this.userRepository.pVerifyUserEmail(email);
+   }
+
+   async resetPassword(
+      email: string,
+      token: string,
+      data: DResetPassword
+   ): Promise<void> {
+      const user = await this.userRepository.pGetUserByEmail(email);
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      const valid = await this.passwordResetServcie.consumeToken(
+         user.email,
+         token
+      );
+      if (!valid) {
+         throw new Error("Invalid password reset token");
+      }
+
+      const hashedPassword = await hash(data.password);
+      await this.userRepository.pUpdatePassword(user.id, hashedPassword);
    }
 }

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
