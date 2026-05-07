@@ -1,5 +1,6 @@
 import {
    Braces,
+   Compass,
    FileText,
    Folder,
    Package,
@@ -34,6 +35,12 @@ const expectedNavigationMenu1: DMenuItem[] = [
 ];
 
 const expectedNavigationMenu2: DMenuItem[] = [
+   {
+      id: "/explore",
+      title: "Explore",
+      icon: Compass,
+      url: "/explore",
+   },
    {
       id: "/marketplace",
       title: "Bibliothek",

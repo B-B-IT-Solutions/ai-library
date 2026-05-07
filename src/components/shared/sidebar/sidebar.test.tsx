@@ -42,6 +42,7 @@ const assertMenuItems = () => {
    const templates = screen.getByTestId("menu-item-templates");
 
    const groupLibrary = screen.getByTestId("group-library");
+   const explore = screen.getByTestId("menu-item-explore");
    const marketplace = screen.getByTestId("menu-item-marketplace");
 
    const groupOther = screen.getByTestId("group-other");
@@ -54,6 +55,7 @@ const assertMenuItems = () => {
    assertInDocument(templates);
 
    assertInDocument(groupLibrary);
+   assertInDocument(explore);
    assertInDocument(marketplace);
 
    assertInDocument(groupOther);
@@ -132,6 +134,7 @@ describe("Sidebar functionality tests", () => {
 
       await assertNavigateToMenuItem("/prompts", "/prompts");
       await assertNavigateToMenuItem("/templates", "/templates");
+      await assertNavigateToMenuItem("/explore", "/explore");
       await assertNavigateToMenuItem("/marketplace", "/marketplace");
       // await assertNavigateToMenuItem("/feedback", "/feedback");
       // await assertNavigateToMenuItem("/invite-people", "/invite-people");

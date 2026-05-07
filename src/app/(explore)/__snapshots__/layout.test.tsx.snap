@@ -149,7 +149,7 @@ exports[`ExploreLayout rendering tests authenticate true - test 1`] = `
             data-testid="templates-link"
             href="/"
           >
-            Zur Library
+            Zur Bibliothek
           </a>
         </div>
       </div>
