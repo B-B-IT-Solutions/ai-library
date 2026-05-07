@@ -57,7 +57,10 @@ export class PasswordResetRepository {
    async pDeleteToken(email: string, token: string): Promise<void> {
       const deleteArgs = {
          where: {
-            identifier_token: { identifier: email, token },
+            identifier_token: {
+               identifier: email,
+               token,
+            },
          },
       } satisfies PasswordResetTokenDeleteArgs;
 
