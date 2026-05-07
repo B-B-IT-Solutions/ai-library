@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ForgotPasswordPage rendering tests user not signed in - renders page - test 1`] = `
+<div>
+  <div
+    class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
+    data-testid="forgot-password-page"
+  >
+    <div
+      class="w-full max-w-md"
+    >
+      <div
+        class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl py-6 border-2 shadow-xl"
+        data-slot="card"
+      >
+        <div
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 space-y-6 pb-6"
+          data-slot="card-header"
+        >
+          <a
+            class="flex flex-col items-center gap-3"
+            data-testid="mock-link"
+            href="/"
+          >
+            <h1
+              class="text-2xl font-bold"
+            >
+              Vision Notes
+            </h1>
+          </a>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="text-center text-3xl font-bold tracking-tight"
+              data-slot="card-title"
+            >
+              Passwort vergessen
+            </div>
+            <div
+              class="text-muted-foreground text-center text-base"
+              data-slot="card-description"
+            >
+              Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.
+            </div>
+          </div>
+        </div>
+        <div
+          class="px-6 pb-8"
+          data-slot="card-content"
+        >
+          <div
+            data-testid="forgot-password-form-mock"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ForgotPasswordPage rendering tests user signed in - redirects to home - test 1`] = `<div />`;
