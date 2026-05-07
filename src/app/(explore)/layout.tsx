@@ -22,7 +22,7 @@ export const ExploreLayout = async ({ children }: Props) => {
                variant="outline"
                data-testid="templates-link"
             >
-               <Link href="/">Zur Library</Link>
+               <Link href="/">Zur Bibliothek</Link>
             </Button>
          );
       }

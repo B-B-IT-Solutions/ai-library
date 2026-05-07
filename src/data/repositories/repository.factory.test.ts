@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { CartRepository } from "./cart";
-import { CatalogRepository } from "./catalog";
+import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
@@ -56,6 +56,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.catalogRepository();
          const repository2 = factory.catalogRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("publicCatalogRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.publicCatalogRepository();
+         expect(repository).toBeInstanceOf(PublicCatalogRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.publicCatalogRepository();
+         const repository2 = factory.publicCatalogRepository();
          expect(repository1).toBe(repository2);
       });
    });

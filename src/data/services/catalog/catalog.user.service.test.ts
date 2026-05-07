@@ -10,7 +10,7 @@ import { ServiceFactory } from "../service.factory";
 import { TemplateService } from "../template";
 
 import { toPromptTemplateUpdate } from "./catalog.mapper";
-import { CatalogService } from "./catalog.service";
+import { CatalogService } from "./catalog.user.service";
 
 const catalogRepo = new CatalogRepository(prisma);
 const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
@@ -21,64 +21,6 @@ const templateService = serviceFactory.getTemplateService();
 const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
 
 const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
-
-describe("getPublishedEntriesPage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("entries retrieved - test", async () => {
-      const page = dtestData.dCatalogEntriesPage();
-      catalogRepoMock.pGetPublishedEntriesPage.mockResolvedValue(page);
-
-      const query = dtestData.dCatalogEntriesPageQuery();
-      const result = await catalogService.getPublishedCatalogEntriesPage(query);
-
-      expect(result).toEqual(page);
-      expect(catalogRepoMock.pGetPublishedEntriesPage).toHaveBeenCalledTimes(1);
-      expect(catalogRepoMock.pGetPublishedEntriesPage).toHaveBeenCalledWith(
-         query
-      );
-   });
-});
-
-describe("getPublishedEntryBySlug tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("entry retrieved - test", async () => {
-      const entry = dtestData.dCatalogEntryWithContent();
-      catalogRepoMock.pGetPublishedEntryBySlug.mockResolvedValue(entry);
-
-      const slug = "catalog-entry-1";
-      const result = await catalogService.getPublishedCatalogEntryBySlug(slug);
-
-      expect(result).toEqual(entry);
-      expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledTimes(1);
-      expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledWith(
-         slug
-      );
-   });
-});
-
-describe("getCatalogEntryCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("categories retrieved - test", async () => {
-      const categories = dtestData.dCatalogEntryCategories();
-      catalogRepoMock.pGetCatalogEntryCategories.mockResolvedValue(categories);
-
-      const result = await catalogService.getCatalogEntryCategories();
-
-      expect(result).toEqual(categories);
-      expect(catalogRepoMock.pGetCatalogEntryCategories).toHaveBeenCalledTimes(
-         1
-      );
-   });
-});
 
 describe("copyCatalogEntryToUserTemplates tests", () => {
    beforeEach(() => {
@@ -96,7 +38,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
       const entryId = "missing-id-1";
       const fn = () =>
-         catalogService.copyCatalogEntryToUserTemplates(entryId, userId);
+         catalogService.copyCatalogEntryToUserTemplates(userId, entryId);
 
       await expect(fn).rejects.toThrow();
 
@@ -121,8 +63,8 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
 
       const result = await catalogService.copyCatalogEntryToUserTemplates(
-         entry.id,
-         userId
+         userId,
+         entry.id
       );
 
       const expectedTemplateData = toPromptTemplateUpdate(entry);

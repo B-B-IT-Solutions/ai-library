@@ -1,6 +1,5 @@
 import { PrismaClient } from "@/generated/prisma/client";
 
-import { seedCatalog } from "./seeds/catalog.seed";
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
 import {
@@ -10,6 +9,7 @@ import {
 import { promptsData } from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
 import { templatesWithFields } from "./seed-data/template-fields-example";
+import { seedCatalog } from "./seeds/catalog.seed";
 
 const prisma = new PrismaClient();
 

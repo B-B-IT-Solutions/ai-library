@@ -1,7 +1,7 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { CatalogRepository } from "./catalog";
+import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
@@ -14,6 +14,7 @@ import { UserRepository, VerificationTokenRepository } from "./user";
 export class RepositoryFactory {
    private prisma: DbClient;
    private catalogRepo?: CatalogRepository;
+   private publicCatalogRepo?: PublicCatalogRepository;
    private userRepo?: UserRepository;
    private verificationTokenRepo?: VerificationTokenRepository;
    private cartRepo?: CartRepository;
@@ -53,6 +54,13 @@ export class RepositoryFactory {
          this.catalogRepo = new CatalogRepository(this.prisma);
       }
       return this.catalogRepo;
+   }
+
+   publicCatalogRepository(): PublicCatalogRepository {
+      if (!this.publicCatalogRepo) {
+         this.publicCatalogRepo = new PublicCatalogRepository(this.prisma);
+      }
+      return this.publicCatalogRepo;
    }
 
    cartRepository(): CartRepository {

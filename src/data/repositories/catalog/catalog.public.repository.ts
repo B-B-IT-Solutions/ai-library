@@ -1,5 +1,3 @@
-import { map } from "es-toolkit/compat";
-
 import {
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
@@ -16,18 +14,16 @@ import {
    CatalogEntryCountArgs,
    CatalogEntryFindFirstArgs,
    CatalogEntryFindManyArgs,
-   CatalogEntryUpdateArgs,
 } from "@/generated/prisma/models";
 
 import {
    toDCatalogCategories,
-   toDCatalogCategory,
    toDCatalogEntries,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
-export class CatalogRepository {
+export class PublicCatalogRepository {
    constructor(private readonly prisma: DbClient) {}
 
    async pGetPublishedEntriesPage(
@@ -78,31 +74,6 @@ export class CatalogRepository {
       };
    }
 
-   async pGetPublishedEntryById(
-      id: string
-   ): Promise<DCatalogEntryWithContent | null> {
-      const args = {
-         where: {
-            id,
-            status: "PUBLISHED",
-         },
-         include: {
-            category: true,
-            fields: true,
-            content: true,
-         },
-      } satisfies CatalogEntryFindFirstArgs;
-
-      const entry = (await this.prisma.catalogEntry.findFirst(
-         args
-      )) as CatalogEntryWithContent;
-
-      if (entry) {
-         return toDCatalogEntryWithContent(entry);
-      }
-      return null;
-   }
-
    async pGetPublishedEntryBySlug(
       slug: string
    ): Promise<DCatalogEntryWithContent | null> {
@@ -136,18 +107,5 @@ export class CatalogRepository {
       const categories = await this.prisma.catalogCategory.findMany(args);
 
       return toDCatalogCategories(categories);
-   }
-
-   async pIncrementCopyCount(catalogEntryId: string): Promise<void> {
-      const args = {
-         where: { id: catalogEntryId },
-         data: {
-            copyCount: {
-               increment: 1,
-            },
-         },
-      } satisfies CatalogEntryUpdateArgs;
-
-      await this.prisma.catalogEntry.update(args);
    }
 }
