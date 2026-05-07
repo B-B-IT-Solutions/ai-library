@@ -1,23 +1,19 @@
-import { BookOpen, Copy, LayoutList, MoreVertical } from "lucide-react";
+import { Copy, LayoutList } from "lucide-react";
 import Link from "next/link";
 
-import { CatalogEntryUseLazyButton } from "@/components/explore/buttons";
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import {
    Card,
    CardContent,
    CardFooter,
    CardHeader,
 } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
+import {
+   CatalogEntryMoreOptionsButton,
+   CatalogEntryUseLazyButton,
+} from "../../buttons";
 
 type Props = {
    entry: DCatalogEntry;
@@ -92,30 +88,7 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
          <CardFooter className="pt-0">
             <div className="flex w-full gap-1.5">
                <CatalogEntryUseLazyButton slug={slug} />
-               <DropdownMenu data-testid="explore-entry-card-menu">
-                  <DropdownMenuTrigger asChild={true}>
-                     <Button
-                        variant="outline"
-                        size="icon-sm"
-                        className="cursor-pointer"
-                        data-testid="explore-entry-card-menu-trigger"
-                     >
-                        <MoreVertical className="h-4 w-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem asChild>
-                        <Link
-                           href={`/explore/${slug}`}
-                           className="flex items-center gap-2"
-                           data-testid="explore-entry-card-view-link"
-                        >
-                           <BookOpen className="h-4 w-4" />
-                           Ansehen
-                        </Link>
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
+               <CatalogEntryMoreOptionsButton slug={slug} />
             </div>
          </CardFooter>
       </Card>
