@@ -13,7 +13,7 @@ import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { CatalogEntryCopyButton } from "./catalog-entry-copy-button";
+import { CopyCatalogEntryButton } from "./copy-entry-button";
 
 const copyCatalogEntryMock =
    copyCatalogEntryToUserTemplates as jest.MockedFunction<
@@ -36,10 +36,10 @@ const assertNotAuthenticatedBtnRendered = (entrySlug: string) => {
    );
 };
 
-describe("CatalogEntryCopyButton rendering tests", () => {
+describe("CopyCatalogEntryButton rendering tests", () => {
    it("isAuthenticated true - test", async () => {
       const { container } = render(
-         <CatalogEntryCopyButton
+         <CopyCatalogEntryButton
             catalogEntryId="entry-id-1"
             slug="entry-slug-1"
             isAuthenticated={true}
@@ -57,7 +57,7 @@ describe("CatalogEntryCopyButton rendering tests", () => {
       const entrySlug = "entry-slug-1";
 
       const { container } = render(
-         <CatalogEntryCopyButton
+         <CopyCatalogEntryButton
             catalogEntryId="entry-id-1"
             slug={entrySlug}
             isAuthenticated={false}
@@ -72,7 +72,7 @@ describe("CatalogEntryCopyButton rendering tests", () => {
    });
 });
 
-describe("CatalogEntryCopyButton functionality tests", () => {
+describe("CopyCatalogEntryButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
@@ -91,7 +91,7 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
-         <CatalogEntryCopyButton
+         <CopyCatalogEntryButton
             catalogEntryId="entry-id-1"
             slug={entrySlug}
             isAuthenticated={false}
@@ -127,7 +127,7 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
-         <CatalogEntryCopyButton
+         <CopyCatalogEntryButton
             catalogEntryId={catalogEntryId}
             slug="entry-slug-1"
             isAuthenticated={true}
@@ -174,7 +174,7 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
       render(
-         <CatalogEntryCopyButton
+         <CopyCatalogEntryButton
             catalogEntryId="entry-id-1"
             slug="entry-slug-1"
             isAuthenticated={true}
