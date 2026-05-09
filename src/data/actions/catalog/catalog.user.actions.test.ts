@@ -8,7 +8,7 @@ import { CatalogService } from "@/data/services/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { copyCatalogEntryToUserTemplates } from "./catalog.user.actions";
+import { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -20,7 +20,7 @@ const sCopyCatalogEntryToUserTemplatesMock =
       typeof sCopyCatalogEntryToUserTemplates
    >;
 
-describe("copyCatalogEntryToUserLibrary tests", () => {
+describe("addCatalogEntryToUserTemplates tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -33,7 +33,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await copyCatalogEntryToUserTemplates(invalidId);
+      const result = await addCatalogEntryToUserTemplates(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -53,7 +53,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -76,7 +76,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -101,7 +101,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       sCopyCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,

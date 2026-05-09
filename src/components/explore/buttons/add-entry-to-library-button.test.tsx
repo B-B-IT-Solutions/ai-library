@@ -9,25 +9,20 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { CopyCatalogEntryButton } from "./copy-entry-button";
+import { AddCatalogEntryToLibraryButton } from "./add-entry-to-library-button";
 
-const copyCatalogEntryMock =
-   copyCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof copyCatalogEntryToUserTemplates
+const addCatalogEntryMock =
+   addCatalogEntryToUserTemplates as jest.MockedFunction<
+      typeof addCatalogEntryToUserTemplates
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
-const assertAuthenticatedBtnRendered = () => {
-   const btn = screen.getByTestId("catalog-entry-copy-btn");
-   assertInDocument(btn);
-};
-
-const assertNotAuthenticatedBtnRendered = () => {
-   const btn = screen.getByTestId("catalog-entry-register-btn");
+const assertRendered = () => {
+   const btn = screen.getByTestId("add-entry-to-library-btn");
    assertInDocument(btn);
 };
 
@@ -41,15 +36,15 @@ const assertAuthDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("CopyCatalogEntryButton rendering tests", () => {
+describe("AddCatalogEntryToLibraryButton rendering tests", () => {
    it("isAuthenticated true - test", async () => {
       const entry = dtestData.dCatalogEntry();
       const { container } = render(
-         <CopyCatalogEntryButton entry={entry} isAuthenticated={true} />
+         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
       );
 
       await waitFor(() => {
-         assertAuthenticatedBtnRendered();
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -59,34 +54,41 @@ describe("CopyCatalogEntryButton rendering tests", () => {
       const entry = dtestData.dCatalogEntry();
 
       const { container } = render(
-         <CopyCatalogEntryButton entry={entry} isAuthenticated={false} />
+         <AddCatalogEntryToLibraryButton
+            entry={entry}
+            isAuthenticated={false}
+         />
       );
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered();
-         assertAuthDialogNotRendered();
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("CopyCatalogEntryButton functionality tests", () => {
+describe("AddCatalogEntryToLibraryButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("unauthenticated - register btn clicked - opens auth dialog - test", async () => {
+   it("unauthenticated - btn clicked - test", async () => {
       const entry = dtestData.dCatalogEntry();
-      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={false} />);
+      render(
+         <AddCatalogEntryToLibraryButton
+            entry={entry}
+            isAuthenticated={false}
+         />
+      );
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered();
+         assertRendered();
          assertAuthDialogNotRendered();
       });
 
-      const btn = screen.getByTestId("catalog-entry-register-btn");
+      const btn = screen.getByTestId("add-entry-to-library-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
@@ -94,7 +96,7 @@ describe("CopyCatalogEntryButton functionality tests", () => {
       });
    });
 
-   it("authenticated - copy btn clicked - success - test", async () => {
+   it("authenticated - btn clicked - success - test", async () => {
       const descriptorId = "descriptor-id-1";
 
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
@@ -104,31 +106,36 @@ describe("CopyCatalogEntryButton functionality tests", () => {
             templateId: descriptorId,
          },
       };
-      copyCatalogEntryMock.mockResolvedValue(actionResult);
+      addCatalogEntryMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
-      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={true} />);
+      render(
+         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
+      );
 
       await waitFor(() => {
-         assertAuthenticatedBtnRendered();
+         assertRendered();
          expect(mockRouter.asPath).toEqual("/");
       });
 
-      const btn = screen.getByTestId("catalog-entry-copy-btn");
+      const btn = screen.getByTestId("add-entry-to-library-btn");
       await userEvent.click(btn);
 
+      const expectedToastPayload = {
+         action: {
+            label: "Jetzt anzeigen",
+            onClick: expect.any(Function),
+         },
+         duration: 5000,
+      };
+
       await waitFor(() => {
-         expect(copyCatalogEntryMock).toHaveBeenCalledTimes(1);
-         expect(copyCatalogEntryMock).toHaveBeenCalledWith(entry.id);
+         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
+         expect(addCatalogEntryMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
-            expect.objectContaining({
-               duration: 5000,
-               action: expect.objectContaining({
-                  label: "Jetzt anzeigen",
-               }),
-            })
+            expectedToastPayload
          );
       });
 
@@ -141,21 +148,23 @@ describe("CopyCatalogEntryButton functionality tests", () => {
       expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
    });
 
-   it("authenticated - copy btn clicked - failure - test", async () => {
+   it("authenticated - btn clicked - error - test", async () => {
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      copyCatalogEntryMock.mockResolvedValue(actionResult);
+      addCatalogEntryMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
-      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={true} />);
+      render(
+         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
+      );
 
-      const btn = screen.getByTestId("catalog-entry-copy-btn");
+      const btn = screen.getByTestId("add-entry-to-library-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(copyCatalogEntryMock).toHaveBeenCalledTimes(1);
+         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"

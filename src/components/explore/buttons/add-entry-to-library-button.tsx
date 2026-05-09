@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { AuthRequiredDialog } from "@/components/shared/auth";
-import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 type Props = {
@@ -15,14 +15,17 @@ type Props = {
    isAuthenticated: boolean;
 };
 
-export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
+export const AddCatalogEntryToLibraryButton = ({
+   entry,
+   isAuthenticated,
+}: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
    const copyEntry = () => {
       startTransition(async () => {
-         const result = await copyCatalogEntryToUserTemplates(entry.id);
+         const result = await addCatalogEntryToUserTemplates(entry.id);
 
          if (result.success) {
             toast.success("Vorlage wurde in deine Library übernommen", {
@@ -56,11 +59,7 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
             variant="outline"
             size="lg"
             className="w-full cursor-pointer sm:w-auto"
-            data-testid={
-               isAuthenticated
-                  ? "catalog-entry-copy-btn"
-                  : "catalog-entry-register-btn"
-            }
+            data-testid="add-entry-to-library-btn"
          >
             {isPending ? (
                <>
