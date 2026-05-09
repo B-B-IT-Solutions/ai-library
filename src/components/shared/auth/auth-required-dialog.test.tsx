@@ -49,7 +49,7 @@ describe("AuthRequiredDialog rendering tests", () => {
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
-            onClose={jest.fn()}
+            onOpenChange={jest.fn()}
             redirectPath={redirectPath}
          />
       );
@@ -68,7 +68,7 @@ describe("AuthRequiredDialog rendering tests", () => {
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
-            onClose={jest.fn()}
+            onOpenChange={jest.fn()}
             redirectPath={redirectPath}
             title="Title 1"
             description="Description 1"
@@ -89,7 +89,7 @@ describe("AuthRequiredDialog rendering tests", () => {
       const { container } = render(
          <AuthRequiredDialog
             isOpen={false}
-            onClose={jest.fn()}
+            onOpenChange={jest.fn()}
             redirectPath={redirectPath}
          />
       );
@@ -99,5 +99,25 @@ describe("AuthRequiredDialog rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("AuthRequiredDialog functionality tests", () => {
+   it("close fn called - test", async () => {
+      const redirectPath = "/explore/template-1";
+      const closeFn = jest.fn();
+
+      render(
+         <AuthRequiredDialog
+            isOpen={true}
+            onOpenChange={closeFn}
+            redirectPath={redirectPath}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         assertLinks(redirectPath);
+      });
    });
 });

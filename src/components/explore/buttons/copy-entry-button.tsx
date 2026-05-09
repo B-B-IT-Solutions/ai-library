@@ -76,7 +76,7 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
          </Button>
          <AuthRequiredDialog
             isOpen={isAuthDialogOpen}
-            onClose={() => setIsAuthDialogOpen(false)}
+            onOpenChange={setIsAuthDialogOpen}
             redirectPath={`/explore/${entry.slug}`}
             description="Bitte melde dich an, um Vorlagen in deine Bibliothek zu übernehmen."
          />
