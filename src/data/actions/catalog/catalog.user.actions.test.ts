@@ -8,19 +8,19 @@ import { CatalogService } from "@/data/services/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { copyCatalogEntryToUserTemplates } from "./catalog.user.actions";
+import { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sCopyCatalogEntryToUserTemplates =
-   CatalogService.prototype.copyCatalogEntryToUserTemplates;
+const sAddCatalogEntryToUserTemplates =
+   CatalogService.prototype.addCatalogEntryToUserTemplates;
 
-const sCopyCatalogEntryToUserTemplatesMock =
-   sCopyCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof sCopyCatalogEntryToUserTemplates
+const sAddCatalogEntryToUserTemplatesMock =
+   sAddCatalogEntryToUserTemplates as jest.MockedFunction<
+      typeof sAddCatalogEntryToUserTemplates
    >;
 
-describe("copyCatalogEntryToUserLibrary tests", () => {
+describe("addCatalogEntryToUserTemplates tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -33,7 +33,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await copyCatalogEntryToUserTemplates(invalidId);
+      const result = await addCatalogEntryToUserTemplates(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -42,7 +42,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sCopyCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid CatalogEntry ID.");
    });
@@ -53,7 +53,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -62,7 +62,7 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCopyCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -72,11 +72,11 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sCopyCatalogEntryToUserTemplatesMock.mockRejectedValue(error);
+      sAddCatalogEntryToUserTemplatesMock.mockRejectedValue(error);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -84,8 +84,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );
@@ -98,10 +98,10 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      sCopyCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
+      sAddCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
-      const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
 
       const expectedResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
@@ -113,8 +113,8 @@ describe("copyCatalogEntryToUserLibrary tests", () => {
 
       expect(result).toEqual(expectedResult);
 
-      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sCopyCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );

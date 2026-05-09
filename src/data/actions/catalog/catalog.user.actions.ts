@@ -10,7 +10,7 @@ import { DbClient } from "@/data/types/db/common";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-export const copyCatalogEntryToUserTemplates = async (
+export const addCatalogEntryToUserTemplates = async (
    catalogEntryId: string
 ): Promise<ActionResult<DCatalogEntryCopyResult>> => {
    try {
@@ -20,7 +20,7 @@ export const copyCatalogEntryToUserTemplates = async (
 
       const user = await requireUser();
       const service = getService();
-      const descriptor = await service.copyCatalogEntryToUserTemplates(
+      const descriptor = await service.addCatalogEntryToUserTemplates(
          user.id,
          catalogEntryId
       );
