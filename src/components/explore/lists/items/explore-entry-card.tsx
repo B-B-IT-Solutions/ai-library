@@ -88,7 +88,7 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
          <CardFooter className="pt-0">
             <div className="flex w-full gap-1.5">
                <CatalogEntryUseLazyButton slug={slug} />
-               <CatalogEntryMoreOptionsButton slug={slug} />
+               <CatalogEntryMoreOptionsButton entry={entry} />
             </div>
          </CardFooter>
       </Card>
