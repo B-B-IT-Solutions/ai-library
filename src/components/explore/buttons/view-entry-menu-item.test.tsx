@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
+import { DropdownMenu } from "@/components/shadcn/dropdown-menu";
+
 import { ViewEntryMenuItem } from "./view-entry-menu-item";
 
 const assertRendered = () => {
@@ -32,7 +34,12 @@ describe("ViewEntryMenuItem functionality tests", () => {
 
    it("view item click - test", async () => {
       const slug = "entry-slug-1";
-      render(<ViewEntryMenuItem slug={slug} />);
+
+      render(
+         <DropdownMenu>
+            <ViewEntryMenuItem slug={slug} />
+         </DropdownMenu>
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -43,7 +50,7 @@ describe("ViewEntryMenuItem functionality tests", () => {
       await userEvent.click(editBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/explore/${slug}`);
+         expect(mockRouter.asPath).toEqual(`/explore/${slug}`);
       });
    });
 });
