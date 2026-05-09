@@ -495,11 +495,12 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
         <div
           class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
           data-slot="card"
-          data-testid="explore-entry-card"
+          data-testid="catalog-entry-item"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3"
             data-slot="card-header"
+            data-testid="header"
           >
             <div
               class="flex items-start justify-between gap-2"
@@ -524,8 +525,8 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
-              data-testid="explore-entry-card-title"
-              href="/explore/catalog-entry-1"
+              data-testid="entry-title-link"
+              href="/explore/entry-slug-1"
             >
               Catalog Entry 1
             </a>
@@ -533,6 +534,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="px-6 flex-1 pb-3"
             data-slot="card-content"
+            data-testid="content"
           >
             <p
               class="line-clamp-2 text-sm text-slate-500"
@@ -544,7 +546,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             >
               <span
                 class="flex items-center gap-1"
-                data-testid="explore-entry-card-field-count"
+                data-testid="fields-count"
               >
                 <svg
                   aria-hidden="true"
@@ -592,6 +594,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               </span>
               <span
                 class="flex items-center gap-1"
+                data-testid="copy-count"
               >
                 <svg
                   aria-hidden="true"
@@ -626,6 +629,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="flex items-center px-6 [.border-t]:pt-6 pt-0"
             data-slot="card-footer"
+            data-testid="footer"
           >
             <div
               class="flex w-full gap-1.5"
@@ -633,7 +637,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer"
                 data-slot="button"
-                data-testid="catalog-entry-use-lazy-btn"
+                data-testid="use-entry-lazy-btn"
               >
                 <svg
                   aria-hidden="true"
@@ -682,7 +686,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="catalog-entry-more-options-trigger-btn"
+                  data-testid="trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
@@ -724,11 +728,12 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
         <div
           class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
           data-slot="card"
-          data-testid="explore-entry-card"
+          data-testid="catalog-entry-item"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3"
             data-slot="card-header"
+            data-testid="header"
           >
             <div
               class="flex items-start justify-between gap-2"
@@ -753,8 +758,8 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
-              data-testid="explore-entry-card-title"
-              href="/explore/catalog-entry-2"
+              data-testid="entry-title-link"
+              href="/explore/entry-slug-2"
             >
               Catalog Entry 2
             </a>
@@ -762,6 +767,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="px-6 flex-1 pb-3"
             data-slot="card-content"
+            data-testid="content"
           >
             <p
               class="line-clamp-2 text-sm text-slate-500"
@@ -773,7 +779,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             >
               <span
                 class="flex items-center gap-1"
-                data-testid="explore-entry-card-field-count"
+                data-testid="fields-count"
               >
                 <svg
                   aria-hidden="true"
@@ -821,6 +827,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               </span>
               <span
                 class="flex items-center gap-1"
+                data-testid="copy-count"
               >
                 <svg
                   aria-hidden="true"
@@ -855,6 +862,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="flex items-center px-6 [.border-t]:pt-6 pt-0"
             data-slot="card-footer"
+            data-testid="footer"
           >
             <div
               class="flex w-full gap-1.5"
@@ -862,7 +870,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer"
                 data-slot="button"
-                data-testid="catalog-entry-use-lazy-btn"
+                data-testid="use-entry-lazy-btn"
               >
                 <svg
                   aria-hidden="true"
@@ -911,7 +919,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="catalog-entry-more-options-trigger-btn"
+                  data-testid="trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
@@ -953,11 +961,12 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
         <div
           class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
           data-slot="card"
-          data-testid="explore-entry-card"
+          data-testid="catalog-entry-item"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3"
             data-slot="card-header"
+            data-testid="header"
           >
             <div
               class="flex items-start justify-between gap-2"
@@ -982,8 +991,8 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
-              data-testid="explore-entry-card-title"
-              href="/explore/catalog-entry-3"
+              data-testid="entry-title-link"
+              href="/explore/entry-slug-3"
             >
               Catalog Entry 3
             </a>
@@ -991,6 +1000,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="px-6 flex-1 pb-3"
             data-slot="card-content"
+            data-testid="content"
           >
             <p
               class="line-clamp-2 text-sm text-slate-500"
@@ -1002,7 +1012,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
             >
               <span
                 class="flex items-center gap-1"
-                data-testid="explore-entry-card-field-count"
+                data-testid="fields-count"
               >
                 <svg
                   aria-hidden="true"
@@ -1050,6 +1060,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               </span>
               <span
                 class="flex items-center gap-1"
+                data-testid="copy-count"
               >
                 <svg
                   aria-hidden="true"
@@ -1084,6 +1095,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
           <div
             class="flex items-center px-6 [.border-t]:pt-6 pt-0"
             data-slot="card-footer"
+            data-testid="footer"
           >
             <div
               class="flex w-full gap-1.5"
@@ -1091,7 +1103,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer"
                 data-slot="button"
-                data-testid="catalog-entry-use-lazy-btn"
+                data-testid="use-entry-lazy-btn"
               >
                 <svg
                   aria-hidden="true"
@@ -1140,7 +1152,7 @@ exports[`CatalogEntriesDashboard rendering tests rendered test 1`] = `
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="catalog-entry-more-options-trigger-btn"
+                  data-testid="trigger-btn"
                 >
                   <svg
                     aria-hidden="true"

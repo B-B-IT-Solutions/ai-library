@@ -36,7 +36,7 @@ exports[`CatalogEntryItem rendering tests copy count > 0 - fields count 1 - test
       <a
         class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
         data-testid="entry-title-link"
-        href="/explore/catalog-entry-1"
+        href="/explore/entry-slug-1"
       >
         Catalog Entry 1
       </a>
@@ -274,7 +274,7 @@ exports[`CatalogEntryItem rendering tests copy count > 0 - fields count 3 - test
       <a
         class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
         data-testid="entry-title-link"
-        href="/explore/catalog-entry-1"
+        href="/explore/entry-slug-1"
       >
         Catalog Entry 1
       </a>
@@ -505,7 +505,7 @@ exports[`CatalogEntryItem rendering tests copy count 0 - fields count 0 - test 1
       <a
         class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
         data-testid="entry-title-link"
-        href="/explore/catalog-entry-1"
+        href="/explore/entry-slug-1"
       >
         Catalog Entry 1
       </a>

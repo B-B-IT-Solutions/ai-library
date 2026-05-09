@@ -86,7 +86,7 @@ exports[`CatalogEntryItems rendering tests view grid - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-1"
+          href="/explore/entry-slug-1"
         >
           Catalog Entry 1
         </a>
@@ -319,7 +319,7 @@ exports[`CatalogEntryItems rendering tests view grid - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-2"
+          href="/explore/entry-slug-2"
         >
           Catalog Entry 2
         </a>
@@ -552,7 +552,7 @@ exports[`CatalogEntryItems rendering tests view grid - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-3"
+          href="/explore/entry-slug-3"
         >
           Catalog Entry 3
         </a>
@@ -795,7 +795,7 @@ exports[`CatalogEntryItems rendering tests view list - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-1"
+          href="/explore/entry-slug-1"
         >
           Catalog Entry 1
         </a>
@@ -1028,7 +1028,7 @@ exports[`CatalogEntryItems rendering tests view list - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-2"
+          href="/explore/entry-slug-2"
         >
           Catalog Entry 2
         </a>
@@ -1261,7 +1261,7 @@ exports[`CatalogEntryItems rendering tests view list - test 1`] = `
         <a
           class="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
           data-testid="entry-title-link"
-          href="/explore/catalog-entry-3"
+          href="/explore/entry-slug-3"
         >
           Catalog Entry 3
         </a>
