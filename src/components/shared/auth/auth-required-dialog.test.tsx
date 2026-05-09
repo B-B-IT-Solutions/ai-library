@@ -1,6 +1,5 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
@@ -77,31 +76,6 @@ describe("AuthRequiredDialog rendering tests", () => {
 });
 
 describe("AuthRequiredDialog functionality tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("cancel btn clicked - calls onClose - test", async () => {
-      render(
-         <AuthRequiredDialog
-            isOpen={true}
-            onClose={onCloseMock}
-            redirectPath={redirectPath}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-      });
-
-      const cancelBtn = screen.getByTestId("auth-required-cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(onCloseMock).toHaveBeenCalledTimes(1);
-      });
-   });
-
    it("sign-in btn has correct href - test", async () => {
       render(
          <AuthRequiredDialog
@@ -123,7 +97,7 @@ describe("AuthRequiredDialog functionality tests", () => {
       );
    });
 
-   it("register btn has correct href - test", async () => {
+   it("register link has correct href - test", async () => {
       render(
          <AuthRequiredDialog
             isOpen={true}
@@ -136,9 +110,9 @@ describe("AuthRequiredDialog functionality tests", () => {
          assertDialogRendered();
       });
 
-      const registerBtn = screen.getByTestId("auth-required-register-btn");
+      const registerLink = screen.getByTestId("auth-required-register-link");
       assertHasAttributeWithValue(
-         registerBtn,
+         registerLink,
          "href",
          `/auth/sign-up?redirect=${redirectPath}`
       );

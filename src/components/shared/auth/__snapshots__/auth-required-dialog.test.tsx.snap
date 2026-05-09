@@ -40,89 +40,30 @@ exports[`AuthRequiredDialog rendering tests custom description - test 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end"
+          class="flex sm:justify-end flex-col items-end gap-3 sm:flex-col"
           data-slot="dialog-footer"
         >
-          <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-            data-slot="button"
-            data-testid="auth-required-cancel-btn"
-          >
-            Abbrechen
-          </button>
           <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-            data-slot="button"
-            data-testid="auth-required-register-btn"
-            href="/auth/sign-up?redirect=/explore/my-template"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-user-plus h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-              />
-              <circle
-                cx="9"
-                cy="7"
-                r="4"
-              />
-              <line
-                x1="19"
-                x2="19"
-                y1="8"
-                y2="14"
-              />
-              <line
-                x1="22"
-                x2="16"
-                y1="11"
-                y2="11"
-              />
-            </svg>
-            Registrieren
-          </a>
-          <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer sm:w-auto"
             data-slot="button"
             data-testid="auth-required-sign-in-btn"
             href="/auth/sign-in?redirect=/explore/my-template"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-log-in h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="m10 17 5-5-5-5"
-              />
-              <path
-                d="M15 12H3"
-              />
-              <path
-                d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
-              />
-            </svg>
             Anmelden
           </a>
+          <p
+            class="text-sm text-muted-foreground"
+          >
+            Noch kein Konto?
+             
+            <a
+              class="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+              data-testid="auth-required-register-link"
+              href="/auth/sign-up?redirect=/explore/my-template"
+            >
+              Registrieren
+            </a>
+          </p>
         </div>
         <button
           class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
@@ -221,89 +162,30 @@ exports[`AuthRequiredDialog rendering tests isOpen true - test 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end"
+          class="flex sm:justify-end flex-col items-end gap-3 sm:flex-col"
           data-slot="dialog-footer"
         >
-          <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-            data-slot="button"
-            data-testid="auth-required-cancel-btn"
-          >
-            Abbrechen
-          </button>
           <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-            data-slot="button"
-            data-testid="auth-required-register-btn"
-            href="/auth/sign-up?redirect=/explore/my-template"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-user-plus h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-              />
-              <circle
-                cx="9"
-                cy="7"
-                r="4"
-              />
-              <line
-                x1="19"
-                x2="19"
-                y1="8"
-                y2="14"
-              />
-              <line
-                x1="22"
-                x2="16"
-                y1="11"
-                y2="11"
-              />
-            </svg>
-            Registrieren
-          </a>
-          <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer sm:w-auto"
             data-slot="button"
             data-testid="auth-required-sign-in-btn"
             href="/auth/sign-in?redirect=/explore/my-template"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-log-in h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="m10 17 5-5-5-5"
-              />
-              <path
-                d="M15 12H3"
-              />
-              <path
-                d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
-              />
-            </svg>
             Anmelden
           </a>
+          <p
+            class="text-sm text-muted-foreground"
+          >
+            Noch kein Konto?
+             
+            <a
+              class="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+              data-testid="auth-required-register-link"
+              href="/auth/sign-up?redirect=/explore/my-template"
+            >
+              Registrieren
+            </a>
+          </p>
         </div>
         <button
           class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"

@@ -1,6 +1,5 @@
 "use client";
 
-import { LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -33,36 +32,26 @@ export const AuthRequiredDialog = ({
                <DialogTitle>Anmelden erforderlich</DialogTitle>
                <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
-            <DialogFooter>
-               <Button
-                  variant="ghost"
-                  className="cursor-pointer"
-                  onClick={onClose}
-                  data-testid="auth-required-cancel-btn"
-               >
-                  Abbrechen
-               </Button>
+            <DialogFooter className="flex-col items-end gap-3 sm:flex-col">
                <Button
                   asChild
-                  variant="outline"
-                  className="cursor-pointer"
-                  data-testid="auth-required-register-btn"
-               >
-                  <Link href={`/auth/sign-up?redirect=${redirectPath}`}>
-                     <UserPlus className="h-4 w-4" />
-                     Registrieren
-                  </Link>
-               </Button>
-               <Button
-                  asChild
-                  className="cursor-pointer"
+                  className="w-full cursor-pointer sm:w-auto"
                   data-testid="auth-required-sign-in-btn"
                >
                   <Link href={`/auth/sign-in?redirect=${redirectPath}`}>
-                     <LogIn className="h-4 w-4" />
                      Anmelden
                   </Link>
                </Button>
+               <p className="text-sm text-muted-foreground">
+                  Noch kein Konto?{" "}
+                  <Link
+                     href={`/auth/sign-up?redirect=${redirectPath}`}
+                     className="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+                     data-testid="auth-required-register-link"
+                  >
+                     Registrieren
+                  </Link>
+               </p>
             </DialogFooter>
          </DialogContent>
       </Dialog>
