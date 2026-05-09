@@ -32,12 +32,26 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
       copyCount,
    } = entry;
 
-   const fieldsSpan = () => {
+   const fieldsCountSpan = () => {
       if (!isEmpty(fields)) {
          return (
-            <span className="flex items-center gap-1">
+            <span
+               className="flex items-center gap-1"
+               data-testid="fields-count"
+            >
                <LayoutList className="h-3.5 w-3.5" />
                {fields.length} {fields.length === 1 ? "Feld" : "Felder"}
+            </span>
+         );
+      }
+   };
+
+   const copyCountSpan = () => {
+      if (copyCount > 0) {
+         return (
+            <span className="flex items-center gap-1" data-testid="copy-count">
+               <Copy className="h-3.5 w-3.5" />
+               {copyCount}× übernommen
             </span>
          );
       }
@@ -81,19 +95,8 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
             <p className="line-clamp-2 text-sm text-slate-500">{description}</p>
 
             <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
-               <span className="flex items-center gap-1">
-                  <LayoutList className="h-3.5 w-3.5" />
-                  {fields.length} {fields.length === 1 ? "Feld" : "Felder"}
-               </span>
-               {copyCount > 0 && (
-                  <span
-                     className="flex items-center gap-1"
-                     data-testid="copy-count"
-                  >
-                     <Copy className="h-3.5 w-3.5" />
-                     {copyCount}× übernommen
-                  </span>
-               )}
+               {fieldsCountSpan()}
+               {copyCountSpan()}
             </div>
          </CardContent>
 

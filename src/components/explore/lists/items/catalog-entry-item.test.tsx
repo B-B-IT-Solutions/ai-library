@@ -31,6 +31,16 @@ const assertViewLinkRendered = (entry: DCatalogEntry) => {
    expect(titleLink).toHaveAttribute("href", `/explore/${entry.slug}`);
 };
 
+const assertFieldsCountRendered = () => {
+   const count = screen.getByTestId("fields-count");
+   assertInDocument(count);
+};
+
+const assertFieldsCountNotRendered = () => {
+   const count = screen.queryByTestId("fields-count");
+   assertNotInDocument(count);
+};
+
 const assertCopyCountRendered = () => {
    const count = screen.getByTestId("copy-count");
    assertInDocument(count);
@@ -42,24 +52,41 @@ const assertCopyCountNotRendered = () => {
 };
 
 describe("ExploreEntryCard rendering tests", () => {
-   it("copyCount 0 - test", async () => {
+   it("copy count > 0 - fields count 3 - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      entry.copyCount = 0;
+      entry.copyCount = 399;
 
       const { container } = render(<ExploreEntryCard entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
          assertViewLinkRendered(entry);
-         assertCopyCountNotRendered();
+         assertFieldsCountRendered();
+         assertCopyCountRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+   it("copy count > 0 - fields count 1 - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+      entry.copyCount = 499;
+      entry.fields = dtestData.dCatalogEntryFields(1);
+
+      const { container } = render(<ExploreEntryCard entry={entry} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertViewLinkRendered(entry);
+         assertFieldsCountRendered();
+         assertCopyCountRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("copyCount > 0 - test", async () => {
+   it("copy count 0 - fields count 0 - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      entry.copyCount = 399;
+      entry.copyCount = 0;
       entry.category = null;
       entry.fields = [];
 
@@ -68,7 +95,8 @@ describe("ExploreEntryCard rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertViewLinkRendered(entry);
-         assertCopyCountRendered();
+         assertFieldsCountNotRendered();
+         assertCopyCountNotRendered();
       });
 
       expect(container).toMatchSnapshot();
