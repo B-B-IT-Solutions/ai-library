@@ -205,8 +205,7 @@ export const CatalogEntryView = ({
             <div className="mt-4 flex justify-center gap-3">
                <UseCatalogEntryButton entry={entry} />
                <CopyCatalogEntryButton
-                  catalogEntryId={entry.id}
-                  slug={entry.slug}
+                  entry={entry}
                   isAuthenticated={isAuthenticated}
                />
             </div>
