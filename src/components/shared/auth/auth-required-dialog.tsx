@@ -30,7 +30,7 @@ export const AuthRequiredDialog = ({
 }: Props) => {
    return (
       <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-         <DialogContent data-testid="auth-required-dialog">
+         <DialogContent className="gap-6" data-testid="auth-required-dialog">
             <div className="flex justify-center">
                <div className="rounded-full bg-primary/10 p-4">
                   <LogIn className="h-6 w-6 text-primary" />
