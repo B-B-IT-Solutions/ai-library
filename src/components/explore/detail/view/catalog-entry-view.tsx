@@ -78,11 +78,11 @@ export const CatalogEntryView = ({
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3">
+               <UseCatalogEntryButton entry={entry} />
                <CopyCatalogEntryButton
                   entry={entry}
                   isAuthenticated={isAuthenticated}
                />
-               <UseCatalogEntryButton entry={entry} />
             </div>
          </div>
       );
@@ -203,11 +203,11 @@ export const CatalogEntryView = ({
                Die Kopie gehört dir – du kannst sie beliebig anpassen.
             </p>
             <div className="mt-4 flex justify-center gap-3">
+               <UseCatalogEntryButton entry={entry} />
                <CopyCatalogEntryButton
                   entry={entry}
                   isAuthenticated={isAuthenticated}
                />
-               <UseCatalogEntryButton entry={entry} />
             </div>
          </div>
       );

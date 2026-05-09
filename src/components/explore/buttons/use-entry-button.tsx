@@ -35,7 +35,6 @@ export const UseCatalogEntryButton = ({ entry }: Props) => {
       <>
          <Button
             onClick={() => setIsOpen(true)}
-            variant="outline"
             size="lg"
             className="w-full cursor-pointer sm:w-auto"
             data-testid="use-entry-btn"
