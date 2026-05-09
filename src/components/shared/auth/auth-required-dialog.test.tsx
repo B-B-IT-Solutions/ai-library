@@ -54,6 +54,24 @@ describe("AuthRequiredDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
+   it("custom title - test", async () => {
+      const { container } = render(
+         <AuthRequiredDialog
+            isOpen={true}
+            onClose={onCloseMock}
+            redirectPath={redirectPath}
+            title="Konto erforderlich"
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         expect(screen.getByText("Konto erforderlich")).toBeInTheDocument();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("custom description - test", async () => {
       const { container } = render(
          <AuthRequiredDialog

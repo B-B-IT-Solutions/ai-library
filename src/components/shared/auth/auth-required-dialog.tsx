@@ -17,6 +17,7 @@ type Props = {
    isOpen: boolean;
    onClose: () => void;
    redirectPath: string;
+   title?: string;
    description?: string;
 };
 
@@ -24,6 +25,7 @@ export const AuthRequiredDialog = ({
    isOpen,
    onClose,
    redirectPath,
+   title = "Fast geschafft!",
    description = "Für diese Aktion benötigst du ein Konto.",
 }: Props) => {
    return (
@@ -37,7 +39,7 @@ export const AuthRequiredDialog = ({
 
             <DialogHeader className="text-center">
                <DialogTitle className="text-center">
-                  Anmelden erforderlich
+                  {title}
                </DialogTitle>
                <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
