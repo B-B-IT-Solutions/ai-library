@@ -67,8 +67,13 @@ const assertCopyBtnRendered = () => {
 const assertUseBtnRendered = () => {
    const header = screen.getByTestId("header");
    const cta = screen.getByTestId("cta");
-   assertInDocument(getByTestId(header, "use-entry-btn"));
-   assertInDocument(getByTestId(cta, "use-entry-btn"));
+   const headerUseBtn = getByTestId(header, "use-entry-btn");
+   const ctaUseBtn = getByTestId(header, "use-entry-btn");
+
+   assertInDocument(header);
+   assertInDocument(cta);
+   assertInDocument(headerUseBtn);
+   assertInDocument(ctaUseBtn);
 };
 
 describe("CatalogEntryView rendering tests", () => {
