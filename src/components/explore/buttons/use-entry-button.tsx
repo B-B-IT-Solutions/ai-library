@@ -10,13 +10,13 @@ import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 import {
    toCatalogEntryDescriptor,
    toCatalogEntryTemplateData,
-} from "./catalog-entry-use.utils";
+} from "./use-entry.utils";
 
 type Props = {
    entry: DCatalogEntryWithContent;
 };
 
-export const CatalogEntryUseButton = ({ entry }: Props) => {
+export const UseEntryButton = ({ entry }: Props) => {
    const [isOpen, setIsOpen] = useState(false);
 
    const dialog = () => {

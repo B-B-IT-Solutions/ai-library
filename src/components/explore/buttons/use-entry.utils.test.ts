@@ -1,4 +1,4 @@
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 import {
@@ -9,7 +9,7 @@ import {
 import {
    toCatalogEntryDescriptor,
    toCatalogEntryTemplateData,
-} from "./catalog-entry-use.utils";
+} from "./use-entry.utils";
 
 const toCatalogEntryDescriptorInternal = (
    entry: DCatalogEntryWithContent

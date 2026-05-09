@@ -12,13 +12,13 @@ import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 import {
    toCatalogEntryDescriptor,
    toCatalogEntryTemplateData,
-} from "./catalog-entry-use.utils";
+} from "./use-entry.utils";
 
 type Props = {
    slug: string;
 };
 
-export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
+export const UseEntryLazyButton = ({ slug }: Props) => {
    const [isPending, startTransition] = useTransition();
    const [entry, setEntry] = useState<DCatalogEntryWithContent | null>(null);
    const [isOpen, setIsOpen] = useState(false);
