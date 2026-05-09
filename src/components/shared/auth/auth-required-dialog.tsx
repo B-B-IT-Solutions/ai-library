@@ -1,7 +1,6 @@
 "use client";
 
-import { DialogClose } from "@radix-ui/react-dialog";
-import { LogIn, X } from "lucide-react";
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
