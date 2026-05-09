@@ -88,7 +88,7 @@ exports[`AuthRequiredDialog rendering tests custom description - test 1`] = `
             Noch kein Konto?
              
             <a
-              class="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+              class="cursor-pointer font-medium text-foreground hover:underline"
               data-testid="auth-required-register-link"
               href="/auth/sign-up?redirect=/explore/my-template"
             >
@@ -221,7 +221,7 @@ exports[`AuthRequiredDialog rendering tests custom title - test 1`] = `
             Noch kein Konto?
              
             <a
-              class="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+              class="cursor-pointer font-medium text-foreground hover:underline"
               data-testid="auth-required-register-link"
               href="/auth/sign-up?redirect=/explore/my-template"
             >
@@ -374,7 +374,7 @@ exports[`AuthRequiredDialog rendering tests isOpen true - test 1`] = `
             Noch kein Konto?
              
             <a
-              class="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+              class="cursor-pointer font-medium text-foreground hover:underline"
               data-testid="auth-required-register-link"
               href="/auth/sign-up?redirect=/explore/my-template"
             >
