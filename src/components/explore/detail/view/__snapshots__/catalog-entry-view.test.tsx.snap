@@ -232,6 +232,21 @@ exports[`CatalogEntryView rendering tests field.options empty - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -659,6 +674,21 @@ exports[`CatalogEntryView rendering tests field.options empty - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -897,6 +927,21 @@ exports[`CatalogEntryView rendering tests fields empty - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -1091,6 +1136,21 @@ exports[`CatalogEntryView rendering tests fields empty - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1329,6 +1389,21 @@ exports[`CatalogEntryView rendering tests relatedEntries defined - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -1783,6 +1858,21 @@ exports[`CatalogEntryView rendering tests relatedEntries defined - test 1`] = `
           </svg>
           In Bibliothek übernehmen
         </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1994,15 +2084,14 @@ exports[`CatalogEntryView rendering tests relatedEntries empty - test 1`] = `
           </svg>
           Prompt anwenden
         </button>
-        <a
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto flex items-center gap-2"
+        <button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
           data-slot="button"
           data-testid="catalog-entry-register-btn"
-          href="/auth/sign-up?redirect=/explore/entry-slug-1"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-user-plus h-4 w-4"
+            class="lucide lucide-plus mr-2 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -2014,28 +2103,29 @@ exports[`CatalogEntryView rendering tests relatedEntries empty - test 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+              d="M5 12h14"
             />
-            <circle
-              cx="9"
-              cy="7"
-              r="4"
-            />
-            <line
-              x1="19"
-              x2="19"
-              y1="8"
-              y2="14"
-            />
-            <line
-              x1="22"
-              x2="16"
-              y1="11"
-              y2="11"
+            <path
+              d="M12 5v14"
             />
           </svg>
-          Registrieren um zu übernehmen
-        </a>
+          In Bibliothek übernehmen
+        </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -2395,15 +2485,14 @@ exports[`CatalogEntryView rendering tests relatedEntries empty - test 1`] = `
           </svg>
           Prompt anwenden
         </button>
-        <a
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full sm:w-auto flex items-center gap-2"
+        <button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
           data-slot="button"
           data-testid="catalog-entry-register-btn"
-          href="/auth/sign-up?redirect=/explore/entry-slug-1"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-user-plus h-4 w-4"
+            class="lucide lucide-plus mr-2 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -2415,28 +2504,29 @@ exports[`CatalogEntryView rendering tests relatedEntries empty - test 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+              d="M5 12h14"
             />
-            <circle
-              cx="9"
-              cy="7"
-              r="4"
-            />
-            <line
-              x1="19"
-              x2="19"
-              y1="8"
-              y2="14"
-            />
-            <line
-              x1="22"
-              x2="16"
-              y1="11"
-              y2="11"
+            <path
+              d="M12 5v14"
             />
           </svg>
-          Registrieren um zu übernehmen
-        </a>
+          In Bibliothek übernehmen
+        </button>
+        <div
+          data-slot="dialog"
+          data-testid="mock-react-dialog-root"
+        >
+          <div
+            data-slot="dialog-portal"
+            data-testid="mock-react-dialog-portal"
+          >
+            <div
+              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+              data-slot="dialog-overlay"
+              data-testid="mock-react-dialog-overlay"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>

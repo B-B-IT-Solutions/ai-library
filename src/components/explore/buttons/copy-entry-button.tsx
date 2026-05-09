@@ -1,12 +1,12 @@
 "use client";
 
-import { useTransition } from "react";
-import { Loader2, Plus, UserPlus } from "lucide-react";
-import Link from "next/link";
+import { useState, useTransition } from "react";
+import { Loader2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
+import { AuthRequiredDialog } from "@/components/shared/auth";
 import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
@@ -18,28 +18,14 @@ type Props = {
 export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
+   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
-   if (!isAuthenticated) {
-      return (
-         <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="w-full sm:w-auto"
-            data-testid="catalog-entry-register-btn"
-         >
-            <Link
-               href={`/auth/sign-up?redirect=/explore/${entry.slug}`}
-               className="flex items-center gap-2"
-            >
-               <UserPlus className="h-4 w-4" />
-               Registrieren um zu übernehmen
-            </Link>
-         </Button>
-      );
-   }
+   const handleClick = () => {
+      if (!isAuthenticated) {
+         setIsAuthDialogOpen(true);
+         return;
+      }
 
-   const handleCopy = () => {
       startTransition(async () => {
          const result = await copyCatalogEntryToUserTemplates(entry.id);
 
@@ -60,25 +46,37 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
    };
 
    return (
-      <Button
-         onClick={handleCopy}
-         disabled={isPending}
-         variant="outline"
-         size="lg"
-         className="w-full cursor-pointer sm:w-auto"
-         data-testid="catalog-entry-copy-btn"
-      >
-         {isPending ? (
-            <>
-               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Wird übernommen…
-            </>
-         ) : (
-            <>
-               <Plus className="mr-2 h-4 w-4" />
-               In Bibliothek übernehmen
-            </>
-         )}
-      </Button>
+      <>
+         <Button
+            onClick={handleClick}
+            disabled={isPending}
+            variant="outline"
+            size="lg"
+            className="w-full cursor-pointer sm:w-auto"
+            data-testid={
+               isAuthenticated
+                  ? "catalog-entry-copy-btn"
+                  : "catalog-entry-register-btn"
+            }
+         >
+            {isPending ? (
+               <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Wird übernommen…
+               </>
+            ) : (
+               <>
+                  <Plus className="mr-2 h-4 w-4" />
+                  In Bibliothek übernehmen
+               </>
+            )}
+         </Button>
+         <AuthRequiredDialog
+            isOpen={isAuthDialogOpen}
+            onClose={() => setIsAuthDialogOpen(false)}
+            redirectPath={`/explore/${entry.slug}`}
+            description="Bitte melde dich an, um Vorlagen in deine Bibliothek zu übernehmen."
+         />
+      </>
    );
 };

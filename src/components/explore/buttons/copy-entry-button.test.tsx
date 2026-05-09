@@ -5,11 +5,7 @@ import { MouseEvent } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-   assertHasAttributeWithValue,
-   assertInDocument,
-   dtestData,
-} from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
@@ -30,15 +26,19 @@ const assertAuthenticatedBtnRendered = () => {
    assertInDocument(btn);
 };
 
-const assertNotAuthenticatedBtnRendered = (entrySlug: string) => {
+const assertNotAuthenticatedBtnRendered = () => {
    const btn = screen.getByTestId("catalog-entry-register-btn");
    assertInDocument(btn);
+};
 
-   assertHasAttributeWithValue(
-      btn,
-      "href",
-      `/auth/sign-up?redirect=/explore/${entrySlug}`
-   );
+const assertAuthDialogRendered = () => {
+   const dialog = screen.getByTestId("auth-required-dialog");
+   assertInDocument(dialog);
+};
+
+const assertAuthDialogNotRendered = () => {
+   const dialog = screen.queryByTestId("auth-required-dialog");
+   assertNotInDocument(dialog);
 };
 
 describe("CopyCatalogEntryButton rendering tests", () => {
@@ -63,7 +63,8 @@ describe("CopyCatalogEntryButton rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered(entry.slug);
+         assertNotAuthenticatedBtnRendered();
+         assertAuthDialogNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -76,31 +77,20 @@ describe("CopyCatalogEntryButton functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("unauthenticated - register btn clicked - test", async () => {
-      const actionResult: ActionResult<DCatalogEntryCopyResult> = {
-         success: true,
-         message: "Erfolgreich copiert",
-         data: {
-            templateId: "descriptor-id-1",
-         },
-      };
-      copyCatalogEntryMock.mockResolvedValue(actionResult);
-
+   it("unauthenticated - register btn clicked - opens auth dialog - test", async () => {
       const entry = dtestData.dCatalogEntry();
       render(<CopyCatalogEntryButton entry={entry} isAuthenticated={false} />);
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered(entry.slug);
-         expect(mockRouter.asPath).toEqual("/");
+         assertNotAuthenticatedBtnRendered();
+         assertAuthDialogNotRendered();
       });
 
       const btn = screen.getByTestId("catalog-entry-register-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(
-            `/auth/sign-up?redirect=%2Fexplore%2F${entry.slug}`
-         );
+         assertAuthDialogRendered();
       });
    });
 
