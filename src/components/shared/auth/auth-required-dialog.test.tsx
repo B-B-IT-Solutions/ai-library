@@ -118,15 +118,15 @@ describe("AuthRequiredDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(closeBtn).not.toHaveBeenCalled();
+         expect(closeFn).not.toHaveBeenCalled();
       });
 
       const closeBtn = screen.getByTestId("dialog-close-btn");
       userEvent.click(closeBtn);
 
       await waitFor(() => {
-         assertDialogRendered();
-         expect(closeBtn).toHaveBeenCalledTimes(1);
+         assertDialogNotRendered();
+         expect(closeFn).toHaveBeenCalledTimes(1);
       });
    });
 });
