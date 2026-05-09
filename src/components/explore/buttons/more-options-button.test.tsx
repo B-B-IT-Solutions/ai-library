@@ -14,25 +14,39 @@ const assertRendered = () => {
 };
 
 const assertMenuRendered = () => {
-   const menuItem = screen.getByTestId("view-entry-menu-item");
-   assertInDocument(menuItem);
+   const viewItem = screen.getByTestId("view-entry-menu-item");
+   const addToLibraryItem = screen.getByTestId("add-entry-to-library-menu-item");
+
+   assertInDocument(viewItem);
+   assertInDocument(addToLibraryItem);
 };
 
 const assertMenuNotRendered = () => {
-   const menuItem = screen.queryByTestId("view-entry-menu-item");
-   assertNotInDocument(menuItem);
+   const viewItem = screen.queryByTestId("view-entry-menu-item");
+   assertNotInDocument(viewItem);
+};
+
+const assertAuthDialogNotRendered = () => {
+   const dialog = screen.queryByTestId("auth-required-dialog");
+   assertNotInDocument(dialog);
+};
+
+const assertAuthDialogRendered = () => {
+   const dialog = screen.getByTestId("auth-required-dialog");
+   assertInDocument(dialog);
 };
 
 describe("CatalogEntryMoreOptionsButton rendering tests", () => {
    it("rendered - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       const { container } = render(
-         <CatalogEntryMoreOptionsButton entry={entry} />
+         <CatalogEntryMoreOptionsButton entry={entry} isAuthenticated={false} />
       );
 
       await waitFor(() => {
          assertRendered();
          assertMenuNotRendered();
+         assertAuthDialogNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -42,7 +56,9 @@ describe("CatalogEntryMoreOptionsButton rendering tests", () => {
 describe("CatalogEntryMoreOptionsButton functionality tests", () => {
    it("trigger clicked - menu opens - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      render(<CatalogEntryMoreOptionsButton entry={entry} />);
+      render(
+         <CatalogEntryMoreOptionsButton entry={entry} isAuthenticated={false} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -54,6 +70,27 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertMenuRendered();
+      });
+   });
+
+   it("unauthenticated - add to library clicked - opens auth dialog - test", async () => {
+      const entry = dtestData.dCatalogEntry(1);
+      render(
+         <CatalogEntryMoreOptionsButton entry={entry} isAuthenticated={false} />
+      );
+
+      const trigger = screen.getByTestId("trigger-btn");
+      await userEvent.click(trigger);
+
+      await waitFor(() => {
+         assertMenuRendered();
+      });
+
+      const addItem = screen.getByTestId("add-entry-to-library-menu-item");
+      await userEvent.click(addItem);
+
+      await waitFor(() => {
+         assertAuthDialogRendered();
       });
    });
 });

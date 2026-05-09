@@ -56,7 +56,9 @@ describe("CatalogEntryItem rendering tests", () => {
       const entry = dtestData.dCatalogEntry(1);
       entry.copyCount = 399;
 
-      const { container } = render(<CatalogEntryItem entry={entry} />);
+      const { container } = render(
+         <CatalogEntryItem entry={entry} isAuthenticated={true} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -72,7 +74,9 @@ describe("CatalogEntryItem rendering tests", () => {
       entry.copyCount = 499;
       entry.fields = dtestData.dCatalogEntryFields(1);
 
-      const { container } = render(<CatalogEntryItem entry={entry} />);
+      const { container } = render(
+         <CatalogEntryItem entry={entry} isAuthenticated={false} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -90,7 +94,9 @@ describe("CatalogEntryItem rendering tests", () => {
       entry.category = null;
       entry.fields = [];
 
-      const { container } = render(<CatalogEntryItem entry={entry} />);
+      const { container } = render(
+         <CatalogEntryItem entry={entry} isAuthenticated={true} />
+      );
 
       await waitFor(() => {
          assertRendered();
