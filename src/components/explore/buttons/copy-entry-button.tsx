@@ -63,8 +63,9 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
       <Button
          onClick={handleCopy}
          disabled={isPending}
+         variant="outline"
          size="lg"
-         className="w-full sm:w-auto"
+         className="w-full cursor-pointer sm:w-auto"
          data-testid="catalog-entry-copy-btn"
       >
          {isPending ? (
@@ -75,7 +76,7 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
          ) : (
             <>
                <Plus className="mr-2 h-4 w-4" />
-               In meine Bibliothek übernehmen
+               In Bibliothek übernehmen
             </>
          )}
       </Button>
