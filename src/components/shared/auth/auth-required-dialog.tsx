@@ -47,9 +47,11 @@ export const AuthRequiredDialog = ({
                   asChild={true}
                   size="lg"
                   className="w-full cursor-pointer"
-                  data-testid="sign-in-btn"
                >
-                  <Link href={`/auth/sign-in?redirect=${redirectPath}`}>
+                  <Link
+                     href={`/auth/sign-in?redirect=${redirectPath}`}
+                     data-testid="sign-in-link"
+                  >
                      Anmelden
                   </Link>
                </Button>
@@ -58,7 +60,7 @@ export const AuthRequiredDialog = ({
                   <Link
                      href={`/auth/sign-up?redirect=${redirectPath}`}
                      className="cursor-pointer font-medium text-foreground hover:underline"
-                     data-testid="register-link"
+                     data-testid="sign-up-link"
                   >
                      Kostenlos starten
                   </Link>

@@ -10,7 +10,12 @@ import { AuthRequiredDialog } from "./auth-required-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("auth-required-dialog");
+   const signInLink = screen.getByTestId("sign-in-link");
+   const signUpLink = screen.getByTestId("sign-up-link");
+
    assertInDocument(dialog);
+   assertInDocument(signInLink);
+   assertInDocument(signUpLink);
 };
 
 const assertDialogNotRendered = () => {
@@ -18,34 +23,73 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
+const assertLinks = (redirectPath: string) => {
+   const signInLink = screen.getByTestId("sign-in-link");
+   const signUpLink = screen.getByTestId("sign-up-link");
+
+   assertInDocument(signInLink);
+   assertInDocument(signUpLink);
+
+   assertHasAttributeWithValue(
+      signInLink,
+      "href",
+      `/auth/sign-in?redirect=${redirectPath}`
+   );
+   assertHasAttributeWithValue(
+      signUpLink,
+      "href",
+      `/auth/sign-up?redirect=${redirectPath}`
+   );
+};
+
 describe("AuthRequiredDialog rendering tests", () => {
-   it("isOpen true - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
+   it("isOpen true - default values - test", async () => {
+      const redirectPath = "/explore/template-1";
 
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
-            onClose={onCloseMock}
+            onClose={jest.fn()}
             redirectPath={redirectPath}
          />
       );
 
       await waitFor(() => {
          assertDialogRendered();
+         assertLinks(redirectPath);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("isOpen true - custom values - test", async () => {
+      const redirectPath = "/explore/template-2";
+
+      const { container } = render(
+         <AuthRequiredDialog
+            isOpen={true}
+            onClose={jest.fn()}
+            redirectPath={redirectPath}
+            title="Title 1"
+            description="Description 1"
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         assertLinks(redirectPath);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("isOpen false - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
+      const redirectPath = "/explore/template-3";
 
       const { container } = render(
          <AuthRequiredDialog
             isOpen={false}
-            onClose={onCloseMock}
+            onClose={jest.fn()}
             redirectPath={redirectPath}
          />
       );
@@ -55,99 +99,5 @@ describe("AuthRequiredDialog rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
-   });
-
-   it("custom title - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
-
-      const { container } = render(
-         <AuthRequiredDialog
-            isOpen={true}
-            onClose={onCloseMock}
-            redirectPath={redirectPath}
-            title="Konto erforderlich"
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-         expect(screen.getByText("Konto erforderlich")).toBeInTheDocument();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("custom description - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
-
-      const { container } = render(
-         <AuthRequiredDialog
-            isOpen={true}
-            onClose={onCloseMock}
-            redirectPath={redirectPath}
-            description="Bitte melde dich an, um Vorlagen zu übernehmen."
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-         expect(
-            screen.getByText("Bitte melde dich an, um Vorlagen zu übernehmen.")
-         ).toBeInTheDocument();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-});
-
-describe("AuthRequiredDialog functionality tests", () => {
-   it("sign-in btn has correct href - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
-
-      render(
-         <AuthRequiredDialog
-            isOpen={true}
-            onClose={onCloseMock}
-            redirectPath={redirectPath}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-      });
-
-      const signInBtn = screen.getByTestId("auth-required-sign-in-btn");
-      assertHasAttributeWithValue(
-         signInBtn,
-         "href",
-         `/auth/sign-in?redirect=${redirectPath}`
-      );
-   });
-
-   it("register link has correct href - test", async () => {
-      const redirectPath = "/explore/my-template";
-      const onCloseMock = jest.fn();
-
-      render(
-         <AuthRequiredDialog
-            isOpen={true}
-            onClose={onCloseMock}
-            redirectPath={redirectPath}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-      });
-
-      const registerLink = screen.getByTestId("auth-required-register-link");
-      assertHasAttributeWithValue(
-         registerLink,
-         "href",
-         `/auth/sign-up?redirect=${redirectPath}`
-      );
    });
 });
