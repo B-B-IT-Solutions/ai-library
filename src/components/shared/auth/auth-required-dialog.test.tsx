@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
@@ -103,7 +104,7 @@ describe("AuthRequiredDialog rendering tests", () => {
 });
 
 describe("AuthRequiredDialog functionality tests", () => {
-   it("close fn called - test", async () => {
+   it("close btn clicked - test", async () => {
       const redirectPath = "/explore/template-1";
       const closeFn = jest.fn();
 
@@ -117,7 +118,15 @@ describe("AuthRequiredDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         assertLinks(redirectPath);
+         expect(closeFn).not.toHaveBeenCalled();
+      });
+
+      const closeBtn = screen.getByTestId("dialog-close-btn");
+      userEvent.click(closeBtn);
+
+      await waitFor(() => {
+         assertDialogNotRendered();
+         expect(closeFn).toHaveBeenCalledTimes(1);
       });
    });
 });
