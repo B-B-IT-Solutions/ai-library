@@ -735,7 +735,7 @@ export const dCatalogEntries = (count = 3): DCatalogEntry[] => {
 
 export const dCatalogEntry = (index = 1): DCatalogEntry => ({
    id: `entry-uuid-000${index}`,
-   slug: `catalog-entry-${index}`,
+   slug: `entry-slug-${index}`,
    title: `Catalog Entry ${index}`,
    description: `Description for catalog entry ${index}`,
    recommendedModel: "GPT-4o",

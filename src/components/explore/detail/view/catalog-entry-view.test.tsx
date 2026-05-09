@@ -64,6 +64,18 @@ const assertCopyBtnRendered = () => {
    assertInDocument(ctaCopyBtn);
 };
 
+const assertUseBtnRendered = () => {
+   const header = screen.getByTestId("header");
+   const cta = screen.getByTestId("cta");
+   const headerUseBtn = getByTestId(header, "use-entry-btn");
+   const ctaUseBtn = getByTestId(header, "use-entry-btn");
+
+   assertInDocument(header);
+   assertInDocument(cta);
+   assertInDocument(headerUseBtn);
+   assertInDocument(ctaUseBtn);
+};
+
 describe("CatalogEntryView rendering tests", () => {
    it("relatedEntries empty - test", async () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
@@ -81,6 +93,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertFieldsRendered();
          assertRelatedEntriesNotRendered();
          assertRegisterBtnRendered();
+         assertUseBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -103,6 +116,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertFieldsRendered();
          assertRelatedEntriesRendered();
          assertCopyBtnRendered();
+         assertUseBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -126,6 +140,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertRelatedEntriesRendered();
          assertFieldsNotRendered();
          assertCopyBtnRendered();
+         assertUseBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -149,6 +164,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertFieldsRendered();
          assertRelatedEntriesRendered();
          assertCopyBtnRendered();
+         assertUseBtnRendered();
       });
 
       expect(container).toMatchSnapshot();

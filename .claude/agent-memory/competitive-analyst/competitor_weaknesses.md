@@ -5,6 +5,7 @@ type: project
 ---
 
 ## PromptBase — Documented Weaknesses (verified via 2026 reviews)
+
 - No workflow system: purchased prompts are isolated text blobs, no structured input system
 - No in-platform prompt testing before purchase — users "buy blind"
 - No subscription model — multiple purchases add up quickly, no loyalty mechanism
@@ -14,6 +15,7 @@ type: project
 - No versioning
 
 ## FlowGPT — Documented Weaknesses
+
 - Creators earn almost nothing (donations model only, no real marketplace)
 - No structured template system — everything is raw text
 - Quality extremely variable, much spam and outdated prompts
@@ -21,6 +23,7 @@ type: project
 - Prompt library not organizable for personal workflow
 
 ## AIPRM — Documented Weaknesses
+
 - 100% dependent on ChatGPT/OpenAI — strategic single point of failure
 - Browser extension only: no web app, no mobile, no standalone use
 - No templates with structured form inputs — everything is text
@@ -29,6 +32,7 @@ type: project
 - Very limited personal library customization
 
 ## Market-Wide Gaps (no competitor solves these well)
+
 - Structured typed form inputs for prompt execution
 - Prompt versioning with rollback
 - In-platform output quality testing before purchase

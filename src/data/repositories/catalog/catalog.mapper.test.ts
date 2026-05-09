@@ -23,13 +23,13 @@ import {
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
 
-export const toDCatalogEntriesWithContentInternal = (
+const toDCatalogEntriesWithContentInternal = (
    entries: CatalogEntryWithContent[]
 ): DCatalogEntryWithContent[] => {
    return map(entries, (e) => toDCatalogEntryWithContentInternal(e));
 };
 
-export const toDCatalogEntryWithContentInternal = (
+const toDCatalogEntryWithContentInternal = (
    entry: CatalogEntryWithContent
 ): DCatalogEntryWithContent => {
    return {
@@ -38,13 +38,13 @@ export const toDCatalogEntryWithContentInternal = (
    };
 };
 
-export const toDCatalogEntriesInternal = (
+const toDCatalogEntriesInternal = (
    entries: CatalogEntryWithRelations[]
 ): DCatalogEntry[] => {
    return map(entries, (e) => toDCatalogEntryInternal(e));
 };
 
-export const toDCatalogEntryInternal = (
+const toDCatalogEntryInternal = (
    entry: CatalogEntryWithRelations
 ): DCatalogEntry => {
    return {
@@ -67,7 +67,7 @@ export const toDCatalogEntryInternal = (
    };
 };
 
-export const toDCatalogCategoriesInternal = (
+const toDCatalogCategoriesInternal = (
    cats: CatalogCategory[]
 ): DCatalogEntryCategory[] => {
    return map(cats, (c) => toDCatalogCategoryInternal(c));

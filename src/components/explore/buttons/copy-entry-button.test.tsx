@@ -5,7 +5,11 @@ import { MouseEvent } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertHasAttributeWithValue, assertInDocument } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   dtestData,
+} from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
@@ -13,7 +17,7 @@ import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { CatalogEntryCopyButton } from "./catalog-entry-copy-button";
+import { CopyCatalogEntryButton } from "./copy-entry-button";
 
 const copyCatalogEntryMock =
    copyCatalogEntryToUserTemplates as jest.MockedFunction<
@@ -29,6 +33,7 @@ const assertAuthenticatedBtnRendered = () => {
 const assertNotAuthenticatedBtnRendered = (entrySlug: string) => {
    const btn = screen.getByTestId("catalog-entry-register-btn");
    assertInDocument(btn);
+
    assertHasAttributeWithValue(
       btn,
       "href",
@@ -36,14 +41,11 @@ const assertNotAuthenticatedBtnRendered = (entrySlug: string) => {
    );
 };
 
-describe("CatalogEntryCopyButton rendering tests", () => {
+describe("CopyCatalogEntryButton rendering tests", () => {
    it("isAuthenticated true - test", async () => {
+      const entry = dtestData.dCatalogEntry();
       const { container } = render(
-         <CatalogEntryCopyButton
-            catalogEntryId="entry-id-1"
-            slug="entry-slug-1"
-            isAuthenticated={true}
-         />
+         <CopyCatalogEntryButton entry={entry} isAuthenticated={true} />
       );
 
       await waitFor(() => {
@@ -54,33 +56,27 @@ describe("CatalogEntryCopyButton rendering tests", () => {
    });
 
    it("isAuthenticated false - test", async () => {
-      const entrySlug = "entry-slug-1";
+      const entry = dtestData.dCatalogEntry();
 
       const { container } = render(
-         <CatalogEntryCopyButton
-            catalogEntryId="entry-id-1"
-            slug={entrySlug}
-            isAuthenticated={false}
-         />
+         <CopyCatalogEntryButton entry={entry} isAuthenticated={false} />
       );
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered(entrySlug);
+         assertNotAuthenticatedBtnRendered(entry.slug);
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("CatalogEntryCopyButton functionality tests", () => {
+describe("CopyCatalogEntryButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
    it("unauthenticated - register btn clicked - test", async () => {
-      const entrySlug = "entry-slug-1";
-
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
          message: "Erfolgreich copiert",
@@ -90,16 +86,11 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       };
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
-      render(
-         <CatalogEntryCopyButton
-            catalogEntryId="entry-id-1"
-            slug={entrySlug}
-            isAuthenticated={false}
-         />
-      );
+      const entry = dtestData.dCatalogEntry();
+      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={false} />);
 
       await waitFor(() => {
-         assertNotAuthenticatedBtnRendered(entrySlug);
+         assertNotAuthenticatedBtnRendered(entry.slug);
          expect(mockRouter.asPath).toEqual("/");
       });
 
@@ -108,13 +99,12 @@ describe("CatalogEntryCopyButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(
-            `/auth/sign-up?redirect=%2Fexplore%2F${entrySlug}`
+            `/auth/sign-up?redirect=%2Fexplore%2F${entry.slug}`
          );
       });
    });
 
    it("authenticated - copy btn clicked - success - test", async () => {
-      const catalogEntryId = "entry-id-1";
       const descriptorId = "descriptor-id-1";
 
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
@@ -126,13 +116,8 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       };
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
-      render(
-         <CatalogEntryCopyButton
-            catalogEntryId={catalogEntryId}
-            slug="entry-slug-1"
-            isAuthenticated={true}
-         />
-      );
+      const entry = dtestData.dCatalogEntry();
+      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={true} />);
 
       await waitFor(() => {
          assertAuthenticatedBtnRendered();
@@ -144,7 +129,7 @@ describe("CatalogEntryCopyButton functionality tests", () => {
 
       await waitFor(() => {
          expect(copyCatalogEntryMock).toHaveBeenCalledTimes(1);
-         expect(copyCatalogEntryMock).toHaveBeenCalledWith(catalogEntryId);
+         expect(copyCatalogEntryMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
@@ -173,13 +158,8 @@ describe("CatalogEntryCopyButton functionality tests", () => {
       };
       copyCatalogEntryMock.mockResolvedValue(actionResult);
 
-      render(
-         <CatalogEntryCopyButton
-            catalogEntryId="entry-id-1"
-            slug="entry-slug-1"
-            isAuthenticated={true}
-         />
-      );
+      const entry = dtestData.dCatalogEntry();
+      render(<CopyCatalogEntryButton entry={entry} isAuthenticated={true} />);
 
       const btn = screen.getByTestId("catalog-entry-copy-btn");
       await userEvent.click(btn);
