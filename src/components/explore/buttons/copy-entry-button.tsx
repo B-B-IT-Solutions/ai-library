@@ -8,18 +8,14 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { copyCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 type Props = {
-   catalogEntryId: string;
-   slug: string;
+   entry: DCatalogEntry;
    isAuthenticated: boolean;
 };
 
-export const CopyCatalogEntryButton = ({
-   catalogEntryId,
-   slug,
-   isAuthenticated,
-}: Props) => {
+export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
@@ -33,7 +29,7 @@ export const CopyCatalogEntryButton = ({
             data-testid="catalog-entry-register-btn"
          >
             <Link
-               href={`/auth/sign-up?redirect=/explore/${slug}`}
+               href={`/auth/sign-up?redirect=/explore/${entry.slug}`}
                className="flex items-center gap-2"
             >
                <UserPlus className="h-4 w-4" />
@@ -45,7 +41,7 @@ export const CopyCatalogEntryButton = ({
 
    const handleCopy = () => {
       startTransition(async () => {
-         const result = await copyCatalogEntryToUserTemplates(catalogEntryId);
+         const result = await copyCatalogEntryToUserTemplates(entry.id);
 
          if (result.success) {
             toast.success("Vorlage wurde in deine Library übernommen", {
