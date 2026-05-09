@@ -75,7 +75,7 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
          ) : (
             <>
                <Plus className="mr-2 h-4 w-4" />
-               In meine Bibliothek übernehmen
+               In Bibliothek übernehmen
             </>
          )}
       </Button>
