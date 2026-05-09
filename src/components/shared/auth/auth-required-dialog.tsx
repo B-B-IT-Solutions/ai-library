@@ -62,7 +62,7 @@ export const AuthRequiredDialog = ({
                      className="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
                      data-testid="auth-required-register-link"
                   >
-                     Registrieren
+                     Kostenlos starten
                   </Link>
                </p>
             </DialogFooter>
