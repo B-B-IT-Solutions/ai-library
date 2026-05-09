@@ -16,7 +16,7 @@ type Props = {
    entry: DCatalogEntry;
 };
 
-export const CatlogEntryMoreOptionsButton = ({ entry }: Props) => {
+export const CatalogEntryMoreOptionsButton = ({ entry }: Props) => {
    return (
       <DropdownMenu data-testid="catalog-entry-more-options-btn">
          <DropdownMenuTrigger asChild={true}>

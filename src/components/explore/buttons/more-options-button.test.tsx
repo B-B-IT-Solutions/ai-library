@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { CatlogEntryMoreOptionsButton } from "./more-options-button";
+import { CatalogEntryMoreOptionsButton } from "./more-options-button";
 
 const assertRendered = () => {
    const moreOptionsBtn = screen.getByTestId("catalog-entry-more-options-btn");
@@ -23,11 +23,11 @@ const assertMenuNotRendered = () => {
    assertNotInDocument(menuItem);
 };
 
-describe("CatlogEntryMoreOptionsButton rendering tests", () => {
+describe("CatalogEntryMoreOptionsButton rendering tests", () => {
    it("rendered - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       const { container } = render(
-         <CatlogEntryMoreOptionsButton entry={entry} />
+         <CatalogEntryMoreOptionsButton entry={entry} />
       );
 
       await waitFor(() => {
@@ -39,10 +39,10 @@ describe("CatlogEntryMoreOptionsButton rendering tests", () => {
    });
 });
 
-describe("CatlogEntryMoreOptionsButton functionality tests", () => {
+describe("CatalogEntryMoreOptionsButton functionality tests", () => {
    it("trigger clicked - menu opens - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      render(<CatlogEntryMoreOptionsButton entry={entry} />);
+      render(<CatalogEntryMoreOptionsButton entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
