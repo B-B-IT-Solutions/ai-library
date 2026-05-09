@@ -10,7 +10,7 @@ export class CatalogService {
       private readonly templateService: TemplateService
    ) {}
 
-   async copyCatalogEntryToUserTemplates(
+   async addCatalogEntryToUserTemplates(
       userId: string,
       catalogEntryId: string
    ): Promise<DPromptTemplateDescriptor> {

@@ -20,7 +20,7 @@ export const addCatalogEntryToUserTemplates = async (
 
       const user = await requireUser();
       const service = getService();
-      const descriptor = await service.copyCatalogEntryToUserTemplates(
+      const descriptor = await service.addCatalogEntryToUserTemplates(
          user.id,
          catalogEntryId
       );

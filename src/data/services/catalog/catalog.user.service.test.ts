@@ -22,7 +22,7 @@ const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
 
 const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
 
-describe("copyCatalogEntryToUserTemplates tests", () => {
+describe("addCatalogEntryToUserTemplates tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -38,7 +38,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
       const entryId = "missing-id-1";
       const fn = () =>
-         catalogService.copyCatalogEntryToUserTemplates(userId, entryId);
+         catalogService.addCatalogEntryToUserTemplates(userId, entryId);
 
       await expect(fn).rejects.toThrow();
 
@@ -62,7 +62,7 @@ describe("copyCatalogEntryToUserTemplates tests", () => {
 
       const userId = "user-id-1";
 
-      const result = await catalogService.copyCatalogEntryToUserTemplates(
+      const result = await catalogService.addCatalogEntryToUserTemplates(
          userId,
          entry.id
       );
