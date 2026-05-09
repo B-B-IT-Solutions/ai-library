@@ -8,9 +8,6 @@ import {
 
 import { AuthRequiredDialog } from "./auth-required-dialog";
 
-const redirectPath = "/explore/my-template";
-const onCloseMock = jest.fn();
-
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("auth-required-dialog");
    assertInDocument(dialog);
@@ -23,6 +20,9 @@ const assertDialogNotRendered = () => {
 
 describe("AuthRequiredDialog rendering tests", () => {
    it("isOpen true - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
@@ -39,6 +39,9 @@ describe("AuthRequiredDialog rendering tests", () => {
    });
 
    it("isOpen false - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       const { container } = render(
          <AuthRequiredDialog
             isOpen={false}
@@ -55,6 +58,9 @@ describe("AuthRequiredDialog rendering tests", () => {
    });
 
    it("custom title - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
@@ -73,6 +79,9 @@ describe("AuthRequiredDialog rendering tests", () => {
    });
 
    it("custom description - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       const { container } = render(
          <AuthRequiredDialog
             isOpen={true}
@@ -95,6 +104,9 @@ describe("AuthRequiredDialog rendering tests", () => {
 
 describe("AuthRequiredDialog functionality tests", () => {
    it("sign-in btn has correct href - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       render(
          <AuthRequiredDialog
             isOpen={true}
@@ -116,6 +128,9 @@ describe("AuthRequiredDialog functionality tests", () => {
    });
 
    it("register link has correct href - test", async () => {
+      const redirectPath = "/explore/my-template";
+      const onCloseMock = jest.fn();
+
       render(
          <AuthRequiredDialog
             isOpen={true}
