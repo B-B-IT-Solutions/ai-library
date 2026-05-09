@@ -1,6 +1,6 @@
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
-import { ExploreEntryCard } from "./items";
+import { CatalogEntryItem } from "./items";
 
 type Props = {
    entries: DCatalogEntry[];
@@ -13,7 +13,7 @@ export const CatalogEntriesGrid = ({ entries }: Props) => {
          data-testid="catalog-entries-grid"
       >
          {entries.map((entry) => (
-            <ExploreEntryCard key={entry.id} entry={entry} />
+            <CatalogEntryItem key={entry.id} entry={entry} />
          ))}
       </div>
    );

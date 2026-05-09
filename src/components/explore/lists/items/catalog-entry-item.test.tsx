@@ -4,7 +4,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
-import { ExploreEntryCard } from "./catalog-entry-item";
+import { CatalogEntryItem } from "./catalog-entry-item";
 
 const assertRendered = () => {
    const item = screen.getByTestId("catalog-entry-item");
@@ -51,12 +51,12 @@ const assertCopyCountNotRendered = () => {
    assertNotInDocument(count);
 };
 
-describe("ExploreEntryCard rendering tests", () => {
+describe("CatalogEntryItem rendering tests", () => {
    it("copy count > 0 - fields count 3 - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       entry.copyCount = 399;
 
-      const { container } = render(<ExploreEntryCard entry={entry} />);
+      const { container } = render(<CatalogEntryItem entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
@@ -72,7 +72,7 @@ describe("ExploreEntryCard rendering tests", () => {
       entry.copyCount = 499;
       entry.fields = dtestData.dCatalogEntryFields(1);
 
-      const { container } = render(<ExploreEntryCard entry={entry} />);
+      const { container } = render(<CatalogEntryItem entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
@@ -90,7 +90,7 @@ describe("ExploreEntryCard rendering tests", () => {
       entry.category = null;
       entry.fields = [];
 
-      const { container } = render(<ExploreEntryCard entry={entry} />);
+      const { container } = render(<CatalogEntryItem entry={entry} />);
 
       await waitFor(() => {
          assertRendered();

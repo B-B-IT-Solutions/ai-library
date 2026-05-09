@@ -21,7 +21,7 @@ type Props = {
    className?: string;
 };
 
-export const ExploreEntryCard = ({ entry, className }: Props) => {
+export const CatalogEntryItem = ({ entry, className }: Props) => {
    const {
       slug,
       title,
