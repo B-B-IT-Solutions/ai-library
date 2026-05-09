@@ -29,6 +29,7 @@ const assertAuthenticatedBtnRendered = () => {
 const assertNotAuthenticatedBtnRendered = (entrySlug: string) => {
    const btn = screen.getByTestId("catalog-entry-register-btn");
    assertInDocument(btn);
+
    assertHasAttributeWithValue(
       btn,
       "href",

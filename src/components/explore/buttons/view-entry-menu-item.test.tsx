@@ -39,9 +39,6 @@ describe("ViewEntryMenuItem functionality tests", () => {
          expect(mockRouter.pathname).toEqual("/");
       });
 
-      const trigger = screen.getByTestId("trigger-btn");
-      await userEvent.click(trigger);
-
       const editBtn = screen.getByTestId("view-entry-menu-item");
       await userEvent.click(editBtn);
 
