@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CatlogEntryMoreOptionsButton rendering tests rendered - test 1`] = `
+exports[`CatalogEntryMoreOptionsButton rendering tests rendered - test 1`] = `
 <div>
   <div
     data-slot="dropdown-menu"

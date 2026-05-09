@@ -59,7 +59,7 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
             <Link
                href={`/explore/${slug}`}
                className="mt-2 line-clamp-2 text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-slate-600"
-               data-testid="explore-entry-card-title"
+               data-testid="entry-title-link"
             >
                {title}
             </Link>
