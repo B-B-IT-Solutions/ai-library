@@ -1,1 +1,1 @@
-export { ExploreEntryCard } from "./explore-entry-card";
+export { ExploreEntryCard } from "./catalog-entry-item";
