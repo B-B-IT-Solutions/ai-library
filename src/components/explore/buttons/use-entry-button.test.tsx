@@ -6,7 +6,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { UseEntryButton } from "./use-entry-button";
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("catalog-entry-use-btn");
+   const btn = screen.getByTestId("use-entry-btn");
    assertInDocument(btn);
 };
 
@@ -44,7 +44,7 @@ describe("UseEntryButton functionality tests", () => {
          assertDialogNotRendered();
       });
 
-      const btn = screen.getByTestId("catalog-entry-use-btn");
+      const btn = screen.getByTestId("use-entry-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {

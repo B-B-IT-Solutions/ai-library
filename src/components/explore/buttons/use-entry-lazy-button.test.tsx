@@ -18,7 +18,7 @@ const getPublishedCatalogEntryBySlugMock =
 const toastMock = toast as jest.Mocked<typeof toast>;
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
+   const btn = screen.getByTestId("use-entry-lazy-btn");
    assertInDocument(btn);
 };
 
@@ -32,7 +32,7 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(btn);
 };
 
-describe("CatalogEntryUseLazyButton rendering tests", () => {
+describe("UseEntryLazyButton rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -50,7 +50,7 @@ describe("CatalogEntryUseLazyButton rendering tests", () => {
    });
 });
 
-describe("CatalogEntryUseLazyButton functionality tests", () => {
+describe("UseEntryLazyButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -66,7 +66,7 @@ describe("CatalogEntryUseLazyButton functionality tests", () => {
          assertDialogNotRendered();
       });
 
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
+      const btn = screen.getByTestId("use-entry-lazy-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
@@ -96,7 +96,7 @@ describe("CatalogEntryUseLazyButton functionality tests", () => {
          assertDialogNotRendered();
       });
 
-      const btn = screen.getByTestId("catalog-entry-use-lazy-btn");
+      const btn = screen.getByTestId("use-entry-lazy-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {

@@ -38,7 +38,7 @@ export const UseEntryButton = ({ entry }: Props) => {
             variant="outline"
             size="lg"
             className="w-full cursor-pointer sm:w-auto"
-            data-testid="catalog-entry-use-btn"
+            data-testid="use-entry-btn"
          >
             <Wand2 className="mr-2 h-4 w-4" />
             Prompt anwenden

@@ -58,7 +58,7 @@ export const UseEntryLazyButton = ({ slug }: Props) => {
             variant="default"
             size="sm"
             className="flex-1 cursor-pointer"
-            data-testid="catalog-entry-use-lazy-btn"
+            data-testid="use-entry-lazy-btn"
          >
             {isPending ? (
                <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
