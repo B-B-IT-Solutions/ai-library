@@ -9,7 +9,7 @@ type Props = {
    slug: string;
 };
 
-export const ViewEntryMenuItem = ({ slug }: Props) => {
+export const ViewCatalogEntryMenuItem = ({ slug }: Props) => {
    return (
       <DropdownMenuItem asChild={true}>
          <Link

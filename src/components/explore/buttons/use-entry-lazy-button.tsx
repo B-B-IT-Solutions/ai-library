@@ -18,7 +18,7 @@ type Props = {
    slug: string;
 };
 
-export const UseEntryLazyButton = ({ slug }: Props) => {
+export const UseCatalogEntryLazyButton = ({ slug }: Props) => {
    const [isPending, startTransition] = useTransition();
    const [entry, setEntry] = useState<DCatalogEntryWithContent | null>(null);
    const [isOpen, setIsOpen] = useState(false);

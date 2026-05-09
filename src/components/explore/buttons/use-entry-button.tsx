@@ -16,7 +16,7 @@ type Props = {
    entry: DCatalogEntryWithContent;
 };
 
-export const UseEntryButton = ({ entry }: Props) => {
+export const UseCatalogEntryButton = ({ entry }: Props) => {
    const [isOpen, setIsOpen] = useState(false);
 
    const dialog = () => {

@@ -6,17 +6,17 @@ import mockRouter from "next-router-mock";
 
 import { DropdownMenu } from "@/components/shadcn/dropdown-menu";
 
-import { ViewEntryMenuItem } from "./view-entry-menu-item";
+import { ViewCatalogEntryMenuItem } from "./view-entry-menu-item";
 
 const assertRendered = () => {
    const menuItem = screen.getByTestId("view-entry-menu-item");
    assertInDocument(menuItem);
 };
 
-describe("ViewEntryMenuItem rendering tests", () => {
+describe("ViewCatalogEntryMenuItem rendering tests", () => {
    it("rendered - test", async () => {
       const slug = "entry-slug-1";
-      const { container } = render(<ViewEntryMenuItem slug={slug} />);
+      const { container } = render(<ViewCatalogEntryMenuItem slug={slug} />);
 
       await waitFor(() => {
          assertRendered();
@@ -26,7 +26,7 @@ describe("ViewEntryMenuItem rendering tests", () => {
    });
 });
 
-describe("ViewEntryMenuItem functionality tests", () => {
+describe("ViewCatalogEntryMenuItem functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
@@ -37,7 +37,7 @@ describe("ViewEntryMenuItem functionality tests", () => {
 
       render(
          <DropdownMenu>
-            <ViewEntryMenuItem slug={slug} />
+            <ViewCatalogEntryMenuItem slug={slug} />
          </DropdownMenu>
       );
 

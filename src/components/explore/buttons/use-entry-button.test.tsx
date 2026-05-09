@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { UseEntryButton } from "./use-entry-button";
+import { UseCatalogEntryButton } from "./use-entry-button";
 
 const assertRendered = () => {
    const btn = screen.getByTestId("use-entry-btn");
@@ -20,10 +20,10 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(btn);
 };
 
-describe("UseEntryButton rendering tests", () => {
+describe("UseCatalogEntryButton rendering tests", () => {
    it("rendered - test", async () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
-      const { container } = render(<UseEntryButton entry={entry} />);
+      const { container } = render(<UseCatalogEntryButton entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
@@ -34,10 +34,10 @@ describe("UseEntryButton rendering tests", () => {
    });
 });
 
-describe("UseEntryButton functionality tests", () => {
+describe("UseCatalogEntryButton functionality tests", () => {
    it("btn clicked - test", async () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
-      render(<UseEntryButton entry={entry} />);
+      render(<UseCatalogEntryButton entry={entry} />);
 
       await waitFor(() => {
          assertRendered();

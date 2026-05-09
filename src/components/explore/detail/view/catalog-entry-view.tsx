@@ -15,7 +15,7 @@ import {
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
-import { CopyCatalogEntryButton, UseEntryButton } from "../../buttons";
+import { CopyCatalogEntryButton, UseCatalogEntryButton } from "../../buttons";
 
 const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
    TEXT: "Text",
@@ -78,7 +78,7 @@ export const CatalogEntryView = ({
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3">
-               <UseEntryButton entry={entry} />
+               <UseCatalogEntryButton entry={entry} />
                <CopyCatalogEntryButton
                   catalogEntryId={entry.id}
                   slug={entry.slug}
@@ -204,7 +204,7 @@ export const CatalogEntryView = ({
                Die Kopie gehört dir – du kannst sie beliebig anpassen.
             </p>
             <div className="mt-4 flex justify-center gap-3">
-               <UseEntryButton entry={entry} />
+               <UseCatalogEntryButton entry={entry} />
                <CopyCatalogEntryButton
                   catalogEntryId={entry.id}
                   slug={entry.slug}

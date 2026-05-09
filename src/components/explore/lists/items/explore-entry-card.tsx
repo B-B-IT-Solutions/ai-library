@@ -12,7 +12,7 @@ import { DCatalogEntry } from "@/data/types/domain/catalog";
 import { cn } from "@/lib/utils";
 import {
    CatalogEntryMoreOptionsButton,
-   UseEntryLazyButton,
+   UseCatalogEntryLazyButton,
 } from "../../buttons";
 
 type Props = {
@@ -87,7 +87,7 @@ export const ExploreEntryCard = ({ entry, className }: Props) => {
 
          <CardFooter className="pt-0">
             <div className="flex w-full gap-1.5">
-               <UseEntryLazyButton slug={slug} />
+               <UseCatalogEntryLazyButton slug={slug} />
                <CatalogEntryMoreOptionsButton entry={entry} />
             </div>
          </CardFooter>

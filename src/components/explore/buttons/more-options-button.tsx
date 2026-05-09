@@ -10,13 +10,13 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
-import { ViewEntryMenuItem } from "./view-entry-menu-item";
+import { ViewCatalogEntryMenuItem } from "./view-entry-menu-item";
 
 type Props = {
    entry: DCatalogEntry;
 };
 
-export const CatalogEntryMoreOptionsButton = ({ entry }: Props) => {
+export const CatlogEntryMoreOptionsButton = ({ entry }: Props) => {
    return (
       <DropdownMenu data-testid="catalog-entry-more-options-btn">
          <DropdownMenuTrigger asChild={true}>
@@ -30,7 +30,7 @@ export const CatalogEntryMoreOptionsButton = ({ entry }: Props) => {
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
-            <ViewEntryMenuItem slug={entry.slug} />
+            <ViewCatalogEntryMenuItem slug={entry.slug} />
          </DropdownMenuContent>
       </DropdownMenu>
    );

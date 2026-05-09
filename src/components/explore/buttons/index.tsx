@@ -1,4 +1,4 @@
 export { CopyCatalogEntryButton } from "./copy-entry-button";
-export { CatalogEntryMoreOptionsButton } from "./more-options-button";
-export { UseEntryButton } from "./use-entry-button";
-export { UseEntryLazyButton } from "./use-entry-lazy-button";
+export { CatlogEntryMoreOptionsButton } from "./more-options-button";
+export { UseCatalogEntryButton } from "./use-entry-button";
+export { UseCatalogEntryLazyButton } from "./use-entry-lazy-button";

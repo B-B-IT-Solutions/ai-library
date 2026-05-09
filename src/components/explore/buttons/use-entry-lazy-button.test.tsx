@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPublishedCatalogEntryBySlug } from "@/data/actions/catalog";
 
-import { UseEntryLazyButton } from "./use-entry-lazy-button";
+import { UseCatalogEntryLazyButton } from "./use-entry-lazy-button";
 
 const getPublishedCatalogEntryBySlugMock =
    getPublishedCatalogEntryBySlug as jest.MockedFunction<
@@ -32,14 +32,16 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(btn);
 };
 
-describe("UseEntryLazyButton rendering tests", () => {
+describe("UseCatalogEntryLazyButton rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("rendered - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
-      const { container } = render(<UseEntryLazyButton slug={entry.slug} />);
+      const { container } = render(
+         <UseCatalogEntryLazyButton slug={entry.slug} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -50,7 +52,7 @@ describe("UseEntryLazyButton rendering tests", () => {
    });
 });
 
-describe("UseEntryLazyButton functionality tests", () => {
+describe("UseCatalogEntryLazyButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -59,7 +61,7 @@ describe("UseEntryLazyButton functionality tests", () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(entry);
 
-      render(<UseEntryLazyButton slug={entry.slug} />);
+      render(<UseCatalogEntryLazyButton slug={entry.slug} />);
 
       await waitFor(() => {
          assertRendered();
@@ -89,7 +91,7 @@ describe("UseEntryLazyButton functionality tests", () => {
       getPublishedCatalogEntryBySlugMock.mockResolvedValue(null);
 
       const slug = "catalog-entry-1";
-      render(<UseEntryLazyButton slug={slug} />);
+      render(<UseCatalogEntryLazyButton slug={slug} />);
 
       await waitFor(() => {
          assertRendered();
