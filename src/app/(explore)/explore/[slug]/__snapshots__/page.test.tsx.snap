@@ -209,7 +209,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
             data-slot="button"
-            data-testid="catalog-entry-copy-btn"
+            data-testid="add-entry-to-library-btn"
           >
             <svg
               aria-hidden="true"
@@ -233,6 +233,21 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
             </svg>
             In Bibliothek übernehmen
           </button>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -595,7 +610,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
             data-slot="button"
-            data-testid="catalog-entry-copy-btn"
+            data-testid="add-entry-to-library-btn"
           >
             <svg
               aria-hidden="true"
@@ -619,6 +634,21 @@ exports[`CatalogEntryPage rendering tests entry retrieved - category null - test
             </svg>
             In Bibliothek übernehmen
           </button>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -862,7 +892,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
             data-slot="button"
-            data-testid="catalog-entry-copy-btn"
+            data-testid="add-entry-to-library-btn"
           >
             <svg
               aria-hidden="true"
@@ -886,6 +916,21 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
             </svg>
             In Bibliothek übernehmen
           </button>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -1300,7 +1345,7 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4 w-full cursor-pointer sm:w-auto"
             data-slot="button"
-            data-testid="catalog-entry-copy-btn"
+            data-testid="add-entry-to-library-btn"
           >
             <svg
               aria-hidden="true"
@@ -1324,6 +1369,21 @@ exports[`CatalogEntryPage rendering tests entry retrieved - test 1`] = `
             </svg>
             In Bibliothek übernehmen
           </button>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -40,23 +40,11 @@ const assertRelatedEntriesNotRendered = () => {
    assertNotInDocument(entries);
 };
 
-const assertRegisterBtnRendered = () => {
+const assertAddToLibraryBtnRendered = () => {
    const header = screen.getByTestId("header");
    const cta = screen.getByTestId("cta");
-   const headerCopyBtn = getByTestId(header, "catalog-entry-register-btn");
-   const ctaCopyBtn = getByTestId(header, "catalog-entry-register-btn");
-
-   assertInDocument(header);
-   assertInDocument(cta);
-   assertInDocument(headerCopyBtn);
-   assertInDocument(ctaCopyBtn);
-};
-
-const assertCopyBtnRendered = () => {
-   const header = screen.getByTestId("header");
-   const cta = screen.getByTestId("cta");
-   const headerCopyBtn = getByTestId(header, "catalog-entry-copy-btn");
-   const ctaCopyBtn = getByTestId(header, "catalog-entry-copy-btn");
+   const headerCopyBtn = getByTestId(header, "add-entry-to-library-btn");
+   const ctaCopyBtn = getByTestId(header, "add-entry-to-library-btn");
 
    assertInDocument(header);
    assertInDocument(cta);
@@ -92,7 +80,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertRendered();
          assertFieldsRendered();
          assertRelatedEntriesNotRendered();
-         assertRegisterBtnRendered();
+         assertAddToLibraryBtnRendered();
          assertUseBtnRendered();
       });
 
@@ -115,7 +103,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertRendered();
          assertFieldsRendered();
          assertRelatedEntriesRendered();
-         assertCopyBtnRendered();
+         assertAddToLibraryBtnRendered();
          assertUseBtnRendered();
       });
 
@@ -139,7 +127,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertRendered();
          assertRelatedEntriesRendered();
          assertFieldsNotRendered();
-         assertCopyBtnRendered();
+         assertAddToLibraryBtnRendered();
          assertUseBtnRendered();
       });
 
@@ -163,7 +151,7 @@ describe("CatalogEntryView rendering tests", () => {
          assertRendered();
          assertFieldsRendered();
          assertRelatedEntriesRendered();
-         assertCopyBtnRendered();
+         assertAddToLibraryBtnRendered();
          assertUseBtnRendered();
       });
 
