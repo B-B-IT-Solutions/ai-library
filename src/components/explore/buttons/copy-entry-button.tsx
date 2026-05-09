@@ -20,12 +20,7 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
    const [isPending, startTransition] = useTransition();
    const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
-   const handleClick = () => {
-      if (!isAuthenticated) {
-         setIsAuthDialogOpen(true);
-         return;
-      }
-
+   const copyEntry = () => {
       startTransition(async () => {
          const result = await copyCatalogEntryToUserTemplates(entry.id);
 
@@ -43,6 +38,14 @@ export const CopyCatalogEntryButton = ({ entry, isAuthenticated }: Props) => {
             toast.error("Vorlage konnte nicht übernommen werden");
          }
       });
+   };
+
+   const handleClick = () => {
+      if (isAuthenticated) {
+         copyEntry();
+      } else {
+         setIsAuthDialogOpen(true);
+      }
    };
 
    return (
