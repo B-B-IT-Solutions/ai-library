@@ -38,9 +38,7 @@ export const AuthRequiredDialog = ({
             </div>
 
             <DialogHeader className="text-center">
-               <DialogTitle className="text-center">
-                  {title}
-               </DialogTitle>
+               <DialogTitle className="text-center">{title}</DialogTitle>
                <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
 
@@ -59,7 +57,7 @@ export const AuthRequiredDialog = ({
                   Noch kein Konto?{" "}
                   <Link
                      href={`/auth/sign-up?redirect=${redirectPath}`}
-                     className="cursor-pointer text-foreground underline underline-offset-4 hover:opacity-80"
+                     className="cursor-pointer font-medium text-foreground hover:underline"
                      data-testid="auth-required-register-link"
                   >
                      Kostenlos starten
