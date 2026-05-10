@@ -32,7 +32,7 @@ exports[`PublicTemplateView rendering tests collection defined - test 1`] = `
                   class="transition-colors hover:text-foreground"
                   data-slot="breadcrumb-link"
                   data-testid="root-link"
-                  href="/p/collections/token-1"
+                  href="/preview/collections/token-1"
                 >
                   name 1
                 </a>
@@ -440,7 +440,7 @@ exports[`PublicTemplateView rendering tests collection undefined - test 1`] = `
                   class="transition-colors hover:text-foreground"
                   data-slot="breadcrumb-link"
                   data-testid="root-link"
-                  href="/p/marketplace"
+                  href="/preview/marketplace"
                 >
                   Bibliothek
                 </a>
