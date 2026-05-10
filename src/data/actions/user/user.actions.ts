@@ -73,7 +73,11 @@ export const signInWithCredentials = async (
          };
       }
 
-      await signIn("credentials", { ...singInValues, redirectTo });
+      const signInPayload = {
+         ...singInValues,
+         redirectTo,
+      };
+      await signIn("credentials", signInPayload);
 
       return {
          success: true,
