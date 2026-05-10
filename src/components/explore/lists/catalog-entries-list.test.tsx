@@ -26,7 +26,7 @@ const assertItemsNotRendered = () => {
 describe("CatalogEntriesList rendering tests", () => {
    it("entries empty - test", async () => {
       const { container } = renderWithReactQuery(
-         <CatalogEntriesList entries={[]} />
+         <CatalogEntriesList entries={[]} authenticated={true} />
       );
 
       await waitFor(() => {
@@ -41,7 +41,7 @@ describe("CatalogEntriesList rendering tests", () => {
       const entries = dtestData.dCatalogEntries();
 
       const { container } = renderWithReactQuery(
-         <CatalogEntriesList entries={entries} />
+         <CatalogEntriesList entries={entries} authenticated={false} />
       );
 
       await waitFor(() => {

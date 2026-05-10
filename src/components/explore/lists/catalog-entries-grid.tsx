@@ -4,9 +4,10 @@ import { CatalogEntryItem } from "./items";
 
 type Props = {
    entries: DCatalogEntry[];
+   authenticated: boolean;
 };
 
-export const CatalogEntriesGrid = ({ entries }: Props) => {
+export const CatalogEntriesGrid = ({ entries, authenticated }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
@@ -16,7 +17,7 @@ export const CatalogEntriesGrid = ({ entries }: Props) => {
             <CatalogEntryItem
                key={entry.id}
                entry={entry}
-               isAuthenticated={false}
+               isAuthenticated={authenticated}
             />
          ))}
       </div>

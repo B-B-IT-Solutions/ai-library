@@ -4,6 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
+import { isAuthenticated } from "@/data/actions/auth-utils";
 import { getCatalogEntryCategories } from "@/data/actions/catalog";
 import { infiniteLoadCatalogEntryDescriptorsOptions } from "@/data/ts-queries/catalog";
 import { resolveSort } from "@/data/ts-queries/utils";
@@ -37,7 +38,10 @@ export const CatalogEntriesDashboard = async () => {
       ),
    ]);
 
-   const categories = await getCatalogEntryCategories();
+   const [categories, authenticated] = await Promise.all([
+      getCatalogEntryCategories(),
+      isAuthenticated(),
+   ]);
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -55,6 +59,7 @@ export const CatalogEntriesDashboard = async () => {
                   groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
+                  authenticated={authenticated}
                />
             </div>
          </div>

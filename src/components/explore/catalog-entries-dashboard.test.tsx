@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/catalog");
+jest.mock("@/data/actions/auth-utils");
 jest.mock("./catalog-search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -6,6 +7,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import { parseAsString, parseAsStringEnum } from "nuqs/server";
 
+import { isAuthenticated } from "@/data/actions/auth-utils";
 import {
    getCatalogEntryCategories,
    getPublishedCatalogEntriesPage,
@@ -31,6 +33,10 @@ const getCatalogEntryCategoriesMock =
    getCatalogEntryCategories as jest.MockedFunction<
       typeof getCatalogEntryCategories
    >;
+
+const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
+   typeof isAuthenticated
+>;
 
 const getPublishedCatalogEntriesPageMock =
    getPublishedCatalogEntriesPage as jest.MockedFunction<
@@ -113,6 +119,8 @@ describe("CatalogEntriesDashboard rendering tests", () => {
 
       const categories = dtestData.dCatalogEntryCategories();
       getCatalogEntryCategoriesMock.mockResolvedValue(categories);
+
+      isAuthenticatedMock.mockResolvedValue(false);
 
       const { container } = await renderAsyncRSC(CatalogEntriesDashboard, {});
 
