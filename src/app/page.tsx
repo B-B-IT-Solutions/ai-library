@@ -1,17 +1,10 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
 import { PublicShellLayout } from "@/components/shared/wrappers/public-shell-layout";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 
 const RootPage = async () => {
-   const session = await auth();
-   if (session?.user?.id) {
-      redirect("/templates");
-   }
-
    const headerLeft = (
       <Link href="/" className="text-xl font-bold">
          {APP_NAME}
