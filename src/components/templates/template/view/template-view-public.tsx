@@ -31,8 +31,8 @@ export const PublicTemplateView = ({
 
    const breadcrumbRoot: BreadcrumbLinkProps = {
       href: isCollection
-         ? `/p/collections/${collection.publicToken}`
-         : "/p/marketplace",
+         ? `/preview/collections/${collection.publicToken}`
+         : "/preview/marketplace",
       label: isCollection ? collection.name : "Bibliothek",
    };
 

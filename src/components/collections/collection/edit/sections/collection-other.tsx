@@ -20,7 +20,7 @@ export const CollectionOther = ({ collection }: Props) => {
 
    const [isSubmitting, startTransition] = useTransition();
 
-   const publicUrl = `${window.location.origin}/p/collections/${collection.publicToken}`;
+   const publicUrl = `${window.location.origin}/preview/collections/${collection.publicToken}`;
 
    const { id, isPublic } = collection;
 

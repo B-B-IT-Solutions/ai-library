@@ -59,6 +59,17 @@ export const authConfig: NextAuthConfig = {
 
          // Get pathname from the req URL object
          const { pathname } = request.nextUrl;
+
+         // Redirect authenticated users from public/landing routes to the app
+         if (auth) {
+            if (pathname === "/") {
+               return Response.redirect(new URL("/templates", request.url));
+            }
+            if (pathname === "/preview/marketplace") {
+               return Response.redirect(new URL("/marketplace", request.url));
+            }
+         }
+
          // Check if user is not authenticated and accessing a protected path
          if (!auth && protectedPaths.some((p) => p.test(pathname))) {
             return false;

@@ -153,7 +153,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/auth/sign-in", "/auth/sign-up", "/p/marketplace"];
+   const publicPaths = ["/auth/sign-in", "/auth/sign-up", "/preview/marketplace"];
 
    const authorized = authConfig.callbacks!.authorized!;
 
@@ -205,6 +205,30 @@ describe("auth.config - callback.authorized - tests", () => {
 
          const result = authorized({ request, auth: null });
          expect(result).toBe(true);
+      });
+   });
+
+   it("authorized - authenticated user on root '/' redirected to /templates - test", () => {
+      const redirectPaths = [
+         { from: "/", to: "/templates" },
+         { from: "/preview/marketplace", to: "/marketplace" },
+      ];
+
+      forEach(redirectPaths, ({ from, to }) => {
+         const request = {
+            nextUrl: { pathname: from },
+            url: `http://localhost${from}`,
+            cookies: { get: jest.fn() },
+         } as unknown as NextRequest;
+
+         const auth = {
+            user: { id: "user-1", email: "test@example.com" },
+         } as Session;
+
+         const result = authorized({ request, auth }) as Response;
+
+         expect(result).toBeInstanceOf(Response);
+         expect(result.headers.get("location")).toContain(to);
       });
    });
 

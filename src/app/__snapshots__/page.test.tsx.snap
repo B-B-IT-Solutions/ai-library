@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`RootPage rendering tests RootPage - unauthenticated - renders landing page - test 1`] = `
+<div>
+  <div
+    class="flex min-h-screen flex-col bg-background"
+  >
+    <header
+      class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+    >
+      <div
+        class="container mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6"
+      >
+        <div
+          class="flex items-center gap-6"
+        >
+          <a
+            class="text-xl font-bold"
+            data-testid="mock-link"
+            href="/"
+          >
+            Vision Notes
+          </a>
+        </div>
+        <div
+          class="flex items-center gap-2"
+        >
+          <a
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-slot="button"
+            data-testid="sign-in-link"
+            href="/auth/sign-in"
+          >
+            Anmelden
+          </a>
+          <a
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-slot="button"
+            data-testid="sign-up-link"
+            href="/auth/sign-up"
+          >
+            Kostenlos starten
+          </a>
+        </div>
+      </div>
+    </header>
+    <main
+      class="flex-1"
+    >
+      <div
+        class="min-h-[calc(100vh-3.5rem)] w-full bg-linear-to-br from-background via-background to-primary/5"
+        data-testid="public-page"
+      >
+        <div
+          class="container mx-auto px-4 py-16 md:py-24"
+        >
+          <div
+            class="mx-auto max-w-6xl"
+          >
+            <div
+              class="mb-20 space-y-8 text-center"
+            >
+              <div
+                class="space-y-4"
+              >
+                <h1
+                  class="text-5xl font-bold tracking-tight md:text-6xl"
+                >
+                  Willkommen bei 
+                  Vision Notes
+                </h1>
+                <p
+                  class="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl"
+                >
+                  Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.
+                </p>
+              </div>
+              <div
+                class="flex flex-wrap justify-center gap-4"
+              >
+                <a
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+                  data-slot="button"
+                  data-testid="mock-link"
+                  href="/auth/sign-up"
+                >
+                  Kostenlos starten
+                </a>
+                <a
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4"
+                  data-slot="button"
+                  data-testid="mock-link"
+                  href="/preview/marketplace"
+                >
+                  Prompts entdecken
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="border-t bg-muted/40 py-6"
+    >
+      <div
+        class="container mx-auto max-w-7xl px-4 sm:px-6"
+      >
+        <p
+          class="text-center text-sm text-muted-foreground"
+        >
+          © 
+          2026
+           
+          Vision Notes
+        </p>
+      </div>
+    </footer>
+  </div>
+</div>
+`;

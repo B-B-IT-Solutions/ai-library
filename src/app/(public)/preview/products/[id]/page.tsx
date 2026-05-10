@@ -11,7 +11,7 @@ import { getCart } from "@/data/actions/cart";
 import { getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
-   title: "Product",
+   title: "Produkt",
 };
 
 export type PageParams = {
@@ -44,22 +44,22 @@ const PublicProductPage = async (props: PageProps) => {
          data-testid="product-page"
       >
          <div className="container mx-auto max-w-6xl px-4 py-8">
-            {/* Back button */}
+            {/* Zurück-Button */}
             <div className="mb-6">
                <Button variant="ghost" asChild={true}>
-                  <Link href="/p/marketplace" data-testid="marketplace-link-1">
+                  <Link href="/preview/marketplace" data-testid="marketplace-link-1">
                      <ArrowLeft className="mr-2 h-4 w-4" />
-                     Back to Marketplace
+                     Zurück zur Bibliothek
                   </Link>
                </Button>
             </div>
 
-            {/* Product Header */}
+            {/* Produkt-Header */}
             <div className="mb-6 rounded-lg border bg-white p-6 shadow-sm">
                <ProductHeader product={product} />
             </div>
 
-            {/* Product Content */}
+            {/* Produkt-Inhalt */}
             <div className="mb-6 rounded-lg border bg-white p-6 shadow-sm">
                <ProductDetails product={product} />
             </div>
@@ -73,10 +73,10 @@ const PublicProductPage = async (props: PageProps) => {
                   />
                   <Button variant="outline" size="lg" asChild={true}>
                      <Link
-                        href="/p/marketplace"
+                        href="/preview/marketplace"
                         data-testid="marketplace-link-2"
                      >
-                        Continue Shopping
+                        Weiter stöbern
                      </Link>
                   </Button>
                   <Button
@@ -85,7 +85,7 @@ const PublicProductPage = async (props: PageProps) => {
                      asChild
                      className="sm:ml-auto"
                   >
-                     <Link href="/auth/sign-in">Sign in for full access</Link>
+                     <Link href="/auth/sign-in">Anmelden für vollen Zugriff</Link>
                   </Button>
                </div>
             </div>
