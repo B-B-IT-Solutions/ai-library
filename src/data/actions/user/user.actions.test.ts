@@ -245,7 +245,10 @@ describe("signInWithCredentials tests", () => {
          email: "test1@email.com",
          password: "password123",
       };
-      const result = await signInWithCredentials(formData);
+
+      const redirectTo = "explore/research-prompt-1";
+
+      const result = await signInWithCredentials(formData, redirectTo);
 
       const expectedResult = {
          success: true,
@@ -254,7 +257,7 @@ describe("signInWithCredentials tests", () => {
 
       const expectedSingInPayload = {
          ...formData,
-         redirectTo: "/templates",
+         redirectTo,
       };
 
       expect(result).toEqual(expectedResult);
@@ -283,7 +286,7 @@ describe("signInWithCredentials tests", () => {
 
       const expectedSingInPayload = {
          ...formData,
-         redirectTo: "/templates",
+         redirectTo: "/",
       };
 
       expect(result).toEqual(expectedResult);
@@ -308,13 +311,11 @@ describe("signInWithCredentials tests", () => {
          password: "password123",
       };
 
-      const redirectTo = "explore/research-prompt-1";
-
-      const fn = () => signInWithCredentials(formData, redirectTo);
+      const fn = () => signInWithCredentials(formData);
 
       const expectedSingInPayload = {
          ...formData,
-         redirectTo,
+         redirectTo: "/",
       };
 
       await expect(fn).rejects.toThrow(Error);
