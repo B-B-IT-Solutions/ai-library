@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`RootPage rendering tests render - test 1`] = `
+<div>
+  <div
+    data-testid="public-layout-wrapper"
+  >
+    <div
+      class="min-h-[calc(100vh-3.5rem)] w-full bg-linear-to-br from-background via-background to-primary/5"
+      data-testid="public-page"
+    >
+      <div
+        class="container mx-auto px-4 py-16 md:py-24"
+      >
+        <div
+          class="mx-auto max-w-6xl"
+        >
+          <div
+            class="mb-20 space-y-8 text-center"
+          >
+            <div
+              class="space-y-4"
+            >
+              <h1
+                class="text-5xl font-bold tracking-tight md:text-6xl"
+              >
+                Willkommen bei 
+                Vision Notes
+              </h1>
+              <p
+                class="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl"
+              >
+                Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap justify-center gap-4"
+            >
+              <a
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+                data-slot="button"
+                data-testid="mock-link"
+                href="/auth/sign-up"
+              >
+                Kostenlos starten
+              </a>
+              <a
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4"
+                data-slot="button"
+                data-testid="mock-link"
+                href="/explore"
+              >
+                Prompts entdecken
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

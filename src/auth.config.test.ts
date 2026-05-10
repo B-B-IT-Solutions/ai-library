@@ -48,6 +48,10 @@ const nextMock = NextResponse.next as jest.MockedFunction<
    typeof NextResponse.next
 >;
 
+const redirectMock = NextResponse.redirect as jest.MockedFunction<
+   typeof NextResponse.redirect
+>;
+
 const expectePagesConfig = {
    signIn: "/auth/sign-in",
    error: "/auth/sign-in",
@@ -153,12 +157,98 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/auth/sign-in", "/auth/sign-up", "/p/marketplace"];
+   const publicPaths = [
+      "/auth/sign-in",
+      "/auth/sign-up",
+      "/preview/marketplace",
+   ];
 
    const authorized = authConfig.callbacks!.authorized!;
 
    beforeEach(() => {
       jest.resetAllMocks();
+   });
+
+   it("authorized - authenticated user on root '/' redirected to /templates - test", () => {
+      const fromPath = "/";
+      const toPath = "/templates";
+
+      const response = ntestData.nextResponse(307);
+      redirectMock.mockReturnValue(response);
+
+      const request = {
+         nextUrl: { pathname: fromPath },
+         url: `http://localhost${fromPath}`,
+         cookies: { get: jest.fn() },
+      } as unknown as NextRequest;
+
+      const auth = {
+         user: { id: "user-1", email: "test@example.com" },
+      } as Session;
+
+      const result = authorized({ request, auth });
+
+      const expectUrl = new URL(toPath, `http://localhost${fromPath}`);
+
+      expect(result).toBe(response);
+      expect(redirectMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).toHaveBeenCalledWith(expectUrl);
+   });
+
+   it("authorized - authenticated user on root '/preview/marketplace' redirected to /marketplace - test", () => {
+      const fromPath = "/preview/marketplace";
+      const toPath = "/marketplace";
+
+      const response = ntestData.nextResponse(307);
+      redirectMock.mockReturnValue(response);
+
+      const request = {
+         nextUrl: { pathname: fromPath },
+         url: `http://localhost${fromPath}`,
+         cookies: { get: jest.fn() },
+      } as unknown as NextRequest;
+
+      const auth = {
+         user: { id: "user-1", email: "test@example.com" },
+      } as Session;
+
+      const result = authorized({ request, auth });
+
+      const expectUrl = new URL(toPath, `http://localhost${fromPath}`);
+
+      expect(result).toBe(response);
+      expect(redirectMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).toHaveBeenCalledWith(expectUrl);
+   });
+
+   it("authorized - authenticated user on '/auth/' routes redirected to /templates - test", () => {
+      const authPaths = ["/auth/sign-in", "/auth/sign-up"];
+      const toPath = "/templates";
+
+      forEach(authPaths, (fromPath) => {
+         redirectMock.mockClear();
+
+         const response = ntestData.nextResponse(307);
+         redirectMock.mockReturnValue(response);
+
+         const request = {
+            nextUrl: { pathname: fromPath },
+            url: `http://localhost${fromPath}`,
+            cookies: { get: jest.fn() },
+         } as unknown as NextRequest;
+
+         const auth = {
+            user: { id: "user-1", email: "test@example.com" },
+         } as Session;
+
+         const result = authorized({ request, auth });
+
+         const expectUrl = new URL(toPath, `http://localhost${fromPath}`);
+
+         expect(result).toBe(response);
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith(expectUrl);
+      });
    });
 
    it("authorized - protected path access without authentication blocked- test", () => {

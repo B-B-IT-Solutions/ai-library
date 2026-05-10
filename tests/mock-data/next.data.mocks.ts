@@ -2,7 +2,7 @@ import { NextURL } from "next/dist/server/web/next-url";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { ReadonlyURLSearchParams } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Account, Session, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import { DefaultJWT } from "next-auth/jwt";
@@ -44,6 +44,16 @@ export const nextRequest = (
       nextUrl,
       json: async () => body,
    } as NextRequest;
+};
+
+export const nextResponse = (
+   status = 200,
+   headers = new Headers()
+): NextResponse => {
+   return {
+      status,
+      headers,
+   } as NextResponse;
 };
 
 export const sessionContextValue = (

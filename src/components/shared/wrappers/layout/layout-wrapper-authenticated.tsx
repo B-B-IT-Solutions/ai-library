@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { Sidebar } from "@/components/shared";
-import { isAuthenticated, requireUser } from "@/data/actions/auth-utils";
+import { requireUser } from "@/data/actions/auth-utils";
 
 export type Props = {
    children: ReactNode;
@@ -12,11 +11,6 @@ export type Props = {
 
 export const AuthenticatedLayoutWrapper = async (props: Props) => {
    const { children } = props;
-
-   const authenticated = await isAuthenticated();
-   if (!authenticated) {
-      return redirect("/auth/sign-in");
-   }
 
    const user = await requireUser();
    const cookieStore = await cookies();

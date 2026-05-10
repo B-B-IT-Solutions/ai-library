@@ -338,8 +338,13 @@ describe("signOutUser tests", () => {
 
    it("signOutUser - test", async () => {
       await signOutUser();
+
+      const expectedOptions = {
+         redirectTo: "/",
+      };
+
       expect(signOutMock).toHaveBeenCalledTimes(1);
-      expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
+      expect(signOutMock).toHaveBeenCalledWith(expectedOptions);
    });
 });
 
@@ -702,12 +707,16 @@ describe("deleteUser tests", () => {
          message: "Konto wurde gelöscht",
       };
 
+      const expectedOptions = {
+         redirectTo: "/",
+      };
+
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sDeleteUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteUserMock).toHaveBeenCalledWith(user.id, data);
       expect(signOutMock).toHaveBeenCalledTimes(1);
-      expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
+      expect(signOutMock).toHaveBeenCalledWith(expectedOptions);
    });
 
    it("deleteUser - invalid data - test", async () => {

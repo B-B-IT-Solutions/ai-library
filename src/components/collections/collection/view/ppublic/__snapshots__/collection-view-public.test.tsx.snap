@@ -136,7 +136,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d750?col=token-1"
+              href="/preview/templates/334db648-f300-4284-8149-075ff465d750?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -325,7 +325,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d751?col=token-1"
+              href="/preview/templates/334db648-f300-4284-8149-075ff465d751?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -514,7 +514,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d752?col=token-1"
+              href="/preview/templates/334db648-f300-4284-8149-075ff465d752?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"

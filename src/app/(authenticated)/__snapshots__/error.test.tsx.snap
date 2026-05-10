@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AuthenticatedError rendering tests render - test 1`] = `
+<div>
+  <div
+    class="flex h-full min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
+    data-testid="authenticated-error"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-triangle-alert h-10 w-10 text-destructive"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+      />
+      <path
+        d="M12 9v4"
+      />
+      <path
+        d="M12 17h.01"
+      />
+    </svg>
+    <h2
+      class="text-xl font-semibold"
+    >
+      Etwas ist schiefgelaufen
+    </h2>
+    <p
+      class="max-w-md text-sm text-muted-foreground"
+    >
+      Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
+    </p>
+    <button
+      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+      data-slot="button"
+      data-testid="retry-btn"
+    >
+      Erneut versuchen
+    </button>
+  </div>
+</div>
+`;

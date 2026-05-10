@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated false - test 1`] = `<div />`;
-
-exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie false - test 1`] = `
+exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1`] = `
 <div>
   <div
     class="h-full"
@@ -508,7 +506,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie true - test 1`] = `
+exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`] = `
 <div>
   <div
     class="h-full"
@@ -1025,7 +1023,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie undefined - test 1`] = `
+exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - test 1`] = `
 <div>
   <div
     class="h-full"

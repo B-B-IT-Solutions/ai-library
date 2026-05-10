@@ -27,7 +27,7 @@ export type RootLayoutProps = {
 const RootLayout = (props: Readonly<RootLayoutProps>) => {
    const { children } = props;
    return (
-      <html lang="en" suppressHydrationWarning={true}>
+      <html lang="de" suppressHydrationWarning={true}>
          <body
             className={`${inter.className} h-screen antialiased`}
             data-testid="root-layout"
