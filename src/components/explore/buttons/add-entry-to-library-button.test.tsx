@@ -15,7 +15,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import { AddCatalogEntryToLibraryButton } from "./add-entry-to-library-button";
 
-const addEntryToLibraryMock =
+const addEntryToUserTemplatesMock =
    addCatalogEntryToUserTemplates as jest.MockedFunction<
       typeof addCatalogEntryToUserTemplates
    >;
@@ -106,7 +106,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
             templateId: descriptorId,
          },
       };
-      addEntryToLibraryMock.mockResolvedValue(actionResult);
+      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -130,8 +130,8 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(addEntryToLibraryMock).toHaveBeenCalledTimes(1);
-         expect(addEntryToLibraryMock).toHaveBeenCalledWith(entry.id);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
@@ -153,7 +153,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      addEntryToLibraryMock.mockResolvedValue(actionResult);
+      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -164,7 +164,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(addEntryToLibraryMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"

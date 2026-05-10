@@ -15,12 +15,11 @@ import { ActionResult } from "@/data/types/utils";
 
 import { AddCatalogEntryToLibraryMenuItem } from "./add-entry-to-library-menu-item";
 
-const addCatalogEntryMock =
+const addEntryToUserTemplatesMock =
    addCatalogEntryToUserTemplates as jest.MockedFunction<
       typeof addCatalogEntryToUserTemplates
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
-const onAuthRequiredMock = jest.fn();
 
 const assertMenuItemRendered = () => {
    const item = screen.getByTestId("add-entry-to-library-menu-item");
@@ -28,18 +27,13 @@ const assertMenuItemRendered = () => {
 };
 
 describe("AddCatalogEntryToLibraryMenuItem rendering tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      mockRouter.push("/");
-   });
-
    it("authenticated - test", async () => {
       const entry = dtestData.dCatalogEntry();
       const { container } = render(
          <AddCatalogEntryToLibraryMenuItem
             entry={entry}
             isAuthenticated={true}
-            onAuthRequired={onAuthRequiredMock}
+            onAuthRequired={jest.fn()}
          />
       );
 
@@ -56,7 +50,7 @@ describe("AddCatalogEntryToLibraryMenuItem rendering tests", () => {
          <AddCatalogEntryToLibraryMenuItem
             entry={entry}
             isAuthenticated={false}
-            onAuthRequired={onAuthRequiredMock}
+            onAuthRequired={jest.fn()}
          />
       );
 
@@ -74,7 +68,9 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("unauthenticated - item clicked - calls onAuthRequired - test", async () => {
+   it("unauthenticated - item clicked - test", async () => {
+      const onAuthRequiredMock = jest.fn();
+
       const entry = dtestData.dCatalogEntry();
       render(
          <AddCatalogEntryToLibraryMenuItem
@@ -86,6 +82,8 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
       const item = screen.getByTestId("add-entry-to-library-menu-item");
@@ -93,6 +91,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          expect(onAuthRequiredMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
    });
 
@@ -102,9 +101,13 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
          message: "Erfolgreich copiert",
-         data: { templateId: descriptorId },
+         data: {
+            templateId: descriptorId,
+         },
       };
-      addCatalogEntryMock.mockResolvedValue(actionResult);
+      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
+
+      const onAuthRequiredMock = jest.fn();
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -117,22 +120,30 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
          expect(mockRouter.asPath).toEqual("/");
       });
 
       const item = screen.getByTestId("add-entry-to-library-menu-item");
       await userEvent.click(item);
 
+      const expectedToastPayload = {
+         action: {
+            label: "Jetzt anzeigen",
+            onClick: expect.any(Function),
+         },
+         duration: 5000,
+      };
+
       await waitFor(() => {
-         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
-         expect(addCatalogEntryMock).toHaveBeenCalledWith(entry.id);
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
-            expect.objectContaining({
-               duration: 5000,
-               action: expect.objectContaining({ label: "Jetzt anzeigen" }),
-            })
+            expectedToastPayload
          );
       });
 
@@ -142,7 +153,9 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       const event = null as unknown as MouseEvent<HTMLButtonElement>;
       action.onClick(event);
 
-      expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+      });
    });
 
    it("authenticated - item clicked - error - test", async () => {
@@ -150,8 +163,9 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      addCatalogEntryMock.mockResolvedValue(actionResult);
+      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
+      const onAuthRequiredMock = jest.fn();
       const entry = dtestData.dCatalogEntry();
       render(
          <AddCatalogEntryToLibraryMenuItem
@@ -161,11 +175,19 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
          />
       );
 
+      await waitFor(() => {
+         assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
       const item = screen.getByTestId("add-entry-to-library-menu-item");
       await userEvent.click(item);
 
       await waitFor(() => {
-         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"

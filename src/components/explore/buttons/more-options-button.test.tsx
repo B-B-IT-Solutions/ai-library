@@ -11,7 +11,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import { CatalogEntryMoreOptionsButton } from "./more-options-button";
 
-const addEntryToLibraryMock =
+const addEntryToUserTemplatesMock =
    addCatalogEntryToUserTemplates as jest.MockedFunction<
       typeof addCatalogEntryToUserTemplates
    >;
@@ -105,7 +105,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
          assertRendered();
          assertMenuNotRendered();
          assertAuthDialogNotRendered();
-         expect(addEntryToLibraryMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
       const trigger = screen.getByTestId("trigger-btn");
@@ -114,7 +114,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertMenuRendered();
          assertAuthDialogNotRendered();
-         expect(addEntryToLibraryMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
       const addItem = screen.getByTestId("add-entry-to-library-menu-item");
@@ -122,7 +122,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertAuthDialogRendered();
-         expect(addEntryToLibraryMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
    });
 
@@ -134,7 +134,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
             templateId: "descriptor-id-1",
          },
       };
-      addEntryToLibraryMock.mockResolvedValue(actionResult);
+      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry(1);
       render(
@@ -145,7 +145,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
          assertRendered();
          assertMenuNotRendered();
          assertAuthDialogNotRendered();
-         expect(addEntryToLibraryMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
       const trigger = screen.getByTestId("trigger-btn");
@@ -154,7 +154,7 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertMenuRendered();
          assertAuthDialogNotRendered();
-         expect(addEntryToLibraryMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
       const addItem = screen.getByTestId("add-entry-to-library-menu-item");
@@ -162,8 +162,8 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertAuthDialogNotRendered();
-         expect(addEntryToLibraryMock).toHaveBeenCalledTimes(1);
-         expect(addEntryToLibraryMock).toHaveBeenCalledWith(entry.id);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
       });
    });
 });

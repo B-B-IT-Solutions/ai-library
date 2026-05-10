@@ -23,7 +23,7 @@ export const AddCatalogEntryToLibraryButton = ({
    const [isPending, startTransition] = useTransition();
    const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
-   const copyEntry = () => {
+   const addEntryToLibrary = () => {
       startTransition(async () => {
          const result = await addCatalogEntryToUserTemplates(entry.id);
 
@@ -45,7 +45,7 @@ export const AddCatalogEntryToLibraryButton = ({
 
    const handleClick = () => {
       if (isAuthenticated) {
-         copyEntry();
+         addEntryToLibrary();
       } else {
          setIsAuthDialogOpen(true);
       }

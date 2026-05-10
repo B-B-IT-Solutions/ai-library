@@ -7,12 +7,13 @@ import { toast } from "sonner";
 
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { CallbackFn } from "@/data/types/common";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
-   onAuthRequired: () => void;
+   onAuthRequired: CallbackFn;
 };
 
 export const AddCatalogEntryToLibraryMenuItem = ({
@@ -23,12 +24,7 @@ export const AddCatalogEntryToLibraryMenuItem = ({
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
-   const handleClick = () => {
-      if (!isAuthenticated) {
-         onAuthRequired();
-         return;
-      }
-
+   const addEntryToLibrary = () => {
       startTransition(async () => {
          const result = await addCatalogEntryToUserTemplates(entry.id);
 
@@ -46,6 +42,14 @@ export const AddCatalogEntryToLibraryMenuItem = ({
             toast.error("Vorlage konnte nicht übernommen werden");
          }
       });
+   };
+
+   const handleClick = () => {
+      if (isAuthenticated) {
+         addEntryToLibrary();
+      } else {
+         onAuthRequired();
+      }
    };
 
    return (
