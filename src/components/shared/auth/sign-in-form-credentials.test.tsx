@@ -51,13 +51,6 @@ const assertFieldsRendered = () => {
    );
 };
 
-const assertCallbackUrl = (url: string) => {
-   const callbackUrl = getElementById("callbackUrl");
-
-   assertInDocument(callbackUrl);
-   assertHasAttributeWithValue(callbackUrl, "value", url);
-};
-
 const assertPasswordVisible = () => {
    const password = getElementById("password");
    const icon = screen.getByTestId("eye-off-icon");
@@ -84,25 +77,7 @@ describe("CredentialsSignInForm rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("callbackUrl defined -  rendered test", async () => {
-      const params = { callbackUrl: "callbackUrl/test-1" };
-      const searchParams = new URLSearchParams(
-         params
-      ) as ReadonlyURLSearchParams;
-      useSearchParamsMock.mockReturnValue(searchParams);
-
-      const { container } = render(<CredentialsSignInForm />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertFieldsRendered();
-         assertCallbackUrl(params.callbackUrl);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("callbackUrl undefined -  rendered test", async () => {
+   it("rendered test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
@@ -111,7 +86,6 @@ describe("CredentialsSignInForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFieldsRendered();
-         assertCallbackUrl("/templates");
       });
 
       expect(container).toMatchSnapshot();
@@ -175,7 +149,8 @@ describe("CredentialsSignInForm functionality tests", () => {
       await waitFor(() => {
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            "/templates"
          );
       });
    });
@@ -234,7 +209,8 @@ describe("CredentialsSignInForm functionality tests", () => {
       await waitFor(() => {
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            "/templates"
          );
       });
 
@@ -300,7 +276,8 @@ describe("CredentialsSignInForm functionality tests", () => {
          assertEmailNotVerifiedRendered();
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            "/templates"
          );
       });
    });

@@ -256,7 +256,10 @@ describe("signInWithCredentials tests", () => {
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith("credentials", {
+         ...formData,
+         redirectTo: "/templates",
+      });
    });
 
    it("email verified true - test", async () => {
@@ -277,7 +280,10 @@ describe("signInWithCredentials tests", () => {
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith("credentials", {
+         ...formData,
+         redirectTo: "/templates",
+      });
    });
 
    it("redirect error - test", async () => {
@@ -298,7 +304,10 @@ describe("signInWithCredentials tests", () => {
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith("credentials", {
+         ...formData,
+         redirectTo: "/templates",
+      });
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });

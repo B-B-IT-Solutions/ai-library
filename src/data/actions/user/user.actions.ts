@@ -54,7 +54,8 @@ export const signUpUser = async (data: DUserSignUp) => {
 };
 
 export const signInWithCredentials = async (
-   data: DUserSignIn
+   data: DUserSignIn,
+   redirectTo: string = "/templates"
 ): Promise<ActionResult<DSignUpResult>> => {
    try {
       const singInValues = signInSchema.parse(data);
@@ -72,7 +73,7 @@ export const signInWithCredentials = async (
          };
       }
 
-      await signIn("credentials", singInValues);
+      await signIn("credentials", { ...singInValues, redirectTo });
 
       return {
          success: true,
