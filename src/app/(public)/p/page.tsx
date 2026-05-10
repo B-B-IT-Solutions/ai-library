@@ -6,7 +6,7 @@ import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 const PublicPage = async () => {
    return (
       <div
-         className="min-h-screen w-full bg-gradient-to-br from-background via-background to-primary/5"
+         className="min-h-screen w-full bg-linear-to-br from-background via-background to-primary/5"
          data-testid="public-page"
       >
          {/* Hero Section */}
