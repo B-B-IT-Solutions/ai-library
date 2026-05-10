@@ -1,6 +1,6 @@
-import { screen } from "@testing-library/dom";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderClient } from "@tests";
+import { assertInDocument } from "@tests";
 
 import AuthenticatedError from "./error";
 
@@ -10,13 +10,13 @@ describe("AuthenticatedError rendering tests", () => {
 
    beforeEach(() => {
       jest.resetAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
    it("AuthenticatedError - renders error UI - test", () => {
-      const { container } = renderClient(AuthenticatedError, {
-         error,
-         reset: resetMock,
-      });
+      const { container } = render(
+         <AuthenticatedError error={error} reset={resetMock} />
+      );
 
       assertInDocument(screen.getByTestId("authenticated-error"));
       assertInDocument(screen.getByText("Etwas ist schiefgelaufen"));
@@ -25,7 +25,7 @@ describe("AuthenticatedError rendering tests", () => {
    });
 
    it("AuthenticatedError - calls reset on button click - test", async () => {
-      renderClient(AuthenticatedError, { error, reset: resetMock });
+      render(<AuthenticatedError error={error} reset={resetMock} />);
 
       await userEvent.click(
          screen.getByRole("button", { name: "Erneut versuchen" })

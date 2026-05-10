@@ -48,6 +48,10 @@ const nextMock = NextResponse.next as jest.MockedFunction<
    typeof NextResponse.next
 >;
 
+const redirectMock = NextResponse.redirect as jest.MockedFunction<
+   typeof NextResponse.redirect
+>;
+
 const expectePagesConfig = {
    signIn: "/auth/sign-in",
    error: "/auth/sign-in",
@@ -214,7 +218,15 @@ describe("auth.config - callback.authorized - tests", () => {
          { from: "/preview/marketplace", to: "/marketplace" },
       ];
 
+      const mockRedirectResponse = {
+         status: 307,
+         headers: new Headers(),
+      } as unknown as NextResponse;
+      redirectMock.mockReturnValue(mockRedirectResponse);
+
       forEach(redirectPaths, ({ from, to }) => {
+         redirectMock.mockClear();
+
          const request = {
             nextUrl: { pathname: from },
             url: `http://localhost${from}`,
@@ -225,10 +237,13 @@ describe("auth.config - callback.authorized - tests", () => {
             user: { id: "user-1", email: "test@example.com" },
          } as Session;
 
-         const result = authorized({ request, auth }) as Response;
+         const result = authorized({ request, auth });
 
-         expect(result).toBeInstanceOf(Response);
-         expect(result.headers.get("location")).toContain(to);
+         expect(result).toBe(mockRedirectResponse);
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith(
+            new URL(to, `http://localhost${from}`)
+         );
       });
    });
 

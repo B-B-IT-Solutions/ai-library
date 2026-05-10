@@ -1,6 +1,6 @@
-import { screen } from "@testing-library/dom";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderClient } from "@tests";
+import { assertInDocument } from "@tests";
 
 import ExploreError from "./error";
 
@@ -10,13 +10,13 @@ describe("ExploreError rendering tests", () => {
 
    beforeEach(() => {
       jest.resetAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
    it("ExploreError - renders error UI - test", () => {
-      const { container } = renderClient(ExploreError, {
-         error,
-         reset: resetMock,
-      });
+      const { container } = render(
+         <ExploreError error={error} reset={resetMock} />
+      );
 
       assertInDocument(screen.getByTestId("explore-error"));
       assertInDocument(screen.getByText("Etwas ist schiefgelaufen"));
@@ -26,7 +26,7 @@ describe("ExploreError rendering tests", () => {
    });
 
    it("ExploreError - calls reset on button click - test", async () => {
-      renderClient(ExploreError, { error, reset: resetMock });
+      render(<ExploreError error={error} reset={resetMock} />);
 
       await userEvent.click(
          screen.getByRole("button", { name: "Erneut versuchen" })

@@ -1,11 +1,11 @@
-import { screen } from "@testing-library/dom";
-import { assertInDocument, renderClient } from "@tests";
+import { render, screen } from "@testing-library/react";
+import { assertInDocument } from "@tests";
 
 import ExploreNotFound from "./not-found";
 
 describe("ExploreNotFound rendering tests", () => {
    it("ExploreNotFound - renders 404 UI - test", () => {
-      const { container } = renderClient(ExploreNotFound, {});
+      const { container } = render(<ExploreNotFound />);
 
       assertInDocument(screen.getByTestId("explore-not-found"));
       assertInDocument(screen.getByText("404"));
