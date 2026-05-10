@@ -6,9 +6,8 @@ export type LayoutProps = {
    children: ReactNode;
 };
 
-const PreviewLayout = async (props: Readonly<LayoutProps>) => {
-   const { children } = props;
+export const PublicLayout = ({ children }: LayoutProps) => {
    return <PublicLayoutWrapper>{children}</PublicLayoutWrapper>;
 };
 
-export default PreviewLayout;
+export default PublicLayout;
