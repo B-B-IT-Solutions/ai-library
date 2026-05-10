@@ -34,12 +34,12 @@ const assertLinks = (redirectPath: string) => {
    assertHasAttributeWithValue(
       signInLink,
       "href",
-      `/auth/sign-in?redirect=${redirectPath}`
+      `/auth/sign-in?callbackUrl=${redirectPath}`
    );
    assertHasAttributeWithValue(
       signUpLink,
       "href",
-      `/auth/sign-up?redirect=${redirectPath}`
+      `/auth/sign-up?callbackUrl=${redirectPath}`
    );
 };
 

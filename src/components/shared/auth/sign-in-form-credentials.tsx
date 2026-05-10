@@ -41,7 +41,7 @@ export const CredentialsSignInForm = () => {
 
    const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
       setUnverifiedEmail(null);
-      const result = await signInWithCredentials(data);
+      const result = await signInWithCredentials(data, callbackUrl);
       if (!result.success) {
          if (result.data?.emailNotVerified) {
             setUnverifiedEmail(data.email);
@@ -86,12 +86,6 @@ export const CredentialsSignInForm = () => {
          data-testid="singin-form-credentails"
          className="space-y-5"
       >
-         <input
-            type="hidden"
-            id="callbackUrl"
-            name="callbackUrl"
-            value={callbackUrl}
-         />
          <FieldGroup>
             <Controller
                name="email"

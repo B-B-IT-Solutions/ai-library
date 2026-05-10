@@ -47,7 +47,7 @@ export const AuthRequiredDialog = ({
                   className="w-full cursor-pointer"
                >
                   <Link
-                     href={`/auth/sign-in?redirect=${redirectPath}`}
+                     href={`/auth/sign-in?callbackUrl=${redirectPath}`}
                      data-testid="sign-in-link"
                   >
                      Anmelden
@@ -56,7 +56,7 @@ export const AuthRequiredDialog = ({
                <p className="text-center text-sm text-muted-foreground">
                   Noch kein Konto?{" "}
                   <Link
-                     href={`/auth/sign-up?redirect=${redirectPath}`}
+                     href={`/auth/sign-up?callbackUrl=${redirectPath}`}
                      className="cursor-pointer font-medium text-foreground hover:underline"
                      data-testid="sign-up-link"
                   >

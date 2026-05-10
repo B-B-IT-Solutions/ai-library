@@ -7,9 +7,10 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    getElementById,
+   ntestData,
    renderWithRouter,
 } from "@tests";
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import mockRouter from "next-router-mock";
 
 import { signInWithCredentials } from "@/data/actions/user";
@@ -51,13 +52,6 @@ const assertFieldsRendered = () => {
    );
 };
 
-const assertCallbackUrl = (url: string) => {
-   const callbackUrl = getElementById("callbackUrl");
-
-   assertInDocument(callbackUrl);
-   assertHasAttributeWithValue(callbackUrl, "value", url);
-};
-
 const assertPasswordVisible = () => {
    const password = getElementById("password");
    const icon = screen.getByTestId("eye-off-icon");
@@ -84,11 +78,8 @@ describe("CredentialsSignInForm rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("callbackUrl defined -  rendered test", async () => {
-      const params = { callbackUrl: "callbackUrl/test-1" };
-      const searchParams = new URLSearchParams(
-         params
-      ) as ReadonlyURLSearchParams;
+   it("rendered test", async () => {
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       const { container } = render(<CredentialsSignInForm />);
@@ -96,22 +87,6 @@ describe("CredentialsSignInForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFieldsRendered();
-         assertCallbackUrl(params.callbackUrl);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("callbackUrl undefined -  rendered test", async () => {
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
-      useSearchParamsMock.mockReturnValue(searchParams);
-
-      const { container } = render(<CredentialsSignInForm />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertFieldsRendered();
-         assertCallbackUrl("/templates");
       });
 
       expect(container).toMatchSnapshot();
@@ -129,7 +104,9 @@ describe("CredentialsSignInForm functionality tests", () => {
          message: "Signed in successfully",
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+
+      const callbackUrl = "/callback-url-1-test";
+      const searchParams = ntestData.urlSearchParams({ callbackUrl });
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<CredentialsSignInForm />);
 
@@ -172,10 +149,13 @@ describe("CredentialsSignInForm functionality tests", () => {
          password: passwordValue,
       };
 
+      const expectedRedirectTo = callbackUrl;
+
       await waitFor(() => {
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            expectedRedirectTo
          );
       });
    });
@@ -187,7 +167,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
 
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       render(<CredentialsSignInForm />);
@@ -231,10 +211,13 @@ describe("CredentialsSignInForm functionality tests", () => {
          password: passwordValue,
       };
 
+      const expectedRedirectTo = "/templates";
+
       await waitFor(() => {
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            expectedRedirectTo
          );
       });
 
@@ -252,7 +235,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
 
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       render(<CredentialsSignInForm />);
@@ -296,17 +279,20 @@ describe("CredentialsSignInForm functionality tests", () => {
          password: passwordValue,
       };
 
+      const expectedRedirectTo = "/templates";
+
       await waitFor(() => {
          assertEmailNotVerifiedRendered();
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
          expect(signInWithCredentialsMock).toHaveBeenCalledWith(
-            expectedFormData
+            expectedFormData,
+            expectedRedirectTo
          );
       });
    });
 
    it("show password btn clicked - test", async () => {
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<CredentialsSignInForm />);
 
@@ -341,7 +327,7 @@ describe("CredentialsSignInForm functionality tests", () => {
    });
 
    it("sign-up link clicked - test", async () => {
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       const url = "/auth/sign-in";

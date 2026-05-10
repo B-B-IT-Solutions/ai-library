@@ -245,18 +245,29 @@ describe("signInWithCredentials tests", () => {
          email: "test1@email.com",
          password: "password123",
       };
-      const result = await signInWithCredentials(formData);
+
+      const redirectTo = "explore/research-prompt-1";
+
+      const result = await signInWithCredentials(formData, redirectTo);
 
       const expectedResult = {
          success: true,
          message: "Signed in successfully",
       };
 
+      const expectedSingInPayload = {
+         ...formData,
+         redirectTo,
+      };
+
       expect(result).toEqual(expectedResult);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith(
+         "credentials",
+         expectedSingInPayload
+      );
    });
 
    it("email verified true - test", async () => {
@@ -273,11 +284,19 @@ describe("signInWithCredentials tests", () => {
          message: "Signed in successfully",
       };
 
+      const expectedSingInPayload = {
+         ...formData,
+         redirectTo: "/",
+      };
+
       expect(result).toEqual(expectedResult);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith(
+         "credentials",
+         expectedSingInPayload
+      );
    });
 
    it("redirect error - test", async () => {
@@ -294,11 +313,19 @@ describe("signInWithCredentials tests", () => {
 
       const fn = () => signInWithCredentials(formData);
 
+      const expectedSingInPayload = {
+         ...formData,
+         redirectTo: "/",
+      };
+
       await expect(fn).rejects.toThrow(Error);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(signInMock).toHaveBeenCalledWith(
+         "credentials",
+         expectedSingInPayload
+      );
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });

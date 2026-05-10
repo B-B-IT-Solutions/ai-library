@@ -1,6 +1,7 @@
 import { NextURL } from "next/dist/server/web/next-url";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { NextRequest } from "next/server";
 import { Account, Session, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
@@ -11,6 +12,12 @@ import {
    CookieValues,
    MockReadonlyRequestCookies,
 } from "./stubs/MockReadonlyRequestCookies";
+
+export const urlSearchParams = (
+   params: Record<string, string> = {}
+): ReadonlyURLSearchParams => {
+   return new URLSearchParams(params) as ReadonlyURLSearchParams;
+};
 
 export const cookies = (cookies: CookieValues): ReadonlyRequestCookies => {
    return new MockReadonlyRequestCookies(
