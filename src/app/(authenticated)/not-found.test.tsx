@@ -1,18 +1,50 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
+import mockRouter from "next-router-mock";
 
-import AuthenticatedNotFound from "./not-found";
+import { AuthenticatedNotFound } from "./not-found";
+
+const assertRendered = () => {
+   const notFound = screen.getByTestId("authenticated-not-found");
+   const homeLink = screen.getByTestId("home-link");
+
+   assertInDocument(notFound);
+   assertInDocument(homeLink);
+};
 
 describe("AuthenticatedNotFound rendering tests", () => {
-   it("AuthenticatedNotFound - renders 404 UI - test", () => {
+   it("render - test", async () => {
       const { container } = render(<AuthenticatedNotFound />);
 
-      assertInDocument(screen.getByTestId("authenticated-not-found"));
-      assertInDocument(screen.getByText("404"));
-      assertInDocument(screen.getByText("Seite nicht gefunden"));
-      assertInDocument(
-         screen.getByRole("link", { name: "Zurück zu den Vorlagen" })
-      );
+      await waitFor(() => {
+         assertRendered();
+      });
+
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("AuthenticatedNotFound functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("render - test", async () => {
+      render(<AuthenticatedNotFound />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const homeLink = screen.getByTestId("home-link");
+      userEvent.click(homeLink);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/templates");
+      });
    });
 });

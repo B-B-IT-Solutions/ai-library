@@ -1,16 +1,50 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
+import mockRouter from "next-router-mock";
 
-import ExploreNotFound from "./not-found";
+import { ExploreNotFound } from "./not-found";
+
+const assertRendered = () => {
+   const notFound = screen.getByTestId("explore-not-found");
+   const homeLink = screen.getByTestId("home-link");
+
+   assertInDocument(notFound);
+   assertInDocument(homeLink);
+};
 
 describe("ExploreNotFound rendering tests", () => {
-   it("ExploreNotFound - renders 404 UI - test", () => {
+   it("render - test", async () => {
       const { container } = render(<ExploreNotFound />);
 
-      assertInDocument(screen.getByTestId("explore-not-found"));
-      assertInDocument(screen.getByText("404"));
-      assertInDocument(screen.getByText("Seite nicht gefunden"));
-      assertInDocument(screen.getByRole("link", { name: "Zum Entdecken" }));
+      await waitFor(() => {
+         assertRendered();
+      });
+
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("ExploreNotFound functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("render - test", async () => {
+      render(<ExploreNotFound />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const homeLink = screen.getByTestId("home-link");
+      userEvent.click(homeLink);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/explore");
+      });
    });
 });

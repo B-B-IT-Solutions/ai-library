@@ -1,16 +1,50 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
+import mockRouter from "next-router-mock";
 
-import PreviewNotFound from "./not-found";
+import { PreviewNotFound } from "./not-found";
+
+const assertRendered = () => {
+   const notFound = screen.getByTestId("preview-not-found");
+   const homeLink = screen.getByTestId("home-link");
+
+   assertInDocument(notFound);
+   assertInDocument(homeLink);
+};
 
 describe("PreviewNotFound rendering tests", () => {
-   it("PreviewNotFound - renders 404 UI - test", () => {
+   it("render - test", async () => {
       const { container } = render(<PreviewNotFound />);
 
-      assertInDocument(screen.getByTestId("preview-not-found"));
-      assertInDocument(screen.getByText("404"));
-      assertInDocument(screen.getByText("Seite nicht gefunden"));
-      assertInDocument(screen.getByRole("link", { name: "Zur Bibliothek" }));
+      await waitFor(() => {
+         assertRendered();
+      });
+
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("PreviewNotFound functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("render - test", async () => {
+      render(<PreviewNotFound />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const homeLink = screen.getByTestId("home-link");
+      userEvent.click(homeLink);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/preview/marketplace");
+      });
    });
 });

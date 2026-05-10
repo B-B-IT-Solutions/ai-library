@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 
-const AuthenticatedNotFound = () => {
+export const AuthenticatedNotFound = () => {
    return (
       <div
          className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
@@ -13,8 +13,10 @@ const AuthenticatedNotFound = () => {
          <p className="max-w-md text-sm text-muted-foreground">
             Die angeforderte Seite konnte nicht gefunden werden.
          </p>
-         <Button asChild variant="outline">
-            <Link href="/templates">Zurück zu den Vorlagen</Link>
+         <Button asChild={true} variant="outline">
+            <Link href="/templates" data-testid="home-link">
+               Zurück zur Startseite
+            </Link>
          </Button>
       </div>
    );
