@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-import { isAuthenticated } from "@/data/actions/auth-utils";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 import { CatalogEntryItem } from "./items";
@@ -12,12 +7,6 @@ type Props = {
 };
 
 export const CatalogEntriesGrid = ({ entries }: Props) => {
-   const [isAuth, setIsAuth] = useState(false);
-
-   useEffect(() => {
-      isAuthenticated().then(setIsAuth);
-   }, []);
-
    return (
       <div
          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
@@ -27,7 +16,7 @@ export const CatalogEntriesGrid = ({ entries }: Props) => {
             <CatalogEntryItem
                key={entry.id}
                entry={entry}
-               isAuthenticated={isAuth}
+               isAuthenticated={false}
             />
          ))}
       </div>

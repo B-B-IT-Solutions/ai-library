@@ -24,7 +24,28 @@ export const CatalogEntryMoreOptionsButton = ({
    entry,
    isAuthenticated,
 }: Props) => {
-   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
+   const [authRedirectPath, setAuthRedirectPath] = useState<string>("");
+   const [authDescription, setAuthDescription] = useState<string>("");
+   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState<boolean>(false);
+
+   const authRequiredDialog = () => {
+      return (
+         <AuthRequiredDialog
+            isOpen={isAuthDialogOpen}
+            onOpenChange={setIsAuthDialogOpen}
+            redirectPath={authRedirectPath}
+            description={authDescription}
+         />
+      );
+   };
+
+   const addEntryToLibraryAuthDialog = () => {
+      setAuthRedirectPath(`/explore/${entry.slug}`);
+      setAuthDescription(
+         "Bitte melde dich an, um Vorlagen in deine Bibliothek zu übernehmen."
+      );
+      setIsAuthDialogOpen(true);
+   };
 
    return (
       <>
@@ -44,16 +65,11 @@ export const CatalogEntryMoreOptionsButton = ({
                <AddCatalogEntryToLibraryMenuItem
                   entry={entry}
                   isAuthenticated={isAuthenticated}
-                  onAuthRequired={() => setIsAuthDialogOpen(true)}
+                  onAuthRequired={addEntryToLibraryAuthDialog}
                />
             </DropdownMenuContent>
          </DropdownMenu>
-         <AuthRequiredDialog
-            isOpen={isAuthDialogOpen}
-            onOpenChange={setIsAuthDialogOpen}
-            redirectPath={`/explore/${entry.slug}`}
-            description="Bitte melde dich an, um Vorlagen in deine Bibliothek zu übernehmen."
-         />
+         {authRequiredDialog()}
       </>
    );
 };

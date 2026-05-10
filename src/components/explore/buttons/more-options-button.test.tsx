@@ -15,7 +15,9 @@ const assertRendered = () => {
 
 const assertMenuRendered = () => {
    const viewItem = screen.getByTestId("view-entry-menu-item");
-   const addToLibraryItem = screen.getByTestId("add-entry-to-library-menu-item");
+   const addToLibraryItem = screen.getByTestId(
+      "add-entry-to-library-menu-item"
+   );
 
    assertInDocument(viewItem);
    assertInDocument(addToLibraryItem);
@@ -23,17 +25,22 @@ const assertMenuRendered = () => {
 
 const assertMenuNotRendered = () => {
    const viewItem = screen.queryByTestId("view-entry-menu-item");
-   assertNotInDocument(viewItem);
-};
+   const addToLibraryItem = screen.queryByTestId(
+      "add-entry-to-library-menu-item"
+   );
 
-const assertAuthDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("auth-required-dialog");
-   assertNotInDocument(dialog);
+   assertNotInDocument(viewItem);
+   assertNotInDocument(addToLibraryItem);
 };
 
 const assertAuthDialogRendered = () => {
    const dialog = screen.getByTestId("auth-required-dialog");
    assertInDocument(dialog);
+};
+
+const assertAuthDialogNotRendered = () => {
+   const dialog = screen.queryByTestId("auth-required-dialog");
+   assertNotInDocument(dialog);
 };
 
 describe("CatalogEntryMoreOptionsButton rendering tests", () => {
@@ -73,17 +80,24 @@ describe("CatalogEntryMoreOptionsButton functionality tests", () => {
       });
    });
 
-   it("unauthenticated - add to library clicked - opens auth dialog - test", async () => {
+   it("unauthenticated - add to library clicked - test", async () => {
       const entry = dtestData.dCatalogEntry(1);
       render(
          <CatalogEntryMoreOptionsButton entry={entry} isAuthenticated={false} />
       );
+
+      await waitFor(() => {
+         assertRendered();
+         assertMenuNotRendered();
+         assertAuthDialogNotRendered();
+      });
 
       const trigger = screen.getByTestId("trigger-btn");
       await userEvent.click(trigger);
 
       await waitFor(() => {
          assertMenuRendered();
+         assertAuthDialogNotRendered();
       });
 
       const addItem = screen.getByTestId("add-entry-to-library-menu-item");
