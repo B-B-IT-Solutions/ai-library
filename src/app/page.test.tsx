@@ -1,44 +1,33 @@
-jest.mock("@/auth");
+jest.mock("@/components/shared/wrappers/layout", () => ({
+   PublicLayoutWrapper: ({ children }: { children: ReactNode }) => {
+      return <div data-testid="public-layout-wrapper">{children}</div>;
+   },
+}));
 
+jest.mock("@/data/actions/auth-utils");
+
+import { ReactNode } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { RootPage } from "./page";
 
-import RootPage from "./page";
+const assertRendered = () => {
+   const layout = screen.getByTestId("public-layout-wrapper");
+   const page = screen.getByTestId("public-page");
 
-const authMock = auth as jest.MockedFunction<typeof auth>;
-const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
+   assertInDocument(layout);
+   assertInDocument(page);
+};
 
 describe("RootPage rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("RootPage - unauthenticated - renders landing page - test", async () => {
-      authMock.mockResolvedValue(null);
-
+   it("render - test", async () => {
       const { container } = await renderAsyncRSC(RootPage, {});
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("public-page"));
+         assertRendered();
       });
 
-      expect(redirectMock).not.toHaveBeenCalled();
       expect(container).toMatchSnapshot();
-   });
-
-   it("RootPage - authenticated - redirects to /templates - test", async () => {
-      authMock.mockResolvedValue({
-         user: { id: "user-1", email: "test@example.com" },
-         expires: new Date().toISOString(),
-      });
-
-      await renderAsyncRSC(RootPage, {});
-
-      await waitFor(() => {
-         expect(redirectMock).toHaveBeenCalledWith("/templates");
-      });
    });
 });

@@ -1,43 +1,12 @@
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { PublicShellLayout } from "@/components/shared/wrappers/public-shell-layout";
+import { PublicLayoutWrapper } from "@/components/shared/wrappers/layout";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 
-const RootPage = async () => {
-   const headerLeft = (
-      <Link href="/" className="text-xl font-bold">
-         {APP_NAME}
-      </Link>
-   );
-
-   const headerRight = (
-      <>
-         <Button variant="outline" asChild>
-            <Link href="/auth/sign-in" data-testid="sign-in-link">
-               Anmelden
-            </Link>
-         </Button>
-         <Button asChild>
-            <Link href="/auth/sign-up" data-testid="sign-up-link">
-               Kostenlos starten
-            </Link>
-         </Button>
-      </>
-   );
-
-   const footer = (
-      <p className="text-center text-sm text-muted-foreground">
-         © {new Date().getFullYear()} {APP_NAME}
-      </p>
-   );
-
+export const RootPage = async () => {
    return (
-      <PublicShellLayout
-         headerLeft={headerLeft}
-         headerRight={headerRight}
-         footer={footer}
-      >
+      <PublicLayoutWrapper>
          <div
             className="min-h-[calc(100vh-3.5rem)] w-full bg-linear-to-br from-background via-background to-primary/5"
             data-testid="public-page"
@@ -58,16 +27,14 @@ const RootPage = async () => {
                            <Link href="/auth/sign-up">Kostenlos starten</Link>
                         </Button>
                         <Button size="lg" variant="outline" asChild>
-                           <Link href="/preview/marketplace">
-                              Prompts entdecken
-                           </Link>
+                           <Link href="/explore">Prompts entdecken</Link>
                         </Button>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-      </PublicShellLayout>
+      </PublicLayoutWrapper>
    );
 };
 
