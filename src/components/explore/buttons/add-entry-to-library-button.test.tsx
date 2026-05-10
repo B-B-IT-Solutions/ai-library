@@ -15,7 +15,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import { AddCatalogEntryToLibraryButton } from "./add-entry-to-library-button";
 
-const addCatalogEntryMock =
+const addEntryToLibraryMock =
    addCatalogEntryToUserTemplates as jest.MockedFunction<
       typeof addCatalogEntryToUserTemplates
    >;
@@ -106,7 +106,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
             templateId: descriptorId,
          },
       };
-      addCatalogEntryMock.mockResolvedValue(actionResult);
+      addEntryToLibraryMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -130,8 +130,8 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
-         expect(addCatalogEntryMock).toHaveBeenCalledWith(entry.id);
+         expect(addEntryToLibraryMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToLibraryMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
@@ -153,7 +153,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      addCatalogEntryMock.mockResolvedValue(actionResult);
+      addEntryToLibraryMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -164,7 +164,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(addCatalogEntryMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToLibraryMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"
