@@ -17,7 +17,7 @@ export const AuthenticatedError = ({ error, unstable_retry }: Props) => {
 
    return (
       <div
-         className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
+         className="flex h-full min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
          data-testid="authenticated-error"
       >
          <AlertTriangle className="h-10 w-10 text-destructive" />
@@ -28,6 +28,7 @@ export const AuthenticatedError = ({ error, unstable_retry }: Props) => {
          <Button
             onClick={unstable_retry}
             variant="outline"
+            className="cursor-pointer"
             data-testid="retry-btn"
          >
             Erneut versuchen

@@ -18,7 +18,7 @@ const ExploreError = ({ error, unstable_retry }: Props) => {
 
    return (
       <div
-         className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
+         className="flex h-full min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
          data-testid="explore-error"
       >
          <AlertTriangle className="h-10 w-10 text-destructive" />
@@ -30,6 +30,7 @@ const ExploreError = ({ error, unstable_retry }: Props) => {
             <Button
                onClick={unstable_retry}
                variant="outline"
+               className="cursor-pointer"
                data-testid="retry-btn"
             >
                Erneut versuchen
