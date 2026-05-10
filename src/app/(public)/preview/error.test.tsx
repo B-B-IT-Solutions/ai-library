@@ -1,37 +1,59 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 
 import PreviewError from "./error";
 
-describe("PreviewError rendering tests", () => {
-   const error = new Error("Test error");
-   const resetMock = jest.fn();
+const assertRendered = () => {
+   const error = screen.getByTestId("preview-error");
+   const retryBtn = screen.getByTestId("retry-btn");
 
+   assertInDocument(error);
+   assertInDocument(retryBtn);
+};
+
+describe("PreviewError rendering tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("PreviewError - renders error UI - test", () => {
+   it("render - test", async () => {
+      const error = new Error("Test error");
+
       const { container } = render(
-         <PreviewError error={error} reset={resetMock} />
+         <PreviewError error={error} unstable_retry={jest.fn()} />
       );
 
-      assertInDocument(screen.getByTestId("preview-error"));
-      assertInDocument(screen.getByText("Etwas ist schiefgelaufen"));
-      assertInDocument(screen.getByRole("button", { name: "Erneut versuchen" }));
-      assertInDocument(screen.getByRole("link", { name: "Zur Bibliothek" }));
+      await waitFor(() => {
+         assertRendered();
+      });
+
       expect(container).toMatchSnapshot();
    });
+});
 
-   it("PreviewError - calls reset on button click - test", async () => {
-      render(<PreviewError error={error} reset={resetMock} />);
+describe("PreviewError functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
 
-      await userEvent.click(
-         screen.getByRole("button", { name: "Erneut versuchen" })
-      );
+   it("retry btn clicked - test", async () => {
+      const error = new Error("Test error");
+      const retryFn = jest.fn();
 
-      expect(resetMock).toHaveBeenCalledTimes(1);
+      render(<PreviewError error={error} unstable_retry={retryFn} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(retryFn).not.toHaveBeenCalled();
+      });
+
+      const retryBtn = screen.getByTestId("retry-btn");
+      userEvent.click(retryBtn);
+
+      await waitFor(() => {
+         expect(retryFn).toHaveBeenCalledTimes(1);
+      });
    });
 });

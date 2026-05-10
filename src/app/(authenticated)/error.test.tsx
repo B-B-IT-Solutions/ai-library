@@ -6,10 +6,10 @@ import { AuthenticatedError } from "./error";
 
 const assertRendered = () => {
    const error = screen.getByTestId("authenticated-error");
-   const resetBtn = screen.getByTestId("reset-btn");
+   const retryBtn = screen.getByTestId("retry-btn");
 
    assertInDocument(error);
-   assertInDocument(resetBtn);
+   assertInDocument(retryBtn);
 };
 
 describe("AuthenticatedError rendering tests", () => {
@@ -21,7 +21,7 @@ describe("AuthenticatedError rendering tests", () => {
       const error = new Error("Test error");
 
       const { container } = render(
-         <AuthenticatedError error={error} reset={jest.fn()} />
+         <AuthenticatedError error={error} unstable_retry={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -38,23 +38,23 @@ describe("AuthenticatedError functionality tests", () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("reset btn clicked - test", async () => {
+   it("retry btn clicked - test", async () => {
       const error = new Error("Test error");
 
-      const resetFn = jest.fn();
+      const retryFn = jest.fn();
 
-      render(<AuthenticatedError error={error} reset={resetFn} />);
+      render(<AuthenticatedError error={error} unstable_retry={retryFn} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(resetFn).not.toHaveBeenCalled();
+         expect(retryFn).not.toHaveBeenCalled();
       });
 
-      const resetBtn = screen.getByTestId("reset-btn");
-      userEvent.click(resetBtn);
+      const retryBtn = screen.getByTestId("retry-btn");
+      userEvent.click(retryBtn);
 
       await waitFor(() => {
-         expect(resetFn).toHaveBeenCalledTimes(1);
+         expect(retryFn).toHaveBeenCalledTimes(1);
       });
    });
 });

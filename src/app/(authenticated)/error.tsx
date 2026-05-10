@@ -7,10 +7,10 @@ import { Button } from "@/components/shadcn/button";
 
 type Props = {
    error: Error & { digest?: string };
-   reset: () => void;
+   unstable_retry: () => void;
 };
 
-export const AuthenticatedError = ({ error, reset }: Props) => {
+export const AuthenticatedError = ({ error, unstable_retry }: Props) => {
    useEffect(() => {
       console.error(error);
    }, [error]);
@@ -25,7 +25,11 @@ export const AuthenticatedError = ({ error, reset }: Props) => {
          <p className="max-w-md text-sm text-muted-foreground">
             Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
          </p>
-         <Button onClick={reset} variant="outline" data-testid="reset-btn">
+         <Button
+            onClick={unstable_retry}
+            variant="outline"
+            data-testid="retry-btn"
+         >
             Erneut versuchen
          </Button>
       </div>

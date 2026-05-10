@@ -8,10 +8,10 @@ import { Button } from "@/components/shadcn/button";
 
 type Props = {
    error: Error & { digest?: string };
-   reset: () => void;
+   unstable_retry: () => void;
 };
 
-const PreviewError = ({ error, reset }: Props) => {
+const PreviewError = ({ error, unstable_retry }: Props) => {
    useEffect(() => {
       console.error(error);
    }, [error]);
@@ -27,7 +27,11 @@ const PreviewError = ({ error, reset }: Props) => {
             Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
          </p>
          <div className="flex gap-2">
-            <Button onClick={reset} variant="outline">
+            <Button
+               onClick={unstable_retry}
+               variant="outline"
+               data-testid="retry-btn"
+            >
                Erneut versuchen
             </Button>
             <Button asChild variant="ghost">
