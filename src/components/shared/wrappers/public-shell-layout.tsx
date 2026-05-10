@@ -2,20 +2,11 @@ import { ReactNode } from "react";
 
 export type Props = {
    children: ReactNode;
-   /** Logo + ggf. Navigationslinks */
    headerLeft: ReactNode;
-   /** CTA-Buttons (z.B. Anmelden / Registrieren) */
    headerRight: ReactNode;
-   /** Optionaler Footer-Inhalt; wird weggelassen wenn nicht übergeben */
    footer?: ReactNode;
 };
 
-/**
- * Gemeinsame Shell für öffentliche Seiten.
- * Stellt Sticky-Header, Main-Content-Bereich und optionalen Footer bereit.
- * Header- und Footer-Inhalte werden als Slots übergeben, damit jede Route
- * ihre eigene Navigation zusammenstellen kann.
- */
 export const PublicShellLayout = ({
    children,
    headerLeft,
