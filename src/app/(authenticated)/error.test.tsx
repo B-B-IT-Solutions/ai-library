@@ -13,6 +13,10 @@ const assertRendered = () => {
 };
 
 describe("AuthenticatedError rendering tests", () => {
+   beforeEach(() => {
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
    it("render - test", async () => {
       const error = new Error("Test error");
 
