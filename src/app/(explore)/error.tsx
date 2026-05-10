@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { AlertTriangle } from "lucide-react";
-import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 
@@ -26,19 +25,14 @@ const ExploreError = ({ error, unstable_retry }: Props) => {
          <p className="max-w-md text-sm text-muted-foreground">
             Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
          </p>
-         <div className="flex gap-2">
-            <Button
-               onClick={unstable_retry}
-               variant="outline"
-               className="cursor-pointer"
-               data-testid="retry-btn"
-            >
-               Erneut versuchen
-            </Button>
-            <Button asChild variant="ghost">
-               <Link href="/explore">Zum Entdecken</Link>
-            </Button>
-         </div>
+         <Button
+            onClick={unstable_retry}
+            variant="outline"
+            className="cursor-pointer"
+            data-testid="retry-btn"
+         >
+            Erneut versuchen
+         </Button>
       </div>
    );
 };
