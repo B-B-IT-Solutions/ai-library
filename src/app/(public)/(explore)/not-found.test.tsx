@@ -3,19 +3,19 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { ExploreNotFound } from "./not-found";
+import { PreviewNotFound } from "./not-found";
 
 const assertRendered = () => {
-   const notFound = screen.getByTestId("explore-not-found");
+   const notFound = screen.getByTestId("preview-not-found");
    const homeLink = screen.getByTestId("home-link");
 
    assertInDocument(notFound);
    assertInDocument(homeLink);
 };
 
-describe("ExploreNotFound rendering tests", () => {
+describe("PreviewNotFound rendering tests", () => {
    it("render - test", async () => {
-      const { container } = render(<ExploreNotFound />);
+      const { container } = render(<PreviewNotFound />);
 
       await waitFor(() => {
          assertRendered();
@@ -25,14 +25,14 @@ describe("ExploreNotFound rendering tests", () => {
    });
 });
 
-describe("ExploreNotFound functionality tests", () => {
+describe("PreviewNotFound functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
    it("render - test", async () => {
-      render(<ExploreNotFound />);
+      render(<PreviewNotFound />);
 
       await waitFor(() => {
          assertRendered();

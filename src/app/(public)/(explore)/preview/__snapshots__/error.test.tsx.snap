@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ExploreError rendering tests render - test 1`] = `
+exports[`PreviewError rendering tests render - test 1`] = `
 <div>
   <div
     class="flex h-full min-h-[50vh] flex-col items-center justify-center gap-4 px-4 text-center"
-    data-testid="explore-error"
+    data-testid="preview-error"
   >
     <svg
       aria-hidden="true"
