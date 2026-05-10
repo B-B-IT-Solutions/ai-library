@@ -10,7 +10,7 @@ import {
    ntestData,
    renderWithRouter,
 } from "@tests";
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import mockRouter from "next-router-mock";
 
 import { signInWithCredentials } from "@/data/actions/user";
@@ -79,7 +79,7 @@ describe("CredentialsSignInForm rendering tests", () => {
    });
 
    it("rendered test", async () => {
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       const { container } = render(<CredentialsSignInForm />);
@@ -167,7 +167,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
 
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       render(<CredentialsSignInForm />);
@@ -235,7 +235,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
 
-      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      const searchParams = ntestData.urlSearchParams();
       useSearchParamsMock.mockReturnValue(searchParams);
 
       render(<CredentialsSignInForm />);
