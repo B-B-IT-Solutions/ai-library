@@ -221,6 +221,36 @@ describe("auth.config - callback.authorized - tests", () => {
       expect(redirectMock).toHaveBeenCalledWith(expectUrl);
    });
 
+   it("authorized - authenticated user on '/auth/' routes redirected to /templates - test", () => {
+      const authPaths = ["/auth/sign-in", "/auth/sign-up"];
+      const toPath = "/templates";
+
+      forEach(authPaths, (fromPath) => {
+         redirectMock.mockClear();
+
+         const response = ntestData.nextResponse(307);
+         redirectMock.mockReturnValue(response);
+
+         const request = {
+            nextUrl: { pathname: fromPath },
+            url: `http://localhost${fromPath}`,
+            cookies: { get: jest.fn() },
+         } as unknown as NextRequest;
+
+         const auth = {
+            user: { id: "user-1", email: "test@example.com" },
+         } as Session;
+
+         const result = authorized({ request, auth });
+
+         const expectUrl = new URL(toPath, `http://localhost${fromPath}`);
+
+         expect(result).toBe(response);
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith(expectUrl);
+      });
+   });
+
    it("authorized - protected path access without authentication blocked- test", () => {
       forEach(protectedPaths, (path) => {
          const request = {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PublicLayoutWrapper rendering tests PublicLayoutWrapper - isAuthenticated false - test 1`] = `
+exports[`PublicLayoutWrapper rendering tests PublicLayoutWrapper - render - test 1`] = `
 <div>
   <div
     class="h-full"
@@ -12,5 +12,3 @@ exports[`PublicLayoutWrapper rendering tests PublicLayoutWrapper - isAuthenticat
   </div>
 </div>
 `;
-
-exports[`PublicLayoutWrapper rendering tests PublicLayoutWrapper - isAuthenticated true - test 1`] = `<div />`;

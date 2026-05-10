@@ -62,7 +62,7 @@ export const authConfig: NextAuthConfig = {
 
          // Redirect authenticated users from public/landing routes to the app
          if (auth) {
-            if (pathname === "/") {
+            if (pathname === "/" || pathname.startsWith("/auth/")) {
                return NextResponse.redirect(new URL("/templates", request.url));
             }
             if (pathname === "/preview/marketplace") {
