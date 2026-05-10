@@ -96,7 +96,7 @@ export const signInWithCredentials = async (
 };
 
 export const signOutUser = async () => {
-   await signOut({ redirectTo: "/p" });
+   await signOut({ redirectTo: "/" });
 };
 
 export const resendVerificationEmail = async (
@@ -217,7 +217,7 @@ export const deleteUser = async (
          await service.deleteUser(user.id, validatedData);
       });
 
-      await signOut({ redirectTo: "/p" });
+      await signOut({ redirectTo: "/" });
 
       return {
          success: true,
