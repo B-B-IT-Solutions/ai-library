@@ -10,7 +10,7 @@ type Props = {
    reset: () => void;
 };
 
-const AuthenticatedError = ({ error, reset }: Props) => {
+export const AuthenticatedError = ({ error, reset }: Props) => {
    useEffect(() => {
       console.error(error);
    }, [error]);
@@ -25,7 +25,7 @@ const AuthenticatedError = ({ error, reset }: Props) => {
          <p className="max-w-md text-sm text-muted-foreground">
             Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
          </p>
-         <Button onClick={reset} variant="outline">
+         <Button onClick={reset} variant="outline" data-testid="reset-btn">
             Erneut versuchen
          </Button>
       </div>

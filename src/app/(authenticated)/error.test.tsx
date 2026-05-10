@@ -1,36 +1,56 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 
-import AuthenticatedError from "./error";
+import { AuthenticatedError } from "./error";
+
+const assertRendered = () => {
+   const error = screen.getByTestId("authenticated-error");
+   const resetBtn = screen.getByTestId("reset-btn");
+
+   assertInDocument(error);
+   assertInDocument(resetBtn);
+};
 
 describe("AuthenticatedError rendering tests", () => {
-   const error = new Error("Test error");
-   const resetMock = jest.fn();
+   it("render - test", async () => {
+      const error = new Error("Test error");
 
+      const { container } = render(
+         <AuthenticatedError error={error} reset={jest.fn()} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+});
+
+describe("AuthenticatedError functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("AuthenticatedError - renders error UI - test", () => {
-      const { container } = render(
-         <AuthenticatedError error={error} reset={resetMock} />
-      );
+   it("reset btn clicked - test", async () => {
+      const error = new Error("Test error");
 
-      assertInDocument(screen.getByTestId("authenticated-error"));
-      assertInDocument(screen.getByText("Etwas ist schiefgelaufen"));
-      assertInDocument(screen.getByRole("button", { name: "Erneut versuchen" }));
-      expect(container).toMatchSnapshot();
-   });
+      const resetFn = jest.fn();
 
-   it("AuthenticatedError - calls reset on button click - test", async () => {
-      render(<AuthenticatedError error={error} reset={resetMock} />);
+      render(<AuthenticatedError error={error} reset={resetFn} />);
 
-      await userEvent.click(
-         screen.getByRole("button", { name: "Erneut versuchen" })
-      );
+      await waitFor(() => {
+         assertRendered();
+         expect(resetFn).not.toHaveBeenCalled();
+      });
 
-      expect(resetMock).toHaveBeenCalledTimes(1);
+      const resetBtn = screen.getByTestId("reset-btn");
+      userEvent.click(resetBtn);
+
+      await waitFor(() => {
+         expect(resetFn).toHaveBeenCalledTimes(1);
+      });
    });
 });
