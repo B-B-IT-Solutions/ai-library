@@ -5,7 +5,7 @@ import { MouseEvent } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
@@ -13,7 +13,7 @@ import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { AddCatalogEntryToLibraryButton } from "./add-entry-to-library-button";
+import { AddCatalogEntryToLibraryMenuItem } from "./add-entry-to-library-menu-item";
 
 const addEntryToUserTemplatesMock =
    addCatalogEntryToUserTemplates as jest.MockedFunction<
@@ -21,82 +21,81 @@ const addEntryToUserTemplatesMock =
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
-const assertRendered = () => {
-   const btn = screen.getByTestId("add-entry-to-library-btn");
-   assertInDocument(btn);
+const assertMenuItemRendered = () => {
+   const item = screen.getByTestId("add-entry-to-library-menu-item");
+   assertInDocument(item);
 };
 
-const assertAuthDialogRendered = () => {
-   const dialog = screen.getByTestId("auth-required-dialog");
-   assertInDocument(dialog);
-};
-
-const assertAuthDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("auth-required-dialog");
-   assertNotInDocument(dialog);
-};
-
-describe("AddCatalogEntryToLibraryButton rendering tests", () => {
-   it("isAuthenticated true - test", async () => {
+describe("AddCatalogEntryToLibraryMenuItem rendering tests", () => {
+   it("authenticated - test", async () => {
       const entry = dtestData.dCatalogEntry();
       const { container } = render(
-         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
+         <AddCatalogEntryToLibraryMenuItem
+            entry={entry}
+            isAuthenticated={true}
+            onAuthRequired={jest.fn()}
+         />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("isAuthenticated false - test", async () => {
+   it("unauthenticated - test", async () => {
       const entry = dtestData.dCatalogEntry();
-
       const { container } = render(
-         <AddCatalogEntryToLibraryButton
+         <AddCatalogEntryToLibraryMenuItem
             entry={entry}
             isAuthenticated={false}
+            onAuthRequired={jest.fn()}
          />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("AddCatalogEntryToLibraryButton functionality tests", () => {
+describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("unauthenticated - btn clicked - test", async () => {
+   it("unauthenticated - item clicked - test", async () => {
+      const onAuthRequiredMock = jest.fn();
+
       const entry = dtestData.dCatalogEntry();
       render(
-         <AddCatalogEntryToLibraryButton
+         <AddCatalogEntryToLibraryMenuItem
             entry={entry}
             isAuthenticated={false}
+            onAuthRequired={onAuthRequiredMock}
          />
       );
 
       await waitFor(() => {
-         assertRendered();
-         assertAuthDialogNotRendered();
+         assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
 
-      const btn = screen.getByTestId("add-entry-to-library-btn");
-      await userEvent.click(btn);
+      const item = screen.getByTestId("add-entry-to-library-menu-item");
+      await userEvent.click(item);
 
       await waitFor(() => {
-         assertAuthDialogRendered();
+         expect(onAuthRequiredMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
       });
    });
 
-   it("authenticated - btn clicked - success - test", async () => {
+   it("authenticated - item clicked - success - test", async () => {
       const descriptorId = "descriptor-id-1";
 
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
@@ -108,18 +107,26 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       };
       addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
+      const onAuthRequiredMock = jest.fn();
+
       const entry = dtestData.dCatalogEntry();
       render(
-         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
+         <AddCatalogEntryToLibraryMenuItem
+            entry={entry}
+            isAuthenticated={true}
+            onAuthRequired={onAuthRequiredMock}
+         />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
          expect(mockRouter.asPath).toEqual("/");
       });
 
-      const btn = screen.getByTestId("add-entry-to-library-btn");
-      await userEvent.click(btn);
+      const item = screen.getByTestId("add-entry-to-library-menu-item");
+      await userEvent.click(item);
 
       const expectedToastPayload = {
          action: {
@@ -130,6 +137,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       };
 
       await waitFor(() => {
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
          expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
          expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -145,25 +153,40 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       const event = null as unknown as MouseEvent<HTMLButtonElement>;
       action.onClick(event);
 
-      expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+      });
    });
 
-   it("authenticated - btn clicked - error - test", async () => {
+   it("authenticated - item clicked - error - test", async () => {
       const actionResult: ActionResult<DCatalogEntryCopyResult> = {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
       addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
 
+      const onAuthRequiredMock = jest.fn();
       const entry = dtestData.dCatalogEntry();
       render(
-         <AddCatalogEntryToLibraryButton entry={entry} isAuthenticated={true} />
+         <AddCatalogEntryToLibraryMenuItem
+            entry={entry}
+            isAuthenticated={true}
+            onAuthRequired={onAuthRequiredMock}
+         />
       );
 
-      const btn = screen.getByTestId("add-entry-to-library-btn");
-      await userEvent.click(btn);
+      await waitFor(() => {
+         assertMenuItemRendered();
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
+         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const item = screen.getByTestId("add-entry-to-library-menu-item");
+      await userEvent.click(item);
 
       await waitFor(() => {
+         expect(onAuthRequiredMock).not.toHaveBeenCalled();
          expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(

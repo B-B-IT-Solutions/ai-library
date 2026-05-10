@@ -59,6 +59,7 @@ describe("CatalogEntryItems rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
             filters={filters}
+            authenticated={true}
          />
       );
 
@@ -91,6 +92,7 @@ describe("CatalogEntryItems rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
             filters={filters}
+            authenticated={true}
          />
       );
 
@@ -123,6 +125,7 @@ describe("CatalogEntryItems rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_ASC}
             filters={filters}
+            authenticated={false}
          />
       );
 

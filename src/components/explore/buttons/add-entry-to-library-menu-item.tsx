@@ -1,27 +1,28 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { Loader2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { Button } from "@/components/shadcn/button";
-import { AuthRequiredDialog } from "@/components/shared/auth";
+import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { CallbackFn } from "@/data/types/common";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
+   onAuthRequired: CallbackFn;
 };
 
-export const AddCatalogEntryToLibraryButton = ({
+export const AddCatalogEntryToLibraryMenuItem = ({
    entry,
    isAuthenticated,
+   onAuthRequired,
 }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
-   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
    const addEntryToLibrary = () => {
       startTransition(async () => {
@@ -47,38 +48,23 @@ export const AddCatalogEntryToLibraryButton = ({
       if (isAuthenticated) {
          addEntryToLibrary();
       } else {
-         setIsAuthDialogOpen(true);
+         onAuthRequired();
       }
    };
 
    return (
-      <>
-         <Button
-            onClick={handleClick}
-            disabled={isPending}
-            variant="outline"
-            size="lg"
-            className="w-full cursor-pointer sm:w-auto"
-            data-testid="add-entry-to-library-btn"
-         >
-            {isPending ? (
-               <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Wird übernommen…
-               </>
-            ) : (
-               <>
-                  <Plus className="mr-2 h-4 w-4" />
-                  In Bibliothek übernehmen
-               </>
-            )}
-         </Button>
-         <AuthRequiredDialog
-            isOpen={isAuthDialogOpen}
-            onOpenChange={setIsAuthDialogOpen}
-            redirectPath={`/explore/${entry.slug}`}
-            description="Bitte melde dich an, um Vorlagen in deine Bibliothek zu übernehmen."
-         />
-      </>
+      <DropdownMenuItem
+         onClick={handleClick}
+         disabled={isPending}
+         className="flex cursor-pointer items-center gap-2"
+         data-testid="add-entry-to-library-menu-item"
+      >
+         {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+         ) : (
+            <Plus className="h-4 w-4" />
+         )}
+         In Bibliothek übernehmen
+      </DropdownMenuItem>
    );
 };

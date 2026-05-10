@@ -10,7 +10,6 @@ import {
    CardHeader,
 } from "@/components/shadcn/card";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
-import { cn } from "@/lib/utils";
 import {
    CatalogEntryMoreOptionsButton,
    UseCatalogEntryLazyButton,
@@ -18,10 +17,10 @@ import {
 
 type Props = {
    entry: DCatalogEntry;
-   className?: string;
+   isAuthenticated: boolean;
 };
 
-export const CatalogEntryItem = ({ entry, className }: Props) => {
+export const CatalogEntryItem = ({ entry, isAuthenticated }: Props) => {
    const {
       slug,
       title,
@@ -59,10 +58,7 @@ export const CatalogEntryItem = ({ entry, className }: Props) => {
 
    return (
       <Card
-         className={cn(
-            "flex flex-col transition-shadow hover:shadow-md",
-            className
-         )}
+         className="flex flex-col transition-shadow hover:shadow-md"
          data-testid="catalog-entry-item"
       >
          <CardHeader className="pb-3" data-testid="header">
@@ -103,7 +99,10 @@ export const CatalogEntryItem = ({ entry, className }: Props) => {
          <CardFooter className="pt-0" data-testid="footer">
             <div className="flex w-full gap-1.5">
                <UseCatalogEntryLazyButton slug={slug} />
-               <CatalogEntryMoreOptionsButton entry={entry} />
+               <CatalogEntryMoreOptionsButton
+                  entry={entry}
+                  isAuthenticated={isAuthenticated}
+               />
             </div>
          </CardFooter>
       </Card>

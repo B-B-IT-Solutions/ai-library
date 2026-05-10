@@ -22,6 +22,7 @@ type Props = {
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DCatalogEntriesFilter;
+   authenticated: boolean;
 };
 
 export const CatalogEntryItems = ({
@@ -29,6 +30,7 @@ export const CatalogEntryItems = ({
    groupBy,
    sortBy,
    filters,
+   authenticated,
 }: Props) => {
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadCatalogEntryDescriptors({
@@ -64,7 +66,10 @@ export const CatalogEntryItems = ({
             next={fetchNextPage}
             threshold={0.7}
          >
-            <CatalogEntriesList entries={entries} />
+            <CatalogEntriesList
+               entries={entries}
+               authenticated={authenticated}
+            />
          </InfiniteScroll>
       );
    }
@@ -76,7 +81,7 @@ export const CatalogEntryItems = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <CatalogEntriesGrid entries={entries} />
+         <CatalogEntriesGrid entries={entries} authenticated={authenticated} />
       </InfiniteScroll>
    );
 };

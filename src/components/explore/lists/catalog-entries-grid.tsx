@@ -4,16 +4,21 @@ import { CatalogEntryItem } from "./items";
 
 type Props = {
    entries: DCatalogEntry[];
+   authenticated: boolean;
 };
 
-export const CatalogEntriesGrid = ({ entries }: Props) => {
+export const CatalogEntriesGrid = ({ entries, authenticated }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
          data-testid="catalog-entries-grid"
       >
          {entries.map((entry) => (
-            <CatalogEntryItem key={entry.id} entry={entry} />
+            <CatalogEntryItem
+               key={entry.id}
+               entry={entry}
+               isAuthenticated={authenticated}
+            />
          ))}
       </div>
    );
