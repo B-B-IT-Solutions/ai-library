@@ -12,12 +12,12 @@ exports[`PricingPage rendering tests PricingPage - rendered - test 1`] = `
       <h1
         class="mb-4 text-4xl font-bold"
       >
-        Choose Your Plan
+        Plan wählen
       </h1>
       <p
         class="mx-auto max-w-2xl text-xl text-muted-foreground"
       >
-        Unlock the full potential of AI-powered prompts with our flexible subscription plans
+        Nutze das volle Potential KI-gestützter Prompts mit unseren flexiblen Abonnement-Plänen
       </p>
     </div>
     <div

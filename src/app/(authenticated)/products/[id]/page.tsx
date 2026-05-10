@@ -13,7 +13,7 @@ import { getCart } from "@/data/actions/cart";
 import { getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
-   title: "Product",
+   title: "Produkt",
 };
 
 export type PageParams = {
