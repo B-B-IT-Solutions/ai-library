@@ -54,7 +54,7 @@ describe("CatalogEntriesList rendering tests", () => {
    });
 });
 
-describe("TemplateItemsList ref tests", () => {
+describe("CatalogEntriesList ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const entries = dtestData.dCatalogEntries();
