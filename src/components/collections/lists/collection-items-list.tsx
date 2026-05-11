@@ -6,11 +6,12 @@ import { CollectionCard } from "./items";
 
 type Props = {
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CollectionItemsList = ({ collections }: Props) => {
+export const CollectionItemsList = ({ collections, ref }: Props) => {
    return (
-      <div className="space-y-4" data-testid="collection-items-list">
+      <div ref={ref} className="space-y-4" data-testid="collection-items-list">
          {map(collections, (c) => (
             <CollectionCard key={c.id} collection={c} />
          ))}

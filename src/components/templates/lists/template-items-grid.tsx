@@ -8,12 +8,14 @@ import { TemplateItemCard } from "./items";
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
+export const TemplateItemsGrid = ({ descriptors, collections, ref }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
+            ref={ref}
             className="flex flex-col items-center justify-center py-16 text-center"
             data-testid="template-items-empty"
          >
@@ -29,6 +31,7 @@ export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
 
    return (
       <div
+         ref={ref}
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="template-items-grid"
       >

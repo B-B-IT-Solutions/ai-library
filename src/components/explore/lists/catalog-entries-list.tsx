@@ -7,11 +7,12 @@ import { CatalogEntryItem } from "./items";
 type Props = {
    entries: DCatalogEntry[];
    authenticated: boolean;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CatalogEntriesList = ({ entries, authenticated }: Props) => {
+export const CatalogEntriesList = ({ entries, authenticated, ref }: Props) => {
    return (
-      <div className="space-y-4" data-testid="catalog-entries-list">
+      <div ref={ref} className="space-y-4" data-testid="catalog-entries-list">
          {map(entries, (entry) => (
             <CatalogEntryItem
                key={entry.id}

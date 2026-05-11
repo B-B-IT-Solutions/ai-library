@@ -8,12 +8,14 @@ import { TemplateItemCard } from "./items";
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsList = ({ descriptors, collections }: Props) => {
+export const TemplateItemsList = ({ descriptors, collections, ref }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
+            ref={ref}
             className="flex flex-col items-center justify-center py-16 text-center"
             data-testid="template-items-empty"
          >
@@ -28,7 +30,7 @@ export const TemplateItemsList = ({ descriptors, collections }: Props) => {
    }
 
    return (
-      <div className="space-y-4" data-testid="template-items-list">
+      <div ref={ref} className="space-y-4" data-testid="template-items-list">
          {map(descriptors, (descriptor) => (
             <TemplateItemCard
                key={descriptor.id}
