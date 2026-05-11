@@ -11,9 +11,9 @@ module.exports = {
    coverageThreshold: {
       global: {
          lines: 99,
-         statements: 99,
-         branches: 98.2,
-         functions: 98.9,
+         statements: 99.15,
+         branches: 98.5,
+         functions: 99.1,
       },
    },
    setupFilesAfterEnv: [

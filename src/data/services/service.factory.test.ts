@@ -241,9 +241,9 @@ describe("getIubendaService tests", () => {
 });
 
 describe("getEmailService tests", () => {
-   describe("EMAIL_PROVIDER smtp  tests", () => {
+   describe("EMAIL_PROVIDER - SMTP - tests", () => {
       beforeEach(() => {
-         process.env.EMAIL_PROVIDER = "smtp";
+         process.env.EMAIL_PROVIDER = "SMTP";
          process.env.SMTP_HOST = "localhost";
          process.env.SMTP_PORT = "1025";
          process.env.SMTP_FROM = "noreply@localhost";
@@ -280,9 +280,9 @@ describe("getEmailService tests", () => {
       });
    });
 
-   describe("EMAIL_PROVIDER brevo  tests", () => {
+   describe("EMAIL_PROVIDER - BREVO - tests", () => {
       beforeEach(() => {
-         process.env.EMAIL_PROVIDER = "brevo";
+         process.env.EMAIL_PROVIDER = "BREVO";
       });
 
       afterEach(() => {
