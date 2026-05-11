@@ -28,9 +28,11 @@ services:
          NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL:-http://app:3000}
          ENCRYPTION_KEY: ${ENCRYPTION_KEY:-SxhULoMRflRMqDrr4FAsQ+RCEY4vMiC0lCXkth87eIU=}
 
-         # App
+         # Next Public
          NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-Vision Notes}
          NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
+
+         # App
          APP_URL: ${APP_URL:-http://localhost:3001}
 
          # Stripe
