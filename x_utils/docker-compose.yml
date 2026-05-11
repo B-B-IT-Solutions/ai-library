@@ -43,9 +43,8 @@ services:
          IUBENDA_CONSENT_URL: ${IUBENDA_CONSENT_URL:-https://iubenda.test.com}
 
          # Brevo
-         # BREVO_API_KEY: ${BREVO_API_KEY:-mock-brevo-api-key-123}
-         EMAIL_PROVIDER: ${BREVO_API_KEY:-BREVO}
-         BREVO_API_KEY: ${BREVO_API_KEY:-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}
+         EMAIL_PROVIDER: ${EMAIL_PROVIDER:-BREVO}
+         BREVO_API_KEY: ${BREVO_API_KEY:-mock-brevo-api-key-123}
          BREVO_SENDER_EMAIL: ${BREVO_SENDER_EMAIL:-info@vision-notes.com}
       depends_on:
          postgres:
