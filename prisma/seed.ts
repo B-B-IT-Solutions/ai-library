@@ -23,7 +23,7 @@ export const main = async () => {
    await prisma.promptContent.deleteMany();
    await prisma.promptTemplateDescriptor.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
-   await prisma.prompt.deleteMany();
+   await prisma.prompt0.deleteMany();
    await prisma.promptDescriptor.deleteMany();
    await prisma.promptCategory.deleteMany();
    await prisma.subscriptionPlan.deleteMany();
