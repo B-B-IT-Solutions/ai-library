@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { Toaster } from "@/components/shadcn/sonner";
-import { APP_DESCRIPTION, APP_NAME, getAppUrl } from "@/lib/constants";
+import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 import { Providers } from "@/providers";
 
 const inter = Inter({
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
       default: APP_NAME,
    },
    description: APP_DESCRIPTION,
-   metadataBase: new URL(getAppUrl()),
 };
 
 export type RootLayoutProps = {
