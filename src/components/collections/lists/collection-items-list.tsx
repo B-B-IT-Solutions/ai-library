@@ -10,12 +10,12 @@ type Props = {
 };
 
 export const CollectionItemsList = ({ collections, ref }: Props) => {
-   const item = (c: DCollection, index: number) => {
+   const item = (collection: DCollection, index: number) => {
       const isLast = index === collections.length - 1;
       return (
          <CollectionCard
-            key={c.id}
-            collection={c}
+            key={collection.id}
+            collection={collection}
             ref={isLast ? ref : undefined}
          />
       );
@@ -23,7 +23,7 @@ export const CollectionItemsList = ({ collections, ref }: Props) => {
 
    return (
       <div className="space-y-4" data-testid="collection-items-list">
-         {map(collections, (c, index) => item(c, index))}
+         {map(collections, (c, i) => item(c, i))}
       </div>
    );
 };

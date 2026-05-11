@@ -11,16 +11,21 @@ type Props = {
 };
 
 export const CatalogEntriesList = ({ entries, authenticated, ref }: Props) => {
+   const item = (entry: DCatalogEntry, index: number) => {
+      const isLast = index === entries.length - 1;
+      return (
+         <CatalogEntryItem
+            key={entry.id}
+            entry={entry}
+            isAuthenticated={authenticated}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div className="space-y-4" data-testid="catalog-entries-list">
-         {map(entries, (entry, index) => (
-            <CatalogEntryItem
-               key={entry.id}
-               entry={entry}
-               isAuthenticated={authenticated}
-               ref={index === entries.length - 1 ? ref : undefined}
-            />
-         ))}
+         {map(entries, (e, i) => item(e, i))}
       </div>
    );
 };

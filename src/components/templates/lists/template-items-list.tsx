@@ -28,16 +28,21 @@ export const TemplateItemsList = ({ descriptors, collections, ref }: Props) => {
       );
    }
 
+   const item = (descriptor: DPromptTemplateDescriptor, index: number) => {
+      const isLast = index === descriptors.length - 1;
+      return (
+         <TemplateItemCard
+            key={descriptor.id}
+            descriptor={descriptor}
+            collections={collections}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div className="space-y-4" data-testid="template-items-list">
-         {map(descriptors, (descriptor, index) => (
-            <TemplateItemCard
-               key={descriptor.id}
-               descriptor={descriptor}
-               collections={collections}
-               ref={index === descriptors.length - 1 ? ref : undefined}
-            />
-         ))}
+         {map(descriptors, (d, i) => item(d, i))}
       </div>
    );
 };

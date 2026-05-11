@@ -10,12 +10,12 @@ type Props = {
 };
 
 export const CollectionItemsGrid = ({ collections, ref }: Props) => {
-   const item = (c: DCollection, index: number) => {
+   const item = (collection: DCollection, index: number) => {
       const isLast = index === collections.length - 1;
       return (
          <CollectionCard
-            key={c.id}
-            collection={c}
+            key={collection.id}
+            collection={collection}
             ref={isLast ? ref : undefined}
          />
       );
@@ -26,7 +26,7 @@ export const CollectionItemsGrid = ({ collections, ref }: Props) => {
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="collection-items-grid"
       >
-         {map(collections, (c, index) => item(c, index))}
+         {map(collections, (c, i) => item(c, i))}
       </div>
    );
 };
