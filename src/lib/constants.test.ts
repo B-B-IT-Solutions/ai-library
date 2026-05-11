@@ -50,7 +50,7 @@ describe("getAppUrl - tests", () => {
       jest.isolateModules(() => {
          process.env = {
             ...originalEnv,
-            NEXT_PUBLIC_APP_URL: "https://my-app.com",
+            APP_URL: "https://my-app.com",
          };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getAppUrl } = require("./constants");
@@ -61,7 +61,7 @@ describe("getAppUrl - tests", () => {
 
    it("getAppUrl - env not set - returns default fallback - test", () => {
       jest.isolateModules(() => {
-         process.env = { ...originalEnv, NEXT_PUBLIC_APP_URL: undefined };
+         process.env = { ...originalEnv, APP_URL: undefined };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getAppUrl } = require("./constants");
 

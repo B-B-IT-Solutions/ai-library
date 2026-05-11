@@ -1,4 +1,4 @@
-process.env.NEXT_PUBLIC_APP_URL = "http://localhost:3000";
+process.env.APP_URL = "http://localhost:3000";
 process.env.AZURE_OPENAI_API_KEY = "azure-openai-test-key";
 process.env.JEST_TEST = "true";
 process.env.ENCRYPTION_KEY = "SxhULoMRflRMqDrr4FAsQ+RCEY4vMiC0lCXkth87eIU=";

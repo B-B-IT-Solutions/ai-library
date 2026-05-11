@@ -3,7 +3,8 @@ export const APP_NAME: string =
 export const APP_DESCRIPTION: string =
    process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
    "Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.";
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
+export const APP_URL = process.env.APP_URL;
 
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;

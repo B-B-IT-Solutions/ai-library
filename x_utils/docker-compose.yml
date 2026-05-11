@@ -31,7 +31,7 @@ services:
          # App
          NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-Vision Notes}
          NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
-         NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3001}
+         APP_URL: ${APP_URL:-http://localhost:3001}
 
          # Stripe
          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-pk_test_51Q0isdGzyOS6MDj9jupMzmMbVOY7gY4YJqASAOOsBRDOT1zFriorzVEHJ01OLpit8466us18VrT0T1MJcVORpwMy00kvVlPbCo}
