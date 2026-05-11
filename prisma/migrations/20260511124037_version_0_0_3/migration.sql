@@ -2,6 +2,15 @@
 CREATE TYPE "catalog_entry_status" AS ENUM ('DRAFT', 'PUBLISHED', 'ARCHIVED');
 
 -- CreateTable
+CREATE TABLE "password_reset_token" (
+    "identifier" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "password_reset_token_pkey" PRIMARY KEY ("identifier","token")
+);
+
+-- CreateTable
 CREATE TABLE "catalog_category" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" VARCHAR(250) NOT NULL,
@@ -21,7 +30,6 @@ CREATE TABLE "catalog_entry" (
     "title" VARCHAR(250) NOT NULL,
     "description" VARCHAR(750) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
-    "content" TEXT NOT NULL,
     "status" "catalog_entry_status" NOT NULL DEFAULT 'DRAFT',
     "category_id" UUID,
     "copy_count" INTEGER NOT NULL DEFAULT 0,
@@ -30,6 +38,14 @@ CREATE TABLE "catalog_entry" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "catalog_entry_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "catalog_entry_content" (
+    "catalog_entry_id" UUID NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "catalog_entry_content_pkey" PRIMARY KEY ("catalog_entry_id")
 );
 
 -- CreateTable
@@ -64,9 +80,6 @@ CREATE INDEX "catalog_entry_status_idx" ON "catalog_entry"("status");
 CREATE INDEX "catalog_entry_category_id_idx" ON "catalog_entry"("category_id");
 
 -- CreateIndex
-CREATE INDEX "catalog_entry_copy_count_idx" ON "catalog_entry"("copy_count");
-
--- CreateIndex
 CREATE INDEX "catalog_entry_field_catalog_entry_id_idx" ON "catalog_entry_field"("catalog_entry_id");
 
 -- CreateIndex
@@ -74,6 +87,9 @@ CREATE UNIQUE INDEX "catalog_entry_field_catalog_entry_id_name_key" ON "catalog_
 
 -- AddForeignKey
 ALTER TABLE "catalog_entry" ADD CONSTRAINT "catalog_entry_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "catalog_category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "catalog_entry_content" ADD CONSTRAINT "catalog_entry_content_catalog_entry_id_fkey" FOREIGN KEY ("catalog_entry_id") REFERENCES "catalog_entry"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "catalog_entry_field" ADD CONSTRAINT "catalog_entry_field_catalog_entry_id_fkey" FOREIGN KEY ("catalog_entry_id") REFERENCES "catalog_entry"("id") ON DELETE CASCADE ON UPDATE CASCADE;
