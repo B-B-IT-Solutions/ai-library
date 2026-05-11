@@ -20,7 +20,7 @@ export const main = async () => {
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
    await prisma.promptTemplateField.deleteMany();
-   await prisma.promptTemplate.deleteMany();
+   await prisma.promptContent.deleteMany();
    await prisma.promptTemplateDescriptor.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
    await prisma.prompt.deleteMany();
@@ -51,7 +51,7 @@ export const main = async () => {
       const templateDescriptor = await prisma.promptTemplateDescriptor.create({
          data: pt,
          include: {
-            promptTemplate: true,
+            promptContent: true,
          },
       });
 
@@ -63,7 +63,7 @@ export const main = async () => {
       const templateDescriptor = await prisma.promptTemplateDescriptor.create({
          data: pt,
          include: {
-            promptTemplate: {
+            promptContent: {
                include: {
                   fields: true,
                },
