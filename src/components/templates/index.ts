@@ -1,3 +1,3 @@
 export { TemplatesDashboard } from "./templates-dashboard";
-export { TemplateView, TemplateEdit, PublicTemplateView } from "./template";
+export { TemplateView, TemplateEdit, PublicTemplateView } from "./detail";
 export { templatesSearchParamsCache } from "./search-params";

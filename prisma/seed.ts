@@ -6,7 +6,6 @@ import {
    promptTemplatesData,
    SEED_USER_EMAIL,
 } from "./seed-data/prompt-templates";
-import { promptsData } from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
 import { templatesWithFields } from "./seed-data/template-fields-example";
 import { seedCatalog } from "./seeds/catalog.seed";
@@ -73,16 +72,6 @@ export const main = async () => {
       });
 
       createdTemplateDesciptors.push(templateDescriptor);
-   }
-
-   console.log("\nCreating prompts...");
-   const createdPrompts = [];
-   for (const pt of promptsData(seedUser.id)) {
-      const promptDescriptor = await prisma.promptDescriptor.create({
-         data: pt,
-      });
-
-      createdPrompts.push(promptDescriptor);
    }
 
    console.log("\nCreating products...");
@@ -157,7 +146,6 @@ export const main = async () => {
    console.log(`\nSummary:`);
    console.log(`- ${subscriptionPlansData.length} subscription plans`);
    console.log(`- ${createdTemplateDesciptors.length} templates`);
-   console.log(`- ${createdPrompts.length} prompts`);
    console.log(`- ${createdTemplateDesciptors.length} individual products`);
    console.log(`- ${bundlesData.length} bundles`);
 };
