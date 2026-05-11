@@ -26,9 +26,10 @@ import {
 type Props = {
    descriptor: DPromptTemplateDescriptor;
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemCard = ({ descriptor, collections }: Props) => {
+export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
@@ -91,6 +92,7 @@ export const TemplateItemCard = ({ descriptor, collections }: Props) => {
 
    return (
       <Card
+         ref={ref}
          className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
          data-testid="template-item-card"
       >

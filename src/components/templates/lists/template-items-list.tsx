@@ -15,7 +15,6 @@ export const TemplateItemsList = ({ descriptors, collections, ref }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
-            ref={ref}
             className="flex flex-col items-center justify-center py-16 text-center"
             data-testid="template-items-empty"
          >
@@ -30,12 +29,13 @@ export const TemplateItemsList = ({ descriptors, collections, ref }: Props) => {
    }
 
    return (
-      <div ref={ref} className="space-y-4" data-testid="template-items-list">
-         {map(descriptors, (descriptor) => (
+      <div className="space-y-4" data-testid="template-items-list">
+         {map(descriptors, (descriptor, index) => (
             <TemplateItemCard
                key={descriptor.id}
                descriptor={descriptor}
                collections={collections}
+               ref={index === descriptors.length - 1 ? ref : undefined}
             />
          ))}
       </div>
