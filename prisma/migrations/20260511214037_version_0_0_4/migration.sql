@@ -33,3 +33,17 @@ ALTER TABLE "prompt0" RENAME CONSTRAINT "prompt_pkey" TO "prompt0_pkey";
 
 -- AddForeignKey
 ALTER TABLE "prompt0" ADD CONSTRAINT "prompt0_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- RenameTable (preserves all data)
+ALTER TABLE "_PromptTemplateCategoryToPromptTemplateDescriptor" RENAME TO "_PromptToPromptTemplateCategory";
+
+-- Rename primary key constraint
+ALTER TABLE "_PromptToPromptTemplateCategory" RENAME CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_AB_pkey" TO "_PromptToPromptTemplateCategory_AB_pkey";
+
+-- Rename index
+ALTER INDEX "_PromptTemplateCategoryToPromptTemplateDescriptor_B_index" RENAME TO "_PromptToPromptTemplateCategory_B_index";
+
+-- Rename foreign key constraints
+ALTER TABLE "_PromptToPromptTemplateCategory" RENAME CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_A_fkey" TO "_PromptToPromptTemplateCategory_A_fkey";
+
+ALTER TABLE "_PromptToPromptTemplateCategory" RENAME CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_B_fkey" TO "_PromptToPromptTemplateCategory_B_fkey";
