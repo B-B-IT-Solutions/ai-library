@@ -12,12 +12,15 @@ type Props = {
 export const CollectionItemsGrid = ({ collections, ref }: Props) => {
    return (
       <div
-         ref={ref}
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="collection-items-grid"
       >
-         {map(collections, (c) => (
-            <CollectionCard key={c.id} collection={c} />
+         {map(collections, (c, index) => (
+            <CollectionCard
+               key={c.id}
+               collection={c}
+               ref={index === collections.length - 1 ? ref : undefined}
+            />
          ))}
       </div>
    );

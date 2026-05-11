@@ -11,9 +11,13 @@ type Props = {
 
 export const CollectionItemsList = ({ collections, ref }: Props) => {
    return (
-      <div ref={ref} className="space-y-4" data-testid="collection-items-list">
-         {map(collections, (c) => (
-            <CollectionCard key={c.id} collection={c} />
+      <div className="space-y-4" data-testid="collection-items-list">
+         {map(collections, (c, index) => (
+            <CollectionCard
+               key={c.id}
+               collection={c}
+               ref={index === collections.length - 1 ? ref : undefined}
+            />
          ))}
       </div>
    );

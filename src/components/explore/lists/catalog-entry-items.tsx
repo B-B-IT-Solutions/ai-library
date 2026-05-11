@@ -64,7 +64,7 @@ export const CatalogEntryItems = ({
             hasMore={hasNextPage}
             isLoading={isFetching}
             next={fetchNextPage}
-            threshold={0.7}
+            threshold={0.1}
          >
             <CatalogEntriesList
                entries={entries}
@@ -79,7 +79,7 @@ export const CatalogEntryItems = ({
          hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
-         threshold={0.7}
+         threshold={0.1}
       >
          <CatalogEntriesGrid entries={entries} authenticated={authenticated} />
       </InfiniteScroll>

@@ -7,13 +7,15 @@ import { MoreOptionsButton } from "../../buttons";
 
 type Props = {
    collection: DCollection;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CollectionCard = ({ collection }: Props) => {
+export const CollectionCard = ({ collection, ref }: Props) => {
    const iconColor = collection.color;
 
    return (
       <div
+         ref={ref}
          className="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
          data-testid="collection-item-card"
       >

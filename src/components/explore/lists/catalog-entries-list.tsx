@@ -12,12 +12,13 @@ type Props = {
 
 export const CatalogEntriesList = ({ entries, authenticated, ref }: Props) => {
    return (
-      <div ref={ref} className="space-y-4" data-testid="catalog-entries-list">
-         {map(entries, (entry) => (
+      <div className="space-y-4" data-testid="catalog-entries-list">
+         {map(entries, (entry, index) => (
             <CatalogEntryItem
                key={entry.id}
                entry={entry}
                isAuthenticated={authenticated}
+               ref={index === entries.length - 1 ? ref : undefined}
             />
          ))}
       </div>
