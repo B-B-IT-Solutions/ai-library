@@ -70,7 +70,7 @@ export const CollectionItems = ({ viewMode }: Props) => {
                hasMore={hasNextPage}
                isLoading={isFetching}
                next={fetchNextPage}
-               threshold={0.7}
+               threshold={0.1}
             >
                <CollectionItemsList collections={collections} />
             </InfiniteScroll>
@@ -82,7 +82,7 @@ export const CollectionItems = ({ viewMode }: Props) => {
             hasMore={hasNextPage}
             isLoading={isFetching}
             next={fetchNextPage}
-            threshold={0.7}
+            threshold={0.1}
          >
             <CollectionItemsGrid collections={collections} />
          </InfiniteScroll>

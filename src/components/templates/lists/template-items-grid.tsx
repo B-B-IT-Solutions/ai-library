@@ -8,9 +8,10 @@ import { TemplateItemCard } from "./items";
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
+export const TemplateItemsGrid = ({ descriptors, collections, ref }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
@@ -27,18 +28,24 @@ export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
       );
    }
 
+   const item = (descriptor: DPromptTemplateDescriptor, index: number) => {
+      const isLast = index === descriptors.length - 1;
+      return (
+         <TemplateItemCard
+            key={descriptor.id}
+            descriptor={descriptor}
+            collections={collections}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="template-items-grid"
       >
-         {map(descriptors, (entry) => (
-            <TemplateItemCard
-               key={entry.id}
-               descriptor={entry}
-               collections={collections}
-            />
-         ))}
+         {map(descriptors, (d, i) => item(d, i))}
       </div>
    );
 };

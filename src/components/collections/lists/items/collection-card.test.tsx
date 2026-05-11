@@ -1,3 +1,4 @@
+import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -58,6 +59,21 @@ describe("CollectionCard rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("CollectionCard ref tests", () => {
+   it("ref is forwarded to the Item DOM element - test", async () => {
+      const ref = createRef<HTMLDivElement>();
+      const collection = dtestData.dCollection(1);
+
+      render(<CollectionCard collection={collection} ref={ref} />);
+
+      await waitFor(() => {
+         const item = screen.getByTestId("collection-item-card");
+         expect(ref.current).not.toBeNull();
+         expect(ref.current).toBe(item);
+      });
    });
 });
 

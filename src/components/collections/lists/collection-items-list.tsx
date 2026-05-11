@@ -6,14 +6,24 @@ import { CollectionCard } from "./items";
 
 type Props = {
    collections: DCollection[];
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CollectionItemsList = ({ collections }: Props) => {
+export const CollectionItemsList = ({ collections, ref }: Props) => {
+   const item = (collection: DCollection, index: number) => {
+      const isLast = index === collections.length - 1;
+      return (
+         <CollectionCard
+            key={collection.id}
+            collection={collection}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div className="space-y-4" data-testid="collection-items-list">
-         {map(collections, (c) => (
-            <CollectionCard key={c.id} collection={c} />
-         ))}
+         {map(collections, (c, i) => item(c, i))}
       </div>
    );
 };

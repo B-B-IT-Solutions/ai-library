@@ -70,7 +70,7 @@ export const TemplateItems = ({
             hasMore={hasNextPage}
             isLoading={isFetching}
             next={fetchNextPage}
-            threshold={0.7}
+            threshold={0.1}
          >
             <TemplateItemsList
                descriptors={entries}
@@ -85,7 +85,7 @@ export const TemplateItems = ({
          hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
-         threshold={0.7}
+         threshold={0.1}
       >
          <TemplateItemsGrid descriptors={entries} collections={collections} />
       </InfiniteScroll>

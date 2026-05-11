@@ -18,9 +18,10 @@ import {
 type Props = {
    entry: DCatalogEntry;
    isAuthenticated: boolean;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CatalogEntryItem = ({ entry, isAuthenticated }: Props) => {
+export const CatalogEntryItem = ({ entry, isAuthenticated, ref }: Props) => {
    const {
       slug,
       title,
@@ -58,6 +59,7 @@ export const CatalogEntryItem = ({ entry, isAuthenticated }: Props) => {
 
    return (
       <Card
+         ref={ref}
          className="flex flex-col transition-shadow hover:shadow-md"
          data-testid="catalog-entry-item"
       >

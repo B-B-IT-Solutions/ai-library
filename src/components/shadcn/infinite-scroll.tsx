@@ -60,8 +60,15 @@ export default function InfiniteScroll({
       [children]
    );
 
+   const loader = (
+      <div className="flex justify-center py-8">
+         <div className="h-6 w-6 animate-spin rounded-full border-2 border-muted border-t-primary" />
+      </div>
+   );
+
    return (
       <>
+         {reverse && isLoading && loader}
          {flattenChildren.map((child, index) => {
             if (!React.isValidElement(child)) {
                process.env.NODE_ENV === "development" &&
@@ -78,6 +85,7 @@ export default function InfiniteScroll({
             // @ts-ignore ignore ref type
             return React.cloneElement(child, { ref });
          })}
+         {!reverse && isLoading && loader}
       </>
    );
 }
