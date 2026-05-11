@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import "whatwg-fetch";
-import "intersection-observer";
 
 import failOnConsole from "jest-fail-on-console";
 import { mockDeep } from "jest-mock-extended";
@@ -87,3 +86,18 @@ Object.defineProperty(window.HTMLElement.prototype, "scrollIntoView", {
 Object.defineProperty(HTMLElement.prototype, "hasPointerCapture", {
    value: () => false,
 });
+
+class IntersectionObserver implements globalThis.IntersectionObserver {
+   readonly root: Element | Document | null = null;
+   readonly rootMargin: string = "";
+   readonly scrollMargin: string = "";
+   readonly thresholds: ReadonlyArray<number> = [];
+   observe() {}
+   unobserve() {}
+   disconnect() {}
+   takeRecords(): IntersectionObserverEntry[] {
+      return [];
+   }
+}
+
+global.IntersectionObserver = IntersectionObserver;
