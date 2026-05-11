@@ -1,3 +1,4 @@
+import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
@@ -106,5 +107,22 @@ describe("CatalogEntryItem rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("TemplateItemCard ref tests", () => {
+   it("ref is forwarded to the Item DOM element - test", async () => {
+      const ref = createRef<HTMLDivElement>();
+      const entry = dtestData.dCatalogEntry(1);
+
+      render(
+         <CatalogEntryItem entry={entry} isAuthenticated={false} ref={ref} />
+      );
+
+      await waitFor(() => {
+         const item = screen.getByTestId("catalog-entry-item");
+         expect(ref.current).not.toBeNull();
+         expect(ref.current).toBe(item);
+      });
    });
 });

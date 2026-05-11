@@ -86,7 +86,7 @@ describe("TemplateItemCard rendering tests", () => {
 });
 
 describe("TemplateItemCard ref tests", () => {
-   it("ref is forwarded to the card DOM element - test", async () => {
+   it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = React.createRef<HTMLDivElement>();
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dCollections();
@@ -100,8 +100,9 @@ describe("TemplateItemCard ref tests", () => {
       );
 
       await waitFor(() => {
+         const item = screen.getByTestId("template-item-card");
          expect(ref.current).not.toBeNull();
-         expect(ref.current).toBe(screen.getByTestId("template-item-card"));
+         expect(ref.current).toBe(item);
       });
    });
 });
