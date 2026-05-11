@@ -99,7 +99,7 @@ describe("PublicTemplatePage rendering tests", () => {
          );
          expect(getPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPublicPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.promptTemplateId
+            descriptor.id
          );
          expect(getPublicCollectionByTokenMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
@@ -136,7 +136,7 @@ describe("PublicTemplatePage rendering tests", () => {
          );
          expect(getPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPublicPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.promptTemplateId
+            descriptor.id
          );
          expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
          expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(

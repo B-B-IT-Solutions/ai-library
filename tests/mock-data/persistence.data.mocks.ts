@@ -489,7 +489,6 @@ export const pPrompt = (index = 1): Prompt => {
       description: `description ${index}`,
       recommendedModel: `model ${index}`,
       isFavorite: index % 2 == 0,
-      promptTemplateId: `18821adc-b6c7-4239-a32e-c824c51c19d${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -497,7 +496,7 @@ export const pPrompt = (index = 1): Prompt => {
 
 export const pPromptTemplate = (index = 1): PromptContentWithFields => {
    return {
-      id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,
       fields: pPromptTemplateFields(3),
       globalFields: pPromptTemplateGlobalFields(),

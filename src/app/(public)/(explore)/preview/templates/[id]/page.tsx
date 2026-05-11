@@ -49,7 +49,7 @@ export const PublicTemplatePage = async ({
    }
 
    const [template, collection] = await Promise.all([
-      getPublicPromptTemplate(descriptor.promptTemplateId),
+      getPublicPromptTemplate(descriptor.id),
       colToken ? getPublicCollectionByToken(colToken) : Promise.resolve(null),
    ]);
 

@@ -116,7 +116,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          1
       );
       expect(getPublicPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
-         descriptor.promptTemplateId
+         descriptor.id
       );
       expect(toastMock.error).toHaveBeenCalledTimes(1);
       expect(toastMock.error).toHaveBeenCalledWith(

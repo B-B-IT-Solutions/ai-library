@@ -86,7 +86,7 @@ export class PublicTemplateRepository {
    async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
       const args = {
          where: {
-            id,
+            promptId: id,
          },
          include: {
             fields: true,

@@ -122,7 +122,7 @@ export class TemplateRepository {
    ): Promise<DPromptTemplate | null> {
       const template = await this.prisma.promptContent.findFirst({
          where: {
-            id,
+            promptId: id,
             prompt: { userId },
          },
          include: {

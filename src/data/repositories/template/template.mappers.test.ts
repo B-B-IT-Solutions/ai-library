@@ -33,7 +33,6 @@ const toDPromptTemplateDescriptorInternal = (
       description: prompt.description,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
-      promptTemplateId: prompt.promptTemplateId,
       isFavorite: prompt.isFavorite,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
@@ -44,7 +43,7 @@ const toDPromptTemplateInternal = (
    prompt: PromptContentWithFields
 ): DPromptTemplate => {
    return {
-      id: prompt.id,
+      id: prompt.promptId,
       content: prompt.content,
       fields: toDTemplateFieldsInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),

@@ -125,12 +125,12 @@ export class TemplateService {
 
       const template = await this.getPromptTemplate(
          userId,
-         descriptor.promptTemplateId
+         descriptor.id
       );
 
       if (!template) {
          throw new Error(
-            `Template with ID ${descriptor.promptTemplateId} not found`
+            `Template with ID ${descriptor.id} not found`
          );
       }
 
@@ -167,12 +167,12 @@ export class TemplateService {
 
       const template = await this.getPromptTemplate(
          userId,
-         descriptor.promptTemplateId
+         descriptor.id
       );
 
       if (!template) {
          throw new Error(
-            `Template with ID ${descriptor.promptTemplateId} not found`
+            `Template with ID ${descriptor.id} not found`
          );
       }
 

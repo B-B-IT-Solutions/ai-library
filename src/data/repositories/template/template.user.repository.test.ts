@@ -779,7 +779,7 @@ describe("pGetPromptTemplate tests", () => {
 
       const expectedWhere: PromptContentFindFirstArgs = {
          where: {
-            id,
+            promptId: id,
             prompt: { userId },
          },
          include: {
@@ -805,7 +805,7 @@ describe("pGetPromptTemplate tests", () => {
 
       const expectedWhere: PromptContentFindFirstArgs = {
          where: {
-            id,
+            promptId: id,
             prompt: { userId },
          },
          include: {

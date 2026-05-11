@@ -317,14 +317,14 @@ describe("composePromptFromTemplate tests", () => {
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
 
       const userId = "user-id-1";
-      const { id, promptTemplateId } = descriptor;
+      const { id } = descriptor;
       const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
          templateService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow(
-         `Template with ID ${promptTemplateId} not found`
+         `Template with ID ${id} not found`
       );
 
       expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
@@ -335,7 +335,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
-         promptTemplateId
+         id
       );
       expect(sValidateMock).not.toHaveBeenCalled();
    });
@@ -356,7 +356,7 @@ describe("composePromptFromTemplate tests", () => {
       sValidateMock.mockReturnValue(validationResult);
 
       const userId = "user-id-1";
-      const { id, promptTemplateId } = descriptor;
+      const { id } = descriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "invalid-email",
       };
@@ -374,7 +374,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
-         promptTemplateId
+         id
       );
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
@@ -396,7 +396,7 @@ describe("composePromptFromTemplate tests", () => {
       sReplaceMock.mockReturnValue(promptContent);
 
       const userId = "user-id-1";
-      const { id, promptTemplateId } = descriptor;
+      const { id } = descriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "test1@email.com",
       };
@@ -424,7 +424,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
-         promptTemplateId
+         id
       );
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
@@ -464,12 +464,12 @@ describe("downloadTemplate tests", () => {
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
 
-      const { id, promptTemplateId } = descriptor;
+      const { id } = descriptor;
 
       const fn = async () => await templateService.downloadTemplate(userId, id);
 
       await expect(fn).rejects.toThrow(
-         `Template with ID ${promptTemplateId} not found`
+         `Template with ID ${id} not found`
       );
       expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
@@ -479,7 +479,7 @@ describe("downloadTemplate tests", () => {
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
-         promptTemplateId
+         id
       );
    });
 
@@ -491,7 +491,7 @@ describe("downloadTemplate tests", () => {
       const template = dtestData.dPromptTemplate();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
-      const { id, promptTemplateId } = descriptor;
+      const { id } = descriptor;
 
       const result = await templateService.downloadTemplate(userId, id);
 
@@ -515,7 +515,7 @@ describe("downloadTemplate tests", () => {
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
-         promptTemplateId
+         id
       );
    });
 });

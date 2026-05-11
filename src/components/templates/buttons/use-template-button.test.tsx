@@ -111,7 +111,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
       expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(1);
       expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
-         descriptor.promptTemplateId
+         descriptor.id
       );
       expect(toastMock.error).toHaveBeenCalledTimes(1);
       expect(toastMock.error).toHaveBeenCalledWith(
