@@ -22,7 +22,7 @@ export const codeReviewTemplateWithFields = (
          "Best Practices",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
 
@@ -137,7 +137,7 @@ export const emailTemplateWithFields = (
          "E-Mail",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle eine professionelle E-Mail mit folgenden Parametern:
 
@@ -251,7 +251,7 @@ export const socialMediaPostTemplate = (
          "Marketing",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle einen professionellen Social Media Post mit folgenden Parametern:
 
@@ -397,7 +397,7 @@ export const productDescriptionTemplate = (
          "Marketing",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle eine professionelle Produktbeschreibung mit folgenden Parametern:
 
@@ -531,7 +531,7 @@ export const blogOutlineTemplate = (
          "Blogging",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle eine detaillierte Struktur für einen Blog-Artikel mit folgenden Parametern:
 
@@ -683,7 +683,7 @@ export const marketingEmailTemplate = (
          "Marketing",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle eine professionelle Marketing-E-Mail mit folgenden Parametern:
 
@@ -858,7 +858,7 @@ export const seoMetaDescriptionTemplate = (
          "Content-Marketing",
       ]),
    },
-   promptTemplate: {
+   promptContent: {
       create: {
          content: `Erstelle SEO-optimierte Meta-Tags mit folgenden Parametern:
 
