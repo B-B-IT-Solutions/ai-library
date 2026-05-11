@@ -12,7 +12,7 @@ import {
    PasswordResetEmailParams,
 } from "@/data/services/email";
 import { ServiceFactory } from "@/data/services/service.factory";
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 
 import { PasswordResetService } from "./password-reset.service";
 
@@ -44,7 +44,7 @@ describe("sendPasswordResetEmail tests", () => {
 
       await service.sendPasswordResetEmail(email, name);
 
-      const expectedResetUrl = `${APP_URL}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+      const expectedResetUrl = `${getAppUrl()}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
       const expectedParams: PasswordResetEmailParams = {
          to: email,
          name,

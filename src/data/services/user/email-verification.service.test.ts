@@ -12,7 +12,7 @@ import {
    EmailVerificationParams,
 } from "@/data/services/email";
 import { ServiceFactory } from "@/data/services/service.factory";
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 
 import { VerificationTokenService } from "./email-verification.service";
 
@@ -40,7 +40,7 @@ describe("sendVerificationEmail tests", () => {
 
       await service.sendVerificationEmail(email, name);
 
-      const expectedVerificationurl = `${APP_URL}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+      const expectedVerificationurl = `${getAppUrl()}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
       const expectedParams: EmailVerificationParams = {
          to: email,
          name,

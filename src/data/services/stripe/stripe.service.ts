@@ -17,7 +17,7 @@ import {
    DSubscriptionHistoryCreate,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 import { getStripe } from "@/lib/stripe/stripe-server";
 
 import { cartToOrderCreate, mapStripeStatus, toStripePriceUnit } from "./utils";
@@ -74,8 +74,8 @@ export class StripeService {
             orderId: order.id,
             userId: user.id,
          },
-         success_url: `${APP_URL}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: `${APP_URL}/checkout?canceled=true`,
+         success_url: `${getAppUrl()}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: `${getAppUrl()}/checkout?canceled=true`,
       });
 
       const dUpdate: DOrderUpdate = {
@@ -142,8 +142,8 @@ export class StripeService {
             planId: params.planId,
             billingInterval: params.billingInterval,
          },
-         success_url: `${APP_URL}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: `${APP_URL}/subscription/pricing`,
+         success_url: `${getAppUrl()}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: `${getAppUrl()}/subscription/pricing`,
          subscription_data: {
             metadata: {
                userId: params.userId,
@@ -498,7 +498,7 @@ export class StripeService {
       const stripe = getStripe();
       const session = await stripe.billingPortal.sessions.create({
          customer: subscription.stripeCustomerId,
-         return_url: `${APP_URL}/settings/subscription`,
+         return_url: `${getAppUrl()}/settings/subscription`,
       });
 
       return {

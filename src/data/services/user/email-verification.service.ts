@@ -1,6 +1,6 @@
 import { VerificationTokenRepository } from "@/data/repositories/user";
 import { EmailVerificationParams, IEmailService } from "@/data/services/email";
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 
 export class VerificationTokenService {
    constructor(
@@ -10,7 +10,7 @@ export class VerificationTokenService {
 
    async sendVerificationEmail(email: string, name: string): Promise<void> {
       const token = await this.tokenRepo.pCreateToken(email);
-      const verificationUrl = `${APP_URL}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+      const verificationUrl = `${getAppUrl()}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
       const params: EmailVerificationParams = {
          to: email,

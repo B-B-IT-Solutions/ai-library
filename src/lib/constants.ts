@@ -3,8 +3,8 @@ export const APP_NAME: string =
 export const APP_DESCRIPTION: string =
    process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
    "Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.";
-export const APP_URL: string =
-   process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+export const APP_URL = process.env.APP_URL;
 
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
@@ -32,6 +32,13 @@ export const STRIPE_PRO_PLAN_ID = process.env.STRIPE_PRO_PLAN_ID;
 
 export const INIT_PAGE_NUMBER = 0;
 export const PAGE_SIZE = 10;
+
+export const getAppUrl = (): string => {
+   if (!APP_URL) {
+      throw new Error("APP_URL is not set in environment variables");
+   }
+   return APP_URL;
+};
 
 export const getIubendaApiKey = (): string => {
    if (!IUBENDA_API_KEY) {
