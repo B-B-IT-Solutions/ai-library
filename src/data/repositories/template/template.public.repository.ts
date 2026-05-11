@@ -7,10 +7,10 @@ import {
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import {
+   PromptContentFindFirstArgs,
    PromptTemplateDescriptorCountArgs,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
-   PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -94,9 +94,9 @@ export class PublicTemplateRepository {
             fields: true,
             globalFields: true,
          },
-      } satisfies PromptTemplateFindFirstArgs;
+      } satisfies PromptContentFindFirstArgs;
 
-      const template = await this.prisma.promptTemplate.findFirst(args);
+      const template = await this.prisma.promptContent.findFirst(args);
 
       return template ? toDPromptTemplate(template) : null;
    }

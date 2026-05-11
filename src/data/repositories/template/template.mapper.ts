@@ -1,8 +1,8 @@
 import { map } from "es-toolkit/compat";
 
 import {
+   PromptContentWithFields,
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
@@ -34,7 +34,7 @@ export const toDTemplateDescriptor = (
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptTemplateWithFields
+   prompt: PromptContentWithFields
 ): DPromptTemplate => {
    return {
       id: prompt.id,

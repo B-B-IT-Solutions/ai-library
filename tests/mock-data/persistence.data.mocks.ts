@@ -23,9 +23,9 @@ import {
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
+   PromptContentWithFields,
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithTemplate,
-   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -459,10 +459,10 @@ export const pPromptTemplateDescriptorWithTemplate = (
    index = 1
 ): PromptTemplateDescriptorWithTemplate => {
    const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
-   const promptTemplate = pPromptTemplate(index);
+   const promptContent = pPromptTemplate(index);
    return {
       ...templateDescriptor,
-      promptTemplate,
+      promptContent,
    };
 };
 
@@ -507,7 +507,7 @@ export const pPromptTemplateDescriptor = (
    };
 };
 
-export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
+export const pPromptTemplate = (index = 1): PromptContentWithFields => {
    return {
       id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,

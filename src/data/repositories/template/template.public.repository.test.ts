@@ -8,10 +8,10 @@ import {
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import {
+   PromptContentFindFirstArgs,
    PromptTemplateDescriptorCountArgs,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
-   PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -234,12 +234,12 @@ describe("pGetPublicPromptTemplate tests", () => {
    });
 
    test("template null - test", async () => {
-      prismaMock.promptTemplate.findFirst.mockResolvedValue(null);
+      prismaMock.promptContent.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
 
-      const expectedArgs: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptContentFindFirstArgs = {
          where: {
             id,
          },
@@ -249,21 +249,21 @@ describe("pGetPublicPromptTemplate tests", () => {
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 
    test("template retrieved - test", async () => {
       const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
+      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedArgs: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptContentFindFirstArgs = {
          where: {
             id,
          },
@@ -273,8 +273,8 @@ describe("pGetPublicPromptTemplate tests", () => {
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
          expectedArgs
       );
    });

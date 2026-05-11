@@ -124,7 +124,7 @@ export class TemplateRepository {
       userId: string,
       id: string
    ): Promise<DPromptTemplate | null> {
-      const template = await this.prisma.promptTemplate.findFirst({
+      const template = await this.prisma.promptContent.findFirst({
          where: {
             id,
             promptTemplateDescriptor: { userId },
@@ -168,7 +168,7 @@ export class TemplateRepository {
                },
             })),
          },
-         promptTemplate: {
+         promptContent: {
             create: {
                content: data.content,
                fields: {
@@ -229,7 +229,7 @@ export class TemplateRepository {
                create: { name: catName, userId },
             })),
          },
-         promptTemplate: {
+         promptContent: {
             update: {
                content: data.content,
                fields: {
@@ -338,7 +338,7 @@ export class TemplateRepository {
                  },
               },
               {
-                 promptTemplate: {
+                 promptContent: {
                     content: {
                        contains: search,
                        mode: "insensitive",

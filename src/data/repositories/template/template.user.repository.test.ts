@@ -21,7 +21,7 @@ import {
    PromptTemplateDescriptorUpdateArgs,
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateDescriptorWhereInput,
-   PromptTemplateFindFirstArgs,
+   PromptContentFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -647,7 +647,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
                   },
                },
                {
-                  promptTemplate: {
+promptContent: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -734,7 +734,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
                   },
                },
                {
-                  promptTemplate: {
+promptContent: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -829,13 +829,13 @@ describe("pGetPromptTemplate tests", () => {
    });
 
    test("pGetPromptTemplate - template null - test", async () => {
-      prismaMock.promptTemplate.findFirst.mockResolvedValue(null);
+      prismaMock.promptContent.findFirst.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedWhere: PromptContentFindFirstArgs = {
          where: {
             id,
             promptTemplateDescriptor: { userId },
@@ -846,22 +846,22 @@ describe("pGetPromptTemplate tests", () => {
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
          expectedWhere
       );
    });
 
    test("pGetPromptTemplate - template retrieved - test", async () => {
       const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
+      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedWhere: PromptContentFindFirstArgs = {
          where: {
             id,
             promptTemplateDescriptor: { userId },
@@ -872,8 +872,8 @@ describe("pGetPromptTemplate tests", () => {
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
          expectedWhere
       );
    });
@@ -943,7 +943,7 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                },
             })),
          },
-         promptTemplate: {
+promptContent: {
             create: {
                content: data.content,
                fields: {
@@ -1020,7 +1020,7 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
                create: { name: catName, userId },
             })),
          },
-         promptTemplate: {
+promptContent: {
             update: {
                content: data.content,
                fields: {
