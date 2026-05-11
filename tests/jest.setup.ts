@@ -71,7 +71,7 @@ Object.assign(navigator, {
    },
 });
 
-class ResizeObserver {
+class ResizeObserver implements globalThis.ResizeObserver {
    observe() {}
    unobserve() {}
    disconnect() {}
