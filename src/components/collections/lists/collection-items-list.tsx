@@ -10,15 +10,20 @@ type Props = {
 };
 
 export const CollectionItemsList = ({ collections, ref }: Props) => {
+   const item = (c: DCollection, index: number) => {
+      const isLast = index === collections.length - 1;
+      return (
+         <CollectionCard
+            key={c.id}
+            collection={c}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div className="space-y-4" data-testid="collection-items-list">
-         {map(collections, (c, index) => (
-            <CollectionCard
-               key={c.id}
-               collection={c}
-               ref={index === collections.length - 1 ? ref : undefined}
-            />
-         ))}
+         {map(collections, (c, index) => item(c, index))}
       </div>
    );
 };

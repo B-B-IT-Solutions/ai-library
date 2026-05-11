@@ -1,3 +1,4 @@
+import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
@@ -44,5 +45,27 @@ describe("TemplateItemsList rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("TemplateItemsList ref tests", () => {
+   it("ref is forwarded to the last card DOM element - test", async () => {
+      const ref = React.createRef<HTMLDivElement>();
+      const collections = dtestData.dCollections();
+      const descriptors = dtestData.dPromptTemplateDescriptors(); // 3 items
+
+      renderWithReactQuery(
+         <TemplateItemsList
+            descriptors={descriptors}
+            collections={collections}
+            ref={ref}
+         />
+      );
+
+      await waitFor(() => {
+         const cards = screen.getAllByTestId("template-item-card");
+         expect(ref.current).not.toBeNull();
+         expect(ref.current).toBe(cards[cards.length - 1]);
+      });
    });
 });

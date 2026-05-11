@@ -1,5 +1,6 @@
 jest.mock("@/data/actions/collection");
 
+import React from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
@@ -81,6 +82,27 @@ describe("TemplateItemCard rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("TemplateItemCard ref tests", () => {
+   it("ref is forwarded to the card DOM element - test", async () => {
+      const ref = React.createRef<HTMLDivElement>();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const collections = dtestData.dCollections();
+
+      renderWithReactQuery(
+         <TemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+            ref={ref}
+         />
+      );
+
+      await waitFor(() => {
+         expect(ref.current).not.toBeNull();
+         expect(ref.current).toBe(screen.getByTestId("template-item-card"));
+      });
    });
 });
 
