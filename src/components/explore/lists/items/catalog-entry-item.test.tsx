@@ -110,7 +110,7 @@ describe("CatalogEntryItem rendering tests", () => {
    });
 });
 
-describe("TemplateItemCard ref tests", () => {
+describe("CatalogEntryItem ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const entry = dtestData.dCatalogEntry(1);
