@@ -22,8 +22,6 @@ import { getStripe } from "@/lib/stripe/stripe-server";
 
 import { cartToOrderCreate, mapStripeStatus, toStripePriceUnit } from "./utils";
 
-const appUrl = getAppUrl();
-
 export class StripeService {
    private cartService: CartService;
    private orderService: OrderService;
@@ -76,8 +74,8 @@ export class StripeService {
             orderId: order.id,
             userId: user.id,
          },
-         success_url: `${appUrl}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: `${appUrl}/checkout?canceled=true`,
+         success_url: `${getAppUrl()}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: `${getAppUrl()}/checkout?canceled=true`,
       });
 
       const dUpdate: DOrderUpdate = {
@@ -144,8 +142,8 @@ export class StripeService {
             planId: params.planId,
             billingInterval: params.billingInterval,
          },
-         success_url: `${appUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: `${appUrl}/subscription/pricing`,
+         success_url: `${getAppUrl()}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: `${getAppUrl()}/subscription/pricing`,
          subscription_data: {
             metadata: {
                userId: params.userId,
@@ -500,7 +498,7 @@ export class StripeService {
       const stripe = getStripe();
       const session = await stripe.billingPortal.sessions.create({
          customer: subscription.stripeCustomerId,
-         return_url: `${appUrl}/settings/subscription`,
+         return_url: `${getAppUrl()}/settings/subscription`,
       });
 
       return {
