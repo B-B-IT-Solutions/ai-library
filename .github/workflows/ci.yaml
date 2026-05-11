@@ -16,12 +16,12 @@ jobs:
          DATABASE_URL: "postgres://localhost:51213"
       steps:
          - name: Setup Node v22
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
               node-version: v22
 
          - name: Checkout Code
-           uses: actions/checkout@v4
+           uses: actions/checkout@v6
 
          - name: Secret Scanner
            uses: secret-scanner/action@0.0.2
