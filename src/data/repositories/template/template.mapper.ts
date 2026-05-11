@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptContentWithFields,
-   PromptTemplateDescriptorWithCategories,
+   PromptWithCategories,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
@@ -12,13 +12,13 @@ import {
 import { PromptTemplateField } from "@/generated/prisma/client";
 
 export const toDTemplateDescriptors = (
-   pPrompts: PromptTemplateDescriptorWithCategories[]
+   pPrompts: PromptWithCategories[]
 ): DPromptTemplateDescriptor[] => {
    return map(pPrompts, (dbP) => toDTemplateDescriptor(dbP));
 };
 
 export const toDTemplateDescriptor = (
-   prompt: PromptTemplateDescriptorWithCategories
+   prompt: PromptWithCategories
 ): DPromptTemplateDescriptor => {
    return {
       id: prompt.id,

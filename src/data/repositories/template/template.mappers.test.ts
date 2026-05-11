@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptContentWithFields,
-   PromptTemplateDescriptorWithCategories,
+   PromptWithCategories,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
@@ -19,13 +19,13 @@ import {
 } from "./template.mapper";
 
 const toDPromptTemplateDescriptorsInternal = (
-   pPrompts: PromptTemplateDescriptorWithCategories[]
+   pPrompts: PromptWithCategories[]
 ): DPromptTemplateDescriptor[] => {
    return map(pPrompts, (dbP) => toDPromptTemplateDescriptorInternal(dbP));
 };
 
 const toDPromptTemplateDescriptorInternal = (
-   prompt: PromptTemplateDescriptorWithCategories
+   prompt: PromptWithCategories
 ): DPromptTemplateDescriptor => {
    return {
       id: prompt.id,
@@ -82,14 +82,14 @@ describe("prompt.template mappers tests", () => {
    });
 
    it("toDTemplateDescriptors test", async () => {
-      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const descriptors = ptestData.pPromptsWithCategories();
       const result = toDTemplateDescriptors(descriptors);
       const expectedResult = toDPromptTemplateDescriptorsInternal(descriptors);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDTemplateDescriptor test", async () => {
-      const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
+      const descriptor = ptestData.pPromptWithCategories();
       const result = toDTemplateDescriptor(descriptor);
       const expectedResult = toDPromptTemplateDescriptorInternal(descriptor);
       expect(result).toEqual(expectedResult);

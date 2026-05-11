@@ -3,8 +3,8 @@ import { dtestData } from "@tests";
 import { Sort } from "@/data/types/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import {
-   PromptDescriptorOrderByWithRelationInput,
-   PromptTemplateDescriptorWhereInput,
+   PromptOrderByWithRelationInput,
+   PromptWhereInput,
 } from "@/generated/prisma/models";
 
 import { resolveOrderBy, resolveWhereInput } from "./utils";
@@ -18,13 +18,13 @@ describe("resolveWhereInput tests", () => {
 
    test("userId undefined - filter undefined - test", async () => {
       const result = resolveWhereInput();
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {};
+      const expectedWhere: PromptWhereInput = {};
       expect(result).toEqual(expectedWhere);
    });
 
    test("filter undefined- test", async () => {
       const result = resolveWhereInput(userId);
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
       };
 
@@ -38,7 +38,7 @@ describe("resolveWhereInput tests", () => {
 
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          OR: [
             {
@@ -65,7 +65,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          categories: { some: { name: { in: ["cat1", "cat2"] } } },
       };
@@ -79,7 +79,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          recommendedModel: { in: ["gpt-4", "claude"] },
       };
@@ -93,7 +93,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          isFavorite: true,
       };
@@ -107,7 +107,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          isFavorite: false,
       };
@@ -121,7 +121,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          collectionEntries: {
             some: { collectionId: { in: ["col-1", "col-2"] } },
@@ -139,7 +139,7 @@ describe("resolveWhereInput tests", () => {
       };
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
       };
 
@@ -151,7 +151,7 @@ describe("resolveWhereInput tests", () => {
 
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+      const expectedWhere: PromptWhereInput = {
          userId,
          OR: [
             {
@@ -188,7 +188,7 @@ describe("resolveOrderBy tests", () => {
 
    test("sort undefined - test", async () => {
       const result = resolveOrderBy();
-      const expectedWhere: PromptDescriptorOrderByWithRelationInput = {
+      const expectedWhere: PromptOrderByWithRelationInput = {
          createdAt: "desc" as const,
       };
       expect(result).toEqual(expectedWhere);
@@ -200,7 +200,7 @@ describe("resolveOrderBy tests", () => {
          order: "asc",
       };
       const result = resolveOrderBy(sort);
-      const expectedWhere: PromptDescriptorOrderByWithRelationInput = {
+      const expectedWhere: PromptOrderByWithRelationInput = {
          title: "asc" as const,
       };
       expect(result).toEqual(expectedWhere);

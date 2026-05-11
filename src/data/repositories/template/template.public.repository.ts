@@ -1,5 +1,5 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
@@ -8,9 +8,9 @@ import {
 } from "@/data/types/domain/prompt.template";
 import {
    PromptContentFindFirstArgs,
-   PromptTemplateDescriptorCountArgs,
-   PromptTemplateDescriptorFindFirstArgs,
-   PromptTemplateDescriptorFindManyArgs,
+   PromptCountArgs,
+   PromptFindFirstArgs,
+   PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -38,7 +38,7 @@ export class PublicTemplateRepository {
       const where = resolveWhereInput(undefined, query.filter);
       const orderBy = resolveOrderBy(query.sort);
 
-      const args: PromptTemplateDescriptorFindManyArgs = {
+      const args: PromptFindManyArgs = {
          where,
          include: {
             categories: true,
@@ -48,15 +48,13 @@ export class PublicTemplateRepository {
          take: pageSize,
       };
 
-      const countArgs: PromptTemplateDescriptorCountArgs = {
+      const countArgs: PromptCountArgs = {
          where,
       };
 
       const [descriptors, totalElements] = await Promise.all([
-         this.prisma.promptTemplateDescriptor.findMany(args) as Promise<
-            PromptTemplateDescriptorWithCategories[]
-         >,
-         this.prisma.promptTemplateDescriptor.count(countArgs),
+         this.prisma.prompt.findMany(args) as Promise<PromptWithCategories[]>,
+         this.prisma.prompt.count(countArgs),
       ]);
 
       return {
@@ -77,10 +75,10 @@ export class PublicTemplateRepository {
          include: {
             categories: true,
          },
-      } satisfies PromptTemplateDescriptorFindFirstArgs;
+      } satisfies PromptFindFirstArgs;
 
-      const descriptor: PromptTemplateDescriptorWithCategories | null =
-         await this.prisma.promptTemplateDescriptor.findFirst(args);
+      const descriptor: PromptWithCategories | null =
+         await this.prisma.prompt.findFirst(args);
 
       return descriptor ? toDTemplateDescriptor(descriptor) : null;
    }

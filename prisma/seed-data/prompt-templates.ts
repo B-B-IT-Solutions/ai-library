@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { PromptTemplateDescriptorCreateInput } from "@/generated/prisma/models";
+import { PromptCreateInput } from "@/generated/prisma/models";
 
 export const SEED_USER_EMAIL = "test1@gmail.com";
 
@@ -18,9 +18,7 @@ const promptTemplateCategories = (userId: string, categories: string[]) => {
    });
 };
 
-export const promptTemplatesData = (
-   userId: string
-): PromptTemplateDescriptorCreateInput[] => [
+export const promptTemplatesData = (userId: string): PromptCreateInput[] => [
    {
       user: { connect: { id: userId } },
       title: "Vision Notes - Produktbeschreibung",

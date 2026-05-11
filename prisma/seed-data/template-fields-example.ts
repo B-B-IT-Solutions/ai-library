@@ -1,4 +1,4 @@
-import { PromptTemplateDescriptorCreateInput } from "@/generated/prisma/models";
+import { PromptCreateInput } from "@/generated/prisma/models";
 
 const promptTemplateCategories = (userId: string, categories: string[]) => {
    return categories.map((cat: string) => ({
@@ -9,7 +9,7 @@ const promptTemplateCategories = (userId: string, categories: string[]) => {
 
 export const codeReviewTemplateWithFields = (
    userId: string
-): PromptTemplateDescriptorCreateInput => ({
+): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "KI-gestützte Code-Review",
    description:
@@ -122,9 +122,7 @@ Gib für jeden kritischen Punkt ein konkretes Code-Beispiel, wie es verbessert w
    },
 });
 
-export const emailTemplateWithFields = (
-   userId: string
-): PromptTemplateDescriptorCreateInput => ({
+export const emailTemplateWithFields = (userId: string): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "Professionelle E-Mail-Vorlage",
    description:
@@ -236,9 +234,7 @@ Achte darauf, dass die E-Mail professionell, aber nicht zu förmlich wirkt.`,
    },
 });
 
-export const socialMediaPostTemplate = (
-   userId: string
-): PromptTemplateDescriptorCreateInput => ({
+export const socialMediaPostTemplate = (userId: string): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "Social Media Post Generator",
    description:
@@ -384,7 +380,7 @@ Achte auf die plattformspezifischen Best Practices und aktuellen Trends.`,
 
 export const productDescriptionTemplate = (
    userId: string
-): PromptTemplateDescriptorCreateInput => ({
+): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "Produkt-Beschreibung Generator",
    description:
@@ -516,9 +512,7 @@ Verwende aktive Sprache, konkrete Beschreibungen und fokussiere auf den Kundennu
    },
 });
 
-export const blogOutlineTemplate = (
-   userId: string
-): PromptTemplateDescriptorCreateInput => ({
+export const blogOutlineTemplate = (userId: string): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "Blog-Artikel Struktur Generator",
    description:
@@ -668,9 +662,7 @@ Die Struktur soll:
    },
 });
 
-export const marketingEmailTemplate = (
-   userId: string
-): PromptTemplateDescriptorCreateInput => ({
+export const marketingEmailTemplate = (userId: string): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "Marketing-E-Mail Kampagne",
    description:
@@ -845,7 +837,7 @@ Die E-Mail soll:
 
 export const seoMetaDescriptionTemplate = (
    userId: string
-): PromptTemplateDescriptorCreateInput => ({
+): PromptCreateInput => ({
    user: { connect: { id: userId } },
    title: "SEO Meta-Description Generator",
    description:

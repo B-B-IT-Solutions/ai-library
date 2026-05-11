@@ -1,4 +1,4 @@
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt.template";
 import {
    Product,
    ProductExample,
@@ -9,7 +9,7 @@ import {
 } from "@/generated/prisma/client";
 
 export type ProductItemWithTemplate = ProductItem & {
-   template: PromptTemplateDescriptorWithCategories;
+   template: PromptWithCategories;
 };
 
 export type ProductWithItems = Product & {

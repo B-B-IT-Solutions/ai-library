@@ -1,7 +1,7 @@
 import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateCategory,
@@ -14,14 +14,14 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
-   PromptTemplateDescriptorCountArgs,
-   PromptTemplateDescriptorCreateArgs,
-   PromptTemplateDescriptorCreateInput,
-   PromptTemplateDescriptorDeleteArgs,
-   PromptTemplateDescriptorFindManyArgs,
-   PromptTemplateDescriptorUpdateArgs,
-   PromptTemplateDescriptorUpdateInput,
-   PromptTemplateDescriptorWhereInput,
+   PromptCountArgs,
+   PromptCreateArgs,
+   PromptCreateInput,
+   PromptDeleteArgs,
+   PromptFindManyArgs,
+   PromptUpdateArgs,
+   PromptUpdateInput,
+   PromptWhereInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -31,7 +31,7 @@ import {
 } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
-type PGetPromptTemplateDescriptorsParams = {
+type PGetPromptsParams = {
    search?: string;
    categories?: string[];
 };
@@ -55,7 +55,7 @@ export class TemplateRepository {
       const where = resolveWhereInput(userId, query?.filter);
       const orderBy = resolveOrderBy(query?.sort);
 
-      const args: PromptTemplateDescriptorFindManyArgs = {
+      const args: PromptFindManyArgs = {
          where,
          include: {
             categories: true,
@@ -65,15 +65,13 @@ export class TemplateRepository {
          take: pageSize,
       };
 
-      const countArgs: PromptTemplateDescriptorCountArgs = {
+      const countArgs: PromptCountArgs = {
          where,
       };
 
       const [descriptors, totalElements] = await Promise.all([
-         this.prisma.promptTemplateDescriptor.findMany(args) as Promise<
-            PromptTemplateDescriptorWithCategories[]
-         >,
-         this.prisma.promptTemplateDescriptor.count(countArgs),
+         this.prisma.prompt.findMany(args) as Promise<PromptWithCategories[]>,
+         this.prisma.prompt.count(countArgs),
       ]);
 
       return {
@@ -86,12 +84,10 @@ export class TemplateRepository {
       };
    }
 
-   async pGetPromptTemplateDescriptors(
-      params?: PGetPromptTemplateDescriptorsParams
-   ) {
-      const where = this.resolveGetPromptTemplateDescriptorsWhereInput(params);
+   async pGetPrompts(params?: PGetPromptsParams) {
+      const where = this.resolveGetPromptsWhereInput(params);
 
-      const templates = await this.prisma.promptTemplateDescriptor.findMany({
+      const templates = await this.prisma.prompt.findMany({
          where: where,
          include: {
             categories: true,
@@ -106,8 +102,8 @@ export class TemplateRepository {
       userId: string,
       id: string
    ): Promise<DPromptTemplateDescriptor | null> {
-      const template: PromptTemplateDescriptorWithCategories | null =
-         await this.prisma.promptTemplateDescriptor.findFirst({
+      const template: PromptWithCategories | null =
+         await this.prisma.prompt.findFirst({
             where: { id, userId },
             include: {
                categories: true,
@@ -127,7 +123,7 @@ export class TemplateRepository {
       const template = await this.prisma.promptContent.findFirst({
          where: {
             id,
-            promptTemplateDescriptor: { userId },
+            prompt: { userId },
          },
          include: {
             fields: true,
@@ -149,11 +145,11 @@ export class TemplateRepository {
       });
    }
 
-   async pCreatePromptTemplateDescriptor(
+   async pCreatePrompt(
       userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
-      const input: PromptTemplateDescriptorCreateInput = {
+      const input: PromptCreateInput = {
          title: data.title,
          description: data.description,
          recommendedModel: data.recommendedModel,
@@ -201,24 +197,22 @@ export class TemplateRepository {
          },
       };
 
-      const args: PromptTemplateDescriptorCreateArgs = {
+      const args: PromptCreateArgs = {
          data: input,
          include: {
             categories: true,
          },
       };
-      const newEntry = await this.prisma.promptTemplateDescriptor.create(args);
-      return toDTemplateDescriptor(
-         newEntry as PromptTemplateDescriptorWithCategories
-      );
+      const newEntry = await this.prisma.prompt.create(args);
+      return toDTemplateDescriptor(newEntry as PromptWithCategories);
    }
 
-   async pUpdatePromptTemplateDescriptor(
+   async pUpdatePrompt(
       userId: string,
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
-      const input: PromptTemplateDescriptorUpdateInput = {
+      const input: PromptUpdateInput = {
          title: data.title,
          description: data.description,
          recommendedModel: data.recommendedModel,
@@ -259,19 +253,19 @@ export class TemplateRepository {
          },
       };
 
-      const args: PromptTemplateDescriptorUpdateArgs = {
+      const args: PromptUpdateArgs = {
          where: { id: descriptorId },
          data: input,
       };
 
-      await this.prisma.promptTemplateDescriptor.update(args);
+      await this.prisma.prompt.update(args);
    }
 
-   async pDeletePromptTemplateDescriptor(userId: string, descriptorId: string) {
-      const args: PromptTemplateDescriptorDeleteArgs = {
+   async pDeletePrompt(userId: string, descriptorId: string) {
+      const args: PromptDeleteArgs = {
          where: { id: descriptorId, userId },
       };
-      await this.prisma.promptTemplateDescriptor.delete(args);
+      await this.prisma.prompt.delete(args);
    }
 
    async pToggleFavorite(
@@ -279,9 +273,9 @@ export class TemplateRepository {
       descriptorId: string,
       isFavorite: boolean
    ): Promise<void> {
-      const input: PromptTemplateDescriptorUpdateInput = { isFavorite };
+      const input: PromptUpdateInput = { isFavorite };
 
-      const args: PromptTemplateDescriptorUpdateArgs = {
+      const args: PromptUpdateArgs = {
          where: {
             id: descriptorId,
             userId,
@@ -289,11 +283,11 @@ export class TemplateRepository {
          data: input,
       };
 
-      await this.prisma.promptTemplateDescriptor.update(args);
+      await this.prisma.prompt.update(args);
    }
 
    async pGetTemplateCategories(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.promptTemplateDescriptor.findMany({
+      const descriptors = await this.prisma.prompt.findMany({
          where: { userId },
          include: {
             categories: true,
@@ -307,7 +301,7 @@ export class TemplateRepository {
    }
 
    async pGetTemplateModels(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.promptTemplateDescriptor.findMany({
+      const descriptors = await this.prisma.prompt.findMany({
          where: { userId },
          select: {
             recommendedModel: true,
@@ -318,18 +312,16 @@ export class TemplateRepository {
       return uniq(models).sort();
    }
 
-   private resolveGetPromptTemplateDescriptorsWhereInput(
-      params?: PGetPromptTemplateDescriptorsParams
-   ): PromptTemplateDescriptorWhereInput | undefined {
+   private resolveGetPromptsWhereInput(
+      params?: PGetPromptsParams
+   ): PromptWhereInput | undefined {
       if (isEmpty(params)) {
          return undefined;
       }
 
       const { search, categories } = params;
 
-      const searchClause:
-         | Prisma.PromptTemplateDescriptorWhereInput[]
-         | undefined = search
+      const searchClause: Prisma.PromptWhereInput[] | undefined = search
          ? [
               {
                  title: {
@@ -349,21 +341,20 @@ export class TemplateRepository {
          : undefined;
 
       const isCategories = !isEmpty(categories);
-      const categoriesClause:
-         | Prisma.PromptTemplateDescriptorWhereInput[]
-         | undefined = isCategories
-         ? [
-              {
-                 categories: {
-                    some: {
-                       name: {
-                          in: categories,
+      const categoriesClause: Prisma.PromptWhereInput[] | undefined =
+         isCategories
+            ? [
+                 {
+                    categories: {
+                       some: {
+                          name: {
+                             in: categories,
+                          },
                        },
                     },
                  },
-              },
-           ]
-         : undefined;
+              ]
+            : undefined;
 
       return {
          OR: searchClause,
