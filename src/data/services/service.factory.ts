@@ -223,7 +223,7 @@ export class ServiceFactory {
 
    getEmailService(): IEmailService {
       if (!this.emailService) {
-         if (EMAIL_PROVIDER === "smtp") {
+         if (EMAIL_PROVIDER === "SMTP") {
             this.emailService = new SmtpEmailService();
          } else {
             this.emailService = new BrevoEmailService();
