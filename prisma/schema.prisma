@@ -173,7 +173,7 @@ model Prompt {
   collectionEntries LibraryCollectionEntry[]
 
   @@index([userId])
-  @@map("prompt_template_descriptor")
+  @@map("prompt")
 }
 
 model PromptContent {
