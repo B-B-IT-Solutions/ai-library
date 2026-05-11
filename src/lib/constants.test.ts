@@ -39,33 +39,35 @@ describe("constants - static values - tests", () => {
    });
 });
 
-describe("APP_URL - tests", () => {
+describe("getAppUrl - tests", () => {
    const originalEnv = process.env;
 
    afterEach(() => {
       process.env = originalEnv;
    });
 
-   it("APP_URL - env set - returns env value - test", () => {
+   it("getAppUrl - env set - returns env value - test", () => {
       jest.isolateModules(() => {
          process.env = {
             ...originalEnv,
             NEXT_PUBLIC_APP_URL: "https://my-app.com",
          };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
-         const { APP_URL } = require("./constants");
+         const { getAppUrl } = require("./constants");
 
-         expect(APP_URL).toBe("https://my-app.com");
+         expect(getAppUrl()).toBe("https://my-app.com");
       });
    });
 
-   it("APP_URL - env not set - returns default fallback - test", () => {
+   it("getAppUrl - env not set - returns default fallback - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, NEXT_PUBLIC_APP_URL: undefined };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
-         const { APP_URL } = require("./constants");
+         const { getAppUrl } = require("./constants");
 
-         expect(APP_URL).toBe("http://localhost:3000");
+         expect(() => getAppUrl()).toThrow(
+            "APP_URL is not set in environment variables"
+         );
       });
    });
 });

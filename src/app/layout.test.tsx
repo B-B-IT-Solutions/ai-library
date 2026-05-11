@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { Metadata } from "next";
 
-import { APP_DESCRIPTION, APP_NAME, APP_URL } from "@/lib/constants";
+import { APP_DESCRIPTION, APP_NAME, getAppUrl } from "@/lib/constants";
 
 import RootLayout, { metadata, RootLayoutProps } from "./layout";
 
@@ -21,7 +21,7 @@ const expectedMetadata: Metadata = {
       default: APP_NAME,
    },
    description: APP_DESCRIPTION,
-   metadataBase: new URL(APP_URL),
+   metadataBase: new URL(getAppUrl()),
 };
 
 const assertRendered = () => {

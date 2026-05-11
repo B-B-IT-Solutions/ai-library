@@ -1,6 +1,6 @@
 import { PasswordResetRepository } from "@/data/repositories/user";
 import { IEmailService, PasswordResetEmailParams } from "@/data/services/email";
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 
 export class PasswordResetService {
    constructor(
@@ -10,7 +10,7 @@ export class PasswordResetService {
 
    async sendPasswordResetEmail(email: string, name: string): Promise<void> {
       const token = await this.tokenRepo.pCreateToken(email);
-      const resetUrl = `${APP_URL}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+      const resetUrl = `${getAppUrl()}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
 
       const params: PasswordResetEmailParams = { to: email, name, resetUrl };
       await this.emailService.sendPasswordResetEmail(params);
