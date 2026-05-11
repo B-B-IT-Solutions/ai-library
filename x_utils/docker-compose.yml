@@ -33,7 +33,7 @@ services:
          NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
 
          # App
-         APP_URL: ${APP_URL:-http://localhost:3001}
+         APP_URL: ${APP_URL:-http://localhost:3000}
 
          # Stripe
          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-pk_test_51Q0isdGzyOS6MDj9jupMzmMbVOY7gY4YJqASAOOsBRDOT1zFriorzVEHJ01OLpit8466us18VrT0T1MJcVORpwMy00kvVlPbCo}
@@ -50,9 +50,9 @@ services:
          BREVO_SENDER_EMAIL: ${BREVO_SENDER_EMAIL:-info@vision-notes.com}
 
          # SMTP
-         SMTP_HOST: ${SMTP_PORT:-localhost}
+         SMTP_HOST: ${SMTP_PORT:-mailhog}
          SMTP_PORT: ${SMTP_PORT:-1025}
-         SMTP_FROM: ${SMTP_PORT:-noreply@localhost}
+         SMTP_FROM: ${SMTP_PORT:-noreply@mailhog}
       depends_on:
          postgres:
             condition: service_healthy
