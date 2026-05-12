@@ -49,8 +49,7 @@ const sGetTemplateDescriptorCategories =
    TemplateService.prototype.getTemplateDescriptorCategories;
 const sGetTemplateDescriptorModels =
    TemplateService.prototype.getTemplateDescriptorModels;
-const sGetPromptTemplateDescriptors =
-   TemplateService.prototype.getPromptTemplateDescriptors;
+const sGetPrompts = TemplateService.prototype.getPrompts;
 const sGetPromptTemplate = TemplateService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
    TemplateService.prototype.getPromptTemplateCategories;
@@ -96,10 +95,7 @@ const sGetTemplateDescriptorModelsMock =
    sGetTemplateDescriptorModels as jest.MockedFunction<
       typeof sGetTemplateDescriptorModels
    >;
-const sGetPromptTemplateDescriptorsMock =
-   sGetPromptTemplateDescriptors as jest.MockedFunction<
-      typeof sGetPromptTemplateDescriptors
-   >;
+const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
 const sGetPromptTemplateMock = sGetPromptTemplate as jest.MockedFunction<
    typeof sGetPromptTemplate
 >;
@@ -943,29 +939,29 @@ describe("getPromptTemplates tests", () => {
 
    it("getPromptTemplates - params undefined - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
+      sGetPromptsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
 
       expect(result).toEqual(templates);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith(undefined);
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(undefined);
    });
 
    it("getPromptTemplates - params empty - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
+      sGetPromptsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates({});
 
       expect(result).toEqual(templates);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith({});
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith({});
    });
 
    it("getPromptTemplates - params defined - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
+      sGetPromptsMock.mockResolvedValue(templates);
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
@@ -974,8 +970,8 @@ describe("getPromptTemplates tests", () => {
       const result = await getPromptTemplates(params);
 
       expect(result).toEqual(templates);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith(params);
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(params);
    });
 });
 

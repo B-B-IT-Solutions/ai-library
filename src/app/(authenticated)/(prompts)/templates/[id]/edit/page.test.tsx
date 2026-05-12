@@ -88,7 +88,7 @@ describe("EditTemplatePage rendering tests", () => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.promptTemplateId
+            descriptor.id
          );
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
@@ -119,7 +119,7 @@ describe("EditTemplatePage rendering tests", () => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.promptTemplateId
+            descriptor.id
          );
       });
 

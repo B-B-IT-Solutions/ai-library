@@ -20,10 +20,10 @@ export const main = async () => {
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
    await prisma.promptTemplateField.deleteMany();
-   await prisma.promptTemplate.deleteMany();
-   await prisma.promptTemplateDescriptor.deleteMany();
-   await prisma.promptTemplateCategory.deleteMany();
+   await prisma.promptContent.deleteMany();
    await prisma.prompt.deleteMany();
+   await prisma.promptTemplateCategory.deleteMany();
+   await prisma.prompt0.deleteMany();
    await prisma.promptDescriptor.deleteMany();
    await prisma.promptCategory.deleteMany();
    await prisma.subscriptionPlan.deleteMany();
@@ -48,10 +48,10 @@ export const main = async () => {
 
    const createdTemplateDesciptors = [];
    for (const pt of promptTemplatesData(seedUser.id)) {
-      const templateDescriptor = await prisma.promptTemplateDescriptor.create({
+      const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptTemplate: true,
+            promptContent: true,
          },
       });
 
@@ -60,10 +60,10 @@ export const main = async () => {
 
    console.log("\nCreating prompt templates with fields...");
    for (const pt of templatesWithFields(seedUser.id)) {
-      const templateDescriptor = await prisma.promptTemplateDescriptor.create({
+      const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptTemplate: {
+            promptContent: {
                include: {
                   fields: true,
                },

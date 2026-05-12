@@ -256,7 +256,7 @@ export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
 ): Promise<DPromptTemplateDescriptor[]> => {
    const service = getService();
-   return await service.getPromptTemplateDescriptors(params);
+   return await service.getPrompts(params);
 };
 
 export const getPromptTemplate = async (

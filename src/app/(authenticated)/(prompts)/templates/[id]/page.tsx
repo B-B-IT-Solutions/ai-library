@@ -27,7 +27,7 @@ export const TemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor.promptTemplateId);
+   const template = await getPromptTemplate(descriptor.id);
 
    if (!template) {
       return notFound();

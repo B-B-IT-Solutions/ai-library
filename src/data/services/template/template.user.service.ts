@@ -51,7 +51,7 @@ export class TemplateService {
       userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(
+      return await this.repository.pCreatePrompt(
          userId,
          data
       );
@@ -67,7 +67,7 @@ export class TemplateService {
          throw new Error("TemplateDescriptor not found");
       }
 
-      await this.repository.pUpdatePromptTemplateDescriptor(
+      await this.repository.pUpdatePrompt(
          userId,
          descriptorId,
          data
@@ -80,7 +80,7 @@ export class TemplateService {
          throw new Error("TemplateDescriptor not found");
       }
 
-      await this.repository.pDeletePromptTemplateDescriptor(
+      await this.repository.pDeletePrompt(
          userId,
          descriptorId
       );
@@ -125,12 +125,12 @@ export class TemplateService {
 
       const template = await this.getPromptTemplate(
          userId,
-         descriptor.promptTemplateId
+         descriptor.id
       );
 
       if (!template) {
          throw new Error(
-            `Template with ID ${descriptor.promptTemplateId} not found`
+            `Template with ID ${descriptor.id} not found`
          );
       }
 
@@ -167,12 +167,12 @@ export class TemplateService {
 
       const template = await this.getPromptTemplate(
          userId,
-         descriptor.promptTemplateId
+         descriptor.id
       );
 
       if (!template) {
          throw new Error(
-            `Template with ID ${descriptor.promptTemplateId} not found`
+            `Template with ID ${descriptor.id} not found`
          );
       }
 
@@ -198,10 +198,10 @@ export class TemplateService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getPromptTemplateDescriptors(
+   async getPrompts(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {
-      return await this.repository.pGetPromptTemplateDescriptors(params);
+      return await this.repository.pGetPrompts(params);
    }
 
    async getPromptTemplate(

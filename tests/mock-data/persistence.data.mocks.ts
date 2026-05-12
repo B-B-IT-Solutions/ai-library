@@ -23,9 +23,9 @@ import {
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
-   PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithTemplate,
-   PromptTemplateWithFields,
+   PromptContentWithFields,
+   PromptWithCategories,
+   PromptWithTemplate,
 } from "@/data/types/db/prompt.template";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -46,11 +46,11 @@ import {
    ProductFeature,
    ProductInstruction,
    ProductUseCase,
+   Prompt,
    PromptCategory,
    PromptDescriptor,
    PromptFollowUp,
    PromptTemplateCategory,
-   PromptTemplateDescriptor,
    PromptTemplateField,
    PromptTemplateGlobalField,
    PromptVersion,
@@ -213,7 +213,7 @@ export const pProductItems = (count = 3): ProductItemWithTemplate[] => {
 };
 
 export const pProductItem = (index = 1): ProductItemWithTemplate => {
-   const template = pPromptTemplateDescriptorWithCategories(index);
+   const template = pPromptWithCategories(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
       productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
@@ -455,29 +455,21 @@ export const pCartItem = (index = 1): CartItem => {
    };
 };
 
-export const pPromptTemplateDescriptorWithTemplate = (
-   index = 1
-): PromptTemplateDescriptorWithTemplate => {
-   const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
-   const promptTemplate = pPromptTemplate(index);
+export const pPromptWithTemplate = (index = 1): PromptWithTemplate => {
+   const templateDescriptor = pPromptWithCategories(index);
+   const promptContent = pPromptTemplate(index);
    return {
       ...templateDescriptor,
-      promptTemplate,
+      promptContent,
    };
 };
 
-export const pPromptTemplateDescriptorsWithCategories = (
-   count = 3
-): PromptTemplateDescriptorWithCategories[] => {
-   return range(0, count).map((i) =>
-      pPromptTemplateDescriptorWithCategories(i)
-   );
+export const pPromptsWithCategories = (count = 3): PromptWithCategories[] => {
+   return range(0, count).map((i) => pPromptWithCategories(i));
 };
 
-export const pPromptTemplateDescriptorWithCategories = (
-   index = 1
-): PromptTemplateDescriptorWithCategories => {
-   const templateDescriptor = pPromptTemplateDescriptor(index);
+export const pPromptWithCategories = (index = 1): PromptWithCategories => {
+   const templateDescriptor = pPrompt(index);
    const categories = pPromptTemplateCategories();
    return {
       ...templateDescriptor,
@@ -485,15 +477,11 @@ export const pPromptTemplateDescriptorWithCategories = (
    };
 };
 
-export const pPromptTemplateDescriptors = (
-   count = 3
-): PromptTemplateDescriptor[] => {
-   return range(0, count).map((i) => pPromptTemplateDescriptor(i));
+export const pPrompts = (count = 3): Prompt[] => {
+   return range(0, count).map((i) => pPrompt(i));
 };
 
-export const pPromptTemplateDescriptor = (
-   index = 1
-): PromptTemplateDescriptor => {
+export const pPrompt = (index = 1): Prompt => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
@@ -501,15 +489,14 @@ export const pPromptTemplateDescriptor = (
       description: `description ${index}`,
       recommendedModel: `model ${index}`,
       isFavorite: index % 2 == 0,
-      promptTemplateId: `18821adc-b6c7-4239-a32e-c824c51c19d${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
 };
 
-export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
+export const pPromptTemplate = (index = 1): PromptContentWithFields => {
    return {
-      id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,
       fields: pPromptTemplateFields(3),
       globalFields: pPromptTemplateGlobalFields(),

@@ -27,7 +27,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
    const handleUseTemplate = async () => {
       startTransition(async () => {
          const data = await getPromptGenerationTemplateData(
-            descriptor.promptTemplateId
+            descriptor.id
          );
          if (data) {
             setTemplateData(data);

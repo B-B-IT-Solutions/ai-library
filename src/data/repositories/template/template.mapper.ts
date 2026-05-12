@@ -1,8 +1,8 @@
 import { map } from "es-toolkit/compat";
 
 import {
-   PromptTemplateDescriptorWithCategories,
-   PromptTemplateWithFields,
+   PromptContentWithFields,
+   PromptWithCategories,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
@@ -12,13 +12,13 @@ import {
 import { PromptTemplateField } from "@/generated/prisma/client";
 
 export const toDTemplateDescriptors = (
-   pPrompts: PromptTemplateDescriptorWithCategories[]
+   pPrompts: PromptWithCategories[]
 ): DPromptTemplateDescriptor[] => {
    return map(pPrompts, (dbP) => toDTemplateDescriptor(dbP));
 };
 
 export const toDTemplateDescriptor = (
-   prompt: PromptTemplateDescriptorWithCategories
+   prompt: PromptWithCategories
 ): DPromptTemplateDescriptor => {
    return {
       id: prompt.id,
@@ -26,7 +26,6 @@ export const toDTemplateDescriptor = (
       description: prompt.description,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
-      promptTemplateId: prompt.promptTemplateId,
       isFavorite: prompt.isFavorite,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
@@ -34,10 +33,10 @@ export const toDTemplateDescriptor = (
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptTemplateWithFields
+   prompt: PromptContentWithFields
 ): DPromptTemplate => {
    return {
-      id: prompt.id,
+      id: prompt.promptId,
       content: prompt.content,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),

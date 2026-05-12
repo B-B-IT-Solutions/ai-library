@@ -20,7 +20,6 @@ const toCatalogEntryDescriptorInternal = (
       description: entry.description,
       recommendedModel: entry.recommendedModel,
       categories: entry.category ? [{ name: entry.category.name }] : [],
-      promptTemplateId: entry.id,
       isFavorite: false,
       updatedAt: entry.updatedAt,
       createdAt: entry.createdAt,

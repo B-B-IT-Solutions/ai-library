@@ -3,15 +3,15 @@ import { isEmpty } from "es-toolkit/compat";
 import { Sort } from "@/data/types/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import {
-   PromptDescriptorOrderByWithRelationInput,
-   PromptTemplateDescriptorWhereInput,
+   PromptOrderByWithRelationInput,
+   PromptWhereInput,
 } from "@/generated/prisma/models";
 
 export const resolveWhereInput = (
    userId?: string,
    filter?: DTemplateDescriptorsFilter
-): PromptTemplateDescriptorWhereInput => {
-   const where: PromptTemplateDescriptorWhereInput = { userId };
+): PromptWhereInput => {
+   const where: PromptWhereInput = { userId };
 
    if (!filter) {
       return where;
@@ -64,7 +64,7 @@ export const resolveWhereInput = (
 
 export const resolveOrderBy = (
    sort?: Sort
-): PromptDescriptorOrderByWithRelationInput => {
+): PromptOrderByWithRelationInput => {
    if (sort) {
       return {
          [sort.field]: sort.order,
