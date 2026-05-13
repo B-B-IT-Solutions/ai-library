@@ -29,7 +29,7 @@ model User {
   libraryCollectionEntries  LibraryCollectionEntry[]
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
-  globalPromptFields      GlobalPromptField[]
+  globalPromptFields        GlobalPromptField[]
   promptDescriptors         Prompt0[]
   promptCategories          Prompt0Category[]
   promptTemplateCategories  PromptCategory[]
@@ -156,15 +156,15 @@ model Prompt0FollowUp {
 }
 
 model Prompt {
-  id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId           String                   @map("user_id") @db.Uuid
-  title            String                   @db.VarChar(250)
-  description      String                   @db.VarChar(750)
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String           @map("user_id") @db.Uuid
+  title            String           @db.VarChar(250)
+  description      String           @db.VarChar(750)
   categories       PromptCategory[]
-  recommendedModel String                   @map("recommended_model") @db.VarChar(250)
-  isFavorite       Boolean                  @default(false) @map("is_favorite")
-  createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime                 @updatedAt @map("updated_at")
+  recommendedModel String           @map("recommended_model") @db.VarChar(250)
+  isFavorite       Boolean          @default(false) @map("is_favorite")
+  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime         @updatedAt @map("updated_at")
 
   user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   promptContent     PromptContent?
@@ -176,10 +176,8 @@ model Prompt {
 }
 
 model PromptContent {
-  promptId  String   @id @map("prompt_id") @db.Uuid
-  content   String   @map("content") @db.Text
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @map("updated_at")
+  promptId String @id @map("prompt_id") @db.Uuid
+  content  String @map("content") @db.Text
 
   prompt       Prompt              @relation(fields: [promptId], references: [id], onDelete: Cascade)
   fields       PromptField[]
@@ -193,7 +191,7 @@ model PromptGlobalField {
   globalFieldId String @map("global_field_id") @db.Uuid
   order         Int    @default(0)
 
-  promptContent PromptContent       @relation(fields: [promptId], references: [promptId], onDelete: Cascade)
+  promptContent PromptContent     @relation(fields: [promptId], references: [promptId], onDelete: Cascade)
   globalField   GlobalPromptField @relation(fields: [globalFieldId], references: [id])
 
   @@id([promptId, globalFieldId])
@@ -234,11 +232,11 @@ enum PromptFieldType {
 }
 
 model PromptCategory {
-  id        Int      @id @default(autoincrement())
-  userId    String   @map("user_id") @db.Uuid
-  name      String   @db.VarChar(250)
+  id      Int      @id @default(autoincrement())
+  userId  String   @map("user_id") @db.Uuid
+  name    String   @db.VarChar(250)
   prompts Prompt[]
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, name])
   @@index([userId])
@@ -246,20 +244,20 @@ model PromptCategory {
 }
 
 model GlobalPromptField {
-  id              String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId          String              @map("user_id") @db.Uuid
-  name            String              @db.VarChar(100)
-  label           String              @db.VarChar(250)
-  description     String?             @db.VarChar(500)
-  type            PromptFieldType
-  required        Boolean             @default(true)
-  defaultValue    String?             @map("default_value") @db.Text
-  options         Json?               @db.JsonB
-  order           Int                 @default(0)
-  createdAt       DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt       DateTime            @updatedAt @map("updated_at")
-  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  prompts PromptGlobalField[]
+  id           String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String              @map("user_id") @db.Uuid
+  name         String              @db.VarChar(100)
+  label        String              @db.VarChar(250)
+  description  String?             @db.VarChar(500)
+  type         PromptFieldType
+  required     Boolean             @default(true)
+  defaultValue String?             @map("default_value") @db.Text
+  options      Json?               @db.JsonB
+  order        Int                 @default(0)
+  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime            @updatedAt @map("updated_at")
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prompts      PromptGlobalField[]
 
   @@unique([userId, name])
   @@index([userId])
