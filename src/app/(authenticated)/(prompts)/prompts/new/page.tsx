@@ -1,4 +1,4 @@
-import { PromptEdit } from "@/components/prompts";
+import { PromptEdit } from "@/components/prompt0s";
 
 export const metadata = {
    title: "Neuer Prompt",

@@ -1,11 +1,11 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt0");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt } from "@/data/actions/prompt";
+import { getPrompt } from "@/data/actions/prompt0";
 
 import EditPromptPage, { metadata, PageProps } from "./page";
 

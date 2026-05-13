@@ -5,7 +5,7 @@ import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PromptRepository } from "./prompt";
+import { PromptRepository } from "./prompt0";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";

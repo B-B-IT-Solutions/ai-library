@@ -1,4 +1,4 @@
-jest.mock("@/components/prompts", () => ({
+jest.mock("@/components/prompt0s", () => ({
    PromptsDashboard: () => {
       return <div data-testid="prompts-dashboard" />;
    },
