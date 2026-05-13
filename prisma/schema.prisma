@@ -102,7 +102,7 @@ model PromptDescriptor {
   createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime         @updatedAt @map("updated_at")
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  prompt0          Prompt0?
+  prompt0Content   Prompt0Content?
   versions         PromptVersion[]
   followUpPrompts  PromptFollowUp[]
 
@@ -110,12 +110,12 @@ model PromptDescriptor {
   @@map("prompt_descriptor")
 }
 
-model Prompt0 {
+model Prompt0Content {
   id         String           @id @db.Uuid
   content    String           @db.Text
   descriptor PromptDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
 
-  @@map("prompt0")
+  @@map("prompt0_content")
 }
 
 model PromptCategory {
