@@ -1,7 +1,7 @@
 import { Globe } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { CreateTemplateButton } from "@/components/templates/buttons";
+import { CreateTemplateButton } from "@/components/prompts/buttons";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../../breadcrumbs";
 import { MoreOptionsButton } from "../../../buttons";

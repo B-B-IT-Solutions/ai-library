@@ -6,7 +6,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { templatesSearchParamsCache } from "@/components/templates/search-params";
+import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getCollections } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,

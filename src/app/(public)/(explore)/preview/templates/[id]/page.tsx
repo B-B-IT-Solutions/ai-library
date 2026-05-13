@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PublicTemplateView } from "@/components/templates";
+import { PublicTemplateView } from "@/components/prompts";
 import { getPublicCollectionByToken } from "@/data/actions/collection";
 import {
    getPublicPromptTemplate,

@@ -13,7 +13,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SearchParams } from "nuqs/server";
 
-import { templatesSearchParamsCache } from "@/components/templates";
+import { templatesSearchParamsCache } from "@/components/prompts";
 import { getCollectionById } from "@/data/actions/collection";
 
 import { CollectionPage, metadata, PageParams, PageProps } from "./page";

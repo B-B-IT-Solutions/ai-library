@@ -4,8 +4,8 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
-import { templatesSearchParamsCache } from "@/components/templates/search-params";
+import { TemplateItems, TemplatesToolbar } from "@/components/prompts/lists";
+import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
