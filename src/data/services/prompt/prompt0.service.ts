@@ -1,6 +1,6 @@
 import { isEqual, map } from "es-toolkit/compat";
 
-import { PromptRepository } from "@/data/repositories/prompt";
+import { PromptRepository } from "@/data/repositories/prompt0";
 import {
    DPrompt0,
    DPrompt0sPage,

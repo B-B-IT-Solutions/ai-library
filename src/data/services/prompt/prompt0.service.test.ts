@@ -1,11 +1,11 @@
-jest.mock("@/data/repositories/prompt");
+jest.mock("@/data/repositories/prompt0");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptRepository } from "@/data/repositories/prompt";
+import { PromptRepository } from "@/data/repositories/prompt0";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import { PromptService } from "./prompt0.service";

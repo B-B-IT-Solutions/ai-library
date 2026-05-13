@@ -98,7 +98,7 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn disabled - rend
         data-testid="categories-filter"
       >
         <label
-          class="text-xs font-semibold text-slate-700 uppercase tracking-wide"
+          class="text-xs font-semibold tracking-wide text-slate-700 uppercase"
           data-testid="filter-label"
         >
           Kategorien
@@ -108,12 +108,12 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn disabled - rend
           data-testid="mock-react-popover-root"
         >
           <div
-            class="w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2 flex items-center flex-wrap gap-2 transition-all shadow-sm"
+            class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
             data-slot="popover-trigger"
             data-testid="popover-trigger"
           >
             <span
-              class="text-slate-400 text-sm"
+              class="text-sm text-slate-400"
               data-testid="no-selected-category"
             >
               Kategorien auswählen...
@@ -244,7 +244,7 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn enabled - rende
         data-testid="categories-filter"
       >
         <label
-          class="text-xs font-semibold text-slate-700 uppercase tracking-wide"
+          class="text-xs font-semibold tracking-wide text-slate-700 uppercase"
           data-testid="filter-label"
         >
           Kategorien
@@ -254,12 +254,12 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn enabled - rende
           data-testid="mock-react-popover-root"
         >
           <div
-            class="w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2 flex items-center flex-wrap gap-2 transition-all shadow-sm"
+            class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
             data-slot="popover-trigger"
             data-testid="popover-trigger"
           >
             <span
-              class="text-slate-400 text-sm"
+              class="text-sm text-slate-400"
               data-testid="no-selected-category"
             >
               Kategorien auswählen...
