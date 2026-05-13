@@ -30,7 +30,7 @@ model User {
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
   globalTemplateFields      GlobalTemplateField[]
-  promptDescriptors         PromptDescriptor[]
+  promptDescriptors         Prompt0[]
   promptCategories          PromptCategory[]
   promptTemplateCategories  PromptTemplateCategory[]
   prompts                   Prompt[]
@@ -90,7 +90,7 @@ model PasswordResetToken {
   @@map("password_reset_token")
 }
 
-model PromptDescriptor {
+model Prompt0 {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId           String           @map("user_id") @db.Uuid
   title            String           @db.VarChar(500)
@@ -107,13 +107,13 @@ model PromptDescriptor {
   followUpPrompts  PromptFollowUp[]
 
   @@index([userId])
-  @@map("prompt_descriptor")
+  @@map("prompt0")
 }
 
 model Prompt0Content {
   id         String           @id @db.Uuid
   content    String           @db.Text
-  descriptor PromptDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
+  descriptor Prompt0 @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("prompt0_content")
 }
@@ -122,7 +122,7 @@ model PromptCategory {
   id      Int                @id @default(autoincrement())
   userId  String             @map("user_id") @db.Uuid
   name    String             @db.VarChar(250)
-  prompts PromptDescriptor[]
+  prompts Prompt0[]
   user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, name])
@@ -136,7 +136,7 @@ model PromptVersion {
   content   String           @db.Text
   version   Int
   createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
-  prompt    PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  prompt    Prompt0 @relation(fields: [promptId], references: [id], onDelete: Cascade)
 
   @@unique([promptId, version])
   @@index([promptId])
@@ -149,7 +149,7 @@ model PromptFollowUp {
   content   String           @db.Text
   order     Int              @default(0)
   createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
-  prompt    PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  prompt    Prompt0 @relation(fields: [promptId], references: [id], onDelete: Cascade)
 
   @@index([promptId])
   @@map("prompt_follow_up")

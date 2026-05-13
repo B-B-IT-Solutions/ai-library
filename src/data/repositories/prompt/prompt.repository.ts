@@ -48,7 +48,7 @@ export class PromptRepository {
       );
 
       const [data, count] = await Promise.all([
-         this.prisma.promptDescriptor.findMany({
+         this.prisma.prompt0.findMany({
             where: whereClause,
             skip: pageNumber * pageSize,
             take: pageSize,
@@ -57,7 +57,7 @@ export class PromptRepository {
             },
             orderBy: { updatedAt: "desc" },
          }),
-         this.prisma.promptDescriptor.count({
+         this.prisma.prompt0.count({
             where: whereClause,
          }),
       ]);
@@ -78,7 +78,7 @@ export class PromptRepository {
       promptId: string
    ): Promise<DPromptDescriptor | null> {
       const data: PromptDescriptorWithRelations | null =
-         await this.prisma.promptDescriptor.findFirst({
+         await this.prisma.prompt0.findFirst({
             where: { id: promptId, userId },
             include: {
                categories: true,
@@ -131,7 +131,7 @@ export class PromptRepository {
          },
       };
 
-      return await this.prisma.promptDescriptor.create({
+      return await this.prisma.prompt0.create({
          data: toSave,
       });
    }
@@ -172,7 +172,7 @@ export class PromptRepository {
          versions,
       };
 
-      return await this.prisma.promptDescriptor.update({
+      return await this.prisma.prompt0.update({
          where: { id: promptId, userId },
          data: toSave,
       });
@@ -183,7 +183,7 @@ export class PromptRepository {
       promptId: string,
       isFavorite: boolean
    ) {
-      await this.prisma.promptDescriptor.update({
+      await this.prisma.prompt0.update({
          where: { id: promptId, userId },
          data: { isFavorite },
       });
@@ -193,7 +193,7 @@ export class PromptRepository {
       const args: PromptDescriptorDeleteArgs = {
          where: { id: promptId, userId },
       };
-      await this.prisma.promptDescriptor.delete(args);
+      await this.prisma.prompt0.delete(args);
    }
 
    followUpPromptUpdates(
