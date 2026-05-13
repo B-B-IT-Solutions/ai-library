@@ -1,4 +1,4 @@
-﻿jest.mock("@/data/repositories/template");
+﻿jest.mock("@/data/repositories/prompt");
 jest.mock("@/data/services/settings");
 jest.mock("@/lib/template");
 
