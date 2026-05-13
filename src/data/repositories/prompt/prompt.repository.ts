@@ -17,12 +17,12 @@ import {
    Prompt0CategoryCreateOrConnectWithoutPromptsInput,
    Prompt0CreateInput,
    Prompt0DeleteArgs,
+   Prompt0FollowUpCreateWithoutPromptInput,
+   Prompt0FollowUpScalarWhereInput,
+   Prompt0FollowUpUpdateManyWithoutPromptNestedInput,
+   Prompt0FollowUpUpdateWithWhereUniqueWithoutPromptInput,
    Prompt0UpdateInput,
    Prompt0WhereInput,
-   PromptFollowUpCreateWithoutPromptInput,
-   PromptFollowUpScalarWhereInput,
-   PromptFollowUpUpdateManyWithoutPromptNestedInput,
-   PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput,
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
@@ -199,7 +199,7 @@ export class PromptRepository {
    followUpPromptUpdates(
       current: DPromptDescriptor,
       promptUpdate: DPromptUpdate
-   ): PromptFollowUpUpdateManyWithoutPromptNestedInput {
+   ): Prompt0FollowUpUpdateManyWithoutPromptNestedInput {
       const existingIds = new Set(map(current.followUpPrompts, (f) => f.id));
       const followUpsWithoutId = filter(
          promptUpdate.followUpPrompts,
@@ -250,7 +250,7 @@ export class PromptRepository {
 
    private createFollowUpsInput(
       followUpPrompts: DPromptFollowUpUpdate[]
-   ): PromptFollowUpCreateWithoutPromptInput[] {
+   ): Prompt0FollowUpCreateWithoutPromptInput[] {
       return map(followUpPrompts, (f) => ({
          content: f.content,
          order: f.order,
@@ -259,7 +259,7 @@ export class PromptRepository {
 
    private updateFollowUpsInput(
       followUpPrompts: DPromptFollowUpUpdate[]
-   ): PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
+   ): Prompt0FollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
       return map(followUpPrompts, (f) => ({
          where: { id: f.id! },
          data: { content: f.content, order: f.order },
@@ -268,7 +268,7 @@ export class PromptRepository {
 
    private deleteFollowUpsInput(
       followUpPromptIds: string[]
-   ): PromptFollowUpScalarWhereInput {
+   ): Prompt0FollowUpScalarWhereInput {
       return {
          id: {
             in: followUpPromptIds,

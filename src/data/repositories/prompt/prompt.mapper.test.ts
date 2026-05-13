@@ -11,7 +11,7 @@ import {
    DPromptFollowUp,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
-import { Prompt0Version, PromptFollowUp } from "@/generated/prisma/client";
+import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
 import {
    toDPromptDescriptor,
@@ -43,8 +43,8 @@ const toDPromptVersionInternal = (version: Prompt0Version): DPromptVersion => {
    };
 };
 
-const toDPromptFollowUpInternal = (
-   followUp: PromptFollowUp
+const toDPrompt0FollowUpInternal = (
+   followUp: Prompt0FollowUp
 ): DPromptFollowUp => {
    return {
       id: followUp.id,
@@ -65,7 +65,7 @@ const toDPromptDescriptorInternal = (
       isFavorite: prompt.isFavorite,
       currentVersion: prompt.currentVersion,
       versions: map(prompt.versions, toDPromptVersionInternal),
-      followUpPrompts: map(prompt.followUpPrompts, toDPromptFollowUpInternal),
+      followUpPrompts: map(prompt.followUpPrompts, toDPrompt0FollowUpInternal),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };

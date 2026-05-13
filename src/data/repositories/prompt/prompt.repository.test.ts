@@ -12,9 +12,9 @@ import {
    Prompt0DeleteArgs,
    Prompt0FindFirstArgs,
    Prompt0FindManyArgs,
+   Prompt0FollowUpUpdateManyWithoutPromptNestedInput,
    Prompt0UpdateArgs,
    Prompt0WhereInput,
-   PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
 import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
@@ -654,15 +654,16 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: [
-            { content: "prompt follow up update 0", order: 0 },
-            { content: "prompt follow up update 1", order: 1 },
-            { content: "prompt follow up update 2", order: 2 },
-         ],
-         deleteMany: { id: { in: [id0, id1, id2] } },
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: undefined,
+            create: [
+               { content: "prompt follow up update 0", order: 0 },
+               { content: "prompt follow up update 1", order: 1 },
+               { content: "prompt follow up update 2", order: 2 },
+            ],
+            deleteMany: { id: { in: [id0, id1, id2] } },
+         };
 
       expect(result).toEqual(expectedResult);
    });
@@ -681,15 +682,16 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: [
-            { where: { id: id0 }, data: { content: "updated 0", order: 0 } },
-            { where: { id: id1 }, data: { content: "updated 1", order: 1 } },
-            { where: { id: id2 }, data: { content: "updated 2", order: 2 } },
-         ],
-         create: undefined,
-         deleteMany: undefined,
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: [
+               { where: { id: id0 }, data: { content: "updated 0", order: 0 } },
+               { where: { id: id1 }, data: { content: "updated 1", order: 1 } },
+               { where: { id: id2 }, data: { content: "updated 2", order: 2 } },
+            ],
+            create: undefined,
+            deleteMany: undefined,
+         };
 
       expect(result).toEqual(expectedResult);
    });
@@ -704,11 +706,12 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: undefined,
-         deleteMany: { id: { in: [id0, id1, id2] } },
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: undefined,
+            create: undefined,
+            deleteMany: { id: { in: [id0, id1, id2] } },
+         };
 
       expect(result).toEqual(expectedResult);
    });
@@ -727,20 +730,21 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: [
-            {
-               where: { id: id0 },
-               data: { content: "updated 0", order: 0 },
-            },
-            {
-               where: { id: id1 },
-               data: { content: "updated 1", order: 1 },
-            },
-         ],
-         create: [{ content: "new follow up", order: 2 }],
-         deleteMany: { id: { in: [id2] } },
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: [
+               {
+                  where: { id: id0 },
+                  data: { content: "updated 0", order: 0 },
+               },
+               {
+                  where: { id: id1 },
+                  data: { content: "updated 1", order: 1 },
+               },
+            ],
+            create: [{ content: "new follow up", order: 2 }],
+            deleteMany: { id: { in: [id2] } },
+         };
 
       expect(result).toEqual(expectedResult);
    });
@@ -756,11 +760,12 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: undefined,
-         deleteMany: undefined,
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: undefined,
+            create: undefined,
+            deleteMany: undefined,
+         };
 
       expect(result).toEqual(expectedResult);
    });
@@ -779,14 +784,15 @@ describe("followUpPromptUpdates tests", () => {
          promptUpdate
       );
 
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: [
-            { content: "new 1", order: 0 },
-            { content: "new 2", order: 1 },
-         ],
-         deleteMany: undefined,
-      };
+      const expectedResult: Prompt0FollowUpUpdateManyWithoutPromptNestedInput =
+         {
+            update: undefined,
+            create: [
+               { content: "new 1", order: 0 },
+               { content: "new 2", order: 1 },
+            ],
+            deleteMany: undefined,
+         };
 
       expect(result).toEqual(expectedResult);
    });

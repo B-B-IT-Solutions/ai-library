@@ -10,7 +10,7 @@ import {
    DPromptFollowUp,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
-import { Prompt0Version, PromptFollowUp } from "@/generated/prisma/client";
+import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
 export const toDPromptDescriptorsPage = (
    pPromptsPage: PromptDescriptorsPage
@@ -38,20 +38,20 @@ export const toDPromptDescriptor = (
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
       currentVersion: prompt.currentVersion,
-      followUpPrompts: toDPromptFollowUps(prompt.followUpPrompts),
+      followUpPrompts: toDPrompt0FollowUps(prompt.followUpPrompts),
       versions: toDPromptVersions(prompt.versions),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
 
-const toDPromptFollowUps = (
-   pFollowUps: PromptFollowUp[]
+const toDPrompt0FollowUps = (
+   pFollowUps: Prompt0FollowUp[]
 ): DPromptFollowUp[] => {
-   return map(pFollowUps, (f) => toDPromptFollowUp(f));
+   return map(pFollowUps, (f) => toDPrompt0FollowUp(f));
 };
 
-const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
+const toDPrompt0FollowUp = (followUp: Prompt0FollowUp): DPromptFollowUp => {
    return {
       id: followUp.id,
       content: followUp.content,
