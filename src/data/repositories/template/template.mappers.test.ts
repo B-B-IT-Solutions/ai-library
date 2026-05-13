@@ -5,7 +5,11 @@ import {
    PromptContentWithFields,
    PromptWithCategories,
 } from "@/data/types/db/prompt";
-import { DPromptField, DPrompt, DPrompt } from "@/data/types/domain/prompt";
+import {
+   DPrompt,
+   DPromptContent,
+   DPromptField,
+} from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
 import {
@@ -37,14 +41,12 @@ const toDPromptTemplateDescriptorInternal = (
 
 const toDPromptTemplateInternal = (
    prompt: PromptContentWithFields
-): DPrompt => {
+): DPromptContent => {
    return {
       id: prompt.promptId,
       content: prompt.content,
       fields: toDTemplateFieldsInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
-      updatedAt: prompt.updatedAt.toISOString(),
-      createdAt: prompt.createdAt.toISOString(),
    };
 };
 

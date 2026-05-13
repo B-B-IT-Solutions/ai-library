@@ -2,7 +2,7 @@ import { DbClient } from "@/data/types/db/common";
 import { PromptWithCategories } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPrompt,
+   DPromptContent,
    DPromptsPage,
    DPromptsPageQuery,
 } from "@/data/types/domain/prompt";
@@ -81,7 +81,7 @@ export class PublicTemplateRepository {
       return descriptor ? toDTemplateDescriptor(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(id: string): Promise<DPrompt | null> {
+   async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
       const args = {
          where: {
             promptId: id,

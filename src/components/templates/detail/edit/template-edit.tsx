@@ -5,7 +5,7 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPrompt, DPrompt } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
@@ -13,7 +13,7 @@ import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
    descriptor?: DPrompt;
-   template?: DPrompt;
+   template?: DPromptContent;
    globalFields: DGlobalPromptField[];
 };
 

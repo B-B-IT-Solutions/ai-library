@@ -1,13 +1,17 @@
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { DPrompt, DPrompt, DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPrompt,
+   DPromptContent,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 
 import { initPromptTemplate } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
    descriptor: DPrompt,
-   template: DPrompt
+   template: DPromptContent
 ): DPromptUpdate => {
    return {
       title: descriptor.title,

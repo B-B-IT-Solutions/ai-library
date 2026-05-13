@@ -20,7 +20,7 @@ import {
 } from "@/data/actions/template";
 import {
    DPrompt,
-   DPrompt,
+   DPromptContent,
    DPromptField,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
@@ -41,7 +41,7 @@ import {
 
 type Props = {
    descriptor?: DPrompt;
-   template?: DPrompt;
+   template?: DPromptContent;
    globalFields: DGlobalPromptField[];
 };
 

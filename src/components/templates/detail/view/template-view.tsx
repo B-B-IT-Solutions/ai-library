@@ -5,14 +5,14 @@ import {
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPrompt, DPrompt } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
    descriptor: DPrompt;
-   template: DPrompt;
+   template: DPromptContent;
 };
 
 export const TemplateView = ({ descriptor, template }: Props) => {
