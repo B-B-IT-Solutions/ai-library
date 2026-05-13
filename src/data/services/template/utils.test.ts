@@ -1,8 +1,8 @@
-jest.mock("@/lib/template");
+﻿jest.mock("@/lib/template");
 
 import { dtestData } from "@tests";
 
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
@@ -17,7 +17,7 @@ const sExtractVariablesMock = sExtractVariables as jest.MockedFunction<
 describe("resolveAllTemplateFields tests", () => {
    const globalFieldToTemplateFieldInternal = (
       gf: DGlobalTemplateField
-   ): DPromptTemplateField => {
+   ): DPromptField => {
       return {
          id: gf.id,
          promptTemplateId: "",
@@ -35,7 +35,7 @@ describe("resolveAllTemplateFields tests", () => {
    const missingVariableToTemplateFieldInternal = (
       name: string,
       index: number
-   ): DPromptTemplateField => {
+   ): DPromptField => {
       return {
          id: name,
          promptTemplateId: "",
@@ -54,7 +54,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("returns only template fields when all variables have matching fields - test", () => {
-      const fields = dtestData.dPromptTemplateFields(2);
+      const fields = dtestData.dPromptFields(2);
       const field1 = fields[0];
       const field2 = fields[1];
 
@@ -84,7 +84,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("adds dummy fields only for variables without a matching template field - test", () => {
-      const fields = dtestData.dPromptTemplateFields(1);
+      const fields = dtestData.dPromptFields(1);
       const template = dtestData.dPromptTemplate();
       template.fields = fields;
 
@@ -129,7 +129,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("merges template fields, global fields, and dummy fields in correct order - test", () => {
-      const templateField = dtestData.dPromptTemplateField(1);
+      const templateField = dtestData.dPromptField(1);
       const globalField = dtestData.dGlobalTemplateField(2);
       globalField.name = "global_field";
 

@@ -1,15 +1,15 @@
-import { FC } from "react";
+﻿import { FC } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt.template";
 
 import { TextAreaField } from "./field-textarea";
 
 type Props = {
-   field: DPromptTemplateField;
+   field: DPromptField;
    defaultValue?: string;
 };
 
@@ -27,7 +27,7 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = "" }) => {
    );
 };
 
-const baseField: DPromptTemplateField = {
+const baseField: DPromptField = {
    id: "test-textarea",
    promptTemplateId: "1",
    name: "name-1",
@@ -59,7 +59,7 @@ describe("TextAreaField rendering tests", () => {
    });
 
    it("TextAreaField - required true - test", async () => {
-      const field: DPromptTemplateField = {
+      const field: DPromptField = {
          ...baseField,
          required: true,
       };

@@ -1,4 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+﻿import { zodResolver } from "@hookform/resolvers/zod";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
@@ -7,9 +7,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 
 import {
+   DPromptField,
+   DPromptFieldType,
    DPromptTemplateDataPromptGeneration,
-   DPromptTemplateField,
-   DPromptTemplateFieldType,
 } from "@/data/types/domain/prompt.template";
 
 import { buildFieldsSchema } from "./fields.schema";
@@ -49,11 +49,11 @@ const TestWrapper = ({ templateData }: Props) => {
 };
 
 const createField = (
-   type: DPromptTemplateFieldType,
+   type: DPromptFieldType,
    name: string,
    label: string,
    required = false
-): DPromptTemplateField => {
+): DPromptField => {
    return {
       id: `field-${name}`,
       promptTemplateId: "1",
@@ -72,7 +72,7 @@ const assertRendered = () => {
    assertInDocument(form);
 };
 
-const assertFieldsRendered = (fields: DPromptTemplateField[]) => {
+const assertFieldsRendered = (fields: DPromptField[]) => {
    forEach(fields, (f) => {
       const field = screen.getByTestId(f.name);
       assertInDocument(field);
@@ -87,16 +87,16 @@ describe("TemplateFieldForm rendering tests", () => {
       const birthdate = createField("DATE", "birthdate", "Birth Date");
       const bio = createField("TEXTAREA", "bio", "Biography");
       const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
-      const gender: DPromptTemplateField = {
+      const gender: DPromptField = {
          ...createField("RADIO", "gender", "Gender"),
          options: ["Male", "Female"],
       };
-      const country: DPromptTemplateField = {
+      const country: DPromptField = {
          ...createField("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };
 
-      const fields: DPromptTemplateField[] = [
+      const fields: DPromptField[] = [
          name,
          email,
          age,

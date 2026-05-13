@@ -1,4 +1,4 @@
-jest.mock("@/lib/utils");
+﻿jest.mock("@/lib/utils");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
@@ -6,8 +6,8 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 
 import {
-   DPromptTemplateField,
-   DPromptTemplateFieldType,
+   DPromptField,
+   DPromptFieldType,
 } from "@/data/types/domain/prompt.template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
@@ -19,11 +19,11 @@ const openExternalUrlInNewTabMock =
    >;
 
 const createField = (
-   type: DPromptTemplateFieldType,
+   type: DPromptFieldType,
    name: string,
    label: string,
    required = false
-): DPromptTemplateField => {
+): DPromptField => {
    return {
       id: `field-${name}`,
       promptTemplateId: "1",
@@ -60,11 +60,11 @@ describe("UseTemplateForm rendering tests", () => {
       const birthdate = createField("DATE", "birthdate", "Birth Date");
       const bio = createField("TEXTAREA", "bio", "Biography");
       const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
-      const gender: DPromptTemplateField = {
+      const gender: DPromptField = {
          ...createField("RADIO", "gender", "Gender"),
          options: ["Male", "Female"],
       };
-      const country: DPromptTemplateField = {
+      const country: DPromptField = {
          ...createField("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };

@@ -1,17 +1,17 @@
-import z from "zod";
+﻿import z from "zod";
 
 import {
-   DPromptTemplateField,
-   DPromptTemplateFieldType,
+   DPromptField,
+   DPromptFieldType,
 } from "@/data/types/domain/prompt.template";
 
 import { buildFieldsSchema } from "./fields.schema";
 
 const createField = (
-   type: DPromptTemplateFieldType,
+   type: DPromptFieldType,
    required = false,
    name = "testField"
-): DPromptTemplateField => ({
+): DPromptField => ({
    id: "1",
    promptTemplateId: "1",
    name,

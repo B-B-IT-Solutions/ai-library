@@ -1,4 +1,4 @@
-import { Decimal } from "@prisma/client/runtime/library";
+﻿import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
@@ -51,9 +51,9 @@ import {
    Prompt0Category,
    Prompt0FollowUp,
    Prompt0Version,
+   PromptField,
    PromptGlobalField,
    PromptTemplateCategory,
-   PromptTemplateField,
    Subscription,
    SubscriptionHistory,
    SubscriptionPlan,
@@ -498,18 +498,18 @@ export const pPromptTemplate = (index = 1): PromptContentWithFields => {
    return {
       promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,
-      fields: pPromptTemplateFields(3),
+      fields: pPromptFields(3),
       globalFields: pPromptGlobalFields(),
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
 };
 
-export const pPromptTemplateFields = (count = 3): PromptTemplateField[] => {
-   return range(0, count).map((i) => pPromptTemplateField(i));
+export const pPromptFields = (count = 3): PromptField[] => {
+   return range(0, count).map((i) => pPromptField(i));
 };
 
-export const pPromptTemplateField = (index = 1): PromptTemplateField => {
+export const pPromptField = (index = 1): PromptField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
       promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,

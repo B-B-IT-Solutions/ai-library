@@ -182,7 +182,7 @@ model PromptContent {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   prompt       Prompt                      @relation(fields: [promptId], references: [id], onDelete: Cascade)
-  fields       PromptTemplateField[]
+  fields       PromptField[]
   globalFields PromptGlobalField[]
 
   @@map("prompt_content")
@@ -201,13 +201,13 @@ model PromptGlobalField {
   @@map("prompt_global_field")
 }
 
-model PromptTemplateField {
+model PromptField {
   id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   promptTemplateId String                  @map("prompt_template_id") @db.Uuid
   name             String                  @db.VarChar(100)
   label            String                  @db.VarChar(250)
   description      String?                 @db.VarChar(500)
-  type             PromptTemplateFieldType
+  type             PromptFieldType
   required         Boolean                 @default(true)
   order            Int                     @default(0)
   defaultValue     String?                 @map("default_value") @db.Text
@@ -220,7 +220,7 @@ model PromptTemplateField {
   @@map("prompt_template_field")
 }
 
-enum PromptTemplateFieldType {
+enum PromptFieldType {
   TEXT
   TEXTAREA
   EMAIL
@@ -251,7 +251,7 @@ model GlobalTemplateField {
   name            String                      @db.VarChar(100)
   label           String                      @db.VarChar(250)
   description     String?                     @db.VarChar(500)
-  type            PromptTemplateFieldType
+  type            PromptFieldType
   required        Boolean                     @default(true)
   defaultValue    String?                     @map("default_value") @db.Text
   options         Json?                       @db.JsonB
@@ -596,7 +596,7 @@ model CatalogEntryField {
   name           String                  @db.VarChar(100)
   label          String                  @db.VarChar(250)
   description    String?                 @db.VarChar(500)
-  type           PromptTemplateFieldType
+  type           PromptFieldType
   required       Boolean                 @default(true)
   order          Int                     @default(0)
   defaultValue   String?                 @map("default_value") @db.Text

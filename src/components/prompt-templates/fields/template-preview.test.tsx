@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+﻿import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
 import { TemplatePreview } from "./template-preview";
@@ -18,7 +18,7 @@ const assertRendered = () => {
 describe("TemplatePreview rendering tests", () => {
    it("TemplatePreview rendered test", async () => {
       const template = dtestData.dPromptTemplate();
-      const values = dtestData.dPromptTemplateFieldValues();
+      const values = dtestData.dPromptFieldValues();
       const { container } = render(
          <TemplatePreview
             template={template}

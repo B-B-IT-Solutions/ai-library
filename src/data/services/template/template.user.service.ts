@@ -1,12 +1,12 @@
-import { map } from "es-toolkit/compat";
+﻿import { map } from "es-toolkit/compat";
 
 import { TemplateRepository } from "@/data/repositories/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptFieldValues,
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -51,10 +51,7 @@ export class TemplateService {
       userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePrompt(
-         userId,
-         data
-      );
+      return await this.repository.pCreatePrompt(userId, data);
    }
 
    async updateTemplateDescriptor(
@@ -67,11 +64,7 @@ export class TemplateService {
          throw new Error("TemplateDescriptor not found");
       }
 
-      await this.repository.pUpdatePrompt(
-         userId,
-         descriptorId,
-         data
-      );
+      await this.repository.pUpdatePrompt(userId, descriptorId, data);
    }
 
    async deleteTemplateDescriptor(userId: string, descriptorId: string) {
@@ -80,10 +73,7 @@ export class TemplateService {
          throw new Error("TemplateDescriptor not found");
       }
 
-      await this.repository.pDeletePrompt(
-         userId,
-         descriptorId
-      );
+      await this.repository.pDeletePrompt(userId, descriptorId);
    }
 
    async getTemplateDataForPromptGeneration(
@@ -113,7 +103,7 @@ export class TemplateService {
    async composePromptFromTemplate(
       userId: string,
       descriptorId: string,
-      fieldValues: DPromptTemplateFieldValues
+      fieldValues: DPromptFieldValues
    ): Promise<DPromptUpdate> {
       const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
 
@@ -123,15 +113,10 @@ export class TemplateService {
          );
       }
 
-      const template = await this.getPromptTemplate(
-         userId,
-         descriptor.id
-      );
+      const template = await this.getPromptTemplate(userId, descriptor.id);
 
       if (!template) {
-         throw new Error(
-            `Template with ID ${descriptor.id} not found`
-         );
+         throw new Error(`Template with ID ${descriptor.id} not found`);
       }
 
       const validation = TemplateEngine.validate(template.fields, fieldValues);
@@ -165,15 +150,10 @@ export class TemplateService {
          );
       }
 
-      const template = await this.getPromptTemplate(
-         userId,
-         descriptor.id
-      );
+      const template = await this.getPromptTemplate(userId, descriptor.id);
 
       if (!template) {
-         throw new Error(
-            `Template with ID ${descriptor.id} not found`
-         );
+         throw new Error(`Template with ID ${descriptor.id} not found`);
       }
 
       const downloadData = JSON.stringify(

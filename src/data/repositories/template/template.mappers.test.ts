@@ -1,4 +1,4 @@
-import { ptestData } from "@tests";
+﻿import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
@@ -6,11 +6,11 @@ import {
    PromptWithCategories,
 } from "@/data/types/db/prompt.template";
 import {
+   DPromptField,
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
-import { PromptTemplateField } from "@/generated/prisma/client";
+import { PromptField } from "@/generated/prisma/client";
 
 import {
    toDPromptTemplate,
@@ -53,16 +53,14 @@ const toDPromptTemplateInternal = (
 };
 
 export const toDTemplateFieldsInternal = (
-   fields: PromptTemplateField[]
-): DPromptTemplateField[] => {
+   fields: PromptField[]
+): DPromptField[] => {
    return map(fields, toDTemplateFieldInternal).sort(
       (a, b) => a.order - b.order
    );
 };
 
-export const toDTemplateFieldInternal = (
-   field: PromptTemplateField
-): DPromptTemplateField => ({
+export const toDTemplateFieldInternal = (field: PromptField): DPromptField => ({
    id: field.id,
    promptTemplateId: field.promptTemplateId,
    name: field.name,

@@ -1,6 +1,6 @@
-import { dtestData } from "@tests";
+﻿import { dtestData } from "@tests";
 
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import {
@@ -10,7 +10,7 @@ import {
 } from "./init-values";
 
 const expectedExistingTemplateFieldInitValues = (
-   field: DGlobalTemplateField | DPromptTemplateField
+   field: DGlobalTemplateField | DPromptField
 ) => {
    return {
       name: field.name,
@@ -91,7 +91,7 @@ describe("existingTemplateFieldInitValues tests", () => {
    });
 
    it("existingTemplateFieldInitValues - prompt  template field - test", () => {
-      const field1 = dtestData.dPromptTemplateField();
+      const field1 = dtestData.dPromptField();
       const result1 = existingTemplateFieldInitValues(field1);
       const expectedResult1 = expectedExistingTemplateFieldInitValues(field1);
       expect(result1).toEqual(expectedResult1);

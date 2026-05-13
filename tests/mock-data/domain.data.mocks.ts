@@ -1,4 +1,4 @@
-import { range } from "es-toolkit";
+﻿import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
@@ -45,13 +45,13 @@ import {
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
+   DPromptField,
+   DPromptFieldUpdate,
+   DPromptFieldValues,
    DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
-   DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsFilter,
    DTemplateDescriptorsPage,
@@ -498,7 +498,7 @@ export const dPromptTemplateDataPromptGeneration = (
 ): DPromptTemplateDataPromptGeneration => {
    return {
       template: dPromptTemplate(index),
-      allFields: dPromptTemplateFields(),
+      allFields: dPromptFields(),
    };
 };
 
@@ -541,7 +541,7 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
    return {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       content: `content ${index}`,
-      fields: dPromptTemplateFields(3),
+      fields: dPromptFields(3),
       globalFieldIds: dGlobalTemplateFieldIds(1),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
@@ -555,16 +555,16 @@ export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      fields: dPromptTemplateFieldUpdates(),
+      fields: dPromptFieldUpdates(),
       globalFieldIds: dGlobalTemplateFieldIds(),
    };
 };
 
-export const dPromptTemplateFields = (count = 3): DPromptTemplateField[] => {
-   return range(0, count).map((i) => dPromptTemplateField(i));
+export const dPromptFields = (count = 3): DPromptField[] => {
+   return range(0, count).map((i) => dPromptField(i));
 };
 
-export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
+export const dPromptField = (index = 1): DPromptField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
       promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
@@ -579,15 +579,11 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
    };
 };
 
-export const dPromptTemplateFieldUpdates = (
-   count = 3
-): DPromptTemplateFieldUpdate[] => {
-   return range(0, count).map((i) => dPromptTemplateFieldUpdate(i));
+export const dPromptFieldUpdates = (count = 3): DPromptFieldUpdate[] => {
+   return range(0, count).map((i) => dPromptFieldUpdate(i));
 };
 
-export const dPromptTemplateFieldUpdate = (
-   index = 1
-): DPromptTemplateFieldUpdate => {
+export const dPromptFieldUpdate = (index = 1): DPromptFieldUpdate => {
    return {
       name: `field ${index}`,
       label: `label ${index}`,
@@ -600,9 +596,7 @@ export const dPromptTemplateFieldUpdate = (
    };
 };
 
-export const dPromptTemplateFieldValues = (
-   index = 1
-): DPromptTemplateFieldValues => {
+export const dPromptFieldValues = (index = 1): DPromptFieldValues => {
    return {
       field_1: `value 1 - ${index}`,
       field_2: `value 2 - ${index}`,

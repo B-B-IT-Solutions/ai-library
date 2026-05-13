@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import { map } from "es-toolkit/compat";
 import { Control, FieldValues } from "react-hook-form";
 
 import {
+   DPromptField,
    DPromptTemplateDataPromptGeneration,
-   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 
 import { CheckBoxField } from "./field/field-check-box";
@@ -22,7 +22,7 @@ type Props = {
 export const TemplateFieldsForm = ({ templateData, control }: Props) => {
    const { allFields: fields } = templateData;
 
-   const renderField = (field: DPromptTemplateField) => {
+   const renderField = (field: DPromptField) => {
       switch (field.type) {
          case "TEXTAREA":
             return <TextAreaField field={field} control={control} />;

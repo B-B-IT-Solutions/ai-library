@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
+﻿import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
 import { flatMap, map, uniq } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   DPromptTemplateFieldType,
-   DPromptTemplateFieldUpdate,
+   DPromptFieldType,
+   DPromptFieldUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -886,7 +886,7 @@ describe("pCreatePrompt tests", () => {
                fields: {
                   create: map(
                      data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
+                     (field: DPromptFieldUpdate) => ({
                         name: field.name,
                         label: field.label,
                         description: field.description,
@@ -956,11 +956,11 @@ describe("pUpdatePrompt tests", () => {
                   deleteMany: {},
                   create: map(
                      data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
+                     (field: DPromptFieldUpdate) => ({
                         name: field.name,
                         label: field.label,
                         description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
+                        type: field.type as DPromptFieldType,
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,

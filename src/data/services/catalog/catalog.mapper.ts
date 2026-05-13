@@ -1,18 +1,18 @@
-import { map } from "es-toolkit/compat";
+﻿import { map } from "es-toolkit/compat";
 
 import {
    DCatalogEntryField,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
-   DPromptTemplateFieldUpdate,
+   DPromptFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
 export const toPromptTemplateUpdate = (
    entry: DCatalogEntryWithContent
 ): DPromptTemplateUpdate => {
-   const fields = toPromptTemplateFieldUpdates(entry.fields);
+   const fields = toPromptFieldUpdates(entry.fields);
 
    return {
       title: entry.title,
@@ -25,15 +25,15 @@ export const toPromptTemplateUpdate = (
    };
 };
 
-export const toPromptTemplateFieldUpdates = (
+export const toPromptFieldUpdates = (
    fields: DCatalogEntryField[]
-): DPromptTemplateFieldUpdate[] => {
-   return map(fields, (f) => toPromptTemplateFieldUpdate(f));
+): DPromptFieldUpdate[] => {
+   return map(fields, (f) => toPromptFieldUpdate(f));
 };
 
-export const toPromptTemplateFieldUpdate = (
+export const toPromptFieldUpdate = (
    field: DCatalogEntryField
-): DPromptTemplateFieldUpdate => {
+): DPromptFieldUpdate => {
    return {
       name: field.name,
       label: field.label,

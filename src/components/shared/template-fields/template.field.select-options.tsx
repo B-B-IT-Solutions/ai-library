@@ -1,15 +1,15 @@
-"use client";
+﻿"use client";
 
 import { Control, FieldValues, Path } from "react-hook-form";
 
 import { FormDynamicValues } from "@/components/shared/widgets";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt.template";
 
 import { isOptionsFieldType } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
-   type: DPromptTemplateFieldType;
+   type: DPromptFieldType;
    control: Control<T>;
 };
 

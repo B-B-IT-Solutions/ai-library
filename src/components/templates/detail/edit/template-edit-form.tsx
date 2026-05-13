@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,9 +19,9 @@ import {
    updateTemplateDescriptor,
 } from "@/data/actions/template";
 import {
+   DPromptField,
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
@@ -30,8 +30,8 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 import {
    BasicInfo,
    DetectedVariables,
+   PromptFields,
    PromptTemplateContent,
-   PromptTemplateFields,
 } from "./sections";
 import {
    extractVariablesFromContent,
@@ -211,8 +211,8 @@ export const TemplateEditForm = ({
                      onSyncAll={handleSyncAllVariables}
                   />
                   {detectedVariables.length > 0 && <Separator />}
-                  <PromptTemplateFields
-                     fields={fields as DPromptTemplateField[]}
+                  <PromptFields
+                     fields={fields as DPromptField[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
                      globalFieldIds={form.watch("globalFieldIds")}

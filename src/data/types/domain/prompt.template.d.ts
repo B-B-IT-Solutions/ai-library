@@ -1,4 +1,4 @@
-import z from "zod";
+﻿import z from "zod";
 
 import {
    templateFieldSchema,
@@ -18,7 +18,7 @@ export type DTemplateDescriptorsFilter = {
    collectionIds?: string[];
 };
 
-export type DPromptTemplateFieldUpdate = z.infer<typeof templateFieldSchema>;
+export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
 
 export type DPromptTemplateUpdate = z.infer<typeof updateTemplateSchema>;
 
@@ -29,7 +29,7 @@ export type DPromptTemplateCategory = {
 export type DPromptTemplate = {
    id: string;
    content: string;
-   fields: DPromptTemplateField[];
+   fields: DPromptField[];
    globalFieldIds: string[];
    updatedAt: string;
    createdAt: string;
@@ -37,7 +37,7 @@ export type DPromptTemplate = {
 
 export type DPromptTemplateDataPromptGeneration = {
    template: DPromptTemplate;
-   allFields: DPromptTemplateField[];
+   allFields: DPromptField[];
 };
 
 export type DPromptTemplateDescriptor = {
@@ -51,7 +51,7 @@ export type DPromptTemplateDescriptor = {
    createdAt: string;
 };
 
-export type DPromptTemplateFieldType =
+export type DPromptFieldType =
    | "TEXT"
    | "TEXTAREA"
    | "SELECT"
@@ -61,22 +61,19 @@ export type DPromptTemplateFieldType =
    | "DATE"
    | "EMAIL";
 
-export type DPromptTemplateFieldValueType = string | number | null | undefined;
+export type DPromptFieldValueType = string | number | null | undefined;
 
-export type DPromptTemplateField = {
+export type DPromptField = {
    id: string;
    promptTemplateId: string;
    name: string;
    label: string;
    description: string | null;
-   type: DPromptTemplateFieldType;
+   type: DPromptFieldType;
    required: boolean;
    order: number;
    defaultValue: string | null;
    options?: string[];
 };
 
-export type DPromptTemplateFieldValues = Record<
-   string,
-   DPromptTemplateFieldValueType
->;
+export type DPromptFieldValues = Record<string, DPromptFieldValueType>;

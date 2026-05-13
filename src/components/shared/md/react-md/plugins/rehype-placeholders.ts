@@ -1,11 +1,11 @@
-import { visit } from "unist-util-visit";
+﻿import { visit } from "unist-util-visit";
 
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type HastNode = any;
 
-export const rehypePlaceholders = (values: DPromptTemplateFieldValues) => {
+export const rehypePlaceholders = (values: DPromptFieldValues) => {
    return (tree: HastNode) => {
       visit(
          tree,

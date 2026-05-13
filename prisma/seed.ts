@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/generated/prisma/client";
+﻿import { PrismaClient } from "@/generated/prisma/client";
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
@@ -19,7 +19,7 @@ export const main = async () => {
    await prisma.cartItem.deleteMany();
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
-   await prisma.promptTemplateField.deleteMany();
+   await prisma.promptField.deleteMany();
    await prisma.promptContent.deleteMany();
    await prisma.prompt.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();

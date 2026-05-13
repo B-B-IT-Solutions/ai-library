@@ -1,15 +1,15 @@
-import { FC } from "react";
+﻿import { FC } from "react";
 import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt.template";
 
 import { TemplateFieldSelectOptions } from "./template.field.select-options";
 
 type Props = {
    name: string;
-   type: DPromptTemplateFieldType;
+   type: DPromptFieldType;
 };
 
 const TestWrapper: FC<Props> = ({ name, type }) => {

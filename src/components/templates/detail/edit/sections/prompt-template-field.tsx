@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FC } from "react";
 import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
@@ -26,7 +26,7 @@ type Props = {
    watch: UseFormWatch<DPromptTemplateUpdate>;
 };
 
-export const PromptTemplateField: FC<Props> = ({
+export const PromptField: FC<Props> = ({
    index,
    isUsed,
    hasName,

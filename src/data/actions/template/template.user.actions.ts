@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { validate as isValidUuid } from "uuid";
 
@@ -9,10 +9,10 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptFieldValues,
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -139,7 +139,7 @@ export const getPromptGenerationTemplateData = async (
 
 export const composePromptFromTemplate = async (
    descriptorId: string,
-   fieldValues: DPromptTemplateFieldValues
+   fieldValues: DPromptFieldValues
 ): Promise<ActionResult<DPromptUpdate>> => {
    try {
       if (!isValidUuid(descriptorId)) {

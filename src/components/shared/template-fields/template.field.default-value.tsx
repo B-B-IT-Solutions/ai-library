@@ -1,16 +1,16 @@
-"use client";
+﻿"use client";
 
 import { HTMLInputTypeAttribute } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { FormInput, FormSelect } from "@/components/shared/widgets";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt.template";
 
 import { isOptionsFieldType } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: FieldPath<T>;
-   type: DPromptTemplateFieldType;
+   type: DPromptFieldType;
    options: string[];
    control: Control<T>;
 };

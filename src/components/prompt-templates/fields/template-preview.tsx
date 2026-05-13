@@ -1,15 +1,15 @@
-"use client";
+﻿"use client";
 
 import { CopyButton } from "@/components/shared/buttons";
 import { MDRenderer } from "@/components/shared/md";
 import {
+   DPromptFieldValues,
    DPromptTemplate,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 type Props = {
    template: DPromptTemplate;
-   values: DPromptTemplateFieldValues;
+   values: DPromptFieldValues;
    resolvedContent: string;
 };
 
@@ -19,7 +19,10 @@ export const TemplatePreview = ({
    resolvedContent,
 }: Props) => {
    return (
-      <div className="flex min-h-0 flex-1 flex-col gap-2" data-testid="template-preview">
+      <div
+         className="flex min-h-0 flex-1 flex-col gap-2"
+         data-testid="template-preview"
+      >
          <div className="group relative flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
             <CopyButton
                content={resolvedContent}

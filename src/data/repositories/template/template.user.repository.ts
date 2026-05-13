@@ -1,13 +1,13 @@
-import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
+﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import { PromptWithCategories } from "@/data/types/db/prompt.template";
 import {
+   DPromptFieldType,
+   DPromptFieldUpdate,
    DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldType,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -168,19 +168,16 @@ export class TemplateRepository {
             create: {
                content: data.content,
                fields: {
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   create: map(data.globalFieldIds, (id, idx) => ({
@@ -228,19 +225,16 @@ export class TemplateRepository {
                content: data.content,
                fields: {
                   deleteMany: {},
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   deleteMany: {},
