@@ -183,12 +183,12 @@ model PromptContent {
 
   prompt       Prompt                      @relation(fields: [promptId], references: [id], onDelete: Cascade)
   fields       PromptTemplateField[]
-  globalFields PromptTemplateGlobalField[]
+  globalFields PromptGlobalField[]
 
   @@map("prompt_content")
 }
 
-model PromptTemplateGlobalField {
+model PromptGlobalField {
   promptTemplateId String @map("prompt_template_id") @db.Uuid
   globalFieldId    String @map("global_field_id") @db.Uuid
   order            Int    @default(0)
@@ -198,7 +198,7 @@ model PromptTemplateGlobalField {
 
   @@id([promptTemplateId, globalFieldId])
   @@index([promptTemplateId])
-  @@map("prompt_template_global_field")
+  @@map("prompt_global_field")
 }
 
 model PromptTemplateField {
@@ -259,7 +259,7 @@ model GlobalTemplateField {
   createdAt       DateTime                    @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt       DateTime                    @updatedAt @map("updated_at")
   user            User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  promptTemplates PromptTemplateGlobalField[]
+  promptTemplates PromptGlobalField[]
 
   @@unique([userId, name])
   @@index([userId])
