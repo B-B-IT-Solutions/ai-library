@@ -36,16 +36,15 @@ export type DPrompt = {
    description: string;
    recommendedModel: string;
    categories: DPromptCategory[];
+   fields: DPromptField[];
+   globalFieldIds: string[];
    isFavorite: boolean;
    updatedAt: string;
    createdAt: string;
 };
 
 export type DPromptContent = {
-   id: string;
    content: string;
-   fields: DPromptField[];
-   globalFieldIds: string[];
 };
 
 export type DPromptFieldType =
