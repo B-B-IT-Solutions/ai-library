@@ -259,7 +259,7 @@ model GlobalPromptField {
   createdAt       DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt       DateTime            @updatedAt @map("updated_at")
   user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  promptTemplates PromptGlobalField[]
+  prompts PromptGlobalField[]
 
   @@unique([userId, name])
   @@index([userId])
