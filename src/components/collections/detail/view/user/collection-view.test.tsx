@@ -1,6 +1,6 @@
 jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
-jest.mock("@/components/templates/search-params");
+jest.mock("@/components/prompts/search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";

@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/components/templates");
+jest.mock("@/components/prompts");
 jest.mock("@/components/collections", () => ({
    CollectionView: () => {
       return <div data-testid="collection-view" />;
