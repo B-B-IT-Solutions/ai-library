@@ -12,7 +12,7 @@ import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
 
-import { PublicTemplateService } from "./template.public.service";
+import { PublicTemplateService } from "./prompt.public.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);

@@ -8,7 +8,7 @@ import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
-import { PromptService } from "./prompt.service";
+import { PromptService } from "./prompt0.service";
 
 const promptRepo = new PromptRepository(prisma);
 const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;

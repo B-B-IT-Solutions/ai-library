@@ -17,7 +17,7 @@ import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
-import { TemplateService } from "./template.user.service";
+import { TemplateService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);

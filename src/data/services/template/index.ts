@@ -1,2 +1,2 @@
-export { TemplateService } from "./template.user.service";
-export { PublicTemplateService } from "./template.public.service";
+export { TemplateService } from "./prompt.user.service";
+export { PublicTemplateService } from "./prompt.public.service";
