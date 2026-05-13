@@ -8,8 +8,8 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
+   DPromptContent,
    DPromptGenerationData,
-   DPrompt,
    DPromptsPage,
    DPromptsPageQuery,
 } from "@/data/types/domain/prompt";
@@ -44,7 +44,7 @@ export const getPublicTemplateDescriptor = async (
 
 export const getPublicPromptTemplate = async (
    templateId: string
-): Promise<DPrompt | null> => {
+): Promise<DPromptContent | null> => {
    try {
       if (!isValidUuid(templateId)) {
          throw new Error("Invalid Template ID.");

@@ -3,8 +3,8 @@ import { isEmpty } from "es-toolkit/compat";
 import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
    DPrompt,
+   DPromptContent,
    DPromptGenerationData,
-   DPrompt,
    DPromptsPage,
    DPromptsPageQuery,
 } from "@/data/types/domain/prompt";
@@ -73,7 +73,9 @@ export class PublicTemplateService {
       return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
    }
 
-   async getPublicPromptTemplate(templateId: string): Promise<DPrompt | null> {
+   async getPublicPromptTemplate(
+      templateId: string
+   ): Promise<DPromptContent | null> {
       return await this.repository.pGetPublicPromptTemplate(templateId);
    }
 }

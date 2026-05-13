@@ -8,11 +8,11 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { TemplateRepository } from "@/data/repositories/template";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import {
    DPromptFieldValues,
    DPromptGenerationData,
 } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
