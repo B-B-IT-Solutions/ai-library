@@ -3,4 +3,5 @@ export {
    preloadPromptCategoriesOptions,
    useInfiniteLoadPrompts,
    useLoadPromptCategories,
-} from "./prompt";
+   infiniteLoadPromptsOptions,
+} from "./prompt0";
