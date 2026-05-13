@@ -23,8 +23,8 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptWithContent, toDPrompt, toDPrompts } from "./template.mapper";
-import { TemplateRepository } from "./template.user.repository";
+import { toDPromptWithContent, toDPrompt, toDPrompts } from "./prompt.mapper";
+import { TemplateRepository } from "./prompt.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

@@ -14,7 +14,7 @@ import {
    toDPromptDescriptor,
    toDPromptDescriptors,
    toDPromptDescriptorsPage,
-} from "./prompt.mapper";
+} from "./prompt0.mapper";
 
 const toDPromptDescriptorsPageInternal = (
    pPromptsPage: Prompt0sPage

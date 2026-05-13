@@ -12,7 +12,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 
 const toDPromptsInternal = (pPrompts: PromptWithCategories[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPromptInternal(dbP));

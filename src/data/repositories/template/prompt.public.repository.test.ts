@@ -10,8 +10,8 @@ import {
    PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
-import { PublicTemplateRepository } from "./template.public.repository";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
+import { PublicTemplateRepository } from "./prompt.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

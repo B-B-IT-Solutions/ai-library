@@ -23,7 +23,10 @@ import {
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
-import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
+import {
+   toDPromptDescriptor,
+   toDPromptDescriptorsPage,
+} from "./prompt0.mapper";
 
 export class PromptRepository {
    private prisma: DbClient;

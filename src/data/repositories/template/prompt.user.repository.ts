@@ -27,7 +27,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 type PGetPromptsParams = {
