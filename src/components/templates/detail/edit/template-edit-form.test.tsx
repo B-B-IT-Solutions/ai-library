@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
 jest.mock("@/components/shared/md", () => {
@@ -36,7 +36,7 @@ import { toast } from "sonner";
 import {
    createTemplateDescriptor,
    updateTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 

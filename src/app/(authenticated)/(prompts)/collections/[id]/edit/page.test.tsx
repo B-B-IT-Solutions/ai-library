@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
@@ -10,7 +10,7 @@ import {
    getCollectionById,
    getCollectionTemplateIds,
 } from "@/data/actions/collection";
-import { getTemplateDescriptorsPage } from "@/data/actions/template";
+import { getTemplateDescriptorsPage } from "@/data/actions/prompt";
 
 import { CollectionEditPage, metadata, PageParams, PageProps } from "./page";
 

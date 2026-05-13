@@ -7,7 +7,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { TemplateRepository } from "@/data/repositories/template";
+import { TemplateRepository } from "@/data/repositories/prompt";
 import {
    DPromptFieldValues,
    DPromptGenerationData,

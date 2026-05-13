@@ -1,6 +1,6 @@
 ﻿import { map } from "es-toolkit/compat";
 
-import { TemplateRepository } from "@/data/repositories/template";
+import { TemplateRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptFieldValues,

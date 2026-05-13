@@ -9,7 +9,7 @@ import { PromptRepository } from "./prompt0";
 import { RepositoryFactory } from "./repository.factory";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
-import { PublicTemplateRepository, TemplateRepository } from "./template";
+import { PublicTemplateRepository, TemplateRepository } from "./prompt";
 import {
    PasswordResetRepository,
    UserRepository,

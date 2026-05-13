@@ -1,4 +1,4 @@
-jest.mock("@/data/repositories/template");
+jest.mock("@/data/repositories/prompt");
 jest.mock("@/data/services/collection");
 jest.mock("@/data/services/settings");
 
@@ -6,7 +6,7 @@ import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PublicTemplateRepository } from "@/data/repositories/template";
+import { PublicTemplateRepository } from "@/data/repositories/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";

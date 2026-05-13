@@ -10,7 +10,7 @@ import { ServiceFactory } from "./service.factory";
 import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
-import { PublicTemplateService, TemplateService } from "./template";
+import { PublicTemplateService, TemplateService } from "./prompt";
 import {
    PasswordResetService,
    UserService,

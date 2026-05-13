@@ -16,7 +16,7 @@ import {
    getPromptTemplateCategories,
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 

@@ -19,10 +19,7 @@ import {
 } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
-import {
-   PublicTemplateService,
-   TemplateService,
-} from "@/data/services/template";
+import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
 import {
    PasswordResetService,
    UserService,

@@ -7,7 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "../service.factory";
-import { TemplateService } from "../template";
+import { TemplateService } from "../prompt";
 
 import { toPromptTemplateUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.user.service";

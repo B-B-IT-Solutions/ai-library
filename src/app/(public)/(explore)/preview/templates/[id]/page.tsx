@@ -6,7 +6,7 @@ import { getPublicCollectionByToken } from "@/data/actions/collection";
 import {
    getPublicPromptTemplate,
    getPublicTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 
 export const generateMetadata = async ({
    params,

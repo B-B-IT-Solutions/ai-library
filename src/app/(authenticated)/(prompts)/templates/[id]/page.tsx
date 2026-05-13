@@ -5,7 +5,7 @@ import { TemplateView } from "@/components/templates";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 
 export const metadata: Metadata = {
    title: "Vorlage",

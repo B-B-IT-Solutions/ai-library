@@ -1,9 +1,9 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
+import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { CollectionViewPublic } from "./collection-view-public";

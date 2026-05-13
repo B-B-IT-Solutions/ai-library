@@ -8,7 +8,7 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
+import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import {

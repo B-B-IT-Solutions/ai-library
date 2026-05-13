@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,7 +8,7 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteTemplateDescriptor } from "@/data/actions/template";
+import { deleteTemplateDescriptor } from "@/data/actions/prompt";
 
 import { DeleteTemplateButton } from "./delete-template-button";
 

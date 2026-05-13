@@ -17,12 +17,12 @@ import { newTemplateFieldInitValues } from "@/components/shared/template-fields"
 import {
    createTemplateDescriptor,
    updateTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 import {
    DPrompt,
-   DPromptWithContent,
    DPromptField,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updateTemplateSchema } from "@/data/types/validators/template";

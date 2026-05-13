@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { downloadTemplate } from "@/data/actions/template";
+import { downloadTemplate } from "@/data/actions/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {

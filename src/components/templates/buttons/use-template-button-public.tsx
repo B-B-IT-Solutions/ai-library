@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { UseTemplateDialog } from "@/components/prompt-templates";
 import { Button } from "@/components/shadcn/button";
-import { getPublicPromptGenerationTemplateData } from "@/data/actions/template";
+import { getPublicPromptGenerationTemplateData } from "@/data/actions/prompt";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 

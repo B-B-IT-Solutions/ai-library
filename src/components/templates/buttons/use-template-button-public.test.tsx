@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -7,7 +7,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { getPublicPromptGenerationTemplateData } from "@/data/actions/template";
+import { getPublicPromptGenerationTemplateData } from "@/data/actions/prompt";
 
 import { PublicUseTemplateButton } from "./use-template-button-public";
 

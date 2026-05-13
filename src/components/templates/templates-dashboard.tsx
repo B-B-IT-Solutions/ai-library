@@ -7,7 +7,7 @@ import {
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
