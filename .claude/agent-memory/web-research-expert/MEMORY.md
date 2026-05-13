@@ -1,0 +1,1 @@
+- [DACH Prompt-Markt Recherche](reference_dach_prompt_market.md) — Zielgruppen, Marktlücke & Communities für deutschsprachige KI-Prompt-Bibliothek
