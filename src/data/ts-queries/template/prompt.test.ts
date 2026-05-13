@@ -28,7 +28,7 @@ import {
    useInfiniteLoadTemplateDescriptors,
    useLoadPromptTemplateCategories,
    useToggleFavorite,
-} from "./template";
+} from "./prompt";
 import { LoadTemplateDescriptorsParams, UpdateIsFavoriteParams } from "./types";
 
 const getTemplateDescriptorsPageMock =

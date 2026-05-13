@@ -4,12 +4,12 @@ export {
    useInfiniteLoadTemplateDescriptors,
    useLoadPromptTemplateCategories,
    useToggleFavorite,
-} from "./template";
+} from "./prompt";
 
 export {
    infiniteLoadPublicTemplateDescriptorsOptions,
    useInfiniteLoadPublicTemplateDescriptors,
-} from "./template.public";
+} from "./prompt.public";
 
 export type {
    LoadTemplateDescriptorsParams,

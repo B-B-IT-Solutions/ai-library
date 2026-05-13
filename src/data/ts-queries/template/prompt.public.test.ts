@@ -14,7 +14,7 @@ import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
    infiniteLoadPublicTemplateDescriptorsOptions,
    useInfiniteLoadPublicTemplateDescriptors,
-} from "./template.public";
+} from "./prompt.public";
 import { LoadTemplateDescriptorsParams } from "./types";
 
 const getPublicTemplateDescriptorsPageMock =
