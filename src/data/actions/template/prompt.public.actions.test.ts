@@ -10,7 +10,7 @@ import {
    getPublicPromptTemplate,
    getPublicTemplateDescriptor,
    getPublicTemplateDescriptorsPage,
-} from "./template.public.actions";
+} from "./prompt.public.actions";
 
 const sGetPublicTemplateDescriptorsPage =
    PublicTemplateService.prototype.getPublicTemplateDescriptorsPage;

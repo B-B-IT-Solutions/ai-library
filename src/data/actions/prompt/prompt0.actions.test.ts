@@ -17,7 +17,7 @@ import {
    getPrompts,
    toggleFavorite,
    updatePrompt,
-} from "./prompt.actions";
+} from "./prompt0.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
