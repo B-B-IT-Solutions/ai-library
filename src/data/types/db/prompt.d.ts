@@ -6,19 +6,16 @@ import {
    PromptGlobalField,
 } from "@/generated/prisma/client";
 
-export type PromptWithFieldsAndContent = Prompt & {
-   promptContent: PromptContent;
-   fields: PromptField[];
-   globalFields: PromptGlobalField[];
-};
-
 export type PromptWithCategories = Prompt & {
    categories: PromptCategory[];
 };
 
-export type PromptWithTemplate = Prompt & {
+export type PromptWithRelations = Prompt & {
    categories: PromptCategory[];
-   promptContent: PromptContent;
    fields: PromptField[];
    globalFields: PromptGlobalField[];
+};
+
+export type PromptWithContent = PromptWithRelations & {
+   content: PromptContent;
 };

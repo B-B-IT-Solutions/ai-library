@@ -2,7 +2,7 @@
 
 import {
    PromptWithCategories,
-   PromptWithFieldsAndContent,
+   PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
@@ -33,11 +33,11 @@ export const toDTemplateDescriptor = (
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptWithFieldsAndContent
+   prompt: PromptWithContent
 ): DPromptContent => {
    return {
       id: prompt.id,
-      content: prompt.promptContent.content,
+      content: prompt.content.content,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };

@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptWithCategories,
-   PromptWithFieldsAndContent,
+   PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
@@ -40,11 +40,11 @@ const toDPromptTemplateDescriptorInternal = (
 };
 
 const toDPromptTemplateInternal = (
-   prompt: PromptWithFieldsAndContent
+   prompt: PromptWithContent
 ): DPromptContent => {
    return {
       id: prompt.id,
-      content: prompt.promptContent.content,
+      content: prompt.content.content,
       fields: toDTemplateFieldsInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };
@@ -91,7 +91,7 @@ describe("prompt.template mappers tests", () => {
    });
 
    it("toDPromptTemplate test", async () => {
-      const prompt = ptestData.pPromptTemplate();
+      const prompt = ptestData.pPromptWithContent();
       const result = toDPromptTemplate(prompt);
       const expectedResult = toDPromptTemplateInternal(prompt);
       expect(result).toEqual(expectedResult);

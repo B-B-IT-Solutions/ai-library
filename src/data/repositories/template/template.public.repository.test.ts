@@ -227,7 +227,7 @@ describe("pGetPublicPromptTemplate tests", () => {
    });
 
    test("template retrieved - test", async () => {
-      const prompt = ptestData.pPromptTemplate();
+      const prompt = ptestData.pPromptWithContent();
       prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const id = "prompt-template-id-1";
@@ -238,6 +238,7 @@ describe("pGetPublicPromptTemplate tests", () => {
          where: { id },
          include: {
             promptContent: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },

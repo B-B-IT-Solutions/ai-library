@@ -605,7 +605,7 @@ describe("getPromptTemplateCategories tests", () => {
 
    it("getPromptTemplateCategories test", async () => {
       const userId = "user-id-1";
-      const categories = ptestData.pPromptTemplateCategories();
+      const categories = ptestData.pPromptCategories();
       templateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
          categories
       );

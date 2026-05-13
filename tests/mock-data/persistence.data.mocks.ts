@@ -20,8 +20,8 @@ import {
 } from "@/data/types/db/product";
 import {
    PromptWithCategories,
-   PromptWithFieldsAndContent,
-   PromptWithTemplate,
+   PromptWithContent,
+   PromptWithRelations,
 } from "@/data/types/db/prompt";
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
@@ -453,10 +453,10 @@ export const pCartItem = (index = 1): CartItem => {
    };
 };
 
-export const pPromptWithTemplate = (index = 1): PromptWithTemplate => {
+export const pPromptWithTemplate = (index = 1): PromptWithContent => {
    return {
       ...pPromptWithCategories(index),
-      promptContent: pPromptContent(index),
+      content: pPromptContent(index),
       fields: pPromptFields(3),
       globalFields: pPromptGlobalFields(),
    };
@@ -468,7 +468,7 @@ export const pPromptsWithCategories = (count = 3): PromptWithCategories[] => {
 
 export const pPromptWithCategories = (index = 1): PromptWithCategories => {
    const templateDescriptor = pPrompt(index);
-   const categories = pPromptTemplateCategories();
+   const categories = pPromptCategories();
    return {
       ...templateDescriptor,
       categories,
@@ -492,19 +492,25 @@ export const pPrompt = (index = 1): Prompt => {
    };
 };
 
+export const pPromptWithRelations = (index = 1): PromptWithRelations => {
+   return {
+      ...pPrompt(index),
+      categories: pPromptCategories(index),
+      fields: pPromptFields(3),
+      globalFields: pPromptGlobalFields(),
+   };
+};
+export const pPromptWithContent = (index = 1): PromptWithContent => {
+   return {
+      ...pPromptWithRelations(index),
+      content: pPromptContent(index),
+   };
+};
+
 export const pPromptContent = (index = 1): PromptContent => {
    return {
       promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       content: `content ${index}`,
-   };
-};
-
-export const pPromptTemplate = (index = 1): PromptWithFieldsAndContent => {
-   return {
-      ...pPrompt(index),
-      promptContent: pPromptContent(index),
-      fields: pPromptFields(3),
-      globalFields: pPromptGlobalFields(),
    };
 };
 
@@ -527,7 +533,7 @@ export const pPromptField = (index = 1): PromptField => {
    };
 };
 
-export const pPromptTemplateCategories = (count = 3): PromptCategory[] => {
+export const pPromptCategories = (count = 3): PromptCategory[] => {
    return range(0, count).map((i) => pPromptCategory(i));
 };
 

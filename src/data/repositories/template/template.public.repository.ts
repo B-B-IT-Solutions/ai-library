@@ -1,5 +1,8 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories, PromptWithFieldsAndContent } from "@/data/types/db/prompt";
+import {
+   PromptWithCategories,
+   PromptWithContent,
+} from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptContent,
@@ -85,6 +88,7 @@ export class PublicTemplateRepository {
          where: { id },
          include: {
             promptContent: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
@@ -92,6 +96,6 @@ export class PublicTemplateRepository {
 
       const prompt = await this.prisma.prompt.findFirst(args);
 
-      return prompt ? toDPromptTemplate(prompt as PromptWithFieldsAndContent) : null;
+      return prompt ? toDPromptTemplate(prompt as PromptWithContent) : null;
    }
 }

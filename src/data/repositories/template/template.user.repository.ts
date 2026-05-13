@@ -1,7 +1,10 @@
 ﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories, PromptWithFieldsAndContent } from "@/data/types/db/prompt";
+import {
+   PromptWithCategories,
+   PromptWithRelations,
+} from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptCategory,
@@ -124,12 +127,13 @@ export class TemplateRepository {
          where: { id, userId },
          include: {
             promptContent: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       });
 
-      return prompt ? toDPromptTemplate(prompt as PromptWithFieldsAndContent) : null;
+      return prompt ? toDPromptTemplate(prompt as PromptWithRelations) : null;
    }
 
    async pGetPromptTemplateCategories(

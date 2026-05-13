@@ -9,7 +9,6 @@ import {
    DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
-   DPromptUpdate,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -791,7 +790,7 @@ describe("pGetPromptTemplate tests", () => {
    });
 
    test("pGetPromptTemplate - template retrieved - test", async () => {
-      const prompt = ptestData.pPromptTemplate();
+      const prompt = ptestData.pPromptWithRelations();
       prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
@@ -803,6 +802,7 @@ describe("pGetPromptTemplate tests", () => {
          where: { id, userId },
          include: {
             promptContent: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
@@ -820,7 +820,7 @@ describe("pGetPromptTemplateCategories queries tests", () => {
 
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = ptestData.pPromptTemplateCategories();
+      const categories = ptestData.pPromptCategories();
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
       const result = await repository.pGetPromptTemplateCategories(userId);
@@ -876,7 +876,7 @@ describe("pCreatePrompt tests", () => {
             },
          },
          fields: {
-            create: map(data.fields, (field: DPromptUpdate) => ({
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
                name: field.name,
                label: field.label,
                description: field.description,
