@@ -15,11 +15,7 @@ import {
    PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class PublicTemplateRepository {
@@ -60,7 +56,7 @@ export class PublicTemplateRepository {
       ]);
 
       return {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -80,7 +76,7 @@ export class PublicTemplateRepository {
       const descriptor: PromptWithCategories | null =
          await this.prisma.prompt.findFirst(args);
 
-      return descriptor ? toDTemplateDescriptor(descriptor) : null;
+      return descriptor ? toDPrompt(descriptor) : null;
    }
 
    async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
@@ -96,6 +92,6 @@ export class PublicTemplateRepository {
 
       const prompt = await this.prisma.prompt.findFirst(args);
 
-      return prompt ? toDPromptTemplate(prompt as PromptWithContent) : null;
+      return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 }

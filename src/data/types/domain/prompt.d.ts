@@ -35,15 +35,15 @@ export type DPrompt = {
    title: string;
    description: string;
    recommendedModel: string;
+   isFavorite: boolean;
    categories: DPromptCategory[];
    fields: DPromptField[];
    globalFieldIds: string[];
-   isFavorite: boolean;
    updatedAt: string;
    createdAt: string;
 };
 
-export type DPromptContent = {
+export type DPromptContent = DPrompt & {
    content: string;
 };
 

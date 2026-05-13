@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 import { LucideIcon } from "lucide-react";
 import * as Icons from "lucide-react";
 
-import { toDTemplateDescriptor } from "@/data/repositories/template";
+import { toDPrompt } from "@/data/repositories/template";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,
@@ -81,7 +81,7 @@ const toDProductItem = (item: ProductItemWithTemplate): DProductItem => {
       id: item.id,
       productId: item.productId,
       templateId: item.templateId,
-      template: toDTemplateDescriptor(item.template),
+      template: toDPrompt(item.template),
       createdAt: item.createdAt.toISOString(),
    };
 };

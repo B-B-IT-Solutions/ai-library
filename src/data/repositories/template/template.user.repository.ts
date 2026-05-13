@@ -27,11 +27,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 type PGetPromptsParams = {
@@ -78,7 +74,7 @@ export class TemplateRepository {
       ]);
 
       return {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -98,7 +94,7 @@ export class TemplateRepository {
          take: 20,
       });
 
-      return toDTemplateDescriptors(templates);
+      return toDPrompts(templates);
    }
 
    async pGetTemplateDescriptor(
@@ -114,7 +110,7 @@ export class TemplateRepository {
          });
 
       if (template) {
-         return toDTemplateDescriptor(template);
+         return toDPrompt(template);
       }
       return null;
    }
@@ -133,7 +129,7 @@ export class TemplateRepository {
          },
       });
 
-      return prompt ? toDPromptTemplate(prompt as PromptWithContent) : null;
+      return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 
    async pGetPromptTemplateCategories(
@@ -200,7 +196,7 @@ export class TemplateRepository {
          },
       };
       const newEntry = await this.prisma.prompt.create(args);
-      return toDTemplateDescriptor(newEntry as PromptWithCategories);
+      return toDPrompt(newEntry as PromptWithCategories);
    }
 
    async pUpdatePrompt(

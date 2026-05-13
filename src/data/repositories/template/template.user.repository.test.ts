@@ -23,11 +23,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPromptWithContent, toDPrompt, toDPrompts } from "./template.mapper";
 import { TemplateRepository } from "./template.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -49,7 +45,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetTemplateDescriptorsPage(userId);
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,
@@ -98,7 +94,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       );
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 2,
          pageSize: 10,
          numberOfElements: descriptors.length,
@@ -542,7 +538,7 @@ describe("pGetPrompts tests", () => {
 
       const result = await repository.pGetPrompts();
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          include: {
@@ -564,7 +560,7 @@ describe("pGetPrompts tests", () => {
 
       const result = await repository.pGetPrompts({});
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          include: {
@@ -590,7 +586,7 @@ describe("pGetPrompts tests", () => {
          categories: [],
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -633,7 +629,7 @@ describe("pGetPrompts tests", () => {
          categories,
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -673,7 +669,7 @@ describe("pGetPrompts tests", () => {
          categories,
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -750,7 +746,7 @@ describe("pGetTemplateDescriptor tests", () => {
       const id = "prompt-template-descriptor-id-1";
       const result = await repository.pGetTemplateDescriptor(userId, id);
 
-      const expectedResult = toDTemplateDescriptor(template);
+      const expectedResult = toDPrompt(template);
 
       const expectedWhere: PromptFindFirstArgs = {
          where: { id, userId },
@@ -797,7 +793,7 @@ describe("pGetPromptTemplate tests", () => {
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
-      const expectedResult = toDPromptTemplate(prompt);
+      const expectedResult = toDPromptWithContent(prompt);
 
       const expectedWhere: PromptFindFirstArgs = {
          where: { id, userId },
@@ -854,7 +850,7 @@ describe("pCreatePrompt tests", () => {
 
       const result = await repository.pCreatePrompt(userId, data);
 
-      const expectedResult = toDTemplateDescriptor(newDescriptor);
+      const expectedResult = toDPrompt(newDescriptor);
 
       const expectedInput: PromptCreateInput = {
          title: data.title,

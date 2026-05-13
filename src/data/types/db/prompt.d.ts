@@ -10,8 +10,7 @@ export type PromptWithCategories = Prompt & {
    categories: PromptCategory[];
 };
 
-export type PromptWithRelations = Prompt & {
-   categories: PromptCategory[];
+export type PromptWithRelations = PromptWithCategories & {
    fields: PromptField[];
    globalFields: PromptGlobalField[];
 };

@@ -10,11 +10,7 @@ import {
    PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
 import { PublicTemplateRepository } from "./template.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -40,7 +36,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetPublicTemplateDescriptorsPage(query);
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,
@@ -188,7 +184,7 @@ describe("pGetPublicTemplateDescriptor tests", () => {
 
       const id = "descriptor-1";
       const result = await repository.pGetPublicTemplateDescriptor(id);
-      const expectedResult = toDTemplateDescriptor(descriptor);
+      const expectedResult = toDPrompt(descriptor);
 
       const expectedArgs: PromptFindFirstArgs = {
          where: { id },
@@ -233,7 +229,7 @@ describe("pGetPublicPromptTemplate tests", () => {
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
-      const expectedResult = toDPromptTemplate(prompt);
+      const expectedResult = toDPromptWithContent(prompt);
 
       const expectedArgs: PromptFindFirstArgs = {
          where: { id },

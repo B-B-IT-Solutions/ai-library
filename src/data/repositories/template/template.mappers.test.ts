@@ -12,53 +12,45 @@ import {
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./template.mapper";
 
-const toDPromptTemplateDescriptorsInternal = (
-   pPrompts: PromptWithCategories[]
-): DPrompt[] => {
-   return map(pPrompts, (dbP) => toDPromptTemplateDescriptorInternal(dbP));
+const toDPromptsInternal = (pPrompts: PromptWithCategories[]): DPrompt[] => {
+   return map(pPrompts, (dbP) => toDPromptInternal(dbP));
 };
 
-const toDPromptTemplateDescriptorInternal = (
-   prompt: PromptWithCategories
-): DPrompt => {
+const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
+      categories: prompt.categories,
+      fields: [],
+      globalFieldIds: [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
 
-const toDPromptTemplateInternal = (
+const toDPromptWithContentInternal = (
    prompt: PromptWithContent
 ): DPromptContent => {
    return {
-      id: prompt.id,
+      ...toDPromptInternal(prompt),
       content: prompt.content.content,
-      fields: toDTemplateFieldsInternal(prompt.fields),
+      fields: toDPromptFieldsInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };
 };
 
-export const toDTemplateFieldsInternal = (
+export const toDPromptFieldsInternal = (
    fields: PromptField[]
 ): DPromptField[] => {
-   return map(fields, toDTemplateFieldInternal).sort(
-      (a, b) => a.order - b.order
-   );
+   return map(fields, toDPromptFieldInternal).sort((a, b) => a.order - b.order);
 };
 
-export const toDTemplateFieldInternal = (field: PromptField): DPromptField => ({
+export const toDPromptFieldInternal = (field: PromptField): DPromptField => ({
    id: field.id,
    promptId: field.promptId,
    name: field.name,
@@ -76,24 +68,24 @@ describe("prompt.template mappers tests", () => {
       jest.clearAllMocks();
    });
 
-   it("toDTemplateDescriptors test", async () => {
+   it("toDPrompts test", async () => {
       const descriptors = ptestData.pPromptsWithCategories();
-      const result = toDTemplateDescriptors(descriptors);
-      const expectedResult = toDPromptTemplateDescriptorsInternal(descriptors);
+      const result = toDPrompts(descriptors);
+      const expectedResult = toDPromptsInternal(descriptors);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDTemplateDescriptor test", async () => {
+   it("toDPrompt test", async () => {
       const descriptor = ptestData.pPromptWithCategories();
-      const result = toDTemplateDescriptor(descriptor);
-      const expectedResult = toDPromptTemplateDescriptorInternal(descriptor);
+      const result = toDPrompt(descriptor);
+      const expectedResult = toDPromptInternal(descriptor);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDPromptTemplate test", async () => {
+   it("toDPromptWithContent test", async () => {
       const prompt = ptestData.pPromptWithContent();
-      const result = toDPromptTemplate(prompt);
-      const expectedResult = toDPromptTemplateInternal(prompt);
+      const result = toDPromptWithContent(prompt);
+      const expectedResult = toDPromptWithContentInternal(prompt);
       expect(result).toEqual(expectedResult);
    });
 });
