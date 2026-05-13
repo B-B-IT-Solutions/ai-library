@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
-import { PromptsDashboard } from "@/components/prompts";
+import { PromptsDashboard } from "@/components/prompt0s";
 
 export const metadata: Metadata = {
    title: "Prompts",
