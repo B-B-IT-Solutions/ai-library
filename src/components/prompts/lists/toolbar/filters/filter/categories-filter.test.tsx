@@ -1,4 +1,4 @@
-jest.mock("@/data/ts-queries/prompt");
+jest.mock("@/data/ts-queries/prompt0");
 
 import { UseQueryResult } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { forEach } from "es-toolkit/compat";
 
-import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt0";
 import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 import { toTestId } from "@/lib/utils";
 import { FiltersContext } from "../context";

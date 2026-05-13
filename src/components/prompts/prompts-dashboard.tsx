@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { infiniteLoadPromptsOptions } from "@/data/ts-queries/prompt";
+import { infiniteLoadPromptsOptions } from "@/data/ts-queries/prompt0";
 import {
    DListGroupByMode,
    DListSortByMode,

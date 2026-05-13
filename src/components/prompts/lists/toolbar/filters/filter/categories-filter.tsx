@@ -25,7 +25,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt0";
 import { cn, toTestId } from "@/lib/utils";
 import { FiltersContext } from "../context";
 
@@ -61,13 +61,13 @@ export const CategoriesFilter: FC = () => {
          <Badge
             key={cat}
             variant="secondary"
-            className="flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-100 px-2.5 py-1"
+            className="flex items-center gap-1.5 border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
             data-testid={`selected-category-${toTestId(cat)}`}
          >
             <span className="font-medium">{cat}</span>
             <X
                size={14}
-               className="cursor-pointer hover:text-blue-900 transition-colors"
+               className="cursor-pointer transition-colors hover:text-blue-900"
             />
          </Badge>
       );
@@ -77,13 +77,13 @@ export const CategoriesFilter: FC = () => {
       return (
          <div
             className={cn(
-               "w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2",
-               "flex items-center flex-wrap gap-2 transition-all shadow-sm"
+               "min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white",
+               "flex flex-wrap items-center gap-2 shadow-sm transition-all"
             )}
          >
             {isEmpty(categories) && (
                <span
-                  className="text-slate-400 text-sm"
+                  className="text-sm text-slate-400"
                   data-testid="no-selected-category"
                >
                   Kategorien auswählen...
@@ -100,19 +100,19 @@ export const CategoriesFilter: FC = () => {
          <CommandItem
             key={idx}
             onSelect={() => toggleCategory(cat)}
-            className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+            className="flex cursor-pointer items-center gap-3 px-3 py-2.5 hover:bg-slate-50"
             data-testid={`category-option-${toTestId(cat)}`}
          >
             <div
                className={cn(
-                  "h-4 w-4 rounded border-2 transition-all flex items-center justify-center",
+                  "flex h-4 w-4 items-center justify-center rounded border-2 transition-all",
                   categories.includes(cat)
-                     ? "bg-blue-600 border-blue-600"
+                     ? "border-blue-600 bg-blue-600"
                      : "border-slate-300"
                )}
             >
                {categories.includes(cat) && (
-                  <div className="w-2 h-2 bg-white rounded-sm" />
+                  <div className="h-2 w-2 rounded-sm bg-white" />
                )}
             </div>
             <span className="text-sm font-medium text-slate-700">{cat}</span>
@@ -143,7 +143,7 @@ export const CategoriesFilter: FC = () => {
    return (
       <div className="space-y-2" data-testid="categories-filter">
          <label
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wide"
+            className="text-xs font-semibold tracking-wide text-slate-700 uppercase"
             data-testid="filter-label"
          >
             Kategorien
@@ -152,7 +152,7 @@ export const CategoriesFilter: FC = () => {
             <PopoverTrigger asChild={true} data-testid="popover-trigger">
                {renderSelectedCategories()}
             </PopoverTrigger>
-            <PopoverContent className="w-72 p-0 shadow-lg border-slate-200">
+            <PopoverContent className="w-72 border-slate-200 p-0 shadow-lg">
                {renderCategoryOptions()}
             </PopoverContent>
          </Popover>

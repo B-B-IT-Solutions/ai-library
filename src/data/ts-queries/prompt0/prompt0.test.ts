@@ -21,7 +21,7 @@ import {
    preloadPromptsOptions,
    useInfiniteLoadPrompts,
    useLoadPromptCategories,
-} from "./prompt";
+} from "./prompt0";
 import { LoadPromptsParams } from "./types";
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;

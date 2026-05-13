@@ -1,11 +1,11 @@
-jest.mock("@/data/ts-queries/prompt");
+jest.mock("@/data/ts-queries/prompt0");
 
 import { UseQueryResult } from "@tanstack/react-query";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
-import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt0";
 
 import { FiltersContext } from "./context";
 import { PromptFilters } from "./prompts-filter";
