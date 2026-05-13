@@ -11,7 +11,7 @@ import {
    DPromptFollowUp,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
-import { PromptFollowUp, PromptVersion } from "@/generated/prisma/client";
+import { Prompt0Version, PromptFollowUp } from "@/generated/prisma/client";
 
 import {
    toDPromptDescriptor,
@@ -34,7 +34,7 @@ const toDPromptDescriptorsInternal = (
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-const toDPromptVersionInternal = (version: PromptVersion): DPromptVersion => {
+const toDPromptVersionInternal = (version: Prompt0Version): DPromptVersion => {
    return {
       id: version.id,
       version: version.version,

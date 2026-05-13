@@ -103,7 +103,7 @@ model Prompt0 {
   updatedAt        DateTime         @updatedAt @map("updated_at")
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   prompt0Content   Prompt0Content?
-  versions         PromptVersion[]
+  versions         Prompt0Version[]
   followUpPrompts  PromptFollowUp[]
 
   @@index([userId])
@@ -130,7 +130,7 @@ model Prompt0Category {
   @@map("prompt0_category")
 }
 
-model PromptVersion {
+model Prompt0Version {
   id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   promptId  String           @map("prompt_id") @db.Uuid
   content   String           @db.Text
@@ -140,7 +140,7 @@ model PromptVersion {
 
   @@unique([promptId, version])
   @@index([promptId])
-  @@map("prompt_version")
+  @@map("prompt0_version")
 }
 
 model PromptFollowUp {

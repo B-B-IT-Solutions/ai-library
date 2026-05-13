@@ -14,11 +14,11 @@ import {
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
 import {
-   PromptCategoryCreateOrConnectWithoutPromptsInput,
-   PromptDescriptorCreateInput,
-   PromptDescriptorDeleteArgs,
-   PromptDescriptorUpdateInput,
-   PromptDescriptorWhereInput,
+   Prompt0CategoryCreateOrConnectWithoutPromptsInput,
+   Prompt0CreateInput,
+   Prompt0DeleteArgs,
+   Prompt0UpdateInput,
+   Prompt0WhereInput,
    PromptFollowUpCreateWithoutPromptInput,
    PromptFollowUpScalarWhereInput,
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
@@ -113,7 +113,7 @@ export class PromptRepository {
       );
       const followUps = this.createFollowUpsInput(data.followUpPrompts);
 
-      const toSave: PromptDescriptorCreateInput = {
+      const toSave: Prompt0CreateInput = {
          title: data.title,
          content: data.content,
          recommendedModel: data.recommendedModel,
@@ -159,7 +159,7 @@ export class PromptRepository {
       );
       const followUpPrompts = this.followUpPromptUpdates(current, data);
 
-      const toSave: PromptDescriptorUpdateInput = {
+      const toSave: Prompt0UpdateInput = {
          title: data.title,
          content: data.content,
          recommendedModel: data.recommendedModel,
@@ -190,7 +190,7 @@ export class PromptRepository {
    }
 
    async pDeletePrompt(userId: string, promptId: string) {
-      const args: PromptDescriptorDeleteArgs = {
+      const args: Prompt0DeleteArgs = {
          where: { id: promptId, userId },
       };
       await this.prisma.prompt0.delete(args);
@@ -234,7 +234,7 @@ export class PromptRepository {
    private createOrConnectCategories(
       userId: string,
       categories: string[]
-   ): PromptCategoryCreateOrConnectWithoutPromptsInput[] {
+   ): Prompt0CategoryCreateOrConnectWithoutPromptsInput[] {
       return map(categories, (cat: string) => {
          return {
             where: {
@@ -279,43 +279,41 @@ export class PromptRepository {
    private resolveGetPromptDescriptorsWhereInput(
       userId: string,
       query?: DPromptDescriptorsPageQuery
-   ): PromptDescriptorWhereInput | undefined {
+   ): Prompt0WhereInput | undefined {
       const { globalFilter, filter } = query || {};
       const { categories, isFavorite } = filter || {};
 
-      const searchClause: PromptDescriptorWhereInput[] | undefined =
-         globalFilter
-            ? [
-                 {
-                    title: {
-                       contains: globalFilter,
-                       mode: "insensitive",
-                    },
+      const searchClause: Prompt0WhereInput[] | undefined = globalFilter
+         ? [
+              {
+                 title: {
+                    contains: globalFilter,
+                    mode: "insensitive",
                  },
-                 {
-                    content: {
-                       contains: globalFilter,
-                       mode: "insensitive",
-                    },
+              },
+              {
+                 content: {
+                    contains: globalFilter,
+                    mode: "insensitive",
                  },
-              ]
-            : undefined;
+              },
+           ]
+         : undefined;
 
       const isCategories = !isEmpty(categories);
-      const categoriesClause: PromptDescriptorWhereInput[] | undefined =
-         isCategories
-            ? [
-                 {
-                    categories: {
-                       some: {
-                          name: {
-                             in: categories,
-                          },
+      const categoriesClause: Prompt0WhereInput[] | undefined = isCategories
+         ? [
+              {
+                 categories: {
+                    some: {
+                       name: {
+                          in: categories,
                        },
                     },
                  },
-              ]
-            : undefined;
+              },
+           ]
+         : undefined;
 
       const favoriteClause =
          isFavorite !== undefined ? { isFavorite } : undefined;

@@ -10,7 +10,7 @@ import {
    DPromptFollowUp,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
-import { PromptFollowUp, PromptVersion } from "@/generated/prisma/client";
+import { Prompt0Version, PromptFollowUp } from "@/generated/prisma/client";
 
 export const toDPromptDescriptorsPage = (
    pPromptsPage: PromptDescriptorsPage
@@ -59,11 +59,11 @@ const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
    };
 };
 
-const toDPromptVersions = (pVersions: PromptVersion[]): DPromptVersion[] => {
+const toDPromptVersions = (pVersions: Prompt0Version[]): DPromptVersion[] => {
    return map(pVersions, (v) => toDPromptVersion(v));
 };
 
-const toDPromptVersion = (version: PromptVersion): DPromptVersion => {
+const toDPromptVersion = (version: Prompt0Version): DPromptVersion => {
    return {
       id: version.id,
       version: version.version,
