@@ -841,10 +841,8 @@ describe("pGetPromptTemplateCategories queries tests", () => {
       };
 
       expect(result).toEqual(categories);
-      expect(prismaMock.promptTemplateCategory.findMany).toHaveBeenCalledTimes(
-         1
-      );
-      expect(prismaMock.promptTemplateCategory.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
          expectedFindMayArgs
       );
    });

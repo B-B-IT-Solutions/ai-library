@@ -398,7 +398,7 @@ describe("getPromptCategories queries tests", () => {
    });
 
    test("getPromptCategories - categories retrieved - test", async () => {
-      const categories = ptestData.pPromptCategories();
+      const categories = ptestData.pPrompt0Categories();
       prismaMock.prompt0Category.findMany.mockResolvedValue(categories);
 
       const userId = "user-id-1";
