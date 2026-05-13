@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt0");
 jest.mock("sonner");
 
 import { render, screen, waitFor, within } from "@testing-library/react";
@@ -8,7 +8,7 @@ import { cloneDeep } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createPrompt, updatePrompt } from "@/data/actions/prompt";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 import { PromptEdit } from "./prompt-edit";

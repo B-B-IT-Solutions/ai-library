@@ -16,7 +16,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
-import { createPrompt, updatePrompt } from "@/data/actions/prompt";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
 import { DPrompt0, DPrompt0Update } from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 

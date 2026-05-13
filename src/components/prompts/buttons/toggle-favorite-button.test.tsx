@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt0");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
 import { toast } from "sonner";
 
-import { toggleFavorite } from "@/data/actions/prompt";
+import { toggleFavorite } from "@/data/actions/prompt0";
 
 import { ToggleFavoriteButton } from "./toggle-favorite-button";
 

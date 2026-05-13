@@ -1,9 +1,9 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt0");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
-import { getPrompts } from "@/data/actions/prompt";
+import { getPrompts } from "@/data/actions/prompt0";
 
 import { PromptsDashboard } from "./prompts-dashboard";
 

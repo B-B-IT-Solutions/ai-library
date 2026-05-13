@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
-import { deletePrompt } from "@/data/actions/prompt";
+import { deletePrompt } from "@/data/actions/prompt0";
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type DeletePromptButtonProps = {

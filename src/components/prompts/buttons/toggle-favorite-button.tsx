@@ -10,7 +10,7 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { toggleFavorite } from "@/data/actions/prompt";
+import { toggleFavorite } from "@/data/actions/prompt0";
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { cn } from "@/lib/utils";
 
