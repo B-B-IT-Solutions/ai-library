@@ -8,10 +8,10 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 
 type EditPromptButtonProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const EditPromptButton: FC<EditPromptButtonProps> = ({ prompt }) => {

@@ -6,10 +6,10 @@ import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
 import { deletePrompt } from "@/data/actions/prompt";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 
 type DeletePromptButtonProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {

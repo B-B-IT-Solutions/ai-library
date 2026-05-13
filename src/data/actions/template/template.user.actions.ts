@@ -7,7 +7,7 @@ import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt";
 import {
    DPromptFieldValues,
    DPromptTemplate,
@@ -140,7 +140,7 @@ export const getPromptGenerationTemplateData = async (
 export const composePromptFromTemplate = async (
    descriptorId: string,
    fieldValues: DPromptFieldValues
-): Promise<ActionResult<DPromptUpdate>> => {
+): Promise<ActionResult<DPrompt0Update>> => {
    try {
       if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Descriptor ID.");

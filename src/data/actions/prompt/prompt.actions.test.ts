@@ -2,12 +2,11 @@ jest.mock("@/data/services/prompt");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
-import { map } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -92,7 +91,7 @@ describe("getPromptss tests", () => {
       const page = dtestData.dPromptDescriptorsPage();
       sGetPromptsMock.mockResolvedValue(page);
 
-      const query: DPromptDescriptorsPageQuery = {};
+      const query: DPrompt0sPageQuery = {};
       const result = await getPrompts(query);
 
       expect(result).toEqual(page);

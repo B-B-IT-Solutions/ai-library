@@ -10,7 +10,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt";
 
 import { PromptsGrid } from "./prompts-grid";
 
@@ -18,7 +18,7 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
-   filters: DPromptDescriptorsFilter;
+   filters: DPrompt0sFilter;
 };
 
 export const Prompts: FC<Props> = ({ viewMode, groupBy, sortBy, filters }) => {

@@ -8,7 +8,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { TemplateRepository } from "@/data/repositories/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt";
 import {
    DPromptFieldValues,
    DPromptTemplateDataPromptGeneration,
@@ -397,7 +397,7 @@ describe("composePromptFromTemplate tests", () => {
          fieldValues
       );
 
-      const expectedResult: DPromptUpdate = {
+      const expectedResult: DPrompt0Update = {
          content: promptContent,
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,

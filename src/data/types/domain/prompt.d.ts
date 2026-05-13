@@ -4,15 +4,15 @@ import { Filter, Page, PageQuery } from "@/data/types/common";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 import { updatePromptFollowUpSchema } from "../validators/prompt/prompt.schema";
 
-export type DPromptFollowUpUpdate = z.infer<typeof updatePromptFollowUpSchema>;
+export type DPrompt0FollowUpUpdate = z.infer<typeof updatePromptFollowUpSchema>;
 
-export type DPromptUpdate = z.infer<typeof updatePromptSchema>;
+export type DPrompt0Update = z.infer<typeof updatePromptSchema>;
 
 export type DPrompt0Category = {
    name: string;
 };
 
-export type DPromptDescriptor = {
+export type DPrompt0 = {
    id: string;
    title: string;
    content: string;
@@ -20,33 +20,33 @@ export type DPromptDescriptor = {
    isFavorite: boolean;
    currentVersion: number;
    categories: DPrompt0Category[];
-   versions: DPromptVersion[];
-   followUpPrompts: DPromptFollowUp[];
+   versions: DPrompt0Version[];
+   followUpPrompts: DPrompt0FollowUp[];
    updatedAt: string;
    createdAt: string;
 };
 
-export type DPrompt = {
+export type DPrompt0Content = {
    content: string;
 };
 
-export type DPromptVersion = {
+export type DPrompt0Version = {
    id: string;
    version: number;
    content: string;
    createdAt: string;
 };
 
-export type DPromptFollowUp = {
+export type DPrompt0FollowUp = {
    id: string;
    content: string;
    order: number;
 };
 
-export type DPromptDescriptorsPageQuery = PageQuery<DPromptDescriptorsFilter>;
-export type DPromptDescriptorsPage = Page<DPromptDescriptor>;
+export type DPrompt0sPageQuery = PageQuery<DPrompt0sFilter>;
+export type DPrompt0sPage = Page<DPrompt0>;
 
-export interface DPromptDescriptorsFilter extends Filter {
+export interface DPrompt0sFilter extends Filter {
    search?: string;
    categories?: string[];
    isFavorite?: boolean;

@@ -6,7 +6,7 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt";
 import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
@@ -638,7 +638,7 @@ describe("composePromptFromTemplate tests", () => {
       sComposePromptFromTemplateMock.mockResolvedValue(promptData);
 
       const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Prompt erfolgreich generiert",
          data: promptData,
@@ -810,7 +810,7 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
       };
@@ -837,7 +837,7 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Aus Favoriten entfernt",
       };

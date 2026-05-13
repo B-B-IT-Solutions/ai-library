@@ -6,12 +6,12 @@ import { ChevronDown, ChevronLeft, MessageSquarePlus } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Separator } from "@/components/shadcn/separator";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 
 import { PromptFollowUp } from "./prompt-follow-up-view";
 
 type PromptFollowUpsProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ prompt }) => {

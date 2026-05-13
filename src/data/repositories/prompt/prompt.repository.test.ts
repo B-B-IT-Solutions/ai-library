@@ -3,8 +3,8 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptDescriptorsPage } from "@/data/types/db/prompt";
-import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
+import { Prompt0sPage } from "@/data/types/db/prompt";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt";
 import {
    Prompt0CategoryFindManyArgs,
    Prompt0CountArgs,
@@ -37,7 +37,7 @@ describe("pGetPromptDescriptors tests", () => {
 
       const result = await promptRepository.pGetPromptDescriptors(userId);
 
-      const expectedDbResult: PromptDescriptorsPage = {
+      const expectedDbResult: Prompt0sPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -77,13 +77,13 @@ describe("pGetPromptDescriptors tests", () => {
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
-      const query: DPromptDescriptorsPageQuery = {};
+      const query: DPrompt0sPageQuery = {};
       const result = await promptRepository.pGetPromptDescriptors(
          userId,
          query
       );
 
-      const expectedDbResult: PromptDescriptorsPage = {
+      const expectedDbResult: Prompt0sPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -123,7 +123,7 @@ describe("pGetPromptDescriptors tests", () => {
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
-      const query: DPromptDescriptorsPageQuery = {
+      const query: DPrompt0sPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 123",
       };
@@ -132,7 +132,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedDbResult: PromptDescriptorsPage = {
+      const expectedDbResult: Prompt0sPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -186,7 +186,7 @@ describe("pGetPromptDescriptors tests", () => {
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
-      const query: DPromptDescriptorsPageQuery = {
+      const query: DPrompt0sPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          filter: {
             categories: ["cat 123"],
@@ -198,7 +198,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedDbResult: PromptDescriptorsPage = {
+      const expectedDbResult: Prompt0sPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -250,7 +250,7 @@ describe("pGetPromptDescriptors tests", () => {
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
-      const query: DPromptDescriptorsPageQuery = {
+      const query: DPrompt0sPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 1",
          filter: {
@@ -262,7 +262,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedDbResult: PromptDescriptorsPage = {
+      const expectedDbResult: Prompt0sPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,

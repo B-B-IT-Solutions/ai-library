@@ -6,7 +6,7 @@ import {
    assertInDocument,
 } from "@tests";
 
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt";
 import { FiltersContext } from "../context";
 import { DFiltersContext } from "../types";
 
@@ -105,7 +105,7 @@ describe("SearchFilter functionality tests", () => {
       // setFilters should not be called immediately
       expect(mockContext.setFilters).not.toHaveBeenCalled();
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: searchText,
          categories: mockContext.filters.categories,
       };
@@ -137,7 +137,7 @@ describe("SearchFilter functionality tests", () => {
       // At this point, 300ms haven't passed since the last keystroke
       expect(mockContext.setFilters).not.toHaveBeenCalled();
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: "abc",
          categories: mockContext.filters.categories,
       };
@@ -164,7 +164,7 @@ describe("SearchFilter functionality tests", () => {
 
       await userEvent.type(input, "first");
 
-      const expectedFiltersPayload1: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload1: DPrompt0sFilter = {
          search: "first",
          categories: mockContext.filters.categories,
       };
@@ -179,7 +179,7 @@ describe("SearchFilter functionality tests", () => {
 
       await userEvent.type(input, " second");
 
-      const expectedFiltersPayload2: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload2: DPrompt0sFilter = {
          search: "first second",
          categories: mockContext.filters.categories,
       };

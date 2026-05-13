@@ -1,17 +1,14 @@
 import { filter, isEmpty, map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
 import {
-   PromptDescriptorsPage,
-   PromptDescriptorWithRelations,
-} from "@/data/types/db/prompt";
-import {
+   DPrompt0,
    DPrompt0Category,
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-   DPromptFollowUpUpdate,
-   DPromptUpdate,
+   DPrompt0FollowUpUpdate,
+   DPrompt0sPage,
+   DPrompt0sPageQuery,
+   DPrompt0Update,
 } from "@/data/types/domain/prompt";
 import {
    Prompt0CategoryCreateOrConnectWithoutPromptsInput,
@@ -37,8 +34,8 @@ export class PromptRepository {
 
    async pGetPromptDescriptors(
       userId: string,
-      query?: DPromptDescriptorsPageQuery
-   ): Promise<DPromptDescriptorsPage> {
+      query?: DPrompt0sPageQuery
+   ): Promise<DPrompt0sPage> {
       const { pagination } = query || {};
       const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
@@ -62,8 +59,8 @@ export class PromptRepository {
          }),
       ]);
 
-      const dbResult: PromptDescriptorsPage = {
-         content: data as PromptDescriptorWithRelations[],
+      const dbResult: Prompt0sPage = {
+         content: data as Prompt0WithRelations[],
          numberOfElements: data.length,
          pageNumber: pageNumber,
          pageSize: pageSize,
@@ -76,8 +73,8 @@ export class PromptRepository {
    async pGetPromptDescriptor(
       userId: string,
       promptId: string
-   ): Promise<DPromptDescriptor | null> {
-      const data: PromptDescriptorWithRelations | null =
+   ): Promise<DPrompt0 | null> {
+      const data: Prompt0WithRelations | null =
          await this.prisma.prompt0.findFirst({
             where: { id: promptId, userId },
             include: {
@@ -106,7 +103,7 @@ export class PromptRepository {
       });
    }
 
-   async pCreatePrompt(userId: string, data: DPromptUpdate) {
+   async pCreatePrompt(userId: string, data: DPrompt0Update) {
       const categories = this.createOrConnectCategories(
          userId,
          data.categories
@@ -139,8 +136,8 @@ export class PromptRepository {
    async pUpdatePrompt(
       userId: string,
       promptId: string,
-      data: DPromptUpdate,
-      current: DPromptDescriptor,
+      data: DPrompt0Update,
+      current: DPrompt0,
       versionIdx: number,
       updateVersions: boolean
    ) {
@@ -197,8 +194,8 @@ export class PromptRepository {
    }
 
    followUpPromptUpdates(
-      current: DPromptDescriptor,
-      promptUpdate: DPromptUpdate
+      current: DPrompt0,
+      promptUpdate: DPrompt0Update
    ): Prompt0FollowUpUpdateManyWithoutPromptNestedInput {
       const existingIds = new Set(map(current.followUpPrompts, (f) => f.id));
       const followUpsWithoutId = filter(
@@ -249,7 +246,7 @@ export class PromptRepository {
    }
 
    private createFollowUpsInput(
-      followUpPrompts: DPromptFollowUpUpdate[]
+      followUpPrompts: DPrompt0FollowUpUpdate[]
    ): Prompt0FollowUpCreateWithoutPromptInput[] {
       return map(followUpPrompts, (f) => ({
          content: f.content,
@@ -258,7 +255,7 @@ export class PromptRepository {
    }
 
    private updateFollowUpsInput(
-      followUpPrompts: DPromptFollowUpUpdate[]
+      followUpPrompts: DPrompt0FollowUpUpdate[]
    ): Prompt0FollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
       return map(followUpPrompts, (f) => ({
          where: { id: f.id! },
@@ -278,7 +275,7 @@ export class PromptRepository {
 
    private resolveGetPromptDescriptorsWhereInput(
       userId: string,
-      query?: DPromptDescriptorsPageQuery
+      query?: DPrompt0sPageQuery
    ): Prompt0WhereInput | undefined {
       const { globalFilter, filter } = query || {};
       const { categories, isFavorite } = filter || {};

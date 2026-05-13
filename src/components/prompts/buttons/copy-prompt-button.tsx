@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 import { CopyButton } from "@/components/shared/buttons";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 
 type CopyPromptButtonProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
    size: "sm" | "icon-sm";
    showLabel?: boolean;
 };

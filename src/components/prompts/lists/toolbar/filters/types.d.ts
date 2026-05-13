@@ -1,7 +1,7 @@
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt";
 
 export type DFiltersContext = {
-   filters: DPromptDescriptorsFilter;
-   setFilters: (filters: DPromptDescriptorsFilter) => void;
+   filters: DPrompt0sFilter;
+   setFilters: (filters: DPrompt0sFilter) => void;
    hasActiveFilters: boolean;
 };

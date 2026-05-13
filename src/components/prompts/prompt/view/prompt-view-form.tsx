@@ -8,7 +8,7 @@ import {
    CardContent,
    CardHeader,
 } from "@/components/shadcn/card";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 import {
    CopyPromptButton,
@@ -22,7 +22,7 @@ import { PromptFollowUps } from "./follow-ups/prompt-follow-ups-view";
 import { PromptVersions } from "./versions/prompt-versions";
 
 type Props = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const PromptViewForm = ({ prompt }: Props) => {

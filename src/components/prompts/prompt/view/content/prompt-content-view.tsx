@@ -2,11 +2,11 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 
 import { MDRenderer } from "@/components/shared/md";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 import { CopyPromptButton } from "../../../buttons";
 
 type PromptContentProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {

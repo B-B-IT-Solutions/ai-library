@@ -7,7 +7,7 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import { forEach } from "es-toolkit/compat";
 
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt";
 import { toTestId } from "@/lib/utils";
 import { FiltersContext } from "../context";
 import { DFiltersContext } from "../types";
@@ -197,7 +197,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: "",
          categories: ["Category 1"],
       };
@@ -235,7 +235,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: "",
          categories: [],
       };
@@ -273,7 +273,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: "",
          categories: ["Category 1", "Category 2"],
       };
@@ -315,7 +315,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DPromptDescriptorsFilter = {
+      const expectedFiltersPayload: DPrompt0sFilter = {
          search: "",
          categories: [selectedOption1],
       };

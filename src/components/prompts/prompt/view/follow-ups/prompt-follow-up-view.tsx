@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-import { DPromptFollowUp } from "@/data/types/domain/prompt";
+import { DPrompt0FollowUp } from "@/data/types/domain/prompt";
 import { CopyPromptFollowUpButton } from "../../../buttons";
 
 type PromptFollowUpProps = {
-   followUp: DPromptFollowUp;
+   followUp: DPrompt0FollowUp;
 };
 
 export const PromptFollowUp: FC<PromptFollowUpProps> = ({ followUp }) => {

@@ -4,10 +4,10 @@ import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt";
 
 type Props = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const PromptItem = ({ prompt }: Props) => {

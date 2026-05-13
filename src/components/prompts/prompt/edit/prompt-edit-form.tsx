@@ -17,7 +17,7 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0, DPrompt0Update } from "@/data/types/domain/prompt";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { PromptContentEdit } from "./content/prompt-content-edit";
@@ -27,13 +27,13 @@ import { removeEmpty } from "./utils";
 
 type Props =
    | {
-        prompt?: DPromptDescriptor;
+        prompt?: DPrompt0;
         mode: "create";
         onCancel?: () => void;
         onSuccess?: () => void;
      }
    | {
-        prompt: DPromptDescriptor;
+        prompt: DPrompt0;
         mode: "edit";
         onCancel?: () => void;
         onSuccess?: () => void;
@@ -62,7 +62,7 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
       };
    };
 
-   const form = useForm<DPromptUpdate>({
+   const form = useForm<DPrompt0Update>({
       resolver: zodResolver(updatePromptSchema),
       defaultValues: initValues(),
    });
@@ -77,13 +77,13 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
       keyName: "_key",
    });
 
-   const handleSave = async (data: DPromptUpdate, createVersion: boolean) => {
+   const handleSave = async (data: DPrompt0Update, createVersion: boolean) => {
       const filteredCategories = removeEmpty(data.categories);
       const filteredFollowUpPrompts = data.followUpPrompts
          .filter((f) => f.content.trim() !== "")
          .map((f, idx) => ({ ...f, order: idx }));
 
-      const payload: DPromptUpdate = {
+      const payload: DPrompt0Update = {
          ...data,
          categories: filteredCategories,
          followUpPrompts: filteredFollowUpPrompts,
@@ -109,7 +109,7 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
       }
    };
 
-   const onSubmit = (newVersion: boolean): SubmitHandler<DPromptUpdate> => {
+   const onSubmit = (newVersion: boolean): SubmitHandler<DPrompt0Update> => {
       return async (data) => await handleSave(data, newVersion);
    };
 

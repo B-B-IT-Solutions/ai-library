@@ -9,7 +9,7 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
 
@@ -144,7 +144,7 @@ describe("PromptEdit functionality tests", () => {
 
       await userEvent.click(createBtn);
 
-      const expectedPromptPayload: DPromptUpdate = {
+      const expectedPromptPayload: DPrompt0Update = {
          title: "Test Title",
          content: "",
          categories: [],
@@ -179,7 +179,7 @@ describe("PromptEdit functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPromptPayload: DPromptUpdate = {
+      const expectedPromptPayload: DPrompt0Update = {
          title: prompt.title,
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
@@ -226,7 +226,7 @@ describe("PromptEdit functionality tests", () => {
       const saveBtn = screen.getByTestId("save-with-version-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPromptPayload: DPromptUpdate = {
+      const expectedPromptPayload: DPrompt0Update = {
          title: prompt.title,
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
@@ -270,7 +270,7 @@ describe("PromptEdit functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPromptPayload: DPromptUpdate = {
+      const expectedPromptPayload: DPrompt0Update = {
          title: prompt1.title,
          content: prompt1.content,
          categories: prompt1.categories.map((c) => c.name),

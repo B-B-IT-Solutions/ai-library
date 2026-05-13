@@ -35,14 +35,14 @@ import {
 } from "@/data/types/domain/product";
 import {
    DPrompt0Category,
-   DPromptDescriptor,
-   DPromptDescriptorsFilter,
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-   DPromptFollowUp,
-   DPromptFollowUpUpdate,
-   DPromptUpdate,
-   DPromptVersion,
+   DPrompt0,
+   DPrompt0sFilter,
+   DPrompt0sPage,
+   DPrompt0sPageQuery,
+   DPrompt0FollowUp,
+   DPrompt0FollowUpUpdate,
+   DPrompt0Update,
+   DPrompt0Version,
 } from "@/data/types/domain/prompt";
 import {
    DPromptCategory,
@@ -642,7 +642,7 @@ export const dTemplateDescriptorsFilter = (
    };
 };
 
-export const dPromptDescriptorsPage = (): DPromptDescriptorsPage => {
+export const dPromptDescriptorsPage = (): DPrompt0sPage => {
    const prompts = dPromptDescriptors();
    return {
       content: prompts,
@@ -654,11 +654,11 @@ export const dPromptDescriptorsPage = (): DPromptDescriptorsPage => {
    };
 };
 
-export const dPromptDescriptors = (count = 3): DPromptDescriptor[] => {
+export const dPromptDescriptors = (count = 3): DPrompt0[] => {
    return range(0, count).map((i) => dPromptDescriptor(i));
 };
 
-export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
+export const dPromptDescriptor = (index = 1): DPrompt0 => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
@@ -768,7 +768,7 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: ["option-1", "option-2", "option-3"],
 });
 
-export const dPromptUpdate = (index = 1): DPromptUpdate => {
+export const dPromptUpdate = (index = 1): DPrompt0Update => {
    return {
       title: `title ${index}`,
       content: `updated content ${index}`,
@@ -778,22 +778,22 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
    };
 };
 
-export const dPromptFollowUpUpdates = (count = 3): DPromptFollowUpUpdate[] => {
+export const dPromptFollowUpUpdates = (count = 3): DPrompt0FollowUpUpdate[] => {
    return range(0, count).map((i) => dPromptFollowUpUpdate(i));
 };
 
-export const dPromptFollowUpUpdate = (index = 1): DPromptFollowUpUpdate => {
+export const dPromptFollowUpUpdate = (index = 1): DPrompt0FollowUpUpdate => {
    return {
       content: `prompt follow up update ${index}`,
       order: index,
    };
 };
 
-export const dFollowUpPrompts = (count = 3): DPromptFollowUp[] => {
+export const dFollowUpPrompts = (count = 3): DPrompt0FollowUp[] => {
    return range(0, count).map((i) => dFollowUpPrompt(i));
 };
 
-export const dFollowUpPrompt = (index = 1): DPromptFollowUp => {
+export const dFollowUpPrompt = (index = 1): DPrompt0FollowUp => {
    return {
       id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
       content: `prompt follow up ${index}`,
@@ -815,11 +815,11 @@ export const dPromptCategory = (index = 1): DPrompt0Category => {
    };
 };
 
-export const dPromptFollowUps = (count = 3): DPromptFollowUp[] => {
+export const dPromptFollowUps = (count = 3): DPrompt0FollowUp[] => {
    return range(0, count).map((i) => dPromptFollowUp(i));
 };
 
-export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
+export const dPromptFollowUp = (index = 1): DPrompt0FollowUp => {
    return {
       id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
       content: `content ${index}`,
@@ -827,11 +827,11 @@ export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
    };
 };
 
-export const dPromptVersions = (count = 3): DPromptVersion[] => {
+export const dPromptVersions = (count = 3): DPrompt0Version[] => {
    return range(0, count).map((i) => dPromptVersion(i));
 };
 
-export const dPromptVersion = (index = 1): DPromptVersion => {
+export const dPromptVersion = (index = 1): DPrompt0Version => {
    return {
       id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
       version: index,
@@ -840,7 +840,7 @@ export const dPromptVersion = (index = 1): DPromptVersion => {
    };
 };
 
-export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
+export const dPromptsPageQuery = (): DPrompt0sPageQuery => {
    return {
       pagination: {
          pageNumber: 15,
@@ -851,7 +851,7 @@ export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
    };
 };
 
-export const dPromptDescriptorsFilter = (): DPromptDescriptorsFilter => {
+export const dPromptDescriptorsFilter = (): DPrompt0sFilter => {
    return {
       search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],

@@ -1,15 +1,12 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
 import {
-   PromptDescriptorsPage,
-   PromptDescriptorWithRelations,
-} from "@/data/types/db/prompt";
-import {
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptFollowUp,
-   DPromptVersion,
+   DPrompt0,
+   DPrompt0FollowUp,
+   DPrompt0sPage,
+   DPrompt0Version,
 } from "@/data/types/domain/prompt";
 import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
@@ -20,8 +17,8 @@ import {
 } from "./prompt.mapper";
 
 const toDPromptDescriptorsPageInternal = (
-   pPromptsPage: PromptDescriptorsPage
-): DPromptDescriptorsPage => {
+   pPromptsPage: Prompt0sPage
+): DPrompt0sPage => {
    return {
       ...pPromptsPage,
       content: toDPromptDescriptorsInternal(pPromptsPage.content),
@@ -29,12 +26,12 @@ const toDPromptDescriptorsPageInternal = (
 };
 
 const toDPromptDescriptorsInternal = (
-   pPrompts: PromptDescriptorWithRelations[]
-): DPromptDescriptor[] => {
+   pPrompts: Prompt0WithRelations[]
+): DPrompt0[] => {
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-const toDPromptVersionInternal = (version: Prompt0Version): DPromptVersion => {
+const toDPromptVersionInternal = (version: Prompt0Version): DPrompt0Version => {
    return {
       id: version.id,
       version: version.version,
@@ -45,7 +42,7 @@ const toDPromptVersionInternal = (version: Prompt0Version): DPromptVersion => {
 
 const toDPrompt0FollowUpInternal = (
    followUp: Prompt0FollowUp
-): DPromptFollowUp => {
+): DPrompt0FollowUp => {
    return {
       id: followUp.id,
       content: followUp.content,
@@ -54,8 +51,8 @@ const toDPrompt0FollowUpInternal = (
 };
 
 const toDPromptDescriptorInternal = (
-   prompt: PromptDescriptorWithRelations
-): DPromptDescriptor => {
+   prompt: Prompt0WithRelations
+): DPrompt0 => {
    return {
       id: prompt.id,
       title: prompt.title,

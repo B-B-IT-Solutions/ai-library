@@ -1,7 +1,7 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import { TemplateRepository } from "@/data/repositories/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt";
 import {
    DPromptFieldValues,
    DPromptTemplate,
@@ -104,7 +104,7 @@ export class TemplateService {
       userId: string,
       descriptorId: string,
       fieldValues: DPromptFieldValues
-   ): Promise<DPromptUpdate> {
+   ): Promise<DPrompt0Update> {
       const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
 
       if (!descriptor) {

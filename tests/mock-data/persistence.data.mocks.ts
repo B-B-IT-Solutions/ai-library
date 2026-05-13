@@ -18,10 +18,7 @@ import {
    ProductWithDetails,
    ProductWithItems,
 } from "@/data/types/db/product";
-import {
-   PromptDescriptorsPage,
-   PromptDescriptorWithRelations,
-} from "@/data/types/db/prompt";
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
 import {
    PromptContentWithFields,
    PromptWithCategories,
@@ -536,7 +533,7 @@ export const pPromptCategory = (index = 1): PromptCategory => {
    };
 };
 
-export const pPromptDescriptorsPage = (): PromptDescriptorsPage => {
+export const pPromptDescriptorsPage = (): Prompt0sPage => {
    const descriptors = pPromptDescriptorsWithRelations();
    return {
       content: descriptors,
@@ -550,13 +547,13 @@ export const pPromptDescriptorsPage = (): PromptDescriptorsPage => {
 
 export const pPromptDescriptorsWithRelations = (
    count = 3
-): PromptDescriptorWithRelations[] => {
+): Prompt0WithRelations[] => {
    return range(0, count).map((i) => pPromptDescriptorWithRelations(i));
 };
 
 export const pPromptDescriptorWithRelations = (
    index = 1
-): PromptDescriptorWithRelations => {
+): Prompt0WithRelations => {
    const descriptor = pPromptDescriptor(index);
    const categories = pPrompt0Categories();
    const promptFollowUps = pPromptFollowUps();
