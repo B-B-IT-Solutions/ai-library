@@ -106,7 +106,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    it("descriptors retrieved - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(true);
 
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       templateRepoMock.pGetPublicTemplateDescriptorsPage.mockResolvedValue(
          page
       );
@@ -158,7 +158,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
@@ -199,7 +199,7 @@ describe("getPublicTemplateDescriptor tests", () => {
    });
 
    it("descriptor retrieved - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(
          descriptor
       );
@@ -223,7 +223,7 @@ describe("getPublicPromptTemplate tests", () => {
    });
 
    it("template retrieved - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;

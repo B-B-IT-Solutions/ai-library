@@ -232,7 +232,7 @@ describe("createPrompt tests", () => {
    it("createPrompt - user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await createPrompt(prompt);
 
@@ -251,7 +251,7 @@ describe("createPrompt tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
       sCreatePromptMock.mockRejectedValue(new Error("db error"));
 
       const result: ActionResult = await createPrompt(prompt);
@@ -272,7 +272,7 @@ describe("createPrompt tests", () => {
 
       sCreatePromptMock.mockResolvedValue();
 
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await createPrompt(prompt);
       const expectedResult: ActionResult = {
@@ -299,7 +299,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await updatePrompt(invalidId, prompt, false);
 
@@ -320,7 +320,7 @@ describe("updatePrompt tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await updatePrompt(promptId, prompt, false);
 
@@ -341,7 +341,7 @@ describe("updatePrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await updatePrompt(promptId, prompt, false);
       const expectedResult = {
@@ -365,7 +365,7 @@ describe("updatePrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       const result = await updatePrompt(promptId, prompt, true);
       const expectedResult = {

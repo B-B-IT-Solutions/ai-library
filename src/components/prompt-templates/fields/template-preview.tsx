@@ -2,10 +2,13 @@
 
 import { CopyButton } from "@/components/shared/buttons";
 import { MDRenderer } from "@/components/shared/md";
-import { DPrompt, DPromptFieldValues } from "@/data/types/domain/prompt";
+import {
+   DPromptFieldValues,
+   DPromptWithContent,
+} from "@/data/types/domain/prompt";
 
 type Props = {
-   template: DPrompt;
+   template: DPromptWithContent;
    values: DPromptFieldValues;
    resolvedContent: string;
 };

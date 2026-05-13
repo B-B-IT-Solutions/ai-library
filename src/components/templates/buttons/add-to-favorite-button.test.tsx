@@ -44,7 +44,7 @@ describe("AddToFavoriteButton rendering tests", () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = true;
 
       const { container } = renderWithReactQuery(
@@ -62,7 +62,7 @@ describe("AddToFavoriteButton rendering tests", () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = false;
 
       const { container } = renderWithReactQuery(
@@ -94,7 +94,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = false;
 
       renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
@@ -141,7 +141,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = true;
 
       renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
@@ -187,7 +187,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = false;
 
       renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
@@ -229,7 +229,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.isFavorite = false;
 
       renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);

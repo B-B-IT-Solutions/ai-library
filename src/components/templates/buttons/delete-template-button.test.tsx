@@ -26,7 +26,7 @@ const assertRendered = () => {
 
 describe("DeleteTemplateButton rendering tests", () => {
    it("rendered test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <DeleteTemplateButton descriptor={descriptor} />
       );
@@ -52,7 +52,7 @@ describe("DeleteTemplateButton functionality tests", () => {
       };
       deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
@@ -88,7 +88,7 @@ describe("DeleteTemplateButton functionality tests", () => {
       };
       deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
@@ -118,7 +118,7 @@ describe("DeleteTemplateButton functionality tests", () => {
    });
 
    it("cancel btn clicked - delete not called - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {

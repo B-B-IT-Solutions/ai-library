@@ -104,7 +104,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
    });
 
    test("useInfiniteLoadTemplateDescriptors test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dTemplateDescriptorsFilter();

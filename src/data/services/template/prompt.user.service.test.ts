@@ -45,7 +45,7 @@ describe("getTemplateDescriptorsPage tests", () => {
 
    it("getTemplateDescriptorsPage - descriptors retrieved - test", async () => {
       const userId = "user-id-1";
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       const query = dtestData.dTemplateDescriptorsPageQuery();
       templateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(page);
 
@@ -72,7 +72,7 @@ describe("getTemplateDescriptor tests", () => {
 
    it("getTemplateDescriptor - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(template);
 
       const { id } = template;
@@ -94,8 +94,8 @@ describe("createTemplateDescriptor tests", () => {
 
    it("createTemplateDescriptor - descriptor created - test", async () => {
       const userId = "user-id-1";
-      const newData = dtestData.dPromptTemplateUpdate();
-      const newDescriptor = dtestData.dPromptTemplateDescriptor();
+      const newData = dtestData.dPromptUpdate();
+      const newDescriptor = dtestData.dPrompt();
       templateRepoMock.pCreatePrompt.mockResolvedValue(newDescriptor);
 
       const result = await templateService.createTemplateDescriptor(
@@ -120,7 +120,7 @@ describe("updateTemplateDescriptor tests", () => {
    it("updateTemplateDescriptor - descriptor not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const update = dtestData.dPromptTemplateUpdate();
+      const update = dtestData.dPromptUpdate();
 
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
 
@@ -142,8 +142,8 @@ describe("updateTemplateDescriptor tests", () => {
 
    it("updateTemplateDescriptor - descriptor updated - test", async () => {
       const userId = "user-id-1";
-      const update = dtestData.dPromptTemplateUpdate();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const update = dtestData.dPromptUpdate();
+      const descriptor = dtestData.dPrompt();
 
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
@@ -192,7 +192,7 @@ describe("deleteTemplateDescriptor tests", () => {
 
    it("deleteTemplateDescriptor - descriptor deleted - test", async () => {
       const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
@@ -239,7 +239,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
 
    it("getTemplateDataForPromptGeneration - data retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
@@ -304,7 +304,7 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("template not found - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
 
@@ -331,10 +331,10 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("fieldValues invalid - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const validationResult: FieldsValidationResult = {
@@ -371,10 +371,10 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("composePromptFromTemplate - fieldValues valid - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const validationResult: FieldsValidationResult = {
@@ -450,7 +450,7 @@ describe("downloadTemplate tests", () => {
    it("template not found - test", async () => {
       const userId = "user-id-1";
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
 
@@ -473,10 +473,10 @@ describe("downloadTemplate tests", () => {
 
    it("template downloaded - test", async () => {
       const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const { id } = descriptor;
@@ -539,7 +539,7 @@ describe("getPrompts tests", () => {
    });
 
    it("getPrompts - params undefined - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       templateRepoMock.pGetPrompts.mockResolvedValue(templates);
 
       const result = await templateService.getPrompts();
@@ -550,7 +550,7 @@ describe("getPrompts tests", () => {
    });
 
    it("getPrompts - params empty - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       templateRepoMock.pGetPrompts.mockResolvedValue(templates);
 
       const result = await templateService.getPrompts({});
@@ -561,7 +561,7 @@ describe("getPrompts tests", () => {
    });
 
    it("getPrompts - params defined - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       templateRepoMock.pGetPrompts.mockResolvedValue(templates);
 
       const search = "prompt 123";
@@ -583,7 +583,7 @@ describe("getPromptTemplate tests", () => {
 
    it("getPromptTemplate - template retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;

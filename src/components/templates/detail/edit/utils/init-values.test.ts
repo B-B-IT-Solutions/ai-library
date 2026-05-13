@@ -51,8 +51,8 @@ describe("initPromptTempalte tests", () => {
    });
 
    it("initPromptTempalte - existing entry test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const field = template.fields[0];
       field.description = null;
       field.defaultValue = null;

@@ -436,7 +436,7 @@ export const dProductItems = (count = 3): DProductItem[] => {
 };
 
 export const dProductItem = (index = 1): DProductItem => {
-   const template = dPromptTemplateDescriptor(index);
+   const template = dPrompt(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
       productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
@@ -493,17 +493,15 @@ export const dInstruction = (index = 1): DInstruction => {
    };
 };
 
-export const dPromptTemplateDataPromptGeneration = (
-   index = 1
-): DPromptGenerationData => {
+export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
    return {
-      template: dPromptTemplate(index),
+      template: dPromptWithContent(index),
       allFields: dPromptFields(),
    };
 };
 
-export const dTemplateDescriptorsPage = (count = 3): DPromptsPage => {
-   const descriptors = dPromptTemplateDescriptors(count);
+export const dPromptsPage = (count = 3): DPromptsPage => {
+   const descriptors = dPrompts(count);
    return {
       content: descriptors,
       numberOfElements: descriptors.length,
@@ -514,16 +512,18 @@ export const dTemplateDescriptorsPage = (count = 3): DPromptsPage => {
    };
 };
 
-export const dPromptTemplateDescriptors = (count = 3): DPrompt[] => {
-   return range(0, count).map((i) => dPromptTemplateDescriptor(i));
+export const dPrompts = (count = 3): DPrompt[] => {
+   return range(0, count).map((i) => dPrompt(i));
 };
 
-export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
+export const dPrompt = (index = 1): DPrompt => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
       description: `description ${index}`,
       categories: dPromptTemplateCategories(),
+      fields: dPromptFields(),
+      globalFieldIds: dGlobalPromptFieldIds(),
       recommendedModel: `model ${index}`,
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
@@ -531,16 +531,14 @@ export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
    };
 };
 
-export const dPromptTemplate = (index = 1): DPromptWithContent => {
+export const dPromptWithContent = (index = 1): DPromptWithContent => {
    return {
-      id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
+      ...dPrompt(index),
       content: `content ${index}`,
-      fields: dPromptFields(3),
-      globalFieldIds: dGlobalPromptFieldIds(1),
    };
 };
 
-export const dPromptTemplateUpdate = (index = 1): DPromptUpdate => {
+export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
       description: `updated description ${index}`,
@@ -756,7 +754,7 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: ["option-1", "option-2", "option-3"],
 });
 
-export const dPromptUpdate = (index = 1): DPrompt0Update => {
+export const dPrompt0Update = (index = 1): DPrompt0Update => {
    return {
       title: `title ${index}`,
       content: `updated content ${index}`,

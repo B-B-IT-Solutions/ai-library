@@ -48,7 +48,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
 
       getCollectionsMock.mockResolvedValue([]);
       getTemplateDescriptorsPageMock.mockResolvedValue(page);

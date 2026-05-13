@@ -34,7 +34,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("TemplateItemsPublic rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       getPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 

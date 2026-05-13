@@ -54,7 +54,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       const entry = dtestData.dCatalogEntryWithContent(1);
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateServiceMock.createTemplateDescriptor.mockResolvedValue(
          descriptor
       );

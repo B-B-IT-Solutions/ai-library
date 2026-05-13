@@ -32,9 +32,9 @@ const assertCategoriesNotRendered = () => {
 
 describe("LibraryEntryViewForm rendering tests", () => {
    it("categories empty - rendered test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       descriptor.categories = [];
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       const { container } = render(
          <TemplateViewForm descriptor={descriptor} template={template} />
@@ -49,8 +49,8 @@ describe("LibraryEntryViewForm rendering tests", () => {
    });
 
    it("with categories - rendered test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
 
       const { container } = render(
          <TemplateViewForm descriptor={descriptor} template={template} />

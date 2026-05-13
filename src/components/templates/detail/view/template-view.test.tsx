@@ -16,8 +16,8 @@ const assertRendered = () => {
 
 describe("TemplateView rendering tests", () => {
    it("rendered test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
 
       const { container } = render(
          <TemplateView descriptor={descriptor} template={template} />

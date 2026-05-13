@@ -844,7 +844,7 @@ describe("pCreatePrompt tests", () => {
 
    test("pCreatePrompt - descriptor created - test", async () => {
       const userId = "user-id-123";
-      const data = dtestData.dPromptTemplateUpdate();
+      const data = dtestData.dPromptUpdate();
       const newDescriptor = ptestData.pPromptWithCategories();
       prismaMock.prompt.create.mockResolvedValue(newDescriptor);
 
@@ -917,7 +917,7 @@ describe("pUpdatePrompt tests", () => {
 
    test("pUpdatePrompt - descriptor updated - test", async () => {
       const userId = "user-id-123";
-      const data = dtestData.dPromptTemplateUpdate();
+      const data = dtestData.dPromptUpdate();
       const descriptor = ptestData.pPromptWithCategories();
 
       await repository.pUpdatePrompt(userId, descriptor.id, data);

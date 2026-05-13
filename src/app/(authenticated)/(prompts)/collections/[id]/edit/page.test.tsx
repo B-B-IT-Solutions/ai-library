@@ -47,7 +47,7 @@ describe("CollectionEditPage rendering tests", () => {
       const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
       getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
 
-      const templateDescriptors = dtestData.dTemplateDescriptorsPage();
+      const templateDescriptors = dtestData.dPromptsPage();
       getTemplateDescriptorsPageMock.mockResolvedValue(templateDescriptors);
    });
 

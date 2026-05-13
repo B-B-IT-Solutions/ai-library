@@ -16,8 +16,8 @@ const assertRendered = () => {
 
 describe("PublicTemplateView rendering tests", () => {
    it("collection undefined - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
 
       const { container } = render(
          <PublicTemplateView
@@ -35,8 +35,8 @@ describe("PublicTemplateView rendering tests", () => {
    });
 
    it("collection defined - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const collection = dtestData.dCollection();
 
       const { container } = render(

@@ -140,7 +140,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
       allCollections[0].color = null;
 
@@ -169,7 +169,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
@@ -197,7 +197,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -224,7 +224,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
@@ -251,7 +251,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
@@ -303,7 +303,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -329,7 +329,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: dtestData.dPromptTemplateDescriptor().id,
+         entryId: dtestData.dPrompt().id,
          collectionIds: [collection2.id, collection3.id],
       };
 
@@ -374,7 +374,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -437,7 +437,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -486,7 +486,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -517,7 +517,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
       useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(3);
       allCollections[0].color = null;
 

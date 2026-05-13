@@ -23,8 +23,8 @@ describe("UseTemplateDialog rendering tests", () => {
    });
 
    it("mode fields-form - hasFeilds true - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const descriptor = dtestData.dPrompt();
+      const templateData = dtestData.dPromptGenerationData();
       const cancelFn = jest.fn();
 
       const { container } = render(
@@ -43,8 +43,8 @@ describe("UseTemplateDialog rendering tests", () => {
    });
 
    it("mode fields-form - hasFeilds false - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const descriptor = dtestData.dPrompt();
+      const templateData = dtestData.dPromptGenerationData();
       templateData.allFields = [];
       const cancelFn = jest.fn();
 
@@ -70,8 +70,8 @@ describe("UseTemplateDialog functionality tests", () => {
    });
 
    it("close btn clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const descriptor = dtestData.dPrompt();
+      const templateData = dtestData.dPromptGenerationData();
       const cancelFn = jest.fn();
 
       render(

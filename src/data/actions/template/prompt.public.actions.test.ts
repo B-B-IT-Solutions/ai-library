@@ -64,7 +64,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("descriptors retrieved - test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       sGetPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
 
       const query = dtestData.dTemplateDescriptorsPageQuery();
@@ -129,7 +129,7 @@ describe("getPublicTemplateDescriptor tests", () => {
    });
 
    it("descriptor defined - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       sGetPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
 
       const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -191,7 +191,7 @@ describe("getPublicPromptTemplate tests", () => {
    });
 
    it("template defined - test", async () => {
-      const prompt = dtestData.dPromptTemplate();
+      const prompt = dtestData.dPromptWithContent();
       sGetPublicPromptTemplateMock.mockResolvedValue(prompt);
 
       const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -246,7 +246,7 @@ describe("getPromptGenerationTemplateData tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       sGetPublicTemplateDataForPromptGenerationMock.mockResolvedValue(data);
 
       const templateId = "afa27716-b1e5-4db9-86bc-0efb890ff5d9";

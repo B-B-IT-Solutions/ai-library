@@ -17,7 +17,7 @@ const assertRendered = () => {
 
 describe("TemplatePreview rendering tests", () => {
    it("TemplatePreview rendered test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       const values = dtestData.dPromptFieldValues();
       const { container } = render(
          <TemplatePreview

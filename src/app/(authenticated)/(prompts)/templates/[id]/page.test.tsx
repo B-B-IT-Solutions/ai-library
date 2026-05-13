@@ -60,7 +60,7 @@ describe("TemplatePage rendering tests", () => {
    });
 
    it("descriptor retrieved - template null - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       getTemplateDescriptorMock.mockResolvedValue(descriptor);
 
       getPromptTemplateMock.mockResolvedValue(null);
@@ -76,9 +76,7 @@ describe("TemplatePage rendering tests", () => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
          expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.id
-         );
+         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -86,10 +84,10 @@ describe("TemplatePage rendering tests", () => {
    });
 
    it("descriptor retrieved - template retrieved - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       getTemplateDescriptorMock.mockResolvedValue(descriptor);
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       getPromptTemplateMock.mockResolvedValue(template);
 
       const params: PageParams = { id: "descriptor-id-1" };
@@ -104,9 +102,7 @@ describe("TemplatePage rendering tests", () => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
          expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(
-            descriptor.id
-         );
+         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
       });
 
       expect(container).toMatchSnapshot();
