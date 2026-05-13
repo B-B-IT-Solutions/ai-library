@@ -6,6 +6,7 @@ import prisma from "@/data/repositories/prisma";
 import { PromptDescriptorsPage } from "@/data/types/db/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 import {
+   Prompt0CategoryFindManyArgs,
    Prompt0CountArgs,
    Prompt0CreateArgs,
    Prompt0DeleteArgs,
@@ -13,7 +14,6 @@ import {
    Prompt0FindManyArgs,
    Prompt0UpdateArgs,
    Prompt0WhereInput,
-   PromptCategoryFindManyArgs,
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
@@ -68,9 +68,7 @@ describe("pGetPromptDescriptors tests", () => {
          expectedFindManyArgs
       );
       expect(prismaMock.prompt0.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(
-         expedtedCountArgs
-      );
+      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
    test("pGetPromptDescriptors - query empty - test", async () => {
@@ -116,9 +114,7 @@ describe("pGetPromptDescriptors tests", () => {
          expectedFindManyArgs
       );
       expect(prismaMock.prompt0.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(
-         expedtedCountArgs
-      );
+      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
    test("pGetPromptDescriptors - query.globalFilter defined - test", async () => {
@@ -181,9 +177,7 @@ describe("pGetPromptDescriptors tests", () => {
          expectedFindManyArgs
       );
       expect(prismaMock.prompt0.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(
-         expedtedCountArgs
-      );
+      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
    test("pGetPromptDescriptors - query.filter defined - test", async () => {
@@ -247,9 +241,7 @@ describe("pGetPromptDescriptors tests", () => {
          expectedFindManyArgs
       );
       expect(prismaMock.prompt0.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(
-         expedtedCountArgs
-      );
+      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
    test("pGetPromptDescriptors - query defined - test", async () => {
@@ -326,9 +318,7 @@ describe("pGetPromptDescriptors tests", () => {
          expectedFindManyArgs
       );
       expect(prismaMock.prompt0.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(
-         expedtedCountArgs
-      );
+      expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 });
 
@@ -367,9 +357,7 @@ describe("pGetPromptDescriptor tests", () => {
       };
       expect(result).toEqual(expectedResult);
       expect(prismaMock.prompt0.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt0.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 
    test("pGetPromptDescriptor - prompt not found (wrong user) - test", async () => {
@@ -400,9 +388,7 @@ describe("pGetPromptDescriptor tests", () => {
 
       expect(result).toBeNull();
       expect(prismaMock.prompt0.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt0.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 });
 
@@ -413,12 +399,12 @@ describe("getPromptCategories queries tests", () => {
 
    test("getPromptCategories - categories retrieved - test", async () => {
       const categories = ptestData.pPromptCategories();
-      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+      prismaMock.prompt0Category.findMany.mockResolvedValue(categories);
 
       const userId = "user-id-1";
       const result = await promptRepository.pGetPromptCategories(userId);
 
-      const expectedFindMayArgs: PromptCategoryFindManyArgs = {
+      const expectedFindMayArgs: Prompt0CategoryFindManyArgs = {
          where: { userId },
          select: {
             name: true,
@@ -426,8 +412,8 @@ describe("getPromptCategories queries tests", () => {
       };
 
       expect(result).toEqual(categories);
-      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.prompt0Category.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt0Category.findMany).toHaveBeenCalledWith(
          expectedFindMayArgs
       );
    });
@@ -650,9 +636,7 @@ describe("pDeletePrompt tests", () => {
       };
 
       expect(prismaMock.prompt0.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.delete).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.prompt0.delete).toHaveBeenCalledWith(expectedArgs);
    });
 });
 

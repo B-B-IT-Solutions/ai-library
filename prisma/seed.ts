@@ -25,7 +25,7 @@ export const main = async () => {
    await prisma.promptTemplateCategory.deleteMany();
    await prisma.prompt0Content.deleteMany();
    await prisma.prompt0.deleteMany();
-   await prisma.promptCategory.deleteMany();
+   await prisma.prompt0Category.deleteMany();
    await prisma.subscriptionPlan.deleteMany();
 
    console.log("Starting data inserts...");

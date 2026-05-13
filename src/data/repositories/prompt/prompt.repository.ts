@@ -98,7 +98,7 @@ export class PromptRepository {
    }
 
    async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
-      return await this.prisma.promptCategory.findMany({
+      return await this.prisma.prompt0Category.findMany({
          where: { userId },
          select: {
             name: true,

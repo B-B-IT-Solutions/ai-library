@@ -31,7 +31,7 @@ model User {
   subscriptionHistory       SubscriptionHistory[]
   globalTemplateFields      GlobalTemplateField[]
   promptDescriptors         Prompt0[]
-  promptCategories          PromptCategory[]
+  promptCategories          Prompt0Category[]
   promptTemplateCategories  PromptTemplateCategory[]
   prompts                   Prompt[]
 
@@ -95,7 +95,7 @@ model Prompt0 {
   userId           String           @map("user_id") @db.Uuid
   title            String           @db.VarChar(500)
   content          String           @db.Text
-  categories       PromptCategory[]
+  categories       Prompt0Category[]
   recommendedModel String           @map("recommended_model") @db.VarChar(250)
   isFavorite       Boolean          @default(false) @map("is_favorite")
   currentVersion   Int              @default(0) @map("current_version")
@@ -118,7 +118,7 @@ model Prompt0Content {
   @@map("prompt0_content")
 }
 
-model PromptCategory {
+model Prompt0Category {
   id      Int                @id @default(autoincrement())
   userId  String             @map("user_id") @db.Uuid
   name    String             @db.VarChar(250)
@@ -127,7 +127,7 @@ model PromptCategory {
 
   @@unique([userId, name])
   @@index([userId])
-  @@map("prompt_category")
+  @@map("prompt0_category")
 }
 
 model PromptVersion {
