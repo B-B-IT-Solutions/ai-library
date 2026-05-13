@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 
 import { metadata, PageParams, PageProps, TemplatePage } from "./page";
 

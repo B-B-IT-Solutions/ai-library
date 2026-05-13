@@ -1,12 +1,11 @@
 jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
-jest.mock("@/components/prompts/search-params");
+jest.mock("./search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getCollections } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,
@@ -20,14 +19,11 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { CollectionView } from "./collection-view";
+import { templatesSearchParamsCache } from "./search-params";
+import { TemplatesDashboard } from "./templates-dashboard";
 
 type CacheKey = Parameters<typeof templatesSearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof templatesSearchParamsCache.get>;
-
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
->;
 
 const getTemplateDescriptorCategoriesMock =
    getTemplateDescriptorCategories as jest.MockedFunction<
@@ -38,6 +34,10 @@ const getTemplateDescriptorModelsMock =
    getTemplateDescriptorModels as jest.MockedFunction<
       typeof getTemplateDescriptorModels
    >;
+
+const getCollectionsMock = getCollections as jest.MockedFunction<
+   typeof getCollections
+>;
 
 const getTemplateDescriptorsPageMock =
    getTemplateDescriptorsPage as jest.MockedFunction<
@@ -71,15 +71,15 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 };
 
 const assertRendered = () => {
-   const view = screen.getByTestId("collection-view");
-   const header = screen.getByTestId("collection-header");
+   const dashboard = screen.getByTestId("templates-dashboard");
+   const createTemplateBtn = screen.getByTestId("create-template-btn");
    const toolbar = screen.getByTestId("templates-toolbar");
-   const items = screen.getByTestId("template-items-grid");
+   const entries = screen.getByTestId("template-items-grid");
 
-   assertInDocument(view);
-   assertInDocument(header);
+   assertInDocument(dashboard);
+   assertInDocument(createTemplateBtn);
    assertInDocument(toolbar);
-   assertInDocument(items);
+   assertInDocument(entries);
 };
 
 const assertGetLibraryEntriesPageCalled = (
@@ -89,18 +89,19 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("CollectionView rendering tests", () => {
+describe("TemplatesDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
+
       getCollectionsMock.mockResolvedValue([]);
+      getTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("rendered - test", async () => {
+   it("rendered test", async () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const categories = dtestData.dTemplateCategories();
@@ -108,11 +109,7 @@ describe("CollectionView rendering tests", () => {
       getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
       getTemplateDescriptorModelsMock.mockResolvedValue(models);
 
-      const collection = dtestData.dCollection(1);
-
-      const { container } = await renderAsyncRSC(CollectionView, {
-         collection,
-      });
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       const expectedPayload: DPromptsPageQuery = {
          pagination: {
@@ -123,7 +120,6 @@ describe("CollectionView rendering tests", () => {
             categories: mockSearchParams("f_categories"),
             models: mockSearchParams("f_models"),
             search: mockSearchParams("f_search"),
-            collectionIds: [collection.id],
          },
          sort: {
             field: "createdAt",

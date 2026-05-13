@@ -4,8 +4,8 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { PublicTemplateItems } from "@/components/templates/lists";
-import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/template";
+import { PublicTemplateItems } from "@/components/prompts/lists";
+import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
 import {

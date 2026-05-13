@@ -1,4 +1,4 @@
-jest.mock("@/components/templates", () => ({
+jest.mock("@/components/prompts", () => ({
    TemplatesDashboard: () => {
       return <div data-testid="templates-dashboard" />;
    },
@@ -11,7 +11,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { templatesSearchParamsCache } from "@/components/templates";
+import { templatesSearchParamsCache } from "@/components/prompts";
 
 import { metadata, PageProps, TemplatesPage } from "./page";
 

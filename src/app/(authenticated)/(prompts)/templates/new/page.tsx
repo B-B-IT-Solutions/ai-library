@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { TemplateEdit } from "@/components/templates";
+import { TemplateEdit } from "@/components/prompts";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {

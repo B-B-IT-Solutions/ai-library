@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SearchParams } from "nuqs/server";
 
 import { CollectionView } from "@/components/collections";
-import { templatesSearchParamsCache } from "@/components/templates";
+import { templatesSearchParamsCache } from "@/components/prompts";
 import { getCollectionById } from "@/data/actions/collection";
 
 export const metadata: Metadata = {

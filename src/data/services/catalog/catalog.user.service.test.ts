@@ -1,13 +1,13 @@
 jest.mock("@/data/repositories/catalog");
-jest.mock("@/data/services/template");
+jest.mock("@/data/services/prompt");
 
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
+import { TemplateService } from "../prompt";
 import { ServiceFactory } from "../service.factory";
-import { TemplateService } from "../template";
 
 import { toPromptTemplateUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.user.service";

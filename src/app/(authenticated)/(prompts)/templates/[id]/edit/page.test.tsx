@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 jest.mock("@/data/actions/settings");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -6,11 +6,11 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getGlobalPromptFields } from "@/data/actions/settings";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import { EditTemplatePage, metadata, PageParams, PageProps } from "./page";
 

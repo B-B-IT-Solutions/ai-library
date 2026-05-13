@@ -1,25 +1,25 @@
 jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt";
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { CollectionViewPublic } from "./collection-view-public";
+import { PublicTemplateItems } from "./template-items-public";
 
 const getPublicTemplateDescriptorsPageMock =
    getPublicTemplateDescriptorsPage as jest.MockedFunction<
       typeof getPublicTemplateDescriptorsPage
    >;
 
-const assertRendered = () => {
-   const view = screen.getByTestId("collection-view-public");
-   const header = screen.getByTestId("collection-header-public");
+const assertGridRendered = () => {
    const items = screen.getByTestId("public-template-items-grid");
-
-   assertInDocument(view);
-   assertInDocument(header);
    assertInDocument(items);
 };
 
@@ -32,7 +32,7 @@ const assertGetLibraryEntriesPageCalled = (
    );
 };
 
-describe("CollectionView rendering tests", () => {
+describe("TemplateItemsPublic rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
       getPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
@@ -42,29 +42,30 @@ describe("CollectionView rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("rendered - test", async () => {
-      const collection = dtestData.dCollection(1);
+   it("view grid - test", async () => {
+      const filters = dtestData.dPromptsFilter();
 
-      const { container } = await renderAsyncRSC(CollectionViewPublic, {
-         collection,
-      });
+      const { container } = renderWithRouter(
+         <PublicTemplateItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={filters}
+            collectionToken="public-token-1"
+         />
+      );
 
       const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
          },
-         filter: {
-            collectionIds: [collection.id],
-         },
-         sort: {
-            field: "createdAt",
-            order: "asc",
-         },
+         filter: filters,
+         sort: { field: "createdAt", order: "desc" },
       };
 
       await waitFor(() => {
-         assertRendered();
+         assertGridRendered();
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

@@ -1,6 +1,6 @@
 import { CatalogRepository } from "@/data/repositories/catalog";
 import { DPrompt } from "@/data/types/domain/prompt";
-import { TemplateService } from "../template";
+import { TemplateService } from "../prompt";
 
 import { toPromptTemplateUpdate } from "./catalog.mapper";
 

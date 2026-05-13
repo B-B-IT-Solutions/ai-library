@@ -4,7 +4,7 @@ import type { SearchParams } from "nuqs/server";
 import {
    TemplatesDashboard,
    templatesSearchParamsCache,
-} from "@/components/templates";
+} from "@/components/prompts";
 
 export const metadata: Metadata = {
    title: "Meine Vorlagen",

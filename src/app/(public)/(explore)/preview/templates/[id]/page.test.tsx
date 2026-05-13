@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/template");
+jest.mock("@/data/actions/prompt");
 jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -10,7 +10,7 @@ import { getPublicCollectionByToken } from "@/data/actions/collection";
 import {
    getPublicPromptTemplate,
    getPublicTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
 
 import {
    generateMetadata,

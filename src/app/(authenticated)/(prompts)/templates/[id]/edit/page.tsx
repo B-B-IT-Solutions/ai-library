@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TemplateEdit } from "@/components/templates";
-import { getGlobalPromptFields } from "@/data/actions/settings";
+import { TemplateEdit } from "@/components/prompts";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
-} from "@/data/actions/template";
+} from "@/data/actions/prompt";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Vorlage Bearbeiten",

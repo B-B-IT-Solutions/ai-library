@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/components/templates");
+jest.mock("@/components/prompts");
 jest.mock("@/components/collections", () => ({
    CollectionView: () => {
       return <div data-testid="collection-view" />;
@@ -13,7 +13,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SearchParams } from "nuqs/server";
 
-import { templatesSearchParamsCache } from "@/components/templates";
+import { templatesSearchParamsCache } from "@/components/prompts";
 import { getCollectionById } from "@/data/actions/collection";
 
 import { CollectionPage, metadata, PageParams, PageProps } from "./page";
