@@ -23,7 +23,7 @@ describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 1 - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <TemplatesToolbar
@@ -44,7 +44,7 @@ describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 5 - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <TemplatesToolbar

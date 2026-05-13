@@ -147,7 +147,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter - all fields - test", async () => {
-      const filter = dtestData.dTemplateDescriptorsFilter();
+      const filter = dtestData.dPromptsFilter();
 
       const result = resolveWhereInput(userId, filter);
 

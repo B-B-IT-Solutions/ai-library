@@ -59,7 +59,7 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view grid - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <TemplateItems
@@ -88,7 +88,7 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view list - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <TemplateItems

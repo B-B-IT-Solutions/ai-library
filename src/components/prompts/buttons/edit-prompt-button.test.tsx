@@ -12,7 +12,7 @@ const assertRendered = () => {
 
 describe("EditPromptButton rendering tests", () => {
    it("EditPromptButton rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = renderWithTooltip(
          <EditPromptButton prompt={prompt} />
       );
@@ -32,7 +32,7 @@ describe("EditPromptButton functionality tests", () => {
    });
 
    it("EditPromptButton - edit btn clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<EditPromptButton prompt={prompt} />);
 
       await waitFor(() => {

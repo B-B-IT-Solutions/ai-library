@@ -22,7 +22,7 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query undefined - test", async () => {
       const userId = "user-id-1";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const result = await promptService.getPrompts(userId);
@@ -37,7 +37,7 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query empty - test", async () => {
       const userId = "user-id-123";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
@@ -53,7 +53,7 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query defined - test", async () => {
       const userId = "user-id-456";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
@@ -108,7 +108,7 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt - prompt defined - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
@@ -181,7 +181,7 @@ describe("updatePrompt tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
       const error = new Error("db error");
@@ -212,7 +212,7 @@ describe("updatePrompt tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -239,7 +239,7 @@ describe("updatePrompt tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -266,7 +266,7 @@ describe("updatePrompt tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
@@ -292,7 +292,7 @@ describe("updatePrompt tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 

@@ -23,7 +23,7 @@ const assertRendered = () => {
 
 describe("PromptsDashboard rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       getPromptsMock.mockResolvedValue(page);
    });
 

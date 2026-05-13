@@ -15,7 +15,7 @@ const assertCopyIcon = () => {
 
 describe("CopyPromptButton rendering tests", () => {
    it("CopyPromptButton rendered", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = renderWithTooltip(
          <CopyPromptButton prompt={prompt} size="icon-sm" />
       );
@@ -29,7 +29,7 @@ describe("CopyPromptButton rendering tests", () => {
    });
 
    it("CopyPromptButton rendered", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = renderWithTooltip(
          <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
       );

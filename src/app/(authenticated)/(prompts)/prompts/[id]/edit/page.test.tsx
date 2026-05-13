@@ -48,7 +48,7 @@ describe("EditPromptPage rendering tests", () => {
    });
 
    it("EditPromptPage - prompt found - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       getPromptMock.mockResolvedValue(prompt);
 
       const params = { id: "prompt-1" };

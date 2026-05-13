@@ -23,7 +23,7 @@ describe("PromptItem rendering tests", () => {
    });
 
    it("PromptItem - categories empty - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.categories = [];
 
       const url = `/prompts/random-prompt-id-123`;
@@ -40,7 +40,7 @@ describe("PromptItem rendering tests", () => {
    });
 
    it("PromptItem - with categories - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
@@ -62,7 +62,7 @@ describe("PromptItem functionality tests", () => {
    });
 
    it("PromptItem - view btn clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const url = "/prompts";
       renderWithRouter(<PromptItem prompt={prompt} />, url);

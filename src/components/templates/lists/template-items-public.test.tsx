@@ -43,7 +43,7 @@ describe("TemplateItemsPublic rendering tests", () => {
    });
 
    it("view grid - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <PublicTemplateItems

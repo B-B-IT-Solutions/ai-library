@@ -614,11 +614,11 @@ export const dTemplateDescriptorsPageQuery = (index = 1): DPromptsPageQuery => {
          pageSize: 10,
          pageNumber: 1,
       },
-      filter: dTemplateDescriptorsFilter(index),
+      filter: dPromptsFilter(index),
    };
 };
 
-export const dTemplateDescriptorsFilter = (index = 1): DPromptsFilter => {
+export const dPromptsFilter = (index = 1): DPromptsFilter => {
    return {
       search: `search ${index}`,
       categories: ["cat 1", "cat 2", "cat 3"],
@@ -628,8 +628,8 @@ export const dTemplateDescriptorsFilter = (index = 1): DPromptsFilter => {
    };
 };
 
-export const dPromptDescriptorsPage = (): DPrompt0sPage => {
-   const prompts = dPromptDescriptors();
+export const dPrompt0sPage = (): DPrompt0sPage => {
+   const prompts = dPrompt0s();
    return {
       content: prompts,
       numberOfElements: prompts.length,
@@ -640,11 +640,11 @@ export const dPromptDescriptorsPage = (): DPrompt0sPage => {
    };
 };
 
-export const dPromptDescriptors = (count = 3): DPrompt0[] => {
-   return range(0, count).map((i) => dPromptDescriptor(i));
+export const dPrompt0s = (count = 3): DPrompt0[] => {
+   return range(0, count).map((i) => dPrompt0(i));
 };
 
-export const dPromptDescriptor = (index = 1): DPrompt0 => {
+export const dPrompt0 = (index = 1): DPrompt0 => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,

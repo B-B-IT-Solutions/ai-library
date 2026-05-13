@@ -474,7 +474,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - full filter - test", async () => {
-      const filter = dtestData.dTemplateDescriptorsFilter();
+      const filter = dtestData.dPromptsFilter();
       const query: DPromptsPageQuery = {
          filter,
       };

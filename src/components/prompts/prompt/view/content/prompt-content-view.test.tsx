@@ -17,7 +17,7 @@ const assertRendered = () => {
 
 describe("PromptContent rendering tests", () => {
    it("PromptContent rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const { container } = render(<PromptContent prompt={prompt} />);
 

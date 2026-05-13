@@ -41,7 +41,7 @@ const assertFollowUpItems = (prompt: DPrompt0) => {
 
 describe("PromptFollowUps rendering tests", () => {
    it("PromptFollowUps rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const { container } = render(<PromptFollowUps prompt={prompt} />);
 
@@ -55,7 +55,7 @@ describe("PromptFollowUps rendering tests", () => {
    });
 
    it("PromptFollowUps not rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.followUpPrompts = [];
 
       const { container } = render(<PromptFollowUps prompt={prompt} />);
@@ -70,7 +70,7 @@ describe("PromptFollowUps rendering tests", () => {
 
 describe("PromptFollowUps functionality tests", () => {
    it("PromptFollowUps - expand btn clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       render(<PromptFollowUps prompt={prompt} />);
 
       await waitFor(() => {

@@ -74,7 +74,7 @@ describe("getPromptss tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       sGetPromptsMock.mockResolvedValue(page);
 
       const result = await getPrompts();
@@ -88,7 +88,7 @@ describe("getPromptss tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       sGetPromptsMock.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
@@ -103,7 +103,7 @@ describe("getPromptss tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       sGetPromptsMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
@@ -207,7 +207,7 @@ describe("getPrompt tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       sGetPromptMock.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";

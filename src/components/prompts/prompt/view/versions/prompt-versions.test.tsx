@@ -29,7 +29,7 @@ const assertNotExpanded = () => {
 
 describe("PromptVersion rendering tests", () => {
    it("PromptVersion rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const { container } = render(<PromptVersions prompt={prompt} />);
 
@@ -42,7 +42,7 @@ describe("PromptVersion rendering tests", () => {
    });
 
    it("PromptVersion not rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.versions = [];
 
       const { container } = render(<PromptVersions prompt={prompt} />);
@@ -57,7 +57,7 @@ describe("PromptVersion rendering tests", () => {
 
 describe("PromptVersion functionality tests", () => {
    it("PromptVersion - expand btn clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       render(<PromptVersions prompt={prompt} />);
 
       await waitFor(() => {

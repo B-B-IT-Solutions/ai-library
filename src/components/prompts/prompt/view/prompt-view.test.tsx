@@ -15,7 +15,7 @@ const assertRendered = () => {
 
 describe("PromptView rendering tests", () => {
    it("rendered - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = render(<PromptView prompt={prompt} />);
 
       await waitFor(() => {
