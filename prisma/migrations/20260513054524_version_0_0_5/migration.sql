@@ -1,24 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `created_at` on the `prompt_content` table. All the data in the column will be lost.
-  - You are about to drop the column `updated_at` on the `prompt_content` table. All the data in the column will be lost.
-  - You are about to drop the `_PromptCategoryToPromptDescriptor` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `_PromptToPromptTemplateCategory` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_descriptor` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_follow_up` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_template_category` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_template_field` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_template_global_field` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `prompt_version` table. If the table is not empty, all the data it contains will be lost.
-  - Changed the type of `type` on the `catalog_entry_field` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-  - Changed the type of `type` on the `global_field` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-  - Added the required column `recommended_model` to the `prompt0` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `title` to the `prompt0` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updated_at` to the `prompt0` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `user_id` to the `prompt0` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
 CREATE TYPE "prompt_field_type" AS ENUM ('TEXT', 'TEXTAREA', 'EMAIL', 'NUMBER', 'DATE', 'SELECT', 'CHECKBOX', 'RADIO');
 
