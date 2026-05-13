@@ -1,16 +1,16 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import { TemplateRepository } from "@/data/repositories/template";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import {
+   DPrompt,
+   DPromptContent,
    DPromptFieldValues,
-   DPromptTemplate,
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-   DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPromptGenerationData,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
 
@@ -35,29 +35,29 @@ export class TemplateService {
 
    async getTemplateDescriptorsPage(
       userId: string,
-      query?: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
+      query?: DPromptsPageQuery
+   ): Promise<DPromptsPage> {
       return await this.repository.pGetTemplateDescriptorsPage(userId, query);
    }
 
    async getTemplateDescriptor(
       userId: string,
       descriptorId: string
-   ): Promise<DPromptTemplateDescriptor | null> {
+   ): Promise<DPrompt | null> {
       return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
    }
 
    async createTemplateDescriptor(
       userId: string,
-      data: DPromptTemplateUpdate
-   ): Promise<DPromptTemplateDescriptor> {
+      data: DPromptUpdate
+   ): Promise<DPrompt> {
       return await this.repository.pCreatePrompt(userId, data);
    }
 
    async updateTemplateDescriptor(
       userId: string,
       descriptorId: string,
-      data: DPromptTemplateUpdate
+      data: DPromptUpdate
    ) {
       const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
       if (!descriptor) {
@@ -79,7 +79,7 @@ export class TemplateService {
    async getTemplateDataForPromptGeneration(
       userId: string,
       teamplateId: string
-   ): Promise<DPromptTemplateDataPromptGeneration | null> {
+   ): Promise<DPromptGenerationData | null> {
       const template = await this.getPromptTemplate(userId, teamplateId);
 
       if (template) {
@@ -180,14 +180,14 @@ export class TemplateService {
 
    async getPrompts(
       params?: DGetPromptTemplatesDescriptorsParams
-   ): Promise<DPromptTemplateDescriptor[]> {
+   ): Promise<DPrompt[]> {
       return await this.repository.pGetPrompts(params);
    }
 
    async getPromptTemplate(
       userId: string,
       templateId: string
-   ): Promise<DPromptTemplate | null> {
+   ): Promise<DPromptContent | null> {
       return await this.repository.pGetPromptTemplate(userId, templateId);
    }
 

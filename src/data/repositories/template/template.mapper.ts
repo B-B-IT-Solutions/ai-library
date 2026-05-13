@@ -3,23 +3,23 @@
 import {
    PromptContentWithFields,
    PromptWithCategories,
-} from "@/data/types/db/prompt.template";
+} from "@/data/types/db/prompt";
 import {
+   DPrompt,
+   DPromptContent,
    DPromptField,
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+} from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
 export const toDTemplateDescriptors = (
    pPrompts: PromptWithCategories[]
-): DPromptTemplateDescriptor[] => {
+): DPrompt[] => {
    return map(pPrompts, (dbP) => toDTemplateDescriptor(dbP));
 };
 
 export const toDTemplateDescriptor = (
    prompt: PromptWithCategories
-): DPromptTemplateDescriptor => {
+): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,
@@ -34,14 +34,12 @@ export const toDTemplateDescriptor = (
 
 export const toDPromptTemplate = (
    prompt: PromptContentWithFields
-): DPromptTemplate => {
+): DPromptContent => {
    return {
       id: prompt.promptId,
       content: prompt.content,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
-      updatedAt: prompt.updatedAt.toISOString(),
-      createdAt: prompt.createdAt.toISOString(),
    };
 };
 

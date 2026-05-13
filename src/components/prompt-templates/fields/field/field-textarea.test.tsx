@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 import { TextAreaField } from "./field-textarea";
 

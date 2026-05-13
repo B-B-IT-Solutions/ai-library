@@ -2,12 +2,12 @@ import { isEmpty } from "es-toolkit/compat";
 
 import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
-   DPromptTemplate,
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt,
+   DPromptGenerationData,
+   DPrompt,
+   DPromptsPage,
+   DPromptsPageQuery,
+} from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { PublicSettingsService } from "../settings";
 
@@ -29,8 +29,8 @@ export class PublicTemplateService {
    }
 
    async getPublicTemplateDescriptorsPage(
-      query: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
+      query: DPromptsPageQuery
+   ): Promise<DPromptsPage> {
       const { collectionIds = [] } = query.filter || {};
       if (!isEmpty(collectionIds)) {
          const collectionsPublic =
@@ -47,7 +47,7 @@ export class PublicTemplateService {
 
    async getPublicTemplateDataForPromptGeneration(
       teamplateId: string
-   ): Promise<DPromptTemplateDataPromptGeneration | null> {
+   ): Promise<DPromptGenerationData | null> {
       const template = await this.getPublicPromptTemplate(teamplateId);
 
       if (template) {
@@ -69,13 +69,11 @@ export class PublicTemplateService {
 
    async getPublicTemplateDescriptor(
       descriptorId: string
-   ): Promise<DPromptTemplateDescriptor | null> {
+   ): Promise<DPrompt | null> {
       return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
    }
 
-   async getPublicPromptTemplate(
-      templateId: string
-   ): Promise<DPromptTemplate | null> {
+   async getPublicPromptTemplate(templateId: string): Promise<DPrompt | null> {
       return await this.repository.pGetPublicPromptTemplate(templateId);
    }
 }

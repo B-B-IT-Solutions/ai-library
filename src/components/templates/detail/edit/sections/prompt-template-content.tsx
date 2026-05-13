@@ -5,16 +5,16 @@ import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
 import { FormMDEditor } from "@/components/shared/widgets";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 type Props = {
-   control: Control<DPromptTemplateUpdate>;
+   control: Control<DPromptUpdate>;
 };
 
 export const PromptTemplateContent: FC<Props> = ({ control }) => {
    const content = () => {
       return (
-         <FormMDEditor<DPromptTemplateUpdate>
+         <FormMDEditor<DPromptUpdate>
             name="content"
             placeholder="Verwenden Sie {{feldname}} für Platzhalter, z.B. 'Schreibe einen Blog-Post über {{thema}}'"
             control={control}

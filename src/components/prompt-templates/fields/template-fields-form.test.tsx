@@ -9,14 +9,14 @@ import z from "zod";
 import {
    DPromptField,
    DPromptFieldType,
-   DPromptTemplateDataPromptGeneration,
-} from "@/data/types/domain/prompt.template";
+   DPromptGenerationData,
+} from "@/data/types/domain/prompt";
 
 import { buildFieldsSchema } from "./fields.schema";
 import { TemplateFieldsForm } from "./template-fields-form";
 
 type Props = {
-   templateData: DPromptTemplateDataPromptGeneration;
+   templateData: DPromptGenerationData;
 };
 
 const TestWrapper = ({ templateData }: Props) => {

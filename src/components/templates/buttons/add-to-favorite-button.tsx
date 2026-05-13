@@ -9,11 +9,11 @@ import {
    type UpdateIsFavoriteParams,
    useToggleFavorite,
 } from "@/data/ts-queries/template";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
 };
 
 export const AddToFavoriteButton = ({ descriptor }: Props) => {

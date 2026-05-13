@@ -16,7 +16,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DCollection } from "@/data/types/domain/collection";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
    DownloadTemplateButton,
@@ -24,7 +24,7 @@ import {
 } from "../../buttons";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
    collections: DCollection[];
    collectionToken?: string | null;
 };

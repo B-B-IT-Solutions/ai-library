@@ -1,6 +1,6 @@
 import { dtestData } from "@tests";
 
-import { DPromptCategory } from "@/data/types/domain/prompt.template";
+import { DPromptCategory } from "@/data/types/domain/prompt";
 
 import { getTypeBadgeColor, resolveUniqCategories } from "./utils";
 

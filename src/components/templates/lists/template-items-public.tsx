@@ -11,7 +11,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { PublicTemplateItemsGrid } from "./template-items-grid-public";
 
@@ -19,7 +19,7 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
-   filters: DTemplateDescriptorsFilter;
+   filters: DPromptsFilter;
    collectionToken?: string | null;
 };
 

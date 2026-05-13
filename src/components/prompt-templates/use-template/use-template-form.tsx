@@ -17,8 +17,8 @@ import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import {
    DPromptFieldValues,
-   DPromptTemplateDataPromptGeneration,
-} from "@/data/types/domain/prompt.template";
+   DPromptGenerationData,
+} from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 import { buildFieldsSchema } from "../fields/fields.schema";
@@ -32,7 +32,7 @@ import {
 import { AiTool } from "./type";
 
 type Props = {
-   templateData: DPromptTemplateDataPromptGeneration;
+   templateData: DPromptGenerationData;
    recommendedModel?: string;
 };
 

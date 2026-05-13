@@ -3,10 +3,7 @@ import { ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
    PromptContentFindFirstArgs,
    PromptCountArgs,
@@ -36,14 +33,14 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(totalEntries);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: { collectionIds: ["col-1"] },
          sort: { field: "createdAt", order: "asc" },
       };
 
       const result = await repository.pGetPublicTemplateDescriptorsPage(query);
 
-      const expectedResult: DTemplateDescriptorsPage = {
+      const expectedResult: DPromptsPage = {
          content: toDTemplateDescriptors(descriptors),
          pageNumber: 0,
          pageSize: 20,
@@ -86,7 +83,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(0);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          filter: { collectionIds: ["col-2"] },
          sort: { field: "title", order: "asc" },
@@ -127,7 +124,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(0);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          pagination: { pageNumber: 2, pageSize: 10 },
          filter: { collectionIds: ["col-1", "col-2", "col-3"] },
          sort: { field: "title", order: "desc" },

@@ -1,6 +1,6 @@
 ﻿import z from "zod";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 import { globalPromptFieldSchema } from "@/data/types/validators/settings";
 
 export type DSettingsSection =
@@ -9,9 +9,7 @@ export type DSettingsSection =
    | "subscription"
    | "global-template-fields";
 
-export type DGlobalPromptFieldUpdate = z.infer<
-   typeof globalPromptFieldSchema
->;
+export type DGlobalPromptFieldUpdate = z.infer<typeof globalPromptFieldSchema>;
 
 export type DGlobalPromptField = {
    id: string;

@@ -22,7 +22,7 @@ import {
    PromptContentWithFields,
    PromptWithCategories,
    PromptWithTemplate,
-} from "@/data/types/db/prompt.template";
+} from "@/data/types/db/prompt";
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";

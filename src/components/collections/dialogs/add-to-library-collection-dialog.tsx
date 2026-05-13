@@ -22,12 +22,12 @@ import {
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DCollection } from "@/data/types/domain/collection";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
    collections: DCollection[];
    open: boolean;
    onOpenChange: (open: boolean) => void;

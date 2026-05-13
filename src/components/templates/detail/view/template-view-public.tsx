@@ -7,17 +7,14 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import { MDRenderer } from "@/components/shared/md";
 import { DCollection } from "@/data/types/domain/collection";
-import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPrompt } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
-   template: DPromptTemplate;
+   descriptor: DPrompt;
+   template: DPrompt;
    collection?: DCollection | null;
 };
 

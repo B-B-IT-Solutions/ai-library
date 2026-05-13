@@ -9,7 +9,7 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const RECOMMENDED_MODELS = [
    "Claude",
@@ -20,13 +20,13 @@ const RECOMMENDED_MODELS = [
 ];
 
 type Props = {
-   control: Control<DPromptTemplateUpdate>;
+   control: Control<DPromptUpdate>;
 };
 
 export const BasicInfo: FC<Props> = ({ control }) => {
    const title = () => {
       return (
-         <FormInput<DPromptTemplateUpdate>
+         <FormInput<DPromptUpdate>
             name="title"
             label="Titel"
             placeholder="z.B. Blog-Post Generator"
@@ -37,7 +37,7 @@ export const BasicInfo: FC<Props> = ({ control }) => {
 
    const description = () => {
       return (
-         <FormTextArea<DPromptTemplateUpdate>
+         <FormTextArea<DPromptUpdate>
             name="description"
             label="Beschreibung"
             placeholder="Beschreibung der Vorlage"
@@ -49,7 +49,7 @@ export const BasicInfo: FC<Props> = ({ control }) => {
 
    const recommendedModel = () => {
       return (
-         <FormSelect<DPromptTemplateUpdate>
+         <FormSelect<DPromptUpdate>
             name="recommendedModel"
             label="Empfohlenes Modell"
             options={RECOMMENDED_MODELS}
@@ -60,7 +60,7 @@ export const BasicInfo: FC<Props> = ({ control }) => {
 
    const renderCategories = () => {
       return (
-         <FormDynamicValues<DPromptTemplateUpdate>
+         <FormDynamicValues<DPromptUpdate>
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"

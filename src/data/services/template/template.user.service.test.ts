@@ -11,8 +11,8 @@ import { TemplateRepository } from "@/data/repositories/template";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import {
    DPromptFieldValues,
-   DPromptTemplateDataPromptGeneration,
-} from "@/data/types/domain/prompt.template";
+   DPromptGenerationData,
+} from "@/data/types/domain/prompt";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
@@ -255,7 +255,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
-      const expectedResult: DPromptTemplateDataPromptGeneration = {
+      const expectedResult: DPromptGenerationData = {
          template,
          allFields,
       };

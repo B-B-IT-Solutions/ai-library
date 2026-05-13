@@ -1,6 +1,6 @@
 ﻿import { dtestData } from "@tests";
 
-import { DPromptField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import {

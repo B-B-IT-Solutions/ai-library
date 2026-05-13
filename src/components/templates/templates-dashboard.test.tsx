@@ -17,7 +17,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { templatesSearchParamsCache } from "./search-params";
 import { TemplatesDashboard } from "./templates-dashboard";
@@ -83,7 +83,7 @@ const assertRendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DTemplateDescriptorsPageQuery
+   expectedPayload: DPromptsPageQuery
 ) => {
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
@@ -111,7 +111,7 @@ describe("TemplatesDashboard rendering tests", () => {
 
       const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

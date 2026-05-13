@@ -2,10 +2,7 @@
 import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 
-import {
-   DPromptField,
-   DPromptFieldValues,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldValues } from "@/data/types/domain/prompt";
 
 export type FieldsValidationResult = {
    valid: boolean;
@@ -16,10 +13,7 @@ export class TemplateEngine {
    /**
     * Replaces all {{variable_name}} placeholders with actual values
     */
-   static replace(
-      template: string,
-      values: DPromptFieldValues
-   ): string {
+   static replace(template: string, values: DPromptFieldValues): string {
       let result = template;
 
       const variables = Object.entries(values);

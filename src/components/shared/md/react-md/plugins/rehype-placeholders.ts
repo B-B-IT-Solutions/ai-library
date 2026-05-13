@@ -1,6 +1,6 @@
 ﻿import { visit } from "unist-util-visit";
 
-import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptFieldValues } from "@/data/types/domain/prompt";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type HastNode = any;

@@ -15,15 +15,15 @@ import {
    TemplateFieldType,
 } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 type Props = {
    index: number;
    isUsed: boolean;
    hasName: boolean;
    onRemove: CallbackFn;
-   control: Control<DPromptTemplateUpdate>;
-   watch: UseFormWatch<DPromptTemplateUpdate>;
+   control: Control<DPromptUpdate>;
+   watch: UseFormWatch<DPromptUpdate>;
 };
 
 export const PromptField: FC<Props> = ({
@@ -75,35 +75,35 @@ export const PromptField: FC<Props> = ({
    const formInputs = () => {
       return (
          <div className="grid grid-cols-2 gap-4">
-            <TemplateFieldName<DPromptTemplateUpdate>
+            <TemplateFieldName<DPromptUpdate>
                name={`fields.${index}.name`}
                control={control}
                watch={watch}
             />
-            <TemplateFieldLabel<DPromptTemplateUpdate>
+            <TemplateFieldLabel<DPromptUpdate>
                name={`fields.${index}.label`}
                control={control}
             />
-            <TemplateFieldType<DPromptTemplateUpdate>
+            <TemplateFieldType<DPromptUpdate>
                name={`fields.${index}.type`}
                control={control}
             />
-            <TemplateFieldDefaultValue<DPromptTemplateUpdate>
+            <TemplateFieldDefaultValue<DPromptUpdate>
                name={`fields.${index}.defaultValue`}
                type={type}
                options={options}
                control={control}
             />
-            <TemplateFieldSelectOptions<DPromptTemplateUpdate>
+            <TemplateFieldSelectOptions<DPromptUpdate>
                name={`fields.${index}.options`}
                type={type}
                control={control}
             />
-            <TemplateFieldDescription<DPromptTemplateUpdate>
+            <TemplateFieldDescription<DPromptUpdate>
                name={`fields.${index}.description`}
                control={control}
             />
-            <TemplateFieldRequired<DPromptTemplateUpdate>
+            <TemplateFieldRequired<DPromptUpdate>
                name={`fields.${index}.required`}
                control={control}
             />

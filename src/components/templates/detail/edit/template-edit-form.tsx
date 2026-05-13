@@ -19,11 +19,11 @@ import {
    updateTemplateDescriptor,
 } from "@/data/actions/template";
 import {
+   DPrompt,
+   DPrompt,
    DPromptField,
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updateTemplateSchema } from "@/data/types/validators/template";
 
@@ -40,8 +40,8 @@ import {
 } from "./utils";
 
 type Props = {
-   descriptor?: DPromptTemplateDescriptor;
-   template?: DPromptTemplate;
+   descriptor?: DPrompt;
+   template?: DPrompt;
    globalFields: DGlobalPromptField[];
 };
 
@@ -53,7 +53,7 @@ export const TemplateEditForm = ({
    const router = useRouter();
    const isEdit = !!descriptor;
 
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
       defaultValues: initPromptTemplate(descriptor, template),
    });
@@ -124,7 +124,7 @@ export const TemplateEditForm = ({
       );
    };
 
-   const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
+   const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
          const result = await updateTemplateDescriptor(descriptor.id, data);
          if (result.success) {

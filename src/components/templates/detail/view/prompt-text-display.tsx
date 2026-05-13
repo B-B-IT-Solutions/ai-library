@@ -5,11 +5,11 @@ import { Check, ChevronDown, ChevronRight, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { MDRenderer } from "@/components/shared/md";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   template: DPromptTemplate;
+   template: DPrompt;
 };
 
 export const PromptTextDisplay = ({ template }: Props) => {

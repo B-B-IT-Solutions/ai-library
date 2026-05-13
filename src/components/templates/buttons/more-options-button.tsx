@@ -8,13 +8,13 @@ import {
    DropdownMenuContent,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 import { DeleteTemplateButton } from "./delete-template-button";
 import { DownloadTemplateButton } from "./download-template-button";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
 };
 
 export const MoreOptionsButton = ({ descriptor }: Props) => {

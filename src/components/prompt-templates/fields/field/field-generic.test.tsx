@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 import { GenericField } from "./field-generic";
 

@@ -3,7 +3,7 @@
 import { Control, FieldValues, Path } from "react-hook-form";
 
 import { FormDynamicValues } from "@/components/shared/widgets";
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
 import { isOptionsFieldType } from "./utils/utils";
 

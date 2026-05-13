@@ -1,12 +1,9 @@
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
-import {
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 
 export const toCatalogEntryDescriptor = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateDescriptor => {
+): DPrompt => {
    return {
       id: entry.id,
       title: entry.title,
@@ -21,7 +18,7 @@ export const toCatalogEntryDescriptor = (
 
 export const toCatalogEntryTemplateData = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateDataPromptGeneration => {
+): DPromptGenerationData => {
    return {
       template: {
          id: entry.id,

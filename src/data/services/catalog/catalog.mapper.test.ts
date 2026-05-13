@@ -5,10 +5,7 @@ import {
    DCatalogEntryField,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
-import {
-   DPromptFieldUpdate,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+import { DPromptUpdate, DPromptUpdate } from "@/data/types/domain/prompt";
 
 import {
    toPromptFieldUpdate,
@@ -18,7 +15,7 @@ import {
 
 const toPromptTemplateUpdateInternal = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateUpdate => {
+): DPromptUpdate => {
    const fields = toPromptFieldUpdatesInternal(entry.fields);
 
    return {
@@ -34,13 +31,13 @@ const toPromptTemplateUpdateInternal = (
 
 const toPromptFieldUpdatesInternal = (
    fields: DCatalogEntryField[]
-): DPromptFieldUpdate[] => {
+): DPromptUpdate[] => {
    return map(fields, (f) => toPromptFieldUpdateInternal(f));
 };
 
 const toPromptFieldUpdateInternal = (
    field: DCatalogEntryField
-): DPromptFieldUpdate => {
+): DPromptUpdate => {
    return {
       name: field.name,
       label: field.label,

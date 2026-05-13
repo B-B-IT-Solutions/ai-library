@@ -1,4 +1,4 @@
-﻿import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
+﻿import { DPromptFieldValues } from "@/data/types/domain/prompt";
 
 import { rehypePlaceholders } from "./rehype-placeholders";
 

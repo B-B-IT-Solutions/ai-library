@@ -1,4 +1,4 @@
-import { PromptWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt";
 import {
    Product,
    ProductExample,

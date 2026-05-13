@@ -1,10 +1,7 @@
 ﻿import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 
-import {
-   DPromptField,
-   DPromptFieldValues,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldValues } from "@/data/types/domain/prompt";
 
 import { TemplateEngine } from "./template.engine";
 

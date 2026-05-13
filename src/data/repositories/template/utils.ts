@@ -1,7 +1,7 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
    PromptOrderByWithRelationInput,
    PromptWhereInput,
@@ -9,7 +9,7 @@ import {
 
 export const resolveWhereInput = (
    userId?: string,
-   filter?: DTemplateDescriptorsFilter
+   filter?: DPromptsFilter
 ): PromptWhereInput => {
    const where: PromptWhereInput = { userId };
 
@@ -62,9 +62,7 @@ export const resolveWhereInput = (
    return where;
 };
 
-export const resolveOrderBy = (
-   sort?: Sort
-): PromptOrderByWithRelationInput => {
+export const resolveOrderBy = (sort?: Sort): PromptOrderByWithRelationInput => {
    if (sort) {
       return {
          [sort.field]: sort.order,

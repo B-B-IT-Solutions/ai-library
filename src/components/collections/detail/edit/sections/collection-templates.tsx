@@ -18,7 +18,7 @@ import {
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
 import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/template";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
    collectionId: string;
@@ -53,7 +53,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       (t) => !includes(templateIds, t.id)
    );
 
-   const addTemplateToCollection = (descriptor: DPromptTemplateDescriptor) => {
+   const addTemplateToCollection = (descriptor: DPrompt) => {
       const params: AddTemplateToCollectionParams = {
          collectionId,
          templateDescriptorId: descriptor.id,
@@ -68,9 +68,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       });
    };
 
-   const removeTemplateFromCollection = (
-      descriptor: DPromptTemplateDescriptor
-   ) => {
+   const removeTemplateFromCollection = (descriptor: DPrompt) => {
       const params: RemoveTemplateFromCollectionParams = {
          collectionId,
          templateDescriptorId: descriptor.id,
@@ -85,10 +83,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       });
    };
 
-   const handleToggle = (
-      descriptor: DPromptTemplateDescriptor,
-      isIn: boolean
-   ) => {
+   const handleToggle = (descriptor: DPrompt, isIn: boolean) => {
       setPendingId(descriptor.id);
 
       if (isIn) {
@@ -98,10 +93,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       }
    };
 
-   const rowControlBtn = (
-      descriptor: DPromptTemplateDescriptor,
-      isIn: boolean
-   ) => {
+   const rowControlBtn = (descriptor: DPrompt, isIn: boolean) => {
       const isPending = pendingId === descriptor.id;
       return (
          <Button
@@ -129,7 +121,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       );
    };
 
-   const renderRow = (descriptor: DPromptTemplateDescriptor, isIn: boolean) => {
+   const renderRow = (descriptor: DPrompt, isIn: boolean) => {
       return (
          <div
             key={descriptor.id}

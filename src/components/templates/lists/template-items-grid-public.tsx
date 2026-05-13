@@ -1,12 +1,12 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DCollection } from "@/data/types/domain/collection";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 import { PublicTemplateItemCard } from "./items";
 
 type Props = {
-   descriptors: DPromptTemplateDescriptor[];
+   descriptors: DPrompt[];
    collections: DCollection[];
    collectionToken?: string | null;
 };

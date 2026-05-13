@@ -37,7 +37,7 @@ import {
    createTemplateDescriptor,
    updateTemplateDescriptor,
 } from "@/data/actions/template";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { TemplateEditForm } from "./template-edit-form";
@@ -366,7 +366,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const expectedPayload: DPromptTemplateUpdate = {
+      const expectedPayload: DPromptUpdate = {
          title: "Test Template",
          description: "Test Description",
          content: "Template Content {{task}}",
@@ -419,7 +419,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const initValue = initPromptTemplate(descriptor, template);
-      const expectedPayload: DPromptTemplateUpdate = {
+      const expectedPayload: DPromptUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
          content: initValue.content + "Template Content {{task}}",
@@ -466,7 +466,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const expectedPayload: DPromptTemplateUpdate = {
+      const expectedPayload: DPromptUpdate = {
          title: "Test Template",
          description: "Test Description",
          content: "Template Content {{task}}",
@@ -518,7 +518,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const initValue = initPromptTemplate(descriptor, template);
-      const expectedPayload: DPromptTemplateUpdate = {
+      const expectedPayload: DPromptUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
          content: initValue.content + "Template Content {{task}}",

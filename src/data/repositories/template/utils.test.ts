@@ -1,7 +1,7 @@
 import { dtestData } from "@tests";
 
 import { Sort } from "@/data/types/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
    PromptOrderByWithRelationInput,
    PromptWhereInput,
@@ -32,7 +32,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter.search - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          search: "test search",
       };
 
@@ -60,7 +60,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("fitler.categories - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          categories: ["cat1", "cat2"],
       };
       const result = resolveWhereInput(userId, filter);
@@ -74,7 +74,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter.models - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          models: ["gpt-4", "claude"],
       };
       const result = resolveWhereInput(userId, filter);
@@ -88,7 +88,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter.isFavorite true - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          isFavorite: true,
       };
       const result = resolveWhereInput(userId, filter);
@@ -102,7 +102,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter.isFavorite false - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          isFavorite: false,
       };
       const result = resolveWhereInput(userId, filter);
@@ -116,7 +116,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter.collectionIds - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          collectionIds: ["col-1", "col-2"],
       };
       const result = resolveWhereInput(userId, filter);
@@ -132,7 +132,7 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("filter empty arrays - test", async () => {
-      const filter: DTemplateDescriptorsFilter = {
+      const filter: DPromptsFilter = {
          categories: [],
          models: [],
          collectionIds: [],

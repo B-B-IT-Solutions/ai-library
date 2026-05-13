@@ -8,10 +8,7 @@ import { Control, UseFormWatch } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import { GlobalPromptFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import {
-   DPromptField,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptGlobalPromptField } from "./prompt-global-template-field";
@@ -26,8 +23,8 @@ type Props = {
    onRemoveField: (index: number) => void;
    onAddGlobalFieldIds: (ids: string[]) => void;
    onRemoveGlobalFieldId: (id: string) => void;
-   control: Control<DPromptTemplateUpdate>;
-   watch: UseFormWatch<DPromptTemplateUpdate>;
+   control: Control<DPromptUpdate>;
+   watch: UseFormWatch<DPromptUpdate>;
 };
 
 export const PromptFields: FC<Props> = ({

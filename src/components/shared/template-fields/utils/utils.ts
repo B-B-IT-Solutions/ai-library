@@ -1,11 +1,8 @@
 ﻿import { includes, map, upperCase } from "es-toolkit/compat";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
-export const OPTIONS_FIELD_TYPES: DPromptFieldType[] = [
-   "SELECT",
-   "RADIO",
-];
+export const OPTIONS_FIELD_TYPES: DPromptFieldType[] = ["SELECT", "RADIO"];
 
 export const TEMPLATE_FIELD_LABELS: Record<DPromptFieldType, string> = {
    TEXT: "Text",

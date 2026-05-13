@@ -6,11 +6,10 @@ import {
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
 
-export type DTemplateDescriptorsPageQuery =
-   PageQuery<DTemplateDescriptorsFilter>;
-export type DTemplateDescriptorsPage = Page<DPromptTemplateDescriptor>;
+export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
+export type DPromptsPage = Page<DPrompt>;
 
-export type DTemplateDescriptorsFilter = {
+export type DPromptsFilter = {
    search?: string;
    categories?: string[];
    models?: string[];
@@ -20,27 +19,18 @@ export type DTemplateDescriptorsFilter = {
 
 export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
 
-export type DPromptTemplateUpdate = z.infer<typeof updateTemplateSchema>;
+export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 
 export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptTemplate = {
-   id: string;
-   content: string;
-   fields: DPromptField[];
-   globalFieldIds: string[];
-   updatedAt: string;
-   createdAt: string;
-};
-
-export type DPromptTemplateDataPromptGeneration = {
-   template: DPromptTemplate;
+export type DPromptGenerationData = {
+   template: DPromptContent;
    allFields: DPromptField[];
 };
 
-export type DPromptTemplateDescriptor = {
+export type DPrompt = {
    id: string;
    title: string;
    description: string;
@@ -49,6 +39,13 @@ export type DPromptTemplateDescriptor = {
    isFavorite: boolean;
    updatedAt: string;
    createdAt: string;
+};
+
+export type DPromptContent = {
+   id: string;
+   content: string;
+   fields: DPromptField[];
+   globalFieldIds: string[];
 };
 
 export type DPromptFieldType =

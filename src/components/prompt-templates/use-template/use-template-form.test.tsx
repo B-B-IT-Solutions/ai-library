@@ -5,10 +5,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 
-import {
-   DPromptField,
-   DPromptFieldType,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
 import { UseTemplateForm } from "./use-template-form";

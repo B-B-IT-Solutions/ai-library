@@ -5,8 +5,8 @@ import { Control, FieldValues } from "react-hook-form";
 
 import {
    DPromptField,
-   DPromptTemplateDataPromptGeneration,
-} from "@/data/types/domain/prompt.template";
+   DPromptGenerationData,
+} from "@/data/types/domain/prompt";
 
 import { CheckBoxField } from "./field/field-check-box";
 import { GenericField } from "./field/field-generic";
@@ -15,7 +15,7 @@ import { SelectField } from "./field/field-select";
 import { TextAreaField } from "./field/field-textarea";
 
 type Props = {
-   templateData: DPromptTemplateDataPromptGeneration;
+   templateData: DPromptGenerationData;
    control: Control<FieldValues>;
 };
 

@@ -2,7 +2,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptFieldValues } from "@/data/types/domain/prompt";
 
 import { components } from "./components";
 import { rehypePlaceholders } from "./plugins/rehype-placeholders";

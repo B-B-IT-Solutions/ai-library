@@ -14,7 +14,7 @@ import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { CollectionHeader } from "./collection-header";
 
@@ -27,7 +27,7 @@ export const CollectionView = async ({ collection }: Props) => {
    const groupBy = templatesSearchParamsCache.get("group");
    const sortBy = templatesSearchParamsCache.get("sort");
 
-   const filters: DTemplateDescriptorsFilter = {
+   const filters: DPromptsFilter = {
       search: templatesSearchParamsCache.get("f_search"),
       categories: templatesSearchParamsCache.get("f_categories"),
       models: templatesSearchParamsCache.get("f_models"),

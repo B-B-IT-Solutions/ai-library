@@ -4,7 +4,7 @@ import { HTMLInputTypeAttribute } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { FormInput, FormSelect } from "@/components/shared/widgets";
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
 import { isOptionsFieldType } from "./utils/utils";
 

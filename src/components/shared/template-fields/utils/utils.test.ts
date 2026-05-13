@@ -1,6 +1,6 @@
 ﻿import { upperCase } from "es-toolkit/compat";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
 import {
    getTemplateFieldTypeLabel,
@@ -10,10 +10,7 @@ import {
    TEMPLATE_FIELD_OPTIONS,
 } from "./utils";
 
-const expectedOptionFieldTypes: DPromptFieldType[] = [
-   "SELECT",
-   "RADIO",
-];
+const expectedOptionFieldTypes: DPromptFieldType[] = ["SELECT", "RADIO"];
 
 const expecteTemplateFieldLabels: Record<DPromptFieldType, string> = {
    TEXT: "Text",

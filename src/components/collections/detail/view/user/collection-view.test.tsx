@@ -18,7 +18,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { CollectionView } from "./collection-view";
 
@@ -83,7 +83,7 @@ const assertRendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DTemplateDescriptorsPageQuery
+   expectedPayload: DPromptsPageQuery
 ) => {
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
@@ -114,7 +114,7 @@ describe("CollectionView rendering tests", () => {
          collection,
       });
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

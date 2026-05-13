@@ -5,7 +5,7 @@ import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptField } from "./prompt-template-field";
 
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          description: "",

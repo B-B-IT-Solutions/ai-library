@@ -6,10 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import {
-   DPromptField,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptFields } from "./prompt-template-fields";
@@ -35,7 +32,7 @@ const TestWrapper = ({
    onAddGlobalFieldIds,
    onRemoveGlobalFieldId,
 }: Props) => {
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          description: "",

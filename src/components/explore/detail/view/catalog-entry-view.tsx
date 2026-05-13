@@ -14,7 +14,7 @@ import {
    DCatalogEntry,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
-import { DPromptFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 import {
    AddCatalogEntryToLibraryButton,
    UseCatalogEntryButton,

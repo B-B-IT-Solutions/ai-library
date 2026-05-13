@@ -1,9 +1,6 @@
 ﻿import z from "zod";
 
-import {
-   DPromptField,
-   DPromptFieldType,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 
 import { buildFieldsSchema } from "./fields.schema";
 

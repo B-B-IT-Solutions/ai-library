@@ -4,7 +4,7 @@ import { FC } from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 import { FormInput } from "@/components/shared/widgets";
-import { DPromptField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 type Props = {
    field: DPromptField;

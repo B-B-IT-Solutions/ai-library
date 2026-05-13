@@ -10,7 +10,7 @@ import {
    ZodType,
 } from "zod";
 
-import { DPromptField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 const emailValidator = (field: DPromptField): ZodEmail => {
    const validator = z.email("Ungültige E-Mail");

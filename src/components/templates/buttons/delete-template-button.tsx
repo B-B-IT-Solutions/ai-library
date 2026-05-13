@@ -5,10 +5,10 @@ import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
 import { deleteTemplateDescriptor } from "@/data/actions/template";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
 };
 
 export const DeleteTemplateButton = ({ descriptor }: Props) => {
