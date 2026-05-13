@@ -602,7 +602,7 @@ describe("pGetPrompts tests", () => {
                   },
                },
                {
-                  promptContent: {
+                  content: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -685,7 +685,7 @@ describe("pGetPrompts tests", () => {
                   },
                },
                {
-                  promptContent: {
+                  content: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -779,7 +779,8 @@ describe("pGetPromptTemplate tests", () => {
       const expectedWhere: PromptFindFirstArgs = {
          where: { id, userId },
          include: {
-            promptContent: true,
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
@@ -790,7 +791,7 @@ describe("pGetPromptTemplate tests", () => {
    });
 
    test("pGetPromptTemplate - template retrieved - test", async () => {
-      const prompt = ptestData.pPromptWithRelations();
+      const prompt = ptestData.pPromptWithContent();
       prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
@@ -801,7 +802,7 @@ describe("pGetPromptTemplate tests", () => {
       const expectedWhere: PromptFindFirstArgs = {
          where: { id, userId },
          include: {
-            promptContent: true,
+            content: true,
             categories: true,
             fields: true,
             globalFields: true,
@@ -870,7 +871,7 @@ describe("pCreatePrompt tests", () => {
                },
             })),
          },
-         promptContent: {
+         content: {
             create: {
                content: data.content,
             },
@@ -936,7 +937,7 @@ describe("pUpdatePrompt tests", () => {
                create: { name: catName, userId },
             })),
          },
-         promptContent: {
+         content: {
             update: {
                content: data.content,
             },

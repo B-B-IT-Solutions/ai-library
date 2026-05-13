@@ -216,7 +216,8 @@ describe("pGetPublicPromptTemplate tests", () => {
       const expectedArgs: PromptFindFirstArgs = {
          where: { id },
          include: {
-            promptContent: true,
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
@@ -237,7 +238,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       const expectedArgs: PromptFindFirstArgs = {
          where: { id },
          include: {
-            promptContent: true,
+            content: true,
             categories: true,
             fields: true,
             globalFields: true,

@@ -87,7 +87,7 @@ export class PublicTemplateRepository {
       const args = {
          where: { id },
          include: {
-            promptContent: true,
+            content: true,
             categories: true,
             fields: true,
             globalFields: true,

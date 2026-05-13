@@ -166,10 +166,10 @@ model Prompt {
   createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime         @updatedAt @map("updated_at")
 
-  user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  promptContent     PromptContent?
-  fields            PromptField[]
-  globalFields      PromptGlobalField[]
+  user         User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content      PromptContent?
+  fields       PromptField[]
+  globalFields PromptGlobalField[]
   productItems      ProductItem[]
   collectionEntries LibraryCollectionEntry[]
 

@@ -3,7 +3,7 @@
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptWithCategories,
-   PromptWithRelations,
+   PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
@@ -126,14 +126,14 @@ export class TemplateRepository {
       const prompt = await this.prisma.prompt.findFirst({
          where: { id, userId },
          include: {
-            promptContent: true,
+            content: true,
             categories: true,
             fields: true,
             globalFields: true,
          },
       });
 
-      return prompt ? toDPromptTemplate(prompt as PromptWithRelations) : null;
+      return prompt ? toDPromptTemplate(prompt as PromptWithContent) : null;
    }
 
    async pGetPromptTemplateCategories(
@@ -163,7 +163,7 @@ export class TemplateRepository {
                },
             })),
          },
-         promptContent: {
+         content: {
             create: {
                content: data.content,
             },
@@ -219,7 +219,7 @@ export class TemplateRepository {
                create: { name: catName, userId },
             })),
          },
-         promptContent: {
+         content: {
             update: {
                content: data.content,
             },
@@ -323,7 +323,7 @@ export class TemplateRepository {
                  },
               },
               {
-                 promptContent: {
+                 content: {
                     content: {
                        contains: search,
                        mode: "insensitive",
