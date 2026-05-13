@@ -15,7 +15,7 @@ const assertRendered = () => {
 
 describe("PromptsToolbar rendering tests", () => {
    it("PromptsToolbar - totalEntries 1 - test", async () => {
-      const filters = dtestData.dPromptDescriptorsFilter();
+      const filters = dtestData.dPrompt0sFilter();
 
       const { container } = renderWithRouter(
          <PromptsToolbar
@@ -34,7 +34,7 @@ describe("PromptsToolbar rendering tests", () => {
    });
 
    it("PromptsToolbar - totalEntries 5 - test", async () => {
-      const filters = dtestData.dPromptDescriptorsFilter();
+      const filters = dtestData.dPrompt0sFilter();
 
       const { container } = renderWithRouter(
          <PromptsToolbar

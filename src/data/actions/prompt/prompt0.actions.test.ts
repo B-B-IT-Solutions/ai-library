@@ -106,7 +106,7 @@ describe("getPromptss tests", () => {
       const page = dtestData.dPrompt0sPage();
       sGetPromptsMock.mockResolvedValue(page);
 
-      const query = dtestData.dPromptsPageQuery();
+      const query = dtestData.dPrompt0sPageQuery();
       const result = await getPrompts(query);
 
       expect(result).toEqual(page);
@@ -141,7 +141,7 @@ describe("getPromptCategories tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dPromptCategoriesString();
+      const categories = dtestData.dPrompt0CategoriesString();
       sGetPromptCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptCategories();

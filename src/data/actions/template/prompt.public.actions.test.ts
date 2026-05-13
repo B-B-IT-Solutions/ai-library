@@ -53,7 +53,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const error = new Error(errorMessage);
       sGetPublicTemplateDescriptorsPageMock.mockRejectedValue(error);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       const result = await getPublicTemplateDescriptorsPage(query);
 
       expect(result).toEqual(EMPTY_PAGE);
@@ -67,7 +67,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const page = dtestData.dPromptsPage();
       sGetPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
 
       const result = await getPublicTemplateDescriptorsPage(query);
 

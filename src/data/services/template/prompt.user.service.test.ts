@@ -46,7 +46,7 @@ describe("getTemplateDescriptorsPage tests", () => {
    it("getTemplateDescriptorsPage - descriptors retrieved - test", async () => {
       const userId = "user-id-1";
       const page = dtestData.dPromptsPage();
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       templateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(page);
 
       const result = await templateService.getTemplateDescriptorsPage(

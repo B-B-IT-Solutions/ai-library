@@ -56,7 +56,7 @@ describe("getPromptss tests", () => {
       const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
-      const query = dtestData.dPromptsPageQuery();
+      const query = dtestData.dPrompt0sPageQuery();
       const result = await promptService.getPrompts(userId, query);
 
       expect(result).toEqual(page);
@@ -75,7 +75,7 @@ describe("getPromptCategories tests", () => {
 
    it("getPromptCategories test", async () => {
       const userId = "user-id-1";
-      const categories = dtestData.dPromptCategories();
+      const categories = dtestData.dPrompt0Categories();
       promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
       const result = await promptService.getPromptCategories(userId);

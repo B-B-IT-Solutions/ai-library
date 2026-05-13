@@ -134,7 +134,7 @@ describe("getTemplateDescriptorsPage tests", () => {
       const page = dtestData.dPromptsPage();
       sGetTemplateDescriptorsPageMock.mockResolvedValue(page);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
 
       const result = await getTemplateDescriptorsPage(query);
 
@@ -634,7 +634,7 @@ describe("composePromptFromTemplate tests", () => {
          email: "test1@email.com",
          age: 30,
       };
-      const promptData = dtestData.dPromptUpdate();
+      const promptData = dtestData.dPrompt0Update();
       sComposePromptFromTemplateMock.mockResolvedValue(promptData);
 
       const result = await composePromptFromTemplate(templateId, fieldValues);
@@ -1067,7 +1067,7 @@ describe("getPromptTemplateCategories tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dPromptCategoriesString();
+      const categories = dtestData.dPrompt0CategoriesString();
       sGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptTemplateCategories();

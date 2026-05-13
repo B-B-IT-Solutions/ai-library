@@ -41,7 +41,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter undefined - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter = undefined;
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -56,7 +56,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter.collectionIds undefined - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = undefined;
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -71,7 +71,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter.collectionIds empty - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = [];
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -88,7 +88,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    it("collection not public - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
@@ -111,7 +111,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
          page
       );
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       const result =
          await templateService.getPublicTemplateDescriptorsPage(query);
 
