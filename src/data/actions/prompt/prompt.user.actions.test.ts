@@ -1,4 +1,4 @@
-﻿jest.mock("@/data/services/template");
+﻿jest.mock("@/data/services/prompt");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
