@@ -26,7 +26,7 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { FormDynamicValues, FormInput } from "@/components/shared/widgets";
-import { DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 const AI_MODELS = ["Claude", "ChatGPT", "Gemini", "Perplexity", "Midjourney"];
 

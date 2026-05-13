@@ -1,6 +1,6 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 import { PromptItem } from "./items/prompt-item";
 

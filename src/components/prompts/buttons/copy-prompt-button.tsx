@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { CopyButton } from "@/components/shared/buttons";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type CopyPromptButtonProps = {
    prompt: DPrompt0;

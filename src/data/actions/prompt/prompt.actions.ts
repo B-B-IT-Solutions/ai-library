@@ -11,7 +11,7 @@ import {
    DPrompt0sPage,
    DPrompt0sPageQuery,
    DPrompt0Update,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 
 export const getPrompts = async (
    query?: DPrompt0sPageQuery

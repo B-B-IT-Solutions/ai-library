@@ -8,7 +8,7 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type EditPromptButtonProps = {
    prompt: DPrompt0;

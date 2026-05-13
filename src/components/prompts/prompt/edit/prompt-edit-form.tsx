@@ -17,7 +17,7 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPrompt0, DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0, DPrompt0Update } from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { PromptContentEdit } from "./content/prompt-content-edit";

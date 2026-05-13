@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { DPrompt0FollowUp } from "@/data/types/domain/prompt";
+import { DPrompt0FollowUp } from "@/data/types/domain/prompt0";
 import { CopyPromptFollowUpButton } from "../../../buttons";
 
 type PromptFollowUpProps = {

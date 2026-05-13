@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-query";
 
 import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
-import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 

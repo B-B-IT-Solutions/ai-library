@@ -6,7 +6,7 @@ import { ChevronDown, ChevronLeft, History } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Separator } from "@/components/shadcn/separator";
-import { DPrompt0, DPrompt0Version } from "@/data/types/domain/prompt";
+import { DPrompt0, DPrompt0Version } from "@/data/types/domain/prompt0";
 
 import { PromptVersion } from "./prompt-version";
 

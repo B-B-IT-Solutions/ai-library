@@ -6,7 +6,7 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import {
    DPrompt0FollowUpUpdate,
    DPrompt0Update,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 
 import { PromptFollowUpsEdit } from "./prompt-follow-ups-edit";
 

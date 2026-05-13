@@ -7,7 +7,7 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import { forEach } from "es-toolkit/compat";
 
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
-import { DPrompt0sFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 import { toTestId } from "@/lib/utils";
 import { FiltersContext } from "../context";
 import { DFiltersContext } from "../types";

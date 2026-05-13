@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { DPrompt0sFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 import { DFiltersContext } from "./types";
 

@@ -7,7 +7,7 @@ import { Control } from "react-hook-form";
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
-import { DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 type PromptFollowUpEditProps = {
    index: number;

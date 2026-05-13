@@ -6,7 +6,7 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import { DPrompt0sPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 import {

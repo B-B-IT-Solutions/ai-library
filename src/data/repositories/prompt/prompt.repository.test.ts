@@ -3,8 +3,8 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { Prompt0sPage } from "@/data/types/db/prompt";
-import { DPrompt0sPageQuery } from "@/data/types/domain/prompt";
+import { Prompt0sPage } from "@/data/types/db/prompt0";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import {
    Prompt0CategoryFindManyArgs,
    Prompt0CountArgs,

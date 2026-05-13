@@ -4,7 +4,7 @@ import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type Props = {
    prompt: DPrompt0;

@@ -6,8 +6,8 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/template";
-import { DPrompt0Update } from "@/data/types/domain/prompt";
 import { DPromptFieldValues } from "@/data/types/domain/prompt.template";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 import {

@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { Calendar, ChevronDown, ChevronRight } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { DPrompt0Version } from "@/data/types/domain/prompt";
+import { DPrompt0Version } from "@/data/types/domain/prompt0";
 import { formatDateTime } from "@/lib/utils";
 
 type PromptVersionProps = {

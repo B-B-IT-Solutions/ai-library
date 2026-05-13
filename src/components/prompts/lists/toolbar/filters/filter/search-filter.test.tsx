@@ -6,7 +6,7 @@ import {
    assertInDocument,
 } from "@tests";
 
-import { DPrompt0sFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 import { FiltersContext } from "../context";
 import { DFiltersContext } from "../types";
 

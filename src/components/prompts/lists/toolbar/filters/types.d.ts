@@ -1,4 +1,4 @@
-import { DPrompt0sFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 export type DFiltersContext = {
    filters: DPrompt0sFilter;

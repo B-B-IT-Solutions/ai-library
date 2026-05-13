@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
 import { deletePrompt } from "@/data/actions/prompt";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type DeletePromptButtonProps = {
    prompt: DPrompt0;

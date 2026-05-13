@@ -1,6 +1,6 @@
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
-import { DPrompt0sFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 type Props = {
    viewMode: DListViewMode;

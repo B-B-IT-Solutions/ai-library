@@ -9,7 +9,7 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 import { PromptEdit } from "./prompt-edit";
 

@@ -9,7 +9,7 @@ import {
    DropdownMenuContent,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 import { DeletePromptButton } from "./delete-prompt-button";
 

@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 import { PromptContentEdit } from "./prompt-content-edit";
 

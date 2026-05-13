@@ -1,12 +1,12 @@
 import { map } from "es-toolkit/compat";
 
-import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import {
    DPrompt0,
    DPrompt0FollowUp,
    DPrompt0sPage,
    DPrompt0Version,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
 export const toDPromptDescriptorsPage = (

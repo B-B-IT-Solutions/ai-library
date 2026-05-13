@@ -43,7 +43,7 @@ import {
    DPrompt0FollowUpUpdate,
    DPrompt0Update,
    DPrompt0Version,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 import {
    DPromptCategory,
    DPromptField,

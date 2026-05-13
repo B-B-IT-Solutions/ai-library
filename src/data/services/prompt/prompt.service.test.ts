@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
-import { DPrompt0sPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import { PromptService } from "./prompt.service";
 

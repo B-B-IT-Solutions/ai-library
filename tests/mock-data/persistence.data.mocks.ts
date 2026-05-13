@@ -18,12 +18,12 @@ import {
    ProductWithDetails,
    ProductWithItems,
 } from "@/data/types/db/product";
-import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
 import {
    PromptContentWithFields,
    PromptWithCategories,
    PromptWithTemplate,
 } from "@/data/types/db/prompt.template";
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import {

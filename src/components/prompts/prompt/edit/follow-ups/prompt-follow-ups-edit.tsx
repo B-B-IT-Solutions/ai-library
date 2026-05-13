@@ -9,7 +9,7 @@ import { Button } from "@/components/shadcn/button";
 import {
    DPrompt0FollowUpUpdate,
    DPrompt0Update,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 

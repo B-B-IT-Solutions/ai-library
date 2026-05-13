@@ -6,7 +6,7 @@ import {
    DPrompt0sPage,
    DPrompt0sPageQuery,
    DPrompt0Update,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 export class PromptService {

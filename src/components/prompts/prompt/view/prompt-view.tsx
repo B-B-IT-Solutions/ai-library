@@ -5,7 +5,7 @@ import {
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptViewForm } from "./prompt-view-form";

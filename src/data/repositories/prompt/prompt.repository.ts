@@ -1,7 +1,7 @@
 import { filter, isEmpty, map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt";
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import {
    DPrompt0,
    DPrompt0Category,
@@ -9,7 +9,7 @@ import {
    DPrompt0sPage,
    DPrompt0sPageQuery,
    DPrompt0Update,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt0";
 import {
    Prompt0CategoryCreateOrConnectWithoutPromptsInput,
    Prompt0CreateInput,

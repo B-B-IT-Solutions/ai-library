@@ -8,7 +8,7 @@ import {
    CardContent,
    CardHeader,
 } from "@/components/shadcn/card";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { formatDateTime } from "@/lib/utils";
 import {
    CopyPromptButton,

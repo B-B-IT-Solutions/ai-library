@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPrompt0Update } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 import { BasicInfoEdit } from "./basic-info-edit";
 

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 
 import { MDRenderer } from "@/components/shared/md";
-import { DPrompt0 } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { CopyPromptButton } from "../../../buttons";
 
 type PromptContentProps = {

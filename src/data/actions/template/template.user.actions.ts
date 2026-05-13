@@ -7,7 +7,6 @@ import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DPrompt0Update } from "@/data/types/domain/prompt";
 import {
    DPromptFieldValues,
    DPromptTemplate,
@@ -17,6 +16,7 @@ import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 type DGetPromptTemplatesParams = {

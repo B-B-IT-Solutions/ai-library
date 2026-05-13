@@ -12,7 +12,7 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
-import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import {
    infiniteLoadPromptsOptions,
