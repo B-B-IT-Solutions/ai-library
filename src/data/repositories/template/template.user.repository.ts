@@ -1,7 +1,7 @@
 ﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt";
+import { PromptWithCategories, PromptWithFieldsAndContent } from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptCategory,
@@ -120,18 +120,16 @@ export class TemplateRepository {
       userId: string,
       id: string
    ): Promise<DPromptContent | null> {
-      const template = await this.prisma.promptContent.findFirst({
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+      const prompt = await this.prisma.prompt.findFirst({
+         where: { id, userId },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
       });
 
-      return template ? toDPromptTemplate(template) : null;
+      return prompt ? toDPromptTemplate(prompt as PromptWithFieldsAndContent) : null;
    }
 
    async pGetPromptTemplateCategories(
@@ -164,25 +162,25 @@ export class TemplateRepository {
          promptContent: {
             create: {
                content: data.content,
-               fields: {
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
          user: {
             connect: {
@@ -220,27 +218,27 @@ export class TemplateRepository {
          promptContent: {
             update: {
                content: data.content,
-               fields: {
-                  deleteMany: {},
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  deleteMany: {},
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            deleteMany: {},
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            deleteMany: {},
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
       };
 

@@ -5,7 +5,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
@@ -209,48 +208,42 @@ describe("pGetPublicPromptTemplate tests", () => {
    });
 
    test("template null - test", async () => {
-      prismaMock.promptContent.findFirst.mockResolvedValue(null);
+      prismaMock.prompt.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
 
-      const expectedArgs: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-         },
+      const expectedArgs: PromptFindFirstArgs = {
+         where: { id },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedArgs);
    });
 
    test("template retrieved - test", async () => {
       const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
+      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedArgs: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-         },
+      const expectedArgs: PromptFindFirstArgs = {
+         where: { id },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedArgs);
    });
 });

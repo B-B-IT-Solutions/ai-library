@@ -13,7 +13,6 @@ import {
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -772,53 +771,45 @@ describe("pGetPromptTemplate tests", () => {
    });
 
    test("pGetPromptTemplate - template null - test", async () => {
-      prismaMock.promptContent.findFirst.mockResolvedValue(null);
+      prismaMock.prompt.findFirst.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
 
-      const expectedWhere: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+      const expectedWhere: PromptFindFirstArgs = {
+         where: { id, userId },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 
    test("pGetPromptTemplate - template retrieved - test", async () => {
       const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
+      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedWhere: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+      const expectedWhere: PromptFindFirstArgs = {
+         where: { id, userId },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 });
 
@@ -882,25 +873,25 @@ describe("pCreatePrompt tests", () => {
          promptContent: {
             create: {
                content: data.content,
-               fields: {
-                  create: map(data.fields, (field: DPromptUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            create: map(data.fields, (field: DPromptUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
          user: {
             connect: {
@@ -948,27 +939,27 @@ describe("pUpdatePrompt tests", () => {
          promptContent: {
             update: {
                content: data.content,
-               fields: {
-                  deleteMany: {},
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  deleteMany: {},
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            deleteMany: {},
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            deleteMany: {},
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
       };
 

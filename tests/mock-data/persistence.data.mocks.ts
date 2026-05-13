@@ -19,8 +19,8 @@ import {
    ProductWithItems,
 } from "@/data/types/db/product";
 import {
-   PromptContentWithFields,
    PromptWithCategories,
+   PromptWithFieldsAndContent,
    PromptWithTemplate,
 } from "@/data/types/db/prompt";
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
@@ -49,6 +49,7 @@ import {
    Prompt0FollowUp,
    Prompt0Version,
    PromptCategory,
+   PromptContent,
    PromptField,
    PromptGlobalField,
    Subscription,
@@ -453,11 +454,11 @@ export const pCartItem = (index = 1): CartItem => {
 };
 
 export const pPromptWithTemplate = (index = 1): PromptWithTemplate => {
-   const templateDescriptor = pPromptWithCategories(index);
-   const promptContent = pPromptTemplate(index);
    return {
-      ...templateDescriptor,
-      promptContent,
+      ...pPromptWithCategories(index),
+      promptContent: pPromptContent(index),
+      fields: pPromptFields(3),
+      globalFields: pPromptGlobalFields(),
    };
 };
 
@@ -491,14 +492,19 @@ export const pPrompt = (index = 1): Prompt => {
    };
 };
 
-export const pPromptTemplate = (index = 1): PromptContentWithFields => {
+export const pPromptContent = (index = 1): PromptContent => {
    return {
-      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       content: `content ${index}`,
+   };
+};
+
+export const pPromptTemplate = (index = 1): PromptWithFieldsAndContent => {
+   return {
+      ...pPrompt(index),
+      promptContent: pPromptContent(index),
       fields: pPromptFields(3),
       globalFields: pPromptGlobalFields(),
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
    };
 };
 

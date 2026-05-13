@@ -215,13 +215,13 @@ ALTER TABLE "prompt0_version" ADD CONSTRAINT "prompt0_version_prompt_id_fkey" FO
 ALTER TABLE "prompt0_follow_up" ADD CONSTRAINT "prompt0_follow_up_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt0"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prompt_global_field" ADD CONSTRAINT "prompt_global_field_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt_content"("prompt_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "prompt_global_field" ADD CONSTRAINT "prompt_global_field_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "prompt_global_field" ADD CONSTRAINT "prompt_global_field_global_field_id_fkey" FOREIGN KEY ("global_field_id") REFERENCES "global_field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prompt_field" ADD CONSTRAINT "prompt_field_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt_content"("prompt_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "prompt_field" ADD CONSTRAINT "prompt_field_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_Prompt0ToPrompt0Category" ADD CONSTRAINT "_Prompt0ToPrompt0Category_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt0"("id") ON DELETE CASCADE ON UPDATE CASCADE;

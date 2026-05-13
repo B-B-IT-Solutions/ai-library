@@ -1,5 +1,5 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt";
+import { PromptWithCategories, PromptWithFieldsAndContent } from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptContent,
@@ -7,7 +7,6 @@ import {
    DPromptsPageQuery,
 } from "@/data/types/domain/prompt";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
@@ -83,17 +82,16 @@ export class PublicTemplateRepository {
 
    async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
       const args = {
-         where: {
-            promptId: id,
-         },
+         where: { id },
          include: {
+            promptContent: true,
             fields: true,
             globalFields: true,
          },
-      } satisfies PromptContentFindFirstArgs;
+      } satisfies PromptFindFirstArgs;
 
-      const template = await this.prisma.promptContent.findFirst(args);
+      const prompt = await this.prisma.prompt.findFirst(args);
 
-      return template ? toDPromptTemplate(template) : null;
+      return prompt ? toDPromptTemplate(prompt as PromptWithFieldsAndContent) : null;
    }
 }

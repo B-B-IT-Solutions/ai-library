@@ -1,8 +1,8 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import {
-   PromptContentWithFields,
    PromptWithCategories,
+   PromptWithFieldsAndContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
@@ -33,11 +33,11 @@ export const toDTemplateDescriptor = (
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptContentWithFields
+   prompt: PromptWithFieldsAndContent
 ): DPromptContent => {
    return {
-      id: prompt.promptId,
-      content: prompt.content,
+      id: prompt.id,
+      content: prompt.promptContent.content,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };
