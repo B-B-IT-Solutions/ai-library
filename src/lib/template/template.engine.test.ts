@@ -102,7 +102,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "email",
             label: "Email",
             type: "EMAIL",
@@ -113,7 +113,7 @@ describe("TemplateEngine.validate - tests", () => {
          },
          {
             id: "2",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "age",
             label: "Age",
             type: "NUMBER",
@@ -136,7 +136,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "name",
             label: "Name",
             type: "TEXT",
@@ -160,7 +160,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "name",
             label: "Name",
             type: "TEXT",
@@ -184,7 +184,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "email",
             label: "Email",
             type: "EMAIL",
@@ -208,7 +208,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "email",
             label: "Email",
             type: "EMAIL",
@@ -228,7 +228,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "age",
             label: "Age",
             type: "NUMBER",
@@ -252,7 +252,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "age",
             label: "Age",
             type: "NUMBER",
@@ -272,7 +272,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "age",
             label: "Age",
             type: "NUMBER",
@@ -292,7 +292,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "optional",
             label: "Optional Field",
             type: "TEXT",
@@ -312,7 +312,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "name",
             label: "Name",
             type: "TEXT",
@@ -323,7 +323,7 @@ describe("TemplateEngine.validate - tests", () => {
          },
          {
             id: "2",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "email",
             label: "Email",
             type: "EMAIL",
@@ -334,7 +334,7 @@ describe("TemplateEngine.validate - tests", () => {
          },
          {
             id: "3",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "age",
             label: "Age",
             type: "NUMBER",
@@ -364,7 +364,7 @@ describe("TemplateEngine.validate - tests", () => {
       const fields: DPromptField[] = [
          {
             id: "1",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "textarea",
             label: "Textarea",
             type: "TEXTAREA",
@@ -375,7 +375,7 @@ describe("TemplateEngine.validate - tests", () => {
          },
          {
             id: "2",
-            promptTemplateId: "template1",
+            promptId: "template1",
             name: "select",
             label: "Select",
             type: "SELECT",

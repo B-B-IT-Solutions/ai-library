@@ -62,7 +62,7 @@ export const toDTemplateFieldsInternal = (
 
 export const toDTemplateFieldInternal = (field: PromptField): DPromptField => ({
    id: field.id,
-   promptTemplateId: field.promptTemplateId,
+   promptId: field.promptId,
    name: field.name,
    label: field.label,
    description: field.description,

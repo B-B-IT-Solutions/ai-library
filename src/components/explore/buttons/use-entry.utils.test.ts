@@ -35,7 +35,7 @@ const toCatalogEntryTemplateDataInternal = (
          content: entry.content,
          fields: entry.fields.map((f) => ({
             ...f,
-            promptTemplateId: f.catalogEntryId,
+            promptId: f.catalogEntryId,
          })),
          globalFieldIds: [],
          updatedAt: entry.updatedAt,
@@ -43,7 +43,7 @@ const toCatalogEntryTemplateDataInternal = (
       },
       allFields: entry.fields.map((f) => ({
          ...f,
-         promptTemplateId: f.catalogEntryId,
+         promptId: f.catalogEntryId,
       })),
    };
 };

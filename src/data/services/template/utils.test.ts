@@ -20,7 +20,7 @@ describe("resolveAllTemplateFields tests", () => {
    ): DPromptField => {
       return {
          id: gf.id,
-         promptTemplateId: "",
+         promptId: "",
          name: gf.name,
          label: gf.label,
          description: gf.description,
@@ -38,7 +38,7 @@ describe("resolveAllTemplateFields tests", () => {
    ): DPromptField => {
       return {
          id: name,
-         promptTemplateId: "",
+         promptId: "",
          name,
          label: name,
          description: null,
