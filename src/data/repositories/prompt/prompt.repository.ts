@@ -6,7 +6,7 @@ import {
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
-   DPromptCategory,
+   DPrompt0Category,
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
@@ -97,7 +97,7 @@ export class PromptRepository {
       return null;
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
+   async pGetPromptCategories(userId: string): Promise<DPrompt0Category[]> {
       return await this.prisma.prompt0Category.findMany({
          where: { userId },
          select: {

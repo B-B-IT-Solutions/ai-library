@@ -829,11 +829,11 @@ describe("pGetPromptTemplateCategories queries tests", () => {
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
-      prismaMock.promptTemplateCategory.findMany.mockResolvedValue(categories);
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
       const result = await repository.pGetPromptTemplateCategories(userId);
 
-      const expectedFindMayArgs: Prisma.PromptTemplateCategoryFindManyArgs = {
+      const expectedFindMayArgs: Prisma.PromptCategoryFindManyArgs = {
          where: { userId },
          select: {
             name: true,
@@ -884,19 +884,16 @@ describe("pCreatePrompt tests", () => {
             create: {
                content: data.content,
                fields: {
-                  create: map(
-                     data.fields,
-                     (field: DPromptFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   create: map(data.globalFieldIds, (id, idx) => ({
@@ -954,19 +951,16 @@ describe("pUpdatePrompt tests", () => {
                content: data.content,
                fields: {
                   deleteMany: {},
-                  create: map(
-                     data.fields,
-                     (field: DPromptFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   deleteMany: {},

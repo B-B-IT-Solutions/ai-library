@@ -22,7 +22,7 @@ export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
 
 export type DPromptTemplateUpdate = z.infer<typeof updateTemplateSchema>;
 
-export type DPromptTemplateCategory = {
+export type DPromptCategory = {
    name: string;
 };
 
@@ -45,7 +45,7 @@ export type DPromptTemplateDescriptor = {
    title: string;
    description: string;
    recommendedModel: string;
-   categories: DPromptTemplateCategory[];
+   categories: DPromptCategory[];
    isFavorite: boolean;
    updatedAt: string;
    createdAt: string;

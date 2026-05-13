@@ -51,9 +51,9 @@ import {
    Prompt0Category,
    Prompt0FollowUp,
    Prompt0Version,
+   PromptCategory,
    PromptField,
    PromptGlobalField,
-   PromptTemplateCategory,
    Subscription,
    SubscriptionHistory,
    SubscriptionPlan,
@@ -524,13 +524,11 @@ export const pPromptField = (index = 1): PromptField => {
    };
 };
 
-export const pPromptTemplateCategories = (
-   count = 3
-): PromptTemplateCategory[] => {
-   return range(0, count).map((i) => pPromptTemplateCategory(i));
+export const pPromptTemplateCategories = (count = 3): PromptCategory[] => {
+   return range(0, count).map((i) => pPromptCategory(i));
 };
 
-export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
+export const pPromptCategory = (index = 1): PromptCategory => {
    return {
       id: Math.random(),
       userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
@@ -560,7 +558,7 @@ export const pPromptDescriptorWithRelations = (
    index = 1
 ): PromptDescriptorWithRelations => {
    const descriptor = pPromptDescriptor(index);
-   const categories = pPromptCategories();
+   const categories = pPrompt0Categories();
    const promptFollowUps = pPromptFollowUps();
    const versions = pPromptVersions();
    return {
@@ -616,11 +614,11 @@ export const pPromptDescriptorUpdateInput = (index = 1): Prompt0UpdateInput => {
    };
 };
 
-export const pPromptCategories = (count = 3): Prompt0Category[] => {
-   return range(0, count).map((i) => pPromptCategory(i));
+export const pPrompt0Categories = (count = 3): Prompt0Category[] => {
+   return range(0, count).map((i) => pPrompt0Category(i));
 };
 
-export const pPromptCategory = (index = 1): Prompt0Category => {
+export const pPrompt0Category = (index = 1): Prompt0Category => {
    return {
       id: Math.random(),
       userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,

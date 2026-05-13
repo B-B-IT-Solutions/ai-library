@@ -1,9 +1,9 @@
 ﻿import {
    Prompt,
+   PromptCategory,
    PromptContent,
    PromptField,
    PromptGlobalField,
-   PromptTemplateCategory,
 } from "@/generated/prisma/client";
 
 export type PromptContentWithFields = PromptContent & {
@@ -12,10 +12,10 @@ export type PromptContentWithFields = PromptContent & {
 };
 
 export type PromptWithCategories = Prompt & {
-   categories: PromptTemplateCategory[];
+   categories: PromptCategory[];
 };
 
 export type PromptWithTemplate = Prompt & {
-   categories: PromptTemplateCategory[];
+   categories: PromptCategory[];
    promptContent: PromptContentWithFields;
 };

@@ -32,7 +32,7 @@ model User {
   globalTemplateFields      GlobalTemplateField[]
   promptDescriptors         Prompt0[]
   promptCategories          Prompt0Category[]
-  promptTemplateCategories  PromptTemplateCategory[]
+  promptTemplateCategories  PromptCategory[]
   prompts                   Prompt[]
 
   @@map("user")
@@ -160,7 +160,7 @@ model Prompt {
   userId           String                   @map("user_id") @db.Uuid
   title            String                   @db.VarChar(250)
   description      String                   @db.VarChar(750)
-  categories       PromptTemplateCategory[]
+  categories       PromptCategory[]
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
   isFavorite       Boolean                  @default(false) @map("is_favorite")
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
@@ -233,7 +233,7 @@ enum PromptFieldType {
   @@map("prompt_field_type")
 }
 
-model PromptTemplateCategory {
+model PromptCategory {
   id        Int      @id @default(autoincrement())
   userId    String   @map("user_id") @db.Uuid
   name      String   @db.VarChar(250)
@@ -242,7 +242,7 @@ model PromptTemplateCategory {
 
   @@unique([userId, name])
   @@index([userId])
-  @@map("prompt_template_category")
+  @@map("prompt_category")
 }
 
 model GlobalTemplateField {

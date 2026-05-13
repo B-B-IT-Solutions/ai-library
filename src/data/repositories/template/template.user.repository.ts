@@ -3,10 +3,10 @@
 import { DbClient } from "@/data/types/db/common";
 import { PromptWithCategories } from "@/data/types/db/prompt.template";
 import {
+   DPromptCategory,
    DPromptFieldType,
    DPromptFieldUpdate,
    DPromptTemplate,
-   DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -136,8 +136,8 @@ export class TemplateRepository {
 
    async pGetPromptTemplateCategories(
       userId: string
-   ): Promise<DPromptTemplateCategory[]> {
-      return await this.prisma.promptTemplateCategory.findMany({
+   ): Promise<DPromptCategory[]> {
+      return await this.prisma.promptCategory.findMany({
          where: { userId },
          select: {
             name: true,

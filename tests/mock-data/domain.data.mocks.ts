@@ -34,7 +34,7 @@ import {
    DUseCase,
 } from "@/data/types/domain/product";
 import {
-   DPromptCategory,
+   DPrompt0Category,
    DPromptDescriptor,
    DPromptDescriptorsFilter,
    DPromptDescriptorsPage,
@@ -45,11 +45,11 @@ import {
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
+   DPromptCategory,
    DPromptField,
    DPromptFieldUpdate,
    DPromptFieldValues,
    DPromptTemplate,
-   DPromptTemplateCategory,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateUpdate,
@@ -608,13 +608,11 @@ export const dPromptTemplateCategoriesString = (count = 3): string[] => {
    return map(dPromptTemplateCategories(count), (c) => c.name);
 };
 
-export const dPromptTemplateCategories = (
-   count = 3
-): DPromptTemplateCategory[] => {
+export const dPromptTemplateCategories = (count = 3): DPromptCategory[] => {
    return range(0, count).map((i) => dPromptTemplateCategory(i));
 };
 
-export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
+export const dPromptTemplateCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
    };
@@ -807,11 +805,11 @@ export const dPromptCategoriesString = (count = 3): string[] => {
    return map(dPromptCategories(count), (c) => c.name);
 };
 
-export const dPromptCategories = (count = 3): DPromptCategory[] => {
+export const dPromptCategories = (count = 3): DPrompt0Category[] => {
    return range(0, count).map((i) => dPromptTemplateCategory(i));
 };
 
-export const dPromptCategory = (index = 1): DPromptCategory => {
+export const dPromptCategory = (index = 1): DPrompt0Category => {
    return {
       name: `category ${index}`,
    };

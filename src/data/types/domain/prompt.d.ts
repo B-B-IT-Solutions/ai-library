@@ -8,7 +8,7 @@ export type DPromptFollowUpUpdate = z.infer<typeof updatePromptFollowUpSchema>;
 
 export type DPromptUpdate = z.infer<typeof updatePromptSchema>;
 
-export type DPromptCategory = {
+export type DPrompt0Category = {
    name: string;
 };
 
@@ -19,7 +19,7 @@ export type DPromptDescriptor = {
    recommendedModel: string;
    isFavorite: boolean;
    currentVersion: number;
-   categories: DPromptCategory[];
+   categories: DPrompt0Category[];
    versions: DPromptVersion[];
    followUpPrompts: DPromptFollowUp[];
    updatedAt: string;
