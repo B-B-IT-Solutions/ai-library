@@ -28,7 +28,7 @@ export const toCatalogEntryTemplateData = (
          content: entry.content,
          fields: entry.fields.map((f) => ({
             ...f,
-            promptTemplateId: f.catalogEntryId,
+            promptId: f.catalogEntryId,
          })),
          globalFieldIds: [],
          updatedAt: entry.updatedAt,
@@ -36,7 +36,7 @@ export const toCatalogEntryTemplateData = (
       },
       allFields: entry.fields.map((f) => ({
          ...f,
-         promptTemplateId: f.catalogEntryId,
+         promptId: f.catalogEntryId,
       })),
    };
 };

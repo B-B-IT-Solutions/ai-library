@@ -56,7 +56,7 @@ const createField = (
 ): DPromptField => {
    return {
       id: `field-${name}`,
-      promptTemplateId: "1",
+      promptId: "1",
       name,
       label,
       type,

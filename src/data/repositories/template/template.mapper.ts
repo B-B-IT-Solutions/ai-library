@@ -52,7 +52,7 @@ export const toDTemplateFields = (fields: PromptField[]): DPromptField[] => {
 export const toDTemplateField = (field: PromptField): DPromptField => {
    return {
       id: field.id,
-      promptTemplateId: field.promptTemplateId,
+      promptId: field.promptId,
       name: field.name,
       label: field.label,
       description: field.description,

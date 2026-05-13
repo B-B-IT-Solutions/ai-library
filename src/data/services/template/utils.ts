@@ -37,7 +37,7 @@ const globalFieldsToTemplateFields = (
 const globalFieldToTemplateField = (gf: DGlobalTemplateField): DPromptField => {
    return {
       id: gf.id,
-      promptTemplateId: "",
+      promptId: "",
       name: gf.name,
       label: gf.label,
       description: gf.description,
@@ -63,7 +63,7 @@ const missingVariableToTemplateField = (
 ): DPromptField => {
    return {
       id: name,
-      promptTemplateId: "",
+      promptId: "",
       name,
       label: name,
       description: null,

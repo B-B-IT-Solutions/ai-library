@@ -29,7 +29,7 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = "" }) => {
 
 const baseField: DPromptField = {
    id: "test-textarea",
-   promptTemplateId: "1",
+   promptId: "1",
    name: "name-1",
    description: "This is a test description",
    label: "Test TextArea",

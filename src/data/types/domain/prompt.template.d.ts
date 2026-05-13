@@ -65,7 +65,7 @@ export type DPromptFieldValueType = string | number | null | undefined;
 
 export type DPromptField = {
    id: string;
-   promptTemplateId: string;
+   promptId: string;
    name: string;
    label: string;
    description: string | null;

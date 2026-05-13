@@ -567,7 +567,7 @@ export const dPromptFields = (count = 3): DPromptField[] => {
 export const dPromptField = (index = 1): DPromptField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
-      promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       name: `field_${index}`,
       label: `label ${index}`,
       description: `description ${index}`,

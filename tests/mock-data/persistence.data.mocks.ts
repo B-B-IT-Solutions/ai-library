@@ -512,7 +512,7 @@ export const pPromptFields = (count = 3): PromptField[] => {
 export const pPromptField = (index = 1): PromptField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
-      promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       name: `field ${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
