@@ -233,7 +233,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
          templateId
       );
       expect(
-         settingsServiceMock.getGlobalTemplateFieldsByIds
+         settingsServiceMock.getGlobalPromptFieldsByIds
       ).not.toHaveBeenCalled();
    });
 
@@ -242,8 +242,8 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       const template = dtestData.dPromptTemplate();
       templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
-      const globalFields = dtestData.dGlobalTemplateFields();
-      settingsServiceMock.getGlobalTemplateFieldsByIds.mockResolvedValue(
+      const globalFields = dtestData.dGlobalPromptFields();
+      settingsServiceMock.getGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
@@ -267,10 +267,10 @@ describe("getTemplateDataForPromptGeneration tests", () => {
          id
       );
       expect(
-         settingsServiceMock.getGlobalTemplateFieldsByIds
+         settingsServiceMock.getGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
       expect(
-         settingsServiceMock.getGlobalTemplateFieldsByIds
+         settingsServiceMock.getGlobalPromptFieldsByIds
       ).toHaveBeenCalledWith(userId, globalFieldIds);
    });
 });

@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { GlobalTemplateFieldDeleteConfirmDialog } from "../dialogs";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
+import { GlobalPromptFieldDeleteConfirmDialog } from "../dialogs";
 
 type Props = {
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
 };
 
 export const DeleteTemplateFieldButton = ({ field }: Props) => {
@@ -33,7 +33,7 @@ export const DeleteTemplateFieldButton = ({ field }: Props) => {
          >
             <Trash2 className="h-4 w-4 text-destructive" />
          </Button>
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={open}
             onClose={closeDialog}
             field={field}

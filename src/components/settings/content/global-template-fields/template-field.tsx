@@ -1,14 +1,14 @@
 import { Badge } from "@/components/shadcn/badge";
 import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { DeleteTemplateFieldButton, EditTemplateFieldButton } from "./buttons";
 
 type Props = {
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
 };
 
-export const GlobalTemplateFieldItem = ({ field }: Props) => {
+export const GlobalPromptFieldItem = ({ field }: Props) => {
    return (
       <div
          key={field.id}

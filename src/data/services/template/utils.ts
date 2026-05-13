@@ -4,12 +4,12 @@ import {
    DPromptField,
    DPromptTemplate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
 export const resolveAllTemplateFields = (
    template: DPromptTemplate,
-   globalFields: DGlobalTemplateField[]
+   globalFields: DGlobalPromptField[]
 ) => {
    const allFieldNames = new Set([
       ...map(template.fields, (f) => f.name),
@@ -29,12 +29,12 @@ export const resolveAllTemplateFields = (
 };
 
 const globalFieldsToTemplateFields = (
-   gfs: DGlobalTemplateField[]
+   gfs: DGlobalPromptField[]
 ): DPromptField[] => {
    return map(gfs, globalFieldToTemplateField);
 };
 
-const globalFieldToTemplateField = (gf: DGlobalTemplateField): DPromptField => {
+const globalFieldToTemplateField = (gf: DGlobalPromptField): DPromptField => {
    return {
       id: gf.id,
       promptId: "",

@@ -1,5 +1,5 @@
 export type {
    DSettingsSection,
-   DGlobalTemplateFieldUpdate,
-   DGlobalTemplateField,
+   DGlobalPromptFieldUpdate,
+   DGlobalPromptField,
 } from "./settings";

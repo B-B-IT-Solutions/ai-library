@@ -26,7 +26,7 @@ const assertDialogNotRendered = () => {
 
 describe("DeleteTemplateFieldButton rendering tests", () => {
    it("DeleteTemplateFieldButton rendered test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = renderWithRouter(
          <DeleteTemplateFieldButton field={field} />
@@ -43,7 +43,7 @@ describe("DeleteTemplateFieldButton rendering tests", () => {
 
 describe("DeleteTemplateFieldButton functionality tests", () => {
    it("DeleteTemplateFieldButton - delete btn clicked - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
 
       renderWithRouter(<DeleteTemplateFieldButton field={field} />);
 

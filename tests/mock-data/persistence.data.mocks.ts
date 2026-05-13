@@ -36,7 +36,7 @@ import {
    CatalogEntry,
    CatalogEntryContent,
    CatalogEntryField,
-   GlobalTemplateField,
+   GlobalPromptField,
    LibraryCollectionEntry,
    Order,
    OrderItem,
@@ -666,11 +666,11 @@ export const pPromptGlobalField = (index = 1): PromptGlobalField => {
    };
 };
 
-export const pGlobalTemplateFields = (count = 3): GlobalTemplateField[] => {
-   return range(0, count).map((i) => pGlobalTemplateField(i));
+export const pGlobalPromptFields = (count = 3): GlobalPromptField[] => {
+   return range(0, count).map((i) => pGlobalPromptField(i));
 };
 
-export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
+export const pGlobalPromptField = (index = 1): GlobalPromptField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,

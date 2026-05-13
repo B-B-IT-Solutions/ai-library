@@ -141,7 +141,7 @@ describe("TemplateEditForm rendering tests", () => {
    it("existing entry - rendered - test", () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
          <TemplateEditForm
@@ -158,7 +158,7 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - variables detected in content - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
 
@@ -186,7 +186,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("add global field btn clicked - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -215,7 +215,7 @@ describe("TemplateEditForm functionality tests", () => {
    it("remove global field btn clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
 
       render(
          <TemplateEditForm
@@ -237,7 +237,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("add new template field btn clicked - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -254,7 +254,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("remove template field btn clicked - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -276,7 +276,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("add variable as field - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -310,7 +310,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("sync all variables - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -349,7 +349,7 @@ describe("TemplateEditForm functionality tests", () => {
       };
       createTemplateDescriptorMock.mockResolvedValue(result);
 
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -396,7 +396,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
 
       render(
          <TemplateEditForm
@@ -448,7 +448,7 @@ describe("TemplateEditForm functionality tests", () => {
       };
       createTemplateDescriptorMock.mockResolvedValue(result);
 
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
@@ -496,7 +496,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
 
       render(
          <TemplateEditForm

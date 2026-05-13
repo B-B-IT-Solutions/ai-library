@@ -1,7 +1,7 @@
 import { SettingsRepository } from "@/data/repositories/settings";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 
 export class SettingsService {
@@ -11,45 +11,45 @@ export class SettingsService {
       this.settingsRepository = settingsRepository;
    }
 
-   async getGlobalTemplateFields(
+   async getGlobalPromptFields(
       userId: string
-   ): Promise<DGlobalTemplateField[]> {
-      return await this.settingsRepository.pGetGlobalTemplateFields(userId);
+   ): Promise<DGlobalPromptField[]> {
+      return await this.settingsRepository.pGetGlobalPromptFields(userId);
    }
 
-   async getGlobalTemplateFieldsByIds(
+   async getGlobalPromptFieldsByIds(
       userId: string,
       ids: string[]
-   ): Promise<DGlobalTemplateField[]> {
-      return await this.settingsRepository.pGetGlobalTemplateFieldsByIds(
+   ): Promise<DGlobalPromptField[]> {
+      return await this.settingsRepository.pGetGlobalPromptFieldsByIds(
          userId,
          ids
       );
    }
 
-   async createGlobalTemplateField(
+   async createGlobalPromptField(
       userId: string,
-      data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalTemplateField> {
-      return await this.settingsRepository.pCreateGlobalTemplateField(
+      data: DGlobalPromptFieldUpdate
+   ): Promise<DGlobalPromptField> {
+      return await this.settingsRepository.pCreateGlobalPromptField(
          userId,
          data
       );
    }
 
-   async updateGlobalTemplateField(
+   async updateGlobalPromptField(
       userId: string,
       id: string,
-      data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalTemplateField> {
-      return await this.settingsRepository.pUpdateGlobalTemplateField(
+      data: DGlobalPromptFieldUpdate
+   ): Promise<DGlobalPromptField> {
+      return await this.settingsRepository.pUpdateGlobalPromptField(
          userId,
          id,
          data
       );
    }
 
-   async deleteGlobalTemplateField(userId: string, id: string): Promise<void> {
-      await this.settingsRepository.pDeleteGlobalTemplateField(userId, id);
+   async deleteGlobalPromptField(userId: string, id: string): Promise<void> {
+      await this.settingsRepository.pDeleteGlobalPromptField(userId, id);
    }
 }

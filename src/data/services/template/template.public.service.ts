@@ -52,7 +52,7 @@ export class PublicTemplateService {
 
       if (template) {
          const globalFields =
-            await this.settingService.getPublicGlobalTemplateFieldsByIds(
+            await this.settingService.getPublicGlobalPromptFieldsByIds(
                template.globalFieldIds
             );
 

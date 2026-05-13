@@ -14,27 +14,27 @@ const settingsRepoMock =
 
 const settingsService = new PublicSettingsService(settingsRepoMock);
 
-describe("getPublicGlobalTemplateFieldsByIds tests", () => {
+describe("getPublicGlobalPromptFieldsByIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("fields retrieved - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      settingsRepoMock.pGetPublicGlobalTemplateFieldsByIds.mockResolvedValue(
+      const fields = dtestData.dGlobalPromptFields();
+      settingsRepoMock.pGetPublicGlobalPromptFieldsByIds.mockResolvedValue(
          fields
       );
 
-      const ids = dtestData.dGlobalTemplateFieldIds();
+      const ids = dtestData.dGlobalPromptFieldIds();
       const result =
-         await settingsService.getPublicGlobalTemplateFieldsByIds(ids);
+         await settingsService.getPublicGlobalPromptFieldsByIds(ids);
 
       expect(result).toEqual(fields);
       expect(
-         settingsRepoMock.pGetPublicGlobalTemplateFieldsByIds
+         settingsRepoMock.pGetPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
       expect(
-         settingsRepoMock.pGetPublicGlobalTemplateFieldsByIds
+         settingsRepoMock.pGetPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledWith(ids);
    });
 });

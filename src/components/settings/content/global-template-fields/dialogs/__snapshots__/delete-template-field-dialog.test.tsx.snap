@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalTemplateFieldDeleteConfirmDialog rendering tests GlobalTemplateFieldDeleteConfirmDialog - open true - test 1`] = `
+exports[`GlobalPromptFieldDeleteConfirmDialog rendering tests GlobalPromptFieldDeleteConfirmDialog - open true - test 1`] = `
 <div>
   <div
     data-slot="alert-dialog"

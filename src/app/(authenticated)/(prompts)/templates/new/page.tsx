@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 
 import { TemplateEdit } from "@/components/templates";
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Neue Vorlage",
 };
 
 export const NewTemplatePage = async () => {
-   const globalFields = await getGlobalTemplateFields();
+   const globalFields = await getGlobalPromptFields();
 
    return (
       <div

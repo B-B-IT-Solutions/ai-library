@@ -1,8 +1,8 @@
 import { ZodError } from "zod";
 
-import { globalTemplateFieldSchema } from "./settings.schema";
+import { globalPromptFieldSchema } from "./settings.schema";
 
-describe("globalTemplateFieldSchema tests", () => {
+describe("globalPromptFieldSchema tests", () => {
    const validField = {
       name: "fieldName",
       label: "Field Label",
@@ -23,30 +23,30 @@ describe("globalTemplateFieldSchema tests", () => {
          order: 1,
       };
 
-      const result = globalTemplateFieldSchema.parse(fieldData);
+      const result = globalPromptFieldSchema.parse(fieldData);
       expect(result).toEqual(fieldData);
    });
 
    it("data valid - only required fields - test", () => {
-      const result = globalTemplateFieldSchema.parse(validField);
+      const result = globalPromptFieldSchema.parse(validField);
       expect(result).toEqual(validField);
    });
 
    describe("name validation", () => {
       it("name - empty string - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({ ...validField, name: "" });
+            globalPromptFieldSchema.parse({ ...validField, name: "" });
          expect(fn).toThrow(ZodError);
       });
 
       it("name - missing - invalid - test", () => {
          const { name: _, ...withoutName } = validField;
-         const fn = () => globalTemplateFieldSchema.parse(withoutName);
+         const fn = () => globalPromptFieldSchema.parse(withoutName);
          expect(fn).toThrow(ZodError);
       });
 
       it("name - max length valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             name: "a".repeat(50),
          });
@@ -55,7 +55,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("name - exceeds max length - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({
+            globalPromptFieldSchema.parse({
                ...validField,
                name: "a".repeat(51),
             });
@@ -64,7 +64,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("name - contains spaces - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({
+            globalPromptFieldSchema.parse({
                ...validField,
                name: "field name",
             });
@@ -73,7 +73,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("name - contains leading space - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({
+            globalPromptFieldSchema.parse({
                ...validField,
                name: " fieldName",
             });
@@ -84,18 +84,18 @@ describe("globalTemplateFieldSchema tests", () => {
    describe("label validation", () => {
       it("label - empty string - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({ ...validField, label: "" });
+            globalPromptFieldSchema.parse({ ...validField, label: "" });
          expect(fn).toThrow(ZodError);
       });
 
       it("label - missing - invalid - test", () => {
          const { label: _, ...withoutLabel } = validField;
-         const fn = () => globalTemplateFieldSchema.parse(withoutLabel);
+         const fn = () => globalPromptFieldSchema.parse(withoutLabel);
          expect(fn).toThrow(ZodError);
       });
 
       it("label - max length valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             label: "a".repeat(250),
          });
@@ -104,7 +104,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("label - exceeds max length - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({
+            globalPromptFieldSchema.parse({
                ...validField,
                label: "a".repeat(251),
             });
@@ -114,12 +114,12 @@ describe("globalTemplateFieldSchema tests", () => {
 
    describe("description validation", () => {
       it("description - optional - test", () => {
-         const result = globalTemplateFieldSchema.parse(validField);
+         const result = globalPromptFieldSchema.parse(validField);
          expect(result.description).toBeUndefined();
       });
 
       it("description - max length valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             description: "a".repeat(500),
          });
@@ -128,7 +128,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("description - exceeds max length - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({
+            globalPromptFieldSchema.parse({
                ...validField,
                description: "a".repeat(501),
             });
@@ -139,13 +139,13 @@ describe("globalTemplateFieldSchema tests", () => {
    describe("type validation", () => {
       it("type - missing - invalid - test", () => {
          const { type: _, ...withoutType } = validField;
-         const fn = () => globalTemplateFieldSchema.parse(withoutType);
+         const fn = () => globalPromptFieldSchema.parse(withoutType);
          expect(fn).toThrow(ZodError);
       });
 
       it("type - invalid value - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({ ...validField, type: "INVALID" });
+            globalPromptFieldSchema.parse({ ...validField, type: "INVALID" });
          expect(fn).toThrow(ZodError);
       });
 
@@ -162,7 +162,7 @@ describe("globalTemplateFieldSchema tests", () => {
          ] as const;
 
          types.forEach((type) => {
-            const result = globalTemplateFieldSchema.parse({
+            const result = globalPromptFieldSchema.parse({
                ...validField,
                type,
             });
@@ -173,7 +173,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
    describe("required validation", () => {
       it("required - true - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             required: true,
          });
@@ -181,7 +181,7 @@ describe("globalTemplateFieldSchema tests", () => {
       });
 
       it("required - false - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             required: false,
          });
@@ -191,12 +191,12 @@ describe("globalTemplateFieldSchema tests", () => {
 
    describe("defaultValue validation", () => {
       it("defaultValue - optional - test", () => {
-         const result = globalTemplateFieldSchema.parse(validField);
+         const result = globalPromptFieldSchema.parse(validField);
          expect(result.defaultValue).toBeUndefined();
       });
 
       it("defaultValue - can be set - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             defaultValue: "my default",
          });
@@ -206,12 +206,12 @@ describe("globalTemplateFieldSchema tests", () => {
 
    describe("options validation", () => {
       it("options - optional - test", () => {
-         const result = globalTemplateFieldSchema.parse(validField);
+         const result = globalPromptFieldSchema.parse(validField);
          expect(result.options).toBeUndefined();
       });
 
       it("options - array of strings - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             options: ["option1", "option2"],
          });
@@ -219,7 +219,7 @@ describe("globalTemplateFieldSchema tests", () => {
       });
 
       it("options - empty array - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             options: [],
          });
@@ -229,7 +229,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
    describe("order validation", () => {
       it("order - zero - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             order: 0,
          });
@@ -237,7 +237,7 @@ describe("globalTemplateFieldSchema tests", () => {
       });
 
       it("order - positive number - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             order: 5,
          });
@@ -245,7 +245,7 @@ describe("globalTemplateFieldSchema tests", () => {
       });
 
       it("order - negative number - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             order: -1,
          });
@@ -253,7 +253,7 @@ describe("globalTemplateFieldSchema tests", () => {
       });
 
       it("order - float - valid - test", () => {
-         const result = globalTemplateFieldSchema.parse({
+         const result = globalPromptFieldSchema.parse({
             ...validField,
             order: 1.5,
          });
@@ -262,7 +262,7 @@ describe("globalTemplateFieldSchema tests", () => {
 
       it("order - string - invalid - test", () => {
          const fn = () =>
-            globalTemplateFieldSchema.parse({ ...validField, order: "1" });
+            globalPromptFieldSchema.parse({ ...validField, order: "1" });
          expect(fn).toThrow(ZodError);
       });
    });

@@ -28,7 +28,7 @@ describe("TemplateEdit rendering tests", () => {
    it("edit existing entry - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
-      const fields = dtestData.dGlobalTemplateFields();
+      const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
          <TemplateEdit

@@ -58,8 +58,8 @@ import {
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
    DStripeBillingPortalSessionResponse,
@@ -542,7 +542,7 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       content: `content ${index}`,
       fields: dPromptFields(3),
-      globalFieldIds: dGlobalTemplateFieldIds(1),
+      globalFieldIds: dGlobalPromptFieldIds(1),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -556,7 +556,7 @@ export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
       fields: dPromptFieldUpdates(),
-      globalFieldIds: dGlobalTemplateFieldIds(),
+      globalFieldIds: dGlobalPromptFieldIds(),
    };
 };
 
@@ -863,16 +863,16 @@ export const sort = (field = "field1", order: SortOrder = "desc"): Sort => {
    return { field, order };
 };
 
-export const dGlobalTemplateFieldIds = (count = 1): string[] => {
-   const fields = dGlobalTemplateFields(count);
+export const dGlobalPromptFieldIds = (count = 1): string[] => {
+   const fields = dGlobalPromptFields(count);
    return map(fields, "id");
 };
 
-export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {
-   return range(0, count).map((i) => dGlobalTemplateField(i));
+export const dGlobalPromptFields = (count = 3): DGlobalPromptField[] => {
+   return range(0, count).map((i) => dGlobalPromptField(i));
 };
 
-export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
+export const dGlobalPromptField = (index = 1): DGlobalPromptField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
@@ -889,9 +889,9 @@ export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
    };
 };
 
-export const dGlobalTemplateFieldUpdate = (
+export const dGlobalPromptFieldUpdate = (
    index = 1
-): DGlobalTemplateFieldUpdate => {
+): DGlobalPromptFieldUpdate => {
    return {
       name: `name-${index}`,
       label: `label ${index}`,

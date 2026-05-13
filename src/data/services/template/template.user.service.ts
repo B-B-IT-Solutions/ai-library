@@ -84,7 +84,7 @@ export class TemplateService {
 
       if (template) {
          const globalFields =
-            await this.settingService.getGlobalTemplateFieldsByIds(
+            await this.settingService.getGlobalPromptFieldsByIds(
                userId,
                template.globalFieldIds
             );

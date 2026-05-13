@@ -6,21 +6,21 @@ import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
-import { GlobalTemplateFieldsPicker } from "@/components/shared/template-fields";
+import { GlobalPromptFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptGlobalTemplateField } from "./prompt-global-template-field";
+import { PromptGlobalPromptField } from "./prompt-global-template-field";
 import { PromptField } from "./prompt-template-field";
 
 type Props = {
    fields: DPromptField[];
    detectedVariables: string[];
-   globalFields: DGlobalTemplateField[];
+   globalFields: DGlobalPromptField[];
    globalFieldIds: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
@@ -69,7 +69,7 @@ export const PromptFields: FC<Props> = ({
                   <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
-               <GlobalTemplateFieldsPicker
+               <GlobalPromptFieldsPicker
                   globalFields={globalFields}
                   selectedGlobalFieldIds={globalFieldIds}
                   onAddFields={onAddGlobalFieldIds}
@@ -79,10 +79,10 @@ export const PromptFields: FC<Props> = ({
       );
    };
 
-   const renderGlobalField = (field: DGlobalTemplateField) => {
+   const renderGlobalField = (field: DGlobalPromptField) => {
       const isUsed = includes(detectedVariables, field.name);
       return (
-         <PromptGlobalTemplateField
+         <PromptGlobalPromptField
             key={field.id}
             field={field}
             isUsed={isUsed}

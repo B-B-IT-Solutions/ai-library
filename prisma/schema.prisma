@@ -29,7 +29,7 @@ model User {
   libraryCollectionEntries  LibraryCollectionEntry[]
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
-  globalTemplateFields      GlobalTemplateField[]
+  globalPromptFields      GlobalPromptField[]
   promptDescriptors         Prompt0[]
   promptCategories          Prompt0Category[]
   promptTemplateCategories  PromptCategory[]
@@ -194,7 +194,7 @@ model PromptGlobalField {
   order         Int    @default(0)
 
   promptContent PromptContent       @relation(fields: [promptId], references: [promptId], onDelete: Cascade)
-  globalField   GlobalTemplateField @relation(fields: [globalFieldId], references: [id])
+  globalField   GlobalPromptField @relation(fields: [globalFieldId], references: [id])
 
   @@id([promptId, globalFieldId])
   @@index([promptId])
@@ -245,7 +245,7 @@ model PromptCategory {
   @@map("prompt_category")
 }
 
-model GlobalTemplateField {
+model GlobalPromptField {
   id              String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId          String              @map("user_id") @db.Uuid
   name            String              @db.VarChar(100)

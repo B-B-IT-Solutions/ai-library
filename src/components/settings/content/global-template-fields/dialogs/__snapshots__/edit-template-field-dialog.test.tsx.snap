@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDialog - open false - test 1`] = `
+exports[`GlobalPromptFieldEditDialog rendering tests GlobalPromptFieldEditDialog - open false - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -20,7 +20,7 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
 </div>
 `;
 
-exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDialog - open true - test 1`] = `
+exports[`GlobalPromptFieldEditDialog rendering tests GlobalPromptFieldEditDialog - open true - test 1`] = `
 <div>
   <div
     data-slot="dialog"

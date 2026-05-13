@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalTemplateFieldForm rendering tests GlobalTemplateFieldForm - type NUMBER - test 1`] = `
+exports[`GlobalPromptFieldForm rendering tests GlobalPromptFieldForm - type NUMBER - test 1`] = `
 <div>
   <div
     class="grid grid-cols-2 gap-4"
@@ -250,7 +250,7 @@ exports[`GlobalTemplateFieldForm rendering tests GlobalTemplateFieldForm - type 
 </div>
 `;
 
-exports[`GlobalTemplateFieldForm rendering tests GlobalTemplateFieldForm - type SELECT - test 1`] = `
+exports[`GlobalPromptFieldForm rendering tests GlobalPromptFieldForm - type SELECT - test 1`] = `
 <div>
   <div
     class="grid grid-cols-2 gap-4"

@@ -1,16 +1,16 @@
 ﻿import { dtestData } from "@tests";
 
 import { DPromptField } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import {
    existingTemplateFieldInitValues,
-   globalTemplateFieldInitValues,
+   globalPromptFieldInitValues,
    newTemplateFieldInitValues,
 } from "./init-values";
 
 const expectedExistingTemplateFieldInitValues = (
-   field: DGlobalTemplateField | DPromptField
+   field: DGlobalPromptField | DPromptField
 ) => {
    return {
       name: field.name,
@@ -41,16 +41,16 @@ export const expectedNewTemplateFieldInitValues = (
    };
 };
 
-describe("globalTemplateFieldInitValues tests", () => {
-   it("globalTemplateFieldInitValues - new field init values - test", () => {
-      const result = globalTemplateFieldInitValues();
+describe("globalPromptFieldInitValues tests", () => {
+   it("globalPromptFieldInitValues - new field init values - test", () => {
+      const result = globalPromptFieldInitValues();
       const expectedResult = expectedNewTemplateFieldInitValues(0);
       expect(result).toEqual(expectedResult);
    });
 
-   it("globalTemplateFieldInitValues - existing field init values - test", () => {
-      const field = dtestData.dGlobalTemplateField();
-      const result = globalTemplateFieldInitValues(field);
+   it("globalPromptFieldInitValues - existing field init values - test", () => {
+      const field = dtestData.dGlobalPromptField();
+      const result = globalPromptFieldInitValues(field);
       const expectedResult = expectedExistingTemplateFieldInitValues(field);
       expect(result).toEqual(expectedResult);
    });
@@ -76,12 +76,12 @@ describe("newTemplateFieldInitValues tests", () => {
 
 describe("existingTemplateFieldInitValues tests", () => {
    it("existingTemplateFieldInitValues - global template field - test", () => {
-      const field1 = dtestData.dGlobalTemplateField();
+      const field1 = dtestData.dGlobalPromptField();
       const result1 = existingTemplateFieldInitValues(field1);
       const expectedResult1 = expectedExistingTemplateFieldInitValues(field1);
       expect(result1).toEqual(expectedResult1);
 
-      const field2 = dtestData.dGlobalTemplateField();
+      const field2 = dtestData.dGlobalPromptField();
       field2.description = null;
       field2.defaultValue = null;
       field2.options = null;
@@ -96,7 +96,7 @@ describe("existingTemplateFieldInitValues tests", () => {
       const expectedResult1 = expectedExistingTemplateFieldInitValues(field1);
       expect(result1).toEqual(expectedResult1);
 
-      const field2 = dtestData.dGlobalTemplateField();
+      const field2 = dtestData.dGlobalPromptField();
       field2.description = null;
       field2.defaultValue = null;
       field2.options = null;

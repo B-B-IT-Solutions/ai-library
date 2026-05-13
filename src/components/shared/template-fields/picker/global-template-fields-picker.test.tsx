@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
+import { GlobalPromptFieldsPicker } from "./global-template-fields-picker";
 
 const assertRendered = async () => {
    const picker = screen.getByTestId("global-template-fields-picker");
@@ -59,13 +59,13 @@ const assertAddBtnNotRendered = async () => {
    assertNotInDocument(addBtn);
 };
 
-describe("GlobalTemplateFieldsPicker rendering tests", () => {
-   it("GlobalTemplateFieldsPicker - open false - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+describe("GlobalPromptFieldsPicker rendering tests", () => {
+   it("GlobalPromptFieldsPicker - open false - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      const selectedFieldIds = dtestData.dGlobalPromptFieldIds(1);
 
       const { container } = render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={selectedFieldIds}
             onAddFields={jest.fn()}
@@ -80,9 +80,9 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldsPicker - open true - fields empty - test", async () => {
+   it("GlobalPromptFieldsPicker - open true - fields empty - test", async () => {
       const { container } = render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={[]}
             selectedGlobalFieldIds={[]}
             onAddFields={jest.fn()}
@@ -106,12 +106,12 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldsPicker - open true - with fields - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+   it("GlobalPromptFieldsPicker - open true - with fields - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      const selectedFieldIds = dtestData.dGlobalPromptFieldIds(1);
 
       const { container } = render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={selectedFieldIds}
             onAddFields={jest.fn()}
@@ -140,11 +140,11 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldsPicker - open true - field selected - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+   it("GlobalPromptFieldsPicker - open true - field selected - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={[]}
             onAddFields={jest.fn()}
@@ -181,13 +181,13 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
    });
 });
 
-describe("GlobalTemplateFieldsPicker functionality tests", () => {
-   it("GlobalTemplateFieldsPicker - field selected - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
+describe("GlobalPromptFieldsPicker functionality tests", () => {
+   it("GlobalPromptFieldsPicker - field selected - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
       const addFieldsFn = jest.fn();
 
       render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={[]}
             onAddFields={addFieldsFn}
@@ -233,13 +233,13 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
          expect(addFieldsFn).toHaveBeenCalledWith(expectedPayload);
       });
    });
-   it("GlobalTemplateFieldsPicker - field unselected - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+   it("GlobalPromptFieldsPicker - field unselected - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      const selectedFieldIds = dtestData.dGlobalPromptFieldIds(1);
       const addFieldsFn = jest.fn();
 
       render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={selectedFieldIds}
             onAddFields={addFieldsFn}
@@ -292,12 +292,12 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldsPicker - field search - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+   it("GlobalPromptFieldsPicker - field search - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      const selectedFieldIds = dtestData.dGlobalPromptFieldIds(1);
 
       render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={selectedFieldIds}
             onAddFields={jest.fn()}
@@ -339,13 +339,13 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
       expect(fieldOptions4).toHaveLength(1);
    });
 
-   it("GlobalTemplateFieldsPicker - open/close - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+   it("GlobalPromptFieldsPicker - open/close - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      const selectedFieldIds = dtestData.dGlobalPromptFieldIds(1);
       const addFieldsFn = jest.fn();
 
       render(
-         <GlobalTemplateFieldsPicker
+         <GlobalPromptFieldsPicker
             globalFields={fields}
             selectedGlobalFieldIds={selectedFieldIds}
             onAddFields={addFieldsFn}

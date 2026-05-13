@@ -9,7 +9,7 @@ import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateEditForm } from "./template-edit-form";
@@ -17,7 +17,7 @@ import { TemplateEditForm } from "./template-edit-form";
 type Props = {
    descriptor?: DPromptTemplateDescriptor;
    template?: DPromptTemplate;
-   globalFields: DGlobalTemplateField[];
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEdit = ({ descriptor, template, globalFields }: Props) => {

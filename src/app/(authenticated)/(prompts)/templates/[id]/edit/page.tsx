@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateEdit } from "@/components/templates";
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
@@ -25,7 +25,7 @@ export const EditTemplatePage = async ({ params }: PageProps) => {
 
    const [descriptor, globalFields] = await Promise.all([
       getTemplateDescriptor(descriptorId),
-      getGlobalTemplateFields(),
+      getGlobalPromptFields(),
    ]);
 
    if (!descriptor) {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { GlobalTemplateFieldAddDialog } from "../dialogs";
+import { GlobalPromptFieldAddDialog } from "../dialogs";
 
 export const AddTemplateFieldButton = () => {
    const [open, setOpen] = useState(false);
@@ -30,7 +30,7 @@ export const AddTemplateFieldButton = () => {
             <Plus className="mr-1 h-4 w-4" />
             Feld hinzufügen
          </Button>
-         <GlobalTemplateFieldAddDialog open={open} onClose={closeDialog} />
+         <GlobalPromptFieldAddDialog open={open} onClose={closeDialog} />
       </>
    );
 };

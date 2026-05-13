@@ -1,14 +1,14 @@
 import { isEmpty, map } from "es-toolkit/compat";
 import { Braces } from "lucide-react";
 
-import { getGlobalTemplateFields } from "@/data/actions/settings";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { AddTemplateFieldButton } from "./buttons";
-import { GlobalTemplateFieldItem } from "./template-field";
+import { GlobalPromptFieldItem } from "./template-field";
 
-export const GlobalTemplateFields = async () => {
-   const fields = await getGlobalTemplateFields();
+export const GlobalPromptFields = async () => {
+   const fields = await getGlobalPromptFields();
 
    const emptyState = () => {
       if (isEmpty(fields)) {
@@ -30,8 +30,8 @@ export const GlobalTemplateFields = async () => {
       }
    };
 
-   const renderField = (field: DGlobalTemplateField) => {
-      return <GlobalTemplateFieldItem field={field} key={field.id} />;
+   const renderField = (field: DGlobalPromptField) => {
+      return <GlobalPromptFieldItem field={field} key={field.id} />;
    };
 
    const renderFields = () => {

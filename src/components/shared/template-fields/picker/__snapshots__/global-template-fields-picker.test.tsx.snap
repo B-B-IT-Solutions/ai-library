@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker - open false - test 1`] = `
+exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - open false - test 1`] = `
 <div>
   <div
     data-slot="popover"
@@ -41,7 +41,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
 </div>
 `;
 
-exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker - open true - field selected - test 1`] = `
+exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - open true - field selected - test 1`] = `
 <div>
   <div
     data-slot="popover"
@@ -259,7 +259,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
 </div>
 `;
 
-exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker - open true - fields empty - test 1`] = `
+exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - open true - fields empty - test 1`] = `
 <div>
   <div
     data-slot="popover"
@@ -364,7 +364,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
 </div>
 `;
 
-exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker - open true - with fields - test 1`] = `
+exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - open true - with fields - test 1`] = `
 <div>
   <div
     data-slot="popover"

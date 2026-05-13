@@ -30,12 +30,12 @@ const assertUserGroupRendered = () => {
 
 const assertContentGroupRendered = () => {
    const contentGroup = screen.getByTestId("content-group");
-   const globalTemplateFieldsLink = screen.getByTestId(
+   const globalPromptFieldsLink = screen.getByTestId(
       "global-template-fields-link"
    );
 
    assertInDocument(contentGroup);
-   assertInDocument(globalTemplateFieldsLink);
+   assertInDocument(globalPromptFieldsLink);
 };
 
 describe("Navigation rendering tests", () => {

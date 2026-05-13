@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { GlobalTemplateFieldItem } from "./template-field";
+import { GlobalPromptFieldItem } from "./template-field";
 
 const assertRendered = () => {
    const field = screen.getByTestId("template-field");
@@ -13,16 +13,16 @@ const assertRendered = () => {
    assertInDocument(deleteBtn);
 };
 
-describe("GlobalTemplateFieldItem rendering tests", () => {
+describe("GlobalPromptFieldItem rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("GlobalTemplateFieldItem render test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldItem render test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = renderWithRouter(
-         <GlobalTemplateFieldItem field={field} />
+         <GlobalPromptFieldItem field={field} />
       );
 
       await waitFor(() => {

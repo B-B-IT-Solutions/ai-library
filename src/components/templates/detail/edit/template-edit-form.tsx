@@ -24,7 +24,7 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import {
@@ -42,7 +42,7 @@ import {
 type Props = {
    descriptor?: DPromptTemplateDescriptor;
    template?: DPromptTemplate;
-   globalFields: DGlobalTemplateField[];
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({

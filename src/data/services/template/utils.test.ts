@@ -3,7 +3,7 @@
 import { dtestData } from "@tests";
 
 import { DPromptField } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
 import { resolveAllTemplateFields } from "./utils";
@@ -16,7 +16,7 @@ const sExtractVariablesMock = sExtractVariables as jest.MockedFunction<
 
 describe("resolveAllTemplateFields tests", () => {
    const globalFieldToTemplateFieldInternal = (
-      gf: DGlobalTemplateField
+      gf: DGlobalPromptField
    ): DPromptField => {
       return {
          id: gf.id,
@@ -102,7 +102,7 @@ describe("resolveAllTemplateFields tests", () => {
 
    it("does not add a dummy field for a variable covered by a global field - test", () => {
       const globalField = {
-         ...dtestData.dGlobalTemplateField(1),
+         ...dtestData.dGlobalPromptField(1),
          name: "global_var",
       };
       const template = dtestData.dPromptTemplate();
@@ -130,7 +130,7 @@ describe("resolveAllTemplateFields tests", () => {
 
    it("merges template fields, global fields, and dummy fields in correct order - test", () => {
       const templateField = dtestData.dPromptField(1);
-      const globalField = dtestData.dGlobalTemplateField(2);
+      const globalField = dtestData.dGlobalPromptField(2);
       globalField.name = "global_field";
 
       const template = dtestData.dPromptTemplate();
