@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { flatMap } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useInfiniteLoadPublicTemplateDescriptors } from "@/data/ts-queries/template";
+import { useInfiniteLoadPublicTemplateDescriptors } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import {
    DListGroupByMode,

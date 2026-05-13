@@ -9,7 +9,7 @@ import {
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
-import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
+import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 

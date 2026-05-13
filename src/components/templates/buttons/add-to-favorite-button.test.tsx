@@ -1,4 +1,4 @@
-jest.mock("@/data/ts-queries/template");
+jest.mock("@/data/ts-queries/prompt");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import {
    type UpdateIsFavoriteParams,
    useToggleFavorite,
-} from "@/data/ts-queries/template";
+} from "@/data/ts-queries/prompt";
 
 import { AddToFavoriteButton } from "./add-to-favorite-button";
 

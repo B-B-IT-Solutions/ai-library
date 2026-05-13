@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import {
    type UpdateIsFavoriteParams,
    useToggleFavorite,
-} from "@/data/ts-queries/template";
+} from "@/data/ts-queries/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 

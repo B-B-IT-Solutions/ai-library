@@ -11,7 +11,7 @@ import {
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
-import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
+import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
