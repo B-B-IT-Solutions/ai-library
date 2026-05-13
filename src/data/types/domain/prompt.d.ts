@@ -26,7 +26,7 @@ export type DPromptCategory = {
 };
 
 export type DPromptGenerationData = {
-   template: DPromptContent;
+   template: DPromptWithContent;
    allFields: DPromptField[];
 };
 
@@ -35,17 +35,16 @@ export type DPrompt = {
    title: string;
    description: string;
    recommendedModel: string;
-   categories: DPromptCategory[];
    isFavorite: boolean;
+   categories: DPromptCategory[];
+   fields: DPromptField[];
+   globalFieldIds: string[];
    updatedAt: string;
    createdAt: string;
 };
 
-export type DPromptContent = {
-   id: string;
+export type DPromptWithContent = DPrompt & {
    content: string;
-   fields: DPromptField[];
-   globalFieldIds: string[];
 };
 
 export type DPromptFieldType =

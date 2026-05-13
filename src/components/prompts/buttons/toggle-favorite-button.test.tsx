@@ -23,7 +23,7 @@ const assertRendered = () => {
 
 describe("ToggleFavoriteButton rendering tests", () => {
    it("ToggleFavoriteButton - isFavorite true - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.isFavorite = true;
 
       const { container } = renderWithTooltip(
@@ -38,7 +38,7 @@ describe("ToggleFavoriteButton rendering tests", () => {
    });
 
    it("ToggleFavoriteButton - isFavorite false - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.isFavorite = false;
 
       const { container } = renderWithTooltip(
@@ -65,7 +65,7 @@ describe("ToggleFavoriteButton functionality tests", () => {
       };
       toggleFavoriteMock.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<ToggleFavoriteButton prompt={prompt} />);
 
       await waitFor(() => {
@@ -94,7 +94,7 @@ describe("ToggleFavoriteButton functionality tests", () => {
       };
       toggleFavoriteMock.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<ToggleFavoriteButton prompt={prompt} />);
 
       await waitFor(() => {

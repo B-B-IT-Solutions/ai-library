@@ -7,10 +7,7 @@ import { UseTemplateDialog } from "@/components/prompt-templates";
 import { Button } from "@/components/shadcn/button";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
-import {
-   toCatalogEntryDescriptor,
-   toCatalogEntryTemplateData,
-} from "./use-entry.utils";
+import { toDPrompt, toDPromptGenerationData } from "./use-entry.utils";
 
 type Props = {
    entry: DCatalogEntryWithContent;
@@ -23,8 +20,8 @@ export const UseCatalogEntryButton = ({ entry }: Props) => {
       if (isOpen) {
          return (
             <UseTemplateDialog
-               descriptor={toCatalogEntryDescriptor(entry)}
-               templateData={toCatalogEntryTemplateData(entry)}
+               descriptor={toDPrompt(entry)}
+               templateData={toDPromptGenerationData(entry)}
                onCancel={() => setIsOpen(false)}
             />
          );

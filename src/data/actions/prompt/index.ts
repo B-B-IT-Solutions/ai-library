@@ -6,4 +6,4 @@ export {
    updatePrompt,
    deletePrompt,
    toggleFavorite,
-} from "./prompt.actions";
+} from "./prompt0.actions";

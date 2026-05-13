@@ -26,7 +26,7 @@ describe("PromptEdit rendering tests", () => {
    });
 
    it("PromptEdit - edit existing prompt - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
 
       const { container } = render(<PromptEdit prompt={prompt} />);
 

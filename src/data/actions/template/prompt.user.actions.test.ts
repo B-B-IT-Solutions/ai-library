@@ -25,7 +25,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
    updateTemplateDescriptor,
-} from "./template.user.actions";
+} from "./prompt.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -131,10 +131,10 @@ describe("getTemplateDescriptorsPage tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       sGetTemplateDescriptorsPageMock.mockResolvedValue(page);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
 
       const result = await getTemplateDescriptorsPage(query);
 
@@ -214,7 +214,7 @@ describe("getTemplateDescriptor tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       sGetTemplateDescriptorMock.mockResolvedValue(descriptor);
       const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
@@ -243,7 +243,7 @@ describe("createTemplateDescriptor tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await createTemplateDescriptor(updateData);
 
@@ -264,7 +264,7 @@ describe("createTemplateDescriptor tests", () => {
 
       const error = new Error("db error");
       sCreateTemplateDescriptorMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await createTemplateDescriptor(updateData);
 
@@ -287,10 +287,10 @@ describe("createTemplateDescriptor tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const newDescriptor = dtestData.dPromptTemplateDescriptor();
+      const newDescriptor = dtestData.dPrompt();
       sCreateTemplateDescriptorMock.mockResolvedValue(newDescriptor);
 
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await createTemplateDescriptor(updateData);
 
@@ -321,7 +321,7 @@ describe("updateTemplateDescriptor tests", () => {
 
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await updateTemplateDescriptor(invalidId, updateData);
 
@@ -340,7 +340,7 @@ describe("updateTemplateDescriptor tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await updateTemplateDescriptor(descriptorId, updateData);
 
@@ -363,7 +363,7 @@ describe("updateTemplateDescriptor tests", () => {
       sUpdateTemplateDescriptorMock.mockRejectedValue(error);
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await updateTemplateDescriptor(descriptorId, updateData);
 
@@ -389,7 +389,7 @@ describe("updateTemplateDescriptor tests", () => {
       sUpdateTemplateDescriptorMock.mockResolvedValue();
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const updateData = dtestData.dPromptUpdate();
 
       const result = await updateTemplateDescriptor(descriptorId, updateData);
 
@@ -531,7 +531,7 @@ describe("getPromptGenerationTemplateData tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       sGetTemplateDataForPromptGenerationMock.mockResolvedValue(data);
 
       const templateId = "prompt-template-id";
@@ -634,7 +634,7 @@ describe("composePromptFromTemplate tests", () => {
          email: "test1@email.com",
          age: 30,
       };
-      const promptData = dtestData.dPromptUpdate();
+      const promptData = dtestData.dPrompt0Update();
       sComposePromptFromTemplateMock.mockResolvedValue(promptData);
 
       const result = await composePromptFromTemplate(templateId, fieldValues);
@@ -938,7 +938,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params undefined - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       sGetPromptsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
@@ -949,7 +949,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params empty - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       sGetPromptsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates({});
@@ -960,7 +960,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params defined - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors();
+      const templates = dtestData.dPrompts();
       sGetPromptsMock.mockResolvedValue(templates);
 
       const search = "prompt 123";
@@ -1029,7 +1029,7 @@ describe("getPromptTemplate tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const prompt = dtestData.dPromptTemplate();
+      const prompt = dtestData.dPromptWithContent();
       sGetPromptTemplateMock.mockResolvedValue(prompt);
 
       const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -1067,7 +1067,7 @@ describe("getPromptTemplateCategories tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dPromptTemplateCategoriesString();
+      const categories = dtestData.dPrompt0CategoriesString();
       sGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptTemplateCategories();

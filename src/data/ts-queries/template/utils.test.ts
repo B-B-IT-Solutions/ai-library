@@ -4,7 +4,7 @@ import { templateCategoriesKeys, templateKeys } from "./utils";
 
 describe("keys tests", () => {
    test("templateKeys - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort("name", "asc");
 
       expect(templateKeys.all).toEqual(["templates"]);

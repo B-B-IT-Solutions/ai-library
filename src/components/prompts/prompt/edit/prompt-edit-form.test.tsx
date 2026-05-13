@@ -58,7 +58,7 @@ describe("PromptEdit rendering tests", () => {
    });
 
    it("PromptEdit - create mode - rendered test", async () => {
-      const { container } = render(<PromptEdit mode="create" />);
+      const { container } = render(<PromptEdit />);
 
       await waitFor(() => {
          assertRendered();
@@ -69,8 +69,8 @@ describe("PromptEdit rendering tests", () => {
    });
 
    it("PromptEdit - edit mode - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      const { container } = render(<PromptEdit mode="edit" prompt={prompt} />);
+      const prompt = dtestData.dPrompt0();
+      const { container } = render(<PromptEdit prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -102,7 +102,7 @@ describe("PromptEdit functionality tests", () => {
    });
 
    it("PromptEdit - edit mode - cancel btn clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       render(<PromptEdit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
@@ -168,7 +168,7 @@ describe("PromptEdit functionality tests", () => {
       };
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       render(<PromptEdit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
@@ -207,7 +207,7 @@ describe("PromptEdit functionality tests", () => {
       };
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       render(<PromptEdit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
@@ -254,7 +254,7 @@ describe("PromptEdit functionality tests", () => {
       };
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
-      const prompt1 = dtestData.dPromptDescriptor();
+      const prompt1 = dtestData.dPrompt0();
 
       const prompt2 = cloneDeep(prompt1);
       prompt2.categories.push({ name: " " });

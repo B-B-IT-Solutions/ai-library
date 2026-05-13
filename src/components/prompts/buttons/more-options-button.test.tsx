@@ -29,7 +29,7 @@ const assertContextMenuNotRendered = () => {
 
 describe("MoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = renderWithTooltip(
          <MoreOptionsButton prompt={prompt} />
       );
@@ -49,7 +49,7 @@ describe("MoreOptionsButton functionality tests", () => {
    });
 
    it("trigger clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<MoreOptionsButton prompt={prompt} />);
 
       await waitFor(() => {

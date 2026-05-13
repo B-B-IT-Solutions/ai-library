@@ -40,7 +40,7 @@ const assertFollowUpsNotRendered = () => {
 
 describe("PromptViewForm rendering tests", () => {
    it("rendered - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = render(<PromptViewForm prompt={prompt} />);
 
       await waitFor(() => {
@@ -54,7 +54,7 @@ describe("PromptViewForm rendering tests", () => {
    });
 
    it("versions empty - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.versions = [];
       const { container } = render(<PromptViewForm prompt={prompt} />);
 
@@ -69,7 +69,7 @@ describe("PromptViewForm rendering tests", () => {
    });
 
    it("followUpPrompts empty - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       prompt.followUpPrompts = [];
       prompt.categories = [];
       const { container } = render(<PromptViewForm prompt={prompt} />);

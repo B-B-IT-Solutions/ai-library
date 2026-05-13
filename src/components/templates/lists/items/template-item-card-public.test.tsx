@@ -70,7 +70,7 @@ const assertAddToCollectionDialogNotRendered = () => {
 describe("PublicTemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
       const collections = dtestData.dCollections();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <PublicTemplateItemCard
@@ -95,7 +95,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
    });
 
    it("title - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
       const collectionToken = "public-token-1";
 
@@ -124,7 +124,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
    });
 
    it("dropdown - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
@@ -152,7 +152,9 @@ describe("PublicTemplateItemCard functionality tests", () => {
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(`/preview/templates/${descriptor.id}`);
+         expect(mockRouter.asPath).toEqual(
+            `/preview/templates/${descriptor.id}`
+         );
       });
    });
 
@@ -160,7 +162,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
       const collectionIds = dtestData.dCollectionIds();
       getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(

@@ -81,7 +81,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
    });
 
    test("infiniteLoadTemplateDescriptorsOptions - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
       const params: LoadTemplateDescriptorsParams = { filters, sort };
 
@@ -104,10 +104,10 @@ describe("loadTemplateDescriptors hooks tests", () => {
    });
 
    test("useInfiniteLoadTemplateDescriptors test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
 
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
       const params: LoadTemplateDescriptorsParams = { filters, sort };
 

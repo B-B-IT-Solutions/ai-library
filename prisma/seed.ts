@@ -2,12 +2,9 @@
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
-import {
-   promptTemplatesData,
-   SEED_USER_EMAIL,
-} from "./seed-data/prompt-templates";
+import { promptsWithFields } from "./seed-data/prompt-fields";
+import { promptsData, SEED_USER_EMAIL } from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
-import { templatesWithFields } from "./seed-data/template-fields-example";
 import { seedCatalog } from "./seeds/catalog.seed";
 
 const prisma = new PrismaClient();
@@ -47,11 +44,11 @@ export const main = async () => {
    console.log("\nCreating prompt templates...");
 
    const createdTemplateDesciptors = [];
-   for (const pt of promptTemplatesData(seedUser.id)) {
+   for (const pt of promptsData(seedUser.id)) {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptContent: true,
+            content: true,
          },
       });
 
@@ -59,15 +56,12 @@ export const main = async () => {
    }
 
    console.log("\nCreating prompt templates with fields...");
-   for (const pt of templatesWithFields(seedUser.id)) {
+   for (const pt of promptsWithFields(seedUser.id)) {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptContent: {
-               include: {
-                  fields: true,
-               },
-            },
+            content: true,
+            fields: true,
          },
       });
 

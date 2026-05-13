@@ -35,10 +35,10 @@ const assertDialogNotRendered = () => {
 
 describe("UseTemplateButton rendering tests", () => {
    it("with fields - rendered test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <UseTemplateButton descriptor={descriptor} />
       );
@@ -51,11 +51,11 @@ describe("UseTemplateButton rendering tests", () => {
    });
 
    it("without fields - rendered test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <UseTemplateButton descriptor={descriptor} />
       );
@@ -68,10 +68,10 @@ describe("UseTemplateButton rendering tests", () => {
    });
 
    it("with className - rendered test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <UseTemplateButton descriptor={descriptor} className="custom-class" />
       );
@@ -94,7 +94,7 @@ describe("UseTemplateButton functionality - tests", () => {
    it("submit clicked - success - templateData null - test", async () => {
       getPromptGenerationTemplateDataMock.mockResolvedValue(null);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       render(<UseTemplateButton descriptor={descriptor} />);
 
@@ -120,10 +120,10 @@ describe("UseTemplateButton functionality - tests", () => {
    });
 
    it("submit clicked - success - templateData retrieved - test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       render(<UseTemplateButton descriptor={descriptor} />);
 
@@ -140,10 +140,10 @@ describe("UseTemplateButton functionality - tests", () => {
    });
 
    it("close clicked- test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      const data = dtestData.dPromptGenerationData();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       render(<UseTemplateButton descriptor={descriptor} />);
 

@@ -31,12 +31,12 @@ export const newTemplateFieldInitValues = (
 
 type TemplateFieldInitValuesFn = {
    (field: DGlobalPromptField): DGlobalPromptFieldUpdate;
-   (field: DPromptField): DPromptUpdate;
+   (field: DPromptField): DPromptFieldUpdate;
 };
 
 export const existingTemplateFieldInitValues: TemplateFieldInitValuesFn = (
    field: DGlobalPromptField | DPromptField
-): DGlobalPromptFieldUpdate | DPromptUpdate => {
+): DGlobalPromptFieldUpdate | DPromptFieldUpdate => {
    return {
       name: field.name,
       label: field.label,

@@ -32,7 +32,7 @@ const assertRenderedBtn = () => {
 
 describe("DownloadTemplateButton rendering tests", () => {
    it("asMenuItem true - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
       );
@@ -45,7 +45,7 @@ describe("DownloadTemplateButton rendering tests", () => {
    });
 
    it("asMenuItem false - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const { container } = render(
          <DownloadTemplateButton descriptor={descriptor} asMenuItem={false} />
       );
@@ -71,7 +71,7 @@ describe("DownloadTemplateButton functionality tests", () => {
       };
       downloadTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       render(
          <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
       );
@@ -108,7 +108,7 @@ describe("DownloadTemplateButton functionality tests", () => {
       };
       downloadTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       render(<DownloadTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {

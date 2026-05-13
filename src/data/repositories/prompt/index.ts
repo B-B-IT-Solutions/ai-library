@@ -1,1 +1,1 @@
-export { PromptRepository } from "./prompt.repository";
+export { PromptRepository } from "./prompt0.repository";

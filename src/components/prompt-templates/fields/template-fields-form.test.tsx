@@ -107,7 +107,7 @@ describe("TemplateFieldForm rendering tests", () => {
          country,
       ];
 
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const templateData = dtestData.dPromptGenerationData();
       templateData.allFields = fields;
 
       const { container } = render(<TestWrapper templateData={templateData} />);

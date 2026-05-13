@@ -1,16 +1,19 @@
 ﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt";
+import {
+   PromptWithCategories,
+   PromptWithContent,
+} from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptCategory,
-   DPromptContent,
    DPromptFieldType,
    DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -24,11 +27,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 type PGetPromptsParams = {
@@ -75,7 +74,7 @@ export class TemplateRepository {
       ]);
 
       return {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -95,7 +94,7 @@ export class TemplateRepository {
          take: 20,
       });
 
-      return toDTemplateDescriptors(templates);
+      return toDPrompts(templates);
    }
 
    async pGetTemplateDescriptor(
@@ -111,7 +110,7 @@ export class TemplateRepository {
          });
 
       if (template) {
-         return toDTemplateDescriptor(template);
+         return toDPrompt(template);
       }
       return null;
    }
@@ -119,19 +118,18 @@ export class TemplateRepository {
    async pGetPromptTemplate(
       userId: string,
       id: string
-   ): Promise<DPromptContent | null> {
-      const template = await this.prisma.promptContent.findFirst({
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+   ): Promise<DPromptWithContent | null> {
+      const prompt = await this.prisma.prompt.findFirst({
+         where: { id, userId },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       });
 
-      return template ? toDPromptTemplate(template) : null;
+      return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 
    async pGetPromptTemplateCategories(
@@ -161,28 +159,28 @@ export class TemplateRepository {
                },
             })),
          },
-         promptContent: {
+         content: {
             create: {
                content: data.content,
-               fields: {
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
          user: {
             connect: {
@@ -198,7 +196,7 @@ export class TemplateRepository {
          },
       };
       const newEntry = await this.prisma.prompt.create(args);
-      return toDTemplateDescriptor(newEntry as PromptWithCategories);
+      return toDPrompt(newEntry as PromptWithCategories);
    }
 
    async pUpdatePrompt(
@@ -217,30 +215,30 @@ export class TemplateRepository {
                create: { name: catName, userId },
             })),
          },
-         promptContent: {
+         content: {
             update: {
                content: data.content,
-               fields: {
-                  deleteMany: {},
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  deleteMany: {},
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            deleteMany: {},
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            deleteMany: {},
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
       };
 
@@ -321,7 +319,7 @@ export class TemplateRepository {
                  },
               },
               {
-                 promptContent: {
+                 content: {
                     content: {
                        contains: search,
                        mode: "insensitive",

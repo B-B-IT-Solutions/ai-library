@@ -71,7 +71,7 @@ const assertAddToCollectionDialogNotRendered = () => {
 describe("TemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
       const collections = dtestData.dCollections();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <TemplateItemCard descriptor={descriptor} collections={collections} />
@@ -88,7 +88,7 @@ describe("TemplateItemCard rendering tests", () => {
 describe("TemplateItemCard ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = React.createRef<HTMLDivElement>();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
@@ -114,7 +114,7 @@ describe("TemplateItemCard functionality tests", () => {
    });
 
    it("title - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
@@ -136,7 +136,7 @@ describe("TemplateItemCard functionality tests", () => {
    });
 
    it("dropdown - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
@@ -169,7 +169,7 @@ describe("TemplateItemCard functionality tests", () => {
       const collectionIds = dtestData.dCollectionIds();
       getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(

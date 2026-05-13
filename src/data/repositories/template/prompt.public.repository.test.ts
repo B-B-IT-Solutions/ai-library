@@ -5,18 +5,13 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
-import { PublicTemplateRepository } from "./template.public.repository";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
+import { PublicTemplateRepository } from "./prompt.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -41,7 +36,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetPublicTemplateDescriptorsPage(query);
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,
@@ -189,7 +184,7 @@ describe("pGetPublicTemplateDescriptor tests", () => {
 
       const id = "descriptor-1";
       const result = await repository.pGetPublicTemplateDescriptor(id);
-      const expectedResult = toDTemplateDescriptor(descriptor);
+      const expectedResult = toDPrompt(descriptor);
 
       const expectedArgs: PromptFindFirstArgs = {
          where: { id },
@@ -209,48 +204,44 @@ describe("pGetPublicPromptTemplate tests", () => {
    });
 
    test("template null - test", async () => {
-      prismaMock.promptContent.findFirst.mockResolvedValue(null);
+      prismaMock.prompt.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
 
-      const expectedArgs: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-         },
+      const expectedArgs: PromptFindFirstArgs = {
+         where: { id },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedArgs);
    });
 
    test("template retrieved - test", async () => {
-      const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
+      const prompt = ptestData.pPromptWithContent();
+      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
-      const expectedResult = toDPromptTemplate(prompt);
+      const expectedResult = toDPromptWithContent(prompt);
 
-      const expectedArgs: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-         },
+      const expectedArgs: PromptFindFirstArgs = {
+         where: { id },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedArgs);
    });
 });

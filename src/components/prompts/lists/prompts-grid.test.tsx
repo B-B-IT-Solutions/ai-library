@@ -25,7 +25,7 @@ describe("PromptsGrid rendering tests", () => {
    });
 
    it("PromptsGrid - with prompts - test", async () => {
-      const prompts = dtestData.dPromptDescriptors();
+      const prompts = dtestData.dPrompt0s();
 
       const { container } = renderWithReactQuery(
          <PromptsGrid prompts={prompts} />

@@ -84,7 +84,7 @@ describe("existingTemplateFieldInitValues tests", () => {
       const field2 = dtestData.dGlobalPromptField();
       field2.description = null;
       field2.defaultValue = null;
-      field2.options = null;
+      field2.options = undefined;
       const result2 = existingTemplateFieldInitValues(field1);
       const expectedResult2 = expectedExistingTemplateFieldInitValues(field1);
       expect(result2).toEqual(expectedResult2);
@@ -99,7 +99,7 @@ describe("existingTemplateFieldInitValues tests", () => {
       const field2 = dtestData.dGlobalPromptField();
       field2.description = null;
       field2.defaultValue = null;
-      field2.options = null;
+      field2.options = undefined;
       const result2 = existingTemplateFieldInitValues(field1);
       const expectedResult2 = expectedExistingTemplateFieldInitValues(field1);
       expect(result2).toEqual(expectedResult2);

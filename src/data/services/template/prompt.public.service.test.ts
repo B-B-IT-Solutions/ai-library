@@ -12,7 +12,7 @@ import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
 
-import { PublicTemplateService } from "./template.public.service";
+import { PublicTemplateService } from "./prompt.public.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -41,7 +41,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter undefined - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter = undefined;
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -56,7 +56,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter.collectionIds undefined - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = undefined;
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -71,7 +71,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 
    it("filter.collectionIds empty - test", async () => {
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = [];
 
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
@@ -88,7 +88,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    it("collection not public - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
@@ -106,12 +106,12 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    it("descriptors retrieved - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(true);
 
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       templateRepoMock.pGetPublicTemplateDescriptorsPage.mockResolvedValue(
          page
       );
 
-      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       const result =
          await templateService.getPublicTemplateDescriptorsPage(query);
 
@@ -158,7 +158,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
@@ -199,7 +199,7 @@ describe("getPublicTemplateDescriptor tests", () => {
    });
 
    it("descriptor retrieved - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(
          descriptor
       );
@@ -223,7 +223,7 @@ describe("getPublicPromptTemplate tests", () => {
    });
 
    it("template retrieved - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;

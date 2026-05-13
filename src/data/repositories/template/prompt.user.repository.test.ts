@@ -9,11 +9,9 @@ import {
    DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
-   DPromptUpdate,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -25,12 +23,8 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
-import { TemplateRepository } from "./template.user.repository";
+import { toDPromptWithContent, toDPrompt, toDPrompts } from "./prompt.mapper";
+import { TemplateRepository } from "./prompt.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -51,7 +45,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetTemplateDescriptorsPage(userId);
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,
@@ -100,7 +94,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       );
 
       const expectedResult: DPromptsPage = {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber: 2,
          pageSize: 10,
          numberOfElements: descriptors.length,
@@ -480,7 +474,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - full filter - test", async () => {
-      const filter = dtestData.dTemplateDescriptorsFilter();
+      const filter = dtestData.dPromptsFilter();
       const query: DPromptsPageQuery = {
          filter,
       };
@@ -544,7 +538,7 @@ describe("pGetPrompts tests", () => {
 
       const result = await repository.pGetPrompts();
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          include: {
@@ -566,7 +560,7 @@ describe("pGetPrompts tests", () => {
 
       const result = await repository.pGetPrompts({});
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          include: {
@@ -592,7 +586,7 @@ describe("pGetPrompts tests", () => {
          categories: [],
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -604,7 +598,7 @@ describe("pGetPrompts tests", () => {
                   },
                },
                {
-                  promptContent: {
+                  content: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -635,7 +629,7 @@ describe("pGetPrompts tests", () => {
          categories,
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -675,7 +669,7 @@ describe("pGetPrompts tests", () => {
          categories,
       });
 
-      const expectedResult = toDTemplateDescriptors(prompts);
+      const expectedResult = toDPrompts(prompts);
 
       const expectedFindMayArgs: PromptFindManyArgs = {
          where: {
@@ -687,7 +681,7 @@ describe("pGetPrompts tests", () => {
                   },
                },
                {
-                  promptContent: {
+                  content: {
                      content: {
                         contains: search,
                         mode: "insensitive",
@@ -752,7 +746,7 @@ describe("pGetTemplateDescriptor tests", () => {
       const id = "prompt-template-descriptor-id-1";
       const result = await repository.pGetTemplateDescriptor(userId, id);
 
-      const expectedResult = toDTemplateDescriptor(template);
+      const expectedResult = toDPrompt(template);
 
       const expectedWhere: PromptFindFirstArgs = {
          where: { id, userId },
@@ -772,53 +766,47 @@ describe("pGetPromptTemplate tests", () => {
    });
 
    test("pGetPromptTemplate - template null - test", async () => {
-      prismaMock.promptContent.findFirst.mockResolvedValue(null);
+      prismaMock.prompt.findFirst.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
 
-      const expectedWhere: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+      const expectedWhere: PromptFindFirstArgs = {
+         where: { id, userId },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toBeNull();
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 
    test("pGetPromptTemplate - template retrieved - test", async () => {
-      const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptContent.findFirst.mockResolvedValue(prompt);
+      const prompt = ptestData.pPromptWithContent();
+      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(userId, id);
-      const expectedResult = toDPromptTemplate(prompt);
+      const expectedResult = toDPromptWithContent(prompt);
 
-      const expectedWhere: PromptContentFindFirstArgs = {
-         where: {
-            promptId: id,
-            prompt: { userId },
-         },
+      const expectedWhere: PromptFindFirstArgs = {
+         where: { id, userId },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptContent.findFirst).toHaveBeenCalledWith(
-         expectedWhere
-      );
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 });
 
@@ -829,7 +817,7 @@ describe("pGetPromptTemplateCategories queries tests", () => {
 
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = ptestData.pPromptTemplateCategories();
+      const categories = ptestData.pPromptCategories();
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
       const result = await repository.pGetPromptTemplateCategories(userId);
@@ -856,13 +844,13 @@ describe("pCreatePrompt tests", () => {
 
    test("pCreatePrompt - descriptor created - test", async () => {
       const userId = "user-id-123";
-      const data = dtestData.dPromptTemplateUpdate();
+      const data = dtestData.dPromptUpdate();
       const newDescriptor = ptestData.pPromptWithCategories();
       prismaMock.prompt.create.mockResolvedValue(newDescriptor);
 
       const result = await repository.pCreatePrompt(userId, data);
 
-      const expectedResult = toDTemplateDescriptor(newDescriptor);
+      const expectedResult = toDPrompt(newDescriptor);
 
       const expectedInput: PromptCreateInput = {
          title: data.title,
@@ -879,28 +867,28 @@ describe("pCreatePrompt tests", () => {
                },
             })),
          },
-         promptContent: {
+         content: {
             create: {
                content: data.content,
-               fields: {
-                  create: map(data.fields, (field: DPromptUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
          user: {
             connect: {
@@ -929,7 +917,7 @@ describe("pUpdatePrompt tests", () => {
 
    test("pUpdatePrompt - descriptor updated - test", async () => {
       const userId = "user-id-123";
-      const data = dtestData.dPromptTemplateUpdate();
+      const data = dtestData.dPromptUpdate();
       const descriptor = ptestData.pPromptWithCategories();
 
       await repository.pUpdatePrompt(userId, descriptor.id, data);
@@ -945,30 +933,30 @@ describe("pUpdatePrompt tests", () => {
                create: { name: catName, userId },
             })),
          },
-         promptContent: {
+         content: {
             update: {
                content: data.content,
-               fields: {
-                  deleteMany: {},
-                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
-                     name: field.name,
-                     label: field.label,
-                     description: field.description,
-                     type: field.type as DPromptFieldType,
-                     required: field.required,
-                     order: field.order,
-                     defaultValue: field.defaultValue,
-                     options: field.options,
-                  })),
-               },
-               globalFields: {
-                  deleteMany: {},
-                  create: map(data.globalFieldIds, (id, idx) => ({
-                     globalFieldId: id,
-                     order: idx,
-                  })),
-               },
             },
+         },
+         fields: {
+            deleteMany: {},
+            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+               name: field.name,
+               label: field.label,
+               description: field.description,
+               type: field.type as DPromptFieldType,
+               required: field.required,
+               order: field.order,
+               defaultValue: field.defaultValue,
+               options: field.options,
+            })),
+         },
+         globalFields: {
+            deleteMany: {},
+            create: map(data.globalFieldIds, (id, idx) => ({
+               globalFieldId: id,
+               order: idx,
+            })),
          },
       };
 

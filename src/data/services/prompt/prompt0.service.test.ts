@@ -8,7 +8,7 @@ import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
-import { PromptService } from "./prompt.service";
+import { PromptService } from "./prompt0.service";
 
 const promptRepo = new PromptRepository(prisma);
 const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;
@@ -22,7 +22,7 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query undefined - test", async () => {
       const userId = "user-id-1";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const result = await promptService.getPrompts(userId);
@@ -37,7 +37,7 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query empty - test", async () => {
       const userId = "user-id-123";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
@@ -53,10 +53,10 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query defined - test", async () => {
       const userId = "user-id-456";
-      const page = dtestData.dPromptDescriptorsPage();
+      const page = dtestData.dPrompt0sPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
-      const query = dtestData.dPromptsPageQuery();
+      const query = dtestData.dPrompt0sPageQuery();
       const result = await promptService.getPrompts(userId, query);
 
       expect(result).toEqual(page);
@@ -75,7 +75,7 @@ describe("getPromptCategories tests", () => {
 
    it("getPromptCategories test", async () => {
       const userId = "user-id-1";
-      const categories = dtestData.dPromptCategories();
+      const categories = dtestData.dPrompt0Categories();
       promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
       const result = await promptService.getPromptCategories(userId);
@@ -108,7 +108,7 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt - prompt defined - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
@@ -131,7 +131,7 @@ describe("createPrompt tests", () => {
 
    it("createPrompt - error - test", async () => {
       const userId = "user-id-123";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
       promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
 
       await expect(promptService.createPrompt(userId, prompt)).rejects.toThrow(
@@ -144,7 +144,7 @@ describe("createPrompt tests", () => {
 
    it("createPrompt - prompt created  - test", async () => {
       const userId = "user-id-456";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
 
       await promptService.createPrompt(userId, prompt);
 
@@ -161,7 +161,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - prompt not found - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
+      const prompt = dtestData.dPrompt0Update();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
 
       const fn = async () =>
@@ -180,8 +180,8 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - error - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPrompt0Update();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
       const error = new Error("db error");
@@ -211,8 +211,8 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content not changed - createVersion false - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPrompt0Update();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -238,8 +238,8 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content not changed - createVersion true - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPrompt0Update();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -265,8 +265,8 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content changed - createVersion false - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPrompt0Update();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
@@ -291,8 +291,8 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content changed - createVersion true - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPrompt0Update();
+      const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 

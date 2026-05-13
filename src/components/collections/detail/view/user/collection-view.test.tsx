@@ -91,7 +91,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("CollectionView rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
       getCollectionsMock.mockResolvedValue([]);
    });

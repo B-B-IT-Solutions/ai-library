@@ -36,7 +36,6 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptContent,
    DPromptField,
    DPromptFieldUpdate,
    DPromptFieldValues,
@@ -45,6 +44,7 @@ import {
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
    DPrompt0,
@@ -436,7 +436,7 @@ export const dProductItems = (count = 3): DProductItem[] => {
 };
 
 export const dProductItem = (index = 1): DProductItem => {
-   const template = dPromptTemplateDescriptor(index);
+   const template = dPrompt(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
       productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
@@ -493,17 +493,15 @@ export const dInstruction = (index = 1): DInstruction => {
    };
 };
 
-export const dPromptTemplateDataPromptGeneration = (
-   index = 1
-): DPromptGenerationData => {
+export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
    return {
-      template: dPromptTemplate(index),
+      template: dPromptWithContent(index),
       allFields: dPromptFields(),
    };
 };
 
-export const dTemplateDescriptorsPage = (count = 3): DPromptsPage => {
-   const descriptors = dPromptTemplateDescriptors(count);
+export const dPromptsPage = (count = 3): DPromptsPage => {
+   const descriptors = dPrompts(count);
    return {
       content: descriptors,
       numberOfElements: descriptors.length,
@@ -514,16 +512,18 @@ export const dTemplateDescriptorsPage = (count = 3): DPromptsPage => {
    };
 };
 
-export const dPromptTemplateDescriptors = (count = 3): DPrompt[] => {
-   return range(0, count).map((i) => dPromptTemplateDescriptor(i));
+export const dPrompts = (count = 3): DPrompt[] => {
+   return range(0, count).map((i) => dPrompt(i));
 };
 
-export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
+export const dPrompt = (index = 1): DPrompt => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
       description: `description ${index}`,
-      categories: dPromptTemplateCategories(),
+      categories: dPromptCategories(),
+      fields: dPromptFields(),
+      globalFieldIds: dGlobalPromptFieldIds(),
       recommendedModel: `model ${index}`,
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
@@ -531,16 +531,14 @@ export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
    };
 };
 
-export const dPromptTemplate = (index = 1): DPromptContent => {
+export const dPromptWithContent = (index = 1): DPromptWithContent => {
    return {
-      id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
+      ...dPrompt(index),
       content: `content ${index}`,
-      fields: dPromptFields(3),
-      globalFieldIds: dGlobalPromptFieldIds(1),
    };
 };
 
-export const dPromptTemplateUpdate = (index = 1): DPromptUpdate => {
+export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
       description: `updated description ${index}`,
@@ -596,31 +594,31 @@ export const dPromptFieldValues = (index = 1): DPromptFieldValues => {
    };
 };
 
-export const dPromptTemplateCategoriesString = (count = 3): string[] => {
-   return map(dPromptTemplateCategories(count), (c) => c.name);
+export const dPromptCategoriesString = (count = 3): string[] => {
+   return map(dPromptCategories(count), (c) => c.name);
 };
 
-export const dPromptTemplateCategories = (count = 3): DPromptCategory[] => {
-   return range(0, count).map((i) => dPromptTemplateCategory(i));
+export const dPromptCategories = (count = 3): DPromptCategory[] => {
+   return range(0, count).map((i) => dPromptCategory(i));
 };
 
-export const dPromptTemplateCategory = (index = 1): DPromptCategory => {
+export const dPromptCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
    };
 };
 
-export const dTemplateDescriptorsPageQuery = (index = 1): DPromptsPageQuery => {
+export const dPromptsPageQuery = (index = 1): DPromptsPageQuery => {
    return {
       pagination: {
          pageSize: 10,
          pageNumber: 1,
       },
-      filter: dTemplateDescriptorsFilter(index),
+      filter: dPromptsFilter(index),
    };
 };
 
-export const dTemplateDescriptorsFilter = (index = 1): DPromptsFilter => {
+export const dPromptsFilter = (index = 1): DPromptsFilter => {
    return {
       search: `search ${index}`,
       categories: ["cat 1", "cat 2", "cat 3"],
@@ -630,8 +628,8 @@ export const dTemplateDescriptorsFilter = (index = 1): DPromptsFilter => {
    };
 };
 
-export const dPromptDescriptorsPage = (): DPrompt0sPage => {
-   const prompts = dPromptDescriptors();
+export const dPrompt0sPage = (): DPrompt0sPage => {
+   const prompts = dPrompt0s();
    return {
       content: prompts,
       numberOfElements: prompts.length,
@@ -642,21 +640,21 @@ export const dPromptDescriptorsPage = (): DPrompt0sPage => {
    };
 };
 
-export const dPromptDescriptors = (count = 3): DPrompt0[] => {
-   return range(0, count).map((i) => dPromptDescriptor(i));
+export const dPrompt0s = (count = 3): DPrompt0[] => {
+   return range(0, count).map((i) => dPrompt0(i));
 };
 
-export const dPromptDescriptor = (index = 1): DPrompt0 => {
+export const dPrompt0 = (index = 1): DPrompt0 => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
       currentVersion: 1,
       content: "content 1",
-      categories: dPromptCategories(),
+      categories: dPrompt0Categories(),
       recommendedModel: `model ${index}`,
       isFavorite: true,
       followUpPrompts: dPromptFollowUps(),
-      versions: dPromptVersions(),
+      versions: dPrompt0Versions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -756,32 +754,34 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: ["option-1", "option-2", "option-3"],
 });
 
-export const dPromptUpdate = (index = 1): DPrompt0Update => {
+export const dPrompt0Update = (index = 1): DPrompt0Update => {
    return {
       title: `title ${index}`,
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      followUpPrompts: dPromptFollowUpUpdates(),
+      followUpPrompts: dPrompt0FollowUpUpdates(),
    };
 };
 
-export const dPromptFollowUpUpdates = (count = 3): DPrompt0FollowUpUpdate[] => {
-   return range(0, count).map((i) => dPromptFollowUpUpdate(i));
+export const dPrompt0FollowUpUpdates = (
+   count = 3
+): DPrompt0FollowUpUpdate[] => {
+   return range(0, count).map((i) => dPrompt0FollowUpUpdate(i));
 };
 
-export const dPromptFollowUpUpdate = (index = 1): DPrompt0FollowUpUpdate => {
+export const dPrompt0FollowUpUpdate = (index = 1): DPrompt0FollowUpUpdate => {
    return {
       content: `prompt follow up update ${index}`,
       order: index,
    };
 };
 
-export const dFollowUpPrompts = (count = 3): DPrompt0FollowUp[] => {
-   return range(0, count).map((i) => dFollowUpPrompt(i));
+export const dPrompt0FollowUps = (count = 3): DPrompt0FollowUp[] => {
+   return range(0, count).map((i) => dPrompt0FollowUp(i));
 };
 
-export const dFollowUpPrompt = (index = 1): DPrompt0FollowUp => {
+export const dPrompt0FollowUp = (index = 1): DPrompt0FollowUp => {
    return {
       id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
       content: `prompt follow up ${index}`,
@@ -789,15 +789,15 @@ export const dFollowUpPrompt = (index = 1): DPrompt0FollowUp => {
    };
 };
 
-export const dPromptCategoriesString = (count = 3): string[] => {
-   return map(dPromptCategories(count), (c) => c.name);
+export const dPrompt0CategoriesString = (count = 3): string[] => {
+   return map(dPrompt0Categories(count), (c) => c.name);
 };
 
-export const dPromptCategories = (count = 3): DPrompt0Category[] => {
-   return range(0, count).map((i) => dPromptTemplateCategory(i));
+export const dPrompt0Categories = (count = 3): DPrompt0Category[] => {
+   return range(0, count).map((i) => dPromptCategory(i));
 };
 
-export const dPromptCategory = (index = 1): DPrompt0Category => {
+export const dPrompt0Category = (index = 1): DPrompt0Category => {
    return {
       name: `category ${index}`,
    };
@@ -815,11 +815,11 @@ export const dPromptFollowUp = (index = 1): DPrompt0FollowUp => {
    };
 };
 
-export const dPromptVersions = (count = 3): DPrompt0Version[] => {
-   return range(0, count).map((i) => dPromptVersion(i));
+export const dPrompt0Versions = (count = 3): DPrompt0Version[] => {
+   return range(0, count).map((i) => dPrompt0Version(i));
 };
 
-export const dPromptVersion = (index = 1): DPrompt0Version => {
+export const dPrompt0Version = (index = 1): DPrompt0Version => {
    return {
       id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
       version: index,
@@ -828,18 +828,18 @@ export const dPromptVersion = (index = 1): DPrompt0Version => {
    };
 };
 
-export const dPromptsPageQuery = (): DPrompt0sPageQuery => {
+export const dPrompt0sPageQuery = (): DPrompt0sPageQuery => {
    return {
       pagination: {
          pageNumber: 15,
          pageSize: 5,
       },
-      filter: dPromptDescriptorsFilter(),
+      filter: dPrompt0sFilter(),
       globalFilter: "test 1",
    };
 };
 
-export const dPromptDescriptorsFilter = (): DPrompt0sFilter => {
+export const dPrompt0sFilter = (): DPrompt0sFilter => {
    return {
       search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],

@@ -81,7 +81,7 @@ describe("PromptFollowUpsEdit rendering tests", () => {
    });
 
    it("PromptFollowUpsEdit - with prompts - rendered test", async () => {
-      const updates = dtestData.dPromptFollowUpUpdates();
+      const updates = dtestData.dPrompt0FollowUpUpdates();
       const { container } = render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {
@@ -99,7 +99,7 @@ describe("PromptFollowUpsEdit functionality tests", () => {
    });
 
    it("PromptFollowUpsEdit - add btn clicked - test", async () => {
-      const updates = dtestData.dPromptFollowUpUpdates(3);
+      const updates = dtestData.dPrompt0FollowUpUpdates(3);
       render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {
@@ -116,7 +116,7 @@ describe("PromptFollowUpsEdit functionality tests", () => {
    });
 
    it("PromptFollowUpsEdit - remove btn clicked - test", async () => {
-      const updates = dtestData.dPromptFollowUpUpdates(5);
+      const updates = dtestData.dPrompt0FollowUpUpdates(5);
       render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {

@@ -33,7 +33,7 @@ describe("PublicTemplateItemsGrid rendering tests", () => {
 
    it("descriptors - with items - test", async () => {
       const collections = dtestData.dCollections();
-      const descriptors = dtestData.dPromptTemplateDescriptors();
+      const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
          <PublicTemplateItemsGrid

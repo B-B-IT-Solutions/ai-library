@@ -139,8 +139,8 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - rendered - test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
@@ -159,8 +159,8 @@ describe("TemplateEditForm rendering tests", () => {
 
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
 
       template.content = "Hello {{{{name}}, your role is {{{{role}}";
 
@@ -213,8 +213,8 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("remove global field btn clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       render(
@@ -394,8 +394,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       render(
@@ -494,8 +494,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       render(

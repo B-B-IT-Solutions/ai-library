@@ -174,7 +174,7 @@ describe("CollectionTemplates rendering tests", () => {
       const templateIdsQueryResult = templateIdsQueryResultMock([]);
       useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
 
-      const page = dtestData.dTemplateDescriptorsPage(0);
+      const page = dtestData.dPromptsPage(0);
       const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
          loadTemplatesQueryResult
@@ -195,7 +195,7 @@ describe("CollectionTemplates rendering tests", () => {
    });
 
    it("in collection/not in collection - with items - test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage(6);
+      const page = dtestData.dPromptsPage(6);
       const templateIds = [page.content[0].id];
 
       const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
@@ -240,7 +240,7 @@ describe("CollectionTemplates functionality tests", () => {
       const templateIdsQueryResult = templateIdsQueryResultMock([]);
       useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
 
-      const page = dtestData.dTemplateDescriptorsPage(2);
+      const page = dtestData.dPromptsPage(2);
       const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
          loadTemplatesQueryResult
@@ -307,7 +307,7 @@ describe("CollectionTemplates functionality tests", () => {
       const templateIdsQueryResult = templateIdsQueryResultMock([]);
       useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
 
-      const page = dtestData.dTemplateDescriptorsPage(3);
+      const page = dtestData.dPromptsPage(3);
       const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
          loadTemplatesQueryResult
@@ -369,7 +369,7 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      const page = dtestData.dTemplateDescriptorsPage(6);
+      const page = dtestData.dPromptsPage(6);
       const templateIds = [page.content[0].id];
 
       const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
@@ -429,7 +429,7 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      const page = dtestData.dTemplateDescriptorsPage(1);
+      const page = dtestData.dPromptsPage(1);
       const templateIds = [page.content[0].id];
 
       const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);

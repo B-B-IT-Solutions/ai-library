@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    DPrompt,
-   DPromptContent,
+   DPromptWithContent,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
 
@@ -11,7 +11,7 @@ import { initPromptTemplate } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
    descriptor: DPrompt,
-   template: DPromptContent
+   template: DPromptWithContent
 ): DPromptUpdate => {
    return {
       title: descriptor.title,
@@ -51,8 +51,8 @@ describe("initPromptTempalte tests", () => {
    });
 
    it("initPromptTempalte - existing entry test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
-      const template = dtestData.dPromptTemplate();
+      const descriptor = dtestData.dPrompt();
+      const template = dtestData.dPromptWithContent();
       const field = template.fields[0];
       field.description = null;
       field.defaultValue = null;

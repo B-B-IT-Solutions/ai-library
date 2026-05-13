@@ -77,7 +77,7 @@ describe("UseTemplateForm rendering tests", () => {
          country,
       ];
 
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const templateData = dtestData.dPromptGenerationData();
       templateData.allFields = fields;
 
       const { container } = render(
@@ -99,7 +99,7 @@ describe("UseTemplateForm functionality tests", () => {
 
    it("open-in-ai btn clicked - aiModel gpt - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 
@@ -136,7 +136,7 @@ describe("UseTemplateForm functionality tests", () => {
 
    it("open-in-ai btn clicked - aiModel claude - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 

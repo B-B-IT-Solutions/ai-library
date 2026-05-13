@@ -31,7 +31,7 @@ describe("TemplateItemsGrid rendering tests", () => {
 
    it("descriptors - with items - test", async () => {
       const collections = dtestData.dCollections();
-      const descriptors = dtestData.dPromptTemplateDescriptors();
+      const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsGrid
@@ -52,7 +52,7 @@ describe("TemplateItemsGrid ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const collections = dtestData.dCollections();
-      const descriptors = dtestData.dPromptTemplateDescriptors(); // 3 items
+      const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
          <TemplateItemsGrid

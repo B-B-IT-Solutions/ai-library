@@ -57,7 +57,7 @@ describe("loadCatalogEntryDescriptors hooks tests", () => {
       const page = dtestData.dCatalogEntriesPage();
       getPublishedCatalogEntriesPageMock.mockResolvedValue(page);
 
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
       const params: LoadCatalogEntriesParams = { filters, sort };
 

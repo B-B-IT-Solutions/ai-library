@@ -34,7 +34,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("TemplateItemsPublic rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dTemplateDescriptorsPage();
+      const page = dtestData.dPromptsPage();
       getPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 
@@ -43,7 +43,7 @@ describe("TemplateItemsPublic rendering tests", () => {
    });
 
    it("view grid - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
+      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <PublicTemplateItems

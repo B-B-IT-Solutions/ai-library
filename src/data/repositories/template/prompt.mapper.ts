@@ -1,43 +1,41 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import {
-   PromptContentWithFields,
    PromptWithCategories,
+   PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptContent,
    DPromptField,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
-export const toDTemplateDescriptors = (
-   pPrompts: PromptWithCategories[]
-): DPrompt[] => {
-   return map(pPrompts, (dbP) => toDTemplateDescriptor(dbP));
+export const toDPrompts = (pPrompts: PromptWithCategories[]): DPrompt[] => {
+   return map(pPrompts, (dbP) => toDPrompt(dbP));
 };
 
-export const toDTemplateDescriptor = (
-   prompt: PromptWithCategories
-): DPrompt => {
+export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
+      categories: prompt.categories,
+      fields: [],
+      globalFieldIds: [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
 
-export const toDPromptTemplate = (
-   prompt: PromptContentWithFields
-): DPromptContent => {
+export const toDPromptWithContent = (
+   prompt: PromptWithContent
+): DPromptWithContent => {
    return {
-      id: prompt.promptId,
-      content: prompt.content,
+      ...toDPrompt(prompt),
+      content: prompt.content.content,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };

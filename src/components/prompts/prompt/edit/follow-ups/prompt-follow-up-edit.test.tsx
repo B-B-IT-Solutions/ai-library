@@ -55,7 +55,7 @@ describe("PromptFollowUpEdit rendering tests", () => {
    });
 
    it("PromptFollowUpEdit rendered test", async () => {
-      const udpate = dtestData.dPromptFollowUpUpdate();
+      const udpate = dtestData.dPrompt0FollowUpUpdate();
       const removeFn = jest.fn();
 
       const { container } = render(
@@ -76,7 +76,7 @@ describe("PromptFollowUpEdit functionality tests", () => {
    });
 
    it("PromptFollowUpEdit - remove btn clicked - index 1 - test", async () => {
-      const udpate = dtestData.dPromptFollowUpUpdate();
+      const udpate = dtestData.dPrompt0FollowUpUpdate();
       const removeFn = jest.fn();
       const index = 1;
 
@@ -101,7 +101,7 @@ describe("PromptFollowUpEdit functionality tests", () => {
    });
 
    it("PromptFollowUpEdit - remove btn clicked - index 5 - test", async () => {
-      const udpate = dtestData.dPromptFollowUpUpdate();
+      const udpate = dtestData.dPrompt0FollowUpUpdate();
       const removeFn = jest.fn();
       const index = 5;
 

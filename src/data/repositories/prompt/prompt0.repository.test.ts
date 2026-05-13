@@ -17,8 +17,11 @@ import {
    Prompt0WhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
-import { PromptRepository } from "./prompt.repository";
+import {
+   toDPromptDescriptor,
+   toDPromptDescriptorsPage,
+} from "./prompt0.mapper";
+import { PromptRepository } from "./prompt0.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -426,7 +429,7 @@ describe("pCreatePrompt tests", () => {
 
    test("pCreatePrompt - prompt created - test", async () => {
       const userId = "user-id-123";
-      const data = dtestData.dPromptUpdate();
+      const data = dtestData.dPrompt0Update();
       const created = ptestData.pPromptDescriptor();
       prismaMock.prompt0.create.mockResolvedValue(created);
 
@@ -475,8 +478,8 @@ describe("pUpdatePrompt tests", () => {
    test("pUpdatePrompt - no version created - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
-      const data = dtestData.dPromptUpdate();
-      const current = dtestData.dPromptDescriptor();
+      const data = dtestData.dPrompt0Update();
+      const current = dtestData.dPrompt0();
       current.currentVersion = 1;
       const updated = ptestData.pPromptDescriptor();
       prismaMock.prompt0.update.mockResolvedValue(updated);
@@ -526,8 +529,8 @@ describe("pUpdatePrompt tests", () => {
    test("pUpdatePrompt - version created - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
-      const data = dtestData.dPromptUpdate();
-      const current = dtestData.dPromptDescriptor();
+      const data = dtestData.dPrompt0Update();
+      const current = dtestData.dPrompt0();
       current.currentVersion = 1;
       const updated = ptestData.pPromptDescriptor();
       prismaMock.prompt0.update.mockResolvedValue(updated);
@@ -646,8 +649,8 @@ describe("followUpPromptUpdates tests", () => {
    const id2 = "f23c15c7-7d2d-40a2-a895-6a78516b9b32";
 
    it("all new follow-ups (no ids) - existing deleted - test", () => {
-      const current = dtestData.dPromptDescriptor();
-      const promptUpdate = dtestData.dPromptUpdate();
+      const current = dtestData.dPrompt0();
+      const promptUpdate = dtestData.dPrompt0Update();
 
       const result = promptRepository.followUpPromptUpdates(
          current,
@@ -669,8 +672,8 @@ describe("followUpPromptUpdates tests", () => {
    });
 
    it("all existing follow-ups updated (matching ids) - test", () => {
-      const current = dtestData.dPromptDescriptor();
-      const promptUpdate = dtestData.dPromptUpdate();
+      const current = dtestData.dPrompt0();
+      const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [
          { id: id0, content: "updated 0", order: 0 },
          { id: id1, content: "updated 1", order: 1 },
@@ -697,8 +700,8 @@ describe("followUpPromptUpdates tests", () => {
    });
 
    it("empty update list - all existing deleted - test", () => {
-      const current = dtestData.dPromptDescriptor();
-      const promptUpdate = dtestData.dPromptUpdate();
+      const current = dtestData.dPrompt0();
+      const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [];
 
       const result = promptRepository.followUpPromptUpdates(
@@ -717,8 +720,8 @@ describe("followUpPromptUpdates tests", () => {
    });
 
    it("mix: 2 updated + 1 new + 1 deleted - test", () => {
-      const current = dtestData.dPromptDescriptor();
-      const promptUpdate = dtestData.dPromptUpdate();
+      const current = dtestData.dPrompt0();
+      const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [
          { id: id0, content: "updated 0", order: 0 },
          { id: id1, content: "updated 1", order: 1 },
@@ -750,9 +753,9 @@ describe("followUpPromptUpdates tests", () => {
    });
 
    it("no existing follow-ups, no updates - all undefined - test", () => {
-      const current = dtestData.dPromptDescriptor();
+      const current = dtestData.dPrompt0();
       current.followUpPrompts = [];
-      const promptUpdate = dtestData.dPromptUpdate();
+      const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [];
 
       const result = promptRepository.followUpPromptUpdates(
@@ -771,9 +774,9 @@ describe("followUpPromptUpdates tests", () => {
    });
 
    it("no existing follow-ups, add new - test", () => {
-      const current = dtestData.dPromptDescriptor();
+      const current = dtestData.dPrompt0();
       current.followUpPrompts = [];
-      const promptUpdate = dtestData.dPromptUpdate();
+      const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [
          { content: "new 1", order: 0 },
          { content: "new 2", order: 1 },

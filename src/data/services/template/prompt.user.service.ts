@@ -3,12 +3,12 @@
 import { TemplateRepository } from "@/data/repositories/template";
 import {
    DPrompt,
-   DPromptContent,
    DPromptFieldValues,
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { TemplateEngine } from "@/lib/template";
@@ -187,7 +187,7 @@ export class TemplateService {
    async getPromptTemplate(
       userId: string,
       templateId: string
-   ): Promise<DPromptContent | null> {
+   ): Promise<DPromptWithContent | null> {
       return await this.repository.pGetPromptTemplate(userId, templateId);
    }
 

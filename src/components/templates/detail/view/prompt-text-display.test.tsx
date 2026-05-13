@@ -33,7 +33,7 @@ const assertContentNotRendered = () => {
 
 describe("PromptTextDisplay rendering tests", () => {
    it("PromptTextDisplay rendered test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       const { container } = render(<PromptTextDisplay template={template} />);
 
@@ -53,7 +53,7 @@ describe("PromptTextDisplay functionality tests", () => {
    });
 
    it("PromptTextDisplay - expand btn clicked - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       render(<PromptTextDisplay template={template} />);
 
@@ -71,7 +71,7 @@ describe("PromptTextDisplay functionality tests", () => {
    });
 
    it("PromptTextDisplay - expand btn clicked twice - content re-expands", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       render(<PromptTextDisplay template={template} />);
 
@@ -95,7 +95,7 @@ describe("PromptTextDisplay functionality tests", () => {
    });
 
    it("PromptTextDisplay - copy btn clicked - success - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       render(<PromptTextDisplay template={template} />);
 
@@ -119,7 +119,7 @@ describe("PromptTextDisplay functionality tests", () => {
       writeTextMock.mockRejectedValue(error);
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       render(<PromptTextDisplay template={template} />);
 
       await waitFor(() => {
@@ -136,7 +136,7 @@ describe("PromptTextDisplay functionality tests", () => {
    });
 
    it("PromptTextDisplay - copy btn clicked - copied state resets after 2 seconds - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
 
       render(<PromptTextDisplay template={template} />);
 

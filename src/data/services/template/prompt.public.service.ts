@@ -3,10 +3,10 @@ import { isEmpty } from "es-toolkit/compat";
 import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
    DPrompt,
-   DPromptContent,
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { PublicSettingsService } from "../settings";
@@ -75,7 +75,7 @@ export class PublicTemplateService {
 
    async getPublicPromptTemplate(
       templateId: string
-   ): Promise<DPromptContent | null> {
+   ): Promise<DPromptWithContent | null> {
       return await this.repository.pGetPublicPromptTemplate(templateId);
    }
 }

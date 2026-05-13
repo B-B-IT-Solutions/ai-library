@@ -77,7 +77,7 @@ describe("PublicTemplatePage rendering tests", () => {
    });
 
    it("descriptor retrieved - template null - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       getPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
 
       getPublicPromptTemplateMock.mockResolvedValue(null);
@@ -109,10 +109,10 @@ describe("PublicTemplatePage rendering tests", () => {
    });
 
    it("descriptor retrieved - template retrieved - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       getPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
 
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptWithContent();
       getPublicPromptTemplateMock.mockResolvedValue(template);
 
       const collection = dtestData.dCollection();
@@ -177,7 +177,7 @@ describe("PublicTemplatePage functionality tests", () => {
    });
 
    it("generateMetadata- descriptor defined - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPrompt();
       getPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
 
       const pageParams: PageParams = {

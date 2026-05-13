@@ -24,7 +24,7 @@ const assertRendered = () => {
 
 describe("DeletePromptButton rendering tests", () => {
    it("rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       const { container } = renderWithTooltip(
          <DeletePromptButton prompt={prompt} />
       );
@@ -50,7 +50,7 @@ describe("DeletePromptButton functionality tests", () => {
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
@@ -84,7 +84,7 @@ describe("DeletePromptButton functionality tests", () => {
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
@@ -112,7 +112,7 @@ describe("DeletePromptButton functionality tests", () => {
    });
 
    it("cancel btn clicked - closes dialog - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const prompt = dtestData.dPrompt0();
       renderWithTooltip(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {

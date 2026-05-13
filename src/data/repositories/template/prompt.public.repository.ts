@@ -1,23 +1,21 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt";
+import {
+   PromptWithCategories,
+   PromptWithContent,
+} from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptContent,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
-   PromptContentFindFirstArgs,
    PromptCountArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDTemplateDescriptor,
-   toDTemplateDescriptors,
-} from "./template.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class PublicTemplateRepository {
@@ -58,7 +56,7 @@ export class PublicTemplateRepository {
       ]);
 
       return {
-         content: toDTemplateDescriptors(descriptors),
+         content: toDPrompts(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -78,22 +76,24 @@ export class PublicTemplateRepository {
       const descriptor: PromptWithCategories | null =
          await this.prisma.prompt.findFirst(args);
 
-      return descriptor ? toDTemplateDescriptor(descriptor) : null;
+      return descriptor ? toDPrompt(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
+   async pGetPublicPromptTemplate(
+      id: string
+   ): Promise<DPromptWithContent | null> {
       const args = {
-         where: {
-            promptId: id,
-         },
+         where: { id },
          include: {
+            content: true,
+            categories: true,
             fields: true,
             globalFields: true,
          },
-      } satisfies PromptContentFindFirstArgs;
+      } satisfies PromptFindFirstArgs;
 
-      const template = await this.prisma.promptContent.findFirst(args);
+      const prompt = await this.prisma.prompt.findFirst(args);
 
-      return template ? toDPromptTemplate(template) : null;
+      return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 }
