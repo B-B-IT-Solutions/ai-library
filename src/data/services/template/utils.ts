@@ -1,11 +1,11 @@
 ﻿import { filter, map } from "es-toolkit/compat";
 
-import { DPromptContent, DPromptField } from "@/data/types/domain/prompt";
+import { DPromptField, DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
 export const resolveAllTemplateFields = (
-   template: DPromptContent,
+   template: DPromptWithContent,
    globalFields: DGlobalPromptField[]
 ) => {
    const allFieldNames = new Set([

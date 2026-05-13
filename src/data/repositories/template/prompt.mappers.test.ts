@@ -7,8 +7,8 @@ import {
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptContent,
    DPromptField,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
@@ -35,7 +35,7 @@ const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
 
 const toDPromptWithContentInternal = (
    prompt: PromptWithContent
-): DPromptContent => {
+): DPromptWithContent => {
    return {
       ...toDPromptInternal(prompt),
       content: prompt.content.content,

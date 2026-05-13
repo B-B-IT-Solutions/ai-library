@@ -26,7 +26,7 @@ export type DPromptCategory = {
 };
 
 export type DPromptGenerationData = {
-   template: DPromptContent;
+   template: DPromptWithContent;
    allFields: DPromptField[];
 };
 
@@ -43,7 +43,7 @@ export type DPrompt = {
    createdAt: string;
 };
 
-export type DPromptContent = DPrompt & {
+export type DPromptWithContent = DPrompt & {
    content: string;
 };
 

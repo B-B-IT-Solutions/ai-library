@@ -381,9 +381,9 @@ describe("composePromptFromTemplate tests", () => {
          valid: true,
          errors: {},
       };
-      const promptContent = "Hello, your email is test1@email.com.";
+      const content = "Hello, your email is test1@email.com.";
       sValidateMock.mockReturnValue(validationResult);
-      sReplaceMock.mockReturnValue(promptContent);
+      sReplaceMock.mockReturnValue(content);
 
       const userId = "user-id-1";
       const { id } = descriptor;
@@ -398,7 +398,7 @@ describe("composePromptFromTemplate tests", () => {
       );
 
       const expectedResult: DPrompt0Update = {
-         content: promptContent,
+         content: content,
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,
          categories: descriptor.categories.map((cat) => cat.name),

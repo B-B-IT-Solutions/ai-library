@@ -8,12 +8,12 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptContent,
    DPromptFieldType,
    DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -118,7 +118,7 @@ export class TemplateRepository {
    async pGetPromptTemplate(
       userId: string,
       id: string
-   ): Promise<DPromptContent | null> {
+   ): Promise<DPromptWithContent | null> {
       const prompt = await this.prisma.prompt.findFirst({
          where: { id, userId },
          include: {

@@ -36,7 +36,6 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptContent,
    DPromptField,
    DPromptFieldUpdate,
    DPromptFieldValues,
@@ -45,6 +44,7 @@ import {
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
    DPrompt0,
@@ -531,7 +531,7 @@ export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
    };
 };
 
-export const dPromptTemplate = (index = 1): DPromptContent => {
+export const dPromptTemplate = (index = 1): DPromptWithContent => {
    return {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       content: `content ${index}`,

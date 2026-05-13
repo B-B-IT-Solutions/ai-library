@@ -5,9 +5,9 @@ import {
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptContent,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
    PromptCountArgs,
@@ -79,7 +79,9 @@ export class PublicTemplateRepository {
       return descriptor ? toDPrompt(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
+   async pGetPublicPromptTemplate(
+      id: string
+   ): Promise<DPromptWithContent | null> {
       const args = {
          where: { id },
          include: {

@@ -3,13 +3,13 @@ import { map } from "es-toolkit/compat";
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import {
    DPrompt,
-   DPromptContent,
+   DPromptWithContent,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
 
 export const initPromptTemplate = (
    descriptor?: DPrompt,
-   template?: DPromptContent
+   template?: DPromptWithContent
 ): DPromptUpdate => {
    return {
       title: descriptor?.title ?? "",

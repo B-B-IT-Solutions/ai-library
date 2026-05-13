@@ -48,7 +48,7 @@ export const main = async () => {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptContent: true,
+            content: true,
          },
       });
 
@@ -60,11 +60,8 @@ export const main = async () => {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
-            promptContent: {
-               include: {
-                  fields: true,
-               },
-            },
+            content: true,
+            fields: true,
          },
       });
 

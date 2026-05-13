@@ -9,10 +9,7 @@ import { Button } from "@/components/shadcn/button";
 import { getPublishedCatalogEntryBySlug } from "@/data/actions/catalog";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
-import {
-   toCatalogEntryDescriptor,
-   toCatalogEntryTemplateData,
-} from "./use-entry.utils";
+import { toDPrompt, toDPromptGenerationData } from "./use-entry.utils";
 
 type Props = {
    slug: string;
@@ -39,8 +36,8 @@ export const UseCatalogEntryLazyButton = ({ slug }: Props) => {
       if (isOpen && entry) {
          return (
             <UseTemplateDialog
-               descriptor={toCatalogEntryDescriptor(entry)}
-               templateData={toCatalogEntryTemplateData(entry)}
+               descriptor={toDPrompt(entry)}
+               templateData={toDPromptGenerationData(entry)}
                onCancel={() => {
                   setIsOpen(false);
                   setEntry(null);
