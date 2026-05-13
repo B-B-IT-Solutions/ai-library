@@ -189,15 +189,15 @@ model PromptContent {
 }
 
 model PromptGlobalField {
-  promptTemplateId String @map("prompt_template_id") @db.Uuid
-  globalFieldId    String @map("global_field_id") @db.Uuid
-  order            Int    @default(0)
+  promptId      String @map("prompt_id") @db.Uuid
+  globalFieldId String @map("global_field_id") @db.Uuid
+  order         Int    @default(0)
 
-  promptContent PromptContent       @relation(fields: [promptTemplateId], references: [promptId], onDelete: Cascade)
+  promptContent PromptContent       @relation(fields: [promptId], references: [promptId], onDelete: Cascade)
   globalField   GlobalTemplateField @relation(fields: [globalFieldId], references: [id])
 
-  @@id([promptTemplateId, globalFieldId])
-  @@index([promptTemplateId])
+  @@id([promptId, globalFieldId])
+  @@index([promptId])
   @@map("prompt_global_field")
 }
 

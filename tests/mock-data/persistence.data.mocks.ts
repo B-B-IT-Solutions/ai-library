@@ -663,7 +663,7 @@ export const pPromptGlobalFields = (count = 3): PromptGlobalField[] => {
 export const pPromptGlobalField = (index = 1): PromptGlobalField => {
    return {
       globalFieldId: `global-field-id-${index}`,
-      promptTemplateId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       order: index,
    };
 };
