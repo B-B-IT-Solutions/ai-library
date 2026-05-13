@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 import { DFiltersContext } from "./types";
 
-export const initFilters: DPromptDescriptorsFilter = {
+export const initFilters: DPrompt0sFilter = {
    search: "",
    categories: [],
 };

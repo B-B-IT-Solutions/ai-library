@@ -1,25 +1,22 @@
-import { dtestData } from "@tests";
+﻿import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
    DCatalogEntryField,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
-import {
-   DPromptTemplateFieldUpdate,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
+import { DPromptFieldUpdate, DPromptUpdate } from "@/data/types/domain/prompt";
 
 import {
-   toPromptTemplateFieldUpdate,
-   toPromptTemplateFieldUpdates,
+   toPromptFieldUpdate,
+   toPromptFieldUpdates,
    toPromptTemplateUpdate,
 } from "./catalog.mapper";
 
 const toPromptTemplateUpdateInternal = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateUpdate => {
-   const fields = toPromptTemplateFieldUpdatesInternal(entry.fields);
+): DPromptUpdate => {
+   const fields = toPromptFieldUpdatesInternal(entry.fields);
 
    return {
       title: entry.title,
@@ -32,15 +29,15 @@ const toPromptTemplateUpdateInternal = (
    };
 };
 
-const toPromptTemplateFieldUpdatesInternal = (
+const toPromptFieldUpdatesInternal = (
    fields: DCatalogEntryField[]
-): DPromptTemplateFieldUpdate[] => {
-   return map(fields, (f) => toPromptTemplateFieldUpdateInternal(f));
+): DPromptFieldUpdate[] => {
+   return map(fields, (f) => toPromptFieldUpdateInternal(f));
 };
 
-const toPromptTemplateFieldUpdateInternal = (
+const toPromptFieldUpdateInternal = (
    field: DCatalogEntryField
-): DPromptTemplateFieldUpdate => {
+): DPromptFieldUpdate => {
    return {
       name: field.name,
       label: field.label,
@@ -74,27 +71,27 @@ describe("toPromptTemplateUpdate tests", () => {
       expect(result).toEqual(expectedResult);
    });
 
-   it("toPromptTemplateFieldUpdates test", async () => {
+   it("toPromptFieldUpdates test", async () => {
       const fields = dtestData.dCatalogEntryFields();
-      const result = toPromptTemplateFieldUpdates(fields);
-      const expectedResult = toPromptTemplateFieldUpdatesInternal(fields);
+      const result = toPromptFieldUpdates(fields);
+      const expectedResult = toPromptFieldUpdatesInternal(fields);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toPromptTemplateFieldUpdate test", async () => {
+   it("toPromptFieldUpdate test", async () => {
       const field = dtestData.dCatalogEntryField();
-      const result = toPromptTemplateFieldUpdate(field);
-      const expectedResult = toPromptTemplateFieldUpdateInternal(field);
+      const result = toPromptFieldUpdate(field);
+      const expectedResult = toPromptFieldUpdateInternal(field);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toPromptTemplateFieldUpdate - values null - test", async () => {
+   it("toPromptFieldUpdate - values null - test", async () => {
       const field = dtestData.dCatalogEntryField();
       field.description = null;
       field.defaultValue = null;
 
-      const result = toPromptTemplateFieldUpdate(field);
-      const expectedResult = toPromptTemplateFieldUpdateInternal(field);
+      const result = toPromptFieldUpdate(field);
+      const expectedResult = toPromptFieldUpdateInternal(field);
       expect(result).toEqual(expectedResult);
    });
 });

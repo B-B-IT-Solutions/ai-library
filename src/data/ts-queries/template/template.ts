@@ -19,10 +19,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/template";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
@@ -49,9 +46,9 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
 export const infiniteLoadTemplateDescriptorsOptions = (
    params: LoadTemplateDescriptorsParams
 ): UndefinedInitialDataInfiniteOptions<
-   DTemplateDescriptorsPage,
+   DPromptsPage,
    Error,
-   InfiniteData<DTemplateDescriptorsPage>,
+   InfiniteData<DPromptsPage>,
    QueryKey,
    number
 > => {
@@ -59,7 +56,7 @@ export const infiniteLoadTemplateDescriptorsOptions = (
    return {
       queryKey: templateKeys.templates(params),
       queryFn: async ({ pageParam }) => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
+         const query: DPromptsPageQuery = pageQuery(
             pageParam,
             PAGE_SIZE,
             undefined,
@@ -76,7 +73,7 @@ export const infiniteLoadTemplateDescriptorsOptions = (
 
 export const useInfiniteLoadTemplateDescriptors = (
    props: LoadTemplateDescriptorsParams
-): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
+): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
    const options = infiniteLoadTemplateDescriptorsOptions(props);
    return useInfiniteQuery(options);
 };

@@ -1,15 +1,21 @@
-import { Page } from "@/data/types/common";
-import {
+﻿import {
+   Prompt,
    PromptCategory,
-   PromptDescriptor,
-   PromptFollowUp,
-   PromptVersion,
+   PromptContent,
+   PromptField,
+   PromptGlobalField,
 } from "@/generated/prisma/client";
 
-export type PromptDescriptorWithRelations = PromptDescriptor & {
-   categories: PromptCategory[];
-   versions: PromptVersion[];
-   followUpPrompts: PromptFollowUp[];
+export type PromptContentWithFields = PromptContent & {
+   fields: PromptField[];
+   globalFields: PromptGlobalField[];
 };
 
-export type PromptDescriptorsPage = Page<PromptDescriptorWithRelations>;
+export type PromptWithCategories = Prompt & {
+   categories: PromptCategory[];
+};
+
+export type PromptWithTemplate = Prompt & {
+   categories: PromptCategory[];
+   promptContent: PromptContentWithFields;
+};

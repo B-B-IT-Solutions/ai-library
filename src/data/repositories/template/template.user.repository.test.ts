@@ -1,15 +1,16 @@
-import { PrismaClient } from "@prisma/client";
+﻿import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
 import { flatMap, map, uniq } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   DPromptTemplateFieldType,
-   DPromptTemplateFieldUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPromptFieldType,
+   DPromptFieldUpdate,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
    PromptContentFindFirstArgs,
@@ -49,7 +50,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
 
       const result = await repository.pGetTemplateDescriptorsPage(userId);
 
-      const expectedResult: DTemplateDescriptorsPage = {
+      const expectedResult: DPromptsPage = {
          content: toDTemplateDescriptors(descriptors),
          pageNumber: 0,
          pageSize: 20,
@@ -88,7 +89,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(totalEntries);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          pagination: { pageNumber: 2, pageSize: 10 },
          sort: { field: "createdAt", order: "asc" },
       };
@@ -98,7 +99,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
          query
       );
 
-      const expectedResult: DTemplateDescriptorsPage = {
+      const expectedResult: DPromptsPage = {
          content: toDTemplateDescriptors(descriptors),
          pageNumber: 2,
          pageSize: 10,
@@ -134,7 +135,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(0);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          sort: { field: "title", order: "asc" },
       };
@@ -167,7 +168,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
       prismaMock.prompt.count.mockResolvedValue(0);
 
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          sort: { field: "title", order: "desc" },
       };
@@ -232,7 +233,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - search - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             search: "test search",
          },
@@ -278,7 +279,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - categories - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             categories: ["cat1", "cat2"],
          },
@@ -311,7 +312,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - models - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             models: ["gpt-4", "claude"],
          },
@@ -344,7 +345,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - isFavorite true - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             isFavorite: true,
          },
@@ -377,7 +378,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - isFavorite false - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             isFavorite: false,
          },
@@ -410,7 +411,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - collectionIds - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             collectionIds: ["col-1", "col-2"],
          },
@@ -445,7 +446,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - empty arrays - test", async () => {
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter: {
             categories: [],
             models: [],
@@ -480,7 +481,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
 
    test("resolveWhereInput - full filter - test", async () => {
       const filter = dtestData.dTemplateDescriptorsFilter();
-      const query: DTemplateDescriptorsPageQuery = {
+      const query: DPromptsPageQuery = {
          filter,
       };
       await repository.pGetTemplateDescriptorsPage(userId, query);
@@ -829,11 +830,11 @@ describe("pGetPromptTemplateCategories queries tests", () => {
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
-      prismaMock.promptTemplateCategory.findMany.mockResolvedValue(categories);
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
       const result = await repository.pGetPromptTemplateCategories(userId);
 
-      const expectedFindMayArgs: Prisma.PromptTemplateCategoryFindManyArgs = {
+      const expectedFindMayArgs: Prisma.PromptCategoryFindManyArgs = {
          where: { userId },
          select: {
             name: true,
@@ -841,10 +842,8 @@ describe("pGetPromptTemplateCategories queries tests", () => {
       };
 
       expect(result).toEqual(categories);
-      expect(prismaMock.promptTemplateCategory.findMany).toHaveBeenCalledTimes(
-         1
-      );
-      expect(prismaMock.promptTemplateCategory.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
          expectedFindMayArgs
       );
    });
@@ -884,19 +883,16 @@ describe("pCreatePrompt tests", () => {
             create: {
                content: data.content,
                fields: {
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   create: map(data.globalFieldIds, (id, idx) => ({
@@ -954,19 +950,16 @@ describe("pUpdatePrompt tests", () => {
                content: data.content,
                fields: {
                   deleteMany: {},
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   deleteMany: {},

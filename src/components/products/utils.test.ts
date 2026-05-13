@@ -1,6 +1,6 @@
 import { dtestData } from "@tests";
 
-import { DPromptTemplateCategory } from "@/data/types/domain/prompt.template";
+import { DPromptCategory } from "@/data/types/domain/prompt";
 
 import { getTypeBadgeColor, resolveUniqCategories } from "./utils";
 
@@ -26,7 +26,7 @@ describe("product utils tests", () => {
       expect(result1).toEqual([]);
 
       const result2 = resolveUniqCategories(productItems);
-      const expectedResult2: DPromptTemplateCategory[] = [
+      const expectedResult2: DPromptCategory[] = [
          { name: "category 0" },
          { name: "category 1" },
          { name: "category 2" },

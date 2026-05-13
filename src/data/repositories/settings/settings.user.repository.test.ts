@@ -4,17 +4,17 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   GlobalTemplateFieldCreateArgs,
-   GlobalTemplateFieldCreateInput,
-   GlobalTemplateFieldDeleteArgs,
-   GlobalTemplateFieldFindManyArgs,
-   GlobalTemplateFieldUpdateArgs,
-   GlobalTemplateFieldUpdateInput,
+   GlobalPromptFieldCreateArgs,
+   GlobalPromptFieldCreateInput,
+   GlobalPromptFieldDeleteArgs,
+   GlobalPromptFieldFindManyArgs,
+   GlobalPromptFieldUpdateArgs,
+   GlobalPromptFieldUpdateInput,
 } from "@/generated/prisma/models";
 
 import {
-   toDGlobalTemplateField,
-   toDGlobalTemplateFields,
+   toDGlobalPromptField,
+   toDGlobalPromptFields,
 } from "./settings.mapper";
 import { SettingsRepository } from "./settings.user.repository";
 
@@ -26,47 +26,47 @@ describe("pGetGlobalFields tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetGlobalTemplateFields test", async () => {
-      const fields = ptestData.pGlobalTemplateFields();
-      prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
+   test("pGetGlobalPromptFields test", async () => {
+      const fields = ptestData.pGlobalPromptFields();
+      prismaMock.globalPromptField.findMany.mockResolvedValue(fields);
 
       const userId = "user-id-1";
-      const result = await settingsRepository.pGetGlobalTemplateFields(userId);
+      const result = await settingsRepository.pGetGlobalPromptFields(userId);
 
-      const expectedResult = toDGlobalTemplateFields(fields);
+      const expectedResult = toDGlobalPromptFields(fields);
 
-      const expectedArgs: GlobalTemplateFieldFindManyArgs = {
+      const expectedArgs: GlobalPromptFieldFindManyArgs = {
          where: { userId },
          orderBy: { order: "asc" },
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 });
 
-describe("pGetGlobalTemplateFieldsByIds tests", () => {
+describe("pGetGlobalPromptFieldsByIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    test("global fields - retrieved - test", async () => {
-      const fields = ptestData.pGlobalTemplateFields();
-      prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
+      const fields = ptestData.pGlobalPromptFields();
+      prismaMock.globalPromptField.findMany.mockResolvedValue(fields);
 
       const userId = "user-id-1";
-      const ids = dtestData.dGlobalTemplateFieldIds();
-      const result = await settingsRepository.pGetGlobalTemplateFieldsByIds(
+      const ids = dtestData.dGlobalPromptFieldIds();
+      const result = await settingsRepository.pGetGlobalPromptFieldsByIds(
          userId,
          ids
       );
 
-      const expectedResult = toDGlobalTemplateFields(fields);
+      const expectedResult = toDGlobalPromptFields(fields);
 
-      const expectedArgs: GlobalTemplateFieldFindManyArgs = {
+      const expectedArgs: GlobalPromptFieldFindManyArgs = {
          where: {
             userId,
             id: {
@@ -76,33 +76,33 @@ describe("pGetGlobalTemplateFieldsByIds tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 });
 
-describe("pCreateGlobalTemplateField tests", () => {
+describe("pCreateGlobalPromptField tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pCreateGlobalTemplateField - field created - test", async () => {
-      const field = ptestData.pGlobalTemplateField();
-      prismaMock.globalTemplateField.create.mockResolvedValue(field);
+   test("pCreateGlobalPromptField - field created - test", async () => {
+      const field = ptestData.pGlobalPromptField();
+      prismaMock.globalPromptField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+      const data = dtestData.dGlobalPromptFieldUpdate();
 
-      const result = await settingsRepository.pCreateGlobalTemplateField(
+      const result = await settingsRepository.pCreateGlobalPromptField(
          userId,
          data
       );
 
-      const expectedResult = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalPromptField(field);
 
-      const expectedInput: GlobalTemplateFieldCreateInput = {
+      const expectedInput: GlobalPromptFieldCreateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -118,33 +118,33 @@ describe("pCreateGlobalTemplateField tests", () => {
          },
       };
 
-      const expectedArgs: GlobalTemplateFieldCreateArgs = {
+      const expectedArgs: GlobalPromptFieldCreateArgs = {
          data: expectedInput,
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.create).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.create).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.create).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 
-   test("pCreateGlobalTemplateField - field created  - options empty - test", async () => {
-      const field = ptestData.pGlobalTemplateField();
-      prismaMock.globalTemplateField.create.mockResolvedValue(field);
+   test("pCreateGlobalPromptField - field created  - options empty - test", async () => {
+      const field = ptestData.pGlobalPromptField();
+      prismaMock.globalPromptField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
-      const data = dtestData.dGlobalTemplateFieldUpdate(11);
+      const data = dtestData.dGlobalPromptFieldUpdate(11);
       data.options = [];
 
-      const result = await settingsRepository.pCreateGlobalTemplateField(
+      const result = await settingsRepository.pCreateGlobalPromptField(
          userId,
          data
       );
 
-      const expectedResult = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalPromptField(field);
 
-      const expectedInput: GlobalTemplateFieldCreateInput = {
+      const expectedInput: GlobalPromptFieldCreateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -160,40 +160,40 @@ describe("pCreateGlobalTemplateField tests", () => {
          },
       };
 
-      const expectedArgs: GlobalTemplateFieldCreateArgs = {
+      const expectedArgs: GlobalPromptFieldCreateArgs = {
          data: expectedInput,
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.create).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.create).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.create).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 });
 
-describe("pUpdateGlobalTemplateField tests", () => {
+describe("pUpdateGlobalPromptField tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pUpdateGlobalTemplateField - field updated - all fields - test", async () => {
-      const field = ptestData.pGlobalTemplateField();
-      prismaMock.globalTemplateField.update.mockResolvedValue(field);
+   test("pUpdateGlobalPromptField - field updated - all fields - test", async () => {
+      const field = ptestData.pGlobalPromptField();
+      prismaMock.globalPromptField.update.mockResolvedValue(field);
 
       const userId = "user-id-1";
       const id = "global-field-id-1";
-      const data = dtestData.dGlobalTemplateFieldUpdate(123);
+      const data = dtestData.dGlobalPromptFieldUpdate(123);
 
-      const result = await settingsRepository.pUpdateGlobalTemplateField(
+      const result = await settingsRepository.pUpdateGlobalPromptField(
          userId,
          id,
          data
       );
 
-      const expectedResult = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalPromptField(field);
 
-      const expectedInput: GlobalTemplateFieldUpdateInput = {
+      const expectedInput: GlobalPromptFieldUpdateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -204,36 +204,36 @@ describe("pUpdateGlobalTemplateField tests", () => {
          order: data.order,
       };
 
-      const expectedArgs: GlobalTemplateFieldUpdateArgs = {
+      const expectedArgs: GlobalPromptFieldUpdateArgs = {
          where: { id, userId },
          data: expectedInput,
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.update).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.update).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 
-   test("pUpdateGlobalTemplateField - field updated - options empty - test", async () => {
-      const field = ptestData.pGlobalTemplateField();
-      prismaMock.globalTemplateField.update.mockResolvedValue(field);
+   test("pUpdateGlobalPromptField - field updated - options empty - test", async () => {
+      const field = ptestData.pGlobalPromptField();
+      prismaMock.globalPromptField.update.mockResolvedValue(field);
 
       const userId = "user-id-1";
       const id = "global-field-id-1";
-      const data = dtestData.dGlobalTemplateFieldUpdate(123);
+      const data = dtestData.dGlobalPromptFieldUpdate(123);
       data.options = [];
 
-      const result = await settingsRepository.pUpdateGlobalTemplateField(
+      const result = await settingsRepository.pUpdateGlobalPromptField(
          userId,
          id,
          data
       );
 
-      const expectedResult = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalPromptField(field);
 
-      const expectedInput: GlobalTemplateFieldUpdateInput = {
+      const expectedInput: GlobalPromptFieldUpdateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -244,39 +244,39 @@ describe("pUpdateGlobalTemplateField tests", () => {
          order: data.order,
       };
 
-      const expectedArgs: GlobalTemplateFieldUpdateArgs = {
+      const expectedArgs: GlobalPromptFieldUpdateArgs = {
          where: { id, userId },
          data: expectedInput,
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.update).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.update).toHaveBeenCalledWith(
          expectedArgs
       );
    });
 });
 
-describe("pDeleteGlobalTemplateField tests", () => {
+describe("pDeleteGlobalPromptField tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pDeleteGlobalTemplateField test", async () => {
-      const field = ptestData.pGlobalTemplateField();
-      prismaMock.globalTemplateField.delete.mockResolvedValue(field);
+   test("pDeleteGlobalPromptField test", async () => {
+      const field = ptestData.pGlobalPromptField();
+      prismaMock.globalPromptField.delete.mockResolvedValue(field);
 
       const id = "global-field-id-1";
       const userId = "user-id-1";
 
-      await settingsRepository.pDeleteGlobalTemplateField(userId, id);
+      await settingsRepository.pDeleteGlobalPromptField(userId, id);
 
-      const expectedArgs: GlobalTemplateFieldDeleteArgs = {
+      const expectedArgs: GlobalPromptFieldDeleteArgs = {
          where: { id, userId },
       };
 
-      expect(prismaMock.globalTemplateField.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.delete).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.delete).toHaveBeenCalledWith(
          expectedArgs
       );
    });

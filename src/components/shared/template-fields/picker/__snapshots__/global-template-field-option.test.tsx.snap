@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - alreadyAdded false - isSelected false - test 1`] = `
+exports[`GlobalPromptFieldOption rendering tests GlobalPromptFieldOption - alreadyAdded false - isSelected false - test 1`] = `
 <div>
   <button
     class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent"
@@ -34,7 +34,7 @@ exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - a
 </div>
 `;
 
-exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - alreadyAdded false - isSelected true - test 1`] = `
+exports[`GlobalPromptFieldOption rendering tests GlobalPromptFieldOption - alreadyAdded false - isSelected true - test 1`] = `
 <div>
   <button
     class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent bg-accent"
@@ -86,7 +86,7 @@ exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - a
 </div>
 `;
 
-exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - alreadyAdded true - isSelected false - test 1`] = `
+exports[`GlobalPromptFieldOption rendering tests GlobalPromptFieldOption - alreadyAdded true - isSelected false - test 1`] = `
 <div>
   <button
     class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-not-allowed bg-slate-50 opacity-50"
@@ -135,7 +135,7 @@ exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - a
 </div>
 `;
 
-exports[`GlobalTemplateFieldOption rendering tests GlobalTemplateFieldOption - alreadyAdded true - isSelected true - test 1`] = `
+exports[`GlobalPromptFieldOption rendering tests GlobalPromptFieldOption - alreadyAdded true - isSelected true - test 1`] = `
 <div>
   <button
     class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-not-allowed opacity-50 bg-accent"

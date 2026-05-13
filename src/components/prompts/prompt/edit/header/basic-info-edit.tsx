@@ -26,12 +26,12 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { FormDynamicValues, FormInput } from "@/components/shared/widgets";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 const AI_MODELS = ["Claude", "ChatGPT", "Gemini", "Perplexity", "Midjourney"];
 
 type Props = {
-   control: Control<DPromptUpdate>;
+   control: Control<DPrompt0Update>;
 };
 
 export const BasicInfoEdit: FC<Props> = ({ control }) => {
@@ -40,7 +40,7 @@ export const BasicInfoEdit: FC<Props> = ({ control }) => {
 
    const title = () => {
       return (
-         <FormInput<DPromptUpdate>
+         <FormInput<DPrompt0Update>
             name="title"
             label="Titel"
             placeholder="Prompt-Titel eingeben..."
@@ -134,7 +134,7 @@ export const BasicInfoEdit: FC<Props> = ({ control }) => {
 
    const renderCategories = () => {
       return (
-         <FormDynamicValues<DPromptUpdate>
+         <FormDynamicValues<DPrompt0Update>
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"

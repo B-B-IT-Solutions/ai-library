@@ -1,1 +1,1 @@
-export { globalTemplateFieldSchema } from "./settings.schema";
+export { globalPromptFieldSchema } from "./settings.schema";

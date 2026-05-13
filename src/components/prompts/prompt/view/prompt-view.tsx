@@ -5,13 +5,13 @@ import {
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptViewForm } from "./prompt-view-form";
 
 type Props = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const PromptView = ({ prompt }: Props) => {

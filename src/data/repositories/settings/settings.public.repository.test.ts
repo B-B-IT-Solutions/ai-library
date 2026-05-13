@@ -3,30 +3,30 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { GlobalTemplateFieldFindManyArgs } from "@/generated/prisma/models";
+import { GlobalPromptFieldFindManyArgs } from "@/generated/prisma/models";
 
-import { toDGlobalTemplateFields } from "./settings.mapper";
+import { toDGlobalPromptFields } from "./settings.mapper";
 import { PublicSettingsRepository } from "./settings.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const settingsRepository = new PublicSettingsRepository(prismaMock);
 
-describe("pGetPublicGlobalTemplateFieldsByIds tests", () => {
+describe("pGetPublicGlobalPromptFieldsByIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    test("global fields - retrieved - test", async () => {
-      const fields = ptestData.pGlobalTemplateFields();
-      prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
+      const fields = ptestData.pGlobalPromptFields();
+      prismaMock.globalPromptField.findMany.mockResolvedValue(fields);
 
-      const ids = dtestData.dGlobalTemplateFieldIds();
+      const ids = dtestData.dGlobalPromptFieldIds();
       const result =
-         await settingsRepository.pGetPublicGlobalTemplateFieldsByIds(ids);
+         await settingsRepository.pGetPublicGlobalPromptFieldsByIds(ids);
 
-      const expectedResult = toDGlobalTemplateFields(fields);
+      const expectedResult = toDGlobalPromptFields(fields);
 
-      const expectedArgs: GlobalTemplateFieldFindManyArgs = {
+      const expectedArgs: GlobalPromptFieldFindManyArgs = {
          where: {
             id: {
                in: ids,
@@ -35,8 +35,8 @@ describe("pGetPublicGlobalTemplateFieldsByIds tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalPromptField.findMany).toHaveBeenCalledWith(
          expectedArgs
       );
    });

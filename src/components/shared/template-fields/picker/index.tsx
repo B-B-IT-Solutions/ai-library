@@ -1,1 +1,1 @@
-export { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
+export { GlobalPromptFieldsPicker } from "./global-template-fields-picker";

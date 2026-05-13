@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { templateFieldTypeSchema } from "@/data/types/validators/template";
 
-export const globalTemplateFieldSchema = z.object({
+export const globalPromptFieldSchema = z.object({
    name: z.string().min(1, "Name ist erforderlich").max(50).regex(/^\S+$/, {
       message: "Name darf keine Leerzeichen enthalten.",
    }),

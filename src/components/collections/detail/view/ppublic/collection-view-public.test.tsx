@@ -4,7 +4,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
 import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
-import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { CollectionViewPublic } from "./collection-view-public";
 
@@ -24,7 +24,7 @@ const assertRendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DTemplateDescriptorsPageQuery
+   expectedPayload: DPromptsPageQuery
 ) => {
    expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
    expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledWith(
@@ -49,7 +49,7 @@ describe("CollectionView rendering tests", () => {
          collection,
       });
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

@@ -2,11 +2,11 @@ import { isEqual, map } from "es-toolkit/compat";
 
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+   DPrompt0,
+   DPrompt0sPage,
+   DPrompt0sPageQuery,
+   DPrompt0Update,
+} from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 export class PromptService {
@@ -18,15 +18,12 @@ export class PromptService {
 
    async getPrompts(
       userId: string,
-      query?: DPromptDescriptorsPageQuery
-   ): Promise<DPromptDescriptorsPage> {
+      query?: DPrompt0sPageQuery
+   ): Promise<DPrompt0sPage> {
       return await this.promptRepository.pGetPromptDescriptors(userId, query);
    }
 
-   async getPrompt(
-      userId: string,
-      promptId: string
-   ): Promise<DPromptDescriptor | null> {
+   async getPrompt(userId: string, promptId: string): Promise<DPrompt0 | null> {
       return await this.promptRepository.pGetPromptDescriptor(userId, promptId);
    }
 
@@ -36,7 +33,7 @@ export class PromptService {
       return map(categories, (c) => c.name);
    }
 
-   async createPrompt(userId: string, data: DPromptUpdate) {
+   async createPrompt(userId: string, data: DPrompt0Update) {
       const prompt = updatePromptSchema.parse(data);
       await this.promptRepository.pCreatePrompt(userId, prompt);
    }
@@ -44,7 +41,7 @@ export class PromptService {
    async updatePrompt(
       userId: string,
       promptId: string,
-      data: DPromptUpdate,
+      data: DPrompt0Update,
       createVersion: boolean
    ) {
       const current = await this.promptRepository.pGetPromptDescriptor(

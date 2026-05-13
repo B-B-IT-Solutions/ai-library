@@ -1,4 +1,4 @@
-jest.mock("@/data/services/template");
+﻿jest.mock("@/data/services/template");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
@@ -6,8 +6,8 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptFieldValues } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -559,7 +559,7 @@ describe("composePromptFromTemplate tests", () => {
 
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+      const fieldValues: DPromptFieldValues = { field1: "value1" };
 
       const result = await composePromptFromTemplate(invalidId, fieldValues);
 
@@ -578,7 +578,7 @@ describe("composePromptFromTemplate tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+      const fieldValues: DPromptFieldValues = { field1: "value1" };
       requireUserMock.mockRejectedValue(error);
 
       const result = await composePromptFromTemplate(templateId, fieldValues);
@@ -599,7 +599,7 @@ describe("composePromptFromTemplate tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
+      const fieldValues: DPromptFieldValues = {
          name: "User-1 Name",
          email: "invalid-email",
       };
@@ -629,7 +629,7 @@ describe("composePromptFromTemplate tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
+      const fieldValues: DPromptFieldValues = {
          name: "User-1 Name",
          email: "test1@email.com",
          age: 30,
@@ -638,7 +638,7 @@ describe("composePromptFromTemplate tests", () => {
       sComposePromptFromTemplateMock.mockResolvedValue(promptData);
 
       const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Prompt erfolgreich generiert",
          data: promptData,
@@ -810,7 +810,7 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
       };
@@ -837,7 +837,7 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Aus Favoriten entfernt",
       };

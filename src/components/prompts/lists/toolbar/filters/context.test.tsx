@@ -1,8 +1,8 @@
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 import { initFilters } from "./context";
 
-const expectedInitFilters: DPromptDescriptorsFilter = {
+const expectedInitFilters: DPrompt0sFilter = {
    search: "",
    categories: [],
 };

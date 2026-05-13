@@ -8,10 +8,10 @@ export { TemplateFieldSelectOptions } from "./template.field.select-options";
 export {
    existingTemplateFieldInitValues,
    newTemplateFieldInitValues,
-   globalTemplateFieldInitValues,
+   globalPromptFieldInitValues,
 } from "./utils/init-values";
 export {
    TEMPLATE_FIELD_OPTIONS,
    getTemplateFieldTypeLabel,
 } from "./utils/utils";
-export { GlobalTemplateFieldsPicker } from "./picker";
+export { GlobalPromptFieldsPicker } from "./picker";

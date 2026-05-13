@@ -1,20 +1,17 @@
 import { map } from "es-toolkit/compat";
 
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import {
-   PromptDescriptorsPage,
-   PromptDescriptorWithRelations,
-} from "@/data/types/db/prompt";
-import {
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptFollowUp,
-   DPromptVersion,
-} from "@/data/types/domain/prompt";
-import { PromptFollowUp, PromptVersion } from "@/generated/prisma/client";
+   DPrompt0,
+   DPrompt0FollowUp,
+   DPrompt0sPage,
+   DPrompt0Version,
+} from "@/data/types/domain/prompt0";
+import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
 export const toDPromptDescriptorsPage = (
-   pPromptsPage: PromptDescriptorsPage
-): DPromptDescriptorsPage => {
+   pPromptsPage: Prompt0sPage
+): DPrompt0sPage => {
    return {
       ...pPromptsPage,
       content: toDPromptDescriptors(pPromptsPage.content),
@@ -22,14 +19,12 @@ export const toDPromptDescriptorsPage = (
 };
 
 export const toDPromptDescriptors = (
-   pPrompts: PromptDescriptorWithRelations[]
-): DPromptDescriptor[] => {
+   pPrompts: Prompt0WithRelations[]
+): DPrompt0[] => {
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-export const toDPromptDescriptor = (
-   prompt: PromptDescriptorWithRelations
-): DPromptDescriptor => {
+export const toDPromptDescriptor = (prompt: Prompt0WithRelations): DPrompt0 => {
    return {
       id: prompt.id,
       title: prompt.title,
@@ -38,20 +33,20 @@ export const toDPromptDescriptor = (
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
       currentVersion: prompt.currentVersion,
-      followUpPrompts: toDPromptFollowUps(prompt.followUpPrompts),
+      followUpPrompts: toDPrompt0FollowUps(prompt.followUpPrompts),
       versions: toDPromptVersions(prompt.versions),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
 
-const toDPromptFollowUps = (
-   pFollowUps: PromptFollowUp[]
-): DPromptFollowUp[] => {
-   return map(pFollowUps, (f) => toDPromptFollowUp(f));
+const toDPrompt0FollowUps = (
+   pFollowUps: Prompt0FollowUp[]
+): DPrompt0FollowUp[] => {
+   return map(pFollowUps, (f) => toDPrompt0FollowUp(f));
 };
 
-const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
+const toDPrompt0FollowUp = (followUp: Prompt0FollowUp): DPrompt0FollowUp => {
    return {
       id: followUp.id,
       content: followUp.content,
@@ -59,11 +54,11 @@ const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
    };
 };
 
-const toDPromptVersions = (pVersions: PromptVersion[]): DPromptVersion[] => {
+const toDPromptVersions = (pVersions: Prompt0Version[]): DPrompt0Version[] => {
    return map(pVersions, (v) => toDPromptVersion(v));
 };
 
-const toDPromptVersion = (version: PromptVersion): DPromptVersion => {
+const toDPromptVersion = (version: Prompt0Version): DPrompt0Version => {
    return {
       id: version.id,
       version: version.version,

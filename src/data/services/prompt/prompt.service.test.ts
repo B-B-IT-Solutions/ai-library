@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
-import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
+import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import { PromptService } from "./prompt.service";
 
@@ -40,7 +40,7 @@ describe("getPromptss tests", () => {
       const page = dtestData.dPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
-      const query: DPromptDescriptorsPageQuery = {};
+      const query: DPrompt0sPageQuery = {};
       const result = await promptService.getPrompts(userId, query);
 
       expect(result).toEqual(page);

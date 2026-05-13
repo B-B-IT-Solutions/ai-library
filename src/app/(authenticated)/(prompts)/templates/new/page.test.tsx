@@ -4,13 +4,13 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import { metadata, NewTemplatePage } from "./page";
 
-const getGlobalTemplateFieldsMock =
-   getGlobalTemplateFields as jest.MockedFunction<
-      typeof getGlobalTemplateFields
+const getGlobalPromptFieldsMock =
+   getGlobalPromptFields as jest.MockedFunction<
+      typeof getGlobalPromptFields
    >;
 
 const expectedMetadata: Metadata = {
@@ -27,8 +27,8 @@ const assertRendered = () => {
 
 describe("NewTemplatePage rendering tests", () => {
    it("rendered test", async () => {
-      const templateFields = dtestData.dGlobalTemplateFields();
-      getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
+      const templateFields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
       const { container } = await renderAsyncRSC(NewTemplatePage, {});
 

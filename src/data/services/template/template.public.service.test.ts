@@ -7,7 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PublicTemplateRepository } from "@/data/repositories/template";
-import { DPromptTemplateDataPromptGeneration } from "@/data/types/domain/prompt.template";
+import { DPromptGenerationData } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
@@ -153,7 +153,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
          templateId
       );
       expect(
-         settingsServiceMock.getPublicGlobalTemplateFieldsByIds
+         settingsServiceMock.getPublicGlobalPromptFieldsByIds
       ).not.toHaveBeenCalled();
    });
 
@@ -161,8 +161,8 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
       const template = dtestData.dPromptTemplate();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
-      const globalFields = dtestData.dGlobalTemplateFields();
-      settingsServiceMock.getPublicGlobalTemplateFieldsByIds.mockResolvedValue(
+      const globalFields = dtestData.dGlobalPromptFields();
+      settingsServiceMock.getPublicGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
@@ -172,7 +172,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
-      const expectedResult: DPromptTemplateDataPromptGeneration = {
+      const expectedResult: DPromptGenerationData = {
          template,
          allFields,
       };
@@ -185,10 +185,10 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
          id
       );
       expect(
-         settingsServiceMock.getPublicGlobalTemplateFieldsByIds
+         settingsServiceMock.getPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
       expect(
-         settingsServiceMock.getPublicGlobalTemplateFieldsByIds
+         settingsServiceMock.getPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledWith(globalFieldIds);
    });
 });

@@ -12,15 +12,12 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
-import {
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { UseTemplateForm } from "../use-template/use-template-form";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
-   templateData: DPromptTemplateDataPromptGeneration;
+   descriptor: DPrompt;
+   templateData: DPromptGenerationData;
    onCancel: CallbackFn;
 };
 

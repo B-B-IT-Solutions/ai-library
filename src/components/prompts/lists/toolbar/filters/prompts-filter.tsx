@@ -29,10 +29,10 @@ export const PromptFilters: FC = () => {
                size="sm"
                disabled={!hasActiveFilters}
                onClick={clearAllFilters}
-               className="text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+               className="text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                data-testid="reset-btn"
             >
-               <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+               <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
                <span className="text-xs font-medium">Zurücksetzen</span>
             </Button>
          </div>
@@ -41,7 +41,7 @@ export const PromptFilters: FC = () => {
 
    return (
       <div
-         className="px-5 pt-1 pb-3 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
+         className="animate-in border-b border-slate-200/80 bg-white px-5 pt-1 pb-3 duration-200 slide-in-from-top-4"
          data-testid="prompts-filter"
       >
          {filterHeader()}

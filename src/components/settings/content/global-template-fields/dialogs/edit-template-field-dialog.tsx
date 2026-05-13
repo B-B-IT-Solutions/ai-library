@@ -16,44 +16,44 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
-import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { updateGlobalTemplateField } from "@/data/actions/settings";
+import { globalPromptFieldInitValues } from "@/components/shared/template-fields";
+import { updateGlobalPromptField } from "@/data/actions/settings";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
-import { globalTemplateFieldSchema } from "@/data/types/validators/settings";
+import { globalPromptFieldSchema } from "@/data/types/validators/settings";
 
-import { GlobalTemplateFieldForm } from "./template-field-form";
+import { GlobalPromptFieldForm } from "./template-field-form";
 
 type Props = {
    open: boolean;
    onClose: () => void;
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
 };
 
-export const GlobalTemplateFieldEditDialog = ({
+export const GlobalPromptFieldEditDialog = ({
    open,
    onClose,
    field,
 }: Props) => {
    const router = useRouter();
 
-   const form = useForm<DGlobalTemplateFieldUpdate>({
-      resolver: zodResolver(globalTemplateFieldSchema),
-      defaultValues: globalTemplateFieldInitValues(field),
+   const form = useForm<DGlobalPromptFieldUpdate>({
+      resolver: zodResolver(globalPromptFieldSchema),
+      defaultValues: globalPromptFieldInitValues(field),
    });
 
    useEffect(() => {
       if (open) {
-         form.reset(globalTemplateFieldInitValues(field));
+         form.reset(globalPromptFieldInitValues(field));
       }
    }, [open, field, form]);
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DGlobalTemplateFieldUpdate> = async (data) => {
-      const result = await updateGlobalTemplateField(field.id, data);
+   const onSubmit: SubmitHandler<DGlobalPromptFieldUpdate> = async (data) => {
+      const result = await updateGlobalPromptField(field.id, data);
       if (result.success) {
          toast.success(result.message);
          router.refresh();
@@ -89,7 +89,7 @@ export const GlobalTemplateFieldEditDialog = ({
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <GlobalTemplateFieldForm
+                  <GlobalPromptFieldForm
                      watch={form.watch}
                      control={form.control}
                   />

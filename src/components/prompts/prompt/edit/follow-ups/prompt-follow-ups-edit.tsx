@@ -7,20 +7,20 @@ import { Control, FieldArrayWithId } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   DPromptFollowUpUpdate,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+   DPrompt0FollowUpUpdate,
+   DPrompt0Update,
+} from "@/data/types/domain/prompt0";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
 type PromptFollowUpsEditProps = {
-   control: Control<DPromptUpdate>;
+   control: Control<DPrompt0Update>;
    followUpPrompts: FieldArrayWithId<
-      DPromptUpdate,
+      DPrompt0Update,
       "followUpPrompts",
       "_key"
    >[];
-   addFollowUpPrompt: (value: DPromptFollowUpUpdate) => void;
+   addFollowUpPrompt: (value: DPrompt0FollowUpUpdate) => void;
    removeFollowUpPrompt: (index: number) => void;
 };
 
@@ -37,7 +37,7 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
    }, [followUpPrompts.length, addFollowUpPrompt]);
 
    const addNewFollowUpPrompt = () => {
-      const newFollowUp: DPromptFollowUpUpdate = {
+      const newFollowUp: DPrompt0FollowUpUpdate = {
          content: "",
          order: followUpPrompts.length,
       };

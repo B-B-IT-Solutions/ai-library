@@ -1,53 +1,76 @@
-import z from "zod";
+﻿import z from "zod";
 
-import { Filter, Page, PageQuery } from "@/data/types/common";
-import { updatePromptSchema } from "@/data/types/validators/prompt";
-import { updatePromptFollowUpSchema } from "../validators/prompt/prompt.schema";
+import {
+   templateFieldSchema,
+   updateTemplateSchema,
+} from "@/data/types/validators/template";
+import { Page, PageQuery } from "../common";
 
-export type DPromptFollowUpUpdate = z.infer<typeof updatePromptFollowUpSchema>;
+export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
+export type DPromptsPage = Page<DPrompt>;
 
-export type DPromptUpdate = z.infer<typeof updatePromptSchema>;
+export type DPromptsFilter = {
+   search?: string;
+   categories?: string[];
+   models?: string[];
+   isFavorite?: boolean;
+   collectionIds?: string[];
+};
+
+export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
+
+export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 
 export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptDescriptor = {
+export type DPromptGenerationData = {
+   template: DPromptContent;
+   allFields: DPromptField[];
+};
+
+export type DPrompt = {
    id: string;
    title: string;
-   content: string;
+   description: string;
    recommendedModel: string;
-   isFavorite: boolean;
-   currentVersion: number;
    categories: DPromptCategory[];
-   versions: DPromptVersion[];
-   followUpPrompts: DPromptFollowUp[];
+   isFavorite: boolean;
    updatedAt: string;
    createdAt: string;
 };
 
-export type DPrompt = {
-   content: string;
-};
-
-export type DPromptVersion = {
-   id: string;
-   version: number;
-   content: string;
-   createdAt: string;
-};
-
-export type DPromptFollowUp = {
+export type DPromptContent = {
    id: string;
    content: string;
+   fields: DPromptField[];
+   globalFieldIds: string[];
+};
+
+export type DPromptFieldType =
+   | "TEXT"
+   | "TEXTAREA"
+   | "SELECT"
+   | "CHECKBOX"
+   | "RADIO"
+   | "NUMBER"
+   | "DATE"
+   | "EMAIL";
+
+export type DPromptFieldValueType = string | number | null | undefined;
+
+export type DPromptField = {
+   id: string;
+   promptId: string;
+   name: string;
+   label: string;
+   description: string | null;
+   type: DPromptFieldType;
+   required: boolean;
    order: number;
+   defaultValue: string | null;
+   options?: string[];
 };
 
-export type DPromptDescriptorsPageQuery = PageQuery<DPromptDescriptorsFilter>;
-export type DPromptDescriptorsPage = Page<DPromptDescriptor>;
-
-export interface DPromptDescriptorsFilter extends Filter {
-   search?: string;
-   categories?: string[];
-   isFavorite?: boolean;
-}
+export type DPromptFieldValues = Record<string, DPromptFieldValueType>;

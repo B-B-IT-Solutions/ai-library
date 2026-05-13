@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - test 1`] = `
+exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
 <div>
   <section
     class="space-y-4"
@@ -1801,7 +1801,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
 </div>
 `;
 
-exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields empty - test 1`] = `
+exports[`PromptFieldss rendering tests PromptFields - fields empty - test 1`] = `
 <div>
   <section
     class="space-y-4"

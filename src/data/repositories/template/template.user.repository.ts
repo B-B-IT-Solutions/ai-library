@@ -1,17 +1,17 @@
-import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
+﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt";
 import {
-   DPromptTemplate,
-   DPromptTemplateCategory,
-   DPromptTemplateDescriptor,
-   DPromptTemplateFieldType,
-   DPromptTemplateFieldUpdate,
-   DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt,
+   DPromptCategory,
+   DPromptContent,
+   DPromptFieldType,
+   DPromptFieldUpdate,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCountArgs,
@@ -45,8 +45,8 @@ export class TemplateRepository {
 
    async pGetTemplateDescriptorsPage(
       userId: string,
-      query?: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
+      query?: DPromptsPageQuery
+   ): Promise<DPromptsPage> {
       const pagination = query?.pagination;
       const pageNumber = pagination?.pageNumber ?? 0;
       const pageSize = pagination?.pageSize ?? 20;
@@ -101,7 +101,7 @@ export class TemplateRepository {
    async pGetTemplateDescriptor(
       userId: string,
       id: string
-   ): Promise<DPromptTemplateDescriptor | null> {
+   ): Promise<DPrompt | null> {
       const template: PromptWithCategories | null =
          await this.prisma.prompt.findFirst({
             where: { id, userId },
@@ -119,7 +119,7 @@ export class TemplateRepository {
    async pGetPromptTemplate(
       userId: string,
       id: string
-   ): Promise<DPromptTemplate | null> {
+   ): Promise<DPromptContent | null> {
       const template = await this.prisma.promptContent.findFirst({
          where: {
             promptId: id,
@@ -136,8 +136,8 @@ export class TemplateRepository {
 
    async pGetPromptTemplateCategories(
       userId: string
-   ): Promise<DPromptTemplateCategory[]> {
-      return await this.prisma.promptTemplateCategory.findMany({
+   ): Promise<DPromptCategory[]> {
+      return await this.prisma.promptCategory.findMany({
          where: { userId },
          select: {
             name: true,
@@ -145,10 +145,7 @@ export class TemplateRepository {
       });
    }
 
-   async pCreatePrompt(
-      userId: string,
-      data: DPromptTemplateUpdate
-   ): Promise<DPromptTemplateDescriptor> {
+   async pCreatePrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
       const input: PromptCreateInput = {
          title: data.title,
          description: data.description,
@@ -168,19 +165,16 @@ export class TemplateRepository {
             create: {
                content: data.content,
                fields: {
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   create: map(data.globalFieldIds, (id, idx) => ({
@@ -210,7 +204,7 @@ export class TemplateRepository {
    async pUpdatePrompt(
       userId: string,
       descriptorId: string,
-      data: DPromptTemplateUpdate
+      data: DPromptUpdate
    ) {
       const input: PromptUpdateInput = {
          title: data.title,
@@ -228,19 +222,16 @@ export class TemplateRepository {
                content: data.content,
                fields: {
                   deleteMany: {},
-                  create: map(
-                     data.fields,
-                     (field: DPromptTemplateFieldUpdate) => ({
-                        name: field.name,
-                        label: field.label,
-                        description: field.description,
-                        type: field.type as DPromptTemplateFieldType,
-                        required: field.required,
-                        order: field.order,
-                        defaultValue: field.defaultValue,
-                        options: field.options,
-                     })
-                  ),
+                  create: map(data.fields, (field: DPromptFieldUpdate) => ({
+                     name: field.name,
+                     label: field.label,
+                     description: field.description,
+                     type: field.type as DPromptFieldType,
+                     required: field.required,
+                     order: field.order,
+                     defaultValue: field.defaultValue,
+                     options: field.options,
+                  })),
                },
                globalFields: {
                   deleteMany: {},

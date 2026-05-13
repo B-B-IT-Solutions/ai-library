@@ -11,7 +11,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { TemplateItems } from "./template-items";
 
@@ -40,7 +40,7 @@ const assertGroupsendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DTemplateDescriptorsPageQuery
+   expectedPayload: DPromptsPageQuery
 ) => {
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
@@ -70,7 +70,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -99,7 +99,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -126,7 +126,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
+      const expectedPayload: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

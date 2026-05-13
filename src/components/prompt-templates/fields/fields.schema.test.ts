@@ -1,19 +1,16 @@
-import z from "zod";
+﻿import z from "zod";
 
-import {
-   DPromptTemplateField,
-   DPromptTemplateFieldType,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 
 import { buildFieldsSchema } from "./fields.schema";
 
 const createField = (
-   type: DPromptTemplateFieldType,
+   type: DPromptFieldType,
    required = false,
    name = "testField"
-): DPromptTemplateField => ({
+): DPromptField => ({
    id: "1",
-   promptTemplateId: "1",
+   promptId: "1",
    name,
    label: "Test Field",
    type,
@@ -244,7 +241,9 @@ describe("fieldsSchema - text - tests", () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+         expect(result.error.issues[0].message).toBe(
+            "Test Field ist erforderlich"
+         );
       }
    });
 
@@ -267,7 +266,9 @@ describe("fieldsSchema - text - tests", () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+         expect(result.error.issues[0].message).toBe(
+            "Test Field ist erforderlich"
+         );
       }
    });
 
@@ -300,7 +301,9 @@ describe("fieldsSchema - text - tests", () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+         expect(result.error.issues[0].message).toBe(
+            "Test Field ist erforderlich"
+         );
       }
    });
 
@@ -336,7 +339,9 @@ describe("fieldsSchema - text - tests", () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+         expect(result.error.issues[0].message).toBe(
+            "Test Field ist erforderlich"
+         );
       }
    });
 });

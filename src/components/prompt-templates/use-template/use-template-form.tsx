@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reduce } from "es-toolkit/compat";
@@ -16,9 +16,9 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import {
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateFieldValues,
-} from "@/data/types/domain/prompt.template";
+   DPromptFieldValues,
+   DPromptGenerationData,
+} from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 import { buildFieldsSchema } from "../fields/fields.schema";
@@ -32,7 +32,7 @@ import {
 import { AiTool } from "./type";
 
 type Props = {
-   templateData: DPromptTemplateDataPromptGeneration;
+   templateData: DPromptGenerationData;
    recommendedModel?: string;
 };
 
@@ -58,7 +58,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
 
    const currentValues = useWatch<DFieldsType>({
       control: form.control,
-   }) as DPromptTemplateFieldValues;
+   }) as DPromptFieldValues;
 
    const resolvedContent = TemplateEngine.replace(
       template.content,

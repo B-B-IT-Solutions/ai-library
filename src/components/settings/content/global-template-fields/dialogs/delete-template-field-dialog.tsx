@@ -15,16 +15,16 @@ import {
    AlertDialogHeader,
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
-import { deleteGlobalTemplateField } from "@/data/actions/settings";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { deleteGlobalPromptField } from "@/data/actions/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 type Props = {
    open: boolean;
    onClose: () => void;
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
 };
 
-export const GlobalTemplateFieldDeleteConfirmDialog = ({
+export const GlobalPromptFieldDeleteConfirmDialog = ({
    open,
    onClose,
    field,
@@ -34,7 +34,7 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
 
    const handleDeleteConfirm = async () => {
       startTransition(async () => {
-         const result = await deleteGlobalTemplateField(field.id);
+         const result = await deleteGlobalPromptField(field.id);
          if (result.success) {
             toast.success(result.message);
             router.refresh();

@@ -1,4 +1,4 @@
-jest.mock("./plugins/rehype-placeholders");
+﻿jest.mock("./plugins/rehype-placeholders");
 
 import { render, screen } from "@testing-library/react";
 import { assertInDocument, assertStringifyEqual, dtestData } from "@tests";
@@ -37,7 +37,7 @@ describe("ReactMd rendering tests", () => {
 
 describe("ReactMd funcitonality tests", () => {
    it("toRehypePlugins - valid plugins - test", () => {
-      const values = dtestData.dPromptTemplateFieldValues();
+      const values = dtestData.dPromptFieldValues();
       const plugins = [
          {
             type: "rehype-placeholders" as const,
@@ -56,7 +56,7 @@ describe("ReactMd funcitonality tests", () => {
    });
 
    it("toRehypePlugins - invalid plugins - test", () => {
-      const values = dtestData.dPromptTemplateFieldValues();
+      const values = dtestData.dPromptFieldValues();
       const plugins = [
          {
             type: "invalid" as const,

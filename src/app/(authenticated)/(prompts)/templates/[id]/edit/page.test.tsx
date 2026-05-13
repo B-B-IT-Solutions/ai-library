@@ -6,7 +6,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 import {
    getPromptTemplate,
    getTemplateDescriptor,
@@ -22,9 +22,9 @@ const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
    typeof getPromptTemplate
 >;
 
-const getGlobalTemplateFieldsMock =
-   getGlobalTemplateFields as jest.MockedFunction<
-      typeof getGlobalTemplateFields
+const getGlobalPromptFieldsMock =
+   getGlobalPromptFields as jest.MockedFunction<
+      typeof getGlobalPromptFields
    >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -48,7 +48,7 @@ describe("EditTemplatePage rendering tests", () => {
 
    it("descriptor null - test", async () => {
       getTemplateDescriptorMock.mockResolvedValue(null);
-      getGlobalTemplateFieldsMock.mockResolvedValue([]);
+      getGlobalPromptFieldsMock.mockResolvedValue([]);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -73,8 +73,8 @@ describe("EditTemplatePage rendering tests", () => {
 
       getPromptTemplateMock.mockResolvedValue(null);
 
-      const templateFields = dtestData.dGlobalTemplateFields();
-      getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
+      const templateFields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -103,8 +103,8 @@ describe("EditTemplatePage rendering tests", () => {
       const template = dtestData.dPromptTemplate();
       getPromptTemplateMock.mockResolvedValue(template);
 
-      const templateFields = dtestData.dGlobalTemplateFields();
-      getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
+      const templateFields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {

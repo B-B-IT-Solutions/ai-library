@@ -1,11 +1,8 @@
-import { forEach, keys, uniq } from "es-toolkit/compat";
+﻿import { forEach, keys, uniq } from "es-toolkit/compat";
 import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 
-import {
-   DPromptTemplateField,
-   DPromptTemplateFieldValues,
-} from "@/data/types/domain/prompt.template";
+import { DPromptField, DPromptFieldValues } from "@/data/types/domain/prompt";
 
 export type FieldsValidationResult = {
    valid: boolean;
@@ -16,10 +13,7 @@ export class TemplateEngine {
    /**
     * Replaces all {{variable_name}} placeholders with actual values
     */
-   static replace(
-      template: string,
-      values: DPromptTemplateFieldValues
-   ): string {
+   static replace(template: string, values: DPromptFieldValues): string {
       let result = template;
 
       const variables = Object.entries(values);
@@ -37,8 +31,8 @@ export class TemplateEngine {
     * Validates that all required fields are filled
     */
    static validate(
-      fields: DPromptTemplateField[],
-      values: DPromptTemplateFieldValues
+      fields: DPromptField[],
+      values: DPromptFieldValues
    ): FieldsValidationResult {
       const errors: Record<string, string> = {};
 

@@ -26,7 +26,7 @@ const assertDialogNotRendered = () => {
 
 describe("EditTemplateFieldButton rendering tests", () => {
    it("EditTemplateFieldButton rendered test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = renderWithRouter(
          <EditTemplateFieldButton field={field} />
@@ -43,7 +43,7 @@ describe("EditTemplateFieldButton rendering tests", () => {
 
 describe("EditTemplateFieldButton functionality tests", () => {
    it("EditLibraryEntryButton - edit btn clicked - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
 
       renderWithRouter(<EditTemplateFieldButton field={field} />);
 

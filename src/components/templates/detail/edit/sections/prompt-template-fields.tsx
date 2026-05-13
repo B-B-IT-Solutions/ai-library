@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FC } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
@@ -6,31 +6,28 @@ import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
-import { GlobalTemplateFieldsPicker } from "@/components/shared/template-fields";
+import { GlobalPromptFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import {
-   DPromptTemplateField,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptGlobalTemplateField } from "./prompt-global-template-field";
-import { PromptTemplateField } from "./prompt-template-field";
+import { PromptGlobalPromptField } from "./prompt-global-template-field";
+import { PromptField } from "./prompt-template-field";
 
 type Props = {
-   fields: DPromptTemplateField[];
+   fields: DPromptField[];
    detectedVariables: string[];
-   globalFields: DGlobalTemplateField[];
+   globalFields: DGlobalPromptField[];
    globalFieldIds: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
    onAddGlobalFieldIds: (ids: string[]) => void;
    onRemoveGlobalFieldId: (id: string) => void;
-   control: Control<DPromptTemplateUpdate>;
-   watch: UseFormWatch<DPromptTemplateUpdate>;
+   control: Control<DPromptUpdate>;
+   watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptTemplateFields: FC<Props> = ({
+export const PromptFields: FC<Props> = ({
    fields,
    detectedVariables,
    globalFields,
@@ -69,7 +66,7 @@ export const PromptTemplateFields: FC<Props> = ({
                   <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
-               <GlobalTemplateFieldsPicker
+               <GlobalPromptFieldsPicker
                   globalFields={globalFields}
                   selectedGlobalFieldIds={globalFieldIds}
                   onAddFields={onAddGlobalFieldIds}
@@ -79,10 +76,10 @@ export const PromptTemplateFields: FC<Props> = ({
       );
    };
 
-   const renderGlobalField = (field: DGlobalTemplateField) => {
+   const renderGlobalField = (field: DGlobalPromptField) => {
       const isUsed = includes(detectedVariables, field.name);
       return (
-         <PromptGlobalTemplateField
+         <PromptGlobalPromptField
             key={field.id}
             field={field}
             isUsed={isUsed}
@@ -107,13 +104,13 @@ export const PromptTemplateFields: FC<Props> = ({
       }
    };
 
-   const renderTemplateField = (field: DPromptTemplateField, idx: number) => {
+   const renderTemplateField = (field: DPromptField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
       const hasName = !isEmpty(fieldName);
 
       return (
-         <PromptTemplateField
+         <PromptField
             key={field.id}
             index={idx}
             isUsed={isUsed}

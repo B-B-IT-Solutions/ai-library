@@ -8,13 +8,13 @@ import {
    renderAsyncRSC,
 } from "@tests";
 
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
-import { GlobalTemplateFields } from "./template-fields";
+import { GlobalPromptFields } from "./template-fields";
 
-const getGlobalTemplateFieldsMock =
-   getGlobalTemplateFields as jest.MockedFunction<
-      typeof getGlobalTemplateFields
+const getGlobalPromptFieldsMock =
+   getGlobalPromptFields as jest.MockedFunction<
+      typeof getGlobalPromptFields
    >;
 
 const assertRendered = () => {
@@ -46,9 +46,9 @@ describe("TemplateFields rendering tests", () => {
    });
 
    it("TemplateFields - fields empty - test", async () => {
-      getGlobalTemplateFieldsMock.mockResolvedValue([]);
+      getGlobalPromptFieldsMock.mockResolvedValue([]);
 
-      const { container } = await renderAsyncRSC(GlobalTemplateFields, {});
+      const { container } = await renderAsyncRSC(GlobalPromptFields, {});
 
       await waitFor(() => {
          assertRendered();
@@ -59,10 +59,10 @@ describe("TemplateFields rendering tests", () => {
    });
 
    it("TemplateFields - fields retrieved - test", async () => {
-      const fields = dtestData.dGlobalTemplateFields();
-      getGlobalTemplateFieldsMock.mockResolvedValue(fields);
+      const fields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(fields);
 
-      const { container } = await renderAsyncRSC(GlobalTemplateFields, {});
+      const { container } = await renderAsyncRSC(GlobalPromptFields, {});
 
       await waitFor(() => {
          assertRendered();

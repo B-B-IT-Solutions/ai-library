@@ -1,11 +1,11 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptWithCategories } from "@/data/types/db/prompt.template";
+import { PromptWithCategories } from "@/data/types/db/prompt";
 import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt,
+   DPromptContent,
+   DPromptsPage,
+   DPromptsPageQuery,
+} from "@/data/types/domain/prompt";
 import {
    PromptContentFindFirstArgs,
    PromptCountArgs,
@@ -28,8 +28,8 @@ export class PublicTemplateRepository {
    }
 
    async pGetPublicTemplateDescriptorsPage(
-      query: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
+      query: DPromptsPageQuery
+   ): Promise<DPromptsPage> {
       const pagination = query.pagination;
       const pageNumber = pagination?.pageNumber ?? 0;
       const pageSize = pagination?.pageSize ?? 20;
@@ -67,9 +67,7 @@ export class PublicTemplateRepository {
       };
    }
 
-   async pGetPublicTemplateDescriptor(
-      id: string
-   ): Promise<DPromptTemplateDescriptor | null> {
+   async pGetPublicTemplateDescriptor(id: string): Promise<DPrompt | null> {
       const args = {
          where: { id },
          include: {
@@ -83,7 +81,7 @@ export class PublicTemplateRepository {
       return descriptor ? toDTemplateDescriptor(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
+   async pGetPublicPromptTemplate(id: string): Promise<DPromptContent | null> {
       const args = {
          where: {
             promptId: id,

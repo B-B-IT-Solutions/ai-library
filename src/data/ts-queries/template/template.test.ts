@@ -17,10 +17,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/template";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -89,9 +86,9 @@ describe("loadTemplateDescriptors hooks tests", () => {
       const params: LoadTemplateDescriptorsParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DTemplateDescriptorsPage,
+         DPromptsPage,
          Error,
-         InfiniteData<DTemplateDescriptorsPage, unknown>,
+         InfiniteData<DPromptsPage, unknown>,
          QueryKey,
          number
       > = {
@@ -118,7 +115,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
          useInfiniteLoadTemplateDescriptors(params)
       );
 
-      const expectedQuery: DTemplateDescriptorsPageQuery = {
+      const expectedQuery: DPromptsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

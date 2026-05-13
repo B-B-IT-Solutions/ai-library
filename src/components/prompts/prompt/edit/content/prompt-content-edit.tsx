@@ -5,10 +5,10 @@ import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
 import { FormMDEditor } from "@/components/shared/widgets";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 type PromptContentEditProps = {
-   control: Control<DPromptUpdate>;
+   control: Control<DPrompt0Update>;
    isEdit: boolean;
 };
 
@@ -18,7 +18,7 @@ export const PromptContentEdit: FC<PromptContentEditProps> = ({
 }) => {
    const content = () => {
       return (
-         <FormMDEditor<DPromptUpdate>
+         <FormMDEditor<DPrompt0Update>
             name="content"
             placeholder="Prompt-Inhalt eingeben..."
             control={control}

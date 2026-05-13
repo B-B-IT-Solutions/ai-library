@@ -2,10 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
-import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPromptContent } from "@/data/types/domain/prompt";
 import {
    EditTemplateButton,
    MoreOptionsButton,
@@ -15,8 +12,8 @@ import {
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
-   template: DPromptTemplate;
+   descriptor: DPrompt;
+   template: DPromptContent;
 };
 
 export const TemplateViewForm = ({ descriptor, template }: Props) => {

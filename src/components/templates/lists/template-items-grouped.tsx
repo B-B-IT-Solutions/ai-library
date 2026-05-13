@@ -5,7 +5,7 @@ import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DCollection } from "@/data/types/domain/collection";
 import { DListGroupByMode } from "@/data/types/domain/common";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 import { TemplateItemCard } from "./items/template-item-card";
 
@@ -13,11 +13,11 @@ type GroupedTemplates = {
    key: string;
    label: string;
    count: number;
-   entries: DPromptTemplateDescriptor[];
+   entries: DPrompt[];
 };
 
 type Props = {
-   descriptors: DPromptTemplateDescriptor[];
+   descriptors: DPrompt[];
    collections: DCollection[];
    groupBy: DListGroupByMode;
 };
@@ -77,9 +77,7 @@ export const TemplateItemsGrouped = ({
 
 // Helper functions
 
-function groupByCategories(
-   descriptors: DPromptTemplateDescriptor[]
-): GroupedTemplates[] {
+function groupByCategories(descriptors: DPrompt[]): GroupedTemplates[] {
    const grouped = lodashGroupBy(descriptors, (descriptor) => {
       const firstCategory = descriptor.categories[0];
       return firstCategory?.name || "Uncategorized";
@@ -93,9 +91,7 @@ function groupByCategories(
    }));
 }
 
-function groupByModels(
-   descriptors: DPromptTemplateDescriptor[]
-): GroupedTemplates[] {
+function groupByModels(descriptors: DPrompt[]): GroupedTemplates[] {
    const grouped = lodashGroupBy(
       descriptors,
       (descriptor) => descriptor.recommendedModel
@@ -109,14 +105,14 @@ function groupByModels(
    }));
 }
 
-function groupByDate(entries: DPromptTemplateDescriptor[]): GroupedTemplates[] {
+function groupByDate(entries: DPrompt[]): GroupedTemplates[] {
    const now = new Date();
    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
    const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-   const thisWeek: DPromptTemplateDescriptor[] = [];
-   const thisMonth: DPromptTemplateDescriptor[] = [];
-   const older: Record<string, DPromptTemplateDescriptor[]> = {};
+   const thisWeek: DPrompt[] = [];
+   const thisMonth: DPrompt[] = [];
+   const older: Record<string, DPrompt[]> = {};
 
    entries.forEach((entry) => {
       const createdAt = new Date(entry.createdAt);

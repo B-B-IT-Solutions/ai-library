@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { validate as isValidUuid } from "uuid";
 
@@ -7,16 +7,16 @@ import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplate,
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
-   DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt,
+   DPromptContent,
+   DPromptFieldValues,
+   DPromptGenerationData,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
+import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 type DGetPromptTemplatesParams = {
@@ -25,8 +25,8 @@ type DGetPromptTemplatesParams = {
 };
 
 export const getTemplateDescriptorsPage = async (
-   query?: DTemplateDescriptorsPageQuery
-): Promise<DTemplateDescriptorsPage> => {
+   query?: DPromptsPageQuery
+): Promise<DPromptsPage> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -39,7 +39,7 @@ export const getTemplateDescriptorsPage = async (
 
 export const getTemplateDescriptor = async (
    descriptorId: string
-): Promise<DPromptTemplateDescriptor | null> => {
+): Promise<DPrompt | null> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -51,7 +51,7 @@ export const getTemplateDescriptor = async (
 };
 
 export const createTemplateDescriptor = async (
-   data: DPromptTemplateUpdate
+   data: DPromptUpdate
 ): Promise<ActionResult> => {
    try {
       const user = await requireUser();
@@ -72,7 +72,7 @@ export const createTemplateDescriptor = async (
 
 export const updateTemplateDescriptor = async (
    descriptorId: string,
-   data: DPromptTemplateUpdate
+   data: DPromptUpdate
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(descriptorId)) {
@@ -123,7 +123,7 @@ export const deleteTemplateDescriptor = async (
 
 export const getPromptGenerationTemplateData = async (
    templateId: string
-): Promise<DPromptTemplateDataPromptGeneration | null> => {
+): Promise<DPromptGenerationData | null> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -139,8 +139,8 @@ export const getPromptGenerationTemplateData = async (
 
 export const composePromptFromTemplate = async (
    descriptorId: string,
-   fieldValues: DPromptTemplateFieldValues
-): Promise<ActionResult<DPromptUpdate>> => {
+   fieldValues: DPromptFieldValues
+): Promise<ActionResult<DPrompt0Update>> => {
    try {
       if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Descriptor ID.");
@@ -254,14 +254,14 @@ export const getTemplateDescriptorModels = async (): Promise<string[]> => {
 
 export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
-): Promise<DPromptTemplateDescriptor[]> => {
+): Promise<DPrompt[]> => {
    const service = getService();
    return await service.getPrompts(params);
 };
 
 export const getPromptTemplate = async (
    templateId: string
-): Promise<DPromptTemplate | null> => {
+): Promise<DPromptContent | null> => {
    try {
       if (!isValidUuid(templateId)) {
          throw new Error("Invalid Template ID.");

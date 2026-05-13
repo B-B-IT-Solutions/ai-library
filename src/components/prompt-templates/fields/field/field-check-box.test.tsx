@@ -1,15 +1,15 @@
-import { FC } from "react";
+﻿import { FC } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 import { CheckBoxField } from "./field-check-box";
 
 type Props = {
-   field: DPromptTemplateField;
+   field: DPromptField;
    defaultValue?: boolean;
 };
 
@@ -27,9 +27,9 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = false }) => {
    );
 };
 
-const baseField: DPromptTemplateField = {
+const baseField: DPromptField = {
    id: "test-check-box",
-   promptTemplateId: "1",
+   promptId: "1",
    name: "name-1",
    description: "This is a test description",
    label: "Test Checkbox",

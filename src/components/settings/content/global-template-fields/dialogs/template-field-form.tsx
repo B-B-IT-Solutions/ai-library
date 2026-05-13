@@ -11,48 +11,48 @@ import {
    TemplateFieldSelectOptions,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
-import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
+import { DGlobalPromptFieldUpdate } from "@/data/types/domain/settings";
 
 type Props = {
-   watch: UseFormWatch<DGlobalTemplateFieldUpdate>;
-   control: Control<DGlobalTemplateFieldUpdate>;
+   watch: UseFormWatch<DGlobalPromptFieldUpdate>;
+   control: Control<DGlobalPromptFieldUpdate>;
 };
 
-export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
+export const GlobalPromptFieldForm = ({ watch, control }: Props) => {
    const type = watch("type");
    const options = watch("options") ?? [];
 
    return (
       <div className="grid grid-cols-2 gap-4" data-testid="template-field-form">
-         <TemplateFieldName<DGlobalTemplateFieldUpdate>
+         <TemplateFieldName<DGlobalPromptFieldUpdate>
             name={"name"}
             control={control}
             watch={watch}
          />
-         <TemplateFieldLabel<DGlobalTemplateFieldUpdate>
+         <TemplateFieldLabel<DGlobalPromptFieldUpdate>
             name={"label"}
             control={control}
          />
-         <TemplateFieldType<DGlobalTemplateFieldUpdate>
+         <TemplateFieldType<DGlobalPromptFieldUpdate>
             name={"type"}
             control={control}
          />
-         <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
+         <TemplateFieldDefaultValue<DGlobalPromptFieldUpdate>
             name="defaultValue"
             control={control}
             type={type}
             options={options}
          />
-         <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
+         <TemplateFieldSelectOptions<DGlobalPromptFieldUpdate>
             name="options"
             type={type}
             control={control}
          />
-         <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
+         <TemplateFieldDescription<DGlobalPromptFieldUpdate>
             name="description"
             control={control}
          />
-         <TemplateFieldRequired<DGlobalTemplateFieldUpdate>
+         <TemplateFieldRequired<DGlobalPromptFieldUpdate>
             name="required"
             control={control}
          />

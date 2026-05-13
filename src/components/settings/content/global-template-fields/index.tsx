@@ -1,1 +1,1 @@
-export { GlobalTemplateFields } from "./template-fields";
+export { GlobalPromptFields } from "./template-fields";

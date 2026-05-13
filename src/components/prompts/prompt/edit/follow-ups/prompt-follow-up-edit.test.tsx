@@ -4,15 +4,15 @@ import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import {
-   DPromptFollowUpUpdate,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+   DPrompt0FollowUpUpdate,
+   DPrompt0Update,
+} from "@/data/types/domain/prompt0";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
 type Props = {
    index?: number;
-   followUpUpdate: DPromptFollowUpUpdate;
+   followUpUpdate: DPrompt0FollowUpUpdate;
    removeFollowUpPrompt: jest.Mock;
 };
 const TestWrapper = ({
@@ -20,7 +20,7 @@ const TestWrapper = ({
    followUpUpdate,
    removeFollowUpPrompt,
 }: Props) => {
-   const methods = useForm<DPromptUpdate>({
+   const methods = useForm<DPrompt0Update>({
       defaultValues: {
          title: "",
          content: "",

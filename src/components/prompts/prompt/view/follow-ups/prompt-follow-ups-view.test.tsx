@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 import { PromptFollowUps } from "./prompt-follow-ups-view";
 
@@ -29,12 +29,12 @@ const assertNotExpanded = () => {
    assertInDocument(chevron);
 };
 
-const assertBadge = (prompt: DPromptDescriptor) => {
+const assertBadge = (prompt: DPrompt0) => {
    const badge = screen.getByText(prompt.followUpPrompts.length.toString());
    assertInDocument(badge);
 };
 
-const assertFollowUpItems = (prompt: DPromptDescriptor) => {
+const assertFollowUpItems = (prompt: DPrompt0) => {
    const followUpItems = screen.getAllByTestId("prompt-follow-up");
    expect(followUpItems).toHaveLength(prompt.followUpPrompts.length);
 };

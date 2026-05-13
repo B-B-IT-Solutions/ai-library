@@ -11,17 +11,17 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { GlobalTemplateFieldOption } from "./global-template-field-option";
+import { GlobalPromptFieldOption } from "./global-template-field-option";
 
 type Props = {
-   globalFields: DGlobalTemplateField[];
+   globalFields: DGlobalPromptField[];
    selectedGlobalFieldIds: string[];
    onAddFields: (ids: string[]) => void;
 };
 
-export const GlobalTemplateFieldsPicker = ({
+export const GlobalPromptFieldsPicker = ({
    globalFields,
    selectedGlobalFieldIds,
    onAddFields,
@@ -57,11 +57,11 @@ export const GlobalTemplateFieldsPicker = ({
       }
    };
 
-   const renderField = (field: DGlobalTemplateField) => {
+   const renderField = (field: DGlobalPromptField) => {
       const alreadyAdded = selectedGlobalFieldIds.includes(field.id);
       const isSelected = selectedIds.includes(field.id);
       return (
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             key={field.id}
             field={field}
             onToggle={toggleField}

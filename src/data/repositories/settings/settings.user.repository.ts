@@ -2,21 +2,21 @@ import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
-   GlobalTemplateFieldCreateArgs,
-   GlobalTemplateFieldCreateInput,
-   GlobalTemplateFieldDeleteArgs,
-   GlobalTemplateFieldFindManyArgs,
-   GlobalTemplateFieldUpdateArgs,
-   GlobalTemplateFieldUpdateInput,
+   GlobalPromptFieldCreateArgs,
+   GlobalPromptFieldCreateInput,
+   GlobalPromptFieldDeleteArgs,
+   GlobalPromptFieldFindManyArgs,
+   GlobalPromptFieldUpdateArgs,
+   GlobalPromptFieldUpdateInput,
 } from "@/generated/prisma/models";
 
 import {
-   toDGlobalTemplateField,
-   toDGlobalTemplateFields,
+   toDGlobalPromptField,
+   toDGlobalPromptFields,
 } from "./settings.mapper";
 
 export class SettingsRepository {
@@ -26,23 +26,23 @@ export class SettingsRepository {
       this.prisma = prisma;
    }
 
-   async pGetGlobalTemplateFields(
+   async pGetGlobalPromptFields(
       userId: string
-   ): Promise<DGlobalTemplateField[]> {
-      const args: GlobalTemplateFieldFindManyArgs = {
+   ): Promise<DGlobalPromptField[]> {
+      const args: GlobalPromptFieldFindManyArgs = {
          where: { userId },
          orderBy: { order: "asc" },
       };
 
-      const fields = await this.prisma.globalTemplateField.findMany(args);
-      return toDGlobalTemplateFields(fields);
+      const fields = await this.prisma.globalPromptField.findMany(args);
+      return toDGlobalPromptFields(fields);
    }
 
-   async pGetGlobalTemplateFieldsByIds(
+   async pGetGlobalPromptFieldsByIds(
       userId: string,
       ids: string[]
-   ): Promise<DGlobalTemplateField[]> {
-      const args: GlobalTemplateFieldFindManyArgs = {
+   ): Promise<DGlobalPromptField[]> {
+      const args: GlobalPromptFieldFindManyArgs = {
          where: {
             userId,
             id: {
@@ -51,15 +51,15 @@ export class SettingsRepository {
          },
       };
 
-      const fields = await this.prisma.globalTemplateField.findMany(args);
-      return toDGlobalTemplateFields(fields);
+      const fields = await this.prisma.globalPromptField.findMany(args);
+      return toDGlobalPromptFields(fields);
    }
 
-   async pCreateGlobalTemplateField(
+   async pCreateGlobalPromptField(
       userId: string,
-      data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalTemplateField> {
-      const input: GlobalTemplateFieldCreateInput = {
+      data: DGlobalPromptFieldUpdate
+   ): Promise<DGlobalPromptField> {
+      const input: GlobalPromptFieldCreateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -75,20 +75,20 @@ export class SettingsRepository {
          },
       };
 
-      const args: GlobalTemplateFieldCreateArgs = {
+      const args: GlobalPromptFieldCreateArgs = {
          data: input,
       };
 
-      const field = await this.prisma.globalTemplateField.create(args);
-      return toDGlobalTemplateField(field);
+      const field = await this.prisma.globalPromptField.create(args);
+      return toDGlobalPromptField(field);
    }
 
-   async pUpdateGlobalTemplateField(
+   async pUpdateGlobalPromptField(
       userId: string,
       id: string,
-      data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalTemplateField> {
-      const input: GlobalTemplateFieldUpdateInput = {
+      data: DGlobalPromptFieldUpdate
+   ): Promise<DGlobalPromptField> {
+      const input: GlobalPromptFieldUpdateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -99,20 +99,20 @@ export class SettingsRepository {
          order: data.order,
       };
 
-      const args: GlobalTemplateFieldUpdateArgs = {
+      const args: GlobalPromptFieldUpdateArgs = {
          where: { id, userId },
          data: input,
       };
 
-      const field = await this.prisma.globalTemplateField.update(args);
-      return toDGlobalTemplateField(field);
+      const field = await this.prisma.globalPromptField.update(args);
+      return toDGlobalPromptField(field);
    }
 
-   async pDeleteGlobalTemplateField(userId: string, id: string) {
-      const arg: GlobalTemplateFieldDeleteArgs = {
+   async pDeleteGlobalPromptField(userId: string, id: string) {
+      const arg: GlobalPromptFieldDeleteArgs = {
          where: { id, userId },
       };
 
-      await this.prisma.globalTemplateField.delete(arg);
+      await this.prisma.globalPromptField.delete(arg);
    }
 }

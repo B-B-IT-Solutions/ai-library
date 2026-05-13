@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+﻿import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -6,17 +6,14 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import {
-   DPromptTemplateField,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptTemplateFields } from "./prompt-template-fields";
+import { PromptFields } from "./prompt-template-fields";
 
 type Props = {
-   fields: DPromptTemplateField[];
-   globalFields: DGlobalTemplateField[];
+   fields: DPromptField[];
+   globalFields: DGlobalPromptField[];
    globalFieldIds: string[];
    detectedVariables: string[];
    onAddField: CallbackFn;
@@ -35,7 +32,7 @@ const TestWrapper = ({
    onAddGlobalFieldIds,
    onRemoveGlobalFieldId,
 }: Props) => {
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          description: "",
@@ -49,7 +46,7 @@ const TestWrapper = ({
 
    return (
       <FormProvider {...form}>
-         <PromptTemplateFields
+         <PromptFields
             fields={fields}
             globalFields={globalFields}
             globalFieldIds={globalFieldIds}
@@ -102,8 +99,8 @@ const assertGlobalFieldsNotRendered = () => {
    assertNotInDocument(globalFields);
 };
 
-describe("PromptTemplateFieldss rendering tests", () => {
-   it("PromptTemplateFields - fields empty - test", () => {
+describe("PromptFieldss rendering tests", () => {
+   it("PromptFields - fields empty - test", () => {
       const { container } = render(
          <TestWrapper
             fields={[]}
@@ -124,11 +121,11 @@ describe("PromptTemplateFieldss rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptTemplateFields - fields - test", () => {
-      const fields = dtestData.dPromptTemplateFields();
+   it("PromptFields - fields - test", () => {
+      const fields = dtestData.dPromptFields();
       fields[0].name = " ";
-      const globalFields = dtestData.dGlobalTemplateFields();
-      const globalFieldIds = dtestData.dGlobalTemplateFieldIds();
+      const globalFields = dtestData.dGlobalPromptFields();
+      const globalFieldIds = dtestData.dGlobalPromptFieldIds();
 
       const { container } = render(
          <TestWrapper
@@ -151,10 +148,10 @@ describe("PromptTemplateFieldss rendering tests", () => {
    });
 });
 
-describe("PromptTemplateFields functionality tests", () => {
-   it("PromptTemplateFields - add global field btn clicked - test", async () => {
-      const fields = dtestData.dPromptTemplateFields();
-      const globalFields = dtestData.dGlobalTemplateFields();
+describe("PromptFields functionality tests", () => {
+   it("PromptFields - add global field btn clicked - test", async () => {
+      const fields = dtestData.dPromptFields();
+      const globalFields = dtestData.dGlobalPromptFields();
       const addGlobalFieldFn = jest.fn();
 
       render(
@@ -190,9 +187,9 @@ describe("PromptTemplateFields functionality tests", () => {
       expect(addGlobalFieldFn).toHaveBeenCalledWith([globalField.id]);
    });
 
-   it("PromptTemplateFields - remove global field btn clicked - test", async () => {
-      const fields = dtestData.dPromptTemplateFields();
-      const globalFields = dtestData.dGlobalTemplateFields();
+   it("PromptFields - remove global field btn clicked - test", async () => {
+      const fields = dtestData.dPromptFields();
+      const globalFields = dtestData.dGlobalPromptFields();
       const globalField = globalFields[0];
       const globalFieldIds = [globalField.id];
       const removeGlobalFieldFn = jest.fn();
@@ -222,8 +219,8 @@ describe("PromptTemplateFields functionality tests", () => {
       expect(removeGlobalFieldFn).toHaveBeenCalledWith(globalField.id);
    });
 
-   it("PromptTemplateFields - add prompt template field btn clicked - test", async () => {
-      const fields = dtestData.dPromptTemplateFields();
+   it("PromptFields - add prompt template field btn clicked - test", async () => {
+      const fields = dtestData.dPromptFields();
       const detectedVariables = [fields[0].name];
       const addFieldFn = jest.fn();
 
@@ -248,8 +245,8 @@ describe("PromptTemplateFields functionality tests", () => {
       expect(addFieldFn).toHaveBeenCalledTimes(1);
    });
 
-   it("PromptTemplateFields - remove prompt template field btn clicked - test", async () => {
-      const fields = dtestData.dPromptTemplateFields();
+   it("PromptFields - remove prompt template field btn clicked - test", async () => {
+      const fields = dtestData.dPromptFields();
       const detectedVariables = [fields[0].name];
       const removeFieldFn = jest.fn();
 

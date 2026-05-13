@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 import { CopyButton } from "@/components/shared/buttons";
-import { DPromptFollowUp } from "@/data/types/domain/prompt";
+import { DPrompt0FollowUp } from "@/data/types/domain/prompt0";
 
 type CopyPromptFollowUpButtonProps = {
-   followUp: DPromptFollowUp;
+   followUp: DPrompt0FollowUp;
 };
 
 export const CopyPromptFollowUpButton: FC<CopyPromptFollowUpButtonProps> = ({

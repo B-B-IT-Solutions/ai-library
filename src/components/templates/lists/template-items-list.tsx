@@ -1,12 +1,12 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DCollection } from "@/data/types/domain/collection";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 import { TemplateItemCard } from "./items";
 
 type Props = {
-   descriptors: DPromptTemplateDescriptor[];
+   descriptors: DPrompt[];
    collections: DCollection[];
    ref?: React.Ref<HTMLDivElement>;
 };
@@ -28,7 +28,7 @@ export const TemplateItemsList = ({ descriptors, collections, ref }: Props) => {
       );
    }
 
-   const item = (descriptor: DPromptTemplateDescriptor, index: number) => {
+   const item = (descriptor: DPrompt, index: number) => {
       const isLast = index === descriptors.length - 1;
       return (
          <TemplateItemCard

@@ -5,15 +5,15 @@ import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 type Props = {
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
    isUsed: boolean;
    onRemoveGlobalFieldId: (id: string) => void;
 };
 
-export const PromptGlobalTemplateField = ({
+export const PromptGlobalPromptField = ({
    field,
    isUsed,
    onRemoveGlobalFieldId,

@@ -1,15 +1,12 @@
-import { filter, map } from "es-toolkit/compat";
+﻿import { filter, map } from "es-toolkit/compat";
 
-import {
-   DPromptTemplate,
-   DPromptTemplateField,
-} from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DPromptContent, DPromptField } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
 export const resolveAllTemplateFields = (
-   template: DPromptTemplate,
-   globalFields: DGlobalTemplateField[]
+   template: DPromptContent,
+   globalFields: DGlobalPromptField[]
 ) => {
    const allFieldNames = new Set([
       ...map(template.fields, (f) => f.name),
@@ -29,17 +26,15 @@ export const resolveAllTemplateFields = (
 };
 
 const globalFieldsToTemplateFields = (
-   gfs: DGlobalTemplateField[]
-): DPromptTemplateField[] => {
+   gfs: DGlobalPromptField[]
+): DPromptField[] => {
    return map(gfs, globalFieldToTemplateField);
 };
 
-const globalFieldToTemplateField = (
-   gf: DGlobalTemplateField
-): DPromptTemplateField => {
+const globalFieldToTemplateField = (gf: DGlobalPromptField): DPromptField => {
    return {
       id: gf.id,
-      promptTemplateId: "",
+      promptId: "",
       name: gf.name,
       label: gf.label,
       description: gf.description,
@@ -53,7 +48,7 @@ const globalFieldToTemplateField = (
 
 const missingVariablesToTemplateFields = (
    variableNames: string[]
-): DPromptTemplateField[] => {
+): DPromptField[] => {
    return map(variableNames, (v, idx) =>
       missingVariableToTemplateField(v, idx)
    );
@@ -62,10 +57,10 @@ const missingVariablesToTemplateFields = (
 const missingVariableToTemplateField = (
    name: string,
    index: number
-): DPromptTemplateField => {
+): DPromptField => {
    return {
       id: name,
-      promptTemplateId: "",
+      promptId: "",
       name,
       label: name,
       description: null,

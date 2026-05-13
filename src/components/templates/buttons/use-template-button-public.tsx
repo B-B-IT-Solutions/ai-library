@@ -7,14 +7,11 @@ import { toast } from "sonner";
 import { UseTemplateDialog } from "@/components/prompt-templates";
 import { Button } from "@/components/shadcn/button";
 import { getPublicPromptGenerationTemplateData } from "@/data/actions/template";
-import {
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
    className?: string;
 };
 
@@ -22,7 +19,7 @@ export const PublicUseTemplateButton = ({ descriptor, className }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const [templateData, setTemplateData] =
-      useState<DPromptTemplateDataPromptGeneration | null>(null);
+      useState<DPromptGenerationData | null>(null);
 
    const handleUseTemplate = async () => {
       startTransition(async () => {

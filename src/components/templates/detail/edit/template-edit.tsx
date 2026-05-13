@@ -5,19 +5,16 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DPrompt, DPromptContent } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
-   descriptor?: DPromptTemplateDescriptor;
-   template?: DPromptTemplate;
-   globalFields: DGlobalTemplateField[];
+   descriptor?: DPrompt;
+   template?: DPromptContent;
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEdit = ({ descriptor, template, globalFields }: Props) => {

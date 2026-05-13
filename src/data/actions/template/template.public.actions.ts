@@ -7,16 +7,16 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DPromptTemplate,
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt,
+   DPromptContent,
+   DPromptGenerationData,
+   DPromptsPage,
+   DPromptsPageQuery,
+} from "@/data/types/domain/prompt";
 
 export const getPublicTemplateDescriptorsPage = async (
-   query: DTemplateDescriptorsPageQuery
-): Promise<DTemplateDescriptorsPage> => {
+   query: DPromptsPageQuery
+): Promise<DPromptsPage> => {
    try {
       const service = getService();
       return await service.getPublicTemplateDescriptorsPage(query);
@@ -28,7 +28,7 @@ export const getPublicTemplateDescriptorsPage = async (
 
 export const getPublicTemplateDescriptor = async (
    descriptorId: string
-): Promise<DPromptTemplateDescriptor | null> => {
+): Promise<DPrompt | null> => {
    try {
       if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Descriptor ID.");
@@ -44,7 +44,7 @@ export const getPublicTemplateDescriptor = async (
 
 export const getPublicPromptTemplate = async (
    templateId: string
-): Promise<DPromptTemplate | null> => {
+): Promise<DPromptContent | null> => {
    try {
       if (!isValidUuid(templateId)) {
          throw new Error("Invalid Template ID.");
@@ -60,7 +60,7 @@ export const getPublicPromptTemplate = async (
 
 export const getPublicPromptGenerationTemplateData = async (
    templateId: string
-): Promise<DPromptTemplateDataPromptGeneration | null> => {
+): Promise<DPromptGenerationData | null> => {
    try {
       if (!isValidUuid(templateId)) {
          throw new Error("Invalid Descriptor ID.");

@@ -1,13 +1,10 @@
-import { includes, map, upperCase } from "es-toolkit/compat";
+﻿import { includes, map, upperCase } from "es-toolkit/compat";
 
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
-export const OPTIONS_FIELD_TYPES: DPromptTemplateFieldType[] = [
-   "SELECT",
-   "RADIO",
-];
+export const OPTIONS_FIELD_TYPES: DPromptFieldType[] = ["SELECT", "RADIO"];
 
-export const TEMPLATE_FIELD_LABELS: Record<DPromptTemplateFieldType, string> = {
+export const TEMPLATE_FIELD_LABELS: Record<DPromptFieldType, string> = {
    TEXT: "Text",
    TEXTAREA: "Textarea",
    EMAIL: "E-Mail",
@@ -26,11 +23,11 @@ export const TEMPLATE_FIELD_OPTIONS = map(
    })
 );
 
-export const getTemplateFieldTypeLabel = (type: DPromptTemplateFieldType) => {
+export const getTemplateFieldTypeLabel = (type: DPromptFieldType) => {
    const label = TEMPLATE_FIELD_LABELS[type] ?? type;
    return upperCase(label);
 };
 
-export const isOptionsFieldType = (type: DPromptTemplateFieldType) => {
+export const isOptionsFieldType = (type: DPromptFieldType) => {
    return includes(OPTIONS_FIELD_TYPES, type);
 };

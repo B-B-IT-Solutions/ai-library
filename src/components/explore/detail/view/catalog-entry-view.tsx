@@ -1,4 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
+﻿import { isEmpty, map } from "es-toolkit/compat";
 import { Copy, Cpu, Info, LayoutList, Tag } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -14,13 +14,13 @@ import {
    DCatalogEntry,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 import {
    AddCatalogEntryToLibraryButton,
    UseCatalogEntryButton,
 } from "../../buttons";
 
-const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
+const FIELD_TYPE_LABELS: Record<DPromptFieldType, string> = {
    TEXT: "Text",
    TEXTAREA: "Mehrzeiliger Text",
    SELECT: "Auswahl",

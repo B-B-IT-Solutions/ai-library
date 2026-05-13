@@ -1,12 +1,9 @@
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
-import {
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-} from "@/data/types/domain/prompt.template";
+import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 
 export const toCatalogEntryDescriptor = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateDescriptor => {
+): DPrompt => {
    return {
       id: entry.id,
       title: entry.title,
@@ -21,14 +18,14 @@ export const toCatalogEntryDescriptor = (
 
 export const toCatalogEntryTemplateData = (
    entry: DCatalogEntryWithContent
-): DPromptTemplateDataPromptGeneration => {
+): DPromptGenerationData => {
    return {
       template: {
          id: entry.id,
          content: entry.content,
          fields: entry.fields.map((f) => ({
             ...f,
-            promptTemplateId: f.catalogEntryId,
+            promptId: f.catalogEntryId,
          })),
          globalFieldIds: [],
          updatedAt: entry.updatedAt,
@@ -36,7 +33,7 @@ export const toCatalogEntryTemplateData = (
       },
       allFields: entry.fields.map((f) => ({
          ...f,
-         promptTemplateId: f.catalogEntryId,
+         promptId: f.catalogEntryId,
       })),
    };
 };

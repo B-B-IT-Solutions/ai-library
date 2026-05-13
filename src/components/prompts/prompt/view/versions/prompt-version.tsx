@@ -4,11 +4,11 @@ import { FC, useState } from "react";
 import { Calendar, ChevronDown, ChevronRight } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { DPromptVersion } from "@/data/types/domain/prompt";
+import { DPrompt0Version } from "@/data/types/domain/prompt0";
 import { formatDateTime } from "@/lib/utils";
 
 type PromptVersionProps = {
-   version: DPromptVersion;
+   version: DPrompt0Version;
    isCurrent: boolean;
 };
 
@@ -21,8 +21,8 @@ export const PromptVersion: FC<PromptVersionProps> = ({
    const content = () => {
       if (expanded) {
          return (
-            <div className="px-4 pb-4 pt-2 border-t border-slate-200 bg-white">
-               <pre className="whitespace-pre-wrap text-sm font-mono text-slate-700">
+            <div className="border-t border-slate-200 bg-white px-4 pt-2 pb-4">
+               <pre className="font-mono text-sm whitespace-pre-wrap text-slate-700">
                   {version.content}
                </pre>
             </div>
@@ -56,21 +56,21 @@ export const PromptVersion: FC<PromptVersionProps> = ({
    return (
       <div
          data-testid="prompt-version"
-         className="bg-slate-50 border border-slate-200 rounded-lg overflow-hidden"
+         className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
       >
          <button
             onClick={() => setExpanded((prev) => !prev)}
-            className="w-full px-4 py-3 flex items-center justify-between gap-4 hover:bg-slate-100 transition-colors text-left cursor-pointer"
+            className="flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3 text-left transition-colors hover:bg-slate-100"
             data-testid="expand-btn"
          >
-            <div className="flex items-center gap-3 min-w-0">
+            <div className="flex min-w-0 items-center gap-3">
                {expandIcon()}
                <span className="font-medium text-slate-900">
                   v{version.version}
                </span>
                {currentBadge()}
             </div>
-            <div className="flex items-center gap-2 text-sm text-slate-600 shrink-0">
+            <div className="flex shrink-0 items-center gap-2 text-sm text-slate-600">
                <Calendar className="h-3.5 w-3.5" />
                <span>{formatDateTime(version.createdAt).dateTime}</span>
             </div>

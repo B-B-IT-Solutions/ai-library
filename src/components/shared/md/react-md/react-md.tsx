@@ -1,15 +1,15 @@
-import { map } from "es-toolkit/compat";
+﻿import { map } from "es-toolkit/compat";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptFieldValues } from "@/data/types/domain/prompt";
 
 import { components } from "./components";
 import { rehypePlaceholders } from "./plugins/rehype-placeholders";
 
 type Plugin = {
    type: "rehype-placeholders";
-   value: DPromptTemplateFieldValues;
+   value: DPromptFieldValues;
 };
 
 type Props = {

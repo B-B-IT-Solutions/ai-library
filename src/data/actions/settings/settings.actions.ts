@@ -8,31 +8,31 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
-export const getGlobalTemplateFields = async (): Promise<
-   DGlobalTemplateField[]
+export const getGlobalPromptFields = async (): Promise<
+   DGlobalPromptField[]
 > => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getGlobalTemplateFields(user.id);
+      return await service.getGlobalPromptFields(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
    }
 };
 
-export const createGlobalTemplateField = async (
-   data: DGlobalTemplateFieldUpdate
-): Promise<ActionResult<DGlobalTemplateField>> => {
+export const createGlobalPromptField = async (
+   data: DGlobalPromptFieldUpdate
+): Promise<ActionResult<DGlobalPromptField>> => {
    try {
       const user = await requireUser();
       const service = getService();
-      const field = await service.createGlobalTemplateField(user.id, data);
+      const field = await service.createGlobalPromptField(user.id, data);
       return {
          success: true,
          message: "Feld erfolgreich erstellt",
@@ -47,10 +47,10 @@ export const createGlobalTemplateField = async (
    }
 };
 
-export const updateGlobalTemplateField = async (
+export const updateGlobalPromptField = async (
    id: string,
-   data: DGlobalTemplateFieldUpdate
-): Promise<ActionResult<DGlobalTemplateField>> => {
+   data: DGlobalPromptFieldUpdate
+): Promise<ActionResult<DGlobalPromptField>> => {
    try {
       if (!isValidUuid(id)) {
          throw new Error("Invalid field ID.");
@@ -58,7 +58,7 @@ export const updateGlobalTemplateField = async (
 
       const user = await requireUser();
       const service = getService();
-      const field = await service.updateGlobalTemplateField(user.id, id, data);
+      const field = await service.updateGlobalPromptField(user.id, id, data);
       return {
          success: true,
          message: "Feld erfolgreich aktualisiert",
@@ -73,7 +73,7 @@ export const updateGlobalTemplateField = async (
    }
 };
 
-export const deleteGlobalTemplateField = async (
+export const deleteGlobalPromptField = async (
    id: string
 ): Promise<ActionResult> => {
    try {
@@ -83,7 +83,7 @@ export const deleteGlobalTemplateField = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteGlobalTemplateField(user.id, id);
+      await service.deleteGlobalPromptField(user.id, id);
       return {
          success: true,
          message: "Feld erfolgreich gelöscht",

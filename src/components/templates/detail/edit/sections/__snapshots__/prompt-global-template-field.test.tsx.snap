@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptGlobalTemplateField rendering tests PromptGlobalTemplateField - isUsed false - tests 1`] = `
+exports[`PromptGlobalPromptField rendering tests PromptGlobalPromptField - isUsed false - tests 1`] = `
 <div>
   <div
     class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -110,7 +110,7 @@ exports[`PromptGlobalTemplateField rendering tests PromptGlobalTemplateField - i
 </div>
 `;
 
-exports[`PromptGlobalTemplateField rendering tests PromptGlobalTemplateField - isUsed true - tests 1`] = `
+exports[`PromptGlobalPromptField rendering tests PromptGlobalPromptField - isUsed true - tests 1`] = `
 <div>
   <div
     class="flex items-center justify-between rounded-lg border px-4 py-3 border-green-200 bg-green-50"

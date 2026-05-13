@@ -11,11 +11,11 @@ import {
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
 import { toggleFavorite } from "@/data/actions/prompt";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { cn } from "@/lib/utils";
 
 type ToggleFavoriteButtonProps = {
-   prompt: DPromptDescriptor;
+   prompt: DPrompt0;
 };
 
 export const ToggleFavoriteButton: FC<ToggleFavoriteButtonProps> = ({
@@ -38,12 +38,12 @@ export const ToggleFavoriteButton: FC<ToggleFavoriteButtonProps> = ({
 
    const icon = () => {
       if (isPending) {
-         return <Loader className="w-5 h-5 animate-spin text-slate-400" />;
+         return <Loader className="h-5 w-5 animate-spin text-slate-400" />;
       }
       const styles = isFavorite
          ? "fill-yellow-400 text-yellow-400"
          : "text-slate-400";
-      return <Star className={cn("w-5 h-5", styles)} />;
+      return <Star className={cn("h-5 w-5", styles)} />;
    };
 
    return (
@@ -52,7 +52,7 @@ export const ToggleFavoriteButton: FC<ToggleFavoriteButtonProps> = ({
             <Button
                onClick={handleToggle}
                disabled={isPending}
-               className="p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
+               className="cursor-pointer rounded bg-transparent p-1 transition-colors hover:bg-slate-100"
                data-testid="toggle-favorite-btn"
             >
                {icon()}

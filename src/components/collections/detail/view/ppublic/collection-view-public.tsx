@@ -13,7 +13,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { PublicCollectionHeader } from "./collection-header-public";
 
@@ -26,7 +26,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
    const groupBy = DListGroupByMode.NONE;
    const sortBy = DListSortByMode.DATE_ASC;
 
-   const filters: DTemplateDescriptorsFilter = {
+   const filters: DPromptsFilter = {
       collectionIds: [collection.id],
    };
 

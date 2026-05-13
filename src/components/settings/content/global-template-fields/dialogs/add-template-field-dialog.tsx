@@ -16,36 +16,36 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
-import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { createGlobalTemplateField } from "@/data/actions/settings";
-import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
-import { globalTemplateFieldSchema } from "@/data/types/validators/settings";
+import { globalPromptFieldInitValues } from "@/components/shared/template-fields";
+import { createGlobalPromptField } from "@/data/actions/settings";
+import { DGlobalPromptFieldUpdate } from "@/data/types/domain/settings";
+import { globalPromptFieldSchema } from "@/data/types/validators/settings";
 
-import { GlobalTemplateFieldForm } from "./template-field-form";
+import { GlobalPromptFieldForm } from "./template-field-form";
 
 type Props = {
    open: boolean;
    onClose: () => void;
 };
 
-export const GlobalTemplateFieldAddDialog = ({ open, onClose }: Props) => {
+export const GlobalPromptFieldAddDialog = ({ open, onClose }: Props) => {
    const router = useRouter();
 
-   const form = useForm<DGlobalTemplateFieldUpdate>({
-      resolver: zodResolver(globalTemplateFieldSchema),
-      defaultValues: globalTemplateFieldInitValues(),
+   const form = useForm<DGlobalPromptFieldUpdate>({
+      resolver: zodResolver(globalPromptFieldSchema),
+      defaultValues: globalPromptFieldInitValues(),
    });
 
    useEffect(() => {
       if (open) {
-         form.reset(globalTemplateFieldInitValues());
+         form.reset(globalPromptFieldInitValues());
       }
    }, [open, form]);
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DGlobalTemplateFieldUpdate> = async (data) => {
-      const result = await createGlobalTemplateField(data);
+   const onSubmit: SubmitHandler<DGlobalPromptFieldUpdate> = async (data) => {
+      const result = await createGlobalPromptField(data);
       if (result.success) {
          toast.success(result.message);
          router.refresh();
@@ -81,7 +81,7 @@ export const GlobalTemplateFieldAddDialog = ({ open, onClose }: Props) => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <GlobalTemplateFieldForm
+                  <GlobalPromptFieldForm
                      watch={form.watch}
                      control={form.control}
                   />

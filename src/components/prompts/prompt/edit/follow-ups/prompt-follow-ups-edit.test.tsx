@@ -4,18 +4,18 @@ import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
 import {
-   DPromptFollowUpUpdate,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+   DPrompt0FollowUpUpdate,
+   DPrompt0Update,
+} from "@/data/types/domain/prompt0";
 
 import { PromptFollowUpsEdit } from "./prompt-follow-ups-edit";
 
 type Props = {
-   followUpUpdates: DPromptFollowUpUpdate[];
+   followUpUpdates: DPrompt0FollowUpUpdate[];
 };
 
 const TestWrapper = ({ followUpUpdates }: Props) => {
-   const form = useForm<DPromptUpdate>({
+   const form = useForm<DPrompt0Update>({
       defaultValues: {
          title: "",
          content: "",
@@ -31,7 +31,7 @@ const TestWrapper = ({ followUpUpdates }: Props) => {
       keyName: "_key",
    });
 
-   const addFollowUpPrompt = (value: DPromptFollowUpUpdate) => {
+   const addFollowUpPrompt = (value: DPrompt0FollowUpUpdate) => {
       append(value);
    };
 

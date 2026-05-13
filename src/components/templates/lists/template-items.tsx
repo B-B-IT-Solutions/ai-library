@@ -12,7 +12,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { TemplateItemsGrid } from "./template-items-grid";
 import { TemplateItemsGrouped } from "./template-items-grouped";
@@ -22,7 +22,7 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
-   filters: DTemplateDescriptorsFilter;
+   filters: DPromptsFilter;
 };
 
 export const TemplateItems = ({

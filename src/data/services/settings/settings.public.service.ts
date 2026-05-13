@@ -1,5 +1,5 @@
 import { PublicSettingsRepository } from "@/data/repositories/settings";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 export class PublicSettingsService {
    private settingsRepository: PublicSettingsRepository;
@@ -8,10 +8,10 @@ export class PublicSettingsService {
       this.settingsRepository = settingsRepository;
    }
 
-   async getPublicGlobalTemplateFieldsByIds(
+   async getPublicGlobalPromptFieldsByIds(
       ids: string[]
-   ): Promise<DGlobalTemplateField[]> {
-      return await this.settingsRepository.pGetPublicGlobalTemplateFieldsByIds(
+   ): Promise<DGlobalPromptField[]> {
+      return await this.settingsRepository.pGetPublicGlobalPromptFieldsByIds(
          ids
       );
    }

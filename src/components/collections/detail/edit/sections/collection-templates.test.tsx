@@ -23,7 +23,7 @@ import {
    type LoadTemplateDescriptorsParams,
    useInfiniteLoadTemplateDescriptors,
 } from "@/data/ts-queries/template";
-import { DTemplateDescriptorsPage } from "@/data/types/domain/prompt.template";
+import { DPromptsPage } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { CollectionTemplates } from "./collection-templates";
@@ -74,7 +74,7 @@ const templateIdsQueryResultMock = (
 };
 
 const infiniteQueryResultMock = (
-   pages: DTemplateDescriptorsPage[] = [],
+   pages: DPromptsPage[] = [],
    hasNextPage = false,
    isFetching = false
 ): UseInfiniteTemplatesResult => {

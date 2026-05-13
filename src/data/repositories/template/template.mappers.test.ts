@@ -1,16 +1,16 @@
-import { ptestData } from "@tests";
+﻿import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
    PromptContentWithFields,
    PromptWithCategories,
-} from "@/data/types/db/prompt.template";
+} from "@/data/types/db/prompt";
 import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-   DPromptTemplateField,
-} from "@/data/types/domain/prompt.template";
-import { PromptTemplateField } from "@/generated/prisma/client";
+   DPrompt,
+   DPromptContent,
+   DPromptField,
+} from "@/data/types/domain/prompt";
+import { PromptField } from "@/generated/prisma/client";
 
 import {
    toDPromptTemplate,
@@ -20,13 +20,13 @@ import {
 
 const toDPromptTemplateDescriptorsInternal = (
    pPrompts: PromptWithCategories[]
-): DPromptTemplateDescriptor[] => {
+): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPromptTemplateDescriptorInternal(dbP));
 };
 
 const toDPromptTemplateDescriptorInternal = (
    prompt: PromptWithCategories
-): DPromptTemplateDescriptor => {
+): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,
@@ -41,30 +41,26 @@ const toDPromptTemplateDescriptorInternal = (
 
 const toDPromptTemplateInternal = (
    prompt: PromptContentWithFields
-): DPromptTemplate => {
+): DPromptContent => {
    return {
       id: prompt.promptId,
       content: prompt.content,
       fields: toDTemplateFieldsInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
-      updatedAt: prompt.updatedAt.toISOString(),
-      createdAt: prompt.createdAt.toISOString(),
    };
 };
 
 export const toDTemplateFieldsInternal = (
-   fields: PromptTemplateField[]
-): DPromptTemplateField[] => {
+   fields: PromptField[]
+): DPromptField[] => {
    return map(fields, toDTemplateFieldInternal).sort(
       (a, b) => a.order - b.order
    );
 };
 
-export const toDTemplateFieldInternal = (
-   field: PromptTemplateField
-): DPromptTemplateField => ({
+export const toDTemplateFieldInternal = (field: PromptField): DPromptField => ({
    id: field.id,
-   promptTemplateId: field.promptTemplateId,
+   promptId: field.promptId,
    name: field.name,
    label: field.label,
    description: field.description,

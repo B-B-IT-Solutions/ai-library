@@ -2,10 +2,10 @@ import { Edit2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptor;
+   descriptor: DPrompt;
 };
 
 export const EditTemplateButton = ({ descriptor }: Props) => {

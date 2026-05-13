@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptGlobalTemplateField } from "./prompt-global-template-field";
+import { PromptGlobalPromptField } from "./prompt-global-template-field";
 
 const assertRendered = () => {
    const field = screen.getByTestId("prompt-global-template-field");
@@ -12,12 +12,12 @@ const assertRendered = () => {
    assertInDocument(removeBtn);
 };
 
-describe("PromptGlobalTemplateField rendering tests", () => {
-   it("PromptGlobalTemplateField - isUsed false - tests", async () => {
-      const field = dtestData.dGlobalTemplateField();
+describe("PromptGlobalPromptField rendering tests", () => {
+   it("PromptGlobalPromptField - isUsed false - tests", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <PromptGlobalTemplateField
+         <PromptGlobalPromptField
             field={field}
             isUsed={false}
             onRemoveGlobalFieldId={jest.fn()}
@@ -31,11 +31,11 @@ describe("PromptGlobalTemplateField rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptGlobalTemplateField - isUsed true - tests", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("PromptGlobalPromptField - isUsed true - tests", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <PromptGlobalTemplateField
+         <PromptGlobalPromptField
             field={field}
             isUsed={true}
             onRemoveGlobalFieldId={jest.fn()}
@@ -50,13 +50,13 @@ describe("PromptGlobalTemplateField rendering tests", () => {
    });
 });
 
-describe("PromptGlobalTemplateField functionality tests", () => {
-   it("PromptGlobalTemplateField - remove btn clicked - tests", async () => {
-      const field = dtestData.dGlobalTemplateField();
+describe("PromptGlobalPromptField functionality tests", () => {
+   it("PromptGlobalPromptField - remove btn clicked - tests", async () => {
+      const field = dtestData.dGlobalPromptField();
       const removeFn = jest.fn();
 
       render(
-         <PromptGlobalTemplateField
+         <PromptGlobalPromptField
             field={field}
             isUsed={false}
             onRemoveGlobalFieldId={removeFn}

@@ -4,17 +4,17 @@ import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
    onToggle: (id: string) => void;
    alreadyAdded: boolean;
    isSelected: boolean;
 };
 
-export const GlobalTemplateFieldOption = ({
+export const GlobalPromptFieldOption = ({
    field,
    onToggle,
    alreadyAdded,

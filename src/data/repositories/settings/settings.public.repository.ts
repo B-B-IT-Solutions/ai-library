@@ -1,8 +1,8 @@
 import { DbClient } from "@/data/types/db/common";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { GlobalTemplateFieldFindManyArgs } from "@/generated/prisma/models";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
+import { GlobalPromptFieldFindManyArgs } from "@/generated/prisma/models";
 
-import { toDGlobalTemplateFields } from "./settings.mapper";
+import { toDGlobalPromptFields } from "./settings.mapper";
 
 export class PublicSettingsRepository {
    private prisma: DbClient;
@@ -11,10 +11,10 @@ export class PublicSettingsRepository {
       this.prisma = prisma;
    }
 
-   async pGetPublicGlobalTemplateFieldsByIds(
+   async pGetPublicGlobalPromptFieldsByIds(
       ids: string[]
-   ): Promise<DGlobalTemplateField[]> {
-      const args: GlobalTemplateFieldFindManyArgs = {
+   ): Promise<DGlobalPromptField[]> {
+      const args: GlobalPromptFieldFindManyArgs = {
          where: {
             id: {
                in: ids,
@@ -22,7 +22,7 @@ export class PublicSettingsRepository {
          },
       };
 
-      const fields = await this.prisma.globalTemplateField.findMany(args);
-      return toDGlobalTemplateFields(fields);
+      const fields = await this.prisma.globalPromptField.findMany(args);
+      return toDGlobalPromptFields(fields);
    }
 }

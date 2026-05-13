@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,19 +19,19 @@ import {
    updateTemplateDescriptor,
 } from "@/data/actions/template";
 import {
-   DPromptTemplate,
-   DPromptTemplateDescriptor,
-   DPromptTemplateField,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+   DPrompt,
+   DPromptContent,
+   DPromptField,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import {
    BasicInfo,
    DetectedVariables,
+   PromptFields,
    PromptTemplateContent,
-   PromptTemplateFields,
 } from "./sections";
 import {
    extractVariablesFromContent,
@@ -40,9 +40,9 @@ import {
 } from "./utils";
 
 type Props = {
-   descriptor?: DPromptTemplateDescriptor;
-   template?: DPromptTemplate;
-   globalFields: DGlobalTemplateField[];
+   descriptor?: DPrompt;
+   template?: DPromptContent;
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({
@@ -53,7 +53,7 @@ export const TemplateEditForm = ({
    const router = useRouter();
    const isEdit = !!descriptor;
 
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
       defaultValues: initPromptTemplate(descriptor, template),
    });
@@ -124,7 +124,7 @@ export const TemplateEditForm = ({
       );
    };
 
-   const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
+   const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
          const result = await updateTemplateDescriptor(descriptor.id, data);
          if (result.success) {
@@ -211,8 +211,8 @@ export const TemplateEditForm = ({
                      onSyncAll={handleSyncAllVariables}
                   />
                   {detectedVariables.length > 0 && <Separator />}
-                  <PromptTemplateFields
-                     fields={fields as DPromptTemplateField[]}
+                  <PromptFields
+                     fields={fields as DPromptField[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
                      globalFieldIds={form.watch("globalFieldIds")}

@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { GlobalTemplateFieldEditDialog } from "../dialogs";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
+import { GlobalPromptFieldEditDialog } from "../dialogs";
 
 type Props = {
-   field: DGlobalTemplateField;
+   field: DGlobalPromptField;
 };
 
 export const EditTemplateFieldButton = ({ field }: Props) => {
@@ -33,7 +33,7 @@ export const EditTemplateFieldButton = ({ field }: Props) => {
          >
             <Pencil className="h-4 w-4" />
          </Button>
-         <GlobalTemplateFieldEditDialog
+         <GlobalPromptFieldEditDialog
             open={open}
             onClose={closeDialog}
             field={field}

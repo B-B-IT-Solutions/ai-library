@@ -7,14 +7,14 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteGlobalTemplateField } from "@/data/actions/settings";
+import { deleteGlobalPromptField } from "@/data/actions/settings";
 import { ActionResult } from "@/data/types/utils";
 
-import { GlobalTemplateFieldDeleteConfirmDialog } from "./delete-template-field-dialog";
+import { GlobalPromptFieldDeleteConfirmDialog } from "./delete-template-field-dialog";
 
-const deleteGlobalTemplateFieldMock =
-   deleteGlobalTemplateField as jest.MockedFunction<
-      typeof deleteGlobalTemplateField
+const deleteGlobalPromptFieldMock =
+   deleteGlobalPromptField as jest.MockedFunction<
+      typeof deleteGlobalPromptField
    >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -34,12 +34,12 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("GlobalTemplateFieldDeleteConfirmDialog rendering tests", () => {
-   it("GlobalTemplateFieldDeleteConfirmDialog - open true - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+describe("GlobalPromptFieldDeleteConfirmDialog rendering tests", () => {
+   it("GlobalPromptFieldDeleteConfirmDialog - open true - test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={true}
             onClose={jest.fn()}
             field={field}
@@ -53,10 +53,10 @@ describe("GlobalTemplateFieldDeleteConfirmDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldDeleteConfirmDialog - open false - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldDeleteConfirmDialog - open false - test", async () => {
+      const field = dtestData.dGlobalPromptField();
       render(
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={false}
             onClose={jest.fn()}
             field={field}
@@ -69,22 +69,22 @@ describe("GlobalTemplateFieldDeleteConfirmDialog rendering tests", () => {
    });
 });
 
-describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
+describe("GlobalPromptFieldDeleteConfirmDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("GlobalTemplateFieldDeleteConfirmDialog - confirm delete - result.success true - test", async () => {
+   it("GlobalPromptFieldDeleteConfirmDialog - confirm delete - result.success true - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Feld gelöscht",
       };
-      deleteGlobalTemplateFieldMock.mockResolvedValue(result);
+      deleteGlobalPromptFieldMock.mockResolvedValue(result);
 
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
       const onClose = jest.fn();
       render(
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={true}
             onClose={onClose}
             field={field}
@@ -93,15 +93,15 @@ describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(deleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(deleteGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-         expect(deleteGlobalTemplateFieldMock).toHaveBeenCalledWith(field.id);
+         expect(deleteGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+         expect(deleteGlobalPromptFieldMock).toHaveBeenCalledWith(field.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
@@ -109,17 +109,17 @@ describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldDeleteConfirmDialog - confirm delete - result.success false - test", async () => {
+   it("GlobalPromptFieldDeleteConfirmDialog - confirm delete - result.success false - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Feld konnte nicht gelöscht werden",
       };
-      deleteGlobalTemplateFieldMock.mockResolvedValue(result);
+      deleteGlobalPromptFieldMock.mockResolvedValue(result);
 
-      const field = dtestData.dGlobalTemplateField();
+      const field = dtestData.dGlobalPromptField();
       const onClose = jest.fn();
       render(
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={true}
             onClose={onClose}
             field={field}
@@ -128,15 +128,15 @@ describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(deleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(deleteGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-         expect(deleteGlobalTemplateFieldMock).toHaveBeenCalledWith(field.id);
+         expect(deleteGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+         expect(deleteGlobalPromptFieldMock).toHaveBeenCalledWith(field.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
@@ -144,11 +144,11 @@ describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldDeleteConfirmDialog - cancel - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldDeleteConfirmDialog - cancel - test", async () => {
+      const field = dtestData.dGlobalPromptField();
       const onClose = jest.fn();
       render(
-         <GlobalTemplateFieldDeleteConfirmDialog
+         <GlobalPromptFieldDeleteConfirmDialog
             open={true}
             onClose={onClose}
             field={field}
@@ -157,14 +157,14 @@ describe("GlobalTemplateFieldDeleteConfirmDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(deleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(deleteGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(deleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(deleteGlobalPromptFieldMock).not.toHaveBeenCalled();
          expect(toastMock.success).not.toHaveBeenCalled();
          expect(toastMock.error).not.toHaveBeenCalled();
          expect(mockRouter.refresh).not.toHaveBeenCalled();

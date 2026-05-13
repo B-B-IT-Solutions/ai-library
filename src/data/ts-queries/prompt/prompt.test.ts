@@ -12,10 +12,7 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
-import {
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-} from "@/data/types/domain/prompt";
+import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import {
    infiniteLoadPromptsOptions,
@@ -51,7 +48,7 @@ describe("prefetch options tests", () => {
       };
 
       const options = preloadPromptsOptions();
-      const queryFn = options.queryFn as QueryFunction<DPromptDescriptorsPage>;
+      const queryFn = options.queryFn as QueryFunction<DPrompt0sPage>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
@@ -93,9 +90,9 @@ describe("loadPrompts hooks tests", () => {
       };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DPromptDescriptorsPage,
+         DPrompt0sPage,
          Error,
-         InfiniteData<DPromptDescriptorsPage, unknown>,
+         InfiniteData<DPrompt0sPage, unknown>,
          QueryKey,
          number
       > = {
@@ -123,7 +120,7 @@ describe("loadPrompts hooks tests", () => {
          useInfiniteLoadPrompts(params)
       );
 
-      const expectedQuery: DPromptDescriptorsPageQuery = {
+      const expectedQuery: DPrompt0sPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          globalFilter: params.search,
          filter: {

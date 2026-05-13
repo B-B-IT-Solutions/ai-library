@@ -10,7 +10,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
+import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 
 import { CreatePromptButton } from "./buttons";
 import { Prompts, PromptsToolbar } from "./lists";
@@ -25,7 +25,7 @@ export const PromptsDashboard = async () => {
    const viewMode = DListViewMode.GRID;
    const groupBy = DListGroupByMode.NONE;
    const sortBy = DListSortByMode.DATE_DESC;
-   const filters: DPromptDescriptorsFilter = {};
+   const filters: DPrompt0sFilter = {};
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>

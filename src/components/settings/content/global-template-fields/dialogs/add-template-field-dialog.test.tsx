@@ -7,19 +7,19 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { createGlobalTemplateField } from "@/data/actions/settings";
+import { globalPromptFieldInitValues } from "@/components/shared/template-fields";
+import { createGlobalPromptField } from "@/data/actions/settings";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
-import { GlobalTemplateFieldAddDialog } from "./add-template-field-dialog";
+import { GlobalPromptFieldAddDialog } from "./add-template-field-dialog";
 
-const createGlobalTemplateFieldMock =
-   createGlobalTemplateField as jest.MockedFunction<
-      typeof createGlobalTemplateField
+const createGlobalPromptFieldMock =
+   createGlobalPromptField as jest.MockedFunction<
+      typeof createGlobalPromptField
    >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -47,10 +47,10 @@ const typeIntoField = async (testId: string, value: string) => {
    await userEvent.type(input, value);
 };
 
-describe("GlobalTemplateFieldAddDialog rendering tests", () => {
-   it("GlobalTemplateFieldAddDialog - open true - test", async () => {
+describe("GlobalPromptFieldAddDialog rendering tests", () => {
+   it("GlobalPromptFieldAddDialog - open true - test", async () => {
       const { container } = render(
-         <GlobalTemplateFieldAddDialog open={true} onClose={jest.fn()} />
+         <GlobalPromptFieldAddDialog open={true} onClose={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -60,9 +60,9 @@ describe("GlobalTemplateFieldAddDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldAddDialog - open false - test", async () => {
+   it("GlobalPromptFieldAddDialog - open false - test", async () => {
       const { container } = render(
-         <GlobalTemplateFieldAddDialog open={false} onClose={jest.fn()} />
+         <GlobalPromptFieldAddDialog open={false} onClose={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -73,31 +73,31 @@ describe("GlobalTemplateFieldAddDialog rendering tests", () => {
    });
 });
 
-describe("GlobalTemplateFieldAddDialog functionality tests", () => {
+describe("GlobalPromptFieldAddDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("GlobalTemplateFieldAddDialog - submit btn clicked - result.success true - test", async () => {
-      const result: ActionResult<DGlobalTemplateField> = {
+   it("GlobalPromptFieldAddDialog - submit btn clicked - result.success true - test", async () => {
+      const result: ActionResult<DGlobalPromptField> = {
          success: true,
          message: "Feld erstellt",
       };
-      createGlobalTemplateFieldMock.mockResolvedValue(result);
+      createGlobalPromptFieldMock.mockResolvedValue(result);
 
       const onClose = jest.fn();
-      render(<GlobalTemplateFieldAddDialog open={true} onClose={onClose} />);
+      render(<GlobalPromptFieldAddDialog open={true} onClose={onClose} />);
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
          expect(onClose).not.toHaveBeenCalled();
       });
 
@@ -106,16 +106,16 @@ describe("GlobalTemplateFieldAddDialog functionality tests", () => {
 
       await userEvent.click(submitBtn);
 
-      const initValues = globalTemplateFieldInitValues();
-      const expectedPayload: DGlobalTemplateFieldUpdate = {
+      const initValues = globalPromptFieldInitValues();
+      const expectedPayload: DGlobalPromptFieldUpdate = {
          ...initValues,
          name: "test-name",
          label: "Test Label",
       };
 
       await waitFor(() => {
-         expect(createGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-         expect(createGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         expect(createGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+         expect(createGlobalPromptFieldMock).toHaveBeenCalledWith(
             expectedPayload
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -125,26 +125,26 @@ describe("GlobalTemplateFieldAddDialog functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldAddDialog - submit btn clicked - result.success false - test", async () => {
-      const result: ActionResult<DGlobalTemplateField> = {
+   it("GlobalPromptFieldAddDialog - submit btn clicked - result.success false - test", async () => {
+      const result: ActionResult<DGlobalPromptField> = {
          success: false,
          message: "Feld konnte nicht erstellt werden",
       };
-      createGlobalTemplateFieldMock.mockResolvedValue(result);
+      createGlobalPromptFieldMock.mockResolvedValue(result);
 
       const onClose = jest.fn();
-      render(<GlobalTemplateFieldAddDialog open={true} onClose={onClose} />);
+      render(<GlobalPromptFieldAddDialog open={true} onClose={onClose} />);
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
          expect(onClose).not.toHaveBeenCalled();
       });
 
@@ -153,16 +153,16 @@ describe("GlobalTemplateFieldAddDialog functionality tests", () => {
 
       await userEvent.click(submitBtn);
 
-      const initValues = globalTemplateFieldInitValues();
-      const expectedPayload: DGlobalTemplateFieldUpdate = {
+      const initValues = globalPromptFieldInitValues();
+      const expectedPayload: DGlobalPromptFieldUpdate = {
          ...initValues,
          name: "test-name",
          label: "Test Label",
       };
 
       await waitFor(() => {
-         expect(createGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-         expect(createGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         expect(createGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+         expect(createGlobalPromptFieldMock).toHaveBeenCalledWith(
             expectedPayload
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
@@ -172,20 +172,20 @@ describe("GlobalTemplateFieldAddDialog functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldAddDialog - cancel btn clicked - test", async () => {
+   it("GlobalPromptFieldAddDialog - cancel btn clicked - test", async () => {
       const onClose = jest.fn();
-      render(<GlobalTemplateFieldAddDialog open={true} onClose={onClose} />);
+      render(<GlobalPromptFieldAddDialog open={true} onClose={onClose} />);
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(createGlobalTemplateFieldMock).not.toHaveBeenCalled();
+         expect(createGlobalPromptFieldMock).not.toHaveBeenCalled();
          expect(toastMock.success).not.toHaveBeenCalled();
          expect(toastMock.error).not.toHaveBeenCalled();
          expect(onClose).toHaveBeenCalledTimes(1);

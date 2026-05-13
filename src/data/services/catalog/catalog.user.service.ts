@@ -1,5 +1,5 @@
 import { CatalogRepository } from "@/data/repositories/catalog";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { DPrompt } from "@/data/types/domain/prompt";
 import { TemplateService } from "../template";
 
 import { toPromptTemplateUpdate } from "./catalog.mapper";
@@ -13,7 +13,7 @@ export class CatalogService {
    async addCatalogEntryToUserTemplates(
       userId: string,
       catalogEntryId: string
-   ): Promise<DPromptTemplateDescriptor> {
+   ): Promise<DPrompt> {
       const entry =
          await this.catalogRepository.pGetPublishedEntryById(catalogEntryId);
 

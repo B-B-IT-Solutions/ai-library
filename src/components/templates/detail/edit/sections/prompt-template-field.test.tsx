@@ -1,13 +1,13 @@
-import { FC } from "react";
+﻿import { FC } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
-import { PromptTemplateField } from "./prompt-template-field";
+import { PromptField } from "./prompt-template-field";
 
 type Props = {
    index: number;
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
-   const form = useForm<DPromptTemplateUpdate>({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          description: "",
@@ -30,7 +30,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
 
    return (
       <FormProvider {...form}>
-         <PromptTemplateField
+         <PromptField
             index={index}
             isUsed={isUsed}
             hasName={hasName}
@@ -68,8 +68,8 @@ const assertFieldsRendered = (index: number) => {
    assertInDocument(required);
 };
 
-describe("PromptTemplateField rendering tests", () => {
-   it("PromptTemplateField - hasName false - isUsed false - test", () => {
+describe("PromptField rendering tests", () => {
+   it("PromptField - hasName false - isUsed false - test", () => {
       const index = 0;
       const { container } = render(
          <TestWrapper
@@ -86,7 +86,7 @@ describe("PromptTemplateField rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptTemplateField - - hasName true - isUsed false - test", () => {
+   it("PromptField - - hasName true - isUsed false - test", () => {
       const index = 1;
       const { container } = render(
          <TestWrapper
@@ -103,7 +103,7 @@ describe("PromptTemplateField rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptTemplateField - hasName true - isUsed true - test", () => {
+   it("PromptField - hasName true - isUsed true - test", () => {
       const index = 5;
       const { container } = render(
          <TestWrapper
@@ -121,8 +121,8 @@ describe("PromptTemplateField rendering tests", () => {
    });
 });
 
-describe("PromptTemplateField functionality tests", () => {
-   it("PromptTemplateField - remove btn clicked - test", async () => {
+describe("PromptField functionality tests", () => {
+   it("PromptField - remove btn clicked - test", async () => {
       const removeFn = jest.fn();
 
       render(

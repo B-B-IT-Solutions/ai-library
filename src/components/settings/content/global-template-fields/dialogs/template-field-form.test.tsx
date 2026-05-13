@@ -3,12 +3,12 @@ import { render, screen } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
+import { DGlobalPromptFieldUpdate } from "@/data/types/domain/settings";
 
-import { GlobalTemplateFieldForm } from "./template-field-form";
+import { GlobalPromptFieldForm } from "./template-field-form";
 
 type Props = {
-   data: DGlobalTemplateFieldUpdate;
+   data: DGlobalPromptFieldUpdate;
 };
 
 const TestWrapper: FC<Props> = ({ data }) => {
@@ -18,7 +18,7 @@ const TestWrapper: FC<Props> = ({ data }) => {
 
    return (
       <FormProvider {...form}>
-         <GlobalTemplateFieldForm watch={form.watch} control={form.control} />
+         <GlobalPromptFieldForm watch={form.watch} control={form.control} />
       </FormProvider>
    );
 };
@@ -51,9 +51,9 @@ const assertOptionsNotRendered = () => {
    assertNotInDocument(options);
 };
 
-describe("GlobalTemplateFieldForm rendering tests", () => {
-   it("GlobalTemplateFieldForm - type NUMBER - test", () => {
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+describe("GlobalPromptFieldForm rendering tests", () => {
+   it("GlobalPromptFieldForm - type NUMBER - test", () => {
+      const data = dtestData.dGlobalPromptFieldUpdate();
       data.type = "NUMBER";
       data.options = undefined;
       const { container } = render(<TestWrapper data={data} />);
@@ -64,8 +64,8 @@ describe("GlobalTemplateFieldForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldForm - type SELECT - test", () => {
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+   it("GlobalPromptFieldForm - type SELECT - test", () => {
+      const data = dtestData.dGlobalPromptFieldUpdate();
       data.type = "SELECT";
       const { container } = render(<TestWrapper data={data} />);
 

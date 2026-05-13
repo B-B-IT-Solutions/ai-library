@@ -7,15 +7,15 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+   DPrompt0,
+   DPrompt0sPage,
+   DPrompt0sPageQuery,
+   DPrompt0Update,
+} from "@/data/types/domain/prompt0";
 
 export const getPrompts = async (
-   query?: DPromptDescriptorsPageQuery
-): Promise<DPromptDescriptorsPage> => {
+   query?: DPrompt0sPageQuery
+): Promise<DPrompt0sPage> => {
    try {
       const user = await requireUser();
       const service = getSevice();
@@ -26,9 +26,7 @@ export const getPrompts = async (
    }
 };
 
-export const getPrompt = async (
-   promptId: string
-): Promise<DPromptDescriptor | null> => {
+export const getPrompt = async (promptId: string): Promise<DPrompt0 | null> => {
    try {
       if (!isValidUuid(promptId)) {
          throw new Error("Invalid Prompt ID.");
@@ -54,7 +52,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    }
 };
 
-export const createPrompt = async (data: DPromptUpdate) => {
+export const createPrompt = async (data: DPrompt0Update) => {
    try {
       const user = await requireUser();
       const service = getSevice();
@@ -74,7 +72,7 @@ export const createPrompt = async (data: DPromptUpdate) => {
 
 export const updatePrompt = async (
    promptId: string,
-   data: DPromptUpdate,
+   data: DPrompt0Update,
    createVersion: boolean
 ) => {
    try {

@@ -1,13 +1,13 @@
-"use client";
+﻿"use client";
 
 import { FC } from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 import { FormRadio } from "@/components/shared/widgets";
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { DPromptField } from "@/data/types/domain/prompt";
 
 type Props = {
-   field: DPromptTemplateField;
+   field: DPromptField;
    control: Control<FieldValues>;
 };
 

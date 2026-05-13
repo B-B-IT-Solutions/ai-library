@@ -3,14 +3,14 @@
 exports[`ToggleFavoriteButton rendering tests ToggleFavoriteButton - isFavorite false - test 1`] = `
 <div>
   <button
-    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 cursor-pointer rounded bg-transparent p-1 transition-colors hover:bg-slate-100"
     data-slot="tooltip-trigger"
     data-state="closed"
     data-testid="toggle-favorite-btn"
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-star w-5 h-5 text-slate-400"
+      class="lucide lucide-star h-5 w-5 text-slate-400"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -82,14 +82,14 @@ exports[`ToggleFavoriteButton rendering tests ToggleFavoriteButton - isFavorite 
 exports[`ToggleFavoriteButton rendering tests ToggleFavoriteButton - isFavorite true - test 1`] = `
 <div>
   <button
-    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 cursor-pointer rounded bg-transparent p-1 transition-colors hover:bg-slate-100"
     data-slot="tooltip-trigger"
     data-state="closed"
     data-testid="toggle-favorite-btn"
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
+      class="lucide lucide-star h-5 w-5 fill-yellow-400 text-yellow-400"
       fill="none"
       height="24"
       stroke="currentColor"

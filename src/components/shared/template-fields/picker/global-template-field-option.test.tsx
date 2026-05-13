@@ -2,19 +2,19 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { GlobalTemplateFieldOption } from "./global-template-field-option";
+import { GlobalPromptFieldOption } from "./global-template-field-option";
 
 const assertRendered = async () => {
    const option = screen.getByTestId("field-option");
    assertInDocument(option);
 };
 
-describe("GlobalTemplateFieldOption rendering tests", () => {
-   it("GlobalTemplateFieldOption - alreadyAdded true - isSelected true - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+describe("GlobalPromptFieldOption rendering tests", () => {
+   it("GlobalPromptFieldOption - alreadyAdded true - isSelected true - test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={jest.fn()}
             alreadyAdded={true}
@@ -29,11 +29,11 @@ describe("GlobalTemplateFieldOption rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldOption - alreadyAdded false - isSelected true - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldOption - alreadyAdded false - isSelected true - test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={jest.fn()}
             alreadyAdded={false}
@@ -48,11 +48,11 @@ describe("GlobalTemplateFieldOption rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldOption - alreadyAdded true - isSelected false - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldOption - alreadyAdded true - isSelected false - test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={jest.fn()}
             alreadyAdded={true}
@@ -67,11 +67,11 @@ describe("GlobalTemplateFieldOption rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GlobalTemplateFieldOption - alreadyAdded false - isSelected false - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldOption - alreadyAdded false - isSelected false - test", async () => {
+      const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={jest.fn()}
             alreadyAdded={false}
@@ -87,13 +87,13 @@ describe("GlobalTemplateFieldOption rendering tests", () => {
    });
 });
 
-describe("GlobalTemplateFieldOption functionality tests", () => {
-   it("GlobalTemplateFieldOption - field selected - isSelected - false - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+describe("GlobalPromptFieldOption functionality tests", () => {
+   it("GlobalPromptFieldOption - field selected - isSelected - false - test", async () => {
+      const field = dtestData.dGlobalPromptField();
       const onToggleFn = jest.fn();
 
       render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={onToggleFn}
             alreadyAdded={false}
@@ -115,12 +115,12 @@ describe("GlobalTemplateFieldOption functionality tests", () => {
       });
    });
 
-   it("GlobalTemplateFieldOption - field selected - isSelected - true - test", async () => {
-      const field = dtestData.dGlobalTemplateField();
+   it("GlobalPromptFieldOption - field selected - isSelected - true - test", async () => {
+      const field = dtestData.dGlobalPromptField();
       const onToggleFn = jest.fn();
 
       render(
-         <GlobalTemplateFieldOption
+         <GlobalPromptFieldOption
             field={field}
             onToggle={onToggleFn}
             alreadyAdded={false}

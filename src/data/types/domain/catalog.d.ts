@@ -1,5 +1,5 @@
-import { Page, PageQuery } from "@/data/types/common";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+﻿import { Page, PageQuery } from "@/data/types/common";
+import { DPromptFieldType } from "@/data/types/domain/prompt";
 
 export type DCatalogEntriesPageQuery = PageQuery<DCatalogEntriesFilter>;
 export type DCatalogEntriesPage = Page<DCatalogEntry>;
@@ -44,7 +44,7 @@ export type DCatalogEntryField = {
    name: string;
    label: string;
    description: string | null;
-   type: DPromptTemplateFieldType;
+   type: DPromptFieldType;
    required: boolean;
    order: number;
    defaultValue: string | null;

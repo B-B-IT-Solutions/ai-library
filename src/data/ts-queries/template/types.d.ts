@@ -1,8 +1,8 @@
 import { Sort } from "@/data/types/common";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 export type LoadTemplateDescriptorsParams = {
-   filters?: DTemplateDescriptorsFilter;
+   filters?: DPromptsFilter;
    sort?: Sort;
 };
 

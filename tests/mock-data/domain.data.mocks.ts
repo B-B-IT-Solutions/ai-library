@@ -1,4 +1,4 @@
-import { range } from "es-toolkit";
+﻿import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
@@ -34,32 +34,32 @@ import {
    DUseCase,
 } from "@/data/types/domain/product";
 import {
+   DPrompt,
    DPromptCategory,
-   DPromptDescriptor,
-   DPromptDescriptorsFilter,
-   DPromptDescriptorsPage,
-   DPromptDescriptorsPageQuery,
-   DPromptFollowUp,
-   DPromptFollowUpUpdate,
+   DPromptContent,
+   DPromptField,
+   DPromptFieldUpdate,
+   DPromptFieldValues,
+   DPromptGenerationData,
+   DPromptsFilter,
+   DPromptsPage,
+   DPromptsPageQuery,
    DPromptUpdate,
-   DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplate,
-   DPromptTemplateCategory,
-   DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptor,
-   DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
-   DPromptTemplateFieldValues,
-   DPromptTemplateUpdate,
-   DTemplateDescriptorsFilter,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
+   DPrompt0,
+   DPrompt0Category,
+   DPrompt0FollowUp,
+   DPrompt0FollowUpUpdate,
+   DPrompt0sFilter,
+   DPrompt0sPage,
+   DPrompt0sPageQuery,
+   DPrompt0Update,
+   DPrompt0Version,
+} from "@/data/types/domain/prompt0";
 import {
-   DGlobalTemplateField,
-   DGlobalTemplateFieldUpdate,
+   DGlobalPromptField,
+   DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
    DStripeBillingPortalSessionResponse,
@@ -495,16 +495,14 @@ export const dInstruction = (index = 1): DInstruction => {
 
 export const dPromptTemplateDataPromptGeneration = (
    index = 1
-): DPromptTemplateDataPromptGeneration => {
+): DPromptGenerationData => {
    return {
       template: dPromptTemplate(index),
-      allFields: dPromptTemplateFields(),
+      allFields: dPromptFields(),
    };
 };
 
-export const dTemplateDescriptorsPage = (
-   count = 3
-): DTemplateDescriptorsPage => {
+export const dTemplateDescriptorsPage = (count = 3): DPromptsPage => {
    const descriptors = dPromptTemplateDescriptors(count);
    return {
       content: descriptors,
@@ -516,15 +514,11 @@ export const dTemplateDescriptorsPage = (
    };
 };
 
-export const dPromptTemplateDescriptors = (
-   count = 3
-): DPromptTemplateDescriptor[] => {
+export const dPromptTemplateDescriptors = (count = 3): DPrompt[] => {
    return range(0, count).map((i) => dPromptTemplateDescriptor(i));
 };
 
-export const dPromptTemplateDescriptor = (
-   index = 1
-): DPromptTemplateDescriptor => {
+export const dPromptTemplateDescriptor = (index = 1): DPrompt => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
@@ -537,37 +531,35 @@ export const dPromptTemplateDescriptor = (
    };
 };
 
-export const dPromptTemplate = (index = 1): DPromptTemplate => {
+export const dPromptTemplate = (index = 1): DPromptContent => {
    return {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       content: `content ${index}`,
-      fields: dPromptTemplateFields(3),
-      globalFieldIds: dGlobalTemplateFieldIds(1),
-      updatedAt: new Date("2025-09-27").toISOString(),
-      createdAt: new Date("2025-09-27").toISOString(),
+      fields: dPromptFields(3),
+      globalFieldIds: dGlobalPromptFieldIds(1),
    };
 };
 
-export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
+export const dPromptTemplateUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
       description: `updated description ${index}`,
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      fields: dPromptTemplateFieldUpdates(),
-      globalFieldIds: dGlobalTemplateFieldIds(),
+      fields: dPromptFieldUpdates(),
+      globalFieldIds: dGlobalPromptFieldIds(),
    };
 };
 
-export const dPromptTemplateFields = (count = 3): DPromptTemplateField[] => {
-   return range(0, count).map((i) => dPromptTemplateField(i));
+export const dPromptFields = (count = 3): DPromptField[] => {
+   return range(0, count).map((i) => dPromptField(i));
 };
 
-export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
+export const dPromptField = (index = 1): DPromptField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
-      promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       name: `field_${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
@@ -579,15 +571,11 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
    };
 };
 
-export const dPromptTemplateFieldUpdates = (
-   count = 3
-): DPromptTemplateFieldUpdate[] => {
-   return range(0, count).map((i) => dPromptTemplateFieldUpdate(i));
+export const dPromptFieldUpdates = (count = 3): DPromptFieldUpdate[] => {
+   return range(0, count).map((i) => dPromptFieldUpdate(i));
 };
 
-export const dPromptTemplateFieldUpdate = (
-   index = 1
-): DPromptTemplateFieldUpdate => {
+export const dPromptFieldUpdate = (index = 1): DPromptFieldUpdate => {
    return {
       name: `field ${index}`,
       label: `label ${index}`,
@@ -600,9 +588,7 @@ export const dPromptTemplateFieldUpdate = (
    };
 };
 
-export const dPromptTemplateFieldValues = (
-   index = 1
-): DPromptTemplateFieldValues => {
+export const dPromptFieldValues = (index = 1): DPromptFieldValues => {
    return {
       field_1: `value 1 - ${index}`,
       field_2: `value 2 - ${index}`,
@@ -614,21 +600,17 @@ export const dPromptTemplateCategoriesString = (count = 3): string[] => {
    return map(dPromptTemplateCategories(count), (c) => c.name);
 };
 
-export const dPromptTemplateCategories = (
-   count = 3
-): DPromptTemplateCategory[] => {
+export const dPromptTemplateCategories = (count = 3): DPromptCategory[] => {
    return range(0, count).map((i) => dPromptTemplateCategory(i));
 };
 
-export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
+export const dPromptTemplateCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
    };
 };
 
-export const dTemplateDescriptorsPageQuery = (
-   index = 1
-): DTemplateDescriptorsPageQuery => {
+export const dTemplateDescriptorsPageQuery = (index = 1): DPromptsPageQuery => {
    return {
       pagination: {
          pageSize: 10,
@@ -638,9 +620,7 @@ export const dTemplateDescriptorsPageQuery = (
    };
 };
 
-export const dTemplateDescriptorsFilter = (
-   index = 1
-): DTemplateDescriptorsFilter => {
+export const dTemplateDescriptorsFilter = (index = 1): DPromptsFilter => {
    return {
       search: `search ${index}`,
       categories: ["cat 1", "cat 2", "cat 3"],
@@ -650,7 +630,7 @@ export const dTemplateDescriptorsFilter = (
    };
 };
 
-export const dPromptDescriptorsPage = (): DPromptDescriptorsPage => {
+export const dPromptDescriptorsPage = (): DPrompt0sPage => {
    const prompts = dPromptDescriptors();
    return {
       content: prompts,
@@ -662,11 +642,11 @@ export const dPromptDescriptorsPage = (): DPromptDescriptorsPage => {
    };
 };
 
-export const dPromptDescriptors = (count = 3): DPromptDescriptor[] => {
+export const dPromptDescriptors = (count = 3): DPrompt0[] => {
    return range(0, count).map((i) => dPromptDescriptor(i));
 };
 
-export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
+export const dPromptDescriptor = (index = 1): DPrompt0 => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
@@ -776,7 +756,7 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    options: ["option-1", "option-2", "option-3"],
 });
 
-export const dPromptUpdate = (index = 1): DPromptUpdate => {
+export const dPromptUpdate = (index = 1): DPrompt0Update => {
    return {
       title: `title ${index}`,
       content: `updated content ${index}`,
@@ -786,22 +766,22 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
    };
 };
 
-export const dPromptFollowUpUpdates = (count = 3): DPromptFollowUpUpdate[] => {
+export const dPromptFollowUpUpdates = (count = 3): DPrompt0FollowUpUpdate[] => {
    return range(0, count).map((i) => dPromptFollowUpUpdate(i));
 };
 
-export const dPromptFollowUpUpdate = (index = 1): DPromptFollowUpUpdate => {
+export const dPromptFollowUpUpdate = (index = 1): DPrompt0FollowUpUpdate => {
    return {
       content: `prompt follow up update ${index}`,
       order: index,
    };
 };
 
-export const dFollowUpPrompts = (count = 3): DPromptFollowUp[] => {
+export const dFollowUpPrompts = (count = 3): DPrompt0FollowUp[] => {
    return range(0, count).map((i) => dFollowUpPrompt(i));
 };
 
-export const dFollowUpPrompt = (index = 1): DPromptFollowUp => {
+export const dFollowUpPrompt = (index = 1): DPrompt0FollowUp => {
    return {
       id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
       content: `prompt follow up ${index}`,
@@ -813,21 +793,21 @@ export const dPromptCategoriesString = (count = 3): string[] => {
    return map(dPromptCategories(count), (c) => c.name);
 };
 
-export const dPromptCategories = (count = 3): DPromptCategory[] => {
+export const dPromptCategories = (count = 3): DPrompt0Category[] => {
    return range(0, count).map((i) => dPromptTemplateCategory(i));
 };
 
-export const dPromptCategory = (index = 1): DPromptCategory => {
+export const dPromptCategory = (index = 1): DPrompt0Category => {
    return {
       name: `category ${index}`,
    };
 };
 
-export const dPromptFollowUps = (count = 3): DPromptFollowUp[] => {
+export const dPromptFollowUps = (count = 3): DPrompt0FollowUp[] => {
    return range(0, count).map((i) => dPromptFollowUp(i));
 };
 
-export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
+export const dPromptFollowUp = (index = 1): DPrompt0FollowUp => {
    return {
       id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
       content: `content ${index}`,
@@ -835,11 +815,11 @@ export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
    };
 };
 
-export const dPromptVersions = (count = 3): DPromptVersion[] => {
+export const dPromptVersions = (count = 3): DPrompt0Version[] => {
    return range(0, count).map((i) => dPromptVersion(i));
 };
 
-export const dPromptVersion = (index = 1): DPromptVersion => {
+export const dPromptVersion = (index = 1): DPrompt0Version => {
    return {
       id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
       version: index,
@@ -848,7 +828,7 @@ export const dPromptVersion = (index = 1): DPromptVersion => {
    };
 };
 
-export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
+export const dPromptsPageQuery = (): DPrompt0sPageQuery => {
    return {
       pagination: {
          pageNumber: 15,
@@ -859,7 +839,7 @@ export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
    };
 };
 
-export const dPromptDescriptorsFilter = (): DPromptDescriptorsFilter => {
+export const dPromptDescriptorsFilter = (): DPrompt0sFilter => {
    return {
       search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],
@@ -871,16 +851,16 @@ export const sort = (field = "field1", order: SortOrder = "desc"): Sort => {
    return { field, order };
 };
 
-export const dGlobalTemplateFieldIds = (count = 1): string[] => {
-   const fields = dGlobalTemplateFields(count);
+export const dGlobalPromptFieldIds = (count = 1): string[] => {
+   const fields = dGlobalPromptFields(count);
    return map(fields, "id");
 };
 
-export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {
-   return range(0, count).map((i) => dGlobalTemplateField(i));
+export const dGlobalPromptFields = (count = 3): DGlobalPromptField[] => {
+   return range(0, count).map((i) => dGlobalPromptField(i));
 };
 
-export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
+export const dGlobalPromptField = (index = 1): DGlobalPromptField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
@@ -897,9 +877,9 @@ export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
    };
 };
 
-export const dGlobalTemplateFieldUpdate = (
+export const dGlobalPromptFieldUpdate = (
    index = 1
-): DGlobalTemplateFieldUpdate => {
+): DGlobalPromptFieldUpdate => {
    return {
       name: `name-${index}`,
       label: `label ${index}`,

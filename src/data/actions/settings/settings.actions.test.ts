@@ -5,45 +5,45 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { SettingsService } from "@/data/services/settings";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   createGlobalTemplateField,
-   deleteGlobalTemplateField,
-   getGlobalTemplateFields,
-   updateGlobalTemplateField,
+   createGlobalPromptField,
+   deleteGlobalPromptField,
+   getGlobalPromptFields,
+   updateGlobalPromptField,
 } from "./settings.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetGlobalTemplateFields =
-   SettingsService.prototype.getGlobalTemplateFields;
-const sCreateGlobalTemplateField =
-   SettingsService.prototype.createGlobalTemplateField;
-const sUpdateGlobalTemplateField =
-   SettingsService.prototype.updateGlobalTemplateField;
-const sDeleteGlobalTemplateField =
-   SettingsService.prototype.deleteGlobalTemplateField;
+const sGetGlobalPromptFields =
+   SettingsService.prototype.getGlobalPromptFields;
+const sCreateGlobalPromptField =
+   SettingsService.prototype.createGlobalPromptField;
+const sUpdateGlobalPromptField =
+   SettingsService.prototype.updateGlobalPromptField;
+const sDeleteGlobalPromptField =
+   SettingsService.prototype.deleteGlobalPromptField;
 
-const sGetGlobalTemplateFieldsMock =
-   sGetGlobalTemplateFields as jest.MockedFunction<
-      typeof sGetGlobalTemplateFields
+const sGetGlobalPromptFieldsMock =
+   sGetGlobalPromptFields as jest.MockedFunction<
+      typeof sGetGlobalPromptFields
    >;
-const sCreateGlobalTemplateFieldMock =
-   sCreateGlobalTemplateField as jest.MockedFunction<
-      typeof sCreateGlobalTemplateField
+const sCreateGlobalPromptFieldMock =
+   sCreateGlobalPromptField as jest.MockedFunction<
+      typeof sCreateGlobalPromptField
    >;
-const sUpdateGlobalTemplateFieldMock =
-   sUpdateGlobalTemplateField as jest.MockedFunction<
-      typeof sUpdateGlobalTemplateField
+const sUpdateGlobalPromptFieldMock =
+   sUpdateGlobalPromptField as jest.MockedFunction<
+      typeof sUpdateGlobalPromptField
    >;
-const sDeleteGlobalTemplateFieldMock =
-   sDeleteGlobalTemplateField as jest.MockedFunction<
-      typeof sDeleteGlobalTemplateField
+const sDeleteGlobalPromptFieldMock =
+   sDeleteGlobalPromptField as jest.MockedFunction<
+      typeof sDeleteGlobalPromptField
    >;
 
-describe("getGlobalTemplateFields tests", () => {
+describe("getGlobalPromptFields tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -53,36 +53,36 @@ describe("getGlobalTemplateFields tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getGlobalTemplateFields - user undefined - test", async () => {
+   it("getGlobalPromptFields - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getGlobalTemplateFields();
+      const result = await getGlobalPromptFields();
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsMock).not.toHaveBeenCalled();
+      expect(sGetGlobalPromptFieldsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getGlobalTemplateFields - fields retrieved - test", async () => {
+   it("getGlobalPromptFields - fields retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const fields = dtestData.dGlobalTemplateFields();
-      sGetGlobalTemplateFieldsMock.mockResolvedValue(fields);
+      const fields = dtestData.dGlobalPromptFields();
+      sGetGlobalPromptFieldsMock.mockResolvedValue(fields);
 
-      const result = await getGlobalTemplateFields();
+      const result = await getGlobalPromptFields();
 
       expect(result).toEqual(fields);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledWith(user.id);
+      expect(sGetGlobalPromptFieldsMock).toHaveBeenCalledTimes(1);
+      expect(sGetGlobalPromptFieldsMock).toHaveBeenCalledWith(user.id);
    });
 });
 
-describe("createGlobalTemplateField tests", () => {
+describe("createGlobalPromptField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -92,12 +92,12 @@ describe("createGlobalTemplateField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("createGlobalTemplateField - user undefined - test", async () => {
+   it("createGlobalPromptField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalTemplateField(data);
+      const data = dtestData.dGlobalPromptFieldUpdate();
+      const result = await createGlobalPromptField(data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -106,19 +106,19 @@ describe("createGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalTemplateFieldMock).not.toHaveBeenCalled();
+      expect(sCreateGlobalPromptFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createGlobalTemplateField - error - test", async () => {
+   it("createGlobalPromptField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sCreateGlobalTemplateFieldMock.mockRejectedValue(error);
+      sCreateGlobalPromptFieldMock.mockRejectedValue(error);
 
-      const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalTemplateField(data);
+      const data = dtestData.dGlobalPromptFieldUpdate();
+      const result = await createGlobalPromptField(data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -127,25 +127,25 @@ describe("createGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+      expect(sCreateGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sCreateGlobalPromptFieldMock).toHaveBeenCalledWith(
          user.id,
          data
       );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createGlobalTemplateField - field created - test", async () => {
+   it("createGlobalPromptField - field created - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const field = dtestData.dGlobalTemplateField();
-      sCreateGlobalTemplateFieldMock.mockResolvedValue(field);
+      const field = dtestData.dGlobalPromptField();
+      sCreateGlobalPromptFieldMock.mockResolvedValue(field);
 
-      const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalTemplateField(data);
+      const data = dtestData.dGlobalPromptFieldUpdate();
+      const result = await createGlobalPromptField(data);
 
-      const expectedResult: ActionResult<DGlobalTemplateField> = {
+      const expectedResult: ActionResult<DGlobalPromptField> = {
          success: true,
          message: "Feld erfolgreich erstellt",
          data: field,
@@ -153,15 +153,15 @@ describe("createGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+      expect(sCreateGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sCreateGlobalPromptFieldMock).toHaveBeenCalledWith(
          user.id,
          data
       );
    });
 });
 
-describe("updateGlobalTemplateField tests", () => {
+describe("updateGlobalPromptField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -171,11 +171,11 @@ describe("updateGlobalTemplateField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("updateGlobalTemplateField - invalid UUID - test", async () => {
+   it("updateGlobalPromptField - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+      const data = dtestData.dGlobalPromptFieldUpdate();
 
-      const result = await updateGlobalTemplateField(invalidId, data);
+      const result = await updateGlobalPromptField(invalidId, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -184,17 +184,17 @@ describe("updateGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateGlobalTemplateFieldMock).not.toHaveBeenCalled();
+      expect(sUpdateGlobalPromptFieldMock).not.toHaveBeenCalled();
    });
 
-   it("updateGlobalTemplateField - user undefined - test", async () => {
+   it("updateGlobalPromptField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+      const data = dtestData.dGlobalPromptFieldUpdate();
 
-      const result = await updateGlobalTemplateField(id, data);
+      const result = await updateGlobalPromptField(id, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -203,21 +203,21 @@ describe("updateGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalTemplateFieldMock).not.toHaveBeenCalled();
+      expect(sUpdateGlobalPromptFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("updateGlobalTemplateField - error - test", async () => {
+   it("updateGlobalPromptField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sUpdateGlobalTemplateFieldMock.mockRejectedValue(error);
+      sUpdateGlobalPromptFieldMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+      const data = dtestData.dGlobalPromptFieldUpdate();
 
-      const result = await updateGlobalTemplateField(id, data);
+      const result = await updateGlobalPromptField(id, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -226,8 +226,8 @@ describe("updateGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+      expect(sUpdateGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateGlobalPromptFieldMock).toHaveBeenCalledWith(
          user.id,
          id,
          data
@@ -235,19 +235,19 @@ describe("updateGlobalTemplateField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("updateGlobalTemplateField - field updated - test", async () => {
+   it("updateGlobalPromptField - field updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const field = dtestData.dGlobalTemplateField();
-      sUpdateGlobalTemplateFieldMock.mockResolvedValue(field);
+      const field = dtestData.dGlobalPromptField();
+      sUpdateGlobalPromptFieldMock.mockResolvedValue(field);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalTemplateFieldUpdate();
+      const data = dtestData.dGlobalPromptFieldUpdate();
 
-      const result = await updateGlobalTemplateField(id, data);
+      const result = await updateGlobalPromptField(id, data);
 
-      const expectedResult: ActionResult<DGlobalTemplateField> = {
+      const expectedResult: ActionResult<DGlobalPromptField> = {
          success: true,
          message: "Feld erfolgreich aktualisiert",
          data: field,
@@ -255,8 +255,8 @@ describe("updateGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+      expect(sUpdateGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateGlobalPromptFieldMock).toHaveBeenCalledWith(
          user.id,
          id,
          data
@@ -264,7 +264,7 @@ describe("updateGlobalTemplateField tests", () => {
    });
 });
 
-describe("deleteGlobalTemplateField tests", () => {
+describe("deleteGlobalPromptField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -274,10 +274,10 @@ describe("deleteGlobalTemplateField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("deleteGlobalTemplateField - invalid UUID - test", async () => {
+   it("deleteGlobalPromptField - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await deleteGlobalTemplateField(invalidId);
+      const result = await deleteGlobalPromptField(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -286,16 +286,16 @@ describe("deleteGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+      expect(sDeleteGlobalPromptFieldMock).not.toHaveBeenCalled();
    });
 
-   it("deleteGlobalTemplateField - user undefined - test", async () => {
+   it("deleteGlobalPromptField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalTemplateField(id);
+      const result = await deleteGlobalPromptField(id);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -304,20 +304,20 @@ describe("deleteGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
+      expect(sDeleteGlobalPromptFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("deleteGlobalTemplateField - error - test", async () => {
+   it("deleteGlobalPromptField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sDeleteGlobalTemplateFieldMock.mockRejectedValue(error);
+      sDeleteGlobalPromptFieldMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalTemplateField(id);
+      const result = await deleteGlobalPromptField(id);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -326,20 +326,20 @@ describe("deleteGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledWith(user.id, id);
+      expect(sDeleteGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteGlobalPromptFieldMock).toHaveBeenCalledWith(user.id, id);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("deleteGlobalTemplateField - field deleted - test", async () => {
+   it("deleteGlobalPromptField - field deleted - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sDeleteGlobalTemplateFieldMock.mockResolvedValue();
+      sDeleteGlobalPromptFieldMock.mockResolvedValue();
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalTemplateField(id);
+      const result = await deleteGlobalPromptField(id);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -348,7 +348,7 @@ describe("deleteGlobalTemplateField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledWith(user.id, id);
+      expect(sDeleteGlobalPromptFieldMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteGlobalPromptFieldMock).toHaveBeenCalledWith(user.id, id);
    });
 });

@@ -16,12 +16,12 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { useLoadCollections } from "@/data/ts-queries/library";
-import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+import { DPromptsFilter } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 import { templatesSearchParams } from "../../../search-params";
 
 type Props = {
-   filters: DTemplateDescriptorsFilter;
+   filters: DPromptsFilter;
 };
 
 export const CollectionsFilter: FC<Props> = () => {

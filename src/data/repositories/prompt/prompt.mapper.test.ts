@@ -1,17 +1,14 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
+import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import {
-   PromptDescriptorsPage,
-   PromptDescriptorWithRelations,
-} from "@/data/types/db/prompt";
-import {
-   DPromptDescriptor,
-   DPromptDescriptorsPage,
-   DPromptFollowUp,
-   DPromptVersion,
-} from "@/data/types/domain/prompt";
-import { PromptFollowUp, PromptVersion } from "@/generated/prisma/client";
+   DPrompt0,
+   DPrompt0FollowUp,
+   DPrompt0sPage,
+   DPrompt0Version,
+} from "@/data/types/domain/prompt0";
+import { Prompt0FollowUp, Prompt0Version } from "@/generated/prisma/client";
 
 import {
    toDPromptDescriptor,
@@ -20,8 +17,8 @@ import {
 } from "./prompt.mapper";
 
 const toDPromptDescriptorsPageInternal = (
-   pPromptsPage: PromptDescriptorsPage
-): DPromptDescriptorsPage => {
+   pPromptsPage: Prompt0sPage
+): DPrompt0sPage => {
    return {
       ...pPromptsPage,
       content: toDPromptDescriptorsInternal(pPromptsPage.content),
@@ -29,12 +26,12 @@ const toDPromptDescriptorsPageInternal = (
 };
 
 const toDPromptDescriptorsInternal = (
-   pPrompts: PromptDescriptorWithRelations[]
-): DPromptDescriptor[] => {
+   pPrompts: Prompt0WithRelations[]
+): DPrompt0[] => {
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-const toDPromptVersionInternal = (version: PromptVersion): DPromptVersion => {
+const toDPromptVersionInternal = (version: Prompt0Version): DPrompt0Version => {
    return {
       id: version.id,
       version: version.version,
@@ -43,9 +40,9 @@ const toDPromptVersionInternal = (version: PromptVersion): DPromptVersion => {
    };
 };
 
-const toDPromptFollowUpInternal = (
-   followUp: PromptFollowUp
-): DPromptFollowUp => {
+const toDPrompt0FollowUpInternal = (
+   followUp: Prompt0FollowUp
+): DPrompt0FollowUp => {
    return {
       id: followUp.id,
       content: followUp.content,
@@ -54,8 +51,8 @@ const toDPromptFollowUpInternal = (
 };
 
 const toDPromptDescriptorInternal = (
-   prompt: PromptDescriptorWithRelations
-): DPromptDescriptor => {
+   prompt: Prompt0WithRelations
+): DPrompt0 => {
    return {
       id: prompt.id,
       title: prompt.title,
@@ -65,7 +62,7 @@ const toDPromptDescriptorInternal = (
       isFavorite: prompt.isFavorite,
       currentVersion: prompt.currentVersion,
       versions: map(prompt.versions, toDPromptVersionInternal),
-      followUpPrompts: map(prompt.followUpPrompts, toDPromptFollowUpInternal),
+      followUpPrompts: map(prompt.followUpPrompts, toDPrompt0FollowUpInternal),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
