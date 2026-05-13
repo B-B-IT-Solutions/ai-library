@@ -237,7 +237,7 @@ model PromptCategory {
   id        Int      @id @default(autoincrement())
   userId    String   @map("user_id") @db.Uuid
   name      String   @db.VarChar(250)
-  templates Prompt[]
+  prompts Prompt[]
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, name])
