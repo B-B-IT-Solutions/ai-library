@@ -1,6 +1,6 @@
 import { PromptCreateInput } from "@/generated/prisma/models";
 
-const promptTemplateCategories = (userId: string, categories: string[]) => {
+const promptCategories = (userId: string, categories: string[]) => {
    return categories.map((cat: string) => ({
       where: { userId_name: { userId, name: cat } },
       create: { name: cat, userId },
@@ -16,7 +16,7 @@ export const codeReviewTemplateWithFields = (
       "Lassen Sie Ihren Code von einer KI analysieren mit Fokus auf Best Practices, Performance und Sicherheit.",
    recommendedModel: "Claude",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Entwicklung",
          "Code-Qualität",
          "Best Practices",
@@ -123,7 +123,7 @@ export const emailTemplateWithFields = (userId: string): PromptCreateInput => ({
       "Erstellen Sie professionelle E-Mails für verschiedene Anlässe und Tonalitäten.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Kommunikation",
          "Business",
          "E-Mail",
@@ -235,7 +235,7 @@ export const socialMediaPostTemplate = (userId: string): PromptCreateInput => ({
       "Erstellen Sie ansprechende Social Media Posts für verschiedene Plattformen mit der optimalen Tonalität und Länge.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Copywriting",
          "Social Media",
          "Marketing",
@@ -381,7 +381,7 @@ export const productDescriptionTemplate = (
       "Erstellen Sie überzeugende Produktbeschreibungen, die verkaufen und Ihre Zielgruppe ansprechen.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Copywriting",
          "E-Commerce",
          "Marketing",
@@ -513,7 +513,7 @@ export const blogOutlineTemplate = (userId: string): PromptCreateInput => ({
       "Erstellen Sie durchdachte Blog-Strukturen mit Headlines, Subheadlines und Content-Gliederung.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Copywriting",
          "Content-Marketing",
          "Blogging",
@@ -657,7 +657,7 @@ export const marketingEmailTemplate = (userId: string): PromptCreateInput => ({
       "Erstellen Sie conversion-optimierte Marketing-E-Mails für Newsletter, Produktlaunches und Kampagnen.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Copywriting",
          "E-Mail-Marketing",
          "Marketing",
@@ -832,7 +832,7 @@ export const seoMetaDescriptionTemplate = (
       "Erstellen Sie klickstarke Meta-Descriptions und Title-Tags für bessere Rankings und höhere CTR.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories(userId, [
+      connectOrCreate: promptCategories(userId, [
          "Copywriting",
          "SEO",
          "Content-Marketing",
@@ -971,7 +971,7 @@ Die Meta-Tags sollen:
    },
 });
 
-export const templatesWithFields = (userId: string) => [
+export const promptsWithFields = (userId: string) => [
    codeReviewTemplateWithFields(userId),
    emailTemplateWithFields(userId),
    socialMediaPostTemplate(userId),
