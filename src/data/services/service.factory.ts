@@ -12,7 +12,7 @@ import {
 } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
-import { PromptService } from "@/data/services/prompt";
+import { PromptService } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
    SettingsService,

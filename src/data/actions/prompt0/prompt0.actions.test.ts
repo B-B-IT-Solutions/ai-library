@@ -1,11 +1,11 @@
-jest.mock("@/data/services/prompt");
+jest.mock("@/data/services/prompt0");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { PromptService } from "@/data/services/prompt";
+import { PromptService } from "@/data/services/prompt0";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
