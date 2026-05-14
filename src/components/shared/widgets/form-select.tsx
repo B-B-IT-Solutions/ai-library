@@ -14,6 +14,7 @@ import {
 import {
    Select,
    SelectContent,
+   SelectGroup,
    SelectItem,
    SelectTrigger,
    SelectValue,
@@ -79,20 +80,28 @@ export const FormSelect = <T extends FieldValues>({
             <FormItem data-testid={name}>
                {renderlabel()}
                {renderDescription()}
-               <Select value={field.value} onValueChange={field.onChange}>
+               <div className="relative">
                   <FormControl>
-                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder={placeholder} />
-                     </SelectTrigger>
+                     <Select
+                        name={field.name}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                     >
+                        <SelectTrigger className="w-full">
+                           <SelectValue placeholder={placeholder} />
+                        </SelectTrigger>
+                        <SelectContent>
+                           <SelectGroup>
+                              {map(options, (o, idx) => (
+                                 <SelectItem key={idx} value={getValue(o)}>
+                                    {getLabel(o)}
+                                 </SelectItem>
+                              ))}
+                           </SelectGroup>
+                        </SelectContent>
+                     </Select>
                   </FormControl>
-                  <SelectContent>
-                     {map(options, (o, idx) => (
-                        <SelectItem key={idx} value={getValue(o)}>
-                           {getLabel(o)}
-                        </SelectItem>
-                     ))}
-                  </SelectContent>
-               </Select>
+               </div>
                <FormMessage />
             </FormItem>
          )}
