@@ -81,7 +81,7 @@ export const UseTemplateDialog = ({
                   {descriptor.title}
                </p>
             </DialogHeader>
-            <div className="flex flex-1 flex-col overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UseTemplateForm
                   templateData={templateData}
                   recommendedModel={descriptor.recommendedModel}
