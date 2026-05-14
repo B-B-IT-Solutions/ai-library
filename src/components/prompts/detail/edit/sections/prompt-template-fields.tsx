@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import { FC } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
@@ -27,7 +26,7 @@ type Props = {
    watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptFields: FC<Props> = ({
+export const PromptFields = ({
    fields,
    detectedVariables,
    globalFields,
@@ -38,7 +37,7 @@ export const PromptFields: FC<Props> = ({
    onRemoveGlobalFieldId,
    control,
    watch,
-}) => {
+}: Props) => {
    const resolvedGlobalFields = filter(globalFields, (f) =>
       includes(globalFieldIds, f.id)
    );

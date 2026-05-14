@@ -8,7 +8,7 @@ exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`
     data-testid="test-789"
   >
     <div
-      class="flex items-center space-x-2"
+      class="relative flex items-center space-x-2"
     >
       <button
         aria-checked="false"
@@ -72,7 +72,7 @@ exports[`FormCheckBox rendering tests FormCheckBox - className undefined - test 
     data-testid="test-123"
   >
     <div
-      class="flex items-center space-x-2"
+      class="relative flex items-center space-x-2"
     >
       <button
         aria-checked="false"

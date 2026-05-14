@@ -47,7 +47,10 @@ export const TemplateFieldsForm = ({ templateData, control }: Props) => {
    };
 
    return (
-      <div className="space-y-4" data-testid="template-fields-form">
+      <div
+         className="min-h-0 space-y-4 overflow-y-auto pb-1"
+         data-testid="template-fields-form"
+      >
          {renderFields()}
       </div>
    );

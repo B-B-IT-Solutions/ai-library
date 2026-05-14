@@ -1,0 +1,2 @@
+- [DACH Prompt-Markt Recherche](reference_dach_prompt_market.md) — Zielgruppen, Marktlücke & Communities für deutschsprachige KI-Prompt-Bibliothek
+- [Go-to-Market: Freelance-Texter DACH](plan_zielgruppe_texter_copywriter.md) — Vollständiger Akquise-Plan für Zielgruppe Texter/Copywriter inkl. Messaging, Kanäle, KOLs, Funnel

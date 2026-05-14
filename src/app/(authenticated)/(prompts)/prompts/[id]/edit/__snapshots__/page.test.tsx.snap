@@ -7,7 +7,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
     data-testid="prompt-edit-page"
   >
     <div
-      class="flex h-screen flex-col bg-slate-50"
+      class="flex h-full flex-col bg-slate-50"
       data-testid="prompt-edit"
     >
       <div

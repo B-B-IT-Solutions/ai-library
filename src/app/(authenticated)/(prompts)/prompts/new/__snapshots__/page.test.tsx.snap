@@ -7,7 +7,7 @@ exports[`NewPromptPage rendering tests NewPromptPage - prompt found -rendered te
     data-testid="prompt-new-page"
   >
     <div
-      class="flex h-screen flex-col bg-slate-50"
+      class="flex h-full flex-col bg-slate-50"
       data-testid="prompt-edit"
     >
       <div

@@ -7,7 +7,7 @@ exports[`NewCollectionPage rendering tests rendered test 1`] = `
     data-testid="new-collection-page"
   >
     <div
-      class="flex h-screen flex-col bg-slate-50"
+      class="flex h-full flex-col bg-slate-50"
       data-testid="collection-edit"
     >
       <div
