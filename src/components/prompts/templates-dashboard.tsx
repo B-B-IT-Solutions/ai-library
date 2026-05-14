@@ -53,10 +53,10 @@ export const TemplatesDashboard = async () => {
                <div className="flex items-center justify-between">
                   <div>
                      <h1 className="text-2xl font-bold text-slate-900">
-                        Meine Prompt-Vorlagen
+                        Meine Prompts
                      </h1>
                      <p className="mt-1 text-sm text-slate-600">
-                        Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
+                        Verwalten Sie Ihre gespeicherten Prompts
                      </p>
                   </div>
                   <div className="flex items-center gap-3">

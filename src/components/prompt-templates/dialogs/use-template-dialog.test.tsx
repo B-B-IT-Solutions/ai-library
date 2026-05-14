@@ -29,8 +29,8 @@ describe("UseTemplateDialog rendering tests", () => {
 
       const { container } = render(
          <UseTemplateDialog
-            descriptor={descriptor}
-            templateData={templateData}
+            prompt={descriptor}
+            generationData={templateData}
             onCancel={cancelFn}
          />
       );
@@ -50,8 +50,8 @@ describe("UseTemplateDialog rendering tests", () => {
 
       const { container } = render(
          <UseTemplateDialog
-            descriptor={descriptor}
-            templateData={templateData}
+            prompt={descriptor}
+            generationData={templateData}
             onCancel={cancelFn}
          />
       );
@@ -76,8 +76,8 @@ describe("UseTemplateDialog functionality tests", () => {
 
       render(
          <UseTemplateDialog
-            descriptor={descriptor}
-            templateData={templateData}
+            prompt={descriptor}
+            generationData={templateData}
             onCancel={cancelFn}
          />
       );

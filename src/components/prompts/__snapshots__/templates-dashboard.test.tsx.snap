@@ -16,12 +16,12 @@ exports[`TemplatesDashboard rendering tests rendered test 1`] = `
           <h1
             class="text-2xl font-bold text-slate-900"
           >
-            Meine Prompt-Vorlagen
+            Meine Prompts
           </h1>
           <p
             class="mt-1 text-sm text-slate-600"
           >
-            Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
+            Verwalten Sie Ihre gespeicherten Prompts
           </p>
         </div>
         <div

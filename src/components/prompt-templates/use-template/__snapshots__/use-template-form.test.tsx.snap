@@ -7,7 +7,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
     data-testid="use-template-form"
   >
     <div
-      class="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:grid-cols-2"
+      class="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"
     >
       <div
         class="flex min-h-0 flex-1 flex-col gap-2"
@@ -561,29 +561,6 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
           data-testid="open-in-ai-btn"
           type="button"
         >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-external-link h-4 w-4"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 3h6v6"
-            />
-            <path
-              d="M10 14 21 3"
-            />
-            <path
-              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-            />
-          </svg>
           Öffnen In
           <svg
             aria-hidden="true"

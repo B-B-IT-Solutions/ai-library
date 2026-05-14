@@ -42,8 +42,8 @@ export const PublicUseTemplateButton = ({ descriptor, className }: Props) => {
       if (templateData) {
          return (
             <UseTemplateDialog
-               descriptor={descriptor}
-               templateData={templateData}
+               prompt={descriptor}
+               generationData={templateData}
                onCancel={handleCancel}
             />
          );

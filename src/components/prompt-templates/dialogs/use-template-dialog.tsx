@@ -16,18 +16,18 @@ import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { UseTemplateForm } from "../use-template/use-template-form";
 
 type Props = {
-   descriptor: DPrompt;
-   templateData: DPromptGenerationData;
+   prompt: DPrompt;
+   generationData: DPromptGenerationData;
    onCancel: CallbackFn;
 };
 
 export const UseTemplateDialog = ({
-   descriptor,
-   templateData,
+   prompt,
+   generationData,
    onCancel,
 }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
-   const hasFields = !isEmpty(templateData.allFields);
+   const hasFields = !isEmpty(generationData.allFields);
 
    const dialogTitle = () => {
       if (hasFields) {
@@ -78,13 +78,13 @@ export const UseTemplateDialog = ({
             <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
                <DialogTitle>{dialogTitle()}</DialogTitle>
                <p className="text-sm font-semibold text-muted-foreground">
-                  {descriptor.title}
+                  {prompt.title}
                </p>
             </DialogHeader>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UseTemplateForm
-                  templateData={templateData}
-                  recommendedModel={descriptor.recommendedModel}
+                  templateData={generationData}
+                  recommendedModel={prompt.recommendedModel}
                />
             </div>
          </DialogContent>

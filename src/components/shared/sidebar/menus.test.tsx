@@ -16,7 +16,7 @@ import { DMenuItem } from "./types";
 const expectedNavigationMenu1: DMenuItem[] = [
    {
       id: "/templates",
-      title: "Vorlagen",
+      title: "Prompts",
       icon: Braces,
       url: "/templates",
    },
@@ -26,27 +26,27 @@ const expectedNavigationMenu1: DMenuItem[] = [
       icon: Folder,
       url: "/collections",
    },
-   {
-      id: "/prompts",
-      title: "Prompts",
-      icon: FileText,
-      url: "/prompts",
-   },
+   // {
+   //    id: "/prompts",
+   //    title: "Prompts",
+   //    icon: FileText,
+   //    url: "/prompts",
+   // },
 ];
 
 const expectedNavigationMenu2: DMenuItem[] = [
    {
       id: "/explore",
-      title: "Explore",
+      title: "Entdecken",
       icon: Compass,
       url: "/explore",
    },
-   {
-      id: "/marketplace",
-      title: "Bibliothek",
-      icon: ShoppingBag,
-      url: "/marketplace",
-   },
+   // {
+   //    id: "/marketplace",
+   //    title: "Bibliothek",
+   //    icon: ShoppingBag,
+   //    url: "/marketplace",
+   // },
    // {
    //    id: "/orders",
    //    title: "Bestellungen",
