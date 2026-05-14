@@ -8,7 +8,7 @@ exports[`TemplateFieldRequired rendering tests TemplateFieldRequired rendered te
     data-testid="test-1"
   >
     <div
-      class="flex items-center space-x-2"
+      class="relative flex items-center space-x-2"
     >
       <button
         aria-checked="false"

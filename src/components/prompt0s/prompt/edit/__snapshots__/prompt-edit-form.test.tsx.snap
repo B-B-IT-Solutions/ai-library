@@ -3,7 +3,7 @@
 exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="prompt-edit"
   >
     <div
@@ -1002,7 +1002,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
 exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="prompt-edit"
   >
     <div
