@@ -28,13 +28,6 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
             <a
               class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               data-testid="mock-link"
-              href="/preview/marketplace"
-            >
-              Bibliothek
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
               href="/explore"
             >
               Entdecken
@@ -115,13 +108,6 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
           <nav
             class="hidden items-center gap-6 md:flex"
           >
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="/preview/marketplace"
-            >
-              Bibliothek
-            </a>
             <a
               class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               data-testid="mock-link"
