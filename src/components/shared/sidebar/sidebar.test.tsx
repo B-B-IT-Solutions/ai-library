@@ -37,26 +37,26 @@ const assertHeader = () => {
 };
 
 const assertMenuItems = () => {
-   const groupPrompts = screen.getByTestId("group-prompts");
+   const groupLibrary = screen.getByTestId("group-library");
    const prompts = screen.getByTestId("menu-item-templates");
    const collections = screen.getByTestId("menu-item-collections");
 
-   const groupLibrary = screen.getByTestId("group-library");
+   const groupDiscover = screen.getByTestId("group-discover");
    const explore = screen.getByTestId("menu-item-explore");
-   const marketplace = screen.getByTestId("menu-item-marketplace");
+   // const marketplace = screen.getByTestId("menu-item-marketplace");
 
    const groupOther = screen.getByTestId("group-other");
    // const feedback = screen.getByTestId("menu-item-feedback");
    // const invitePeople = screen.getByTestId("menu-item-invite-people");
    const settings = screen.getByTestId("menu-item-settings");
 
-   assertInDocument(groupPrompts);
+   assertInDocument(groupLibrary);
    assertInDocument(prompts);
    assertInDocument(collections);
 
-   assertInDocument(groupLibrary);
+   assertInDocument(groupDiscover);
    assertInDocument(explore);
-   assertInDocument(marketplace);
+   // assertInDocument(marketplace);
 
    assertInDocument(groupOther);
    // assertInDocument(feedback);
@@ -135,7 +135,7 @@ describe("Sidebar functionality tests", () => {
       await assertNavigateToMenuItem("/templates", "/templates");
       await assertNavigateToMenuItem("/collections", "/collections");
       await assertNavigateToMenuItem("/explore", "/explore");
-      await assertNavigateToMenuItem("/marketplace", "/marketplace");
+      // await assertNavigateToMenuItem("/marketplace", "/marketplace");
       // await assertNavigateToMenuItem("/feedback", "/feedback");
       // await assertNavigateToMenuItem("/invite-people", "/invite-people");
       await assertNavigateToMenuItem("/settings", "/settings/general");

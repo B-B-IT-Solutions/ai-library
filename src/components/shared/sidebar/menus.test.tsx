@@ -37,16 +37,16 @@ const expectedNavigationMenu1: DMenuItem[] = [
 const expectedNavigationMenu2: DMenuItem[] = [
    {
       id: "/explore",
-      title: "Explore",
+      title: "Entdecken",
       icon: Compass,
       url: "/explore",
    },
-   {
-      id: "/marketplace",
-      title: "Bibliothek",
-      icon: ShoppingBag,
-      url: "/marketplace",
-   },
+   // {
+   //    id: "/marketplace",
+   //    title: "Bibliothek",
+   //    icon: ShoppingBag,
+   //    url: "/marketplace",
+   // },
    // {
    //    id: "/orders",
    //    title: "Bestellungen",

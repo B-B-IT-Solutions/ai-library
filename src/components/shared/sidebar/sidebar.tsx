@@ -90,14 +90,14 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
             {appHeader()}
          </SidebarHeader>
          <SidebarContent data-testid="sidebar-content">
-            <SidebarGroup data-testid="group-prompts">
-               <SidebarGroupLabel>Prompts</SidebarGroupLabel>
+            <SidebarGroup data-testid="group-library">
+               <SidebarGroupLabel>Bibliothek</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(navigationMenu1)}</SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarGroup data-testid="group-library">
-               <SidebarGroupLabel>Bibliothek</SidebarGroupLabel>
+            <SidebarGroup data-testid="group-discover">
+               <SidebarGroupLabel>Entdecken</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(navigationMenu2)}</SidebarMenu>
                </SidebarGroupContent>
