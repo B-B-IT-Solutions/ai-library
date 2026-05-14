@@ -89,7 +89,6 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   className="cursor-pointer gap-1.5"
                   data-testid="open-in-ai-btn"
                >
-                  <ExternalLink className="h-4 w-4" />
                   Öffnen In
                   <ChevronDown className="h-3.5 w-3.5 opacity-60" />
                </Button>
@@ -109,7 +108,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   <DropdownMenuItem
                      key={aiService.name}
                      onClick={() => openInService(aiService)}
-                     className="cursor-pointer gap-2 text-muted-foreground"
+                     className="cursor-pointer gap-2"
                      data-testid={`open-in-${aiService.id}-btn`}
                   >
                      <ExternalLink className="h-3.5 w-3.5" />
@@ -122,7 +121,6 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             content={resolvedContent}
             type="submit"
             size="sm"
-            variant="default"
             showLabel={true}
             data-testid="copy-prompt-btn"
          />
@@ -136,7 +134,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             className="flex min-h-0 flex-1 flex-col px-6"
             data-testid="use-template-form"
          >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                <TemplatePreview
                   template={template}
                   values={currentValues}
