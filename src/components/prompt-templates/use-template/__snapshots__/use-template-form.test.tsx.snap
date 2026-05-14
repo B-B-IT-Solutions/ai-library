@@ -3,11 +3,11 @@
 exports[`UseTemplateForm rendering tests renders test 1`] = `
 <div>
   <form
-    class="flex flex-1 flex-col px-6"
+    class="flex min-h-0 flex-1 flex-col px-6"
     data-testid="use-template-form"
   >
     <div
-      class="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"
+      class="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:grid-cols-2"
     >
       <div
         class="flex min-h-0 flex-1 flex-col gap-2"
@@ -134,7 +134,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         </p>
       </div>
       <div
-        class="space-y-4"
+        class="min-h-0 space-y-4 overflow-y-auto pb-1"
         data-testid="template-fields-form"
       >
         <div>
@@ -547,7 +547,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
       </div>
     </div>
     <div
-      class="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4"
+      class="flex shrink-0 items-center justify-end gap-2 bg-background py-4"
     >
       <div
         data-slot="dropdown-menu"

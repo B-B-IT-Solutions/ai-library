@@ -11,7 +11,7 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
     data-testid="template-edit-page"
   >
     <div
-      class="flex h-screen flex-col bg-slate-50"
+      class="flex h-full flex-col bg-slate-50"
       data-testid="template-edit"
     >
       <div

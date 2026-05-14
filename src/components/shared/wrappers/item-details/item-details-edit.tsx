@@ -4,7 +4,7 @@ type Props = PropsWithChildren<{ "data-testid"?: string }>;
 
 const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div className="flex flex-col bg-slate-50" data-testid={testId}>
+      <div className="flex h-full flex-col bg-slate-50" data-testid={testId}>
          {children}
       </div>
    );

@@ -3,7 +3,7 @@
 exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders full composition - test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="item-details-edit"
   >
     <div
@@ -42,7 +42,7 @@ exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders full composit
 exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders with testid and children - test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="item-details-edit"
   >
     <div

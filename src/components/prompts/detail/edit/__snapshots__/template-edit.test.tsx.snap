@@ -3,7 +3,7 @@
 exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="template-edit"
   >
     <div
@@ -3092,7 +3092,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
 exports[`TemplateEdit rendering tests new entry - test 1`] = `
 <div>
   <div
-    class="flex h-screen flex-col bg-slate-50"
+    class="flex h-full flex-col bg-slate-50"
     data-testid="template-edit"
   >
     <div
