@@ -20,8 +20,8 @@ export const UseCatalogEntryButton = ({ entry }: Props) => {
       if (isOpen) {
          return (
             <UseTemplateDialog
-               descriptor={toDPrompt(entry)}
-               templateData={toDPromptGenerationData(entry)}
+               prompt={toDPrompt(entry)}
+               generationData={toDPromptGenerationData(entry)}
                onCancel={() => setIsOpen(false)}
             />
          );

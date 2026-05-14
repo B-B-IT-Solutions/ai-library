@@ -36,8 +36,8 @@ export const UseCatalogEntryLazyButton = ({ slug }: Props) => {
       if (isOpen && entry) {
          return (
             <UseTemplateDialog
-               descriptor={toDPrompt(entry)}
-               templateData={toDPromptGenerationData(entry)}
+               prompt={toDPrompt(entry)}
+               generationData={toDPromptGenerationData(entry)}
                onCancel={() => {
                   setIsOpen(false);
                   setEntry(null);
