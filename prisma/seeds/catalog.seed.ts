@@ -442,6 +442,277 @@ const catalogEntries = [
          },
       ],
    },
+   {
+      slug: "hook-generator-texteinstieg",
+      title: "Hook-Generator: Packende Texteinstiege",
+      description:
+         "Generiere 5 verschiedene Eröffnungssätze für deinen Text – von der provokanten These bis zur Neugier-Lücke. Perfekt um den besten Hook auszuwählen statt beim ersten Entwurf zu bleiben.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Werbetexter. Schreib 5 verschiedene Eröffnungssätze für folgenden Text:\n\nThema: {{thema}}\nZielgruppe: {{zielgruppe}}\nPlattform: {{plattform}}\n\nVerwende diese 5 verschiedenen Hook-Typen:\n1. Provokante These (widerspricht einer gängigen Meinung)\n2. Konkrete Zahl / Statistik\n3. \"Was wäre wenn\"-Szenario\n4. Schmerz-Hook (benennt ein Problem direkt)\n5. Neugier-Lücke (stellt eine Frage, die unbedingt beantwortet werden will)\n\nFormattiere jeden Hook als eigenständigen Satz. Keine Erklärungen.",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "thema",
+            label: "Thema",
+            description: "Worum geht es in deinem Text?",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            description: "Für wen schreibst du?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "plattform",
+            label: "Plattform",
+            description: "Wo wird der Text veröffentlicht?",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "LinkedIn",
+               "Newsletter",
+               "Landing Page",
+               "Blog",
+               "Instagram",
+               "Website",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "pas-converter-werbetext",
+      title: "PAS-Converter: Problem–Agitate–Solution",
+      description:
+         "Wandle Rohinformationen in überzeugenden Werbetext nach dem bewährten PAS-Framework um. Aktiviert Emotion und führt den Leser zur Lösung – genau in der Reihenfolge, wie Kaufentscheidungen getroffen werden.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Conversion-Texter. Wandle folgende Informationen in überzeugenden Werbetext nach dem PAS-Framework um:\n\nProdukt/Dienstleistung: {{produkt}}\nZielgruppe: {{zielgruppe}}\nHauptproblem der Zielgruppe: {{hauptproblem}}\nKernvorteil: {{kernvorteil}}\n\nStruktur:\nPROBLEM (2-3 Sätze): Benenne das Problem präzise – so, dass die Zielgruppe sich sofort erkannt fühlt.\nAGITATE (3-4 Sätze): Vertiefe den Schmerz. Was passiert, wenn das Problem ungelöst bleibt?\nSOLUTION (3-4 Sätze): Präsentiere die Lösung klar, konkret, mit einem Nutzen-Versprechen.\n\nTon: {{ton}}\nLänge: ~150 Wörter",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "produkt",
+            label: "Produkt / Dienstleistung",
+            description: "Was wird vermarktet?",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            description: "Für wen ist das Angebot?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "hauptproblem",
+            label: "Hauptproblem",
+            description: "Was ist der größte Schmerzpunkt der Zielgruppe?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "kernvorteil",
+            label: "Kernvorteil",
+            description: "Wie löst dein Produkt das Problem?",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+         {
+            name: "ton",
+            label: "Ton",
+            description: "Wie soll der Text klingen?",
+            type: "SELECT" as const,
+            required: true,
+            order: 4,
+            options: ["Direkt", "Empathisch", "Sachlich", "Inspirierend"],
+         },
+      ],
+   },
+   {
+      slug: "feature-to-benefit-transformer",
+      title: "Feature-to-Benefit Transformer",
+      description:
+         "Wandle technische Features in echte Kundenvorteile um. Kunden kaufen keine Features – sie kaufen Ergebnisse. Dieser Prompt erzwingt den Perspektivwechsel vom Anbieter zum Kunden.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Werbetexter. Hier sind die technischen Features meines Produkts:\n\n{{feature_liste}}\n\nDeine Aufgabe: Wandle jedes Feature in einen konkreten Kundennutzen um.\nNutze die Formel: \"[Feature] – das bedeutet für dich: [konkreter Nutzen im Alltag]\"\n\nZielgruppe: {{zielgruppe}}\nTon: {{tonalitaet}}\n\nDanach: Wähle die 3 stärksten Benefits aus und schreib sie als kurze, prägnante Bullet Points (max. 10 Wörter pro Bullet).",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "feature_liste",
+            label: "Feature-Liste",
+            description: "Liste deine Produkt-Features auf (eine Zeile pro Feature)",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            description: "Für wen ist das Produkt?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "tonalitaet",
+            label: "Tonalität",
+            description: "Wie soll der Text klingen?",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: ["Direkt", "Empathisch", "Sachlich", "Inspirierend", "Humorvoll"],
+         },
+      ],
+   },
+   {
+      slug: "email-betreff-generator",
+      title: "E-Mail-Betreff-Generator",
+      description:
+         "Erstelle 10 Betreffzeilen in 5 verschiedenen Typen – mit geschätzter Öffnungsrate. Schluss mit dem Raten: wähle datenbasiert den stärksten Betreff für deine Kampagne.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein E-Mail-Marketing-Experte. Schreib 10 Betreffzeilen für folgende E-Mail:\n\nInhalt der E-Mail: {{email_inhalt}}\nZielgruppe: {{zielgruppe}}\nZiel: {{ziel}}\n\nNutze diese Betreffzeilen-Typen (je 2):\n- Neugier (\"Warum die meisten X falsch machen...\")\n- Direkter Nutzen (\"In 10 Minuten zu X\")\n- Personalisierung / Spezifität (\"Für [Jobtitel/Situation]\")\n- Dringlichkeit / Knappheit\n- Überraschung / Paradox\n\nJede Betreffzeile: max. 50 Zeichen. Ohne Clickbait-Floskeln.\nDanach bewerte jede mit einer geschätzten Öffnungsrate (1–10) und begründe kurz.",
+      categorySlug: "email-kommunikation",
+      fields: [
+         {
+            name: "email_inhalt",
+            label: "Inhalt der E-Mail",
+            description: "Worum geht es in der E-Mail?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            description: "Wer bekommt die E-Mail?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "ziel",
+            label: "Ziel der E-Mail",
+            description: "Was soll die E-Mail bewirken?",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: ["Klick", "Kauf", "Terminbuchung", "Anmeldung", "Information"],
+         },
+      ],
+   },
+   {
+      slug: "tone-of-voice-kopierer",
+      title: "Tone-of-Voice-Kopierer",
+      description:
+         "Analysiere den Schreibstil einer Marke oder Person und repliziere ihn für neuen Content. Die explizite Stil-Analyse verhindert, dass die KI in ihren generischen Standardton zurückfällt.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Texter mit Expertise in Markenstimmen. Hier ist ein Beispieltext, dessen Stil ich replizieren möchte:\n\n{{beispieltext}}\n\nAnalysiere zuerst den Stil anhand dieser Dimensionen:\n- Satzlänge und -rhythmus\n- Formell / informal\n- Aktiv / passiv\n- Typische Sprachbilder oder Formulierungen\n- Emotionaler Ton (warm/kühl/direkt/inspirierend)\n\nSchreib dann folgenden neuen Inhalt exakt in diesem Stil:\n\nThema: {{neues_thema}}\nFormat: {{format}}\nLänge: {{laenge}} Wörter",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "beispieltext",
+            label: "Beispieltext",
+            description: "Text der Marke oder Person, deren Stil du übernehmen möchtest",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "neues_thema",
+            label: "Neues Thema",
+            description: "Worüber soll der neue Text sein?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "format",
+            label: "Format",
+            description: "Welches Format soll der neue Text haben?",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "LinkedIn-Post",
+               "Newsletter",
+               "Produktbeschreibung",
+               "Blog-Artikel",
+               "Website-Text",
+               "Social Media Caption",
+            ],
+         },
+         {
+            name: "laenge",
+            label: "Länge (Wörter)",
+            description: "Wie lang soll der Text sein?",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "kritiker-prompt-text-feedback",
+      title: "Kritiker-Prompt: Radikales Text-Feedback",
+      description:
+         "Lass deine Texte von der KI als strenger Cheflektor durchleuchten – mit Schulnoten, konkreter Kritik und überarbeiteten Versionen. Qualitätskontrolle bevor der Text live geht.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Cheflektor bei einem Premium-Verlag. Du bist bekannt für ehrliches, manchmal hartes Feedback – aber immer konstruktiv.\n\nHier ist mein Text:\n{{text}}\n\nBewerte ihn nach diesen Kriterien (Schulnote 1–6 + Begründung):\n1. Klarheit: Ist die Kernaussage sofort verständlich?\n2. Überzeugungskraft: Würde ich handeln nach dem Lesen?\n3. Lesbarkeit: Fluss, Satzstruktur, Länge\n4. Originalität: Klingt es wie tausend andere Texte oder hat es eine eigene Stimme?\n5. Call-to-Action: Ist klar, was als nächstes passieren soll?\n\nDanach: 3 konkrete Verbesserungsvorschläge. Jeweils mit einer überarbeiteten Version des schwächsten Satzes oder Absatzes.",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "text",
+            label: "Dein Text",
+            description: "Füge den Text ein, der bewertet werden soll",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+      ],
+   },
+   {
+      slug: "zielgruppen-persona-builder",
+      title: "Zielgruppen-Persona-Builder",
+      description:
+         "Erstelle ein tiefes Persona-Profil mit echten Wörtern deiner Zielgruppe, Kaufmotiven und Einwänden. Der Abschlusssatz wird direkt zur stärksten Headline.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Du bist ein erfahrener Marketing-Stratege. Erstelle ein detailliertes Persona-Profil für folgende Zielgruppe:\n\nBranche / Kontext: {{branche_kontext}}\nProdukt / Dienstleistung: {{produkt}}\n\nStruktur des Profils:\n1. Demografisch: Alter, Beruf, Einkommen, Lebenssituation (3–4 Sätze)\n2. Ziele: Was will diese Person erreichen? (3 konkrete Ziele)\n3. Frustrationen: Was hält sie nachts wach? (3 konkrete Schmerzpunkte)\n4. Wording: Welche 10 Begriffe oder Phrasen benutzt sie selbst?\n5. Kaufmotive: Warum kauft sie – rational und emotional?\n6. Einwände: Die 3 häufigsten Gründe, NICHT zu kaufen\n\nAbschluss: Schreib einen einzigen Satz, den diese Person sich selbst sagen würde, wenn das Produkt ihr Problem löst.",
+      categorySlug: "marketing-content",
+      fields: [
+         {
+            name: "branche_kontext",
+            label: "Branche / Kontext",
+            description: "In welchem Umfeld bewegt sich deine Zielgruppe?",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "produkt",
+            label: "Produkt / Dienstleistung",
+            description: "Was wird vermarktet?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
 ];
 
 export const seedCatalog = async (prisma: PrismaClientType) => {
