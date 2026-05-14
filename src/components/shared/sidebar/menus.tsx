@@ -15,7 +15,7 @@ import { DMenuItem } from "./types";
 export const navigationMenu1: DMenuItem[] = [
    {
       id: "/templates",
-      title: "Vorlagen",
+      title: "Prompts",
       icon: Braces,
       url: "/templates",
    },
@@ -25,12 +25,12 @@ export const navigationMenu1: DMenuItem[] = [
       icon: Folder,
       url: "/collections",
    },
-   {
-      id: "/prompts",
-      title: "Prompts",
-      icon: FileText,
-      url: "/prompts",
-   },
+   // {
+   //    id: "/prompts",
+   //    title: "Prompts",
+   //    icon: FileText,
+   //    url: "/prompts",
+   // },
 ];
 
 export const navigationMenu2: DMenuItem[] = [

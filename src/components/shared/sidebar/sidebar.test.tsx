@@ -38,8 +38,8 @@ const assertHeader = () => {
 
 const assertMenuItems = () => {
    const groupPrompts = screen.getByTestId("group-prompts");
-   const prompts = screen.getByTestId("menu-item-prompts");
-   const templates = screen.getByTestId("menu-item-templates");
+   const prompts = screen.getByTestId("menu-item-templates");
+   const collections = screen.getByTestId("menu-item-collections");
 
    const groupLibrary = screen.getByTestId("group-library");
    const explore = screen.getByTestId("menu-item-explore");
@@ -52,7 +52,7 @@ const assertMenuItems = () => {
 
    assertInDocument(groupPrompts);
    assertInDocument(prompts);
-   assertInDocument(templates);
+   assertInDocument(collections);
 
    assertInDocument(groupLibrary);
    assertInDocument(explore);
@@ -132,8 +132,8 @@ describe("Sidebar functionality tests", () => {
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      await assertNavigateToMenuItem("/prompts", "/prompts");
       await assertNavigateToMenuItem("/templates", "/templates");
+      await assertNavigateToMenuItem("/collections", "/collections");
       await assertNavigateToMenuItem("/explore", "/explore");
       await assertNavigateToMenuItem("/marketplace", "/marketplace");
       // await assertNavigateToMenuItem("/feedback", "/feedback");
@@ -149,8 +149,8 @@ describe("Sidebar functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertMenuItemActive("/settings", true);
-         assertMenuItemActive("/prompts", false);
          assertMenuItemActive("/templates", false);
+         assertMenuItemActive("/collections", false);
       });
    });
 
