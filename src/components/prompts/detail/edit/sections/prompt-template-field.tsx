@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import { FC } from "react";
 import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
@@ -26,14 +25,14 @@ type Props = {
    watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptField: FC<Props> = ({
+export const PromptField = ({
    index,
    isUsed,
    hasName,
    onRemove,
    control,
    watch,
-}) => {
+}: Props) => {
    const type = watch(`fields.${index}.type`);
    const options = watch(`fields.${index}.options`) ?? [];
 
