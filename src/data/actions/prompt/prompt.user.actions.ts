@@ -8,6 +8,10 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   requireCountLimit,
+   SubscriptionAccessError,
+} from "@/lib/subscription/server-guards";
+import {
    DPrompt,
    DPromptFieldValues,
    DPromptGenerationData,
@@ -56,12 +60,23 @@ export const createTemplateDescriptor = async (
    try {
       const user = await requireUser();
       const service = getService();
+
+      const currentCount = await service.getTemplateCount(user.id);
+      await requireCountLimit("maxPrompts", currentCount);
+
       await service.createTemplateDescriptor(user.id, data);
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
    } catch (error) {
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
       console.error(formatError(error));
       return {
          success: false,

@@ -19,6 +19,8 @@ model User {
   stripeCustomerId          String?                  @unique @map("stripe_customer_id") @db.VarChar(250)
   legalNoticesAcceptedAt    DateTime?                @map("legal_notices_accepted_at") @db.Timestamp(6)
   iubendaLegalNoticesSynced Boolean                  @default(false) @map("iubenda_legal_notices_synced")
+  trialEndsAt               DateTime?                @map("trial_ends_at") @db.Timestamp(6)
+  planChosenAt              DateTime?                @map("plan_chosen_at") @db.Timestamp(6)
   createdAt                 DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt                 DateTime                 @updatedAt @map("updated_at")
   accounts                  Account[]

@@ -204,4 +204,8 @@ export class TemplateService {
    async getTemplateDescriptorModels(userId: string): Promise<string[]> {
       return await this.repository.pGetTemplateModels(userId);
    }
+
+   async getTemplateCount(userId: string): Promise<number> {
+      return await this.repository.pGetTemplateCount(userId);
+   }
 }

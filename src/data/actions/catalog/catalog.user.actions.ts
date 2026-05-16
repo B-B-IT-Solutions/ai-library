@@ -9,6 +9,10 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
+import {
+   requireCountLimit,
+   SubscriptionAccessError,
+} from "@/lib/subscription/server-guards";
 
 export const addCatalogEntryToUserTemplates = async (
    catalogEntryId: string
@@ -19,7 +23,13 @@ export const addCatalogEntryToUserTemplates = async (
       }
 
       const user = await requireUser();
-      const service = getService();
+
+      // Check library-item limit before creating a new template from the catalog
+      const templateService = getTemplateService();
+      const currentCount = await templateService.getTemplateCount(user.id);
+      await requireCountLimit("maxLibraryItems", currentCount);
+
+      const service = getCatalogService();
       const descriptor = await service.addCatalogEntryToUserTemplates(
          user.id,
          catalogEntryId
@@ -33,6 +43,13 @@ export const addCatalogEntryToUserTemplates = async (
          },
       };
    } catch (error) {
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
       console.error(formatError(error));
       return {
          success: false,
@@ -41,7 +58,12 @@ export const addCatalogEntryToUserTemplates = async (
    }
 };
 
-const getService = (dbClient: DbClient = prisma) => {
+const getCatalogService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getCatalogService();
+};
+
+const getTemplateService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getTemplateService();
 };

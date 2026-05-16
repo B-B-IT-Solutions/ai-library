@@ -175,7 +175,8 @@ export class ServiceFactory {
    getSubscriptionService(): SubscriptionService {
       if (!this.subscriptionService) {
          this.subscriptionService = new SubscriptionService(
-            this.repositories.subscriptionRepository()
+            this.repositories.subscriptionRepository(),
+            this.repositories.userRepository()
          );
       }
       return this.subscriptionService;

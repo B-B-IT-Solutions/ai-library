@@ -1,5 +1,6 @@
-import { isFuture } from "date-fns";
+import { differenceInDays, isFuture } from "date-fns";
 
+import { UserRepository } from "@/data/repositories/user";
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
    DSubscription,
@@ -8,13 +9,19 @@ import {
    DSubscriptionPlan,
    DSubscriptionTier,
    DSubscriptionUpdate,
+   DTrialStatus,
 } from "@/data/types/domain/subscription";
 
 export class SubscriptionService {
    private subscriptionRepo: SubscriptionRepository;
+   private userRepo: UserRepository;
 
-   constructor(subscriptionRepo: SubscriptionRepository) {
+   constructor(
+      subscriptionRepo: SubscriptionRepository,
+      userRepo: UserRepository
+   ) {
       this.subscriptionRepo = subscriptionRepo;
+      this.userRepo = userRepo;
    }
 
    async getAvailablePlans(): Promise<DSubscriptionPlan[]> {
@@ -76,9 +83,29 @@ export class SubscriptionService {
          userId,
       });
 
-      if (subscription && subscription.status === "ACTIVE") {
+      // Active subscription → use subscription tier
+      if (subscription?.status === "ACTIVE") {
          return subscription.plan.tier;
       }
+
+      // Cancelled subscription still within grace period → use subscription tier
+      if (
+         subscription?.status === "CANCELED" &&
+         subscription.currentPeriodEnd &&
+         isFuture(subscription.currentPeriodEnd)
+      ) {
+         return subscription.plan.tier;
+      }
+
+      // Check trial or planChosen on the user record
+      const user = await this.userRepo.pGetUserById(userId);
+
+      // Active trial → PRO access
+      if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
+         return "PRO";
+      }
+
+      // No active paid plan → FREE (covers planChosenAt = set and expired subscriptions)
       return "FREE";
    }
 
@@ -87,23 +114,68 @@ export class SubscriptionService {
          userId,
       });
 
-      if (!subscription) {
-         return false;
-      }
-
-      if (subscription.status === "ACTIVE") {
+      // Active subscription → access granted
+      if (subscription?.status === "ACTIVE") {
          return true;
       }
 
-      // OR if subscription is CANCELED but still in grace period
+      // Cancelled subscription still within grace period → access granted
       if (
-         subscription.status === "CANCELED" &&
+         subscription?.status === "CANCELED" &&
          subscription.currentPeriodEnd &&
          isFuture(subscription.currentPeriodEnd)
       ) {
          return true;
       }
 
+      const user = await this.userRepo.pGetUserById(userId);
+
+      // Active trial → access granted
+      if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
+         return true;
+      }
+
+      // User has consciously chosen a plan (incl. FREE after trial) → access granted
+      if (user?.planChosenAt) {
+         return true;
+      }
+
+      // Trial expired and no plan chosen → show plan gate
       return false;
+   }
+
+   /**
+    * Returns the current trial status for a user.
+    * isActive = false if the trial has expired, the user has an active
+    * subscription, or no trial was ever started.
+    */
+   async getTrialStatus(userId: string): Promise<DTrialStatus> {
+      const user = await this.userRepo.pGetUserById(userId);
+
+      if (!user?.trialEndsAt) {
+         return { isActive: false, daysLeft: 0, endsAt: null };
+      }
+
+      const trialEndsAt = user.trialEndsAt;
+
+      if (!isFuture(trialEndsAt)) {
+         return { isActive: false, daysLeft: 0, endsAt: trialEndsAt };
+      }
+
+      // Don't show trial banner if user already has an active paid subscription
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         userId,
+      });
+      if (subscription?.status === "ACTIVE") {
+         return { isActive: false, daysLeft: 0, endsAt: trialEndsAt };
+      }
+
+      const daysLeft = Math.max(0, differenceInDays(trialEndsAt, new Date()));
+      return { isActive: true, daysLeft, endsAt: trialEndsAt };
+   }
+
+   /** Marks that the user has consciously chosen a plan (including FREE). */
+   async setPlanChosen(userId: string): Promise<void> {
+      await this.userRepo.pUpdateUser(userId, { planChosenAt: new Date() });
    }
 }

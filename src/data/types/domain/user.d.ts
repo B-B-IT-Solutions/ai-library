@@ -31,6 +31,8 @@ export type DUserInternal = DUser & {
    password: string | null;
    stripeCustomerId: string | null;
    emailVerified: Date | null;
+   trialEndsAt: Date | null;
+   planChosenAt: Date | null;
 };
 
 export type DUserCreate = {
@@ -38,6 +40,7 @@ export type DUserCreate = {
    email: string;
    hashedPassword: string;
    legalNoticesAcceptedAt: Date;
+   trialEndsAt: Date;
 };
 
 export type DUserUpdate = z.infer<typeof updateProfileSchema>;

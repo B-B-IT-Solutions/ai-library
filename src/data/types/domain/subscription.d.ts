@@ -85,6 +85,12 @@ export type DSubscriptionUpdate = {
    canceledAt?: Date | null;
 };
 
+export type DTrialStatus = {
+   isActive: boolean;
+   daysLeft: number;
+   endsAt: Date | null;
+};
+
 export type DSubscriptionHistoryCreate = {
    userId: string;
    eventType: string;

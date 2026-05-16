@@ -1,3 +1,4 @@
+import { addDays } from "date-fns";
 import { headers } from "next/headers";
 
 import { UserRepository } from "@/data/repositories/user";
@@ -47,6 +48,7 @@ export class UserService {
          email: data.email,
          hashedPassword: hashedPassword,
          legalNoticesAcceptedAt,
+         trialEndsAt: addDays(new Date(), 14),
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
