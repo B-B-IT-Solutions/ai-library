@@ -441,6 +441,40 @@ describe("TemplateEditForm functionality tests", () => {
       });
    });
 
+   it("new entry - save btn clicked - upgradeRequired - shows upgrade toast - test", async () => {
+      const result: ActionResult = {
+         success: false,
+         message: "Limit erreicht. Bitte upgrade dein Abo.",
+         upgradeRequired: true,
+      };
+      createTemplateDescriptorMock.mockResolvedValue(result);
+
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} />);
+
+      assertRendered();
+
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      await waitFor(() => {
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(
+            result.message,
+            expect.objectContaining({
+               action: expect.objectContaining({ label: "Upgrade" }),
+            })
+         );
+         // Router should NOT navigate away
+         expect(mockRouter.pathname).toEqual("/");
+      });
+   });
+
    it("new entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,

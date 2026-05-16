@@ -6,7 +6,8 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/prompt";
-import { DPromptFieldValues } from "@/data/types/domain/prompt";
+import { SubscriptionService } from "@/data/services/subscription";
+import { DPromptFieldValues, DTemplateUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
@@ -23,6 +24,7 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
+   getTemplateUsage,
    toggleTemplateDescriptorFavorite,
    updateTemplateDescriptor,
 } from "./prompt.user.actions";
@@ -103,6 +105,11 @@ const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
    >;
+
+const sGetTemplateCount = TemplateService.prototype.getTemplateCount;
+const sGetTemplateCountMock = sGetTemplateCount as jest.MockedFunction<
+   typeof sGetTemplateCount
+>;
 
 describe("getTemplateDescriptorsPage tests", () => {
    beforeEach(() => {
@@ -1076,5 +1083,69 @@ describe("getPromptTemplateCategories tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getTemplateUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("FREE tier - returns current count and limit 5 - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sGetTemplateCountMock.mockResolvedValue(3);
+      jest
+         .spyOn(SubscriptionService.prototype, "getUserTier")
+         .mockResolvedValue("FREE");
+
+      const result = await getTemplateUsage();
+
+      const expected: DTemplateUsage = { current: 3, limit: 5 };
+      expect(result).toEqual(expected);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateCountMock).toHaveBeenCalledWith(user.id);
+   });
+
+   it("BASIC tier - returns current count and limit 50 - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sGetTemplateCountMock.mockResolvedValue(25);
+      jest
+         .spyOn(SubscriptionService.prototype, "getUserTier")
+         .mockResolvedValue("BASIC");
+
+      const result = await getTemplateUsage();
+
+      const expected: DTemplateUsage = { current: 25, limit: 50 };
+      expect(result).toEqual(expected);
+   });
+
+   it("PRO tier - returns current count and limit -1 (unlimited) - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sGetTemplateCountMock.mockResolvedValue(500);
+      jest
+         .spyOn(SubscriptionService.prototype, "getUserTier")
+         .mockResolvedValue("PRO");
+
+      const result = await getTemplateUsage();
+
+      const expected: DTemplateUsage = { current: 500, limit: -1 };
+      expect(result).toEqual(expected);
+   });
+
+   it("error - returns default usage { current: 0, limit: -1 } - test", async () => {
+      const error = new Error("auth error");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getTemplateUsage();
+
+      const expected: DTemplateUsage = { current: 0, limit: -1 };
+      expect(result).toEqual(expected);
    });
 });

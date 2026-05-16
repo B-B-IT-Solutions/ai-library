@@ -138,6 +138,13 @@ export const TemplateEditForm = ({
          if (result.success) {
             toast.success(result.message);
             router.push("/templates");
+         } else if (result.upgradeRequired) {
+            toast.error(result.message, {
+               action: {
+                  label: "Upgrade",
+                  onClick: () => router.push("/subscription/pricing"),
+               },
+            });
          } else {
             toast.error(result.message);
          }

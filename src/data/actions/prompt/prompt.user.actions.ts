@@ -11,6 +11,7 @@ import {
    requireCountLimit,
    SubscriptionAccessError,
 } from "@/lib/subscription/server-guards";
+import { TIER_FEATURES } from "@/lib/subscription/access-control";
 import {
    DPrompt,
    DPromptFieldValues,
@@ -19,6 +20,7 @@ import {
    DPromptsPageQuery,
    DPromptUpdate,
    DPromptWithContent,
+   DTemplateUsage,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
@@ -299,6 +301,21 @@ export const getPromptTemplateCategories = async (): Promise<string[]> => {
    } catch (error) {
       console.error(formatError(error));
       return [];
+   }
+};
+
+export const getTemplateUsage = async (): Promise<DTemplateUsage> => {
+   try {
+      const user = await requireUser();
+      const factory = new ServiceFactory(prisma);
+      const [current, tier] = await Promise.all([
+         factory.getTemplateService().getTemplateCount(user.id),
+         factory.getSubscriptionService().getUserTier(user.id),
+      ]);
+      const limit = TIER_FEATURES[tier].maxPrompts;
+      return { current, limit };
+   } catch {
+      return { current: 0, limit: -1 };
    }
 };
 

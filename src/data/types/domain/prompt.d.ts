@@ -73,3 +73,8 @@ export type DPromptField = {
 };
 
 export type DPromptFieldValues = Record<string, DPromptFieldValueType>;
+
+export type DTemplateUsage = {
+   current: number;
+   limit: number; // -1 = unlimited
+};
