@@ -1,32 +1,29 @@
 ---
 name: Critical Gaps Blocking Release
-description: Half-baked features and broken paths that block a shippable product
+description: Half-baked features and broken paths that block a shippable product (updated 2026-05-16)
 type: project
 ---
 
 ## Gap 1: Post-Purchase Fulfillment Is Commented Out (CRITICAL)
-In `src/data/services/order/order.service.ts` line 59, the call `await this.collectionService.createLibraryEntries(order)` is commented out. When a user buys a template from the marketplace, the purchased templates are NEVER added to their library. The order completes and the cart clears, but the user gets nothing. This is a broken purchase flow. The method `createLibraryEntries` does not exist on `CollectionService` — it needs to be designed and implemented.
+In `src/data/services/order/order.service.ts` line 59, the call `await this.collectionService.createLibraryEntries(order)` is commented out. When a user buys a template from the marketplace, the purchased templates are NEVER added to their library. The order completes and the cart clears, but the user gets nothing. The method `createLibraryEntries` does not exist on `CollectionService` — it needs to be designed and implemented. NOTE: Marketplace is now hidden from sidebar nav — this gap may be intentionally deferred with the marketplace deprioritization.
 
-## Gap 2: Subscription Tier Enforcement Is Not Wired Up
-`requireSubscriptionAccess` and `checkFeatureAccess` from `src/lib/subscription/server-guards.ts` are fully implemented and tested, but are called by ZERO production files. Not one server action checks subscription limits. FREE users can create unlimited prompts, templates, and bypass all tier gates. The enforcement infrastructure exists but is disconnected from the actual mutation paths.
+## Gap 2: Subscription Tier Enforcement Is Not Wired Up (CRITICAL)
+`requireSubscriptionAccess` and `checkFeatureAccess` from `src/lib/subscription/server-guards.ts` are fully implemented and tested, but are called by ZERO production files. Not one server action checks subscription limits. FREE users can create unlimited prompts, templates, and bypass all tier gates. The enforcement infrastructure exists but is disconnected from the actual mutation paths. This means the subscription revenue model has no enforcement.
 
-## Gap 3: /forgot-password Route Does Not Exist
-The sign-in form has a "Passwort vergessen?" link pointing to `/forgot-password` but no page exists at that route. Clicking it hits a 404. There is also no password reset email flow.
+## Gap 3: Forgot-Password Route Does Not Exist
+The sign-in form has a "Passwort vergessen?" link but no page exists at `/forgot-password`. There IS a full service and email implementation (`password-reset.service.ts`, `brevo.email.service.ts`) but no UI/route connecting it.
 
-## Gap 4: /orders Not in Navigation (Intentionally Hidden)
-The orders nav item is commented out in `src/components/shared/sidebar/menus.tsx`. The /orders route exists and works but users cannot navigate to it from the sidebar. Likely intentional deferral.
+## Gap 4: "Advanced Features" (PRO tier) Is Undefined
+`canUseAdvancedFeatures` is the PRO-exclusive feature flag. It shows on the pricing card as "Advanced features" but nothing in the product is actually gated behind it. The flag exists in the access-control layer but unlocks nothing. The PRO tier is indistinguishable from BASIC in practice.
 
-## Gap 5: /cart Route Not Protected by Auth Middleware
-The `authorized` callback in `src/auth.config.ts` protects `/orders/(.*)` (requires ID) but does NOT protect `/cart` or `/checkout`. Cart/checkout are in the authenticated layout group but the middleware pattern doesn't include them. Relies on layout-level auth rather than middleware.
+## Gap 5: Marketplace/Orders Hidden From Nav (Strategic Shift)
+As of AI-137 (2026-05-14), `/marketplace` and `/orders` are commented out from `src/components/shared/sidebar/menus.tsx`. The e-commerce purchase flow is built but not exposed to users. This is either a pivot toward subscription-only revenue or a deferral pending Gap 1 being fixed.
 
 ## Gap 6: Language Inconsistency (UX Polish Gap)
-Mixed German/English throughout UI: Marketplace/cart/checkout/orders are in English ("Shopping Cart", "Order Successful!", "Back to Marketplace", "Choose Your Plan"), while prompts/templates/settings/navigation are in German. Publishable but signals unfinished state.
+Mixed German/English throughout UI. E-commerce/checkout/orders are in English, prompts/templates/settings/navigation are in German.
 
 ## Gap 7: No Admin Interface
-User role field exists in schema (`role` String default "user"), admin routes listed in protected paths (`/admin`), but no admin pages exist. Products/templates are managed entirely through seeding. No way to add/edit products without running seed scripts.
+User role field exists in schema, `/admin` is in protected paths, but no admin pages exist. Products/templates are managed entirely through seeding. No way to add/edit catalog entries without developer access.
 
-## Gap 8: Stripe Price IDs Hardcoded in Seed File
-`prisma/seed-data/subscription-plans.ts` has hardcoded Stripe price IDs. This is a test/dev environment concern — if shipping to production, these need to be production Stripe IDs or configured via env vars.
-
-**Why:** These gaps were found 2026-05-03 during initial codebase audit.
-**How to apply:** Prioritize Gap 1 and Gap 2 as absolute blockers for a revenue-generating release. The product cannot charge money without fixing Gap 1. Gap 2 means paying users get the same experience as free users.
+**Why:** These gaps were originally found 2026-05-03, updated 2026-05-16 after AI-137 analysis.
+**How to apply:** Gap 2 is the single most important gap for revenue. Gap 4 is the clearest reason PRO is a hard sell. Gap 1 matters only when marketplace is re-activated.
