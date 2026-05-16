@@ -13,8 +13,8 @@
 Die Subscription-Infrastruktur ist vollständig gebaut — Tier-Definitionen, Guards, Stripe-Webhooks — aber in keiner einzigen Server Action aktiv aufgerufen. Jeder Nutzer bekommt damit de facto unbegrenzten PRO-Zugang für immer, ohne jemals bezahlen zu müssen. Das Feature schließt diese Lücke durch zwei zusammenhängende Mechanismen:
 
 1. **14-Tage-Trial:** Jeder neue Nutzer erhält nach der Registrierung 14 Tage vollständigen PRO-Zugang ohne Kreditkarte.
-2. **Paywall nach Trial-Ablauf:** Endet der Trial ohne aktives Abo, wird der Nutzer hinter einem Hard-Paywall gesperrt bis er ein Abo abschliesst.
-3. **Tier-Limits in Server Actions:** BASIC- und PRO-Tier-Grenzen werden in allen mutierenden Server Actions aktiv durchgesetzt.
+2. **Plan-Auswahl nach Trial-Ablauf:** Endet der Trial ohne aktives Abo, wird der Nutzer zur Planauswahl aufgefordert. Er kann zwischen FREE, BASIC und PRO wählen — auch FREE ist eine bewusste Entscheidung.
+3. **Tier-Limits in Server Actions:** FREE-, BASIC- und PRO-Tier-Grenzen werden in allen mutierenden Server Actions aktiv durchgesetzt.
 
 ---
 
@@ -29,15 +29,17 @@ Registrierung
   → Trial-Banner im Layout: "Noch X Tage kostenlos – danach Abo wählen"
 ```
 
-### Phase 2a: Trial abgelaufen, kein Abo
+### Phase 2a: Trial abgelaufen, kein Plan gewählt
 
 ```
 Nutzer öffnet eine geschützte Seite (z.B. /templates)
   → Authenticated Layout prüft Trial + Subscription-Status
-  → Trial abgelaufen, kein aktives Abo
-  → Hard Paywall: Layout rendert <TrialExpiredGate> statt page children
-     → Zeigt Abo-Auswahl (BASIC / PRO) direkt eingebettet
-     → Kein Zugang zu irgendeiner App-Funktion bis Abo abgeschlossen
+  → Trial abgelaufen, noch kein Plan gewählt
+  → Plan-Gate: Layout rendert <TrialExpiredGate> statt page children
+     → Zeigt Planauswahl (FREE / BASIC / PRO) direkt eingebettet
+     → FREE: sofortiger Zugang, Tier-Limits greifen ab diesem Moment
+     → BASIC / PRO: Stripe Checkout → nach Rückkehr Zugang mit Tier-Limits
+     → Kein Zugang zu irgendeiner App-Funktion bis Plan gewählt
 ```
 
 ### Phase 2b: Abo aktiv (BASIC oder PRO)
@@ -53,16 +55,18 @@ Nutzer erstellt ein neues Template
 
 ## 3. Zustandsmodell
 
-| Zustand                            | Bedingung                                        | Tier      | App-Zugang       |
-| ---------------------------------- | ------------------------------------------------ | --------- | ---------------- |
-| Trial aktiv                        | `trialEndsAt > now()`, kein Abo                  | PRO       | Voll             |
-| Trial abgelaufen, kein Abo         | `trialEndsAt <= now()`, kein aktives Abo         | —         | Hard Paywall     |
-| BASIC aktiv                        | Abo `status = ACTIVE`, Plan `tier = BASIC`       | BASIC     | Voll, mit Limits |
-| PRO aktiv                          | Abo `status = ACTIVE`, Plan `tier = PRO`         | PRO       | Voll, unlimited  |
-| Abo gekündigt, Laufzeit noch offen | `status = CANCELED`, `currentPeriodEnd > now()`  | laut Plan | Voll bis Ablauf  |
-| Abo abgelaufen                     | `status = CANCELED`, `currentPeriodEnd <= now()` | —         | Hard Paywall     |
+| Zustand                             | Bedingung                                                                | Tier      | App-Zugang                                        |
+| ----------------------------------- | ------------------------------------------------------------------------ | --------- | ------------------------------------------------- |
+| Trial aktiv                         | `trialEndsAt > now()`, kein Plan gewählt                                 | PRO       | Voll                                              |
+| Trial abgelaufen, kein Plan gewählt | `trialEndsAt <= now()`, `planChosenAt = NULL`                            | —         | Plan-Gate                                         |
+| FREE gewählt                        | `planChosenAt != NULL`, kein aktives Abo                                 | FREE      | Voll, mit Limits (5 Templates, 3 Library-Items)   |
+| BASIC aktiv                         | Abo `status = ACTIVE`, Plan `tier = BASIC`                               | BASIC     | Voll, mit Limits (50 Templates, 20 Library-Items) |
+| PRO aktiv                           | Abo `status = ACTIVE`, Plan `tier = PRO`                                 | PRO       | Voll, unlimited                                   |
+| Abo gekündigt, Laufzeit noch offen  | `status = CANCELED`, `currentPeriodEnd > now()`                          | laut Plan | Voll bis Ablauf                                   |
+| Abo abgelaufen, kein Plan gewählt   | `status = CANCELED`, `currentPeriodEnd <= now()`, `planChosenAt = NULL`  | —         | Plan-Gate                                         |
+| Abo abgelaufen, FREE als Fallback   | `status = CANCELED`, `currentPeriodEnd <= now()`, `planChosenAt != NULL` | FREE      | Voll, mit FREE-Limits                             |
 
-> **FREE-Tier:** Das bestehende FREE-Tier (5 Templates, 3 Library-Items) bleibt als technisches Fallback im Code, wird aber für Endnutzer nie aktiv erreicht — sie befinden sich entweder im Trial oder hinter dem Paywall.
+> **FREE-Tier:** FREE ist eine bewusste Nutzerwahl nach Trial-Ablauf — nicht ein technisches Fallback. Ein Nutzer der FREE wählt, bekommt sofortigen Zugang mit den definierten Limits. Er kann jederzeit upgraden. Ein Nutzer dessen bezahltes Abo ausläuft und der `planChosenAt` bereits gesetzt hat, fällt automatisch auf FREE zurück (kein erneuter Plan-Gate).
 
 ---
 
@@ -75,13 +79,14 @@ Nutzer erstellt ein neues Template
 ```prisma
 model User {
   // ... bestehende Felder ...
-  trialEndsAt DateTime? @map("trial_ends_at") @db.Timestamp(6)   // NEU
+  trialEndsAt   DateTime? @map("trial_ends_at") @db.Timestamp(6)   // NEU
+  planChosenAt  DateTime? @map("plan_chosen_at") @db.Timestamp(6)  // NEU: gesetzt wenn Nutzer bewusst einen Plan wählt (inkl. FREE)
 }
 ```
 
-**Migration:** Additive, kein Breaking Change. Bestehende Nutzer erhalten `trialEndsAt = NULL` → werden als "Trial abgelaufen" behandelt (Post-Migration müssen bestehende Nutzer direkt ein Abo wählen, es sei denn sie haben bereits eines).
+**Migration:** Additive, kein Breaking Change. Bestehende Nutzer erhalten `trialEndsAt = NULL` und `planChosenAt = NULL`.
 
-> **Wichtig:** Für bestehende Nutzer mit `trialEndsAt = NULL` aber ohne Abo sollte ein Admin-Script prüfen ob ein Abo nachgetragen oder eine Ausnahme definiert werden muss, bevor der Paywall aktiv geschaltet wird.
+> **Wichtig für bestehende Nutzer:** Nutzer mit `trialEndsAt = NULL` und `planChosenAt = NULL` aber ohne aktives Abo würden in den Plan-Gate fallen. Vor dem Go-Live des Paywalls muss ein einmaliges Migration-Script für bestehende Nutzer laufen: entweder `planChosenAt = now()` setzen (sie fallen auf FREE) oder ihr Abo verifizieren.
 
 ### 4.2 Domain-Typ erweitern
 
@@ -90,7 +95,8 @@ model User {
 ```typescript
 export type DLoginUser = {
   // ... bestehende Felder ...
-  trialEndsAt: Date | null;  // NEU
+  trialEndsAt: Date | null;   // NEU
+  planChosenAt: Date | null;  // NEU
 };
 ```
 
@@ -132,12 +138,16 @@ async getUserTier(userId: string): Promise<DSubscriptionTier> {
   const user = await this.userRepo.pGetById(userId);
   if (user?.trialEndsAt && isFuture(user.trialEndsAt)) return "PRO";
 
-  // Kein Abo, Trial abgelaufen → FREE (technisches Fallback; Paywall greift davor)
+  // Nutzer hat bewusst einen Plan gewählt (inkl. FREE nach Trial) → FREE
+  // planChosenAt wird auch gesetzt wenn Nutzer FREE wählt oder ein abgelaufenes Abo hatte
+  if (user?.planChosenAt) return "FREE";
+
+  // Kein Plan gewählt, Trial abgelaufen → FREE (Plan-Gate greift im Layout davor)
   return "FREE";
 }
 ```
 
-> **Hinweis:** `getUserTier()` braucht Zugang zum `UserRepository`. Die Methode bekommt eine zweite Abhängigkeit — alternativ kann `trialEndsAt` direkt in der Subscription-Logik über einen Join mitgeladen werden.
+> **Hinweis:** `getUserTier()` braucht Zugang zum `UserRepository`. Die Methode bekommt eine zweite Abhängigkeit — alternativ kann `trialEndsAt`/`planChosenAt` direkt über einen Join mitgeladen werden.
 
 ### `hasActiveAccess()` — ebenfalls anpassen
 
@@ -153,9 +163,16 @@ async hasActiveAccess(userId: string): Promise<boolean> {
     isFuture(subscription.currentPeriodEnd)
   ) return true;
 
-  // Trial aktiv → Zugang
   const user = await this.userRepo.pGetById(userId);
-  return !!(user?.trialEndsAt && isFuture(user.trialEndsAt));
+
+  // Trial noch aktiv → Zugang
+  if (user?.trialEndsAt && isFuture(user.trialEndsAt)) return true;
+
+  // Nutzer hat nach Trial-Ablauf bewusst einen Plan gewählt (inkl. FREE) → Zugang
+  if (user?.planChosenAt) return true;
+
+  // Trial abgelaufen, kein Plan gewählt → Plan-Gate
+  return false;
 }
 ```
 
@@ -240,19 +257,34 @@ if (hasActiveSubscription) → kein Banner
 
 ---
 
-## 9. `<TrialExpiredGate>` — Paywall-Komponente
+## 9. `<TrialExpiredGate>` — Plan-Gate-Komponente
 
 **Datei:** `src/components/subscription/trial-expired-gate.tsx`
 
-Ersetzt den App-Inhalt wenn Trial abgelaufen und kein Abo aktiv ist.
+Ersetzt den App-Inhalt wenn Trial abgelaufen und noch kein Plan gewählt wurde.
 
 **Inhalt:**
 
 - Überschrift: "Deine kostenlose Testphase ist abgelaufen"
-- Kurzer Text: "Wähle ein Abo um weiterzumachen."
-- Direkt eingebettete Abo-Auswahlkarten (BASIC / PRO) mit Preisen und Features
-- CTA pro Karte: Leitet zu Stripe Checkout via bestehende Subscription-Actions
-- Kein Zurück-Button, kein Nav-Zugang zur App
+- Kurzer Text: "Wähle einen Plan um weiterzumachen."
+- Drei Planauswahl-Karten: **FREE**, **BASIC**, **PRO**
+- **FREE-Karte:** "Kostenlos starten" — direkte Server Action setzt `planChosenAt = now()`, kein Checkout; sofortiger Zugang mit FREE-Limits (5 Templates, 3 Library-Items)
+- **BASIC/PRO-Karten:** CTA leitet zu Stripe Checkout via bestehende Subscription-Actions
+- Kein Zurück-Button, kein Nav-Zugang zur App bis Plan gewählt
+
+**Neue Server Action für FREE-Wahl:**
+
+```typescript
+// src/data/actions/subscription/subscription.actions.ts
+export const chooseFreeplan = async (): Promise<ActionResult> => {
+  const user = await requireUser();
+  await userRepository.pUpdate(user.id, { planChosenAt: new Date() });
+  revalidatePath("/");
+  return { success: true };
+};
+```
+
+Nach Ausführung: `hasActiveAccess()` gibt `true` zurück → Layout rendert App statt Gate.
 
 ---
 
@@ -362,11 +394,12 @@ Phase 2 — Registrierung
   2.1  Sign-Up Action: trialEndsAt = now() + 14 Tage beim User-Create setzen
   2.2  Tests für Sign-Up Action
 
-Phase 3 — Paywall & Layout
+Phase 3 — Plan-Gate & Layout
   3.1  hasActiveAccess() im Authenticated Layout aufrufen
-  3.2  <TrialExpiredGate> Komponente bauen (statisch, Abo-Karten eingebettet)
-  3.3  Route-Ausnahme für /settings/subscription sicherstellen
-  3.4  Tests für TrialExpiredGate
+  3.2  chooseFreeplan() Server Action ergänzen (setzt planChosenAt)
+  3.3  <TrialExpiredGate> Komponente bauen (FREE / BASIC / PRO Karten)
+  3.4  Route-Ausnahme für /settings/subscription sicherstellen
+  3.5  Tests für TrialExpiredGate + chooseFreeplan()
 
 Phase 4 — Trial-Banner
   4.1  getTrialStatus() Server Action (auth-geschützt)
@@ -400,7 +433,8 @@ Phase 6 — Limit-UI
 - `getUserTier()` — Trial abgelaufen, PRO Abo aktiv → PRO
 - `getUserTier()` — Abo CANCELED, Laufzeit noch offen → laut Plan
 - `hasActiveAccess()` — Trial aktiv → true
-- `hasActiveAccess()` — Trial abgelaufen, kein Abo → false
+- `hasActiveAccess()` — Trial abgelaufen, kein Plan gewählt → false
+- `hasActiveAccess()` — Trial abgelaufen, FREE gewählt (`planChosenAt` gesetzt) → true
 - `hasActiveAccess()` — Abo ACTIVE → true
 
 ### Server Guards
@@ -420,8 +454,10 @@ Phase 6 — Limit-UI
 - `TrialBanner` — zeigt korrekte Tage an
 - `TrialBanner` — ≤ 3 Tage → Warn-Styling
 - `TrialBanner` — kein Trial (Abo aktiv) → rendert nichts
-- `TrialExpiredGate` — zeigt Abo-Auswahl-Karten
+- `TrialExpiredGate` — zeigt alle drei Planauswahl-Karten (FREE, BASIC, PRO)
 - `TrialExpiredGate` — zeigt keinen App-Inhalt
+- `TrialExpiredGate` — FREE-Karte ruft `chooseFreeplan()` auf und gibt Zugang
+- `chooseFreeplan()` — setzt `planChosenAt`, danach gibt `hasActiveAccess()` `true` zurück
 
 ---
 
