@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
@@ -11,7 +10,7 @@ type Props = {
    control: Control<DPromptUpdate>;
 };
 
-export const PromptTemplateContent: FC<Props> = ({ control }) => {
+export const PromptTemplateContent = ({ control }: Props) => {
    const content = () => {
       return (
          <FormMDEditor<DPromptUpdate>
