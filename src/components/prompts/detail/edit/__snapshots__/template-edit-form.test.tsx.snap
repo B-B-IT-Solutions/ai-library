@@ -374,7 +374,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
               <code
                 class="rounded bg-slate-100 px-1 py-0.5"
               >
-                {{feldname}}
+                {{feld_name}}
               </code>
                
               für Platzhalter, die durch Ihre Felder ersetzt werden
@@ -2877,7 +2877,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
               <code
                 class="rounded bg-slate-100 px-1 py-0.5"
               >
-                {{feldname}}
+                {{feld_name}}
               </code>
                
               für Platzhalter, die durch Ihre Felder ersetzt werden
@@ -5561,7 +5561,7 @@ exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
               <code
                 class="rounded bg-slate-100 px-1 py-0.5"
               >
-                {{feldname}}
+                {{feld_name}}
               </code>
                
               für Platzhalter, die durch Ihre Felder ersetzt werden
@@ -6017,7 +6017,7 @@ exports[`TemplateEditForm rendering tests new entry - variables detected in cont
               <code
                 class="rounded bg-slate-100 px-1 py-0.5"
               >
-                {{feldname}}
+                {{feld_name}}
               </code>
                
               für Platzhalter, die durch Ihre Felder ersetzt werden
