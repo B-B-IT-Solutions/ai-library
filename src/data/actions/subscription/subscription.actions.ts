@@ -25,6 +25,16 @@ export const getSubscription = async (): Promise<DSubscription | null> => {
    return await service.getSubscription(user.id);
 };
 
+export const getHasActiveAccess = async (): Promise<boolean> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.hasActiveAccess(user.id);
+   } catch {
+      return false;
+   }
+};
+
 export const getTrialStatus = async (): Promise<DTrialStatus | null> => {
    try {
       const user = await requireUser();

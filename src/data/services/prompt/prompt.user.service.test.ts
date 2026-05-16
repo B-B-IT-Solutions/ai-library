@@ -664,3 +664,31 @@ describe("getTemplateDescriptorModels tests", () => {
       expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(userId);
    });
 });
+
+describe("getTemplateCount tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateCount - count returned - test", async () => {
+      const userId = "user-id-1";
+      const count = 12;
+      templateRepoMock.pGetTemplateCount.mockResolvedValue(count);
+
+      const result = await templateService.getTemplateCount(userId);
+
+      expect(result).toBe(count);
+      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledWith(userId);
+   });
+
+   it("getTemplateCount - zero count - test", async () => {
+      const userId = "user-id-1";
+      templateRepoMock.pGetTemplateCount.mockResolvedValue(0);
+
+      const result = await templateService.getTemplateCount(userId);
+
+      expect(result).toBe(0);
+      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
+   });
+});

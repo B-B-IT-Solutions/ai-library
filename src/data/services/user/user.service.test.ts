@@ -7,6 +7,7 @@ jest.mock("@/lib/encrypt");
 jest.mock("@/lib/utils");
 
 import { dtestData, ntestData } from "@tests";
+import { addDays } from "date-fns";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 import { headers } from "next/headers";
@@ -119,6 +120,7 @@ describe("signUpUser tests", () => {
          email: data.email,
          hashedPassword: await hash(data.password),
          legalNoticesAcceptedAt: new Date("2025-09-27"),
+         trialEndsAt: addDays(new Date("2025-09-27"), 14),
       };
 
       const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
@@ -185,6 +187,7 @@ describe("signUpUser tests", () => {
          email: data.email,
          hashedPassword: await hash(data.password),
          legalNoticesAcceptedAt: new Date("2025-09-27"),
+         trialEndsAt: addDays(new Date("2025-09-27"), 14),
       };
 
       const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {

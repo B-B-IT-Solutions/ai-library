@@ -75,6 +75,8 @@ export const pUser = (index = 1): User => {
       stripeCustomerId: `86a092fd-1758-45d1-a831-9b26d6eb837${index}`,
       legalNoticesAcceptedAt: new Date("2025-09-27"),
       iubendaLegalNoticesSynced: true,
+      trialEndsAt: null,
+      planChosenAt: null,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };

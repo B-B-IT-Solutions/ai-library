@@ -108,6 +108,8 @@ export const dUserInternal = (index = 1): DUserInternal => {
       password: `password-${index}`,
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
       emailVerified: new Date("2025-09-27"),
+      trialEndsAt: null,
+      planChosenAt: null,
    };
 };
 
@@ -235,6 +237,7 @@ export const dUserCreate = (index = 1): DUserCreate => {
       email: "test@email.com",
       hashedPassword: "hashedPassword-1",
       legalNoticesAcceptedAt: new Date("2025-09-27"),
+      trialEndsAt: new Date("2025-10-11"),
    };
 };
 
