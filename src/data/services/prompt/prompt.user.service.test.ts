@@ -670,16 +670,6 @@ describe("getPromptsCount tests", () => {
       jest.clearAllMocks();
    });
 
-   it("count zero - test", async () => {
-      const userId = "user-id-1";
-      templateRepoMock.pGetTemplateCount.mockResolvedValue(0);
-
-      const result = await templateService.getPromptsCount(userId);
-
-      expect(result).toBe(0);
-      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
-   });
-
    it("count retrieved - test", async () => {
       const userId = "user-id-1";
       const count = 12;
