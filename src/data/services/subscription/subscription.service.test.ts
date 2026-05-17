@@ -2,7 +2,7 @@ jest.mock("@/data/repositories/subscription");
 jest.mock("@/data/services/user");
 
 import { dtestData } from "@tests";
-import { addDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
@@ -356,30 +356,53 @@ describe("getUserTier tests", () => {
       expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
-   it("trial active, no subscription - returns PRO - test", async () => {
+   it("subscription null - trial active - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
+      user.trialEndsAt = addDays(Date.now(), 7);
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getUserTier(userId);
+      const expectdResult: DSubscriptionTier = "PRO";
 
-      expect(result).toEqual("PRO");
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("trial expired, no subscription - returns FREE - test", async () => {
+   it("subscription null - trial expired - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() - 86400000); // 1 day ago
+      user.trialEndsAt = subDays(Date.now(), 1);
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getUserTier(userId);
 
-      expect(result).toEqual("FREE");
+      const expectdResult: DSubscriptionTier = "FREE";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
    it("PAST_DUE subscription, no trial - returns FREE - test", async () => {
