@@ -59,6 +59,7 @@ export const chooseFreeplan = async (): Promise<ActionResult> => {
       const service = getService();
       await service.setPlanChosen(user.id);
       revalidatePath("/", "layout");
+
       return {
          success: true,
          message: "Plan erfolgreich gewählt",

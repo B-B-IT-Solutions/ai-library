@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/data/actions/auth-utils";
 import { SubscriptionService } from "@/data/services/subscription";
 import { DTrialStatus } from "@/data/types/domain/subscription";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    chooseFreeplan,
@@ -198,39 +199,64 @@ describe("getTrialStatus tests", () => {
 describe("chooseFreeplan tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("chooseFreeplan - success - sets planChosenAt and revalidates - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await chooseFreeplan();
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Fehler beim Wählen des Plans",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sSetPlanChosenMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const dbError = new Error("db error");
+      sSetPlanChosenMock.mockRejectedValue(dbError);
+
+      const result = await chooseFreeplan();
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Fehler beim Wählen des Plans",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sSetPlanChosenMock).toHaveBeenCalledTimes(1);
+      expect(sSetPlanChosenMock).toHaveBeenCalledWith(user.id);
+   });
+
+   it("success - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sSetPlanChosenMock.mockResolvedValue(undefined);
 
       const result = await chooseFreeplan();
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Plan erfolgreich gewählt",
+      };
 
-      expect(result.success).toBe(true);
+      expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sSetPlanChosenMock).toHaveBeenCalledTimes(1);
       expect(sSetPlanChosenMock).toHaveBeenCalledWith(user.id);
       expect(revalidatePathMock).toHaveBeenCalledWith("/", "layout");
-   });
-
-   it("chooseFreeplan - requireUser throws - returns failure - test", async () => {
-      requireUserMock.mockRejectedValue(new Error("Unauthenticated"));
-
-      const result = await chooseFreeplan();
-
-      expect(result.success).toBe(false);
-      expect(result.message).toBe("Fehler beim Wählen des Plans");
-      expect(sSetPlanChosenMock).not.toHaveBeenCalled();
-   });
-
-   it("chooseFreeplan - service throws - returns failure - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sSetPlanChosenMock.mockRejectedValue(new Error("DB error"));
-
-      const result = await chooseFreeplan();
-
-      expect(result.success).toBe(false);
-      expect(result.message).toBe("Fehler beim Wählen des Plans");
    });
 });
