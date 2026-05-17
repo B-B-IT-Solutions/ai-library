@@ -1,27 +1,31 @@
 jest.mock("@/data/repositories/subscription");
-jest.mock("@/data/repositories/user");
+jest.mock("@/data/services/user");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
 import {
    GetSubscriptionParams,
    SubscriptionRepository,
 } from "@/data/repositories/subscription";
-import { UserRepository } from "@/data/repositories/user";
+import { ServiceFactory } from "@/data/services//service.factory";
+import { UserService } from "@/data/services/user";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
 import { SubscriptionService } from "./subscription.service";
+
+const serviceFactory = new ServiceFactory(prisma);
+const userService = serviceFactory.getUserService();
 
 const subscriptionRepo = new SubscriptionRepository(prisma);
 const subscriptionRepoMock =
    subscriptionRepo as DeepMockProxy<SubscriptionRepository>;
 
-const userRepo = new UserRepository(prisma);
-const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
+const userServiceMock = userService as DeepMockProxy<UserService>;
 
-const service = new SubscriptionService(subscriptionRepoMock, userRepoMock);
+const service = new SubscriptionService(subscriptionRepoMock, userServiceMock);
 
 describe("getAvailablePlans tests", () => {
    beforeEach(() => {
@@ -232,10 +236,10 @@ describe("getUserTier tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getUserTier - subscription is null, no trial - test", async () => {
+   it("subscription is null, no trial - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.getUserTier(userId);
 
@@ -244,13 +248,13 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("getUserTier - subscription.status not ACTIVE, no trial - test", async () => {
+   it("subscription.status not ACTIVE, no trial - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "INCOMPLETE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.getUserTier(userId);
 
@@ -259,7 +263,7 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("getUserTier - subscription.status ACTIVE - test", async () => {
+   it("subscription.status ACTIVE - test", async () => {
       const userId = "user-id-1";
       const tier: DSubscriptionTier = "PRO";
       const subscription = dtestData.dSubscription();
@@ -275,7 +279,7 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("getUserTier - BASIC subscription ACTIVE - returns BASIC - test", async () => {
+   it("BASIC subscription ACTIVE - returns BASIC - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
@@ -288,7 +292,7 @@ describe("getUserTier tests", () => {
       expect(result).toEqual("BASIC");
    });
 
-   it("getUserTier - CANCELED within grace period - returns subscription tier - test", async () => {
+   it("CANCELED within grace period - returns subscription tier - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
@@ -304,39 +308,39 @@ describe("getUserTier tests", () => {
       expect(result).toEqual("PRO");
    });
 
-   it("getUserTier - trial active, no subscription - returns PRO - test", async () => {
+   it("trial active, no subscription - returns PRO - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getUserTier(userId);
 
       expect(result).toEqual("PRO");
    });
 
-   it("getUserTier - trial expired, no subscription - returns FREE - test", async () => {
+   it("trial expired, no subscription - returns FREE - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() - 86400000); // 1 day ago
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getUserTier(userId);
 
       expect(result).toEqual("FREE");
    });
 
-   it("getUserTier - PAST_DUE subscription, no trial - returns FREE - test", async () => {
+   it("PAST_DUE subscription, no trial - returns FREE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "PAST_DUE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.getUserTier(userId);
 
@@ -349,10 +353,10 @@ describe("hasActiveAccess tests", () => {
       jest.clearAllMocks();
    });
 
-   it("hasActiveAccess - no subscription, no trial, no planChosenAt - test", async () => {
+   it("no subscription, no trial, no planChosenAt - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -360,7 +364,7 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status ACTIVE - test", async () => {
+   it("subscription status ACTIVE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
@@ -373,7 +377,7 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status CANCELED in grace period - test", async () => {
+   it("subscription status CANCELED in grace period - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
@@ -389,7 +393,7 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status CANCELED past grace period, no trial, no planChosenAt - test", async () => {
+   it("subscription status CANCELED past grace period, no trial, no planChosenAt - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
@@ -398,7 +402,7 @@ describe("hasActiveAccess tests", () => {
       ).toISOString(); // -1 day
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -406,14 +410,14 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status CANCELED with null currentPeriodEnd - test", async () => {
+   it("subscription status CANCELED with null currentPeriodEnd - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
       subscription.currentPeriodEnd = null;
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -421,13 +425,13 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status INCOMPLETE - test", async () => {
+   it("subscription status INCOMPLETE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "INCOMPLETE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -435,13 +439,13 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - subscription status PAST_DUE - test", async () => {
+   it("subscription status PAST_DUE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "PAST_DUE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-      userRepoMock.pGetUserById.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -449,41 +453,41 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
    });
 
-   it("hasActiveAccess - trial active - returns true - test", async () => {
+   it("trial active - returns true - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
       expect(result).toBe(true);
    });
 
-   it("hasActiveAccess - trial expired, planChosenAt set - returns true - test", async () => {
+   it("trial expired, planChosenAt set - returns true - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() - 86400000); // expired
       user.planChosenAt = new Date("2025-10-01");
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
       expect(result).toBe(true);
    });
 
-   it("hasActiveAccess - trial expired, no planChosenAt - returns false - test", async () => {
+   it("trial expired, no planChosenAt - returns false - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() - 86400000); // expired
       user.planChosenAt = null;
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
@@ -496,22 +500,22 @@ describe("getTrialStatus tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getTrialStatus - no trialEndsAt - isActive false - test", async () => {
+   it("no trialEndsAt - isActive false - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
       user.trialEndsAt = null;
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getTrialStatus(userId);
 
       expect(result).toEqual({ isActive: false, daysLeft: 0, endsAt: null });
    });
 
-   it("getTrialStatus - trial expired - isActive false - test", async () => {
+   it("trial expired - isActive false - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() - 86400000); // yesterday
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getTrialStatus(userId);
 
@@ -520,11 +524,11 @@ describe("getTrialStatus tests", () => {
       expect(result.endsAt).toEqual(user.trialEndsAt);
    });
 
-   it("getTrialStatus - trial active, no subscription - returns correct daysLeft - test", async () => {
+   it("trial active, no subscription - returns correct daysLeft - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const result = await service.getTrialStatus(userId);
@@ -535,11 +539,11 @@ describe("getTrialStatus tests", () => {
       expect(result.endsAt).toEqual(user.trialEndsAt);
    });
 
-   it("getTrialStatus - trial technically active but subscription ACTIVE - isActive false - test", async () => {
+   it("trial technically active but subscription ACTIVE - isActive false - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
       user.trialEndsAt = new Date(Date.now() + 7 * 86400000);
-      userRepoMock.pGetUserById.mockResolvedValue(user);
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
@@ -554,19 +558,23 @@ describe("getTrialStatus tests", () => {
 describe("setPlanChosen tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
    });
 
    it("setPlanChosen - sets planChosenAt on user - test", async () => {
       const userId = "user-id-1";
-      const user = ptestData.pUser();
-      userRepoMock.pUpdateUser.mockResolvedValue(user);
 
       await service.setPlanChosen(userId);
 
-      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+      const expectedDate = new Date("2025-09-27");
+      expect(userServiceMock.updatePlanChosenAt).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.updatePlanChosenAt).toHaveBeenCalledWith(
          userId,
-         expect.objectContaining({ planChosenAt: expect.any(Date) })
+         expectedDate
       );
    });
 });

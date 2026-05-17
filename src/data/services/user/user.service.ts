@@ -19,6 +19,7 @@ import {
    DUser,
    DUserAccountDelete,
    DUserCreate,
+   DUserInternal,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
@@ -92,6 +93,10 @@ export class UserService {
       return null;
    }
 
+   async getUserInternalById(userId: string): Promise<DUserInternal | null> {
+      return await this.userRepository.pGetUserById(userId);
+   }
+
    async getUserStripeCustomerId(userId: string): Promise<string | null> {
       const user = await this.userRepository.pGetUserById(userId);
       if (user && user.stripeCustomerId) {
@@ -103,6 +108,13 @@ export class UserService {
    async updateUser(userId: string, data: DUserUpdate) {
       const updateData: UserUpdateData = {
          name: data.name,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
+   }
+
+   async updatePlanChosenAt(userId: string, planChosenAt: Date) {
+      const updateData: UserUpdateData = {
+         planChosenAt,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }

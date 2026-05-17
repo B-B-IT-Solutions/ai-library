@@ -1,7 +1,7 @@
 import { differenceInDays, isFuture } from "date-fns";
 
-import { UserRepository } from "@/data/repositories/user";
 import { SubscriptionRepository } from "@/data/repositories/subscription";
+import { UserService } from "@/data/services/user";
 import {
    DSubscription,
    DSubscriptionCreate,
@@ -13,16 +13,10 @@ import {
 } from "@/data/types/domain/subscription";
 
 export class SubscriptionService {
-   private subscriptionRepo: SubscriptionRepository;
-   private userRepo: UserRepository;
-
    constructor(
-      subscriptionRepo: SubscriptionRepository,
-      userRepo: UserRepository
-   ) {
-      this.subscriptionRepo = subscriptionRepo;
-      this.userRepo = userRepo;
-   }
+      private subscriptionRepo: SubscriptionRepository,
+      private userService: UserService
+   ) {}
 
    async getAvailablePlans(): Promise<DSubscriptionPlan[]> {
       return await this.subscriptionRepo.pGetAllPlans();
@@ -98,7 +92,7 @@ export class SubscriptionService {
       }
 
       // Check trial or planChosen on the user record
-      const user = await this.userRepo.pGetUserById(userId);
+      const user = await this.userService.getUserInternalById(userId);
 
       // Active trial → PRO access
       if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
@@ -128,7 +122,7 @@ export class SubscriptionService {
          return true;
       }
 
-      const user = await this.userRepo.pGetUserById(userId);
+      const user = await this.userService.getUserInternalById(userId);
 
       // Active trial → access granted
       if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
@@ -150,7 +144,7 @@ export class SubscriptionService {
     * subscription, or no trial was ever started.
     */
    async getTrialStatus(userId: string): Promise<DTrialStatus> {
-      const user = await this.userRepo.pGetUserById(userId);
+      const user = await this.userService.getUserInternalById(userId);
 
       if (!user?.trialEndsAt) {
          return { isActive: false, daysLeft: 0, endsAt: null };
@@ -174,8 +168,8 @@ export class SubscriptionService {
       return { isActive: true, daysLeft, endsAt: trialEndsAt };
    }
 
-   /** Marks that the user has consciously chosen a plan (including FREE). */
+   /** Set that the user has chosen a plan (including FREE). */
    async setPlanChosen(userId: string): Promise<void> {
-      await this.userRepo.pUpdateUser(userId, { planChosenAt: new Date() });
+      await this.userService.updatePlanChosenAt(userId, new Date());
    }
 }

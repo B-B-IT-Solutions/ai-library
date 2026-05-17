@@ -379,6 +379,34 @@ describe("getUserByEmail tests", () => {
    });
 });
 
+describe("getUserInternalById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("user null - test", async () => {
+      const userId = "user-id-1";
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const result = await userService.getUserInternalById(userId);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
+   });
+
+   it("user retrieved - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const result = await userService.getUserInternalById(user.id);
+
+      expect(result).toEqual(user);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+});
+
 describe("getUserStripeCustomerId tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -444,12 +472,34 @@ describe("updateUser tests", () => {
    });
 });
 
+describe("updatePlanChosenAt tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("planChosenAt updated - test", async () => {
+      const userId = "user-id-1";
+      const planChosenAt = new Date();
+
+      await userService.updatePlanChosenAt(userId, planChosenAt);
+
+      const expectedData: UserUpdateData = {
+         planChosenAt,
+      };
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         userId,
+         expectedData
+      );
+   });
+});
+
 describe("updateUserStripeCustomerId tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("updateUserStripeCustomerId - stripeCustomerId updated - test", async () => {
+   it("stripeCustomerId updated - test", async () => {
       const userId = "user-id-1";
       const stripeCustomerId = "stripe-customer-id-1";
 
@@ -471,7 +521,7 @@ describe("updateIubendaLegalNoticesSynced tests", () => {
       jest.clearAllMocks();
    });
 
-   it("updateIubendaLegalNoticesSynced - sync status updated - test", async () => {
+   it("sync status updated - test", async () => {
       const userId = "user-id-1";
       const iubendaLegalNoticesSynced = true;
 
