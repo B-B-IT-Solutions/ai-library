@@ -130,32 +130,46 @@ export class SubscriptionService {
 
    /**
     * Returns the current trial status for a user.
-    * isActive = false if the trial has expired, the user has an active
-    * subscription, or no trial was ever started.
+    * isActive = false if the trial has expired, the user has an active subscription, or no trial was ever started.
     */
    async getTrialStatus(userId: string): Promise<DTrialStatus> {
       const user = await this.userService.getUserInternalById(userId);
+      const { trialEndsAt } = user || {};
 
-      if (!user?.trialEndsAt) {
-         return { isActive: false, daysLeft: 0, endsAt: null };
+      if (!trialEndsAt) {
+         return {
+            isActive: false,
+            daysLeft: 0,
+            endsAt: null,
+         };
       }
-
-      const trialEndsAt = user.trialEndsAt;
 
       if (!isFuture(trialEndsAt)) {
-         return { isActive: false, daysLeft: 0, endsAt: trialEndsAt };
+         return {
+            isActive: false,
+            daysLeft: 0,
+            endsAt: trialEndsAt,
+         };
       }
 
-      // Don't show trial banner if user already has an active paid subscription
+      // if user has an active paid subscription - there isn't any trial anymore
       const subscription = await this.subscriptionRepo.pGetSubscription({
          userId,
       });
       if (subscription?.status === "ACTIVE") {
-         return { isActive: false, daysLeft: 0, endsAt: trialEndsAt };
+         return {
+            isActive: false,
+            daysLeft: 0,
+            endsAt: trialEndsAt,
+         };
       }
 
       const daysLeft = Math.max(0, differenceInDays(trialEndsAt, new Date()));
-      return { isActive: true, daysLeft, endsAt: trialEndsAt };
+      return {
+         isActive: true,
+         daysLeft,
+         endsAt: trialEndsAt,
+      };
    }
 
    /** Set that the user has chosen a plan (including FREE). */
