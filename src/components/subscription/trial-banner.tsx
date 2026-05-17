@@ -54,7 +54,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
             <button
                onClick={() => setDismissed(true)}
                aria-label="Banner schließen"
-               className="rounded p-1 opacity-70 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
+               className="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                data-testid="trial-banner-dismiss"
             >
                <X className="h-4 w-4" />

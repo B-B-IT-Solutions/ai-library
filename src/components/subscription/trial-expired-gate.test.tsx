@@ -115,7 +115,9 @@ describe("TrialExpiredGate rendering tests", () => {
       await waitFor(() => {
          // Gate renders fullscreen — no sidebar or page content
          expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
-         expect(screen.queryByTestId("authenticated-layout-wrapper")).not.toBeInTheDocument();
+         expect(
+            screen.queryByTestId("authenticated-layout-wrapper")
+         ).not.toBeInTheDocument();
       });
    });
 });

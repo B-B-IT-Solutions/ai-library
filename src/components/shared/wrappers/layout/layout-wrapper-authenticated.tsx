@@ -3,8 +3,7 @@ import { cookies, headers } from "next/headers";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { Sidebar } from "@/components/shared";
-import { TrialBanner } from "@/components/subscription/trial-banner";
-import { TrialExpiredGate } from "@/components/subscription/trial-expired-gate";
+import { TrialBanner, TrialExpiredGate } from "@/components/subscription";
 import { requireUser } from "@/data/actions/auth-utils";
 import {
    getHasActiveAccess,

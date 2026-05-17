@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 
+import { ActivateSubscriptionButton } from "@/components/settings/user/subscription/buttons";
 import { Badge } from "@/components/shadcn/badge";
 import {
    Card,
@@ -9,7 +10,6 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { ActivateSubscriptionButton } from "@/components/settings/user/subscription/buttons";
 import { getSubscriptionPlans } from "@/data/actions/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import { TIER_FEATURES } from "@/lib/subscription/access-control";
@@ -134,7 +134,10 @@ export const TrialExpiredGate = async () => {
       .filter((p) => p.tier !== "FREE")
       .sort((a, b) => {
          const order = { BASIC: 0, PRO: 1 };
-         return (order[a.tier as keyof typeof order] ?? 0) - (order[b.tier as keyof typeof order] ?? 0);
+         return (
+            (order[a.tier as keyof typeof order] ?? 0) -
+            (order[b.tier as keyof typeof order] ?? 0)
+         );
       });
 
    return (
