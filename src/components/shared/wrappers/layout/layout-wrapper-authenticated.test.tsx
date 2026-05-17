@@ -118,8 +118,15 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("sidebarCookie undefined - user has access - test", async () => {
+      const reqCookies = ntestData.cookies({});
+      const headers = ntestData.headers({ "x-pathname": "/templates" });
+      const user = dtestData.dLoginUser();
+
+      cookiesMock.mockResolvedValue(reqCookies);
+      headersMock.mockResolvedValue(headers);
+      requireUserMock.mockResolvedValue(user);
+
       getHasActiveAccessMock.mockResolvedValue(true);
-      setupMocks();
 
       const props: Props = {
          children: <div data-testid="test-1"></div>,
@@ -142,9 +149,15 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("sidebarCookie true - user has access - test", async () => {
-      getHasActiveAccessMock.mockResolvedValue(true);
+      const reqCookies = ntestData.cookies({ sidebar_state: "true" });
+      const headers = ntestData.headers({ "x-pathname": "/templates" });
+      const user = dtestData.dLoginUser();
 
-      setupMocks({ sidebarCookie: "true" });
+      cookiesMock.mockResolvedValue(reqCookies);
+      headersMock.mockResolvedValue(headers);
+      requireUserMock.mockResolvedValue(user);
+
+      getHasActiveAccessMock.mockResolvedValue(true);
 
       const props: Props = {
          children: <div data-testid="test-1"></div>,
@@ -158,15 +171,24 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertSidebarExpanded();
+         expect(cookiesMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
+         expect(getHasActiveAccessMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("sidebarCookie false - user has access - test", async () => {
-      getHasActiveAccessMock.mockResolvedValue(true);
+      const reqCookies = ntestData.cookies({ sidebar_state: "false" });
+      const headers = ntestData.headers({ "x-pathname": "/templates" });
+      const user = dtestData.dLoginUser();
 
-      setupMocks({ sidebarCookie: "false" });
+      cookiesMock.mockResolvedValue(reqCookies);
+      headersMock.mockResolvedValue(headers);
+      requireUserMock.mockResolvedValue(user);
+
+      getHasActiveAccessMock.mockResolvedValue(true);
 
       const props: Props = {
          children: <div data-testid="test-1"></div>,
@@ -180,6 +202,9 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertSidebarCollapsed();
+         expect(cookiesMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
+         expect(getHasActiveAccessMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
