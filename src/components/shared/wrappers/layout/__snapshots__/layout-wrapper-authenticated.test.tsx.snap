@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`AuthenticatedLayoutWrapper rendering tests no access - renders TrialExpiredGate instead of content - test 1`] = `
+<div>
+  <div
+    data-testid="trial-expired-gate"
+  />
+</div>
+`;
+
 exports[`AuthenticatedLayoutWrapper rendering tests no access but exempt path /checkout - renders content - test 1`] = `
 <div>
   <div

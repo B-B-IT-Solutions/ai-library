@@ -1,3 +1,12 @@
+jest.mock("@/components/subscription", () => ({
+   TrialExpiredGate: () => {
+      return <div data-testid="trial-expired-gate" />;
+   },
+   TrialBanner: () => {
+      return <div data-testid="trial-banner" />;
+   },
+}));
+
 jest.mock("@/data/actions/auth-utils");
 jest.mock("@/data/actions/subscription");
 
