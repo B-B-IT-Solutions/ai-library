@@ -78,17 +78,13 @@ export class SubscriptionService {
       });
 
       // subscription active
-      if (subscription?.status === "ACTIVE") {
-         return subscription.plan.tier;
+      if (this.isSubscriptinoActive(subscription)) {
+         return subscription!.plan.tier;
       }
 
-      // subscription cancelled still within grace period
-      if (
-         subscription?.status === "CANCELED" &&
-         subscription.currentPeriodEnd &&
-         isFuture(subscription.currentPeriodEnd)
-      ) {
-         return subscription.plan.tier;
+      // subscription cancelled - within grace period
+      if (this.isSubscriptionWithiGracePeriod(subscription)) {
+         return subscription!.plan.tier;
       }
 
       const user = await this.userService.getUserInternalById(userId);
@@ -106,17 +102,13 @@ export class SubscriptionService {
          userId,
       });
 
-      // Active subscription → access granted
-      if (subscription?.status === "ACTIVE") {
+      // subscription active
+      if (this.isSubscriptinoActive(subscription)) {
          return true;
       }
 
-      // Cancelled subscription still within grace period → access granted
-      if (
-         subscription?.status === "CANCELED" &&
-         subscription.currentPeriodEnd &&
-         isFuture(subscription.currentPeriodEnd)
-      ) {
+      // subscription cancelled - within grace period
+      if (this.isSubscriptionWithiGracePeriod(subscription)) {
          return true;
       }
 
@@ -169,5 +161,17 @@ export class SubscriptionService {
    /** Set that the user has chosen a plan (including FREE). */
    async setPlanChosen(userId: string): Promise<void> {
       await this.userService.updatePlanChosenAt(userId, new Date());
+   }
+
+   isSubscriptinoActive(subscription: DSubscription | null): boolean {
+      return subscription?.status === "ACTIVE";
+   }
+
+   isSubscriptionWithiGracePeriod(subscription: DSubscription | null): boolean {
+      return (
+         subscription?.status === "CANCELED" &&
+         !!subscription.currentPeriodEnd &&
+         isFuture(subscription.currentPeriodEnd)
+      );
    }
 }
