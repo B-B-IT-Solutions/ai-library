@@ -2,6 +2,7 @@ jest.mock("@/data/repositories/subscription");
 jest.mock("@/data/services/user");
 
 import { dtestData } from "@tests";
+import { addDays } from "date-fns";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
@@ -236,7 +237,7 @@ describe("getUserTier tests", () => {
       jest.clearAllMocks();
    });
 
-   it("subscription is null, no trial - test", async () => {
+   it("subscription null - no trial - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
       userServiceMock.getUserInternalById.mockResolvedValue(null);
@@ -254,6 +255,8 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
    it("subscription.status not ACTIVE, no trial - test", async () => {
@@ -277,9 +280,11 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("subscription.status ACTIVE - test", async () => {
+   it("subscription.status ACTIVE - tier PRO - test", async () => {
       const userId = "user-id-1";
       const tier: DSubscriptionTier = "PRO";
       const subscription = dtestData.dSubscription();
@@ -290,46 +295,65 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
-      const expectdResult: DSubscriptionTier = tier;
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(tier);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
+   });
+
+   it("subscription.status ACTIVE - tier BASIC - test", async () => {
+      const userId = "user-id-1";
+      const tier: DSubscriptionTier = "BASIC";
+      const subscription = dtestData.dSubscription();
+      subscription.status = "ACTIVE";
+      subscription.plan.tier = tier;
+
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
+
+      const result = await service.getUserTier(userId);
 
       const expectedGetParams: GetSubscriptionParams = {
          userId,
       };
 
-      expect(result).toEqual(expectdResult);
+      expect(result).toEqual(tier);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
-   it("BASIC subscription ACTIVE - returns BASIC - test", async () => {
+   it("subscription.status CANCELED - within grace period - test", async () => {
       const userId = "user-id-1";
-      const subscription = dtestData.dSubscription();
-      subscription.status = "ACTIVE";
-      subscription.plan.tier = "BASIC";
+      const tier: DSubscriptionTier = "PRO";
+      const tomorrow = addDays(Date.now(), 1);
 
-      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
-
-      const result = await service.getUserTier(userId);
-
-      expect(result).toEqual("BASIC");
-   });
-
-   it("CANCELED within grace period - returns subscription tier - test", async () => {
-      const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
-      subscription.plan.tier = "PRO";
-      subscription.currentPeriodEnd = new Date(
-         Date.now() + 86400000
-      ).toISOString(); // +1 day
+      subscription.plan.tier = tier;
+      subscription.currentPeriodEnd = tomorrow.toISOString();
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result = await service.getUserTier(userId);
 
-      expect(result).toEqual("PRO");
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(tier);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
    it("trial active, no subscription - returns PRO - test", async () => {
