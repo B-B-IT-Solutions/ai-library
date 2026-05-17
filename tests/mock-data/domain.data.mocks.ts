@@ -72,6 +72,7 @@ import {
    DSubscriptionHistoryCreate,
    DSubscriptionPlan,
    DSubscriptionUpdate,
+   DTrialStatus,
 } from "@/data/types/domain/subscription";
 import {
    DResetPasswordToken,
@@ -111,6 +112,14 @@ export const dUserInternal = (index = 1): DUserInternal => {
       emailVerified: new Date("2025-09-27"),
       trialEndsAt: addDays(new Date("2025-09-27"), 14),
       planChosenAt: addDays(new Date("2025-09-27"), 11),
+   };
+};
+
+export const dTrialStatus = (isActive = true, daysLeft = 5): DTrialStatus => {
+   return {
+      isActive,
+      daysLeft,
+      endsAt: addDays(new Date(), daysLeft),
    };
 };
 
