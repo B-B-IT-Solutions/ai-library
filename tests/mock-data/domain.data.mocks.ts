@@ -1,4 +1,5 @@
-﻿import { range } from "es-toolkit";
+﻿import { addDays } from "date-fns";
+import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
@@ -108,8 +109,8 @@ export const dUserInternal = (index = 1): DUserInternal => {
       password: `password-${index}`,
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
       emailVerified: new Date("2025-09-27"),
-      trialEndsAt: new Date("2025-09-27"),
-      planChosenAt: new Date("2025-09-27"),
+      trialEndsAt: addDays(new Date("2025-09-27"), 14),
+      planChosenAt: addDays(new Date("2025-09-27"), 11),
    };
 };
 
