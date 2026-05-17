@@ -103,12 +103,7 @@ const asserTrialExpiredGateNotRendered = () => {
 describe("AuthenticatedLayoutWrapper rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      MockDate.set("2025-09-27");
       window.matchMedia = ctestData.createMatchMedia(false);
-   });
-
-   afterEach(() => {
-      MockDate.reset();
    });
 
    it("hasAccess true - sidebarCookie undefined - test", async () => {
@@ -275,38 +270,6 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("hasAccess false - path not exempted- test", async () => {
-      const reqCookies = ntestData.cookies({ sidebar_state: "true" });
-      const headers = ntestData.headers({ "x-pathname": "/templates" });
-      const user = dtestData.dLoginUser();
-
-      cookiesMock.mockResolvedValue(reqCookies);
-      headersMock.mockResolvedValue(headers);
-      requireUserMock.mockResolvedValue(user);
-
-      getHasActiveAccessMock.mockResolvedValue(false);
-
-      const props: Props = {
-         children: <div data-testid="test-1"></div>,
-      };
-
-      const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
-         props
-      );
-
-      await waitFor(() => {
-         assertLayoutNotRendered();
-         asserTrialExpiredGateRendered();
-         expect(cookiesMock).toHaveBeenCalledTimes(1);
-         expect(requireUserMock).toHaveBeenCalledTimes(1);
-         expect(getHasActiveAccessMock).toHaveBeenCalledTimes(1);
-         expect(getTrialStatusMock).not.toHaveBeenCalled();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
    it("hasAccess false - path exempted - test", async () => {
       const reqCookies = ntestData.cookies({ sidebar_state: "true" });
       const headers = ntestData.headers({
@@ -335,6 +298,38 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
          expect(requireUserMock).toHaveBeenCalledTimes(1);
          expect(getHasActiveAccessMock).not.toHaveBeenCalled();
          expect(getTrialStatusMock).toHaveBeenCalledTimes(1);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("hasAccess false - path not exempted- test", async () => {
+      const reqCookies = ntestData.cookies({ sidebar_state: "true" });
+      const headers = ntestData.headers({ "x-pathname": "/templates" });
+      const user = dtestData.dLoginUser();
+
+      cookiesMock.mockResolvedValue(reqCookies);
+      headersMock.mockResolvedValue(headers);
+      requireUserMock.mockResolvedValue(user);
+
+      getHasActiveAccessMock.mockResolvedValue(false);
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
+
+      await waitFor(() => {
+         assertLayoutNotRendered();
+         asserTrialExpiredGateRendered();
+         expect(cookiesMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
+         expect(getHasActiveAccessMock).toHaveBeenCalledTimes(1);
+         expect(getTrialStatusMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
