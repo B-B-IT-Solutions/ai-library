@@ -290,11 +290,12 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
+      const expectdResult: DSubscriptionTier = tier;
+
       const expectedGetParams: GetSubscriptionParams = {
          userId,
       };
 
-      const expectdResult: DSubscriptionTier = tier;
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
