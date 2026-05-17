@@ -12,6 +12,7 @@ import {
    DTrialStatus,
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
+import { formatError } from "../utils";
 
 export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
    await requireUser();
@@ -30,7 +31,8 @@ export const getHasActiveAccess = async (): Promise<boolean> => {
       const user = await requireUser();
       const service = getService();
       return await service.hasActiveAccess(user.id);
-   } catch {
+   } catch (error) {
+      console.error(formatError(error));
       return false;
    }
 };

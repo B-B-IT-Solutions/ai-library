@@ -111,9 +111,26 @@ describe("getSubscription tests", () => {
 describe("getHasActiveAccess tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("getHasActiveAccess - user has access - returns true - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getHasActiveAccess();
+
+      expect(result).toBe(false);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sHasActiveAccessMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("active access - true - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sHasActiveAccessMock.mockResolvedValue(true);
@@ -122,10 +139,11 @@ describe("getHasActiveAccess tests", () => {
 
       expect(result).toBe(true);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sHasActiveAccessMock).toHaveBeenCalledTimes(1);
       expect(sHasActiveAccessMock).toHaveBeenCalledWith(user.id);
    });
 
-   it("getHasActiveAccess - user does not have access - returns false - test", async () => {
+   it("active access - false - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sHasActiveAccessMock.mockResolvedValue(false);
@@ -134,15 +152,8 @@ describe("getHasActiveAccess tests", () => {
 
       expect(result).toBe(false);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sHasActiveAccessMock).toHaveBeenCalledTimes(1);
       expect(sHasActiveAccessMock).toHaveBeenCalledWith(user.id);
-   });
-
-   it("getHasActiveAccess - requireUser throws - returns false - test", async () => {
-      requireUserMock.mockRejectedValue(new Error("Unauthenticated"));
-
-      const result = await getHasActiveAccess();
-
-      expect(result).toBe(false);
    });
 });
 
