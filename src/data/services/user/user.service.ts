@@ -42,13 +42,14 @@ export class UserService {
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
       const legalNoticesAcceptedAt = new Date();
+      const trialEndsAt = addDays(new Date(), 14);
 
       const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
          legalNoticesAcceptedAt,
-         trialEndsAt: addDays(new Date(), 14),
+         trialEndsAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
