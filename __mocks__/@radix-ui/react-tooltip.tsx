@@ -1,23 +1,26 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { clearProps } from "./utils";
 
-const Provider: React.FC<{
-   children: React.ReactNode;
-   delayDuration?: number;
-}> = ({ children }) => <>{children}</>;
+type ProviderProps = { children: ReactNode; delayDuration?: number };
 
-const Root: React.FC<{
-   children: React.ReactNode;
+const Provider = ({ children }: ProviderProps) => <>{children}</>;
+
+type RootProps = {
+   children: ReactNode;
    open?: boolean;
    defaultOpen?: boolean;
    onOpenChange?: (open: boolean) => void;
-}> = ({ children }) => <>{children}</>;
+};
 
-const Trigger: React.FC<{
+const Root = ({ children }: RootProps) => <>{children}</>;
+
+type TriggerProps = {
    asChild?: boolean;
-   children: React.ReactNode;
-}> = ({ asChild, children, ...props }) => {
+   children: ReactNode;
+};
+
+const Trigger = ({ asChild, children, ...props }: TriggerProps) => {
    clearProps(props);
 
    if (asChild && React.isValidElement(children)) {
@@ -31,16 +34,20 @@ const Trigger: React.FC<{
    );
 };
 
-const Portal: React.FC<{
-   children: React.ReactNode;
-}> = ({ children }) => <>{children}</>;
+type PortalProps = {
+   children: ReactNode;
+};
 
-const Content: React.FC<{
-   children: React.ReactNode;
+const Portal = ({ children }: PortalProps) => <>{children}</>;
+
+type ContentProps = {
+   children: ReactNode;
    sideOffset?: number;
    className?: string;
    [key: string]: any;
-}> = ({ children, ...props }) => {
+};
+
+const Content = ({ children, ...props }: ContentProps) => {
    clearProps(props);
    return (
       <div data-testid="mock-tooltip-content" {...props}>
@@ -49,7 +56,7 @@ const Content: React.FC<{
    );
 };
 
-const Arrow: React.FC = () => null;
+const Arrow = () => null;
 
 module.exports = {
    __esModule: true,
