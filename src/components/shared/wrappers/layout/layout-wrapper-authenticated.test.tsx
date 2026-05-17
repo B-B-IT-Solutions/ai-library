@@ -35,18 +35,12 @@ const getTrialStatusMock = getTrialStatus as jest.MockedFunction<
    typeof getTrialStatus
 >;
 
-const defaultProps: Props = {
-   children: <div data-testid="test-1"></div>,
-};
-
 const setupMocks = (options?: {
-   hasAccess?: boolean;
    trialStatus?: DTrialStatus | null;
    pathname?: string;
    sidebarCookie?: string;
 }) => {
    const {
-      hasAccess = true,
       trialStatus = null,
       pathname = "/templates",
       sidebarCookie,
@@ -60,7 +54,7 @@ const setupMocks = (options?: {
    cookiesMock.mockResolvedValue(ntestData.cookies(cookieValues));
    headersMock.mockResolvedValue(ntestData.headers({ "x-pathname": pathname }));
    requireUserMock.mockResolvedValue(dtestData.dLoginUser());
-   getHasActiveAccessMock.mockResolvedValue(hasAccess);
+
    getTrialStatusMock.mockResolvedValue(trialStatus ?? null);
 };
 
@@ -115,11 +109,16 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("sidebarCookie undefined - user has access - test", async () => {
+      getHasActiveAccessMock.mockResolvedValue(true);
       setupMocks();
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
 
       const { container } = await renderAsyncRSC(
          AuthenticatedLayoutWrapper,
-         defaultProps
+         props
       );
 
       await waitFor(() => {
@@ -134,11 +133,17 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("sidebarCookie true - user has access - test", async () => {
+      getHasActiveAccessMock.mockResolvedValue(true);
+
       setupMocks({ sidebarCookie: "true" });
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
 
       const { container } = await renderAsyncRSC(
          AuthenticatedLayoutWrapper,
-         defaultProps
+         props
       );
 
       await waitFor(() => {
@@ -150,11 +155,17 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("sidebarCookie false - user has access - test", async () => {
+      getHasActiveAccessMock.mockResolvedValue(true);
+
       setupMocks({ sidebarCookie: "false" });
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
 
       const { container } = await renderAsyncRSC(
          AuthenticatedLayoutWrapper,
-         defaultProps
+         props
       );
 
       await waitFor(() => {
@@ -166,6 +177,8 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    });
 
    it("trial active - renders TrialBanner with correct daysLeft - test", async () => {
+      getHasActiveAccessMock.mockResolvedValue(true);
+
       const trialStatus: DTrialStatus = {
          isActive: true,
          daysLeft: 5,
@@ -173,14 +186,26 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
       setupMocks({ trialStatus });
 
-      await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
+         assertRendered();
          asserTrialBannerRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("trial not active - TrialBanner not rendered - test", async () => {
+      getHasActiveAccessMock.mockResolvedValue(true);
+
       const trialStatus: DTrialStatus = {
          isActive: false,
          daysLeft: 0,
@@ -188,18 +213,36 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
       setupMocks({ trialStatus });
 
-      await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
          assertRendered();
          asserTrialBannerNotRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("no access - renders TrialExpiredGate instead of content - test", async () => {
-      setupMocks({ hasAccess: false });
+      getHasActiveAccessMock.mockResolvedValue(false);
 
-      await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
+      setupMocks();
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
          asserTrialExpiredGateRendered();
@@ -207,32 +250,54 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
             screen.queryByTestId("authenticated-layout-wrapper")
          );
          assertNotInDocument(screen.queryByTestId("test-1"));
+         expect(getHasActiveAccessMock).toHaveBeenCalledTimes(1);
       });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("no access but exempt path /subscription/pricing - renders content - test", async () => {
-      setupMocks({ hasAccess: false, pathname: "/subscription/pricing" });
+      getHasActiveAccessMock.mockResolvedValue(false);
 
-      await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
+      setupMocks({ pathname: "/subscription/pricing" });
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
-         // On an exempt path, access check is skipped → normal layout renders
          assertRendered();
          asserTrialExpiredGateNotRendered();
-         // getHasActiveAccess should NOT be called for exempt paths
          expect(getHasActiveAccessMock).not.toHaveBeenCalled();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("no access but exempt path /checkout - renders content - test", async () => {
-      setupMocks({ hasAccess: false, pathname: "/checkout" });
+      getHasActiveAccessMock.mockResolvedValue(false);
+      setupMocks({ pathname: "/checkout" });
 
-      await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
          assertRendered();
          asserTrialExpiredGateNotRendered();
          expect(getHasActiveAccessMock).not.toHaveBeenCalled();
       });
+
+      expect(container).toMatchSnapshot();
    });
 });
