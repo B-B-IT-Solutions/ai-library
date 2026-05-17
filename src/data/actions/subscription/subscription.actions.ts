@@ -42,7 +42,8 @@ export const getTrialStatus = async (): Promise<DTrialStatus | null> => {
       const user = await requireUser();
       const service = getService();
       return await service.getTrialStatus(user.id);
-   } catch {
+   } catch (error) {
+      console.error(formatError(error));
       return null;
    }
 };
@@ -58,8 +59,12 @@ export const chooseFreeplan = async (): Promise<ActionResult> => {
       const service = getService();
       await service.setPlanChosen(user.id);
       revalidatePath("/", "layout");
-      return { success: true, message: "Plan erfolgreich gewählt" };
-   } catch {
+      return {
+         success: true,
+         message: "Plan erfolgreich gewählt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
          message: "Fehler beim Wählen des Plans",

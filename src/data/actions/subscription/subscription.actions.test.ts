@@ -160,32 +160,38 @@ describe("getHasActiveAccess tests", () => {
 describe("getTrialStatus tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("getTrialStatus - trial active - returns status - test", async () => {
-      const user = dtestData.dLoginUser();
-      const trialStatus: DTrialStatus = {
-         isActive: true,
-         daysLeft: 7,
-         endsAt: new Date(Date.now() + 7 * 86400000),
-      };
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
 
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getTrialStatus();
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTrialStatusMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("trial status retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
+
+      const trialStatus = dtestData.dTrialStatus();
       sGetTrialStatusMock.mockResolvedValue(trialStatus);
 
       const result = await getTrialStatus();
 
       expect(result).toEqual(trialStatus);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTrialStatusMock).toHaveBeenCalledTimes(1);
       expect(sGetTrialStatusMock).toHaveBeenCalledWith(user.id);
-   });
-
-   it("getTrialStatus - requireUser throws - returns null - test", async () => {
-      requireUserMock.mockRejectedValue(new Error("Unauthenticated"));
-
-      const result = await getTrialStatus();
-
-      expect(result).toBeNull();
    });
 });
 
