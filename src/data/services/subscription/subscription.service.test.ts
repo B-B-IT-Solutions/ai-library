@@ -405,7 +405,7 @@ describe("getUserTier tests", () => {
       expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("PAST_DUE subscription, no trial - returns FREE - test", async () => {
+   it("subscription.status PAST_DUE - no trial - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "PAST_DUE";
@@ -415,7 +415,19 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
-      expect(result).toEqual("FREE");
+      const expectdResult: DSubscriptionTier = "FREE";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 });
 
