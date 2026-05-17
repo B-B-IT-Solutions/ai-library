@@ -205,7 +205,7 @@ export class TemplateService {
       return await this.repository.pGetTemplateModels(userId);
    }
 
-   async getTemplateCount(userId: string): Promise<number> {
+   async getPromptsCount(userId: string): Promise<number> {
       return await this.repository.pGetTemplateCount(userId);
    }
 }

@@ -13,7 +13,7 @@ export {
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
-   getTemplateUsage,
+   getPromptsUsage,
 } from "./prompt.user.actions";
 
 export {

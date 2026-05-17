@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptsUsage,
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
-   getTemplateUsage,
 } from "@/data/actions/prompt";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
@@ -44,7 +44,7 @@ export const TemplatesDashboard = async () => {
 
    const categories = await getTemplateDescriptorCategories();
    const models = await getTemplateDescriptorModels();
-   const usage = await getTemplateUsage();
+   const usage = await getPromptsUsage();
 
    const isAtLimit = usage.limit !== -1 && usage.current >= usage.limit;
 
@@ -66,9 +66,7 @@ export const TemplatesDashboard = async () => {
                      <p
                         className={cn(
                            "mt-1 text-xs",
-                           isAtLimit
-                              ? "text-red-500"
-                              : "text-slate-400"
+                           isAtLimit ? "text-red-500" : "text-slate-400"
                         )}
                         data-testid="template-usage-indicator"
                      >

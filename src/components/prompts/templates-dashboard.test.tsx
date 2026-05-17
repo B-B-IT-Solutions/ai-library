@@ -8,10 +8,10 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { getCollections } from "@/data/actions/collection";
 import {
+   getPromptsUsage,
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
-   getTemplateUsage,
 } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
@@ -46,8 +46,8 @@ const getTemplateDescriptorsPageMock =
       typeof getTemplateDescriptorsPage
    >;
 
-const getTemplateUsageMock = getTemplateUsage as jest.MockedFunction<
-   typeof getTemplateUsage
+const getPromptsUsageMock = getPromptsUsage as jest.MockedFunction<
+   typeof getPromptsUsage
 >;
 
 const templatesSearchParamsCacheMock =
@@ -105,7 +105,7 @@ describe("TemplatesDashboard rendering tests", () => {
 
       getCollectionsMock.mockResolvedValue([]);
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
-      getTemplateUsageMock.mockResolvedValue(defaultUsage);
+      getPromptsUsageMock.mockResolvedValue(defaultUsage);
    });
 
    beforeEach(() => {
@@ -152,7 +152,7 @@ describe("TemplatesDashboard rendering tests", () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
       getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
       getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getTemplateUsageMock.mockResolvedValue({ current: 12, limit: 50 });
+      getPromptsUsageMock.mockResolvedValue({ current: 12, limit: 50 });
 
       await renderAsyncRSC(TemplatesDashboard, {});
 
@@ -168,7 +168,7 @@ describe("TemplatesDashboard rendering tests", () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
       getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
       getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getTemplateUsageMock.mockResolvedValue({ current: 500, limit: -1 });
+      getPromptsUsageMock.mockResolvedValue({ current: 500, limit: -1 });
 
       await renderAsyncRSC(TemplatesDashboard, {});
 
@@ -183,7 +183,7 @@ describe("TemplatesDashboard rendering tests", () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
       getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
       getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getTemplateUsageMock.mockResolvedValue({ current: 5, limit: 5 });
+      getPromptsUsageMock.mockResolvedValue({ current: 5, limit: 5 });
 
       await renderAsyncRSC(TemplatesDashboard, {});
 

@@ -665,30 +665,30 @@ describe("getTemplateDescriptorModels tests", () => {
    });
 });
 
-describe("getTemplateCount tests", () => {
+describe("getPromptsCount tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateCount - count returned - test", async () => {
+   it("count zero - test", async () => {
+      const userId = "user-id-1";
+      templateRepoMock.pGetTemplateCount.mockResolvedValue(0);
+
+      const result = await templateService.getPromptsCount(userId);
+
+      expect(result).toBe(0);
+      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
+   });
+
+   it("count retrieved - test", async () => {
       const userId = "user-id-1";
       const count = 12;
       templateRepoMock.pGetTemplateCount.mockResolvedValue(count);
 
-      const result = await templateService.getTemplateCount(userId);
+      const result = await templateService.getPromptsCount(userId);
 
       expect(result).toBe(count);
       expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledWith(userId);
-   });
-
-   it("getTemplateCount - zero count - test", async () => {
-      const userId = "user-id-1";
-      templateRepoMock.pGetTemplateCount.mockResolvedValue(0);
-
-      const result = await templateService.getTemplateCount(userId);
-
-      expect(result).toBe(0);
-      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
    });
 });

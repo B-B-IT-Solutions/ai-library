@@ -17,6 +17,7 @@ import {
    deleteTemplateDescriptor,
    downloadTemplate,
    getPromptGenerationTemplateData,
+   getPromptsUsage,
    getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
@@ -24,7 +25,6 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
-   getTemplateUsage,
    toggleTemplateDescriptorFavorite,
    updateTemplateDescriptor,
 } from "./prompt.user.actions";
@@ -106,9 +106,9 @@ const sGetPromptTemplateCategoriesMock =
       typeof sGetPromptTemplateCategories
    >;
 
-const sGetTemplateCount = TemplateService.prototype.getTemplateCount;
-const sGetTemplateCountMock = sGetTemplateCount as jest.MockedFunction<
-   typeof sGetTemplateCount
+const sGetPromptsCount = TemplateService.prototype.getPromptsCount;
+const sGetPromptsCountMock = sGetPromptsCount as jest.MockedFunction<
+   typeof sGetPromptsCount
 >;
 
 describe("getTemplateDescriptorsPage tests", () => {
@@ -1086,7 +1086,7 @@ describe("getPromptTemplateCategories tests", () => {
    });
 });
 
-describe("getTemplateUsage tests", () => {
+describe("getPromptsUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -1098,28 +1098,28 @@ describe("getTemplateUsage tests", () => {
    it("FREE tier - returns current count and limit 5 - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sGetTemplateCountMock.mockResolvedValue(3);
+      sGetPromptsCountMock.mockResolvedValue(3);
       jest
          .spyOn(SubscriptionService.prototype, "getUserTier")
          .mockResolvedValue("FREE");
 
-      const result = await getTemplateUsage();
+      const result = await getPromptsUsage();
 
       const expected: DPromptsUsage = { current: 3, limit: 5 };
       expect(result).toEqual(expected);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateCountMock).toHaveBeenCalledWith(user.id);
+      expect(sGetPromptsCountMock).toHaveBeenCalledWith(user.id);
    });
 
    it("BASIC tier - returns current count and limit 50 - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sGetTemplateCountMock.mockResolvedValue(25);
+      sGetPromptsCountMock.mockResolvedValue(25);
       jest
          .spyOn(SubscriptionService.prototype, "getUserTier")
          .mockResolvedValue("BASIC");
 
-      const result = await getTemplateUsage();
+      const result = await getPromptsUsage();
 
       const expected: DPromptsUsage = { current: 25, limit: 50 };
       expect(result).toEqual(expected);
@@ -1128,12 +1128,12 @@ describe("getTemplateUsage tests", () => {
    it("PRO tier - returns current count and limit -1 (unlimited) - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sGetTemplateCountMock.mockResolvedValue(500);
+      sGetPromptsCountMock.mockResolvedValue(500);
       jest
          .spyOn(SubscriptionService.prototype, "getUserTier")
          .mockResolvedValue("PRO");
 
-      const result = await getTemplateUsage();
+      const result = await getPromptsUsage();
 
       const expected: DPromptsUsage = { current: 500, limit: -1 };
       expect(result).toEqual(expected);
@@ -1143,7 +1143,7 @@ describe("getTemplateUsage tests", () => {
       const error = new Error("auth error");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getTemplateUsage();
+      const result = await getPromptsUsage();
 
       const expected: DPromptsUsage = { current: 0, limit: -1 };
       expect(result).toEqual(expected);

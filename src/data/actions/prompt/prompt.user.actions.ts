@@ -63,7 +63,7 @@ export const createTemplateDescriptor = async (
       const user = await requireUser();
       const service = getService();
 
-      const currentCount = await service.getTemplateCount(user.id);
+      const currentCount = await service.getPromptsCount(user.id);
       await requireCountLimit("maxPrompts", currentCount);
 
       await service.createTemplateDescriptor(user.id, data);
@@ -304,12 +304,12 @@ export const getPromptTemplateCategories = async (): Promise<string[]> => {
    }
 };
 
-export const getTemplateUsage = async (): Promise<DPromptsUsage> => {
+export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
    try {
       const user = await requireUser();
       const factory = new ServiceFactory(prisma);
       const [current, tier] = await Promise.all([
-         factory.getTemplateService().getTemplateCount(user.id),
+         factory.getTemplateService().getPromptsCount(user.id),
          factory.getSubscriptionService().getUserTier(user.id),
       ]);
       const limit = TIER_FEATURES[tier].maxPrompts;

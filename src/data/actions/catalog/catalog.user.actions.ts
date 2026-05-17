@@ -26,7 +26,7 @@ export const addCatalogEntryToUserTemplates = async (
 
       // Check library-item limit before creating a new template from the catalog
       const templateService = getTemplateService();
-      const currentCount = await templateService.getTemplateCount(user.id);
+      const currentCount = await templateService.getPromptsCount(user.id);
       await requireCountLimit("maxLibraryItems", currentCount);
 
       const service = getCatalogService();
