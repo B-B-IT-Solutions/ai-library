@@ -2,7 +2,7 @@ jest.mock("@/data/repositories/subscription");
 jest.mock("@/data/services/user");
 
 import { dtestData } from "@tests";
-import { addDays, subDays } from "date-fns";
+import { addDays, differenceInDays, subDays } from "date-fns";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
@@ -13,7 +13,10 @@ import {
 } from "@/data/repositories/subscription";
 import { ServiceFactory } from "@/data/services//service.factory";
 import { UserService } from "@/data/services/user";
-import { DSubscriptionTier } from "@/data/types/domain/subscription";
+import {
+   DSubscriptionTier,
+   DTrialStatus,
+} from "@/data/types/domain/subscription";
 
 import { SubscriptionService } from "./subscription.service";
 
@@ -680,7 +683,7 @@ describe("getTrialStatus tests", () => {
       jest.clearAllMocks();
    });
 
-   it("no trialEndsAt - isActive false - test", async () => {
+   it("trialEndsAt null - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
       user.trialEndsAt = null;
@@ -688,41 +691,59 @@ describe("getTrialStatus tests", () => {
 
       const result = await service.getTrialStatus(userId);
 
-      expect(result).toEqual({ isActive: false, daysLeft: 0, endsAt: null });
+      const expectdResult: DTrialStatus = {
+         isActive: false,
+         daysLeft: 0,
+         endsAt: null,
+      };
+
+      expect(result).toEqual(expectdResult);
    });
 
-   it("trial expired - isActive false - test", async () => {
+   it("trial expired - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() - 86400000); // yesterday
+      user.trialEndsAt = subDays(Date.now(), 1); // yesterday
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.getTrialStatus(userId);
 
-      expect(result.isActive).toBe(false);
-      expect(result.daysLeft).toBe(0);
-      expect(result.endsAt).toEqual(user.trialEndsAt);
+      const expectdResult: DTrialStatus = {
+         isActive: false,
+         daysLeft: 0,
+         endsAt: user.trialEndsAt,
+      };
+
+      expect(result).toEqual(expectdResult);
    });
 
-   it("trial active, no subscription - returns correct daysLeft - test", async () => {
+   it("trial active - subscription null - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
+      user.trialEndsAt = addDays(Date.now(), 7); // 7 days from now
+
       userServiceMock.getUserInternalById.mockResolvedValue(user);
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const result = await service.getTrialStatus(userId);
 
-      expect(result.isActive).toBe(true);
-      expect(result.daysLeft).toBeGreaterThanOrEqual(6);
-      expect(result.daysLeft).toBeLessThanOrEqual(7);
-      expect(result.endsAt).toEqual(user.trialEndsAt);
+      const daysLeft = Math.max(
+         0,
+         differenceInDays(user.trialEndsAt, new Date())
+      );
+      const expectdResult: DTrialStatus = {
+         isActive: true,
+         daysLeft,
+         endsAt: user.trialEndsAt,
+      };
+
+      expect(result).toEqual(expectdResult);
    });
 
-   it("trial technically active but subscription ACTIVE - isActive false - test", async () => {
+   it("trial active (technically) - subscription active - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() + 7 * 86400000);
+      user.trialEndsAt = addDays(Date.now(), 5); // 5 days from now
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const subscription = dtestData.dSubscription();
@@ -731,7 +752,13 @@ describe("getTrialStatus tests", () => {
 
       const result = await service.getTrialStatus(userId);
 
-      expect(result.isActive).toBe(false);
+      const expectdResult: DTrialStatus = {
+         isActive: false,
+         daysLeft: 0,
+         endsAt: user.trialEndsAt,
+      };
+
+      expect(result).toEqual(expectdResult);
    });
 });
 
