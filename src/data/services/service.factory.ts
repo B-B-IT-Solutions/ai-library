@@ -12,6 +12,7 @@ import {
 } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
+import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
 import { PromptService } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
@@ -19,7 +20,6 @@ import {
 } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
-import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
 import {
    PasswordResetService,
    UserService,
@@ -176,7 +176,7 @@ export class ServiceFactory {
       if (!this.subscriptionService) {
          this.subscriptionService = new SubscriptionService(
             this.repositories.subscriptionRepository(),
-            this.repositories.userRepository()
+            this.getUserService()
          );
       }
       return this.subscriptionService;
