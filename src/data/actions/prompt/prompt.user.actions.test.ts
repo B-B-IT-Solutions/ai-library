@@ -7,7 +7,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/prompt";
 import { SubscriptionService } from "@/data/services/subscription";
-import { DPromptFieldValues, DTemplateUsage } from "@/data/types/domain/prompt";
+import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
@@ -1105,7 +1105,7 @@ describe("getTemplateUsage tests", () => {
 
       const result = await getTemplateUsage();
 
-      const expected: DTemplateUsage = { current: 3, limit: 5 };
+      const expected: DPromptsUsage = { current: 3, limit: 5 };
       expect(result).toEqual(expected);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetTemplateCountMock).toHaveBeenCalledWith(user.id);
@@ -1121,7 +1121,7 @@ describe("getTemplateUsage tests", () => {
 
       const result = await getTemplateUsage();
 
-      const expected: DTemplateUsage = { current: 25, limit: 50 };
+      const expected: DPromptsUsage = { current: 25, limit: 50 };
       expect(result).toEqual(expected);
    });
 
@@ -1135,7 +1135,7 @@ describe("getTemplateUsage tests", () => {
 
       const result = await getTemplateUsage();
 
-      const expected: DTemplateUsage = { current: 500, limit: -1 };
+      const expected: DPromptsUsage = { current: 500, limit: -1 };
       expect(result).toEqual(expected);
    });
 
@@ -1145,7 +1145,7 @@ describe("getTemplateUsage tests", () => {
 
       const result = await getTemplateUsage();
 
-      const expected: DTemplateUsage = { current: 0, limit: -1 };
+      const expected: DPromptsUsage = { current: 0, limit: -1 };
       expect(result).toEqual(expected);
    });
 });

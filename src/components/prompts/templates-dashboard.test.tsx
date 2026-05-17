@@ -13,12 +13,12 @@ import {
    getTemplateDescriptorsPage,
    getTemplateUsage,
 } from "@/data/actions/prompt";
-import { DTemplateUsage } from "@/data/types/domain/prompt";
 import {
    DListGroupByMode,
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
+import { DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { templatesSearchParamsCache } from "./search-params";
@@ -97,7 +97,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-const defaultUsage: DTemplateUsage = { current: 3, limit: 50 };
+const defaultUsage: DPromptsUsage = { current: 3, limit: 50 };
 
 describe("TemplatesDashboard rendering tests", () => {
    beforeAll(() => {

@@ -74,7 +74,7 @@ export type DPromptField = {
 
 export type DPromptFieldValues = Record<string, DPromptFieldValueType>;
 
-export type DTemplateUsage = {
+export type DPromptsUsage = {
    current: number;
    limit: number; // -1 = unlimited
 };
