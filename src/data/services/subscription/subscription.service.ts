@@ -77,12 +77,12 @@ export class SubscriptionService {
          userId,
       });
 
-      // Active subscription → use subscription tier
+      // subscription active
       if (subscription?.status === "ACTIVE") {
          return subscription.plan.tier;
       }
 
-      // Cancelled subscription still within grace period → use subscription tier
+      // subscription cancelled still within grace period
       if (
          subscription?.status === "CANCELED" &&
          subscription.currentPeriodEnd &&
@@ -91,15 +91,13 @@ export class SubscriptionService {
          return subscription.plan.tier;
       }
 
-      // Check trial or planChosen on the user record
       const user = await this.userService.getUserInternalById(userId);
 
-      // Active trial → PRO access
+      // trial active
       if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
          return "PRO";
       }
 
-      // No active paid plan → FREE (covers planChosenAt = set and expired subscriptions)
       return "FREE";
    }
 
