@@ -244,8 +244,16 @@ describe("getUserTier tests", () => {
       const result = await service.getUserTier(userId);
 
       const expectdResult: DSubscriptionTier = "FREE";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription.status not ACTIVE, no trial - test", async () => {
@@ -259,8 +267,16 @@ describe("getUserTier tests", () => {
       const result = await service.getUserTier(userId);
 
       const expectdResult: DSubscriptionTier = "FREE";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription.status ACTIVE - test", async () => {
@@ -274,9 +290,16 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       const expectdResult: DSubscriptionTier = tier;
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("BASIC subscription ACTIVE - returns BASIC - test", async () => {
@@ -360,8 +383,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status ACTIVE - test", async () => {
@@ -373,8 +403,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(true);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status CANCELED in grace period - test", async () => {
@@ -389,8 +426,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(true);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status CANCELED past grace period, no trial, no planChosenAt - test", async () => {
@@ -406,8 +450,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status CANCELED with null currentPeriodEnd - test", async () => {
@@ -421,8 +472,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status INCOMPLETE - test", async () => {
@@ -435,8 +493,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("subscription status PAST_DUE - test", async () => {
@@ -449,8 +514,15 @@ describe("hasActiveAccess tests", () => {
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
    });
 
    it("trial active - returns true - test", async () => {
