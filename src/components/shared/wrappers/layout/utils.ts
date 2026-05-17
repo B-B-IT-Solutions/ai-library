@@ -8,7 +8,6 @@ export const PAYWALL_EXEMPT_PATHS = [
    "/checkout",
 ];
 
-// Exempt subscription/checkout routes so users can complete payment even after their trial has expired.
 export const isPaywallExempt = (pathname: string): boolean => {
-   return PAYWALL_EXEMPT_PATHS.some((exempt) => pathname.startsWith(exempt));
+   return PAYWALL_EXEMPT_PATHS.some((path) => pathname.startsWith(path));
 };
