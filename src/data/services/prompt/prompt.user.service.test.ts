@@ -673,12 +673,12 @@ describe("getPromptsCount tests", () => {
    it("count retrieved - test", async () => {
       const userId = "user-id-1";
       const count = 12;
-      templateRepoMock.pGetTemplateCount.mockResolvedValue(count);
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(count);
 
       const result = await templateService.getPromptsCount(userId);
 
       expect(result).toBe(count);
-      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateCount).toHaveBeenCalledWith(userId);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
    });
 });

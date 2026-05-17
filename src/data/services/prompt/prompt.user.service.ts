@@ -206,6 +206,6 @@ export class TemplateService {
    }
 
    async getPromptsCount(userId: string): Promise<number> {
-      return await this.repository.pGetTemplateCount(userId);
+      return await this.repository.pGetPromptsCount(userId);
    }
 }
