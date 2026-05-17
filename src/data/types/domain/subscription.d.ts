@@ -85,12 +85,6 @@ export type DSubscriptionUpdate = {
    canceledAt?: Date | null;
 };
 
-export type DTrialStatus = {
-   isActive: boolean;
-   daysLeft: number;
-   endsAt: Date | null;
-};
-
 export type DSubscriptionHistoryCreate = {
    userId: string;
    eventType: string;
@@ -100,4 +94,10 @@ export type DSubscriptionHistoryCreate = {
    toStatus?: DSubscriptionStatus;
    stripeEventId?: string;
    metadata?: Record<string, any>;
+};
+
+export type DTrialStatus = {
+   isActive: boolean;
+   daysLeft: number;
+   endsAt: Date | null;
 };
