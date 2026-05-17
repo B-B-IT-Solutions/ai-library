@@ -172,7 +172,7 @@ export class SubscriptionService {
       };
    }
 
-   /** Set that the user has chosen a plan (including FREE). */
+   /** Set that the user has chosen a subscription plan (including FREE). */
    async setPlanChosen(userId: string): Promise<void> {
       await this.userService.updatePlanChosenAt(userId, new Date());
    }

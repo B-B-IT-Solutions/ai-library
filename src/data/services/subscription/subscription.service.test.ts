@@ -745,12 +745,13 @@ describe("setPlanChosen tests", () => {
       MockDate.reset();
    });
 
-   it("setPlanChosen - sets planChosenAt on user - test", async () => {
+   it("planChosenAt updated - test", async () => {
       const userId = "user-id-1";
 
       await service.setPlanChosen(userId);
 
       const expectedDate = new Date("2025-09-27");
+
       expect(userServiceMock.updatePlanChosenAt).toHaveBeenCalledTimes(1);
       expect(userServiceMock.updatePlanChosenAt).toHaveBeenCalledWith(
          userId,
