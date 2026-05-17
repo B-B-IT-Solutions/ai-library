@@ -436,7 +436,7 @@ describe("hasActiveAccess tests", () => {
       jest.clearAllMocks();
    });
 
-   it("no subscription, no trial, no planChosenAt - test", async () => {
+   it("subscription null - no trial - plan not choosen - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
       userServiceMock.getUserInternalById.mockResolvedValue(null);
@@ -452,9 +452,11 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("subscription status ACTIVE - test", async () => {
+   it("subscription.status ACTIVE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
@@ -472,15 +474,16 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
-   it("subscription status CANCELED in grace period - test", async () => {
+   it("subscription.status CANCELED - within grace period - test", async () => {
       const userId = "user-id-1";
+      const tomorrow = addDays(Date.now(), 1);
+
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
-      subscription.currentPeriodEnd = new Date(
-         Date.now() + 86400000
-      ).toISOString(); // +1 day
+      subscription.currentPeriodEnd = tomorrow.toISOString();
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
@@ -495,15 +498,16 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
-   it("subscription status CANCELED past grace period, no trial, no planChosenAt - test", async () => {
+   it("subscription.status CANCELED - past grace period - no trial - plan not choosen - test", async () => {
       const userId = "user-id-1";
+      const tomorrow = subDays(Date.now(), 1);
+
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
-      subscription.currentPeriodEnd = new Date(
-         Date.now() - 86400000
-      ).toISOString(); // -1 day
+      subscription.currentPeriodEnd = tomorrow.toISOString();
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
       userServiceMock.getUserInternalById.mockResolvedValue(null);
@@ -519,9 +523,11 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("subscription status CANCELED with null currentPeriodEnd - test", async () => {
+   it("subscription.status CANCELED - currentPeriodEnd null - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
@@ -541,9 +547,11 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("subscription status INCOMPLETE - test", async () => {
+   it("subscription.status INCOMPLETE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "INCOMPLETE";
@@ -562,9 +570,11 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("subscription status PAST_DUE - test", async () => {
+   it("subscription.status PAST_DUE - test", async () => {
       const userId = "user-id-1";
       const subscription = dtestData.dSubscription();
       subscription.status = "PAST_DUE";
@@ -583,47 +593,85 @@ describe("hasActiveAccess tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
       );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("trial active - returns true - test", async () => {
+   it("trial active - test", async () => {
       const userId = "user-id-1";
+      const trialEndsAt = addDays(Date.now(), 7);
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() + 7 * 86400000); // 7 days from now
+      user.trialEndsAt = trialEndsAt;
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(true);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("trial expired, planChosenAt set - returns true - test", async () => {
+   it("trial expired - plan chosen - test", async () => {
       const userId = "user-id-1";
+      const trialExpiredAt = subDays(Date.now(), 1);
+
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() - 86400000); // expired
+      user.trialEndsAt = trialExpiredAt;
       user.planChosenAt = new Date("2025-10-01");
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(true);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 
-   it("trial expired, no planChosenAt - returns false - test", async () => {
+   it("trial expired - plan not chosen - test", async () => {
       const userId = "user-id-1";
+      const trialExpiredAt = subDays(Date.now(), 1);
+
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const user = dtestData.dUserInternal();
-      user.trialEndsAt = new Date(Date.now() - 86400000); // expired
+      user.trialEndsAt = trialExpiredAt;
       user.planChosenAt = null;
+
       userServiceMock.getUserInternalById.mockResolvedValue(user);
 
       const result = await service.hasActiveAccess(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBe(false);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
    });
 });
 

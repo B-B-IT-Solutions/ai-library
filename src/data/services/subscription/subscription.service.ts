@@ -114,17 +114,17 @@ export class SubscriptionService {
 
       const user = await this.userService.getUserInternalById(userId);
 
-      // Active trial → access granted
+      // trial active
       if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
          return true;
       }
 
-      // User has consciously chosen a plan (incl. FREE after trial) → access granted
+      // user has chosen a plan (incl. FREE after trial)
       if (user?.planChosenAt) {
          return true;
       }
 
-      // Trial expired and no plan chosen → show plan gate
+      // trial expired and no plan chosen
       return false;
    }
 
