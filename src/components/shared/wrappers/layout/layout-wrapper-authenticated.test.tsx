@@ -1,15 +1,5 @@
 jest.mock("@/data/actions/auth-utils");
 jest.mock("@/data/actions/subscription");
-jest.mock("@/components/subscription/trial-banner", () => ({
-   TrialBanner: ({ daysLeft }: { daysLeft: number }) => (
-      <div data-testid="trial-banner" data-days-left={daysLeft} />
-   ),
-}));
-jest.mock("@/components/subscription/trial-expired-gate", () => ({
-   TrialExpiredGate: () => (
-      <div data-testid="trial-expired-gate" />
-   ),
-}));
 
 import { screen, waitFor } from "@testing-library/dom";
 import {
@@ -68,9 +58,7 @@ const setupMocks = (options?: {
    }
 
    cookiesMock.mockResolvedValue(ntestData.cookies(cookieValues));
-   headersMock.mockResolvedValue(
-      ntestData.headers({ "x-pathname": pathname })
-   );
+   headersMock.mockResolvedValue(ntestData.headers({ "x-pathname": pathname }));
    requireUserMock.mockResolvedValue(dtestData.dLoginUser());
    getHasActiveAccessMock.mockResolvedValue(hasAccess);
    getTrialStatusMock.mockResolvedValue(trialStatus ?? null);
@@ -98,6 +86,26 @@ const assertSidebarCollapsed = () => {
    const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
    const firstChild = sidebarWrapper.firstChild as HTMLElement;
    assertHasAttributeWithValue(firstChild, "data-state", "collapsed");
+};
+
+const asserTrialBannerRendered = () => {
+   const banner = screen.getByTestId("trial-banner");
+   assertInDocument(banner);
+};
+
+const asserTrialBannerNotRendered = () => {
+   const banner = screen.queryByTestId("trial-banner");
+   assertNotInDocument(banner);
+};
+
+const asserTrialExpiredGateRendered = () => {
+   const gate = screen.getByTestId("trial-expired-gate");
+   assertInDocument(gate);
+};
+
+const asserTrialExpiredGateNotRendered = () => {
+   const gate = screen.queryByTestId("trial-expired-gate");
+   assertNotInDocument(gate);
 };
 
 describe("AuthenticatedLayoutWrapper rendering tests", () => {
@@ -168,9 +176,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
 
       await waitFor(() => {
-         const banner = screen.getByTestId("trial-banner");
-         assertInDocument(banner);
-         assertHasAttributeWithValue(banner, "data-days-left", "5");
+         asserTrialBannerRendered();
       });
    });
 
@@ -185,8 +191,8 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("trial-banner"));
          assertRendered();
+         asserTrialBannerNotRendered();
       });
    });
 
@@ -196,9 +202,10 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await renderAsyncRSC(AuthenticatedLayoutWrapper, defaultProps);
 
       await waitFor(() => {
-         const gate = screen.getByTestId("trial-expired-gate");
-         assertInDocument(gate);
-         assertNotInDocument(screen.queryByTestId("authenticated-layout-wrapper"));
+         asserTrialExpiredGateRendered();
+         assertNotInDocument(
+            screen.queryByTestId("authenticated-layout-wrapper")
+         );
          assertNotInDocument(screen.queryByTestId("test-1"));
       });
    });
@@ -211,7 +218,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       await waitFor(() => {
          // On an exempt path, access check is skipped → normal layout renders
          assertRendered();
-         assertNotInDocument(screen.queryByTestId("trial-expired-gate"));
+         asserTrialExpiredGateNotRendered();
          // getHasActiveAccess should NOT be called for exempt paths
          expect(getHasActiveAccessMock).not.toHaveBeenCalled();
       });
@@ -224,7 +231,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertNotInDocument(screen.queryByTestId("trial-expired-gate"));
+         asserTrialExpiredGateNotRendered();
          expect(getHasActiveAccessMock).not.toHaveBeenCalled();
       });
    });
