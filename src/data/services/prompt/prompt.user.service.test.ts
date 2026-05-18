@@ -95,21 +95,18 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
-describe("createTemplateDescriptor tests", () => {
+describe("createPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("createTemplateDescriptor - descriptor created - test", async () => {
+   it("prompt created - test", async () => {
       const userId = "user-id-1";
       const newData = dtestData.dPromptUpdate();
       const newDescriptor = dtestData.dPrompt();
       templateRepoMock.pCreatePrompt.mockResolvedValue(newDescriptor);
 
-      const result = await templateService.createTemplateDescriptor(
-         userId,
-         newData
-      );
+      const result = await templateService.createPrompt(userId, newData);
 
       expect(result).toEqual(newDescriptor);
       expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);

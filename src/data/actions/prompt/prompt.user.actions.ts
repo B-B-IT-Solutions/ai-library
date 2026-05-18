@@ -66,15 +66,14 @@ export const createPrompt = async (
       const user = await requireUser();
       const service = getService();
 
-      const currentCount = await service.getPromptsCount(user.id);
-      await requireCountLimit("maxPrompts", currentCount);
-
-      await service.createTemplateDescriptor(user.id, data);
+      await service.createPrompt(user.id, data);
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
    } catch (error) {
+      console.error(formatError(error));
+
       if (error instanceof SubscriptionAccessError) {
          return {
             success: false,
@@ -82,7 +81,7 @@ export const createPrompt = async (
             upgradeRequired: true,
          };
       }
-      console.error(formatError(error));
+
       return {
          success: false,
          message: "Vorlage konnte nicht erstellt werden",

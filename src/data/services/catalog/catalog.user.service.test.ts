@@ -44,9 +44,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledWith(entryId);
-      expect(
-         templateServiceMock.createTemplateDescriptor
-      ).not.toHaveBeenCalled();
+      expect(templateServiceMock.createPrompt).not.toHaveBeenCalled();
       expect(catalogRepo.pIncrementCopyCount).not.toHaveBeenCalled();
    });
 
@@ -55,9 +53,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
 
       const descriptor = dtestData.dPrompt();
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
+      templateServiceMock.createPrompt.mockResolvedValue(descriptor);
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue();
 
       const userId = "user-id-1";
@@ -70,10 +66,8 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       const expectedTemplateData = toPromptTemplateUpdate(entry);
 
       expect(result).toEqual(descriptor);
-      expect(
-         templateServiceMock.createTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(templateServiceMock.createTemplateDescriptor).toHaveBeenCalledWith(
+      expect(templateServiceMock.createPrompt).toHaveBeenCalledTimes(1);
+      expect(templateServiceMock.createPrompt).toHaveBeenCalledWith(
          userId,
          expectedTemplateData
       );

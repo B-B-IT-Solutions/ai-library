@@ -13,6 +13,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { TIER_FEATURES } from "@/lib/subscription/access-control";
+import { requireCountLimit } from "@/lib/subscription/server-guards";
 import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
@@ -45,10 +46,10 @@ export class TemplateService {
       return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
    }
 
-   async createTemplateDescriptor(
-      userId: string,
-      data: DPromptUpdate
-   ): Promise<DPrompt> {
+   async createPrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
+      const currentCount = await this.getPromptsCount(userId);
+      await requireCountLimit("maxPrompts", currentCount);
+
       return await this.repository.pCreatePrompt(userId, data);
    }
 

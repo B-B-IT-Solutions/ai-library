@@ -3,15 +3,21 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 
-import { canAccessFeature, FeatureName, getFeatureLimit, hasReachedLimit } from "./access-control";
+import {
+   canAccessFeature,
+   FeatureName,
+   getFeatureLimit,
+   hasReachedLimit,
+} from "./access-control";
 
 export class SubscriptionAccessError extends Error {
    constructor(
       message: string,
-      public feature: FeatureName
+      public readonly feature: FeatureName
    ) {
       super(message);
       this.name = "SubscriptionAccessError";
+      Object.setPrototypeOf(this, SubscriptionAccessError.prototype);
    }
 }
 

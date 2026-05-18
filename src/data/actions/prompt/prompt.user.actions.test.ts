@@ -37,8 +37,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const sGetTemplateDescriptorsPage =
    TemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDescriptor = TemplateService.prototype.getTemplateDescriptor;
-const sCreateTemplateDescriptor =
-   TemplateService.prototype.createTemplateDescriptor;
+const sCreatePrompt = TemplateService.prototype.createPrompt;
 const sUpdateTemplateDescriptor =
    TemplateService.prototype.updateTemplateDescriptor;
 const sDeleteTemplateDescriptor =
@@ -65,10 +64,9 @@ const sGetTemplateDescriptorsPageMock =
    >;
 const sGetTemplateDescriptorMock =
    sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
-const sCreateTemplateDescriptorMock =
-   sCreateTemplateDescriptor as jest.MockedFunction<
-      typeof sCreateTemplateDescriptor
-   >;
+const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
+   typeof sCreatePrompt
+>;
 const sUpdateTemplateDescriptorMock =
    sUpdateTemplateDescriptor as jest.MockedFunction<
       typeof sUpdateTemplateDescriptor
@@ -264,7 +262,7 @@ describe("createPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sCreatePromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -273,7 +271,7 @@ describe("createPrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sCreateTemplateDescriptorMock.mockRejectedValue(error);
+      sCreatePromptMock.mockRejectedValue(error);
       const updateData = dtestData.dPromptUpdate();
 
       const result = await createPrompt(updateData);
@@ -285,20 +283,17 @@ describe("createPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         updateData
-      );
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("descriptor created - test", async () => {
+   it("prompt created - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const newDescriptor = dtestData.dPrompt();
-      sCreateTemplateDescriptorMock.mockResolvedValue(newDescriptor);
+      sCreatePromptMock.mockResolvedValue(newDescriptor);
 
       const updateData = dtestData.dPromptUpdate();
 
@@ -311,11 +306,8 @@ describe("createPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         updateData
-      );
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
    });
 });
 

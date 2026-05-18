@@ -25,7 +25,7 @@ export class CatalogService {
 
       const templateData = toPromptTemplateUpdate(entry);
 
-      const newDescriptor = await this.templateService.createTemplateDescriptor(
+      const newDescriptor = await this.templateService.createPrompt(
          userId,
          templateData
       );
