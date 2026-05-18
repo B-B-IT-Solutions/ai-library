@@ -10,13 +10,13 @@ import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   createPrompt,
-   deletePrompt,
-   getPrompt,
-   getPromptCategories,
-   getPrompts,
+   createPrompt0,
+   deletePrompt0,
+   getPrompt0,
+   getPrompt0Categories,
+   getPrompt0s,
    toggleFavorite,
-   updatePrompt,
+   updatePrompt0,
 } from "./prompt0.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -47,7 +47,7 @@ const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
    typeof sToggleFavorite
 >;
 
-describe("getPromptss tests", () => {
+describe("getPrompt0s tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -57,11 +57,11 @@ describe("getPromptss tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPrompts - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getPrompts();
+      const result = await getPrompt0s();
 
       expect(result).toEqual(EMPTY_PAGE);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -70,21 +70,21 @@ describe("getPromptss tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getPrompts - query undefined - test", async () => {
+   it("query undefined - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const page = dtestData.dPrompt0sPage();
       sGetPromptsMock.mockResolvedValue(page);
 
-      const result = await getPrompts();
+      const result = await getPrompt0s();
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, undefined);
    });
 
-   it("getPrompts - query empty - test", async () => {
+   it("query empty - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -92,14 +92,14 @@ describe("getPromptss tests", () => {
       sGetPromptsMock.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
-      const result = await getPrompts(query);
+      const result = await getPrompt0s(query);
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, query);
    });
 
-   it("getPrompts - query defined - test", async () => {
+   it("query defined - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -107,7 +107,7 @@ describe("getPromptss tests", () => {
       sGetPromptsMock.mockResolvedValue(page);
 
       const query = dtestData.dPrompt0sPageQuery();
-      const result = await getPrompts(query);
+      const result = await getPrompt0s(query);
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
@@ -115,7 +115,7 @@ describe("getPromptss tests", () => {
    });
 });
 
-describe("getPromptCategories tests", () => {
+describe("getPrompt0Categories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -125,11 +125,11 @@ describe("getPromptCategories tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPromptCategories - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getPromptCategories();
+      const result = await getPrompt0Categories();
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -137,14 +137,14 @@ describe("getPromptCategories tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("getPromptCategories test", async () => {
+   it("categories retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const categories = dtestData.dPrompt0CategoriesString();
       sGetPromptCategoriesMock.mockResolvedValue(categories);
 
-      const result = await getPromptCategories();
+      const result = await getPrompt0Categories();
 
       expect(result).toEqual(categories);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -153,7 +153,7 @@ describe("getPromptCategories tests", () => {
    });
 });
 
-describe("getPrompt tests", () => {
+describe("getPrompt0 tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -163,10 +163,10 @@ describe("getPrompt tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPrompt - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getPrompt(invalidId);
+      const result = await getPrompt0(invalidId);
 
       expect(result).toBeNull();
       expect(requireUserMock).not.toHaveBeenCalled();
@@ -175,12 +175,12 @@ describe("getPrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
 
-   it("getPrompt - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPrompt(promptId);
+      const result = await getPrompt0(promptId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -189,21 +189,21 @@ describe("getPrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getPrompt  - promt undefined - test", async () => {
+   it("promt undefined - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       sGetPromptMock.mockResolvedValue(null);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPrompt(promptId);
+      const result = await getPrompt0(promptId);
 
       expect(result).toBeNull();
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 
-   it("getPrompt  - product defined - test", async () => {
+   it("product defined - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -211,7 +211,7 @@ describe("getPrompt tests", () => {
       sGetPromptMock.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPrompt(id);
+      const result = await getPrompt0(id);
 
       expect(result).toEqual(prompt);
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
@@ -219,7 +219,7 @@ describe("getPrompt tests", () => {
    });
 });
 
-describe("createPrompt tests", () => {
+describe("createPrompt0 tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -229,12 +229,12 @@ describe("createPrompt tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("createPrompt - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await createPrompt(prompt);
+      const result = await createPrompt0(prompt);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -247,14 +247,14 @@ describe("createPrompt tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createPrompt - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const prompt = dtestData.dPrompt0Update();
       sCreatePromptMock.mockRejectedValue(new Error("db error"));
 
-      const result: ActionResult = await createPrompt(prompt);
+      const result: ActionResult = await createPrompt0(prompt);
       const expectedResult = {
          success: false,
          message: "Prompt konnte nicht erstellt werden",
@@ -266,7 +266,7 @@ describe("createPrompt tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createPrompt - prompt created  - test", async () => {
+   it("prompt0 created  - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -274,7 +274,7 @@ describe("createPrompt tests", () => {
 
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await createPrompt(prompt);
+      const result = await createPrompt0(prompt);
       const expectedResult: ActionResult = {
          success: true,
          message: "Prompt erfolgreich erstellt.",
@@ -286,7 +286,7 @@ describe("createPrompt tests", () => {
    });
 });
 
-describe("updatePrompt tests", () => {
+describe("updatePrompt0 tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -296,12 +296,12 @@ describe("updatePrompt tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("updatePrompt - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await updatePrompt(invalidId, prompt, false);
+      const result = await updatePrompt0(invalidId, prompt, false);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -315,14 +315,14 @@ describe("updatePrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
 
-   it("updatePrompt - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await updatePrompt(promptId, prompt, false);
+      const result = await updatePrompt0(promptId, prompt, false);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -336,14 +336,14 @@ describe("updatePrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("updatePrompt - prompt updated - createVersion false - test", async () => {
+   it("prompt0 updated - createVersion false - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await updatePrompt(promptId, prompt, false);
+      const result = await updatePrompt0(promptId, prompt, false);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -360,14 +360,14 @@ describe("updatePrompt tests", () => {
       );
    });
 
-   it("updatePrompt - prompt updated - createVersion true - test", async () => {
+   it("prompt0 updated - createVersion true - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPrompt0Update();
 
-      const result = await updatePrompt(promptId, prompt, true);
+      const result = await updatePrompt0(promptId, prompt, true);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -395,7 +395,7 @@ describe("toggleFavorite tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("toggleFavorite - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const result = await toggleFavorite(invalidId, true);
@@ -412,7 +412,7 @@ describe("toggleFavorite tests", () => {
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
 
-   it("toggleFavorite - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
@@ -432,7 +432,7 @@ describe("toggleFavorite tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("toggleFavorite - add to favorites - test", async () => {
+   it("add to favorites - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -450,7 +450,7 @@ describe("toggleFavorite tests", () => {
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(user.id, promptId, true);
    });
 
-   it("toggleFavorite - remove from favorites - test", async () => {
+   it("remove from favorites - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -473,7 +473,7 @@ describe("toggleFavorite tests", () => {
    });
 });
 
-describe("deletePrompt tests", () => {
+describe("deletePrompt0 tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -483,10 +483,10 @@ describe("deletePrompt tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("deletePrompt - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await deletePrompt(invalidId);
+      const result = await deletePrompt0(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -500,13 +500,13 @@ describe("deletePrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
 
-   it("deletePrompt - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      const result = await deletePrompt(promptId);
+      const result = await deletePrompt0(promptId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -520,13 +520,13 @@ describe("deletePrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("deletePrompt - prompt deleted - test", async () => {
+   it("prompt0 deleted - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      const result = await deletePrompt(promptId);
+      const result = await deletePrompt0(promptId);
       const expectedResult: ActionResult = {
          success: true,
          message: "Prompt erfolgreich gelöscht.",

@@ -13,7 +13,7 @@ import {
    DPrompt0Update,
 } from "@/data/types/domain/prompt0";
 
-export const getPrompts = async (
+export const getPrompt0s = async (
    query?: DPrompt0sPageQuery
 ): Promise<DPrompt0sPage> => {
    try {
@@ -26,7 +26,9 @@ export const getPrompts = async (
    }
 };
 
-export const getPrompt = async (promptId: string): Promise<DPrompt0 | null> => {
+export const getPrompt0 = async (
+   promptId: string
+): Promise<DPrompt0 | null> => {
    try {
       if (!isValidUuid(promptId)) {
          throw new Error("Invalid Prompt ID.");
@@ -41,7 +43,7 @@ export const getPrompt = async (promptId: string): Promise<DPrompt0 | null> => {
    }
 };
 
-export const getPromptCategories = async (): Promise<string[]> => {
+export const getPrompt0Categories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getSevice();
@@ -52,7 +54,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    }
 };
 
-export const createPrompt = async (data: DPrompt0Update) => {
+export const createPrompt0 = async (data: DPrompt0Update) => {
    try {
       const user = await requireUser();
       const service = getSevice();
@@ -70,7 +72,7 @@ export const createPrompt = async (data: DPrompt0Update) => {
    }
 };
 
-export const updatePrompt = async (
+export const updatePrompt0 = async (
    promptId: string,
    data: DPrompt0Update,
    createVersion: boolean
@@ -121,7 +123,7 @@ export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
    }
 };
 
-export const deletePrompt = async (promptId: string) => {
+export const deletePrompt0 = async (promptId: string) => {
    try {
       if (!isValidUuid(promptId)) {
          throw new Error("Invalid Prompt ID.");
