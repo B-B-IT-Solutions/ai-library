@@ -50,6 +50,30 @@ describe("PricingPlans rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("PricingPlans - freeAction provided - renders custom free action - test", async () => {
+      const plans = dtestData.dSubscriptionPlans();
+
+      const { container } = render(
+         <PricingPlans
+            plans={plans}
+            currentSubscription={null}
+            freeAction={
+               <button data-testid="custom-free-action">
+                  Kostenlos starten
+               </button>
+            }
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         const customAction = screen.getByTestId("custom-free-action");
+         expect(customAction).toBeInTheDocument();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
 });
 
 describe("PricingPlans functionality tests", () => {

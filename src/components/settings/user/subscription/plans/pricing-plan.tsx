@@ -21,12 +21,14 @@ type PricingPlanProps = {
    plan: DSubscriptionPlan;
    billingInterval: DBillingInterval;
    isCurrent: boolean;
+   freeAction?: React.ReactNode;
 };
 
 export const PricingPlan: FC<PricingPlanProps> = ({
    plan,
    billingInterval,
    isCurrent,
+   freeAction,
 }) => {
    const getPrice = () => {
       const { monthlyPrice, yearlyPrice } = plan;
@@ -114,6 +116,9 @@ export const PricingPlan: FC<PricingPlanProps> = ({
 
    const footerBtn = () => {
       if (isFree) {
+         if (!isCurrent && freeAction) {
+            return <>{freeAction}</>;
+         }
          return (
             <Button
                variant={isCurrent ? "outline" : "default"}

@@ -15,9 +15,14 @@ import { PricingPlan } from "./pricing-plan";
 type Props = {
    plans: DSubscriptionPlan[];
    currentSubscription: DSubscription | null;
+   freeAction?: React.ReactNode;
 };
 
-export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
+export const PricingPlans: FC<Props> = ({
+   plans,
+   currentSubscription,
+   freeAction,
+}) => {
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
    const sortedPlans = [...plans].sort((a, b) => {
@@ -74,6 +79,7 @@ export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
                plan={plan}
                billingInterval={interval}
                isCurrent={isCurrent(plan.tier)}
+               freeAction={freeAction}
             />
          );
       });

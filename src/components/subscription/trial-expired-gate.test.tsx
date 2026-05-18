@@ -35,6 +35,12 @@ const getSubscriptionPlansMock = getSubscriptionPlans as jest.MockedFunction<
 >;
 
 const buildPlans = (): DSubscriptionPlan[] => {
+   const free = dtestData.dSubscriptionPlan(0);
+   free.tier = "FREE";
+   free.name = "Free";
+   free.monthlyPrice = 0;
+   free.yearlyPrice = 0;
+
    const basic = dtestData.dSubscriptionPlan(1);
    basic.tier = "BASIC";
    basic.name = "Basic";
@@ -45,7 +51,7 @@ const buildPlans = (): DSubscriptionPlan[] => {
    pro.name = "Pro";
    pro.yearlyPrice = 199;
 
-   return [basic, pro];
+   return [free, basic, pro];
 };
 
 describe("TrialExpiredGate rendering tests", () => {
@@ -64,25 +70,16 @@ describe("TrialExpiredGate rendering tests", () => {
       });
    });
 
-   it("renders FREE plan card - test", async () => {
+   it("renders 3 pricing plan cards (FREE, BASIC, PRO) - test", async () => {
       await renderAsyncRSC(TrialExpiredGate, {});
 
       await waitFor(() => {
-         const freeCard = screen.getByTestId("free-plan-card");
-         assertInDocument(freeCard);
+         const planCards = screen.getAllByTestId("pricing-plan");
+         expect(planCards).toHaveLength(3);
       });
    });
 
-   it("renders paid plan cards for BASIC and PRO - test", async () => {
-      await renderAsyncRSC(TrialExpiredGate, {});
-
-      await waitFor(() => {
-         const paidCards = screen.getAllByTestId("paid-plan-card");
-         expect(paidCards).toHaveLength(2);
-      });
-   });
-
-   it("FREE card contains ChooseFreePlanButton - test", async () => {
+   it("FREE plan uses ChooseFreePlanButton - test", async () => {
       await renderAsyncRSC(TrialExpiredGate, {});
 
       await waitFor(() => {
@@ -113,7 +110,6 @@ describe("TrialExpiredGate rendering tests", () => {
       await renderAsyncRSC(TrialExpiredGate, {});
 
       await waitFor(() => {
-         // Gate renders fullscreen — no sidebar or page content
          expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
          expect(
             screen.queryByTestId("authenticated-layout-wrapper")
