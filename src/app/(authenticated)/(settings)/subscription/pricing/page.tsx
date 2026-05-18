@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 
-import { ChooseFreePlanButton } from "@/components/subscription/buttons/choose-free-plan-button";
 import { PricingPlans } from "@/components/settings";
 import {
    getSubscription,
@@ -15,11 +14,6 @@ const PricingPage = async () => {
    const plans = await getSubscriptionPlans();
    const subscription = await getSubscription();
 
-   // No paid subscription → user is on trial or FREE.
-   // Allow them to explicitly choose FREE (sets planChosenAt, closes the trial gate).
-   // Users with a paid subscription who want FREE must cancel via Settings.
-   const freeAction = !subscription ? <ChooseFreePlanButton /> : undefined;
-
    return (
       <div className="container mx-auto px-4 py-16" data-testid="pricing-page">
          <div className="mb-12 text-center">
@@ -29,11 +23,7 @@ const PricingPage = async () => {
                flexiblen Abonnement-Plänen
             </p>
          </div>
-         <PricingPlans
-            plans={plans}
-            currentSubscription={subscription}
-            freeAction={freeAction}
-         />
+         <PricingPlans plans={plans} currentSubscription={subscription} />
       </div>
    );
 };

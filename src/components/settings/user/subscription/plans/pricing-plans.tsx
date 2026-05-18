@@ -3,6 +3,7 @@
 import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
 
+import { ChooseFreePlanButton } from "@/components/subscription/buttons/choose-free-plan-button";
 import { Badge } from "@/components/shadcn/badge";
 import {
    DBillingInterval,
@@ -15,14 +16,14 @@ import { PricingPlan } from "./pricing-plan";
 type Props = {
    plans: DSubscriptionPlan[];
    currentSubscription: DSubscription | null;
-   freeAction?: React.ReactNode;
 };
 
-export const PricingPlans: FC<Props> = ({
-   plans,
-   currentSubscription,
-   freeAction,
-}) => {
+export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
+   // No paid subscription → user is on trial or FREE.
+   // Allow explicit FREE selection (sets planChosenAt, closes the trial gate).
+   // Users with a paid subscription who want FREE must cancel via Settings.
+   const freeAction = !currentSubscription ? <ChooseFreePlanButton /> : undefined;
+
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
    const sortedPlans = [...plans].sort((a, b) => {

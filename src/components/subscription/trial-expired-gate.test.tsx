@@ -16,7 +16,7 @@ jest.mock("@/components/settings/user/subscription/buttons", () => ({
       </button>
    ),
 }));
-jest.mock("./buttons/choose-free-plan-button", () => ({
+jest.mock("@/components/subscription/buttons/choose-free-plan-button", () => ({
    ChooseFreePlanButton: () => (
       <button data-testid="choose-free-plan-btn">Kostenlos starten</button>
    ),

@@ -1,8 +1,6 @@
 import { PricingPlans } from "@/components/settings";
 import { getSubscriptionPlans } from "@/data/actions/subscription";
 
-import { ChooseFreePlanButton } from "./buttons/choose-free-plan-button";
-
 export const TrialExpiredGate = async () => {
    const plans = await getSubscriptionPlans();
 
@@ -20,11 +18,7 @@ export const TrialExpiredGate = async () => {
             </p>
          </div>
 
-         <PricingPlans
-            plans={plans}
-            currentSubscription={null}
-            freeAction={<ChooseFreePlanButton />}
-         />
+         <PricingPlans plans={plans} currentSubscription={null} />
       </div>
    );
 };
