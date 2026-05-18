@@ -21,8 +21,8 @@ import {
 import { DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
+import { PromptsDashboard } from "./prompts-dashboard";
 import { templatesSearchParamsCache } from "./search-params";
-import { TemplatesDashboard } from "./templates-dashboard";
 
 type CacheKey = Parameters<typeof templatesSearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof templatesSearchParamsCache.get>;
@@ -77,7 +77,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 };
 
 const assertRendered = () => {
-   const dashboard = screen.getByTestId("templates-dashboard");
+   const dashboard = screen.getByTestId("prompts-dashboard");
    const createTemplateBtn = screen.getByTestId("create-template-btn");
    const usageIndicator = screen.getByTestId("prompts-usage-indicator");
    const toolbar = screen.getByTestId("templates-toolbar");
@@ -97,7 +97,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("TemplatesDashboard rendering tests", () => {
+describe("PromptsDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
 
@@ -123,7 +123,7 @@ describe("TemplatesDashboard rendering tests", () => {
       };
       getPromptsUsageMock.mockResolvedValue(usage);
 
-      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+      const { container } = await renderAsyncRSC(PromptsDashboard, {});
 
       const expectedPayload: DPromptsPageQuery = {
          pagination: {
@@ -166,7 +166,7 @@ describe("TemplatesDashboard rendering tests", () => {
       };
       getPromptsUsageMock.mockResolvedValue(usage);
 
-      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+      const { container } = await renderAsyncRSC(PromptsDashboard, {});
 
       await waitFor(() => {
          assertRendered();
@@ -189,7 +189,7 @@ describe("TemplatesDashboard rendering tests", () => {
       };
       getPromptsUsageMock.mockResolvedValue(usage);
 
-      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+      const { container } = await renderAsyncRSC(PromptsDashboard, {});
 
       await waitFor(() => {
          assertRendered();
@@ -209,7 +209,7 @@ describe("TemplatesDashboard rendering tests", () => {
       };
       getPromptsUsageMock.mockResolvedValue(usage);
 
-      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+      const { container } = await renderAsyncRSC(PromptsDashboard, {});
 
       await waitFor(() => {
          assertRendered();

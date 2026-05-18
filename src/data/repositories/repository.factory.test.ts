@@ -5,11 +5,11 @@ import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PromptRepository } from "./prompt0";
+import { PublicTemplateRepository, TemplateRepository } from "./prompt";
+import { Prompt0Repository } from "./prompt0";
 import { RepositoryFactory } from "./repository.factory";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
-import { PublicTemplateRepository, TemplateRepository } from "./prompt";
 import {
    PasswordResetRepository,
    UserRepository,
@@ -155,15 +155,15 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("promptRepository tests", () => {
+   describe("prompt0Repository tests", () => {
       it("new instance - test", () => {
-         const repository = factory.promptRepository();
-         expect(repository).toBeInstanceOf(PromptRepository);
+         const repository = factory.prompt0Repository();
+         expect(repository).toBeInstanceOf(Prompt0Repository);
       });
 
       it("existing instance - test", () => {
-         const repository1 = factory.promptRepository();
-         const repository2 = factory.promptRepository();
+         const repository1 = factory.prompt0Repository();
+         const repository2 = factory.prompt0Repository();
          expect(repository1).toBe(repository2);
       });
    });

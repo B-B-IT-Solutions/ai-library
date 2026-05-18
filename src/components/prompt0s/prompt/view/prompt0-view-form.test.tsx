@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { PromptViewForm } from "./prompt-view-form";
+import { Prompt0ViewForm } from "./prompt0-view-form";
 
 const assertRendered = () => {
    const form = screen.getByTestId("prompt-view-form");
@@ -38,10 +38,10 @@ const assertFollowUpsNotRendered = () => {
    assertNotInDocument(followUps);
 };
 
-describe("PromptViewForm rendering tests", () => {
+describe("Prompt0ViewForm rendering tests", () => {
    it("rendered - test", async () => {
       const prompt = dtestData.dPrompt0();
-      const { container } = render(<PromptViewForm prompt={prompt} />);
+      const { container } = render(<Prompt0ViewForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -56,7 +56,7 @@ describe("PromptViewForm rendering tests", () => {
    it("versions empty - rendered test", async () => {
       const prompt = dtestData.dPrompt0();
       prompt.versions = [];
-      const { container } = render(<PromptViewForm prompt={prompt} />);
+      const { container } = render(<Prompt0ViewForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -72,7 +72,7 @@ describe("PromptViewForm rendering tests", () => {
       const prompt = dtestData.dPrompt0();
       prompt.followUpPrompts = [];
       prompt.categories = [];
-      const { container } = render(<PromptViewForm prompt={prompt} />);
+      const { container } = render(<Prompt0ViewForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

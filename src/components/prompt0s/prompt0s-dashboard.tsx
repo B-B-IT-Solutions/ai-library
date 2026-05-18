@@ -15,7 +15,7 @@ import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 import { CreatePromptButton } from "./buttons";
 import { Prompts, PromptsToolbar } from "./lists";
 
-export const PromptsDashboard = async () => {
+export const Prompt0sDashboard = async () => {
    const queryClient = new QueryClient();
 
    await Promise.all([
@@ -31,7 +31,7 @@ export const PromptsDashboard = async () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
             className="flex h-full flex-col bg-slate-50"
-            data-testid="prompts-dashboard"
+            data-testid="prompt0s-dashboard"
          >
             <div className="space-y-4 border-b bg-white px-6 py-4">
                <div className="flex items-center justify-between">

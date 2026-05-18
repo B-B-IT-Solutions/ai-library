@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplatesDashboard rendering tests rendered test 1`] = `
+exports[`PromptsDashboard rendering tests rendered test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -921,11 +921,11 @@ exports[`TemplatesDashboard rendering tests rendered test 1`] = `
 </div>
 `;
 
-exports[`TemplatesDashboard rendering tests usage indicator - isAtLimit false - test 1`] = `
+exports[`PromptsDashboard rendering tests usage indicator - isAtLimit false - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -1842,11 +1842,11 @@ exports[`TemplatesDashboard rendering tests usage indicator - isAtLimit false - 
 </div>
 `;
 
-exports[`TemplatesDashboard rendering tests usage indicator - isAtLimit true - test 1`] = `
+exports[`PromptsDashboard rendering tests usage indicator - isAtLimit true - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -2775,11 +2775,11 @@ exports[`TemplatesDashboard rendering tests usage indicator - isAtLimit true - t
 </div>
 `;
 
-exports[`TemplatesDashboard rendering tests usage indicator - unlimited - test 1`] = `
+exports[`PromptsDashboard rendering tests usage indicator - unlimited - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"

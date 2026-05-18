@@ -1,6 +1,6 @@
 jest.mock("@/components/prompts", () => ({
-   TemplatesDashboard: () => {
-      return <div data-testid="templates-dashboard" />;
+   PromptsDashboard: () => {
+      return <div data-testid="prompts-dashboard" />;
    },
    templatesSearchParamsCache: {
       parse: jest.fn(),
@@ -26,7 +26,7 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("templates-page");
-   const dashboard = screen.getByTestId("templates-dashboard");
+   const dashboard = screen.getByTestId("prompts-dashboard");
 
    assertInDocument(page);
    assertInDocument(dashboard);

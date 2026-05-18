@@ -11,7 +11,7 @@ import {
    UseQueryResult,
 } from "@tanstack/react-query";
 
-import { getPromptCategories, getPrompts } from "@/data/actions/prompt0";
+import { getPrompt0Categories, getPrompt0s } from "@/data/actions/prompt0";
 import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
@@ -34,7 +34,7 @@ export const preloadPromptsOptions = (
             globalFilter,
             filter
          );
-         return await getPrompts(query);
+         return await getPrompt0s(query);
       },
    };
 };
@@ -47,7 +47,7 @@ export const preloadPromptCategoriesOptions = (): FetchQueryOptions<
    return {
       queryKey: promptCategoriesKeys.categories(),
       queryFn: async () => {
-         return await getPromptCategories();
+         return await getPrompt0Categories();
       },
    };
 };
@@ -73,7 +73,7 @@ export const infiniteLoadPromptsOptions = (
             globalFilter,
             filter
          );
-         return await getPrompts(query);
+         return await getPrompt0s(query);
       },
       initialPageParam: 0,
       getNextPageParam: getNextPageParam,
@@ -96,7 +96,7 @@ export const loadPromptCategoriesOptions = (): UndefinedInitialDataOptions<
    return {
       queryKey: promptCategoriesKeys.categories(),
       queryFn: async () => {
-         return await getPromptCategories();
+         return await getPrompt0Categories();
       },
       placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,

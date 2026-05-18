@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptViewForm rendering tests followUpPrompts empty - rendered test 1`] = `
+exports[`Prompt0ViewForm rendering tests followUpPrompts empty - rendered test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
@@ -504,7 +504,7 @@ exports[`PromptViewForm rendering tests followUpPrompts empty - rendered test 1`
 </div>
 `;
 
-exports[`PromptViewForm rendering tests rendered - test 1`] = `
+exports[`Prompt0ViewForm rendering tests rendered - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
@@ -1101,7 +1101,7 @@ exports[`PromptViewForm rendering tests rendered - test 1`] = `
 </div>
 `;
 
-exports[`PromptViewForm rendering tests versions empty - rendered test 1`] = `
+exports[`Prompt0ViewForm rendering tests versions empty - rendered test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"

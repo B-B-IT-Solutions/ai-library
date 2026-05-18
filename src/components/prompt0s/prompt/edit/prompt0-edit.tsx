@@ -8,13 +8,13 @@ import {
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
-import { PromptEditForm } from "./prompt-edit-form";
+import { Prompt0EditForm } from "./prompt0-edit-form";
 
 type Props = {
    prompt?: DPrompt0;
 };
 
-export const PromptEdit = ({ prompt }: Props) => {
+export const Prompt0Edit = ({ prompt }: Props) => {
    const header = () => {
       const title = prompt ? "Prompt Bearbeiten" : "Neuer Prompt Erstellen";
       const text = prompt
@@ -44,9 +44,9 @@ export const PromptEdit = ({ prompt }: Props) => {
 
    const form = () => {
       if (prompt) {
-         return <PromptEditForm prompt={prompt} mode="edit" />;
+         return <Prompt0EditForm prompt={prompt} mode="edit" />;
       }
-      return <PromptEditForm mode="create" />;
+      return <Prompt0EditForm mode="create" />;
    };
 
    return (

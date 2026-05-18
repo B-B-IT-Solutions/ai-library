@@ -6,7 +6,7 @@ import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PublicTemplateService, TemplateService } from "./prompt";
-import { PromptService } from "./prompt0";
+import { Prompt0Service } from "./prompt0";
 import { ServiceFactory } from "./service.factory";
 import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
@@ -139,7 +139,7 @@ describe("getOrderService tests", () => {
 describe("getPrompt0Service tests", () => {
    it("new instance - test", () => {
       const service = serviceFactory.getPrompt0Service();
-      expect(service).toBeInstanceOf(PromptService);
+      expect(service).toBeInstanceOf(Prompt0Service);
    });
 
    it("existing instance - test", () => {

@@ -19,7 +19,7 @@ import { CreateTemplateButton } from "./buttons";
 import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
-export const TemplatesDashboard = async () => {
+export const PromptsDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = templatesSearchParamsCache.get("view");
@@ -55,7 +55,7 @@ export const TemplatesDashboard = async () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
             className="flex h-full flex-col bg-slate-50"
-            data-testid="templates-dashboard"
+            data-testid="prompts-dashboard"
          >
             <div className="space-y-4 border-b bg-white px-6 py-4">
                <div className="flex items-center justify-between">

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptEdit rendering tests PromptEdit - edit existing prompt - test 1`] = `
+exports[`Prompt0Edit rendering tests edit existing prompt - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
@@ -1251,7 +1251,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit existing prompt - test 1`]
 </div>
 `;
 
-exports[`PromptEdit rendering tests PromptEdit - new prompt - test 1`] = `
+exports[`Prompt0Edit rendering tests new prompt - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"

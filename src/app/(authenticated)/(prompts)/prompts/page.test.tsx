@@ -1,6 +1,6 @@
 jest.mock("@/components/prompt0s", () => ({
-   PromptsDashboard: () => {
-      return <div data-testid="prompts-dashboard" />;
+   Prompt0sDashboard: () => {
+      return <div data-testid="prompt0s-dashboard" />;
    },
 }));
 
@@ -16,7 +16,7 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("prompts-page");
-   const dashboard = screen.getByTestId("prompts-dashboard");
+   const dashboard = screen.getByTestId("prompt0s-dashboard");
 
    assertInDocument(page);
    assertInDocument(dashboard);

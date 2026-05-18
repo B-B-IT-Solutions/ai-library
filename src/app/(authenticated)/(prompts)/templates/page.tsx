@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 import {
-   TemplatesDashboard,
+   PromptsDashboard,
    templatesSearchParamsCache,
 } from "@/components/prompts";
 
@@ -19,7 +19,7 @@ export const TemplatesPage = async (props: PageProps) => {
 
    return (
       <div data-testid="templates-page" className="h-full">
-         <TemplatesDashboard />
+         <PromptsDashboard />
       </div>
    );
 };

@@ -7,7 +7,7 @@ exports[`TemplatesPage rendering tests page rendered - test 1`] = `
     data-testid="templates-page"
   >
     <div
-      data-testid="templates-dashboard"
+      data-testid="prompts-dashboard"
     />
   </div>
 </div>

@@ -13,20 +13,22 @@ import {
    DPrompt0Update,
 } from "@/data/types/domain/prompt0";
 
-export const getPrompts = async (
+export const getPrompt0s = async (
    query?: DPrompt0sPageQuery
 ): Promise<DPrompt0sPage> => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      return await service.getPrompts(user.id, query);
+      return await service.getPrompt0s(user.id, query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
    }
 };
 
-export const getPrompt = async (promptId: string): Promise<DPrompt0 | null> => {
+export const getPrompt0 = async (
+   promptId: string
+): Promise<DPrompt0 | null> => {
    try {
       if (!isValidUuid(promptId)) {
          throw new Error("Invalid Prompt ID.");
@@ -34,29 +36,29 @@ export const getPrompt = async (promptId: string): Promise<DPrompt0 | null> => {
 
       const user = await requireUser();
       const service = getSevice();
-      return await service.getPrompt(user.id, promptId);
+      return await service.getPrompt0(user.id, promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
    }
 };
 
-export const getPromptCategories = async (): Promise<string[]> => {
+export const getPrompt0Categories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      return await service.getPromptCategories(user.id);
+      return await service.getPrompt0Categories(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
    }
 };
 
-export const createPrompt = async (data: DPrompt0Update) => {
+export const createPrompt0 = async (data: DPrompt0Update) => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      await service.createPrompt(user.id, data);
+      await service.createPrompt0(user.id, data);
       return {
          success: true,
          message: "Prompt erfolgreich erstellt.",
@@ -70,7 +72,7 @@ export const createPrompt = async (data: DPrompt0Update) => {
    }
 };
 
-export const updatePrompt = async (
+export const updatePrompt0 = async (
    promptId: string,
    data: DPrompt0Update,
    createVersion: boolean
@@ -82,7 +84,7 @@ export const updatePrompt = async (
 
       const user = await requireUser();
       const service = getSevice();
-      await service.updatePrompt(user.id, promptId, data, createVersion);
+      await service.updatePrompt0(user.id, promptId, data, createVersion);
       return {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -92,6 +94,28 @@ export const updatePrompt = async (
       return {
          success: false,
          message: "Prompt konnte nicht aktualisiert werden",
+      };
+   }
+};
+
+export const deletePrompt0 = async (promptId: string) => {
+   try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
+      const service = getSevice();
+      await service.deletePrompt0(user.id, promptId);
+      return {
+         success: true,
+         message: "Prompt erfolgreich gelöscht.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Prompt konnte nicht gelöscht werden",
       };
    }
 };
@@ -117,28 +141,6 @@ export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
       return {
          success: false,
          message: "Prompt konnte nicht aktualisiert werden",
-      };
-   }
-};
-
-export const deletePrompt = async (promptId: string) => {
-   try {
-      if (!isValidUuid(promptId)) {
-         throw new Error("Invalid Prompt ID.");
-      }
-
-      const user = await requireUser();
-      const service = getSevice();
-      await service.deletePrompt(user.id, promptId);
-      return {
-         success: true,
-         message: "Prompt erfolgreich gelöscht.",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Prompt konnte nicht gelöscht werden",
       };
    }
 };

@@ -7,7 +7,7 @@ exports[`PromptsPage rendering tests PromptsPage - library page rendered - test 
     data-testid="prompts-page"
   >
     <div
-      data-testid="prompts-dashboard"
+      data-testid="prompt0s-dashboard"
     />
   </div>
 </div>

@@ -5,200 +5,202 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptRepository } from "@/data/repositories/prompt0";
+import { Prompt0Repository } from "@/data/repositories/prompt0";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
-import { PromptService } from "./prompt0.service";
+import { Prompt0Service } from "./prompt0.service";
 
-const promptRepo = new PromptRepository(prisma);
-const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;
+const prompt0Repo = new Prompt0Repository(prisma);
+const prompt0RepoMock = prompt0Repo as DeepMockProxy<Prompt0Repository>;
 
-const promptService = new PromptService(promptRepoMock);
+const prompt0Service = new Prompt0Service(prompt0RepoMock);
 
-describe("getPromptss tests", () => {
+describe("getPrompt0s tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getPrompts - query undefined - test", async () => {
+   it("query undefined - test", async () => {
       const userId = "user-id-1";
       const page = dtestData.dPrompt0sPage();
-      promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
+      prompt0RepoMock.pGetPrompt0s.mockResolvedValue(page);
 
-      const result = await promptService.getPrompts(userId);
+      const result = await prompt0Service.getPrompt0s(userId);
 
       expect(result).toEqual(page);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledWith(
          userId,
          undefined
       );
    });
 
-   it("getPrompts - query empty - test", async () => {
+   it("query empty - test", async () => {
       const userId = "user-id-123";
       const page = dtestData.dPrompt0sPage();
-      promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
+      prompt0RepoMock.pGetPrompt0s.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
-      const result = await promptService.getPrompts(userId, query);
+      const result = await prompt0Service.getPrompt0s(userId, query);
 
       expect(result).toEqual(page);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
-         userId,
-         query
-      );
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledWith(userId, query);
    });
 
-   it("getPrompts - query defined - test", async () => {
+   it("query defined - test", async () => {
       const userId = "user-id-456";
       const page = dtestData.dPrompt0sPage();
-      promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
+      prompt0RepoMock.pGetPrompt0s.mockResolvedValue(page);
 
       const query = dtestData.dPrompt0sPageQuery();
-      const result = await promptService.getPrompts(userId, query);
+      const result = await prompt0Service.getPrompt0s(userId, query);
 
       expect(result).toEqual(page);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
-         userId,
-         query
-      );
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0s).toHaveBeenCalledWith(userId, query);
    });
 });
 
-describe("getPromptCategories tests", () => {
+describe("getPrompt0Categories tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("getPromptCategories test", async () => {
+   it("categories retrieved - test", async () => {
       const userId = "user-id-1";
       const categories = dtestData.dPrompt0Categories();
-      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
+      prompt0RepoMock.pGetPrompt0Categories.mockResolvedValue(categories);
 
-      const result = await promptService.getPromptCategories(userId);
+      const result = await prompt0Service.getPrompt0Categories(userId);
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
+      expect(prompt0RepoMock.pGetPrompt0Categories).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0Categories).toHaveBeenCalledWith(
+         userId
+      );
    });
 });
 
-describe("getPrompt tests", () => {
+describe("getPrompt0 tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("getPrompt - prompt undefined - test", async () => {
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
+   it("prompt undefined - test", async () => {
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await promptService.getPrompt(userId, promptId);
+      const result = await prompt0Service.getPrompt0(userId, promptId);
 
       expect(result).toBeNull();
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
    });
 
-   it("getPrompt - prompt defined - test", async () => {
+   it("prompt defined - test", async () => {
       const prompt = dtestData.dPrompt0();
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(prompt);
 
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await promptService.getPrompt(userId, promptId);
+      const result = await prompt0Service.getPrompt0(userId, promptId);
 
       expect(result).toEqual(prompt);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
    });
 });
 
-describe("createPrompt tests", () => {
+describe("createPrompt0 tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("createPrompt - error - test", async () => {
+   it("error - test", async () => {
       const userId = "user-id-123";
       const prompt = dtestData.dPrompt0Update();
-      promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
+      prompt0RepoMock.pCreatePrompt0.mockRejectedValue(new Error("db error"));
 
-      await expect(promptService.createPrompt(userId, prompt)).rejects.toThrow(
-         "db error"
+      await expect(
+         prompt0Service.createPrompt0(userId, prompt)
+      ).rejects.toThrow("db error");
+
+      expect(prompt0RepoMock.pCreatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pCreatePrompt0).toHaveBeenCalledWith(
+         userId,
+         prompt
       );
-
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(userId, prompt);
    });
 
-   it("createPrompt - prompt created  - test", async () => {
+   it("prompt0 created  - test", async () => {
       const userId = "user-id-456";
       const prompt = dtestData.dPrompt0Update();
 
-      await promptService.createPrompt(userId, prompt);
+      await prompt0Service.createPrompt0(userId, prompt);
 
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(userId, prompt);
+      expect(prompt0RepoMock.pCreatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pCreatePrompt0).toHaveBeenCalledWith(
+         userId,
+         prompt
+      );
    });
 });
 
-describe("updatePrompt tests", () => {
+describe("updatePrompt0 tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("updatePrompt - prompt not found - test", async () => {
+   it("prompt0 not found - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPrompt0Update();
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(null);
 
       const fn = async () =>
-         promptService.updatePrompt(userId, promptId, prompt, false);
+         prompt0Service.updatePrompt0(userId, promptId, prompt, false);
 
       await expect(fn).rejects.toThrow("Prompt not found");
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+      expect(prompt0RepoMock.pUpdatePrompt0).not.toHaveBeenCalled();
    });
 
-   it("updatePrompt - error - test", async () => {
+   it("error - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
       const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(currentPrompt);
       const error = new Error("db error");
-      promptRepoMock.pUpdatePrompt.mockRejectedValue(error);
+      prompt0RepoMock.pUpdatePrompt0.mockRejectedValue(error);
 
       const fn = async () =>
-         promptService.updatePrompt(userId, promptId, promptUpdate, true);
+         prompt0Service.updatePrompt0(userId, promptId, promptUpdate, true);
 
       await expect(fn).rejects.toThrow("db error");
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledWith(
          userId,
          promptId,
          promptUpdate,
@@ -208,24 +210,24 @@ describe("updatePrompt tests", () => {
       );
    });
 
-   it("updatePrompt - content not changed - createVersion false - test", async () => {
+   it("content not changed - createVersion false - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
       const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(userId, promptId, promptUpdate, false);
+      await prompt0Service.updatePrompt0(userId, promptId, promptUpdate, false);
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledWith(
          userId,
          promptId,
          promptUpdate,
@@ -235,24 +237,24 @@ describe("updatePrompt tests", () => {
       );
    });
 
-   it("updatePrompt - content not changed - createVersion true - test", async () => {
+   it("content not changed - createVersion true - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
       const currentPrompt = dtestData.dPrompt0();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(userId, promptId, promptUpdate, true);
+      await prompt0Service.updatePrompt0(userId, promptId, promptUpdate, true);
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledWith(
          userId,
          promptId,
          promptUpdate,
@@ -262,23 +264,23 @@ describe("updatePrompt tests", () => {
       );
    });
 
-   it("updatePrompt - content changed - createVersion false - test", async () => {
+   it("content changed - createVersion false - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
       const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(userId, promptId, promptUpdate, false);
+      await prompt0Service.updatePrompt0(userId, promptId, promptUpdate, false);
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledWith(
          userId,
          promptId,
          promptUpdate,
@@ -288,29 +290,48 @@ describe("updatePrompt tests", () => {
       );
    });
 
-   it("updatePrompt - content changed - createVersion true - test", async () => {
+   it("content changed - createVersion true - test", async () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPrompt0Update();
       const currentPrompt = dtestData.dPrompt0();
       currentPrompt.currentVersion = 1;
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      prompt0RepoMock.pGetPrompt0.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(userId, promptId, promptUpdate, true);
+      await prompt0Service.updatePrompt0(userId, promptId, promptUpdate, true);
 
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pGetPrompt0).toHaveBeenCalledWith(
          userId,
          promptId
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pUpdatePrompt0).toHaveBeenCalledWith(
          userId,
          promptId,
          promptUpdate,
          currentPrompt,
          2,
          true
+      );
+   });
+});
+
+describe("deletePrompt0 tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("prompt0 deleted - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      await prompt0Service.deletePrompt0(userId, promptId);
+
+      expect(prompt0RepoMock.pDeletePrompt0).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pDeletePrompt0).toHaveBeenCalledWith(
+         userId,
+         promptId
       );
    });
 });
@@ -324,10 +345,10 @@ describe("toggleFavorite tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      await promptService.toggleFavorite(userId, promptId, true);
+      await prompt0Service.toggleFavorite(userId, promptId, true);
 
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pToggleFavorite).toHaveBeenCalledWith(
          userId,
          promptId,
          true
@@ -338,32 +359,13 @@ describe("toggleFavorite tests", () => {
       const userId = "user-id-1";
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      await promptService.toggleFavorite(userId, promptId, false);
+      await prompt0Service.toggleFavorite(userId, promptId, false);
 
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+      expect(prompt0RepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(prompt0RepoMock.pToggleFavorite).toHaveBeenCalledWith(
          userId,
          promptId,
          false
-      );
-   });
-});
-
-describe("deletePrompt tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("deletePrompt - prompt deleted - test", async () => {
-      const userId = "user-id-1";
-      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-
-      await promptService.deletePrompt(userId, promptId);
-
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(
-         userId,
-         promptId
       );
    });
 });

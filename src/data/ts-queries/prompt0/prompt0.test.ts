@@ -11,7 +11,7 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import { getPromptCategories, getPrompts } from "@/data/actions/prompt0";
+import { getPrompt0Categories, getPrompt0s } from "@/data/actions/prompt0";
 import { DPrompt0sPage, DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 
 import {
@@ -24,9 +24,9 @@ import {
 } from "./prompt0";
 import { LoadPromptsParams } from "./types";
 
-const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
-const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
-   typeof getPromptCategories
+const getPrompt0sMock = getPrompt0s as jest.MockedFunction<typeof getPrompt0s>;
+const getPrompt0CategoriesMock = getPrompt0Categories as jest.MockedFunction<
+   typeof getPrompt0Categories
 >;
 
 describe("prefetch options tests", () => {
@@ -36,7 +36,7 @@ describe("prefetch options tests", () => {
 
    test("preloadPromptsOptions  - test", async () => {
       const page = dtestData.dPrompt0sPage();
-      getPromptsMock.mockResolvedValue(page);
+      getPrompt0sMock.mockResolvedValue(page);
 
       const expectedOptions: UndefinedInitialDataOptions<
          string[],
@@ -53,13 +53,13 @@ describe("prefetch options tests", () => {
       const fnResult = await queryFn(context);
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getPromptsMock).toHaveBeenCalledTimes(1);
+      expect(getPrompt0sMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(page);
    });
 
    test("preloadPromptCategoriesOptions  test", async () => {
       const categories = ["category 1", "category 2", "category 3"];
-      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPrompt0CategoriesMock.mockResolvedValue(categories);
 
       const expectedOptions: UndefinedInitialDataOptions<
          string[],
@@ -76,7 +76,7 @@ describe("prefetch options tests", () => {
       const fnResult = await queryFn(context);
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(getPrompt0CategoriesMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(categories);
    });
 });
@@ -109,7 +109,7 @@ describe("loadPrompts hooks tests", () => {
 
    test("useInfiniteLoadPrompts test", async () => {
       const promptsPage = dtestData.dPrompt0sPage();
-      getPromptsMock.mockResolvedValue(promptsPage);
+      getPrompt0sMock.mockResolvedValue(promptsPage);
       const filter = dtestData.dPrompt0sFilter();
       const params: LoadPromptsParams = {
          search: "test 1",
@@ -132,8 +132,8 @@ describe("loadPrompts hooks tests", () => {
          expect(result.current.data?.pageParams).toEqual([0]);
          expect(result.current.data?.pages).toHaveLength(1);
          expect(result.current.data?.pages[0]).toEqual(promptsPage);
-         expect(getPromptsMock).toHaveBeenCalledTimes(1);
-         expect(getPromptsMock).toHaveBeenCalledWith(expectedQuery);
+         expect(getPrompt0sMock).toHaveBeenCalledTimes(1);
+         expect(getPrompt0sMock).toHaveBeenCalledWith(expectedQuery);
       });
    });
 });
@@ -160,7 +160,7 @@ describe("loadPromptCategories hooks tests", () => {
 
    test("useLoadPromptCategories test", async () => {
       const categories = ["category 1", "category 2", "category 3"];
-      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPrompt0CategoriesMock.mockResolvedValue(categories);
 
       const { result } = renderHookWithReactQuery(() =>
          useLoadPromptCategories()
@@ -168,7 +168,7 @@ describe("loadPromptCategories hooks tests", () => {
 
       await waitFor(() => {
          expect(result.current.data).toEqual(categories);
-         expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getPrompt0CategoriesMock).toHaveBeenCalledTimes(1);
       });
    });
 });

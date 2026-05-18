@@ -13,7 +13,7 @@ import {
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
-import { PromptService } from "@/data/services/prompt0";
+import { Prompt0Service } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
    SettingsService,
@@ -41,7 +41,7 @@ export class ServiceFactory {
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
-   private promptService?: PromptService;
+   private prompt0Service?: Prompt0Service;
    private templateService?: TemplateService;
    private publicTemplateService?: PublicTemplateService;
    private settingsService?: SettingsService;
@@ -142,13 +142,13 @@ export class ServiceFactory {
       return this.orderService;
    }
 
-   getPrompt0Service(): PromptService {
-      if (!this.promptService) {
-         this.promptService = new PromptService(
-            this.repositories.promptRepository()
+   getPrompt0Service(): Prompt0Service {
+      if (!this.prompt0Service) {
+         this.prompt0Service = new Prompt0Service(
+            this.repositories.prompt0Repository()
          );
       }
-      return this.promptService;
+      return this.prompt0Service;
    }
 
    getPromptService(): TemplateService {

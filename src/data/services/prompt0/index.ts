@@ -1,1 +1,1 @@
-export { PromptService } from "./prompt0.service";
+export { Prompt0Service } from "./prompt0.service";
