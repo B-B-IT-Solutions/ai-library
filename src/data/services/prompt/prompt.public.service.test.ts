@@ -49,9 +49,7 @@ describe("getPublicPromptsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("filter.collectionIds undefined - test", async () => {
@@ -64,9 +62,7 @@ describe("getPublicPromptsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("filter.collectionIds empty - test", async () => {
@@ -79,9 +75,7 @@ describe("getPublicPromptsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("collection not public - test", async () => {
@@ -97,16 +91,14 @@ describe("getPublicPromptsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).toHaveBeenCalledWith(query.filter!.collectionIds);
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("descriptors retrieved - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(true);
 
       const page = dtestData.dPromptsPage();
-      promptRepoMock.pGetPublicTemplateDescriptorsPage.mockResolvedValue(page);
+      promptRepoMock.pGetPublicPromptsPage.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
       const result = await publicPromptService.getPublicPromptsPage(query);
@@ -118,12 +110,8 @@ describe("getPublicPromptsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).toHaveBeenCalledWith(query.filter!.collectionIds);
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptRepoMock.pGetPublicTemplateDescriptorsPage
-      ).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPublicPromptsPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptsPage).toHaveBeenCalledWith(query);
    });
 });
 
@@ -133,15 +121,15 @@ describe("getPublicPromptGenerationData tests", () => {
    });
 
    it("template null - test", async () => {
-      promptRepoMock.pGetPublicPromptTemplate.mockResolvedValue(null);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(null);
 
       const templateId = "template-id-1";
       const result =
          await publicPromptService.getPublicPromptGenerationData(templateId);
 
       expect(result).toBeNull();
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(
          templateId
       );
       expect(
@@ -151,7 +139,7 @@ describe("getPublicPromptGenerationData tests", () => {
 
    it("data retrieved - test", async () => {
       const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getPublicGlobalPromptFieldsByIds.mockResolvedValue(
@@ -170,8 +158,8 @@ describe("getPublicPromptGenerationData tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(id);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(id);
       expect(
          settingsServiceMock.getPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
@@ -188,18 +176,14 @@ describe("getPublicPrompt tests", () => {
 
    it("prompt retrieved - test", async () => {
       const prompt = dtestData.dPrompt();
-      promptRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(prompt);
+      promptRepoMock.pGetPublicPrompt.mockResolvedValue(prompt);
 
       const { id } = prompt;
       const result = await publicPromptService.getPublicPrompt(id);
 
       expect(result).toEqual(prompt);
-      expect(promptRepoMock.pGetPublicTemplateDescriptor).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptRepoMock.pGetPublicTemplateDescriptor).toHaveBeenCalledWith(
-         id
-      );
+      expect(promptRepoMock.pGetPublicPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPrompt).toHaveBeenCalledWith(id);
    });
 });
 
@@ -210,13 +194,13 @@ describe("getPublicPromptContent tests", () => {
 
    it("promptContent retrieved - test", async () => {
       const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
 
       const { id } = template;
       const result = await publicPromptService.getPublicPromptContent(id);
 
       expect(result).toEqual(template);
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(id);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(id);
    });
 });

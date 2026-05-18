@@ -25,7 +25,7 @@ export class PublicPromptRepository {
       this.prisma = prisma;
    }
 
-   async pGetPublicTemplateDescriptorsPage(
+   async pGetPublicPromptsPage(
       query: DPromptsPageQuery
    ): Promise<DPromptsPage> {
       const pagination = query.pagination;
@@ -65,7 +65,7 @@ export class PublicPromptRepository {
       };
    }
 
-   async pGetPublicTemplateDescriptor(id: string): Promise<DPrompt | null> {
+   async pGetPublicPrompt(id: string): Promise<DPrompt | null> {
       const args = {
          where: { id },
          include: {
@@ -79,7 +79,7 @@ export class PublicPromptRepository {
       return descriptor ? toDPrompt(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(
+   async pGetPublicPromptContent(
       id: string
    ): Promise<DPromptWithContent | null> {
       const args = {

@@ -35,9 +35,7 @@ export class PublicPromptService {
             await this.collectionService.ensureCollectionsPublic(collectionIds);
 
          if (collectionsPublic) {
-            return await this.repository.pGetPublicTemplateDescriptorsPage(
-               query
-            );
+            return await this.repository.pGetPublicPromptsPage(query);
          }
       }
       throw new Error("Invalid public temmplates query.");
@@ -66,12 +64,12 @@ export class PublicPromptService {
    }
 
    async getPublicPrompt(descriptorId: string): Promise<DPrompt | null> {
-      return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
+      return await this.repository.pGetPublicPrompt(descriptorId);
    }
 
    async getPublicPromptContent(
       templateId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPublicPromptTemplate(templateId);
+      return await this.repository.pGetPublicPromptContent(templateId);
    }
 }
