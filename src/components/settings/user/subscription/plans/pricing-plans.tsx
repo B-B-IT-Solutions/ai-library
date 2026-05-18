@@ -28,8 +28,9 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
 
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
+   const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
+
    const sortedPlans = [...plans].sort((a, b) => {
-      const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
       return tierOrder[a.tier] - tierOrder[b.tier];
    });
 
