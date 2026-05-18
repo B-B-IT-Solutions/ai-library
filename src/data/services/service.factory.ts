@@ -41,7 +41,7 @@ export class ServiceFactory {
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
-   private promptService?: Prompt0Service;
+   private prompt0Service?: Prompt0Service;
    private templateService?: TemplateService;
    private publicTemplateService?: PublicTemplateService;
    private settingsService?: SettingsService;
@@ -143,12 +143,12 @@ export class ServiceFactory {
    }
 
    getPrompt0Service(): Prompt0Service {
-      if (!this.promptService) {
-         this.promptService = new Prompt0Service(
+      if (!this.prompt0Service) {
+         this.prompt0Service = new Prompt0Service(
             this.repositories.prompt0Repository()
          );
       }
-      return this.promptService;
+      return this.prompt0Service;
    }
 
    getPromptService(): TemplateService {
