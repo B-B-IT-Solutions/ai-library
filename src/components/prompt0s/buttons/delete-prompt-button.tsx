@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
-import { deletePrompt } from "@/data/actions/prompt0";
+import { deletePrompt0 } from "@/data/actions/prompt0";
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 
 type DeletePromptButtonProps = {
@@ -16,7 +16,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
    const router = useRouter();
 
    const handleDelete = async () => {
-      const result = await deletePrompt(prompt.id);
+      const result = await deletePrompt0(prompt.id);
       if (result.success) {
          toast.success(result.message);
          router.push("/prompts");

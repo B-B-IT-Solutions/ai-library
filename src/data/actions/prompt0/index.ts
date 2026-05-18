@@ -1,9 +1,9 @@
 export {
-   getPrompt0 as getPrompt,
-   getPrompt0s as getPrompts,
-   getPrompt0Categories as getPromptCategories,
-   createPrompt0 as createPrompt,
-   updatePrompt0 as updatePrompt,
-   deletePrompt0 as deletePrompt,
+   getPrompt0,
+   getPrompt0s,
+   getPrompt0Categories,
+   createPrompt0,
+   updatePrompt0,
+   deletePrompt0,
    toggleFavorite,
 } from "./prompt0.actions";

@@ -16,7 +16,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
-import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
+import { createPrompt0, updatePrompt0 } from "@/data/actions/prompt0";
 import { DPrompt0, DPrompt0Update } from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
@@ -90,8 +90,8 @@ export const Prompt0EditForm = ({ prompt, mode }: Props) => {
       };
 
       const result = isEdit
-         ? await updatePrompt(prompt.id, payload, createVersion)
-         : await createPrompt(payload);
+         ? await updatePrompt0(prompt.id, payload, createVersion)
+         : await createPrompt0(payload);
 
       if (result.success) {
          toast.success(result.message);

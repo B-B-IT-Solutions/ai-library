@@ -8,17 +8,17 @@ import { cloneDeep } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
+import { createPrompt0, updatePrompt0 } from "@/data/actions/prompt0";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
 import { Prompt0Edit } from "./prompt0-edit";
 
-const mockCreatePrompt = createPrompt as jest.MockedFunction<
-   typeof createPrompt
+const createPrompt0Mock = createPrompt0 as jest.MockedFunction<
+   typeof createPrompt0
 >;
 
-const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-   typeof updatePrompt
+const updatePrompt0Mock = updatePrompt0 as jest.MockedFunction<
+   typeof updatePrompt0
 >;
 
 const assertRendered = () => {
@@ -121,20 +121,20 @@ describe("Prompt0Edit functionality tests", () => {
          success: true,
          message: "Prompt created successfully",
       };
-      mockCreatePrompt.mockResolvedValue(actionResult);
+      createPrompt0Mock.mockResolvedValue(actionResult);
 
       render(<Prompt0Edit mode="create" />);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockCreatePrompt).not.toHaveBeenCalled();
+         expect(createPrompt0Mock).not.toHaveBeenCalled();
       });
 
       const createBtn = screen.getByTestId("create-btn");
       await userEvent.click(createBtn);
 
       await waitFor(() => {
-         expect(mockCreatePrompt).not.toHaveBeenCalled();
+         expect(createPrompt0Mock).not.toHaveBeenCalled();
       });
 
       const title = screen.getByTestId("title");
@@ -153,8 +153,8 @@ describe("Prompt0Edit functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockCreatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockCreatePrompt).toHaveBeenCalledWith(expectedPromptPayload);
+         expect(createPrompt0Mock).toHaveBeenCalledTimes(1);
+         expect(createPrompt0Mock).toHaveBeenCalledWith(expectedPromptPayload);
          expect(toast.success).toHaveBeenCalledTimes(1);
          expect(toast.success).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual(`/prompts`);
@@ -166,14 +166,14 @@ describe("Prompt0Edit functionality tests", () => {
          success: true,
          message: "Prompt updated successfully",
       };
-      mockUpdatePrompt.mockResolvedValue(actionResult);
+      updatePrompt0Mock.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPrompt0();
       render(<Prompt0Edit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockUpdatePrompt).not.toHaveBeenCalled();
+         expect(updatePrompt0Mock).not.toHaveBeenCalled();
       });
 
       const saveBtn = screen.getByTestId("save-btn");
@@ -188,8 +188,8 @@ describe("Prompt0Edit functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+         expect(updatePrompt0Mock).toHaveBeenCalledTimes(1);
+         expect(updatePrompt0Mock).toHaveBeenCalledWith(
             prompt.id,
             expectedPromptPayload,
             false
@@ -205,14 +205,14 @@ describe("Prompt0Edit functionality tests", () => {
          success: true,
          message: "Prompt updated successfully",
       };
-      mockUpdatePrompt.mockResolvedValue(actionResult);
+      updatePrompt0Mock.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPrompt0();
       render(<Prompt0Edit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockUpdatePrompt).not.toHaveBeenCalled();
+         expect(updatePrompt0Mock).not.toHaveBeenCalled();
       });
 
       const triggerBtn = screen.getByTestId("dropdown-trigger-btn");
@@ -235,8 +235,8 @@ describe("Prompt0Edit functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+         expect(updatePrompt0Mock).toHaveBeenCalledTimes(1);
+         expect(updatePrompt0Mock).toHaveBeenCalledWith(
             prompt.id,
             expectedPromptPayload,
             true
@@ -252,7 +252,7 @@ describe("Prompt0Edit functionality tests", () => {
          success: false,
          message: "Failed to update prompt",
       };
-      mockUpdatePrompt.mockResolvedValue(actionResult);
+      updatePrompt0Mock.mockResolvedValue(actionResult);
 
       const prompt1 = dtestData.dPrompt0();
 
@@ -264,7 +264,7 @@ describe("Prompt0Edit functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(mockUpdatePrompt).not.toHaveBeenCalled();
+         expect(updatePrompt0Mock).not.toHaveBeenCalled();
       });
 
       const saveBtn = screen.getByTestId("save-btn");
@@ -279,8 +279,8 @@ describe("Prompt0Edit functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+         expect(updatePrompt0Mock).toHaveBeenCalledTimes(1);
+         expect(updatePrompt0Mock).toHaveBeenCalledWith(
             prompt1.id,
             expectedPromptPayload,
             false

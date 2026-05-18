@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { Prompt0Edit } from "@/components/prompt0s";
-import { getPrompt } from "@/data/actions/prompt0";
+import { getPrompt0 } from "@/data/actions/prompt0";
 
 export const metadata = {
    title: "Prompt Bearbeiten",
@@ -16,7 +16,7 @@ export type PageProps = {
 const EditPromptPage = async (props: PageProps) => {
    const { id } = await props.params;
 
-   const prompt = await getPrompt(id);
+   const prompt = await getPrompt0(id);
 
    if (!prompt) {
       return notFound();

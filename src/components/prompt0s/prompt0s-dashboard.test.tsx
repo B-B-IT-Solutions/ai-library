@@ -3,11 +3,11 @@ jest.mock("@/data/actions/prompt0");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
-import { getPrompts } from "@/data/actions/prompt0";
+import { getPrompt0s } from "@/data/actions/prompt0";
 
 import { Prompt0sDashboard } from "./prompt0s-dashboard";
 
-const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+const getPrompt0sMock = getPrompt0s as jest.MockedFunction<typeof getPrompt0s>;
 
 const assertRendered = () => {
    const dashboard = screen.getByTestId("prompt0s-dashboard");
@@ -24,7 +24,7 @@ const assertRendered = () => {
 describe("Prompt0sDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPrompt0sPage();
-      getPromptsMock.mockResolvedValue(page);
+      getPrompt0sMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

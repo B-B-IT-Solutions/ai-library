@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { Prompt0View } from "@/components/prompt0s";
-import { getPrompt } from "@/data/actions/prompt0";
+import { getPrompt0 } from "@/data/actions/prompt0";
 
 export const metadata = {
    title: "Prompt",
@@ -16,7 +16,7 @@ export type PromptPageProps = {
 const PromptPage = async (props: PromptPageProps) => {
    const { id } = await props.params;
 
-   const prompt = await getPrompt(id);
+   const prompt = await getPrompt0(id);
 
    if (!prompt) {
       return notFound();

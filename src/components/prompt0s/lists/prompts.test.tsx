@@ -3,7 +3,7 @@ jest.mock("@/data/actions/prompt0");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getPrompts } from "@/data/actions/prompt0";
+import { getPrompt0s } from "@/data/actions/prompt0";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -12,7 +12,7 @@ import {
 
 import { Prompts } from "./prompts";
 
-const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+const getPrompt0sMock = getPrompt0s as jest.MockedFunction<typeof getPrompt0s>;
 
 const assertRendered = () => {
    const prompts = screen.getByTestId("prompts-grid");
@@ -22,7 +22,7 @@ const assertRendered = () => {
 describe("Prompts rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPrompt0sPage();
-      getPromptsMock.mockResolvedValue(page);
+      getPrompt0sMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {
