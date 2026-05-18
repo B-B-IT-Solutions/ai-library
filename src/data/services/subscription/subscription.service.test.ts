@@ -703,6 +703,21 @@ describe("getTrialStatus tests", () => {
       MockDate.reset();
    });
 
+   it("user null - test", async () => {
+      const userId = "user-id-1";
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
+
+      const result = await service.getTrialStatus(userId);
+
+      const expectdResult: DTrialStatus = {
+         isActive: false,
+         daysLeft: 0,
+         endsAt: null,
+      };
+
+      expect(result).toEqual(expectdResult);
+   });
+
    it("trialEndsAt null - test", async () => {
       const userId = "user-id-1";
       const user = dtestData.dUserInternal();
