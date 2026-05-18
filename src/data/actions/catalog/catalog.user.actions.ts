@@ -20,7 +20,7 @@ export const addCatalogEntryToUserPrompts = async (
       }
 
       const user = await requireUser();
-      const service = getCatalogService();
+      const service = getService();
       const descriptor = await service.addCatalogEntryToUserPrompts(
          user.id,
          catalogEntryId
@@ -51,7 +51,7 @@ export const addCatalogEntryToUserPrompts = async (
    }
 };
 
-const getCatalogService = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getCatalogService();
 };
