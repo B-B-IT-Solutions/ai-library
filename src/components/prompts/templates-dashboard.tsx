@@ -71,7 +71,7 @@ export const TemplatesDashboard = async () => {
                            "mt-1 text-xs",
                            isAtLimit ? "text-red-500" : "text-slate-400"
                         )}
-                        data-testid="template-usage-indicator"
+                        data-testid="prompts-usage-indicator"
                      >
                         {usage.limit === -1
                            ? `${usage.current} Vorlagen`

@@ -79,7 +79,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 const assertRendered = () => {
    const dashboard = screen.getByTestId("templates-dashboard");
    const createTemplateBtn = screen.getByTestId("create-template-btn");
-   const usageIndicator = screen.getByTestId("template-usage-indicator");
+   const usageIndicator = screen.getByTestId("prompts-usage-indicator");
    const toolbar = screen.getByTestId("templates-toolbar");
    const entries = screen.getByTestId("template-items-grid");
 
@@ -97,15 +97,12 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-const defaultUsage: DPromptsUsage = { current: 3, limit: 50 };
-
 describe("TemplatesDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
 
       getCollectionsMock.mockResolvedValue([]);
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
-      getPromptsUsageMock.mockResolvedValue(defaultUsage);
    });
 
    beforeEach(() => {
@@ -119,6 +116,12 @@ describe("TemplatesDashboard rendering tests", () => {
       const models = dtestData.dTemplateModels();
       getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
       getTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const usage: DPromptsUsage = {
+         current: 3,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
 
       const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
@@ -142,54 +145,76 @@ describe("TemplatesDashboard rendering tests", () => {
          assertRendered();
          expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
+         expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("usage indicator shows count / limit - test", async () => {
+   it("usage indicator - isAtLimit false - test", async () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-      getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
-      getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getPromptsUsageMock.mockResolvedValue({ current: 12, limit: 50 });
 
-      await renderAsyncRSC(TemplatesDashboard, {});
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const usage: DPromptsUsage = {
+         current: 12,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       await waitFor(() => {
-         const indicator = screen.getByTestId("template-usage-indicator");
-         assertInDocument(indicator);
-         expect(indicator.textContent).toContain("12");
-         expect(indicator.textContent).toContain("50");
+         assertRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("usage indicator shows count only when unlimited - test", async () => {
+   it("usage indicator - isAtLimit true - test", async () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-      getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
-      getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getPromptsUsageMock.mockResolvedValue({ current: 500, limit: -1 });
 
-      await renderAsyncRSC(TemplatesDashboard, {});
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const usage: DPromptsUsage = {
+         current: 50,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       await waitFor(() => {
-         const indicator = screen.getByTestId("template-usage-indicator");
-         expect(indicator.textContent).toContain("500");
-         expect(indicator.textContent).not.toContain("/ -1");
+         assertRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("create button disabled when at limit - test", async () => {
+   it("usage indicator - unlimited - test", async () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
       getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
       getTemplateDescriptorModelsMock.mockResolvedValue([]);
-      getPromptsUsageMock.mockResolvedValue({ current: 5, limit: 5 });
 
-      await renderAsyncRSC(TemplatesDashboard, {});
+      const usage: DPromptsUsage = {
+         current: 500,
+         limit: -1,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       await waitFor(() => {
-         const btn = screen.getByTestId("create-template-btn");
-         expect(btn).toBeDisabled();
+         assertRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 });
