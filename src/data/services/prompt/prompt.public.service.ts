@@ -1,6 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import { PublicTemplateRepository } from "@/data/repositories/prompt";
+import { PublicPromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptGenerationData,
@@ -14,12 +14,12 @@ import { PublicSettingsService } from "../settings";
 import { resolveAllTemplateFields } from "./utils";
 
 export class PublicPromptService {
-   private repository: PublicTemplateRepository;
+   private repository: PublicPromptRepository;
    private collectionService: PublicCollectionService;
    private settingService: PublicSettingsService;
 
    constructor(
-      repository: PublicTemplateRepository,
+      repository: PublicPromptRepository,
       collectionService: PublicCollectionService,
       settingService: PublicSettingsService
    ) {

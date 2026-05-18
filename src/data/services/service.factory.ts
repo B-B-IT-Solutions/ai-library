@@ -154,7 +154,7 @@ export class ServiceFactory {
    getPromptService(): PromptService {
       if (!this.promptService) {
          this.promptService = new PromptService(
-            this.repositories.templateRepository(),
+            this.repositories.promptRepository(),
             this.getSettingsService(),
             this.getSubscriptionService()
          );
@@ -165,7 +165,7 @@ export class ServiceFactory {
    getPublicPromptService(): PublicPromptService {
       if (!this.publicPromptService) {
          this.publicPromptService = new PublicPromptService(
-            this.repositories.publicTemplateRepository(),
+            this.repositories.publicPromptRepository(),
             this.getPublicCollectionService(),
             this.getPublicSettingsService()
          );

@@ -1,6 +1,6 @@
 ﻿import { map } from "es-toolkit/compat";
 
-import { TemplateRepository } from "@/data/repositories/prompt";
+import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptFieldValues,
@@ -26,7 +26,7 @@ type DGetPromptTemplatesDescriptorsParams = {
 
 export class PromptService {
    constructor(
-      private readonly repository: TemplateRepository,
+      private readonly repository: PromptRepository,
       private readonly settingService: SettingsService,
       private readonly subscriptionService: SubscriptionService
    ) {}

@@ -18,7 +18,7 @@ import {
 import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
-export class PublicTemplateRepository {
+export class PublicPromptRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {

@@ -11,11 +11,11 @@ import {
 } from "@/generated/prisma/models";
 
 import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
-import { PublicTemplateRepository } from "./prompt.public.repository";
+import { PublicPromptRepository } from "./prompt.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-const repository = new PublicTemplateRepository(prismaMock);
+const repository = new PublicPromptRepository(prismaMock);
 
 describe("pGetTemplateDescriptorsPage tests", () => {
    beforeEach(() => {

@@ -5,7 +5,7 @@ import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PublicTemplateRepository, TemplateRepository } from "./prompt";
+import { PromptRepository, PublicPromptRepository } from "./prompt";
 import { Prompt0Repository } from "./prompt0";
 import { RepositoryFactory } from "./repository.factory";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
@@ -168,28 +168,28 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("templateRepository tests", () => {
+   describe("promptRepository tests", () => {
       it("new instance - test", () => {
-         const repository = factory.templateRepository();
-         expect(repository).toBeInstanceOf(TemplateRepository);
+         const repository = factory.promptRepository();
+         expect(repository).toBeInstanceOf(PromptRepository);
       });
 
       it("existing instance - test", () => {
-         const repository1 = factory.templateRepository();
-         const repository2 = factory.templateRepository();
+         const repository1 = factory.promptRepository();
+         const repository2 = factory.promptRepository();
          expect(repository1).toBe(repository2);
       });
    });
 
-   describe("publicTemplateRepository tests", () => {
+   describe("publicPromptRepository tests", () => {
       it("new instance - test", () => {
-         const repository = factory.publicTemplateRepository();
-         expect(repository).toBeInstanceOf(PublicTemplateRepository);
+         const repository = factory.publicPromptRepository();
+         expect(repository).toBeInstanceOf(PublicPromptRepository);
       });
 
       it("existing instance - test", () => {
-         const repository1 = factory.publicTemplateRepository();
-         const repository2 = factory.publicTemplateRepository();
+         const repository1 = factory.publicPromptRepository();
+         const repository2 = factory.publicPromptRepository();
          expect(repository1).toBe(repository2);
       });
    });
