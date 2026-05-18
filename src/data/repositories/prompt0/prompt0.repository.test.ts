@@ -21,24 +21,24 @@ import {
    toDPromptDescriptor,
    toDPromptDescriptorsPage,
 } from "./prompt0.mapper";
-import { PromptRepository } from "./prompt0.repository";
+import { Prompt0Repository } from "./prompt0.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-const promptRepository = new PromptRepository(prismaMock);
+const prompt0Repository = new Prompt0Repository(prismaMock);
 
-describe("pGetPromptDescriptors tests", () => {
+describe("pGetPrompt0s tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("pGetPromptDescriptors - query undefined - test", async () => {
+   test("query undefined - test", async () => {
       const userId = "user-id-1";
       const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
-      const result = await promptRepository.pGetPromptDescriptors(userId);
+      const result = await prompt0Repository.pGetPrompt0s(userId);
 
       const expectedDbResult: Prompt0sPage = {
          content: prompts,
@@ -74,17 +74,14 @@ describe("pGetPromptDescriptors tests", () => {
       expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
-   test("pGetPromptDescriptors - query empty - test", async () => {
+   test("query empty - test", async () => {
       const userId = "user-id-111";
       const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
       prismaMock.prompt0.count.mockResolvedValue(prompts.length);
 
       const query: DPrompt0sPageQuery = {};
-      const result = await promptRepository.pGetPromptDescriptors(
-         userId,
-         query
-      );
+      const result = await prompt0Repository.pGetPrompt0s(userId, query);
 
       const expectedDbResult: Prompt0sPage = {
          content: prompts,
@@ -120,7 +117,7 @@ describe("pGetPromptDescriptors tests", () => {
       expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
-   test("pGetPromptDescriptors - query.globalFilter defined - test", async () => {
+   test("query.globalFilter defined - test", async () => {
       const userId = "user-id-123";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
@@ -130,10 +127,7 @@ describe("pGetPromptDescriptors tests", () => {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 123",
       };
-      const result = await promptRepository.pGetPromptDescriptors(
-         userId,
-         query
-      );
+      const result = await prompt0Repository.pGetPrompt0s(userId, query);
 
       const expectedDbResult: Prompt0sPage = {
          content: prompts,
@@ -183,7 +177,7 @@ describe("pGetPromptDescriptors tests", () => {
       expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
-   test("pGetPromptDescriptors - query.filter defined - test", async () => {
+   test("query.filter defined - test", async () => {
       const userId = "user-id-123";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
@@ -196,10 +190,7 @@ describe("pGetPromptDescriptors tests", () => {
             isFavorite: true,
          },
       };
-      const result = await promptRepository.pGetPromptDescriptors(
-         userId,
-         query
-      );
+      const result = await prompt0Repository.pGetPrompt0s(userId, query);
 
       const expectedDbResult: Prompt0sPage = {
          content: prompts,
@@ -247,7 +238,7 @@ describe("pGetPromptDescriptors tests", () => {
       expect(prismaMock.prompt0.count).toHaveBeenCalledWith(expedtedCountArgs);
    });
 
-   test("pGetPromptDescriptors - query defined - test", async () => {
+   test("query defined - test", async () => {
       const userId = "user-id-456";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.prompt0.findMany.mockResolvedValue(prompts);
@@ -260,10 +251,7 @@ describe("pGetPromptDescriptors tests", () => {
             categories: ["cat 1"],
          },
       };
-      const result = await promptRepository.pGetPromptDescriptors(
-         userId,
-         query
-      );
+      const result = await prompt0Repository.pGetPrompt0s(userId, query);
 
       const expectedDbResult: Prompt0sPage = {
          content: prompts,
@@ -325,21 +313,18 @@ describe("pGetPromptDescriptors tests", () => {
    });
 });
 
-describe("pGetPromptDescriptor tests", () => {
+describe("pGetPrompt0 tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptDescriptor - prompt found - test", async () => {
+   test("prompt found - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.prompt0.findFirst.mockResolvedValue(prompt);
 
       const promptId = "1";
       const userId = "user-id-1";
-      const result = await promptRepository.pGetPromptDescriptor(
-         userId,
-         promptId
-      );
+      const result = await prompt0Repository.pGetPrompt0(userId, promptId);
 
       const expectedResult = toDPromptDescriptor(prompt);
 
@@ -363,15 +348,12 @@ describe("pGetPromptDescriptor tests", () => {
       expect(prismaMock.prompt0.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 
-   test("pGetPromptDescriptor - prompt not found (wrong user) - test", async () => {
+   test("prompt not found (wrong user) - test", async () => {
       prismaMock.prompt0.findFirst.mockResolvedValue(null);
 
       const promptId = "1";
       const userId = "other-user-id";
-      const result = await promptRepository.pGetPromptDescriptor(
-         userId,
-         promptId
-      );
+      const result = await prompt0Repository.pGetPrompt0(userId, promptId);
 
       const expectedWhere: Prompt0FindFirstArgs = {
          where: {
@@ -395,17 +377,17 @@ describe("pGetPromptDescriptor tests", () => {
    });
 });
 
-describe("getPromptCategories queries tests", () => {
+describe("pGetPrompt0Categories queries tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("getPromptCategories - categories retrieved - test", async () => {
+   test("categories retrieved - test", async () => {
       const categories = ptestData.pPrompt0Categories();
       prismaMock.prompt0Category.findMany.mockResolvedValue(categories);
 
       const userId = "user-id-1";
-      const result = await promptRepository.pGetPromptCategories(userId);
+      const result = await prompt0Repository.pGetPrompt0Categories(userId);
 
       const expectedFindMayArgs: Prompt0CategoryFindManyArgs = {
          where: { userId },
@@ -422,18 +404,18 @@ describe("getPromptCategories queries tests", () => {
    });
 });
 
-describe("pCreatePrompt tests", () => {
+describe("pCreatePrompt0 tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pCreatePrompt - prompt created - test", async () => {
+   test("prompt0 created - test", async () => {
       const userId = "user-id-123";
       const data = dtestData.dPrompt0Update();
       const created = ptestData.pPromptDescriptor();
       prismaMock.prompt0.create.mockResolvedValue(created);
 
-      const result = await promptRepository.pCreatePrompt(userId, data);
+      const result = await prompt0Repository.pCreatePrompt0(userId, data);
 
       const expectedCreateArgs: Prompt0CreateArgs = {
          data: {
@@ -470,12 +452,12 @@ describe("pCreatePrompt tests", () => {
    });
 });
 
-describe("pUpdatePrompt tests", () => {
+describe("pUpdatePrompt0 tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pUpdatePrompt - no version created - test", async () => {
+   test("no version created - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const data = dtestData.dPrompt0Update();
@@ -484,7 +466,7 @@ describe("pUpdatePrompt tests", () => {
       const updated = ptestData.pPromptDescriptor();
       prismaMock.prompt0.update.mockResolvedValue(updated);
 
-      const result = await promptRepository.pUpdatePrompt(
+      const result = await prompt0Repository.pUpdatePrompt0(
          userId,
          promptId,
          data,
@@ -493,7 +475,7 @@ describe("pUpdatePrompt tests", () => {
          false
       );
 
-      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+      const expectedFollowUpUpdates = prompt0Repository.followUpPromptUpdates(
          current,
          data
       );
@@ -526,7 +508,7 @@ describe("pUpdatePrompt tests", () => {
       );
    });
 
-   test("pUpdatePrompt - version created - test", async () => {
+   test("version created - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const data = dtestData.dPrompt0Update();
@@ -535,7 +517,7 @@ describe("pUpdatePrompt tests", () => {
       const updated = ptestData.pPromptDescriptor();
       prismaMock.prompt0.update.mockResolvedValue(updated);
 
-      const result = await promptRepository.pUpdatePrompt(
+      const result = await prompt0Repository.pUpdatePrompt0(
          userId,
          promptId,
          data,
@@ -544,7 +526,7 @@ describe("pUpdatePrompt tests", () => {
          true
       );
 
-      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+      const expectedFollowUpUpdates = prompt0Repository.followUpPromptUpdates(
          current,
          data
       );
@@ -583,6 +565,26 @@ describe("pUpdatePrompt tests", () => {
    });
 });
 
+describe("pDeletePrompt0 tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("prompt0 deleted - test", async () => {
+      const promptId = "prompt-id-1";
+      const userId = "user-id-1";
+
+      await prompt0Repository.pDeletePrompt0(userId, promptId);
+
+      const expectedArgs: Prompt0DeleteArgs = {
+         where: { id: promptId, userId },
+      };
+
+      expect(prismaMock.prompt0.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt0.delete).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
 describe("pToggleFavorite tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -592,7 +594,7 @@ describe("pToggleFavorite tests", () => {
       const promptId = "prompt-id-1";
       const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(userId, promptId, true);
+      await prompt0Repository.pToggleFavorite(userId, promptId, true);
 
       const expectedUpdateArgs: Prompt0UpdateArgs = {
          where: { id: promptId, userId },
@@ -609,7 +611,7 @@ describe("pToggleFavorite tests", () => {
       const promptId = "prompt-id-1";
       const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(userId, promptId, false);
+      await prompt0Repository.pToggleFavorite(userId, promptId, false);
 
       const expectedUpdateArgs: Prompt0UpdateArgs = {
          where: { id: promptId, userId },
@@ -623,26 +625,6 @@ describe("pToggleFavorite tests", () => {
    });
 });
 
-describe("pDeletePrompt tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("pDeletePrompt - prompt deleted - test", async () => {
-      const promptId = "prompt-id-1";
-      const userId = "user-id-1";
-
-      await promptRepository.pDeletePrompt(userId, promptId);
-
-      const expectedArgs: Prompt0DeleteArgs = {
-         where: { id: promptId, userId },
-      };
-
-      expect(prismaMock.prompt0.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt0.delete).toHaveBeenCalledWith(expectedArgs);
-   });
-});
-
 describe("followUpPromptUpdates tests", () => {
    const id0 = "f23c15c7-7d2d-40a2-a895-6a78516b9b30";
    const id1 = "f23c15c7-7d2d-40a2-a895-6a78516b9b31";
@@ -652,7 +634,7 @@ describe("followUpPromptUpdates tests", () => {
       const current = dtestData.dPrompt0();
       const promptUpdate = dtestData.dPrompt0Update();
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );
@@ -680,7 +662,7 @@ describe("followUpPromptUpdates tests", () => {
          { id: id2, content: "updated 2", order: 2 },
       ];
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );
@@ -704,7 +686,7 @@ describe("followUpPromptUpdates tests", () => {
       const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [];
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );
@@ -728,7 +710,7 @@ describe("followUpPromptUpdates tests", () => {
          { content: "new follow up", order: 2 },
       ];
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );
@@ -758,7 +740,7 @@ describe("followUpPromptUpdates tests", () => {
       const promptUpdate = dtestData.dPrompt0Update();
       promptUpdate.followUpPrompts = [];
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );
@@ -782,7 +764,7 @@ describe("followUpPromptUpdates tests", () => {
          { content: "new 2", order: 1 },
       ];
 
-      const result = promptRepository.followUpPromptUpdates(
+      const result = prompt0Repository.followUpPromptUpdates(
          current,
          promptUpdate
       );

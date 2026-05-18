@@ -28,24 +28,21 @@ import {
    toDPromptDescriptorsPage,
 } from "./prompt0.mapper";
 
-export class PromptRepository {
+export class Prompt0Repository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 
-   async pGetPromptDescriptors(
+   async pGetPrompt0s(
       userId: string,
       query?: DPrompt0sPageQuery
    ): Promise<DPrompt0sPage> {
       const { pagination } = query || {};
       const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
-      const whereClause = this.resolveGetPromptDescriptorsWhereInput(
-         userId,
-         query
-      );
+      const whereClause = this.resolveGetPrompt0sWhereInput(userId, query);
 
       const [data, count] = await Promise.all([
          this.prisma.prompt0.findMany({
@@ -73,7 +70,7 @@ export class PromptRepository {
       return toDPromptDescriptorsPage(dbResult);
    }
 
-   async pGetPromptDescriptor(
+   async pGetPrompt0(
       userId: string,
       promptId: string
    ): Promise<DPrompt0 | null> {
@@ -97,7 +94,7 @@ export class PromptRepository {
       return null;
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPrompt0Category[]> {
+   async pGetPrompt0Categories(userId: string): Promise<DPrompt0Category[]> {
       return await this.prisma.prompt0Category.findMany({
          where: { userId },
          select: {
@@ -106,7 +103,7 @@ export class PromptRepository {
       });
    }
 
-   async pCreatePrompt(userId: string, data: DPrompt0Update) {
+   async pCreatePrompt0(userId: string, data: DPrompt0Update) {
       const categories = this.createOrConnectCategories(
          userId,
          data.categories
@@ -136,7 +133,7 @@ export class PromptRepository {
       });
    }
 
-   async pUpdatePrompt(
+   async pUpdatePrompt0(
       userId: string,
       promptId: string,
       data: DPrompt0Update,
@@ -178,6 +175,13 @@ export class PromptRepository {
       });
    }
 
+   async pDeletePrompt0(userId: string, promptId: string) {
+      const args: Prompt0DeleteArgs = {
+         where: { id: promptId, userId },
+      };
+      await this.prisma.prompt0.delete(args);
+   }
+
    async pToggleFavorite(
       userId: string,
       promptId: string,
@@ -187,13 +191,6 @@ export class PromptRepository {
          where: { id: promptId, userId },
          data: { isFavorite },
       });
-   }
-
-   async pDeletePrompt(userId: string, promptId: string) {
-      const args: Prompt0DeleteArgs = {
-         where: { id: promptId, userId },
-      };
-      await this.prisma.prompt0.delete(args);
    }
 
    followUpPromptUpdates(
@@ -276,7 +273,7 @@ export class PromptRepository {
       };
    }
 
-   private resolveGetPromptDescriptorsWhereInput(
+   private resolveGetPrompt0sWhereInput(
       userId: string,
       query?: DPrompt0sPageQuery
    ): Prompt0WhereInput | undefined {

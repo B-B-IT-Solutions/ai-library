@@ -5,10 +5,10 @@ import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PromptRepository } from "./prompt0";
+import { PublicTemplateRepository, TemplateRepository } from "./prompt";
+import { Prompt0Repository } from "./prompt0";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
-import { PublicTemplateRepository, TemplateRepository } from "./prompt";
 import {
    PasswordResetRepository,
    UserRepository,
@@ -27,7 +27,7 @@ export class RepositoryFactory {
    private publicCollectionRepo?: PublicCollectionRepository;
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
-   private promptRepo?: PromptRepository;
+   private prompt0Repo?: Prompt0Repository;
    private templateRepo?: TemplateRepository;
    private publicTemplateRepo?: PublicTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
@@ -112,11 +112,11 @@ export class RepositoryFactory {
       return this.productRepo;
    }
 
-   promptRepository(): PromptRepository {
-      if (!this.promptRepo) {
-         this.promptRepo = new PromptRepository(this.prisma);
+   prompt0Repository(): Prompt0Repository {
+      if (!this.prompt0Repo) {
+         this.prompt0Repo = new Prompt0Repository(this.prisma);
       }
-      return this.promptRepo;
+      return this.prompt0Repo;
    }
 
    templateRepository(): TemplateRepository {

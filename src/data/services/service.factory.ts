@@ -145,7 +145,7 @@ export class ServiceFactory {
    getPrompt0Service(): Prompt0Service {
       if (!this.promptService) {
          this.promptService = new Prompt0Service(
-            this.repositories.promptRepository()
+            this.repositories.prompt0Repository()
          );
       }
       return this.promptService;
