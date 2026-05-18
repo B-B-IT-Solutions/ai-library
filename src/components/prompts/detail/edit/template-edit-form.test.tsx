@@ -437,7 +437,7 @@ describe("TemplateEditForm functionality tests", () => {
       });
    });
 
-   it("new entry - save btn clicked - upgradeRequired - shows upgrade toast - test", async () => {
+   it("new entry - save btn clicked - failed - upgradeRequired - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Limit erreicht. Bitte upgrade dein Abo.",
@@ -457,16 +457,35 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
+      const expectedPayload: DPromptUpdate = {
+         title: "Test Template",
+         description: "Test Description",
+         content: "Template Content {{task}}",
+         categories: [],
+         fields: [],
+         globalFieldIds: [],
+         recommendedModel: "Claude",
+      };
+
+      const expectedToastPayload = {
+         action: {
+            label: "Upgrade",
+            onClick: expect.any(Function),
+         },
+      };
+
       await waitFor(() => {
          expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
+            expectedPayload
+         );
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             result.message,
-            expect.objectContaining({
-               action: expect.objectContaining({ label: "Upgrade" }),
-            })
+            expectedToastPayload
          );
-         // Router should NOT navigate away
          expect(mockRouter.pathname).toEqual("/");
       });
    });
