@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered test 1`] = `
+exports[`EditPromptPage rendering tests prompt found - test 1`] = `
 <div>
   <div
     class="h-screen bg-slate-50"
@@ -737,4 +737,4 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
 </div>
 `;
 
-exports[`EditPromptPage rendering tests EditPromptPage - prompt not found - rendered test 1`] = `<div />`;
+exports[`EditPromptPage rendering tests prompt not found - test 1`] = `<div />`;

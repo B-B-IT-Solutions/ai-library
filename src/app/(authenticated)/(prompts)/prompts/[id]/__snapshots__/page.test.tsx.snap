@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`] = `
+exports[`PromptPage rendering tests prompt found - test 1`] = `
 <div>
   <div
     class="h-screen bg-slate-50"
@@ -691,4 +691,4 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
 </div>
 `;
 
-exports[`PromptPage rendering tests PromptPage - prompt not found - rendered test 1`] = `<div />`;
+exports[`PromptPage rendering tests prompt not found - test 1`] = `<div />`;
