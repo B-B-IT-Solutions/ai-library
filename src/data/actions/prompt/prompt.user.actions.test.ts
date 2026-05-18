@@ -3,7 +3,10 @@ jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
-import { requireUser } from "@/data/actions/auth-utils";
+import {
+   AiLibAuthenticationError,
+   requireUser,
+} from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/prompt";
 import { SubscriptionService } from "@/data/services/subscription";
@@ -106,9 +109,9 @@ const sGetPromptTemplateCategoriesMock =
       typeof sGetPromptTemplateCategories
    >;
 
-const sGetPromptsCount = TemplateService.prototype.getPromptsCount;
-const sGetPromptsCountMock = sGetPromptsCount as jest.MockedFunction<
-   typeof sGetPromptsCount
+const sGetPromptsUsage = TemplateService.prototype.getPromptsUsage;
+const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
+   typeof sGetPromptsUsage
 >;
 
 describe("getTemplateDescriptorsPage tests", () => {
@@ -1058,7 +1061,7 @@ describe("getPromptTemplateCategories tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPromptTemplateCategories - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
@@ -1070,7 +1073,7 @@ describe("getPromptTemplateCategories tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("getPromptTemplateCategories test", async () => {
+   it("test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -1089,63 +1092,62 @@ describe("getPromptTemplateCategories tests", () => {
 describe("getPromptsUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
    afterEach(() => {
       jest.restoreAllMocks();
    });
 
-   it("FREE tier - returns current count and limit 5 - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sGetPromptsCountMock.mockResolvedValue(3);
-      jest
-         .spyOn(SubscriptionService.prototype, "getUserTier")
-         .mockResolvedValue("FREE");
-
-      const result = await getPromptsUsage();
-
-      const expected: DPromptsUsage = { current: 3, limit: 5 };
-      expect(result).toEqual(expected);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsCountMock).toHaveBeenCalledWith(user.id);
-   });
-
-   it("BASIC tier - returns current count and limit 50 - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sGetPromptsCountMock.mockResolvedValue(25);
-      jest
-         .spyOn(SubscriptionService.prototype, "getUserTier")
-         .mockResolvedValue("BASIC");
-
-      const result = await getPromptsUsage();
-
-      const expected: DPromptsUsage = { current: 25, limit: 50 };
-      expect(result).toEqual(expected);
-   });
-
-   it("PRO tier - returns current count and limit -1 (unlimited) - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sGetPromptsCountMock.mockResolvedValue(500);
-      jest
-         .spyOn(SubscriptionService.prototype, "getUserTier")
-         .mockResolvedValue("PRO");
-
-      const result = await getPromptsUsage();
-
-      const expected: DPromptsUsage = { current: 500, limit: -1 };
-      expect(result).toEqual(expected);
-   });
-
-   it("error - returns default usage { current: 0, limit: -1 } - test", async () => {
-      const error = new Error("auth error");
+   it("user undefined - test", async () => {
+      const error = new AiLibAuthenticationError("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const result = await getPromptsUsage();
 
-      const expected: DPromptsUsage = { current: 0, limit: -1 };
-      expect(result).toEqual(expected);
+      const expectedResult: DPromptsUsage = {
+         current: 0,
+         limit: 0,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sGetPromptsUsageMock.mockRejectedValue(error);
+
+      const result = await getPromptsUsage();
+
+      const expectedResult: DPromptsUsage = {
+         current: 0,
+         limit: -1,
+      };
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledWith(user.id);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("prompt usage retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const usage = dtestData.dPromptsUsage();
+      sGetPromptsUsageMock.mockResolvedValue(usage);
+
+      const result = await getPromptsUsage();
+
+      expect(result).toEqual(usage);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledWith(user.id);
    });
 });

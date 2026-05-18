@@ -44,6 +44,7 @@ import {
    DPromptsFilter,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptsUsage,
    DPromptUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
@@ -503,6 +504,13 @@ export const dInstruction = (index = 1): DInstruction => {
       title: `title ${index}`,
       description: `description ${index}`,
       step: index,
+   };
+};
+
+export const dPromptsUsage = (index = 1): DPromptsUsage => {
+   return {
+      current: 5 + index,
+      limit: 50 + index,
    };
 };
 

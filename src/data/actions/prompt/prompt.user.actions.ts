@@ -2,7 +2,10 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { requireUser } from "@/data/actions/auth-utils";
+import {
+   AiLibAuthenticationError,
+   requireUser,
+} from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
@@ -310,15 +313,19 @@ export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
       const service = getService();
       return await service.getPromptsUsage(user.id);
    } catch (error) {
-      console.error(
-         "DPromptUsage can't be retrieved, falling back to unlimited",
-         formatError(error)
-      );
+      if (error instanceof AiLibAuthenticationError) {
+         console.error(formatError(error));
+         const fallback: DPromptsUsage = { current: 0, limit: 0 };
+         return fallback;
+      } else {
+         console.error(
+            "DPromptUsage can't be retrieved, falling back to unlimited",
+            formatError(error)
+         );
 
-      return {
-         current: 0,
-         limit: -1,
-      };
+         const fallback: DPromptsUsage = { current: 0, limit: -1 };
+         return fallback;
+      }
    }
 };
 
