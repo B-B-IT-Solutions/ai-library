@@ -65,8 +65,8 @@ export const createPrompt = async (
    try {
       const user = await requireUser();
       const service = getService();
-
       await service.createPrompt(user.id, data);
+
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
