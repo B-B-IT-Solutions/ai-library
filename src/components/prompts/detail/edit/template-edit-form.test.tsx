@@ -19,7 +19,7 @@ jest.mock("@/components/shared/md", () => {
    return { MDEditor };
 });
 
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -31,7 +31,7 @@ import {
    typeIntoTipTap,
 } from "@tests";
 import mockRouter from "next-router-mock";
-import { toast } from "sonner";
+import { Action, ExternalToast, toast } from "sonner";
 
 import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -480,14 +480,20 @@ describe("TemplateEditForm functionality tests", () => {
             expectedPayload
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
-         expect(toastMock.error).toHaveBeenCalledWith(result.message);
-         expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             result.message,
             expectedToastPayload
          );
          expect(mockRouter.pathname).toEqual("/");
       });
+
+      const toastCall = toastMock.error.mock.calls[0];
+      const toastOptions = toastCall[1] as ExternalToast;
+      const action = toastOptions.action as Action;
+      const event = null as unknown as MouseEvent<HTMLButtonElement>;
+      action.onClick(event);
+
+      expect(mockRouter.asPath).toEqual("/subscription/pricing");
    });
 
    it("new entry - save btn clicked  - failed - test", async () => {
