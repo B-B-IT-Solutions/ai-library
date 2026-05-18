@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { PromptEdit } from "@/components/prompt0s";
+import { Prompt0Edit } from "@/components/prompt0s";
 import { getPrompt } from "@/data/actions/prompt0";
 
 export const metadata = {
@@ -24,7 +24,7 @@ const EditPromptPage = async (props: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-edit-page">
-         <PromptEdit prompt={prompt} />
+         <Prompt0Edit prompt={prompt} />
       </div>
    );
 };

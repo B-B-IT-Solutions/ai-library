@@ -30,8 +30,8 @@ describe("PromptPage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("PromptPage - prompt not found - rendered test", async () => {
-      getPromptMock.mockResolvedValue(undefined);
+   it("prompt not found - test", async () => {
+      getPromptMock.mockResolvedValue(null);
 
       const params = { id: "prompt-1" };
       const props: PromptPageProps = {
@@ -47,7 +47,7 @@ describe("PromptPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptPage - prompt found - rendered test", async () => {
+   it("prompt found - test", async () => {
       const prompt = dtestData.dPrompt0();
       getPromptMock.mockResolvedValue(prompt);
 
@@ -67,7 +67,7 @@ describe("PromptPage rendering tests", () => {
 });
 
 describe("PromptPage functionality tests", () => {
-   it("PromptPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

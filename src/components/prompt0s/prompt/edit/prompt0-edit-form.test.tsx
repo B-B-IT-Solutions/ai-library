@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
-import { PromptEdit } from "./prompt0-edit";
+import { Prompt0Edit } from "./prompt0-edit";
 
 const mockCreatePrompt = createPrompt as jest.MockedFunction<
    typeof createPrompt
@@ -52,13 +52,13 @@ const assertEditBtnsRendered = () => {
    assertInDocument(dropdownTriggerBtn);
 };
 
-describe("PromptEdit rendering tests", () => {
+describe("Prompt0Edit rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("PromptEdit - create mode - rendered test", async () => {
-      const { container } = render(<PromptEdit />);
+   it("create mode - rendered test", async () => {
+      const { container } = render(<Prompt0Edit />);
 
       await waitFor(() => {
          assertRendered();
@@ -68,9 +68,9 @@ describe("PromptEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptEdit - edit mode - rendered test", async () => {
+   it("edit mode - rendered test", async () => {
       const prompt = dtestData.dPrompt0();
-      const { container } = render(<PromptEdit prompt={prompt} />);
+      const { container } = render(<Prompt0Edit prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -81,14 +81,14 @@ describe("PromptEdit rendering tests", () => {
    });
 });
 
-describe("PromptEdit functionality tests", () => {
+describe("Prompt0Edit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("PromptEdit - create mode - cancel btn clicked - test", async () => {
-      render(<PromptEdit mode="create" />);
+   it("create mode - cancel btn clicked - test", async () => {
+      render(<Prompt0Edit />);
 
       await waitFor(() => {
          assertRendered();
@@ -101,9 +101,9 @@ describe("PromptEdit functionality tests", () => {
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
    });
 
-   it("PromptEdit - edit mode - cancel btn clicked - test", async () => {
+   it("Prompt0Edit - edit mode - cancel btn clicked - test", async () => {
       const prompt = dtestData.dPrompt0();
-      render(<PromptEdit mode="edit" prompt={prompt} />);
+      render(<Prompt0Edit prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -116,14 +116,14 @@ describe("PromptEdit functionality tests", () => {
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
    });
 
-   it("PromptEdit - create mode - save success - test", async () => {
+   it("Prompt0Edit - create mode - save success - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt created successfully",
       };
       mockCreatePrompt.mockResolvedValue(actionResult);
 
-      render(<PromptEdit mode="create" />);
+      render(<Prompt0Edit mode="create" />);
 
       await waitFor(() => {
          assertRendered();
@@ -161,7 +161,7 @@ describe("PromptEdit functionality tests", () => {
       });
    });
 
-   it("PromptEdit - edit mode - save success - test", async () => {
+   it("Prompt0Edit - edit mode - save success - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt updated successfully",
@@ -169,7 +169,7 @@ describe("PromptEdit functionality tests", () => {
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPrompt0();
-      render(<PromptEdit mode="edit" prompt={prompt} />);
+      render(<Prompt0Edit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -200,7 +200,7 @@ describe("PromptEdit functionality tests", () => {
       });
    });
 
-   it("PromptEdit - edit mode - save new version success - test", async () => {
+   it("Prompt0Edit - edit mode - save new version success - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt updated successfully",
@@ -208,7 +208,7 @@ describe("PromptEdit functionality tests", () => {
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPrompt0();
-      render(<PromptEdit mode="edit" prompt={prompt} />);
+      render(<Prompt0Edit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -247,7 +247,7 @@ describe("PromptEdit functionality tests", () => {
       });
    });
 
-   it("PromptEdit - edit mode - save failed - test", async () => {
+   it("Prompt0Edit - edit mode - save failed - test", async () => {
       const actionResult = {
          success: false,
          message: "Failed to update prompt",
@@ -260,7 +260,7 @@ describe("PromptEdit functionality tests", () => {
       prompt2.categories.push({ name: " " });
       prompt2.followUpPrompts.push({ id: "0", order: 10, content: " " });
 
-      render(<PromptEdit mode="edit" prompt={prompt2} />);
+      render(<Prompt0Edit mode="edit" prompt={prompt2} />);
 
       await waitFor(() => {
          assertRendered();

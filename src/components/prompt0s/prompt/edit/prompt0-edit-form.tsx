@@ -39,7 +39,7 @@ type Props =
         onSuccess?: () => void;
      };
 
-export const PromptEditForm = ({ prompt, mode }: Props) => {
+export const Prompt0EditForm = ({ prompt, mode }: Props) => {
    const router = useRouter();
    const isEdit = mode === "edit";
 

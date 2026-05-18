@@ -30,7 +30,7 @@ describe("EditPromptPage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("EditPromptPage - prompt not found - rendered test", async () => {
+   it("prompt not found - test", async () => {
       getPromptMock.mockResolvedValue(null);
 
       const params = { id: "prompt-1" };
@@ -47,7 +47,7 @@ describe("EditPromptPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("EditPromptPage - prompt found - rendered test", async () => {
+   it("prompt found - test", async () => {
       const prompt = dtestData.dPrompt0();
       getPromptMock.mockResolvedValue(prompt);
 
@@ -67,7 +67,7 @@ describe("EditPromptPage rendering tests", () => {
 });
 
 describe("EditPromptPage functionality tests", () => {
-   it("EditPromptPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

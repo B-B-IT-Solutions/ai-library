@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptEdit } from "./prompt0-edit";
+import { Prompt0Edit } from "./prompt0-edit";
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("prompt-edit");
@@ -14,9 +14,9 @@ const assertRendered = () => {
    assertInDocument(form);
 };
 
-describe("PromptEdit rendering tests", () => {
-   it("PromptEdit - new prompt - test", async () => {
-      const { container } = render(<PromptEdit />);
+describe("Prompt0Edit rendering tests", () => {
+   it("new prompt - test", async () => {
+      const { container } = render(<Prompt0Edit />);
 
       await waitFor(() => {
          assertRendered();
@@ -25,10 +25,10 @@ describe("PromptEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptEdit - edit existing prompt - test", async () => {
+   it("edit existing prompt - test", async () => {
       const prompt = dtestData.dPrompt0();
 
-      const { container } = render(<PromptEdit prompt={prompt} />);
+      const { container } = render(<Prompt0Edit prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

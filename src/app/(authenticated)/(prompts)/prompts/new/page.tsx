@@ -1,4 +1,4 @@
-import { PromptEdit } from "@/components/prompt0s";
+import { Prompt0Edit } from "@/components/prompt0s";
 
 export const metadata = {
    title: "Neuer Prompt",
@@ -10,7 +10,7 @@ export const NewPromptPage = async () => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="prompt-new-page"
       >
-         <PromptEdit />
+         <Prompt0Edit />
       </div>
    );
 };
