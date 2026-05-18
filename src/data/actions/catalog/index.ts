@@ -4,4 +4,4 @@ export {
    getCatalogEntryCategories,
 } from "./catalog.public.actions";
 
-export { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
+export { addCatalogEntryToUserPrompts } from "./catalog.user.actions";

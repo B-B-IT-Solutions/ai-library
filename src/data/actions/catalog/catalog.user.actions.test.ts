@@ -8,7 +8,7 @@ import { CatalogService } from "@/data/services/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
-import { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
+import { addCatalogEntryToUserPrompts } from "./catalog.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -33,7 +33,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await addCatalogEntryToUserTemplates(invalidId);
+      const result = await addCatalogEntryToUserPrompts(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -53,7 +53,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -76,7 +76,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -101,7 +101,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
       sAddCatalogEntryToUserPromptsMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,

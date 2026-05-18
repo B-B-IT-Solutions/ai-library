@@ -9,15 +9,15 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserPrompts } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
 import { AddCatalogEntryToLibraryMenuItem } from "./add-entry-to-library-menu-item";
 
-const addEntryToUserTemplatesMock =
-   addCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof addCatalogEntryToUserTemplates
+const addEntryToUserPromptsMock =
+   addCatalogEntryToUserPrompts as jest.MockedFunction<
+      typeof addCatalogEntryToUserPrompts
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
@@ -83,7 +83,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       await waitFor(() => {
          assertMenuItemRendered();
          expect(onAuthRequiredMock).not.toHaveBeenCalled();
-         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(addEntryToUserPromptsMock).not.toHaveBeenCalled();
       });
 
       const item = screen.getByTestId("add-entry-to-library-menu-item");
@@ -91,7 +91,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          expect(onAuthRequiredMock).toHaveBeenCalledTimes(1);
-         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(addEntryToUserPromptsMock).not.toHaveBeenCalled();
       });
    });
 
@@ -105,7 +105,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
             templateId: descriptorId,
          },
       };
-      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
+      addEntryToUserPromptsMock.mockResolvedValue(actionResult);
 
       const onAuthRequiredMock = jest.fn();
 
@@ -121,7 +121,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       await waitFor(() => {
          assertMenuItemRendered();
          expect(onAuthRequiredMock).not.toHaveBeenCalled();
-         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(addEntryToUserPromptsMock).not.toHaveBeenCalled();
          expect(mockRouter.asPath).toEqual("/");
       });
 
@@ -138,8 +138,8 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          expect(onAuthRequiredMock).not.toHaveBeenCalled();
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
@@ -163,7 +163,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
+      addEntryToUserPromptsMock.mockResolvedValue(actionResult);
 
       const onAuthRequiredMock = jest.fn();
       const entry = dtestData.dCatalogEntry();
@@ -178,7 +178,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       await waitFor(() => {
          assertMenuItemRendered();
          expect(onAuthRequiredMock).not.toHaveBeenCalled();
-         expect(addEntryToUserTemplatesMock).not.toHaveBeenCalled();
+         expect(addEntryToUserPromptsMock).not.toHaveBeenCalled();
          expect(mockRouter.asPath).toEqual("/");
       });
 
@@ -187,7 +187,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
 
       await waitFor(() => {
          expect(onAuthRequiredMock).not.toHaveBeenCalled();
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"

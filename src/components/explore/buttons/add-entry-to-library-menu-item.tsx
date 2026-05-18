@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserPrompts } from "@/data/actions/catalog";
 import { CallbackFn } from "@/data/types/common";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
@@ -26,7 +26,7 @@ export const AddCatalogEntryToLibraryMenuItem = ({
 
    const addEntryToLibrary = () => {
       startTransition(async () => {
-         const result = await addCatalogEntryToUserTemplates(entry.id);
+         const result = await addCatalogEntryToUserPrompts(entry.id);
 
          if (result.success) {
             toast.success("Vorlage wurde in deine Library übernommen", {
