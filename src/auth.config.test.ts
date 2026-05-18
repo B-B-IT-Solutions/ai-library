@@ -266,10 +266,12 @@ describe("auth.config - callback.authorized - tests", () => {
    });
 
    it("authorized - protected path access with authentication allowed - test", () => {
-      const mockResponse = {} as NextResponse;
+      const mockResponse = ntestData.nextResponse();
       nextMock.mockReturnValue(mockResponse);
 
       forEach(protectedPaths, (path) => {
+         nextMock.mockClear();
+
          const request = {
             nextUrl: { pathname: path },
             cookies: {
@@ -284,7 +286,18 @@ describe("auth.config - callback.authorized - tests", () => {
          } as Session;
 
          const result = authorized({ request, auth });
+
+         const expectedResponseInit = {
+            request: {
+               headers: new Headers({
+                  "x-pathname": path,
+               }),
+            },
+         };
+
          expect(result).toBe(mockResponse);
+         expect(nextMock).toHaveBeenCalledTimes(1);
+         expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
       });
    });
 
@@ -293,6 +306,8 @@ describe("auth.config - callback.authorized - tests", () => {
       nextMock.mockReturnValue(mockResponse);
 
       forEach(publicPaths, (path) => {
+         nextMock.mockClear();
+
          const request = {
             nextUrl: { pathname: path },
             cookies: {
@@ -312,7 +327,7 @@ describe("auth.config - callback.authorized - tests", () => {
          };
 
          expect(result).toBe(mockResponse);
-         // expect(nextMock).toHaveBeenCalledTimes(1);
+         expect(nextMock).toHaveBeenCalledTimes(1);
          expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
       });
    });
