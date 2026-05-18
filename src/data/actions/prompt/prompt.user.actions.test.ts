@@ -13,6 +13,7 @@ import { SubscriptionService } from "@/data/services/subscription";
 import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 import {
    composePromptFromTemplate,
@@ -266,7 +267,7 @@ describe("createPrompt tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("error - test", async () => {
+   it("db error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -279,6 +280,29 @@ describe("createPrompt tests", () => {
       const expectedResult: ActionResult = {
          success: false,
          message: "Vorlage konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("subscription error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
+      sCreatePromptMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptUpdate();
+
+      const result = await createPrompt(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
       };
 
       expect(result).toEqual(expectedResult);
