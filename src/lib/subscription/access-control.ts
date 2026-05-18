@@ -1,3 +1,5 @@
+"use server";
+
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
 export type TierFeatures = {

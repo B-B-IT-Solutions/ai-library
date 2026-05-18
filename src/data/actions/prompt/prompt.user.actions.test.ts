@@ -3,17 +3,14 @@ jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
-import {
-   AiLibAuthenticationError,
-   requireUser,
-} from "@/data/actions/auth-utils";
+import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/prompt";
-import { SubscriptionService } from "@/data/services/subscription";
 import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+import { AiLibAuthenticationError } from "../types";
 
 import {
    composePromptFromTemplate,

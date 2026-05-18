@@ -2,10 +2,7 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import {
-   AiLibAuthenticationError,
-   requireUser,
-} from "@/data/actions/auth-utils";
+import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
@@ -23,6 +20,7 @@ import {
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+import { AiLibAuthenticationError } from "../types";
 
 type DGetPromptTemplatesParams = {
    search?: string;
