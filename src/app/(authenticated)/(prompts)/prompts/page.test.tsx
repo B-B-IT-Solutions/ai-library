@@ -1,5 +1,5 @@
 jest.mock("@/components/prompt0s", () => ({
-   PromptsDashboard: () => {
+   Prompt0sDashboard: () => {
       return <div data-testid="prompts-dashboard" />;
    },
 }));

@@ -1,5 +1,5 @@
 jest.mock("@/components/prompts", () => ({
-   TemplatesDashboard: () => {
+   PromptsDashboard: () => {
       return <div data-testid="templates-dashboard" />;
    },
    templatesSearchParamsCache: {

@@ -19,7 +19,7 @@ import { CreateTemplateButton } from "./buttons";
 import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
-export const TemplatesDashboard = async () => {
+export const PromptsDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = templatesSearchParamsCache.get("view");

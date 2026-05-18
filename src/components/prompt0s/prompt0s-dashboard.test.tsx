@@ -5,7 +5,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
 import { getPrompts } from "@/data/actions/prompt0";
 
-import { PromptsDashboard } from "./prompts-dashboard";
+import { Prompt0sDashboard } from "./prompt0s-dashboard";
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 
@@ -21,7 +21,7 @@ const assertRendered = () => {
    assertInDocument(prompts);
 };
 
-describe("PromptsDashboard rendering tests", () => {
+describe("Prompt0sDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPrompt0sPage();
       getPromptsMock.mockResolvedValue(page);
@@ -31,8 +31,8 @@ describe("PromptsDashboard rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("PromptsDashboard rendered test", async () => {
-      const { container } = await renderAsyncRSC(PromptsDashboard, {});
+   it("rendered - test", async () => {
+      const { container } = await renderAsyncRSC(Prompt0sDashboard, {});
 
       await waitFor(() => {
          assertRendered();

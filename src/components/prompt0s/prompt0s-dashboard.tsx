@@ -15,7 +15,7 @@ import { DPrompt0sFilter } from "@/data/types/domain/prompt0";
 import { CreatePromptButton } from "./buttons";
 import { Prompts, PromptsToolbar } from "./lists";
 
-export const PromptsDashboard = async () => {
+export const Prompt0sDashboard = async () => {
    const queryClient = new QueryClient();
 
    await Promise.all([
