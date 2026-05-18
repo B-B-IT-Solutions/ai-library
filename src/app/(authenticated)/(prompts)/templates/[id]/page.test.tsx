@@ -5,16 +5,11 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import {
-   getPromptTemplate,
-   getTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
 
 import { metadata, PageParams, PageProps, TemplatePage } from "./page";
 
-const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
-   typeof getTemplateDescriptor
->;
+const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
 const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
    typeof getPromptTemplate
@@ -40,7 +35,7 @@ describe("TemplatePage rendering tests", () => {
    });
 
    it("descriptor null - test", async () => {
-      getTemplateDescriptorMock.mockResolvedValue(null);
+      getPromptMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -50,8 +45,8 @@ describe("TemplatePage rendering tests", () => {
       const { container } = await renderAsyncRSC(TemplatePage, props);
 
       await waitFor(() => {
-         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptMock).toHaveBeenCalledTimes(1);
+         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
          expect(getPromptTemplateMock).not.toHaveBeenCalled();
       });
@@ -61,7 +56,7 @@ describe("TemplatePage rendering tests", () => {
 
    it("descriptor retrieved - template null - test", async () => {
       const descriptor = dtestData.dPrompt();
-      getTemplateDescriptorMock.mockResolvedValue(descriptor);
+      getPromptMock.mockResolvedValue(descriptor);
 
       getPromptTemplateMock.mockResolvedValue(null);
 
@@ -73,8 +68,8 @@ describe("TemplatePage rendering tests", () => {
       const { container } = await renderAsyncRSC(TemplatePage, props);
 
       await waitFor(() => {
-         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptMock).toHaveBeenCalledTimes(1);
+         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
@@ -85,7 +80,7 @@ describe("TemplatePage rendering tests", () => {
 
    it("descriptor retrieved - template retrieved - test", async () => {
       const descriptor = dtestData.dPrompt();
-      getTemplateDescriptorMock.mockResolvedValue(descriptor);
+      getPromptMock.mockResolvedValue(descriptor);
 
       const template = dtestData.dPromptWithContent();
       getPromptTemplateMock.mockResolvedValue(template);
@@ -99,8 +94,8 @@ describe("TemplatePage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptMock).toHaveBeenCalledTimes(1);
+         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
          expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
       });

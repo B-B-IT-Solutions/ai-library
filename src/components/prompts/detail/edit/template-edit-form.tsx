@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
    DPrompt,
    DPromptField,
@@ -123,7 +123,7 @@ export const TemplateEditForm = ({
 
    const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updateTemplateDescriptor(descriptor.id, data);
+         const result = await updatePrompt(descriptor.id, data);
          if (result.success) {
             toast.success(result.message);
             router.push(`/templates/${descriptor.id}`);

@@ -27,7 +27,7 @@ type DGetPromptTemplatesParams = {
    categories?: string[];
 };
 
-export const getTemplateDescriptorsPage = async (
+export const getPromptsPage = async (
    query?: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
    try {
@@ -40,7 +40,7 @@ export const getTemplateDescriptorsPage = async (
    }
 };
 
-export const getTemplateDescriptor = async (
+export const getPrompt = async (
    descriptorId: string
 ): Promise<DPrompt | null> => {
    try {
@@ -83,7 +83,7 @@ export const createPrompt = async (
    }
 };
 
-export const updateTemplateDescriptor = async (
+export const updatePrompt = async (
    descriptorId: string,
    data: DPromptUpdate
 ): Promise<ActionResult> => {
@@ -109,7 +109,7 @@ export const updateTemplateDescriptor = async (
    }
 };
 
-export const deleteTemplateDescriptor = async (
+export const deletePrompt = async (
    descriptorId: string
 ): Promise<ActionResult> => {
    try {
@@ -134,7 +134,7 @@ export const deleteTemplateDescriptor = async (
    }
 };
 
-export const getPromptGenerationTemplateData = async (
+export const getPromptGenerationData = async (
    templateId: string
 ): Promise<DPromptGenerationData | null> => {
    try {
@@ -181,7 +181,7 @@ export const composePromptFromTemplate = async (
    }
 };
 
-export const downloadTemplate = async (
+export const downloadPrompt = async (
    descriptorId: string
 ): Promise<ActionResult<string>> => {
    try {
@@ -211,7 +211,7 @@ export const downloadTemplate = async (
    }
 };
 
-export const toggleTemplateDescriptorFavorite = async (
+export const togglePromptFavorite = async (
    descriptorId: string,
    isFavorite: boolean
 ): Promise<ActionResult> => {
@@ -243,7 +243,7 @@ export const toggleTemplateDescriptorFavorite = async (
    }
 };
 
-export const getTemplateDescriptorCategories = async (): Promise<string[]> => {
+export const getPromptCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -254,7 +254,7 @@ export const getTemplateDescriptorCategories = async (): Promise<string[]> => {
    }
 };
 
-export const getTemplateDescriptorModels = async (): Promise<string[]> => {
+export const getPromptModels = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();

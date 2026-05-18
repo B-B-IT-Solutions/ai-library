@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { downloadTemplate } from "@/data/actions/prompt";
+import { downloadPrompt } from "@/data/actions/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
@@ -20,7 +20,7 @@ export const DownloadTemplateButton = ({ descriptor, asMenuItem }: Props) => {
 
    const handleDownload = () => {
       startTransition(async () => {
-         const result = await downloadTemplate(descriptor.id);
+         const result = await downloadPrompt(descriptor.id);
          if (result.success && result.data) {
             const blob = new Blob([result.data], {
                type: "application/json",

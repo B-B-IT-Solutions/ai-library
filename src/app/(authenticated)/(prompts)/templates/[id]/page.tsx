@@ -2,10 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateView } from "@/components/prompts";
-import {
-   getPromptTemplate,
-   getTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
 
 export const metadata: Metadata = {
    title: "Vorlage",
@@ -21,7 +18,7 @@ export type PageProps = {
 
 export const TemplatePage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
-   const descriptor = await getTemplateDescriptor(descriptorId);
+   const descriptor = await getPrompt(descriptorId);
 
    if (!descriptor) {
       return notFound();
