@@ -12,7 +12,8 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
-import { requireCountLimit, TIER_FEATURES } from "@/lib/subscription";
+import { TIER_FEATURES } from "@/lib/subscription/access-control";
+import { requireCountLimit } from "@/lib/subscription/server-guards";
 import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";

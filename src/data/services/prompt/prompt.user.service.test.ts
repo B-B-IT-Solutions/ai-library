@@ -2,10 +2,7 @@
 jest.mock("@/data/services/settings");
 jest.mock("@/data/services/subscription");
 jest.mock("@/lib/template");
-jest.mock("@/lib/subscription", () => ({
-   ...jest.requireActual("@/lib/subscription"),
-   requireCountLimit: jest.fn(),
-}));
+jest.mock("@/lib/subscription/server-guards");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -20,7 +17,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
-import { requireCountLimit } from "@/lib/subscription";
+import { requireCountLimit } from "@/lib/subscription/server-guards";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
