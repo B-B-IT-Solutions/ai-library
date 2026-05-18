@@ -62,8 +62,7 @@ export const authConfig: NextAuthConfig = {
 
          // Build forwarded headers — always include x-pathname so Server
          // Components (e.g. the authenticated layout) can read the current route
-         // without needing a separate headers() call that is unavailable at the
-         // edge runtime.
+         // without needing a separate headers() call that is unavailable at the edge runtime.
          const requestHeaders = new Headers(request.headers);
          requestHeaders.set("x-pathname", pathname);
 
@@ -73,7 +72,9 @@ export const authConfig: NextAuthConfig = {
                return NextResponse.redirect(new URL("/templates", request.url));
             }
             if (pathname === "/preview/marketplace") {
-               return NextResponse.redirect(new URL("/marketplace", request.url));
+               return NextResponse.redirect(
+                  new URL("/marketplace", request.url)
+               );
             }
          }
 
@@ -99,7 +100,9 @@ export const authConfig: NextAuthConfig = {
          }
 
          // Forward x-pathname to all downstream Server Components
-         return NextResponse.next({ request: { headers: requestHeaders } });
+         return NextResponse.next({
+            request: { headers: requestHeaders },
+         });
       },
       async session({ session, user, trigger, token }) {
          // Set the user ID from the token
