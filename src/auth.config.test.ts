@@ -166,7 +166,7 @@ describe("auth.config - callback.authorized - tests", () => {
    const authorized = authConfig.callbacks!.authorized!;
 
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("authorized - authenticated user on root '/' redirected to /templates - test", () => {
@@ -266,6 +266,9 @@ describe("auth.config - callback.authorized - tests", () => {
    });
 
    it("authorized - protected path access with authentication allowed - test", () => {
+      const mockResponse = {} as NextResponse;
+      nextMock.mockReturnValue(mockResponse);
+
       forEach(protectedPaths, (path) => {
          const request = {
             nextUrl: { pathname: path },
@@ -273,6 +276,7 @@ describe("auth.config - callback.authorized - tests", () => {
                get: jest.fn().mockReturnValue({ value: "session-id" }),
                set: jest.fn(),
             },
+            headers: new Headers(),
          } as unknown as NextRequest;
 
          const auth = {
@@ -280,21 +284,36 @@ describe("auth.config - callback.authorized - tests", () => {
          } as Session;
 
          const result = authorized({ request, auth });
-         expect(result).toBe(true);
+         expect(result).toBe(mockResponse);
       });
    });
 
    it("authorized - public path access without authentication allowed - test", () => {
+      const mockResponse = ntestData.nextResponse();
+      nextMock.mockReturnValue(mockResponse);
+
       forEach(publicPaths, (path) => {
          const request = {
             nextUrl: { pathname: path },
             cookies: {
                get: jest.fn().mockReturnValue({ value: "session-id" }),
             },
+            headers: new Headers(),
          } as unknown as NextRequest;
 
          const result = authorized({ request, auth: null });
-         expect(result).toBe(true);
+
+         const expectedResponseInit = {
+            request: {
+               headers: new Headers({
+                  "x-pathname": path,
+               }),
+            },
+         };
+
+         expect(result).toBe(mockResponse);
+         // expect(nextMock).toHaveBeenCalledTimes(1);
+         expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
       });
    });
 
@@ -320,7 +339,10 @@ describe("auth.config - callback.authorized - tests", () => {
 
       const expectedResponseInit = {
          request: {
-            headers: new Headers(request.headers),
+            headers: new Headers({
+               "header-1": "value-1",
+               "x-pathname": "/public",
+            }),
          },
       };
 
@@ -336,6 +358,9 @@ describe("auth.config - callback.authorized - tests", () => {
    });
 
    it("authorized - sessionCartId defined - test", () => {
+      const mockResponse = ntestData.nextResponse();
+      nextMock.mockReturnValue(mockResponse);
+
       const request = {
          nextUrl: { pathname: "/public" },
          cookies: {
@@ -350,10 +375,19 @@ describe("auth.config - callback.authorized - tests", () => {
 
       const result = authorized({ request, auth });
 
-      expect(result).toEqual(true);
+      const expectedResponseInit = {
+         request: {
+            headers: new Headers({
+               "x-pathname": "/public",
+            }),
+         },
+      };
+
+      expect(result).toEqual(mockResponse);
       expect(request.cookies.get).toHaveBeenCalledTimes(1);
       expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
-      expect(nextMock).not.toHaveBeenCalled();
+      expect(nextMock).toHaveBeenCalledTimes(1);
+      expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
    });
 });
 
