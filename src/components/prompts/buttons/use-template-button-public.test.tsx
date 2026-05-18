@@ -7,15 +7,15 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { getPublicPromptGenerationTemplateData } from "@/data/actions/prompt";
+import { getPublicPromptGenerationData } from "@/data/actions/prompt";
 
 import { PublicUseTemplateButton } from "./use-template-button-public";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const getPublicPromptGenerationTemplateDataMock =
-   getPublicPromptGenerationTemplateData as jest.MockedFunction<
-      typeof getPublicPromptGenerationTemplateData
+const getPublicPromptGenerationDataMock =
+   getPublicPromptGenerationData as jest.MockedFunction<
+      typeof getPublicPromptGenerationData
    >;
 
 const assertRendered = () => {
@@ -36,7 +36,7 @@ const assertDialogNotRendered = () => {
 describe("PublicUseTemplateButton rendering tests", () => {
    it("with fields - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -53,7 +53,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
    it("without fields - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
       data.allFields = [];
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -69,7 +69,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
 
    it("with className - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -95,7 +95,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
    });
 
    it("submit clicked - success - templateData null - test", async () => {
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(null);
+      getPublicPromptGenerationDataMock.mockResolvedValue(null);
 
       const descriptor = dtestData.dPrompt();
 
@@ -112,10 +112,8 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertDialogNotRendered();
       });
 
-      expect(getPublicPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(
-         1
-      );
-      expect(getPublicPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
+      expect(getPublicPromptGenerationDataMock).toHaveBeenCalledTimes(1);
+      expect(getPublicPromptGenerationDataMock).toHaveBeenCalledWith(
          descriptor.id
       );
       expect(toastMock.error).toHaveBeenCalledTimes(1);
@@ -126,7 +124,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
    it("submit clicked - success - templateData retrieved - test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
 
@@ -146,7 +144,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
    it("close clicked- test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
 

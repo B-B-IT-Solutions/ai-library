@@ -18,14 +18,14 @@ import {
 import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
-export class PublicTemplateRepository {
+export class PublicPromptRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 
-   async pGetPublicTemplateDescriptorsPage(
+   async pGetPublicPromptsPage(
       query: DPromptsPageQuery
    ): Promise<DPromptsPage> {
       const pagination = query.pagination;
@@ -65,7 +65,7 @@ export class PublicTemplateRepository {
       };
    }
 
-   async pGetPublicTemplateDescriptor(id: string): Promise<DPrompt | null> {
+   async pGetPublicPrompt(id: string): Promise<DPrompt | null> {
       const args = {
          where: { id },
          include: {
@@ -79,7 +79,7 @@ export class PublicTemplateRepository {
       return descriptor ? toDPrompt(descriptor) : null;
    }
 
-   async pGetPublicPromptTemplate(
+   async pGetPublicPromptContent(
       id: string
    ): Promise<DPromptWithContent | null> {
       const args = {

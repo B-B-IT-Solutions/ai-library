@@ -1,6 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import { PublicTemplateRepository } from "@/data/repositories/prompt";
+import { PublicPromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptGenerationData,
@@ -13,13 +13,13 @@ import { PublicSettingsService } from "../settings";
 
 import { resolveAllTemplateFields } from "./utils";
 
-export class PublicTemplateService {
-   private repository: PublicTemplateRepository;
+export class PublicPromptService {
+   private repository: PublicPromptRepository;
    private collectionService: PublicCollectionService;
    private settingService: PublicSettingsService;
 
    constructor(
-      repository: PublicTemplateRepository,
+      repository: PublicPromptRepository,
       collectionService: PublicCollectionService,
       settingService: PublicSettingsService
    ) {
@@ -28,27 +28,23 @@ export class PublicTemplateService {
       this.settingService = settingService;
    }
 
-   async getPublicTemplateDescriptorsPage(
-      query: DPromptsPageQuery
-   ): Promise<DPromptsPage> {
+   async getPublicPromptsPage(query: DPromptsPageQuery): Promise<DPromptsPage> {
       const { collectionIds = [] } = query.filter || {};
       if (!isEmpty(collectionIds)) {
          const collectionsPublic =
             await this.collectionService.ensureCollectionsPublic(collectionIds);
 
          if (collectionsPublic) {
-            return await this.repository.pGetPublicTemplateDescriptorsPage(
-               query
-            );
+            return await this.repository.pGetPublicPromptsPage(query);
          }
       }
       throw new Error("Invalid public temmplates query.");
    }
 
-   async getPublicTemplateDataForPromptGeneration(
+   async getPublicPromptGenerationData(
       teamplateId: string
    ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPublicPromptTemplate(teamplateId);
+      const template = await this.getPublicPromptContent(teamplateId);
 
       if (template) {
          const globalFields =
@@ -67,15 +63,13 @@ export class PublicTemplateService {
       return null;
    }
 
-   async getPublicTemplateDescriptor(
-      descriptorId: string
-   ): Promise<DPrompt | null> {
-      return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
+   async getPublicPrompt(descriptorId: string): Promise<DPrompt | null> {
+      return await this.repository.pGetPublicPrompt(descriptorId);
    }
 
-   async getPublicPromptTemplate(
+   async getPublicPromptContent(
       templateId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPublicPromptTemplate(templateId);
+      return await this.repository.pGetPublicPromptContent(templateId);
    }
 }

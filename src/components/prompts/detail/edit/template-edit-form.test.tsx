@@ -33,7 +33,7 @@ import {
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -45,10 +45,9 @@ jest.setTimeout(10000);
 const createTemplateDescriptorMock = createPrompt as jest.MockedFunction<
    typeof createPrompt
 >;
-const updateTemplateDescriptorMock =
-   updateTemplateDescriptor as jest.MockedFunction<
-      typeof updateTemplateDescriptor
-   >;
+const updatePromptMock = updatePrompt as jest.MockedFunction<
+   typeof updatePrompt
+>;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
@@ -388,7 +387,7 @@ describe("TemplateEditForm functionality tests", () => {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
-      updateTemplateDescriptorMock.mockResolvedValue(result);
+      updatePromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
@@ -426,8 +425,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(updateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(updateTemplateDescriptorMock).toHaveBeenCalledWith(
+         expect(updatePromptMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptMock).toHaveBeenCalledWith(
             descriptor.id,
             expectedPayload
          );
@@ -547,7 +546,7 @@ describe("TemplateEditForm functionality tests", () => {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
-      updateTemplateDescriptorMock.mockResolvedValue(result);
+      updatePromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
@@ -584,8 +583,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(updateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(updateTemplateDescriptorMock).toHaveBeenCalledWith(
+         expect(updatePromptMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptMock).toHaveBeenCalledWith(
             descriptor.id,
             expectedPayload
          );

@@ -3,7 +3,7 @@ jest.mock("@/data/actions/prompt");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt";
+import { getPublicPromptsPage } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -13,10 +13,9 @@ import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { PublicTemplateItems } from "./template-items-public";
 
-const getPublicTemplateDescriptorsPageMock =
-   getPublicTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getPublicTemplateDescriptorsPage
-   >;
+const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
+   typeof getPublicPromptsPage
+>;
 
 const assertGridRendered = () => {
    const items = screen.getByTestId("public-template-items-grid");
@@ -26,16 +25,14 @@ const assertGridRendered = () => {
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
-   expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-   expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-      expectedPayload
-   );
+   expect(getPublicPromptsPageMock).toHaveBeenCalledTimes(1);
+   expect(getPublicPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("TemplateItemsPublic rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
-      getPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPublicPromptsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptCategories,
+   getPromptModels,
    getPromptsUsage,
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
 } from "@/data/actions/prompt";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
@@ -43,8 +43,8 @@ export const PromptsDashboard = async () => {
    ]);
 
    const [categories, models, usage] = await Promise.all([
-      getTemplateDescriptorCategories(),
-      getTemplateDescriptorModels(),
+      getPromptCategories(),
+      getPromptModels(),
       getPromptsUsage(),
    ]);
 

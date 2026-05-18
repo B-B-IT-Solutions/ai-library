@@ -9,7 +9,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { TemplateRepository } from "@/data/repositories/prompt";
+import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPromptFieldValues,
    DPromptGenerationData,
@@ -23,7 +23,7 @@ import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { TemplateService } from "./prompt.user.service";
+import { PromptService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -34,11 +34,11 @@ const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
 const subscriptionServiceMock =
    subscriptionService as DeepMockProxy<SubscriptionService>;
 
-const templateRepo = new TemplateRepository(prisma);
-const templateRepoMock = templateRepo as DeepMockProxy<TemplateRepository>;
+const promptRepo = new PromptRepository(prisma);
+const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;
 
-const templateService = new TemplateService(
-   templateRepoMock,
+const promptService = new PromptService(
+   promptRepoMock,
    settingsServiceMock,
    subscriptionServiceMock
 );
@@ -48,52 +48,44 @@ const sReplace = TemplateEngine.replace;
 const sValidateMock = sValidate as jest.MockedFunction<typeof sValidate>;
 const sReplaceMock = sReplace as jest.MockedFunction<typeof sReplace>;
 
-describe("getTemplateDescriptorsPage tests", () => {
+describe("getPromptsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateDescriptorsPage - descriptors retrieved - test", async () => {
+   it("prompts retrieved - test", async () => {
       const userId = "user-id-1";
       const page = dtestData.dPromptsPage();
       const query = dtestData.dPromptsPageQuery();
-      templateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(page);
+      promptRepoMock.pGetPromptsPage.mockResolvedValue(page);
 
-      const result = await templateService.getTemplateDescriptorsPage(
-         userId,
-         query
-      );
+      const result = await promptService.getPromptsPage(userId, query);
 
       expect(result).toEqual(page);
-      expect(
-         templateRepoMock.pGetTemplateDescriptorsPage
-      ).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptorsPage).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPromptsPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsPage).toHaveBeenCalledWith(
          userId,
          query
       );
    });
 });
 
-describe("getTemplateDescriptor tests", () => {
+describe("getPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateDescriptor - descriptor retrieved - test", async () => {
+   it("prompt retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(template);
+      promptRepoMock.pGetPrompt.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await templateService.getTemplateDescriptor(userId, id);
+      const result = await promptService.getPrompt(userId, id);
 
       expect(result).toEqual(template);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
    });
 });
 
@@ -107,22 +99,22 @@ describe("createPrompt tests", () => {
       const feature: FeatureName = "maxPrompts";
 
       const promptsCount = 71;
-      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
 
       const newPrompt = dtestData.dPrompt();
-      templateRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
+      promptRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
 
       const newData = dtestData.dPromptUpdate();
-      const result = await templateService.createPrompt(userId, newData);
+      const result = await promptService.createPrompt(userId, newData);
 
       expect(result).toEqual(newPrompt);
-      expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledWith(
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(
          userId,
          newData
       );
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
       expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
          1
       );
@@ -134,54 +126,46 @@ describe("createPrompt tests", () => {
    });
 });
 
-describe("updateTemplateDescriptor tests", () => {
+describe("updatePrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("updateTemplateDescriptor - descriptor not found - test", async () => {
+   it("prompt not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const update = dtestData.dPromptUpdate();
 
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(null);
 
       const fn = async () =>
-         await templateService.updateTemplateDescriptor(
-            userId,
-            descriptorId,
-            update
-         );
+         await promptService.updatePrompt(userId, descriptorId, update);
 
       await expect(fn).rejects.toThrow("TemplateDescriptor not found");
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(
          userId,
          descriptorId
       );
-      expect(templateRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
    });
 
-   it("updateTemplateDescriptor - descriptor updated - test", async () => {
+   it("prompt updated - test", async () => {
       const userId = "user-id-1";
       const update = dtestData.dPromptUpdate();
       const descriptor = dtestData.dPrompt();
 
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
 
-      await templateService.updateTemplateDescriptor(
-         userId,
-         descriptor.id,
-         update
-      );
+      await promptService.updatePrompt(userId, descriptor.id, update);
 
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(
          userId,
          descriptor.id
       );
-      expect(templateRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          userId,
          descriptor.id,
          update
@@ -189,68 +173,68 @@ describe("updateTemplateDescriptor tests", () => {
    });
 });
 
-describe("deleteTemplateDescriptor tests", () => {
+describe("deletePrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("deleteTemplateDescriptor - descriptor not found - test", async () => {
+   it("prompt not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(null);
 
       const fn = async () =>
-         await templateService.deleteTemplateDescriptor(userId, descriptorId);
+         await promptService.deletePrompt(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("TemplateDescriptor not found");
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(
          userId,
          descriptorId
       );
-      expect(templateRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
    });
 
-   it("deleteTemplateDescriptor - descriptor deleted - test", async () => {
+   it("prompt deleted - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPrompt();
 
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
 
-      await templateService.deleteTemplateDescriptor(userId, descriptor.id);
+      await promptService.deletePrompt(userId, descriptor.id);
 
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(
          userId,
          descriptor.id
       );
-      expect(templateRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pDeletePrompt).toHaveBeenCalledWith(
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(
          userId,
          descriptor.id
       );
    });
 });
 
-describe("getTemplateDataForPromptGeneration tests", () => {
+describe("getPromptGenerationData tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateDataForPromptGeneration - template null - test", async () => {
+   it("prompt null - test", async () => {
       const userId = "user-id-1";
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(null);
 
       const templateId = "template-id-1";
-      const result = await templateService.getTemplateDataForPromptGeneration(
+      const result = await promptService.getPromptGenerationData(
          userId,
          templateId
       );
 
       expect(result).toBeNull();
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(
          userId,
          templateId
       );
@@ -259,10 +243,10 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       ).not.toHaveBeenCalled();
    });
 
-   it("getTemplateDataForPromptGeneration - data retrieved - test", async () => {
+   it("data retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getGlobalPromptFieldsByIds.mockResolvedValue(
@@ -270,10 +254,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       );
 
       const { id, globalFieldIds } = template;
-      const result = await templateService.getTemplateDataForPromptGeneration(
-         userId,
-         id
-      );
+      const result = await promptService.getPromptGenerationData(userId, id);
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
@@ -283,11 +264,8 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
       expect(
          settingsServiceMock.getGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
@@ -303,61 +281,52 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("descriptor not found - test", async () => {
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const id = "non-existent-id";
       const fieldValues: DPromptFieldValues = {};
 
       const fn = () =>
-         templateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow(
          `TemplateDescriptor with ID ${id} not found`
       );
 
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).not.toHaveBeenCalled();
       expect(sValidateMock).not.toHaveBeenCalled();
    });
 
    it("template not found - test", async () => {
       const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(null);
 
       const userId = "user-id-1";
       const { id } = descriptor;
       const fieldValues: DPromptFieldValues = {};
 
       const fn = () =>
-         templateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow(`Template with ID ${id} not found`);
 
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).not.toHaveBeenCalled();
    });
 
    it("fieldValues invalid - test", async () => {
       const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
 
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
 
       const validationResult: FieldsValidationResult = {
          valid: false,
@@ -374,30 +343,24 @@ describe("composePromptFromTemplate tests", () => {
       };
 
       const fn = () =>
-         templateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow("Provided template fields are invalid:");
 
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
    });
 
    it("composePromptFromTemplate - fieldValues valid - test", async () => {
       const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
 
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
 
       const validationResult: FieldsValidationResult = {
          valid: true,
@@ -413,7 +376,7 @@ describe("composePromptFromTemplate tests", () => {
          email: "test1@email.com",
       };
 
-      const result = await templateService.composePromptFromTemplate(
+      const result = await promptService.composePromptFromTemplate(
          userId,
          id,
          fieldValues
@@ -428,16 +391,10 @@ describe("composePromptFromTemplate tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
       expect(sReplaceMock).toHaveBeenCalledTimes(1);
@@ -445,65 +402,59 @@ describe("composePromptFromTemplate tests", () => {
    });
 });
 
-describe("downloadTemplate tests", () => {
+describe("downloadPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("descriptor not found - test", async () => {
+   it("prompt not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(null);
 
       const fn = async () =>
-         await templateService.downloadTemplate(userId, descriptorId);
+         await promptService.downloadPrompt(userId, descriptorId);
 
       await expect(fn).rejects.toThrow(
          `TemplateDescriptor with ID ${descriptorId} not found`
       );
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(
          userId,
          descriptorId
       );
-      expect(templateRepoMock.pGetPromptTemplate).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPromptContent).not.toHaveBeenCalled();
    });
 
-   it("template not found - test", async () => {
+   it("prompt downloaded - test", async () => {
       const userId = "user-id-1";
 
       const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(null);
 
       const { id } = descriptor;
 
-      const fn = async () => await templateService.downloadTemplate(userId, id);
+      const fn = async () => await promptService.downloadPrompt(userId, id);
 
       await expect(fn).rejects.toThrow(`Template with ID ${id} not found`);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
 
    it("template downloaded - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
 
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
 
       const { id } = descriptor;
 
-      const result = await templateService.downloadTemplate(userId, id);
+      const result = await promptService.downloadPrompt(userId, id);
 
       const expectedDownloadData = JSON.stringify(
          {
@@ -517,20 +468,14 @@ describe("downloadTemplate tests", () => {
       );
 
       expect(result).toEqual(expectedDownloadData);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
-         userId,
-         id
-      );
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
 });
 
-describe("toggleTemplateDescriptorFavorite tests", () => {
+describe("togglePromptFavorite tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -540,14 +485,14 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
       const descriptorId = "descriptor-id-1";
       const isFavorite = true;
 
-      await templateService.toggleTemplateDescriptorFavorite(
+      await promptService.togglePromptFavorite(
          userId,
          descriptorId,
          isFavorite
       );
 
-      expect(templateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
          userId,
          descriptorId,
          isFavorite
@@ -562,39 +507,39 @@ describe("getPrompts tests", () => {
 
    it("getPrompts - params undefined - test", async () => {
       const templates = dtestData.dPrompts();
-      templateRepoMock.pGetPrompts.mockResolvedValue(templates);
+      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
 
-      const result = await templateService.getPrompts();
+      const result = await promptService.getPrompts();
 
       expect(result).toEqual(templates);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledWith(undefined);
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(undefined);
    });
 
    it("getPrompts - params empty - test", async () => {
       const templates = dtestData.dPrompts();
-      templateRepoMock.pGetPrompts.mockResolvedValue(templates);
+      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
 
-      const result = await templateService.getPrompts({});
+      const result = await promptService.getPrompts({});
 
       expect(result).toEqual(templates);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledWith({});
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith({});
    });
 
    it("getPrompts - params defined - test", async () => {
       const templates = dtestData.dPrompts();
-      templateRepoMock.pGetPrompts.mockResolvedValue(templates);
+      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result = await templateService.getPrompts(params);
+      const result = await promptService.getPrompts(params);
 
       expect(result).toEqual(templates);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPrompts).toHaveBeenCalledWith(params);
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(params);
    });
 });
 
@@ -606,17 +551,14 @@ describe("getPromptTemplate tests", () => {
    it("getPromptTemplate - template retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await templateService.getPromptTemplate(userId, id);
+      const result = await promptService.getPromptTemplate(userId, id);
 
       expect(result).toEqual(template);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         userId,
-         id
-      );
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
 });
 
@@ -628,25 +570,19 @@ describe("getPromptTemplateCategories tests", () => {
    it("getPromptTemplateCategories test", async () => {
       const userId = "user-id-1";
       const categories = ptestData.pPromptCategories();
-      templateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
-         categories
-      );
+      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
-      const result = await templateService.getPromptTemplateCategories(userId);
+      const result = await promptService.getPromptTemplateCategories(userId);
 
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
-      expect(
-         templateRepoMock.pGetPromptTemplateCategories
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         templateRepoMock.pGetPromptTemplateCategories
-      ).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
    });
 });
 
-describe("getTemplateDescriptorCategories tests", () => {
+describe("getPromptCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -655,20 +591,17 @@ describe("getTemplateDescriptorCategories tests", () => {
       const userId = "user-id-1";
 
       const categories = dtestData.dTemplateCategories();
-      templateRepoMock.pGetTemplateCategories.mockResolvedValue(categories);
+      promptRepoMock.pGePromptCategories.mockResolvedValue(categories);
 
-      const result =
-         await templateService.getTemplateDescriptorCategories(userId);
+      const result = await promptService.getPromptCategories(userId);
 
       expect(result).toEqual(categories);
-      expect(templateRepoMock.pGetTemplateCategories).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateCategories).toHaveBeenCalledWith(
-         userId
-      );
+      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledWith(userId);
    });
 });
 
-describe("getTemplateDescriptorModels tests", () => {
+describe("getPromptModels tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -677,13 +610,13 @@ describe("getTemplateDescriptorModels tests", () => {
       const userId = "user-id-1";
 
       const models = dtestData.dTemplateModels();
-      templateRepoMock.pGetTemplateModels.mockResolvedValue(models);
+      promptRepoMock.pGetPromptModels.mockResolvedValue(models);
 
-      const result = await templateService.getTemplateDescriptorModels(userId);
+      const result = await promptService.getPromptModels(userId);
 
       expect(result).toEqual(models);
-      expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -695,12 +628,12 @@ describe("getPromptsUsage tests", () => {
    it("prompts usage retrieved - PRO tier - test", async () => {
       const userId = "user-id-1";
       const promptsCount = 51;
-      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
 
       const tier: DSubscriptionTier = "PRO";
       subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
 
-      const result = await templateService.getPromptsUsage(userId);
+      const result = await promptService.getPromptsUsage(userId);
 
       const expectedResult: DPromptsUsage = {
          current: promptsCount,
@@ -708,8 +641,8 @@ describe("getPromptsUsage tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
    });
@@ -718,12 +651,12 @@ describe("getPromptsUsage tests", () => {
       const userId = "user-id-1";
       const promptsCount = 31;
 
-      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
 
       const tier: DSubscriptionTier = "BASIC";
       subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
 
-      const result = await templateService.getPromptsUsage(userId);
+      const result = await promptService.getPromptsUsage(userId);
 
       const expectedResult: DPromptsUsage = {
          current: promptsCount,
@@ -731,8 +664,8 @@ describe("getPromptsUsage tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
    });
@@ -741,12 +674,12 @@ describe("getPromptsUsage tests", () => {
       const userId = "user-id-1";
       const promptsCount = 3;
 
-      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
 
       const tier: DSubscriptionTier = "FREE";
       subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
 
-      const result = await templateService.getPromptsUsage(userId);
+      const result = await promptService.getPromptsUsage(userId);
 
       const expectedResult: DPromptsUsage = {
          current: promptsCount,
@@ -754,8 +687,8 @@ describe("getPromptsUsage tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
    });
@@ -769,12 +702,12 @@ describe("getPromptsCount tests", () => {
    it("count retrieved - test", async () => {
       const userId = "user-id-1";
       const count = 12;
-      templateRepoMock.pGetPromptsCount.mockResolvedValue(count);
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(count);
 
-      const result = await templateService.getPromptsCount(userId);
+      const result = await promptService.getPromptsCount(userId);
 
       expect(result).toBe(count);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
-      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
    });
 });

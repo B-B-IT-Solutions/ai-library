@@ -15,9 +15,9 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptsPage,
    getPromptTemplateCategories,
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
+   togglePromptFavorite,
 } from "@/data/actions/prompt";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -63,7 +63,7 @@ export const infiniteLoadTemplateDescriptorsOptions = (
             filters,
             sort
          );
-         return await getTemplateDescriptorsPage(query);
+         return await getPromptsPage(query);
       },
       initialPageParam: INIT_PAGE_NUMBER,
       getNextPageParam: getNextPageParam,
@@ -103,10 +103,7 @@ export const toggleFavoriteOptions = (): UseMutationOptions<
    return {
       mutationFn: async (params: UpdateIsFavoriteParams) => {
          const { descriptorId, isFavorite } = params;
-         return await toggleTemplateDescriptorFavorite(
-            descriptorId,
-            isFavorite
-         );
+         return await togglePromptFavorite(descriptorId, isFavorite);
       },
    };
 };

@@ -6,13 +6,13 @@ import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PublicTemplateRepository } from "@/data/repositories/prompt";
+import { PublicPromptRepository } from "@/data/repositories/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
 
-import { PublicTemplateService } from "./prompt.public.service";
+import { PublicPromptService } from "./prompt.public.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -25,17 +25,16 @@ const collectionServiceMock =
 const settingsServiceMock =
    settingsService as DeepMockProxy<PublicSettingsService>;
 
-const templateRepo = new PublicTemplateRepository(prisma);
-const templateRepoMock =
-   templateRepo as DeepMockProxy<PublicTemplateRepository>;
+const promptRepo = new PublicPromptRepository(prisma);
+const promptRepoMock = promptRepo as DeepMockProxy<PublicPromptRepository>;
 
-const templateService = new PublicTemplateService(
-   templateRepoMock,
+const publicPromptService = new PublicPromptService(
+   promptRepoMock,
    collectionServiceMock,
    settingsServiceMock
 );
 
-describe("getPublicTemplateDescriptorsPage tests", () => {
+describe("getPublicPromptsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -44,52 +43,46 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter = undefined;
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("filter.collectionIds undefined - test", async () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = undefined;
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("filter.collectionIds empty - test", async () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = [];
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).not.toHaveBeenCalled();
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("collection not public - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
 
       const query = dtestData.dPromptsPageQuery();
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -98,22 +91,17 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).toHaveBeenCalledWith(query.filter!.collectionIds);
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPublicPromptsPage).not.toHaveBeenCalled();
    });
 
    it("descriptors retrieved - test", async () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(true);
 
       const page = dtestData.dPromptsPage();
-      templateRepoMock.pGetPublicTemplateDescriptorsPage.mockResolvedValue(
-         page
-      );
+      promptRepoMock.pGetPublicPromptsPage.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
-      const result =
-         await templateService.getPublicTemplateDescriptorsPage(query);
+      const result = await publicPromptService.getPublicPromptsPage(query);
 
       expect(result).toEqual(page);
       expect(
@@ -122,34 +110,26 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       expect(
          collectionServiceMock.ensureCollectionsPublic
       ).toHaveBeenCalledWith(query.filter!.collectionIds);
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptorsPage
-      ).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPublicPromptsPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptsPage).toHaveBeenCalledWith(query);
    });
 });
 
-describe("getPublicTemplateDataForPromptGeneration tests", () => {
+describe("getPublicPromptGenerationData tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("template null - test", async () => {
-      templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(null);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(null);
 
       const templateId = "template-id-1";
       const result =
-         await templateService.getPublicTemplateDataForPromptGeneration(
-            templateId
-         );
+         await publicPromptService.getPublicPromptGenerationData(templateId);
 
       expect(result).toBeNull();
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(
          templateId
       );
       expect(
@@ -159,7 +139,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
    it("data retrieved - test", async () => {
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getPublicGlobalPromptFieldsByIds.mockResolvedValue(
@@ -168,7 +148,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const { id, globalFieldIds } = template;
       const result =
-         await templateService.getPublicTemplateDataForPromptGeneration(id);
+         await publicPromptService.getPublicPromptGenerationData(id);
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
@@ -178,12 +158,8 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(
-         id
-      );
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(id);
       expect(
          settingsServiceMock.getPublicGlobalPromptFieldsByIds
       ).toHaveBeenCalledTimes(1);
@@ -193,48 +169,38 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
    });
 });
 
-describe("getPublicTemplateDescriptor tests", () => {
+describe("getPublicPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("descriptor retrieved - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
+   it("prompt retrieved - test", async () => {
+      const prompt = dtestData.dPrompt();
+      promptRepoMock.pGetPublicPrompt.mockResolvedValue(prompt);
 
-      const { id } = descriptor;
-      const result = await templateService.getPublicTemplateDescriptor(id);
+      const { id } = prompt;
+      const result = await publicPromptService.getPublicPrompt(id);
 
-      expect(result).toEqual(descriptor);
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         templateRepoMock.pGetPublicTemplateDescriptor
-      ).toHaveBeenCalledWith(id);
+      expect(result).toEqual(prompt);
+      expect(promptRepoMock.pGetPublicPrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPrompt).toHaveBeenCalledWith(id);
    });
 });
 
-describe("getPublicPromptTemplate tests", () => {
+describe("getPublicPromptContent tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("template retrieved - test", async () => {
+   it("promptContent retrieved - test", async () => {
       const template = dtestData.dPromptWithContent();
-      templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await templateService.getPublicPromptTemplate(id);
+      const result = await publicPromptService.getPublicPromptContent(id);
 
       expect(result).toEqual(template);
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(
-         id
-      );
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPublicPromptContent).toHaveBeenCalledWith(id);
    });
 });

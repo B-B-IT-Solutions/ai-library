@@ -7,15 +7,15 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
+import { getPromptGenerationData } from "@/data/actions/prompt";
 
 import { UseTemplateButton } from "./use-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const getPromptGenerationTemplateDataMock =
-   getPromptGenerationTemplateData as jest.MockedFunction<
-      typeof getPromptGenerationTemplateData
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
    >;
 
 const assertRendered = () => {
@@ -36,7 +36,7 @@ const assertDialogNotRendered = () => {
 describe("UseTemplateButton rendering tests", () => {
    it("with fields - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -53,7 +53,7 @@ describe("UseTemplateButton rendering tests", () => {
    it("without fields - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
       data.allFields = [];
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -69,7 +69,7 @@ describe("UseTemplateButton rendering tests", () => {
 
    it("with className - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
@@ -92,7 +92,7 @@ describe("UseTemplateButton functionality - tests", () => {
    });
 
    it("submit clicked - success - templateData null - test", async () => {
-      getPromptGenerationTemplateDataMock.mockResolvedValue(null);
+      getPromptGenerationDataMock.mockResolvedValue(null);
 
       const descriptor = dtestData.dPrompt();
 
@@ -109,10 +109,8 @@ describe("UseTemplateButton functionality - tests", () => {
          assertDialogNotRendered();
       });
 
-      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(1);
-      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
-         descriptor.id
-      );
+      expect(getPromptGenerationDataMock).toHaveBeenCalledTimes(1);
+      expect(getPromptGenerationDataMock).toHaveBeenCalledWith(descriptor.id);
       expect(toastMock.error).toHaveBeenCalledTimes(1);
       expect(toastMock.error).toHaveBeenCalledWith(
          "Vorlage konnte nicht geladen werden"
@@ -121,7 +119,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
    it("submit clicked - success - templateData retrieved - test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
 
@@ -141,7 +139,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
    it("close clicked- test", async () => {
       const data = dtestData.dPromptGenerationData();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
 

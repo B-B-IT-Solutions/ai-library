@@ -10,7 +10,7 @@ import {
    getCollectionById,
    getCollectionTemplateIds,
 } from "@/data/actions/collection";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt";
+import { getPromptsPage } from "@/data/actions/prompt";
 
 import { CollectionEditPage, metadata, PageParams, PageProps } from "./page";
 
@@ -23,10 +23,9 @@ const getCollectionTemplateIdsMock =
       typeof getCollectionTemplateIds
    >;
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
+const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
+   typeof getPromptsPage
+>;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
@@ -48,7 +47,7 @@ describe("CollectionEditPage rendering tests", () => {
       getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
 
       const templateDescriptors = dtestData.dPromptsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(templateDescriptors);
+      getPromptsPageMock.mockResolvedValue(templateDescriptors);
    });
 
    beforeEach(() => {

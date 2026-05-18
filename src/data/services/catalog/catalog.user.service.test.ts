@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
-import { TemplateService } from "../prompt";
+import { PromptService } from "../prompt";
 import { ServiceFactory } from "../service.factory";
 
 import { toPromptUpdate } from "./catalog.mapper";
@@ -18,9 +18,9 @@ const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
 const serviceFactory = new ServiceFactory(prisma);
 const templateService = serviceFactory.getPromptService();
 
-const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
+const promptServiceMock = templateService as DeepMockProxy<PromptService>;
 
-const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
+const catalogService = new CatalogService(catalogRepoMock, promptServiceMock);
 
 describe("addCatalogEntryToUserPrompts tests", () => {
    beforeEach(() => {
@@ -44,7 +44,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
 
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledWith(entryId);
-      expect(templateServiceMock.createPrompt).not.toHaveBeenCalled();
+      expect(promptServiceMock.createPrompt).not.toHaveBeenCalled();
       expect(catalogRepo.pIncrementCopyCount).not.toHaveBeenCalled();
    });
 
@@ -53,7 +53,7 @@ describe("addCatalogEntryToUserPrompts tests", () => {
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
 
       const descriptor = dtestData.dPrompt();
-      templateServiceMock.createPrompt.mockResolvedValue(descriptor);
+      promptServiceMock.createPrompt.mockResolvedValue(descriptor);
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue();
 
       const userId = "user-id-1";
@@ -66,8 +66,8 @@ describe("addCatalogEntryToUserPrompts tests", () => {
       const expectedTemplateData = toPromptUpdate(entry);
 
       expect(result).toEqual(descriptor);
-      expect(templateServiceMock.createPrompt).toHaveBeenCalledTimes(1);
-      expect(templateServiceMock.createPrompt).toHaveBeenCalledWith(
+      expect(promptServiceMock.createPrompt).toHaveBeenCalledTimes(1);
+      expect(promptServiceMock.createPrompt).toHaveBeenCalledWith(
          userId,
          expectedTemplateData
       );

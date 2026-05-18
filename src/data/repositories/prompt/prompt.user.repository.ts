@@ -35,14 +35,14 @@ type PGetPromptsParams = {
    categories?: string[];
 };
 
-export class TemplateRepository {
+export class PromptRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 
-   async pGetTemplateDescriptorsPage(
+   async pGetPromptsPage(
       userId: string,
       query?: DPromptsPageQuery
    ): Promise<DPromptsPage> {
@@ -97,10 +97,7 @@ export class TemplateRepository {
       return toDPrompts(templates);
    }
 
-   async pGetTemplateDescriptor(
-      userId: string,
-      id: string
-   ): Promise<DPrompt | null> {
+   async pGetPrompt(userId: string, id: string): Promise<DPrompt | null> {
       const template: PromptWithCategories | null =
          await this.prisma.prompt.findFirst({
             where: { id, userId },
@@ -115,7 +112,7 @@ export class TemplateRepository {
       return null;
    }
 
-   async pGetPromptTemplate(
+   async pGetPromptContent(
       userId: string,
       id: string
    ): Promise<DPromptWithContent | null> {
@@ -132,9 +129,7 @@ export class TemplateRepository {
       return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 
-   async pGetPromptTemplateCategories(
-      userId: string
-   ): Promise<DPromptCategory[]> {
+   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
       return await this.prisma.promptCategory.findMany({
          where: { userId },
          select: {
@@ -282,7 +277,7 @@ export class TemplateRepository {
       await this.prisma.prompt.update(args);
    }
 
-   async pGetTemplateCategories(userId: string): Promise<string[]> {
+   async pGePromptCategories(userId: string): Promise<string[]> {
       const descriptors = await this.prisma.prompt.findMany({
          where: { userId },
          include: {
@@ -296,7 +291,7 @@ export class TemplateRepository {
       return uniq(categories).sort();
    }
 
-   async pGetTemplateModels(userId: string): Promise<string[]> {
+   async pGetPromptModels(userId: string): Promise<string[]> {
       const descriptors = await this.prisma.prompt.findMany({
          where: { userId },
          select: {

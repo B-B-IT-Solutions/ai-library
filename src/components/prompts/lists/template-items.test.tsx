@@ -5,7 +5,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { getCollections } from "@/data/actions/collection";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt";
+import { getPromptsPage } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -19,10 +19,9 @@ const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
+const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
+   typeof getPromptsPage
+>;
 
 const assertGridRendered = () => {
    const entries = screen.getByTestId("template-items-grid");
@@ -42,8 +41,8 @@ const assertGroupsendered = () => {
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
+   expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
+   expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("LibraryDashboard rendering tests", () => {
@@ -51,7 +50,7 @@ describe("LibraryDashboard rendering tests", () => {
       const page = dtestData.dPromptsPage();
 
       getCollectionsMock.mockResolvedValue([]);
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPromptsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

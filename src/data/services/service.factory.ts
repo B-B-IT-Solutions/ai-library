@@ -12,7 +12,7 @@ import {
 } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
-import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
+import { PromptService, PublicPromptService } from "@/data/services/prompt";
 import { Prompt0Service } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
@@ -42,8 +42,8 @@ export class ServiceFactory {
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
    private prompt0Service?: Prompt0Service;
-   private templateService?: TemplateService;
-   private publicTemplateService?: PublicTemplateService;
+   private promptService?: PromptService;
+   private publicPromptService?: PublicPromptService;
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
@@ -151,26 +151,26 @@ export class ServiceFactory {
       return this.prompt0Service;
    }
 
-   getPromptService(): TemplateService {
-      if (!this.templateService) {
-         this.templateService = new TemplateService(
-            this.repositories.templateRepository(),
+   getPromptService(): PromptService {
+      if (!this.promptService) {
+         this.promptService = new PromptService(
+            this.repositories.promptRepository(),
             this.getSettingsService(),
             this.getSubscriptionService()
          );
       }
-      return this.templateService;
+      return this.promptService;
    }
 
-   getPublicTemplateService(): PublicTemplateService {
-      if (!this.publicTemplateService) {
-         this.publicTemplateService = new PublicTemplateService(
-            this.repositories.publicTemplateRepository(),
+   getPublicPromptService(): PublicPromptService {
+      if (!this.publicPromptService) {
+         this.publicPromptService = new PublicPromptService(
+            this.repositories.publicPromptRepository(),
             this.getPublicCollectionService(),
             this.getPublicSettingsService()
          );
       }
-      return this.publicTemplateService;
+      return this.publicPromptService;
    }
 
    getSubscriptionService(): SubscriptionService {

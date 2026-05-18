@@ -27,26 +27,26 @@ type DGetPromptTemplatesParams = {
    categories?: string[];
 };
 
-export const getTemplateDescriptorsPage = async (
+export const getPromptsPage = async (
    query?: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorsPage(user.id, query);
+      return await service.getPromptsPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
    }
 };
 
-export const getTemplateDescriptor = async (
+export const getPrompt = async (
    descriptorId: string
 ): Promise<DPrompt | null> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptor(user.id, descriptorId);
+      return await service.getPrompt(user.id, descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -83,7 +83,7 @@ export const createPrompt = async (
    }
 };
 
-export const updateTemplateDescriptor = async (
+export const updatePrompt = async (
    descriptorId: string,
    data: DPromptUpdate
 ): Promise<ActionResult> => {
@@ -94,7 +94,7 @@ export const updateTemplateDescriptor = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.updateTemplateDescriptor(user.id, descriptorId, data);
+      await service.updatePrompt(user.id, descriptorId, data);
 
       return {
          success: true,
@@ -109,7 +109,7 @@ export const updateTemplateDescriptor = async (
    }
 };
 
-export const deleteTemplateDescriptor = async (
+export const deletePrompt = async (
    descriptorId: string
 ): Promise<ActionResult> => {
    try {
@@ -119,7 +119,7 @@ export const deleteTemplateDescriptor = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteTemplateDescriptor(user.id, descriptorId);
+      await service.deletePrompt(user.id, descriptorId);
 
       return {
          success: true,
@@ -134,16 +134,13 @@ export const deleteTemplateDescriptor = async (
    }
 };
 
-export const getPromptGenerationTemplateData = async (
+export const getPromptGenerationData = async (
    templateId: string
 ): Promise<DPromptGenerationData | null> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDataForPromptGeneration(
-         user.id,
-         templateId
-      );
+      return await service.getPromptGenerationData(user.id, templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -181,7 +178,7 @@ export const composePromptFromTemplate = async (
    }
 };
 
-export const downloadTemplate = async (
+export const downloadPrompt = async (
    descriptorId: string
 ): Promise<ActionResult<string>> => {
    try {
@@ -192,10 +189,7 @@ export const downloadTemplate = async (
       const user = await requireUser();
 
       const service = getService();
-      const downloadData = await service.downloadTemplate(
-         user.id,
-         descriptorId
-      );
+      const downloadData = await service.downloadPrompt(user.id, descriptorId);
 
       return {
          success: true,
@@ -211,7 +205,7 @@ export const downloadTemplate = async (
    }
 };
 
-export const toggleTemplateDescriptorFavorite = async (
+export const togglePromptFavorite = async (
    descriptorId: string,
    isFavorite: boolean
 ): Promise<ActionResult> => {
@@ -222,11 +216,7 @@ export const toggleTemplateDescriptorFavorite = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.toggleTemplateDescriptorFavorite(
-         user.id,
-         descriptorId,
-         isFavorite
-      );
+      await service.togglePromptFavorite(user.id, descriptorId, isFavorite);
 
       return {
          success: true,
@@ -243,22 +233,22 @@ export const toggleTemplateDescriptorFavorite = async (
    }
 };
 
-export const getTemplateDescriptorCategories = async (): Promise<string[]> => {
+export const getPromptCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorCategories(user.id);
+      return await service.getPromptCategories(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
    }
 };
 
-export const getTemplateDescriptorModels = async (): Promise<string[]> => {
+export const getPromptModels = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorModels(user.id);
+      return await service.getPromptModels(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];

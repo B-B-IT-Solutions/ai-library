@@ -13,9 +13,9 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import {
+   getPromptsPage,
    getPromptTemplateCategories,
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
+   togglePromptFavorite,
 } from "@/data/actions/prompt";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -31,20 +31,18 @@ import {
 } from "./prompt";
 import { LoadTemplateDescriptorsParams, UpdateIsFavoriteParams } from "./types";
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
+const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
+   typeof getPromptsPage
+>;
 
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
    >;
 
-const toggleTemplateDescriptorFavoriteMock =
-   toggleTemplateDescriptorFavorite as jest.MockedFunction<
-      typeof toggleTemplateDescriptorFavorite
-   >;
+const togglePromptFavoriteMock = togglePromptFavorite as jest.MockedFunction<
+   typeof togglePromptFavorite
+>;
 
 describe("prefetch options tests", () => {
    beforeEach(() => {
@@ -105,7 +103,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
 
    test("useInfiniteLoadTemplateDescriptors test", async () => {
       const page = dtestData.dPromptsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPromptsPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
@@ -128,10 +126,8 @@ describe("loadTemplateDescriptors hooks tests", () => {
          expect(result.current.data?.pageParams).toEqual([0]);
          expect(result.current.data?.pages).toHaveLength(1);
          expect(result.current.data?.pages[0]).toEqual(page);
-         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-            expectedQuery
-         );
+         expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
+         expect(getPromptsPageMock).toHaveBeenCalledWith(expectedQuery);
       });
    });
 });
@@ -197,8 +193,8 @@ describe("toggleFavorite hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
+         expect(togglePromptFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(togglePromptFavoriteMock).toHaveBeenCalledWith(
             params.descriptorId,
             params.isFavorite
          );

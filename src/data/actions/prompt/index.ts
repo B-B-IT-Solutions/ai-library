@@ -1,15 +1,15 @@
 export {
-   getTemplateDescriptorsPage,
-   getTemplateDescriptor,
+   getPromptsPage,
+   getPrompt,
    createPrompt,
-   updateTemplateDescriptor,
-   deleteTemplateDescriptor,
-   getPromptGenerationTemplateData,
+   updatePrompt,
+   deletePrompt,
+   getPromptGenerationData,
    composePromptFromTemplate,
-   downloadTemplate,
-   toggleTemplateDescriptorFavorite,
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
+   downloadPrompt,
+   togglePromptFavorite,
+   getPromptCategories,
+   getPromptModels,
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
@@ -17,8 +17,8 @@ export {
 } from "./prompt.user.actions";
 
 export {
-   getPublicTemplateDescriptorsPage,
-   getPublicTemplateDescriptor,
-   getPublicPromptTemplate,
-   getPublicPromptGenerationTemplateData,
+   getPublicPromptsPage,
+   getPublicPrompt,
+   getPublicPromptContent,
+   getPublicPromptGenerationData,
 } from "./prompt.public.actions";

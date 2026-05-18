@@ -9,9 +9,9 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getCollections } from "@/data/actions/collection";
 import {
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
-   getTemplateDescriptorsPage,
+   getPromptCategories,
+   getPromptModels,
+   getPromptsPage,
 } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
@@ -29,20 +29,17 @@ const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
 
-const getTemplateDescriptorCategoriesMock =
-   getTemplateDescriptorCategories as jest.MockedFunction<
-      typeof getTemplateDescriptorCategories
-   >;
+const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
+   typeof getPromptCategories
+>;
 
-const getTemplateDescriptorModelsMock =
-   getTemplateDescriptorModels as jest.MockedFunction<
-      typeof getTemplateDescriptorModels
-   >;
+const getPromptModelsMock = getPromptModels as jest.MockedFunction<
+   typeof getPromptModels
+>;
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
+const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
+   typeof getPromptsPage
+>;
 
 const templatesSearchParamsCacheMock =
    templatesSearchParamsCache as DeepMockProxy<
@@ -85,14 +82,14 @@ const assertRendered = () => {
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
+   expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
+   expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("CollectionView rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPromptsPageMock.mockResolvedValue(page);
       getCollectionsMock.mockResolvedValue([]);
    });
 
@@ -105,8 +102,8 @@ describe("CollectionView rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
-      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPromptModelsMock.mockResolvedValue(models);
 
       const collection = dtestData.dCollection(1);
 
@@ -133,8 +130,8 @@ describe("CollectionView rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
+         expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

@@ -5,7 +5,7 @@ import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PublicTemplateRepository, TemplateRepository } from "./prompt";
+import { PromptRepository, PublicPromptRepository } from "./prompt";
 import { Prompt0Repository } from "./prompt0";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
@@ -28,8 +28,8 @@ export class RepositoryFactory {
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private prompt0Repo?: Prompt0Repository;
-   private templateRepo?: TemplateRepository;
-   private publicTemplateRepo?: PublicTemplateRepository;
+   private templateRepo?: PromptRepository;
+   private publicTemplateRepo?: PublicPromptRepository;
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
    private publicSettingsRepo?: PublicSettingsRepository;
@@ -119,16 +119,16 @@ export class RepositoryFactory {
       return this.prompt0Repo;
    }
 
-   templateRepository(): TemplateRepository {
+   promptRepository(): PromptRepository {
       if (!this.templateRepo) {
-         this.templateRepo = new TemplateRepository(this.prisma);
+         this.templateRepo = new PromptRepository(this.prisma);
       }
       return this.templateRepo;
    }
 
-   publicTemplateRepository(): PublicTemplateRepository {
+   publicPromptRepository(): PublicPromptRepository {
       if (!this.publicTemplateRepo) {
-         this.publicTemplateRepo = new PublicTemplateRepository(this.prisma);
+         this.publicTemplateRepo = new PublicPromptRepository(this.prisma);
       }
       return this.publicTemplateRepo;
    }

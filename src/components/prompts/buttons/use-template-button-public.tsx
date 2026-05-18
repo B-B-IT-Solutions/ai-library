@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { UseTemplateDialog } from "@/components/prompt-templates";
 import { Button } from "@/components/shadcn/button";
-import { getPublicPromptGenerationTemplateData } from "@/data/actions/prompt";
+import { getPublicPromptGenerationData } from "@/data/actions/prompt";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
@@ -23,9 +23,7 @@ export const PublicUseTemplateButton = ({ descriptor, className }: Props) => {
 
    const handleUseTemplate = async () => {
       startTransition(async () => {
-         const data = await getPublicPromptGenerationTemplateData(
-            descriptor.id
-         );
+         const data = await getPublicPromptGenerationData(descriptor.id);
          if (data) {
             setTemplateData(data);
          } else {

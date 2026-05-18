@@ -9,15 +9,15 @@ import { assertInDocument, dtestData } from "@tests";
 import { saveAs } from "file-saver";
 import { toast } from "sonner";
 
-import { downloadTemplate } from "@/data/actions/prompt";
+import { downloadPrompt } from "@/data/actions/prompt";
 
 import { DownloadTemplateButton } from "./download-template-button";
 
 const saveAsMock = saveAs as jest.MockedFunction<typeof saveAs>;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const downloadTemplateMock = downloadTemplate as jest.MockedFunction<
-   typeof downloadTemplate
+const downloadPromptMock = downloadPrompt as jest.MockedFunction<
+   typeof downloadPrompt
 >;
 
 const assertRenderedMenuItem = () => {
@@ -69,7 +69,7 @@ describe("DownloadTemplateButton functionality tests", () => {
          message: "data ready",
          data: "prompt template text",
       };
-      downloadTemplateMock.mockResolvedValue(result);
+      downloadPromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
       render(
@@ -78,7 +78,7 @@ describe("DownloadTemplateButton functionality tests", () => {
 
       await waitFor(() => {
          assertRenderedMenuItem();
-         expect(downloadTemplateMock).not.toHaveBeenCalled();
+         expect(downloadPromptMock).not.toHaveBeenCalled();
       });
 
       const menuItem = screen.getByTestId("download-template-menu-item");
@@ -90,8 +90,8 @@ describe("DownloadTemplateButton functionality tests", () => {
       const downladedFileName = `${descriptor.title.replace(/\s+/g, "_")}.json`;
 
       await waitFor(() => {
-         expect(downloadTemplateMock).toHaveBeenCalledTimes(1);
-         expect(downloadTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(downloadPromptMock).toHaveBeenCalledTimes(1);
+         expect(downloadPromptMock).toHaveBeenCalledWith(descriptor.id);
          expect(saveAsMock).toHaveBeenCalledTimes(1);
          expect(saveAsMock).toHaveBeenCalledWith(blob, downladedFileName);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -106,22 +106,22 @@ describe("DownloadTemplateButton functionality tests", () => {
          success: false,
          message: "template cannot be downloaded",
       };
-      downloadTemplateMock.mockResolvedValue(result);
+      downloadPromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
       render(<DownloadTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRenderedBtn();
-         expect(downloadTemplateMock).not.toHaveBeenCalled();
+         expect(downloadPromptMock).not.toHaveBeenCalled();
       });
 
       const downloadBtn = screen.getByTestId("download-template-btn");
       await userEvent.click(downloadBtn);
 
       await waitFor(() => {
-         expect(downloadTemplateMock).toHaveBeenCalledTimes(1);
-         expect(downloadTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(downloadPromptMock).toHaveBeenCalledTimes(1);
+         expect(downloadPromptMock).toHaveBeenCalledWith(descriptor.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
       });

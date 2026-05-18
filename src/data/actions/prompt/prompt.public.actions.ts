@@ -14,19 +14,19 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 
-export const getPublicTemplateDescriptorsPage = async (
+export const getPublicPromptsPage = async (
    query: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
    try {
       const service = getService();
-      return await service.getPublicTemplateDescriptorsPage(query);
+      return await service.getPublicPromptsPage(query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
    }
 };
 
-export const getPublicTemplateDescriptor = async (
+export const getPublicPrompt = async (
    descriptorId: string
 ): Promise<DPrompt | null> => {
    try {
@@ -35,14 +35,14 @@ export const getPublicTemplateDescriptor = async (
       }
 
       const service = getService();
-      return await service.getPublicTemplateDescriptor(descriptorId);
+      return await service.getPublicPrompt(descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;
    }
 };
 
-export const getPublicPromptTemplate = async (
+export const getPublicPromptContent = async (
    templateId: string
 ): Promise<DPromptWithContent | null> => {
    try {
@@ -51,14 +51,14 @@ export const getPublicPromptTemplate = async (
       }
 
       const service = getService();
-      return await service.getPublicPromptTemplate(templateId);
+      return await service.getPublicPromptContent(templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
    }
 };
 
-export const getPublicPromptGenerationTemplateData = async (
+export const getPublicPromptGenerationData = async (
    templateId: string
 ): Promise<DPromptGenerationData | null> => {
    try {
@@ -67,7 +67,7 @@ export const getPublicPromptGenerationTemplateData = async (
       }
 
       const service = getService();
-      return await service.getPublicTemplateDataForPromptGeneration(templateId);
+      return await service.getPublicPromptGenerationData(templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -76,5 +76,5 @@ export const getPublicPromptGenerationTemplateData = async (
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getPublicTemplateService();
+   return factory.getPublicPromptService();
 };

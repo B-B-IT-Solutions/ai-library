@@ -8,16 +8,15 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteTemplateDescriptor } from "@/data/actions/prompt";
+import { deletePrompt } from "@/data/actions/prompt";
 
 import { DeleteTemplateButton } from "./delete-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const deleteTemplateDescriptorMock =
-   deleteTemplateDescriptor as jest.MockedFunction<
-      typeof deleteTemplateDescriptor
-   >;
+const deletePromptMock = deletePrompt as jest.MockedFunction<
+   typeof deletePrompt
+>;
 
 const assertRendered = () => {
    const deleteBtn = screen.getByTestId("delete-template-menu-item");
@@ -50,31 +49,29 @@ describe("DeleteTemplateButton functionality tests", () => {
          success: true,
          message: "Prompt deleted",
       };
-      deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
+      deletePromptMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPrompt();
       render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(deleteTemplateDescriptorMock).toHaveBeenCalledWith(
-            descriptor.id
-         );
+         expect(deletePromptMock).toHaveBeenCalledTimes(1);
+         expect(deletePromptMock).toHaveBeenCalledWith(descriptor.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/templates");
@@ -86,31 +83,29 @@ describe("DeleteTemplateButton functionality tests", () => {
          success: false,
          message: "Prompt couldn't be deleted",
       };
-      deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
+      deletePromptMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPrompt();
       render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(deleteTemplateDescriptorMock).toHaveBeenCalledWith(
-            descriptor.id
-         );
+         expect(deletePromptMock).toHaveBeenCalledTimes(1);
+         expect(deletePromptMock).toHaveBeenCalledWith(descriptor.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/templates/test-id");
@@ -123,21 +118,21 @@ describe("DeleteTemplateButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
+         expect(deletePromptMock).not.toHaveBeenCalled();
          expect(mockRouter.pathname).toEqual("/templates/test-id");
       });
    });

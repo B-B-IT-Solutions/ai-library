@@ -8,10 +8,10 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { getCollections } from "@/data/actions/collection";
 import {
+   getPromptCategories,
+   getPromptModels,
+   getPromptsPage,
    getPromptsUsage,
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
-   getTemplateDescriptorsPage,
 } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
@@ -27,24 +27,21 @@ import { templatesSearchParamsCache } from "./search-params";
 type CacheKey = Parameters<typeof templatesSearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof templatesSearchParamsCache.get>;
 
-const getTemplateDescriptorCategoriesMock =
-   getTemplateDescriptorCategories as jest.MockedFunction<
-      typeof getTemplateDescriptorCategories
-   >;
+const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
+   typeof getPromptCategories
+>;
 
-const getTemplateDescriptorModelsMock =
-   getTemplateDescriptorModels as jest.MockedFunction<
-      typeof getTemplateDescriptorModels
-   >;
+const getPromptModelsMock = getPromptModels as jest.MockedFunction<
+   typeof getPromptModels
+>;
 
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
+const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
+   typeof getPromptsPage
+>;
 
 const getPromptsUsageMock = getPromptsUsage as jest.MockedFunction<
    typeof getPromptsUsage
@@ -93,8 +90,8 @@ const assertRendered = () => {
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
+   expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
+   expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("PromptsDashboard rendering tests", () => {
@@ -102,7 +99,7 @@ describe("PromptsDashboard rendering tests", () => {
       const page = dtestData.dPromptsPage();
 
       getCollectionsMock.mockResolvedValue([]);
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPromptsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {
@@ -114,8 +111,8 @@ describe("PromptsDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
-      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPromptModelsMock.mockResolvedValue(models);
 
       const usage: DPromptsUsage = {
          current: 3,
@@ -143,8 +140,8 @@ describe("PromptsDashboard rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
+         expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
@@ -157,8 +154,8 @@ describe("PromptsDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
-      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPromptModelsMock.mockResolvedValue(models);
 
       const usage: DPromptsUsage = {
          current: 12,
@@ -180,8 +177,8 @@ describe("PromptsDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
-      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+      getPromptCategoriesMock.mockResolvedValue(categories);
+      getPromptModelsMock.mockResolvedValue(models);
 
       const usage: DPromptsUsage = {
          current: 50,
@@ -200,8 +197,8 @@ describe("PromptsDashboard rendering tests", () => {
 
    it("usage indicator - unlimited - test", async () => {
       templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-      getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
-      getTemplateDescriptorModelsMock.mockResolvedValue([]);
+      getPromptCategoriesMock.mockResolvedValue([]);
+      getPromptModelsMock.mockResolvedValue([]);
 
       const usage: DPromptsUsage = {
          current: 500,
