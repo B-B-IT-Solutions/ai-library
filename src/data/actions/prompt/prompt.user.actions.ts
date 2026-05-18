@@ -22,11 +22,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import { TIER_FEATURES } from "@/lib/subscription/access-control";
-import {
-   requireCountLimit,
-   SubscriptionAccessError,
-} from "@/lib/subscription/server-guards";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 type DGetPromptTemplatesParams = {
    search?: string;
