@@ -14,6 +14,8 @@ export const toDUserInternatTest = (pUser: User): DUserInternal => {
       password: pUser.password,
       stripeCustomerId: pUser.stripeCustomerId,
       emailVerified: pUser.emailVerified,
+      trialEndsAt: pUser.trialEndsAt,
+      planChosenAt: pUser.planChosenAt,
       updatedAt: pUser.updatedAt.toISOString(),
       createdAt: pUser.createdAt.toISOString(),
    };

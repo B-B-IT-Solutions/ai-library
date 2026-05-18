@@ -185,6 +185,7 @@ describe("pCreateUser tests", () => {
          email: createData.email,
          password: createData.hashedPassword,
          legalNoticesAcceptedAt: createData.legalNoticesAcceptedAt,
+         trialEndsAt: createData.trialEndsAt,
       };
 
       const expectedCreateArgs: UserCreateArgs = {
