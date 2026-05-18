@@ -42,9 +42,11 @@ export const TemplatesDashboard = async () => {
       queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
-   const categories = await getTemplateDescriptorCategories();
-   const models = await getTemplateDescriptorModels();
-   const usage = await getPromptsUsage();
+   const [categories, models, usage] = await Promise.all([
+      getTemplateDescriptorCategories(),
+      getTemplateDescriptorModels(),
+      getPromptsUsage(),
+   ]);
 
    const isAtLimit = usage.limit !== -1 && usage.current >= usage.limit;
 
