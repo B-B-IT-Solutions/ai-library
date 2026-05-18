@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { PromptService } from "@/data/services/prompt0";
+import { Prompt0Service } from "@/data/services/prompt0";
 import { DPrompt0sPageQuery } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 
@@ -21,13 +21,13 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetPrompts = PromptService.prototype.getPrompts;
-const sGetPrompt = PromptService.prototype.getPrompt;
-const sGetPromptCategories = PromptService.prototype.getPromptCategories;
-const sCreatePrompt = PromptService.prototype.createPrompt;
-const sUpdatePrompt = PromptService.prototype.updatePrompt;
-const sDeletePrompt = PromptService.prototype.deletePrompt;
-const sToggleFavorite = PromptService.prototype.toggleFavorite;
+const sGetPrompts = Prompt0Service.prototype.getPrompts;
+const sGetPrompt = Prompt0Service.prototype.getPrompt;
+const sGetPromptCategories = Prompt0Service.prototype.getPromptCategories;
+const sCreatePrompt = Prompt0Service.prototype.createPrompt;
+const sUpdatePrompt = Prompt0Service.prototype.updatePrompt;
+const sDeletePrompt = Prompt0Service.prototype.deletePrompt;
+const sToggleFavorite = Prompt0Service.prototype.toggleFavorite;
 
 const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
 const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;

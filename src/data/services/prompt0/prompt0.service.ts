@@ -9,7 +9,7 @@ import {
 } from "@/data/types/domain/prompt0";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
-export class PromptService {
+export class Prompt0Service {
    private promptRepository: PromptRepository;
 
    constructor(promptRepository: PromptRepository) {
