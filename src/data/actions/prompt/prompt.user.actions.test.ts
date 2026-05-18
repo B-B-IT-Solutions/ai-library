@@ -32,70 +32,58 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetTemplateDescriptorsPage =
-   PromptService.prototype.getTemplateDescriptorsPage;
-const sGetTemplateDescriptor = PromptService.prototype.getTemplateDescriptor;
+const sGetPromptsPage = PromptService.prototype.getPromptsPage;
+const sGetPrompt = PromptService.prototype.getPrompt;
 const sCreatePrompt = PromptService.prototype.createPrompt;
-const sUpdateTemplateDescriptor =
-   PromptService.prototype.updateTemplateDescriptor;
-const sDeleteTemplateDescriptor =
-   PromptService.prototype.deleteTemplateDescriptor;
-const sGetTemplateDataForPromptGeneration =
-   PromptService.prototype.getTemplateDataForPromptGeneration;
+const sUpdatePrompt = PromptService.prototype.updatePrompt;
+const sDeletePrompt = PromptService.prototype.deletePrompt;
+const sGetPromptGenerationData =
+   PromptService.prototype.getPromptGenerationData;
 const sComposePromptFromTemplate =
    PromptService.prototype.composePromptFromTemplate;
-const sDownloadTemplate = PromptService.prototype.downloadTemplate;
-const sToggleTemplateDescriptorFavorite =
-   PromptService.prototype.toggleTemplateDescriptorFavorite;
-const sGetTemplateDescriptorCategories =
-   PromptService.prototype.getTemplateDescriptorCategories;
-const sGetTemplateDescriptorModels =
-   PromptService.prototype.getTemplateDescriptorModels;
+const sDownloadPrompt = PromptService.prototype.downloadPrompt;
+const sTogglePromptFavorite = PromptService.prototype.togglePromptFavorite;
+const sGetPromptCategories = PromptService.prototype.getPromptCategories;
+const sGetPromptModels = PromptService.prototype.getPromptModels;
 const sGetPrompts = PromptService.prototype.getPrompts;
 const sGetPromptTemplate = PromptService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
    PromptService.prototype.getPromptTemplateCategories;
+const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 
-const sGetTemplateDescriptorsPageMock =
-   sGetTemplateDescriptorsPage as jest.MockedFunction<
-      typeof sGetTemplateDescriptorsPage
-   >;
-const sGetTemplateDescriptorMock =
-   sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
+const sGetPromptsPageMock = sGetPromptsPage as jest.MockedFunction<
+   typeof sGetPromptsPage
+>;
+const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;
 const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
    typeof sCreatePrompt
 >;
-const sUpdateTemplateDescriptorMock =
-   sUpdateTemplateDescriptor as jest.MockedFunction<
-      typeof sUpdateTemplateDescriptor
-   >;
-const sDeleteTemplateDescriptorMock =
-   sDeleteTemplateDescriptor as jest.MockedFunction<
-      typeof sDeleteTemplateDescriptor
-   >;
-const sGetTemplateDataForPromptGenerationMock =
-   sGetTemplateDataForPromptGeneration as jest.MockedFunction<
-      typeof sGetTemplateDataForPromptGeneration
+const sUpdatePromptMock = sUpdatePrompt as jest.MockedFunction<
+   typeof sUpdatePrompt
+>;
+const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
+   typeof sDeletePrompt
+>;
+const sGetPromptGenerationDataMock =
+   sGetPromptGenerationData as jest.MockedFunction<
+      typeof sGetPromptGenerationData
    >;
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
       typeof sComposePromptFromTemplate
    >;
-const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
-   typeof sDownloadTemplate
+const sDownloadPromptMock = sDownloadPrompt as jest.MockedFunction<
+   typeof sDownloadPrompt
 >;
-const sToggleTemplateDescriptorFavoriteMock =
-   sToggleTemplateDescriptorFavorite as jest.MockedFunction<
-      typeof sToggleTemplateDescriptorFavorite
-   >;
-const sGetTemplateDescriptorCategoriesMock =
-   sGetTemplateDescriptorCategories as jest.MockedFunction<
-      typeof sGetTemplateDescriptorCategories
-   >;
-const sGetTemplateDescriptorModelsMock =
-   sGetTemplateDescriptorModels as jest.MockedFunction<
-      typeof sGetTemplateDescriptorModels
-   >;
+const sTogglePromptFavoriteMock = sTogglePromptFavorite as jest.MockedFunction<
+   typeof sTogglePromptFavorite
+>;
+const sGetPromptCategoriesMock = sGetPromptCategories as jest.MockedFunction<
+   typeof sGetPromptCategories
+>;
+const sGetPromptModelsMock = sGetPromptModels as jest.MockedFunction<
+   typeof sGetPromptModels
+>;
 const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
 const sGetPromptTemplateMock = sGetPromptTemplate as jest.MockedFunction<
    typeof sGetPromptTemplate
@@ -104,8 +92,6 @@ const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
    >;
-
-const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
    typeof sGetPromptsUsage
 >;
@@ -128,7 +114,7 @@ describe("getPromptsPage tests", () => {
 
       expect(result).toEqual(EMPTY_PAGE);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorsPageMock).not.toHaveBeenCalled();
+      expect(sGetPromptsPageMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -138,7 +124,7 @@ describe("getPromptsPage tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const page = dtestData.dPromptsPage();
-      sGetTemplateDescriptorsPageMock.mockResolvedValue(page);
+      sGetPromptsPageMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
 
@@ -146,11 +132,8 @@ describe("getPromptsPage tests", () => {
 
       expect(result).toEqual(page);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-         user.id,
-         query
-      );
+      expect(sGetPromptsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsPageMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 
@@ -173,7 +156,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sGetPromptMock).not.toHaveBeenCalled();
    });
 
    it("error - test", async () => {
@@ -182,18 +165,15 @@ describe("getPrompt tests", () => {
 
       const errorMessage = "db error";
       const error = new Error(errorMessage);
-      sGetTemplateDescriptorMock.mockRejectedValue(error);
+      sGetPromptMock.mockRejectedValue(error);
       const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getPrompt(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
+      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -202,18 +182,15 @@ describe("getPrompt tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sGetTemplateDescriptorMock.mockResolvedValue(null);
+      sGetPromptMock.mockResolvedValue(null);
       const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getPrompt(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
+      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
    it("descriptor retrieved - test", async () => {
@@ -221,18 +198,15 @@ describe("getPrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const descriptor = dtestData.dPrompt();
-      sGetTemplateDescriptorMock.mockResolvedValue(descriptor);
+      sGetPromptMock.mockResolvedValue(descriptor);
       const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getPrompt(descriptorId);
 
       expect(result).toEqual(descriptor);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
+      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 
@@ -355,7 +329,7 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptMock).not.toHaveBeenCalled();
    });
 
    it("user undefined - test", async () => {
@@ -374,7 +348,7 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -383,7 +357,7 @@ describe("updatePrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sUpdateTemplateDescriptorMock.mockRejectedValue(error);
+      sUpdatePromptMock.mockRejectedValue(error);
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptUpdate();
@@ -397,8 +371,8 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledWith(
+      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          updateData
@@ -409,7 +383,7 @@ describe("updatePrompt tests", () => {
    it("descriptor updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sUpdateTemplateDescriptorMock.mockResolvedValue();
+      sUpdatePromptMock.mockResolvedValue();
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptUpdate();
@@ -423,8 +397,8 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledWith(
+      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          updateData
@@ -454,7 +428,7 @@ describe("deletePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sDeletePromptMock).not.toHaveBeenCalled();
    });
 
    it("user undefined - test", async () => {
@@ -472,7 +446,7 @@ describe("deletePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sDeletePromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -481,7 +455,7 @@ describe("deletePrompt tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sDeleteTemplateDescriptorMock.mockRejectedValue(error);
+      sDeletePromptMock.mockRejectedValue(error);
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -494,18 +468,15 @@ describe("deletePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("descriptor deleted - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sDeleteTemplateDescriptorMock.mockResolvedValue();
+      sDeletePromptMock.mockResolvedValue();
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -518,11 +489,8 @@ describe("deletePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 
@@ -545,7 +513,7 @@ describe("getPromptGenerationData tests", () => {
 
       expect(result).toEqual(null);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDataForPromptGenerationMock).not.toHaveBeenCalled();
+      expect(sGetPromptGenerationDataMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -555,15 +523,15 @@ describe("getPromptGenerationData tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const data = dtestData.dPromptGenerationData();
-      sGetTemplateDataForPromptGenerationMock.mockResolvedValue(data);
+      sGetPromptGenerationDataMock.mockResolvedValue(data);
 
       const templateId = "prompt-template-id";
       const result = await getPromptGenerationData(templateId);
 
       expect(result).toEqual(data);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDataForPromptGenerationMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDataForPromptGenerationMock).toHaveBeenCalledWith(
+      expect(sGetPromptGenerationDataMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptGenerationDataMock).toHaveBeenCalledWith(
          user.id,
          templateId
       );
@@ -700,7 +668,7 @@ describe("downloadPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
+      expect(sDownloadPromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -718,7 +686,7 @@ describe("downloadPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
+      expect(sDownloadPromptMock).not.toHaveBeenCalled();
    });
 
    it("error - test", async () => {
@@ -728,7 +696,7 @@ describe("downloadPrompt tests", () => {
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const errorMessage = "Template not found";
       const error = new Error(errorMessage);
-      sDownloadTemplateMock.mockRejectedValue(error);
+      sDownloadPromptMock.mockRejectedValue(error);
 
       const result = await downloadPrompt(descriptorId);
       const expectedResult = {
@@ -738,8 +706,8 @@ describe("downloadPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
+      expect(sDownloadPromptMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -750,7 +718,7 @@ describe("downloadPrompt tests", () => {
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const downloadData = "template content data";
-      sDownloadTemplateMock.mockResolvedValue(downloadData);
+      sDownloadPromptMock.mockResolvedValue(downloadData);
 
       const result = await downloadPrompt(descriptorId);
       const expectedResult = {
@@ -761,8 +729,8 @@ describe("downloadPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
+      expect(sDownloadPromptMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 
@@ -789,7 +757,7 @@ describe("togglePromptFavorite tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sToggleTemplateDescriptorFavoriteMock).not.toHaveBeenCalled();
+      expect(sTogglePromptFavoriteMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid Descriptor ID.");
    });
@@ -809,7 +777,7 @@ describe("togglePromptFavorite tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sToggleTemplateDescriptorFavoriteMock).not.toHaveBeenCalled();
+      expect(sTogglePromptFavoriteMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -821,7 +789,7 @@ describe("togglePromptFavorite tests", () => {
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
-      sToggleTemplateDescriptorFavoriteMock.mockResolvedValue();
+      sTogglePromptFavoriteMock.mockResolvedValue();
 
       const result = await togglePromptFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPrompt0Update> = {
@@ -830,8 +798,8 @@ describe("togglePromptFavorite tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sToggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
+      expect(sTogglePromptFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sTogglePromptFavoriteMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          isFavorite
@@ -845,7 +813,7 @@ describe("togglePromptFavorite tests", () => {
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
-      sToggleTemplateDescriptorFavoriteMock.mockResolvedValue();
+      sTogglePromptFavoriteMock.mockResolvedValue();
 
       const result = await togglePromptFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPrompt0Update> = {
@@ -854,8 +822,8 @@ describe("togglePromptFavorite tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sToggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
+      expect(sTogglePromptFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sTogglePromptFavoriteMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          isFavorite
@@ -881,7 +849,7 @@ describe("getPromptCategories tests", () => {
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorCategoriesMock).not.toHaveBeenCalled();
+      expect(sGetPromptCategoriesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -891,16 +859,14 @@ describe("getPromptCategories tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const categories = dtestData.dTemplateCategories();
-      sGetTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      sGetPromptCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptCategories();
 
       expect(result).toEqual(categories);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorCategoriesMock).toHaveBeenCalledWith(
-         user.id
-      );
+      expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -922,7 +888,7 @@ describe("getPromptModels tests", () => {
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorModelsMock).not.toHaveBeenCalled();
+      expect(sGetPromptModelsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -932,14 +898,14 @@ describe("getPromptModels tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const models = dtestData.dTemplateModels();
-      sGetTemplateDescriptorModelsMock.mockResolvedValue(models);
+      sGetPromptModelsMock.mockResolvedValue(models);
 
       const result = await getPromptModels();
 
       expect(result).toEqual(models);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
-      expect(sGetTemplateDescriptorModelsMock).toHaveBeenCalledWith(user.id);
+      expect(sGetPromptModelsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsMock).toHaveBeenCalledWith(user.id);
    });
 });
 

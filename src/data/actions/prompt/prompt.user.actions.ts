@@ -33,7 +33,7 @@ export const getPromptsPage = async (
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorsPage(user.id, query);
+      return await service.getPromptsPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
@@ -46,7 +46,7 @@ export const getPrompt = async (
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptor(user.id, descriptorId);
+      return await service.getPrompt(user.id, descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -94,7 +94,7 @@ export const updatePrompt = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.updateTemplateDescriptor(user.id, descriptorId, data);
+      await service.updatePrompt(user.id, descriptorId, data);
 
       return {
          success: true,
@@ -119,7 +119,7 @@ export const deletePrompt = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteTemplateDescriptor(user.id, descriptorId);
+      await service.deletePrompt(user.id, descriptorId);
 
       return {
          success: true,
@@ -140,10 +140,7 @@ export const getPromptGenerationData = async (
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDataForPromptGeneration(
-         user.id,
-         templateId
-      );
+      return await service.getPromptGenerationData(user.id, templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -192,10 +189,7 @@ export const downloadPrompt = async (
       const user = await requireUser();
 
       const service = getService();
-      const downloadData = await service.downloadTemplate(
-         user.id,
-         descriptorId
-      );
+      const downloadData = await service.downloadPrompt(user.id, descriptorId);
 
       return {
          success: true,
@@ -222,11 +216,7 @@ export const togglePromptFavorite = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.toggleTemplateDescriptorFavorite(
-         user.id,
-         descriptorId,
-         isFavorite
-      );
+      await service.togglePromptFavorite(user.id, descriptorId, isFavorite);
 
       return {
          success: true,
@@ -247,7 +237,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorCategories(user.id);
+      return await service.getPromptCategories(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
@@ -258,7 +248,7 @@ export const getPromptModels = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getTemplateDescriptorModels(user.id);
+      return await service.getPromptModels(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
