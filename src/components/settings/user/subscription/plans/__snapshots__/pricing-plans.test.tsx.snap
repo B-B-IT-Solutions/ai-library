@@ -104,7 +104,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -129,7 +129,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li
@@ -240,7 +240,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -265,7 +265,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li
@@ -383,7 +383,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -408,7 +408,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li
@@ -561,7 +561,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -586,7 +586,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li
@@ -697,7 +697,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -722,7 +722,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li
@@ -840,7 +840,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 5 prompts
+                Bis zu 5 Prompts
               </span>
             </li>
             <li
@@ -865,7 +865,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - 
                 />
               </svg>
               <span>
-                Up to 3 library items
+                Bis zu 3 Bibliotheks-Einträge
               </span>
             </li>
             <li

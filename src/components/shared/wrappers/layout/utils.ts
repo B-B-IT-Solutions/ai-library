@@ -6,6 +6,8 @@ export const PAYWALL_EXEMPT_PATHS = [
    "/subscription/pricing",
    "/subscription/success",
    "/checkout",
+   "/settings/general",
+   "/settings/subscription",
 ];
 
 export const isPaywallExempt = (pathname: string): boolean => {

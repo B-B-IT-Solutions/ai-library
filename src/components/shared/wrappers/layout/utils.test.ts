@@ -6,6 +6,8 @@ const expectedPaywalExemptPaths = [
    "/subscription/pricing",
    "/subscription/success",
    "/checkout",
+   "/settings/general",
+   "/settings/subscription",
 ];
 
 describe("utils tests", () => {
