@@ -7,12 +7,15 @@ import {
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptsUsage,
    DPromptUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
+import { TIER_FEATURES } from "@/lib/subscription/access-control";
 import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
+import { SubscriptionService } from "../subscription";
 
 import { resolveAllTemplateFields } from "./utils";
 
@@ -22,16 +25,11 @@ type DGetPromptTemplatesDescriptorsParams = {
 };
 
 export class TemplateService {
-   private repository: TemplateRepository;
-   private settingService: SettingsService;
-
    constructor(
-      repository: TemplateRepository,
-      settingsService: SettingsService
-   ) {
-      this.repository = repository;
-      this.settingService = settingsService;
-   }
+      private readonly repository: TemplateRepository,
+      private readonly settingService: SettingsService,
+      private readonly subscriptionService: SubscriptionService
+   ) {}
 
    async getTemplateDescriptorsPage(
       userId: string,
@@ -203,6 +201,29 @@ export class TemplateService {
 
    async getTemplateDescriptorModels(userId: string): Promise<string[]> {
       return await this.repository.pGetTemplateModels(userId);
+   }
+
+   async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
+      try {
+         const [current, tier] = await Promise.all([
+            this.getPromptsCount(userId),
+            this.subscriptionService.getUserTier(userId),
+         ]);
+         const limit = TIER_FEATURES[tier].maxPrompts;
+         return {
+            current,
+            limit,
+         };
+      } catch (error) {
+         console.error(
+            "DPromptUsage can't be retrieved, falling back to unlimited",
+            error
+         );
+         return {
+            current: 0,
+            limit: -1,
+         };
+      }
    }
 
    async getPromptsCount(userId: string): Promise<number> {

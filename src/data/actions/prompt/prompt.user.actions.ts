@@ -309,7 +309,7 @@ export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
       const user = await requireUser();
       const factory = new ServiceFactory(prisma);
       const [current, tier] = await Promise.all([
-         factory.getTemplateService().getPromptsCount(user.id),
+         factory.getPromptService().getPromptsCount(user.id),
          factory.getSubscriptionService().getUserTier(user.id),
       ]);
       const limit = TIER_FEATURES[tier].maxPrompts;
@@ -321,5 +321,5 @@ export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getTemplateService();
+   return factory.getPromptService();
 };

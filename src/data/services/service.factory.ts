@@ -91,7 +91,7 @@ export class ServiceFactory {
       if (!this.catalogService) {
          this.catalogService = new CatalogService(
             this.repositories.catalogRepository(),
-            this.getTemplateService()
+            this.getPromptService()
          );
       }
       return this.catalogService;
@@ -142,7 +142,7 @@ export class ServiceFactory {
       return this.orderService;
    }
 
-   getPromptService(): PromptService {
+   getPrompt0Service(): PromptService {
       if (!this.promptService) {
          this.promptService = new PromptService(
             this.repositories.promptRepository()
@@ -151,11 +151,12 @@ export class ServiceFactory {
       return this.promptService;
    }
 
-   getTemplateService(): TemplateService {
+   getPromptService(): TemplateService {
       if (!this.templateService) {
          this.templateService = new TemplateService(
             this.repositories.templateRepository(),
-            this.getSettingsService()
+            this.getSettingsService(),
+            this.getSubscriptionService()
          );
       }
       return this.templateService;

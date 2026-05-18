@@ -16,7 +16,7 @@ const catalogRepo = new CatalogRepository(prisma);
 const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
 
 const serviceFactory = new ServiceFactory(prisma);
-const templateService = serviceFactory.getTemplateService();
+const templateService = serviceFactory.getPromptService();
 
 const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
 

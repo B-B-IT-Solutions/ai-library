@@ -65,5 +65,5 @@ const getCatalogService = (dbClient: DbClient = prisma) => {
 
 const getTemplateService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getTemplateService();
+   return factory.getPromptService();
 };
