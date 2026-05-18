@@ -18,7 +18,6 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         >
           <button
             data-slot="tooltip-trigger"
-            data-state="closed"
             data-testid="copy-preview-btn"
             type="button"
           >
@@ -50,54 +49,11 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             </svg>
           </button>
           <div
-            data-testid="mock-react-presence"
+            data-slot="tooltip-content"
+            data-testid="mock-tooltip-content"
+            sideoffset="0"
           >
-            <div
-              data-testid="mock-react-portal"
-            >
-              <div
-                data-testid="mock-react-presence"
-              >
-                <div
-                  data-radix-popper-content-wrapper=""
-                  style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-                >
-                  <div
-                    class=""
-                    data-align="center"
-                    data-side="top"
-                    data-slot="tooltip-content"
-                    data-state="closed"
-                    style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-                  >
-                    In Zwischenablage kopieren
-                    <span
-                      style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                    >
-                      <svg
-                        class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                        height="5"
-                        preserveAspectRatio="none"
-                        style="display: block;"
-                        viewBox="0 0 30 10"
-                        width="10"
-                      >
-                        <polygon
-                          points="0,0 30,0 15,10"
-                        />
-                      </svg>
-                    </span>
-                    <span
-                      id="radix-_r_0_"
-                      role="tooltip"
-                      style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                    >
-                      In Zwischenablage kopieren
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            In Zwischenablage kopieren
           </div>
           <div
             class="leading-relaxed text-slate-700"
@@ -145,16 +101,16 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_1_-form-item"
+              for="_r_0_-form-item"
             >
               Name
             </label>
             <input
-              aria-describedby="_r_1_-form-item-description"
+              aria-describedby="_r_0_-form-item-description"
               aria-invalid="false"
               data-slot="form-control"
               data-testid="input"
-              id="_r_1_-form-item"
+              id="_r_0_-form-item"
               name="name"
               type="text"
               value=""
@@ -169,16 +125,16 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_2_-form-item"
+              for="_r_1_-form-item"
             >
               Email Address
             </label>
             <input
-              aria-describedby="_r_2_-form-item-description"
+              aria-describedby="_r_1_-form-item-description"
               aria-invalid="false"
               data-slot="form-control"
               data-testid="input"
-              id="_r_2_-form-item"
+              id="_r_1_-form-item"
               name="email"
               type="email"
               value=""
@@ -193,16 +149,16 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_3_-form-item"
+              for="_r_2_-form-item"
             >
               Age
             </label>
             <input
-              aria-describedby="_r_3_-form-item-description"
+              aria-describedby="_r_2_-form-item-description"
               aria-invalid="false"
               data-slot="form-control"
               data-testid="input"
-              id="_r_3_-form-item"
+              id="_r_2_-form-item"
               name="age"
               type="number"
               value=""
@@ -217,16 +173,16 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_4_-form-item"
+              for="_r_3_-form-item"
             >
               Birth Date
             </label>
             <input
-              aria-describedby="_r_4_-form-item-description"
+              aria-describedby="_r_3_-form-item-description"
               aria-invalid="false"
               data-slot="form-control"
               data-testid="input"
-              id="_r_4_-form-item"
+              id="_r_3_-form-item"
               name="birthdate"
               type="date"
               value=""
@@ -241,16 +197,16 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_5_-form-item"
+              for="_r_4_-form-item"
             >
               Biography
             </label>
             <textarea
-              aria-describedby="_r_5_-form-item-description"
+              aria-describedby="_r_4_-form-item-description"
               aria-invalid="false"
               data-slot="form-control"
               data-testid="textarea"
-              id="_r_5_-form-item"
+              id="_r_4_-form-item"
               name="bio"
               rows="4"
             />
@@ -266,11 +222,11 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             >
               <button
                 aria-checked="false"
-                aria-describedby="_r_6_-form-item-description"
+                aria-describedby="_r_5_-form-item-description"
                 aria-invalid="false"
                 data-slot="form-control"
                 data-state="unchecked"
-                id="_r_6_-form-item"
+                id="_r_5_-form-item"
                 role="checkbox"
                 type="button"
                 value="on"
@@ -315,7 +271,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
               <label
                 data-error="false"
                 data-slot="form-label"
-                for="_r_6_-form-item"
+                for="_r_5_-form-item"
               >
                 Newsletter
               </label>
@@ -330,18 +286,18 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_7_-form-item"
+              for="_r_6_-form-item"
             >
               Gender
             </label>
             <div
-              aria-describedby="_r_7_-form-item-description"
+              aria-describedby="_r_6_-form-item-description"
               aria-invalid="false"
               aria-required="false"
               class=""
               data-slot="form-control"
               dir="ltr"
-              id="_r_7_-form-item"
+              id="_r_6_-form-item"
               role="radiogroup"
               style="outline: none;"
               tabindex="0"
@@ -475,7 +431,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             <label
               data-error="false"
               data-slot="form-label"
-              for="_r_a_-form-item"
+              for="_r_9_-form-item"
             >
               Country
             </label>
@@ -484,7 +440,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             >
               <button
                 aria-autocomplete="none"
-                aria-controls="radix-_r_b_"
+                aria-controls="radix-_r_a_"
                 aria-expanded="false"
                 class=""
                 data-placeholder=""
@@ -586,7 +542,6 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
       </div>
       <button
         data-slot="tooltip-trigger"
-        data-state="closed"
         data-testid="copy-prompt-btn"
         type="submit"
       >
@@ -621,54 +576,11 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         </span>
       </button>
       <div
-        data-testid="mock-react-presence"
+        data-slot="tooltip-content"
+        data-testid="mock-tooltip-content"
+        sideoffset="0"
       >
-        <div
-          data-testid="mock-react-portal"
-        >
-          <div
-            data-testid="mock-react-presence"
-          >
-            <div
-              data-radix-popper-content-wrapper=""
-              style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-            >
-              <div
-                class=""
-                data-align="center"
-                data-side="top"
-                data-slot="tooltip-content"
-                data-state="closed"
-                style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-              >
-                In Zwischenablage kopieren
-                <span
-                  style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                >
-                  <svg
-                    class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                    height="5"
-                    preserveAspectRatio="none"
-                    style="display: block;"
-                    viewBox="0 0 30 10"
-                    width="10"
-                  >
-                    <polygon
-                      points="0,0 30,0 15,10"
-                    />
-                  </svg>
-                </span>
-                <span
-                  id="radix-_r_c_"
-                  role="tooltip"
-                  style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                >
-                  In Zwischenablage kopieren
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        In Zwischenablage kopieren
       </div>
     </div>
   </form>

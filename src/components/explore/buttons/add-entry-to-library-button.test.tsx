@@ -9,15 +9,15 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserPrompts } from "@/data/actions/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
 
 import { AddCatalogEntryToLibraryButton } from "./add-entry-to-library-button";
 
-const addEntryToUserTemplatesMock =
-   addCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof addCatalogEntryToUserTemplates
+const addEntryToUserPromptsMock =
+   addCatalogEntryToUserPrompts as jest.MockedFunction<
+      typeof addCatalogEntryToUserPrompts
    >;
 const toastMock = toast as jest.Mocked<typeof toast>;
 
@@ -106,7 +106,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
             templateId: descriptorId,
          },
       };
-      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
+      addEntryToUserPromptsMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -130,8 +130,8 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledWith(entry.id);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledWith(entry.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             "Vorlage wurde in deine Library übernommen",
@@ -153,7 +153,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
          success: false,
          message: "Vorlage konnte nicht copiert werden",
       };
-      addEntryToUserTemplatesMock.mockResolvedValue(actionResult);
+      addEntryToUserPromptsMock.mockResolvedValue(actionResult);
 
       const entry = dtestData.dCatalogEntry();
       render(
@@ -164,7 +164,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(addEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(addEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Vorlage konnte nicht übernommen werden"

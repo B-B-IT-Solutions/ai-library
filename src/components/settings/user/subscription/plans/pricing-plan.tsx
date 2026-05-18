@@ -61,16 +61,18 @@ export const PricingPlan: FC<PricingPlanProps> = ({
 
    const featurePrompts = () => {
       if (plan.features.maxPrompts === -1) {
-         return feature("Unlimited prompts");
+         return feature("Unbegrenzte Prompts");
       }
-      return feature(`Up to ${plan.features.maxPrompts} prompts`);
+      return feature(`Bis zu ${plan.features.maxPrompts} Prompts`);
    };
 
    const featureMaxLibraryItems = () => {
       if (plan.features.maxLibraryItems === -1) {
-         return feature("Unlimited library items");
+         return feature("Unbegrenzte Bibliotheks-Einträge");
       }
-      return feature(`Up to ${plan.features.maxLibraryItems} library items`);
+      return feature(
+         `Bis zu ${plan.features.maxLibraryItems} Bibliotheks-Einträge`
+      );
    };
 
    const featureMarketplaceAccess = () => {
@@ -87,13 +89,13 @@ export const PricingPlan: FC<PricingPlanProps> = ({
 
    const featureExportPrompts = () => {
       if (plan.features.canExportPrompts) {
-         return feature("Export prompts");
+         return feature("Prompts exportieren");
       }
    };
 
    const featuredvancedFeatures = () => {
       if (plan.features.canUseAdvancedFeatures) {
-         return feature("Advanced features");
+         return feature("Erweiterte Funktionen");
       }
    };
 
@@ -119,7 +121,7 @@ export const PricingPlan: FC<PricingPlanProps> = ({
                className="w-full"
                data-testid="free-btn"
             >
-               {isCurrent ? "Current Plan" : "Free Forever"}
+               {isCurrent ? "Current Plan" : "Kostenlos starten"}
             </Button>
          );
       }

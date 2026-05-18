@@ -8,10 +8,11 @@ import { canAccessFeature, FeatureName } from "./access-control";
 export class SubscriptionAccessError extends Error {
    constructor(
       message: string,
-      public feature: FeatureName
+      public readonly feature: FeatureName
    ) {
       super(message);
       this.name = "SubscriptionAccessError";
+      Object.setPrototypeOf(this, SubscriptionAccessError.prototype);
    }
 }
 

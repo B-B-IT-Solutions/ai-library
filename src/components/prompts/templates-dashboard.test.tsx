@@ -8,6 +8,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { getCollections } from "@/data/actions/collection";
 import {
+   getPromptsUsage,
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
@@ -17,6 +18,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
+import { DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { templatesSearchParamsCache } from "./search-params";
@@ -43,6 +45,10 @@ const getTemplateDescriptorsPageMock =
    getTemplateDescriptorsPage as jest.MockedFunction<
       typeof getTemplateDescriptorsPage
    >;
+
+const getPromptsUsageMock = getPromptsUsage as jest.MockedFunction<
+   typeof getPromptsUsage
+>;
 
 const templatesSearchParamsCacheMock =
    templatesSearchParamsCache as DeepMockProxy<
@@ -73,11 +79,13 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 const assertRendered = () => {
    const dashboard = screen.getByTestId("templates-dashboard");
    const createTemplateBtn = screen.getByTestId("create-template-btn");
+   const usageIndicator = screen.getByTestId("prompts-usage-indicator");
    const toolbar = screen.getByTestId("templates-toolbar");
    const entries = screen.getByTestId("template-items-grid");
 
    assertInDocument(dashboard);
    assertInDocument(createTemplateBtn);
+   assertInDocument(usageIndicator);
    assertInDocument(toolbar);
    assertInDocument(entries);
 };
@@ -109,6 +117,12 @@ describe("TemplatesDashboard rendering tests", () => {
       getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
       getTemplateDescriptorModelsMock.mockResolvedValue(models);
 
+      const usage: DPromptsUsage = {
+         current: 3,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
       const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       const expectedPayload: DPromptsPageQuery = {
@@ -131,7 +145,74 @@ describe("TemplatesDashboard rendering tests", () => {
          assertRendered();
          expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
+         expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("usage indicator - isAtLimit false - test", async () => {
+      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const usage: DPromptsUsage = {
+         current: 12,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("usage indicator - isAtLimit true - test", async () => {
+      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const usage: DPromptsUsage = {
+         current: 50,
+         limit: 50,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("usage indicator - unlimited - test", async () => {
+      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+      getTemplateDescriptorCategoriesMock.mockResolvedValue([]);
+      getTemplateDescriptorModelsMock.mockResolvedValue([]);
+
+      const usage: DPromptsUsage = {
+         current: 500,
+         limit: -1,
+      };
+      getPromptsUsageMock.mockResolvedValue(usage);
+
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
+
+      await waitFor(() => {
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();

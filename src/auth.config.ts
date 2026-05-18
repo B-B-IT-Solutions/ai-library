@@ -60,13 +60,21 @@ export const authConfig: NextAuthConfig = {
          // Get pathname from the req URL object
          const { pathname } = request.nextUrl;
 
+         // Build forwarded headers — always include x-pathname so Server
+         // Components (e.g. the authenticated layout) can read the current route
+         // without needing a separate headers() call that is unavailable at the edge runtime.
+         const requestHeaders = new Headers(request.headers);
+         requestHeaders.set("x-pathname", pathname);
+
          // Redirect authenticated users from public/landing routes to the app
          if (auth) {
             if (pathname === "/" || pathname.startsWith("/auth/")) {
                return NextResponse.redirect(new URL("/templates", request.url));
             }
             if (pathname === "/preview/marketplace") {
-               return NextResponse.redirect(new URL("/marketplace", request.url));
+               return NextResponse.redirect(
+                  new URL("/marketplace", request.url)
+               );
             }
          }
 
@@ -80,11 +88,9 @@ export const authConfig: NextAuthConfig = {
             // Generate new session cart id cookie
             const sessionCartId = crypto.randomUUID();
 
-            // Create new response and add the new headers
+            // Create new response, forwarding x-pathname and other headers
             const response = NextResponse.next({
-               request: {
-                  headers: new Headers(request.headers),
-               },
+               request: { headers: requestHeaders },
             });
 
             // Set newly generated sessionCartId in the response cookies
@@ -93,7 +99,10 @@ export const authConfig: NextAuthConfig = {
             return response;
          }
 
-         return true;
+         // Forward x-pathname to all downstream Server Components
+         return NextResponse.next({
+            request: { headers: requestHeaders },
+         });
       },
       async session({ session, user, trigger, token }) {
          // Set the user ID from the token

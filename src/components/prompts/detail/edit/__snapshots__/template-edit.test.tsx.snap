@@ -464,7 +464,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                     <code
                       class="rounded bg-slate-100 px-1 py-0.5"
                     >
-                      {{feldname}}
+                      {{feld_name}}
                     </code>
                      
                     für Platzhalter, die durch Ihre Felder ersetzt werden
@@ -3461,7 +3461,7 @@ exports[`TemplateEdit rendering tests new entry - test 1`] = `
                     <code
                       class="rounded bg-slate-100 px-1 py-0.5"
                     >
-                      {{feldname}}
+                      {{feld_name}}
                     </code>
                      
                     für Platzhalter, die durch Ihre Felder ersetzt werden

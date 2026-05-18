@@ -13,11 +13,14 @@ import {
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptsUsage,
    DPromptUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+import { AiLibAuthenticationError } from "../types";
 
 type DGetPromptTemplatesParams = {
    search?: string;
@@ -50,19 +53,29 @@ export const getTemplateDescriptor = async (
    }
 };
 
-export const createTemplateDescriptor = async (
+export const createPrompt = async (
    data: DPromptUpdate
 ): Promise<ActionResult> => {
    try {
       const user = await requireUser();
       const service = getService();
-      await service.createTemplateDescriptor(user.id, data);
+      await service.createPrompt(user.id, data);
+
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
    } catch (error) {
       console.error(formatError(error));
+
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
+
       return {
          success: false,
          message: "Vorlage konnte nicht erstellt werden",
@@ -287,7 +300,29 @@ export const getPromptTemplateCategories = async (): Promise<string[]> => {
    }
 };
 
+export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptsUsage(user.id);
+   } catch (error) {
+      if (error instanceof AiLibAuthenticationError) {
+         console.error(formatError(error));
+         const fallback: DPromptsUsage = { current: 0, limit: 0 };
+         return fallback;
+      } else {
+         console.error(
+            "DPromptUsage can't be retrieved, falling back to unlimited",
+            formatError(error)
+         );
+
+         const fallback: DPromptsUsage = { current: 0, limit: -1 };
+         return fallback;
+      }
+   }
+};
+
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getTemplateService();
+   return factory.getPromptService();
 };

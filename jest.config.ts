@@ -61,6 +61,8 @@ module.exports = {
       "^@radix-ui/react-sheet$":
          "<rootDir>/__mocks__/@radix-ui/react-sheet.tsx",
       "^@radix-ui/react-tabs$": "<rootDir>/__mocks__/@radix-ui/react-tabs.tsx",
+      "^@radix-ui/react-tooltip$":
+         "<rootDir>/__mocks__/@radix-ui/react-tooltip.tsx",
       "^@tiptap/react$": "<rootDir>/__mocks__/@tiptap/react.tsx",
       "@/(.*)$": ["<rootDir>/src/$1"],
       "^@tests(.*)$": "<rootDir>/tests/index$1",

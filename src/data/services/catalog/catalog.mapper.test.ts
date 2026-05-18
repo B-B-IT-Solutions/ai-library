@@ -10,10 +10,10 @@ import { DPromptFieldUpdate, DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    toPromptFieldUpdate,
    toPromptFieldUpdates,
-   toPromptTemplateUpdate,
+   toPromptUpdate,
 } from "./catalog.mapper";
 
-const toPromptTemplateUpdateInternal = (
+const toPromptUpdateInternal = (
    entry: DCatalogEntryWithContent
 ): DPromptUpdate => {
    const fields = toPromptFieldUpdatesInternal(entry.fields);
@@ -50,24 +50,24 @@ const toPromptFieldUpdateInternal = (
    };
 };
 
-describe("toPromptTemplateUpdate tests", () => {
+describe("toPromptUpdate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("toPromptTemplateUpdate test", async () => {
+   it("toPromptUpdate test", async () => {
       const entry = dtestData.dCatalogEntryWithContent();
-      const result = toPromptTemplateUpdate(entry);
-      const expectedResult = toPromptTemplateUpdateInternal(entry);
+      const result = toPromptUpdate(entry);
+      const expectedResult = toPromptUpdateInternal(entry);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toPromptTemplateUpdate - category null - test", async () => {
+   it("toPromptUpdate - category null - test", async () => {
       const entry = dtestData.dCatalogEntryWithContent();
       entry.category = null;
 
-      const result = toPromptTemplateUpdate(entry);
-      const expectedResult = toPromptTemplateUpdateInternal(entry);
+      const result = toPromptUpdate(entry);
+      const expectedResult = toPromptUpdateInternal(entry);
       expect(result).toEqual(expectedResult);
    });
 

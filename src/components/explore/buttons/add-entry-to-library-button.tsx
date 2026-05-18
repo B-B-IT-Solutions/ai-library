@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { AuthRequiredDialog } from "@/components/shared/auth";
-import { addCatalogEntryToUserTemplates } from "@/data/actions/catalog";
+import { addCatalogEntryToUserPrompts } from "@/data/actions/catalog";
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
 type Props = {
@@ -25,7 +25,7 @@ export const AddCatalogEntryToLibraryButton = ({
 
    const addEntryToLibrary = () => {
       startTransition(async () => {
-         const result = await addCatalogEntryToUserTemplates(entry.id);
+         const result = await addCatalogEntryToUserPrompts(entry.id);
 
          if (result.success) {
             toast.success("Vorlage wurde in deine Library übernommen", {

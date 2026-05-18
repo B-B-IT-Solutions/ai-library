@@ -2,7 +2,7 @@ import { CatalogRepository } from "@/data/repositories/catalog";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { TemplateService } from "../prompt";
 
-import { toPromptTemplateUpdate } from "./catalog.mapper";
+import { toPromptUpdate } from "./catalog.mapper";
 
 export class CatalogService {
    constructor(
@@ -10,7 +10,7 @@ export class CatalogService {
       private readonly templateService: TemplateService
    ) {}
 
-   async addCatalogEntryToUserTemplates(
+   async addCatalogEntryToUserPrompts(
       userId: string,
       catalogEntryId: string
    ): Promise<DPrompt> {
@@ -23,9 +23,9 @@ export class CatalogService {
          );
       }
 
-      const templateData = toPromptTemplateUpdate(entry);
+      const templateData = toPromptUpdate(entry);
 
-      const newDescriptor = await this.templateService.createTemplateDescriptor(
+      const newDescriptor = await this.templateService.createPrompt(
          userId,
          templateData
       );

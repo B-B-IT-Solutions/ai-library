@@ -1,3 +1,4 @@
+import { addDays } from "date-fns";
 import { headers } from "next/headers";
 
 import { UserRepository } from "@/data/repositories/user";
@@ -18,6 +19,7 @@ import {
    DUser,
    DUserAccountDelete,
    DUserCreate,
+   DUserInternal,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
@@ -41,12 +43,14 @@ export class UserService {
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
       const legalNoticesAcceptedAt = new Date();
+      const trialEndsAt = addDays(new Date(), 14);
 
       const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
          legalNoticesAcceptedAt,
+         trialEndsAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
@@ -89,6 +93,10 @@ export class UserService {
       return null;
    }
 
+   async getUserInternalById(userId: string): Promise<DUserInternal | null> {
+      return await this.userRepository.pGetUserById(userId);
+   }
+
    async getUserStripeCustomerId(userId: string): Promise<string | null> {
       const user = await this.userRepository.pGetUserById(userId);
       if (user && user.stripeCustomerId) {
@@ -100,6 +108,13 @@ export class UserService {
    async updateUser(userId: string, data: DUserUpdate) {
       const updateData: UserUpdateData = {
          name: data.name,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
+   }
+
+   async updatePlanChosenAt(userId: string, planChosenAt: Date) {
+      const updateData: UserUpdateData = {
+         planChosenAt,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }

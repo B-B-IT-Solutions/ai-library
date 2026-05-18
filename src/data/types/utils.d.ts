@@ -6,4 +6,6 @@ export type ActionResult<T = void> = {
    success: boolean;
    message: string;
    data?: T;
+   /** When true, the client should display an upgrade CTA */
+   upgradeRequired?: boolean;
 };

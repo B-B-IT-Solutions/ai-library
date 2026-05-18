@@ -113,7 +113,6 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
                   <button
                     class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
                     data-slot="tooltip-trigger"
-                    data-state="closed"
                     data-testid="copy-preview-btn"
                     type="button"
                   >
@@ -145,54 +144,12 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
                     </svg>
                   </button>
                   <div
-                    data-testid="mock-react-presence"
+                    class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                    data-slot="tooltip-content"
+                    data-testid="mock-tooltip-content"
+                    sideoffset="0"
                   >
-                    <div
-                      data-testid="mock-react-portal"
-                    >
-                      <div
-                        data-testid="mock-react-presence"
-                      >
-                        <div
-                          data-radix-popper-content-wrapper=""
-                          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-                        >
-                          <div
-                            class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
-                            data-align="center"
-                            data-side="top"
-                            data-slot="tooltip-content"
-                            data-state="closed"
-                            style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-                          >
-                            In Zwischenablage kopieren
-                            <span
-                              style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                            >
-                              <svg
-                                class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                                height="5"
-                                preserveAspectRatio="none"
-                                style="display: block;"
-                                viewBox="0 0 30 10"
-                                width="10"
-                              >
-                                <polygon
-                                  points="0,0 30,0 15,10"
-                                />
-                              </svg>
-                            </span>
-                            <span
-                              id="radix-_r_k_"
-                              role="tooltip"
-                              style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                            >
-                              In Zwischenablage kopieren
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    In Zwischenablage kopieren
                   </div>
                   <div
                     class="leading-relaxed text-slate-700"
@@ -272,7 +229,6 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                 data-slot="tooltip-trigger"
-                data-state="closed"
                 data-testid="copy-prompt-btn"
                 type="submit"
               >
@@ -307,54 +263,12 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
                 </span>
               </button>
               <div
-                data-testid="mock-react-presence"
+                class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                data-slot="tooltip-content"
+                data-testid="mock-tooltip-content"
+                sideoffset="0"
               >
-                <div
-                  data-testid="mock-react-portal"
-                >
-                  <div
-                    data-testid="mock-react-presence"
-                  >
-                    <div
-                      data-radix-popper-content-wrapper=""
-                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-                    >
-                      <div
-                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
-                        data-align="center"
-                        data-side="top"
-                        data-slot="tooltip-content"
-                        data-state="closed"
-                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-                      >
-                        In Zwischenablage kopieren
-                        <span
-                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                        >
-                          <svg
-                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                            height="5"
-                            preserveAspectRatio="none"
-                            style="display: block;"
-                            viewBox="0 0 30 10"
-                            width="10"
-                          >
-                            <polygon
-                              points="0,0 30,0 15,10"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          id="radix-_r_l_"
-                          role="tooltip"
-                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                        >
-                          In Zwischenablage kopieren
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                In Zwischenablage kopieren
               </div>
             </div>
           </form>
@@ -478,7 +392,6 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                   <button
                     class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
                     data-slot="tooltip-trigger"
-                    data-state="closed"
                     data-testid="copy-preview-btn"
                     type="button"
                   >
@@ -510,54 +423,12 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     </svg>
                   </button>
                   <div
-                    data-testid="mock-react-presence"
+                    class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                    data-slot="tooltip-content"
+                    data-testid="mock-tooltip-content"
+                    sideoffset="0"
                   >
-                    <div
-                      data-testid="mock-react-portal"
-                    >
-                      <div
-                        data-testid="mock-react-presence"
-                      >
-                        <div
-                          data-radix-popper-content-wrapper=""
-                          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-                        >
-                          <div
-                            class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
-                            data-align="center"
-                            data-side="top"
-                            data-slot="tooltip-content"
-                            data-state="closed"
-                            style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-                          >
-                            In Zwischenablage kopieren
-                            <span
-                              style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                            >
-                              <svg
-                                class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                                height="5"
-                                preserveAspectRatio="none"
-                                style="display: block;"
-                                viewBox="0 0 30 10"
-                                width="10"
-                              >
-                                <polygon
-                                  points="0,0 30,0 15,10"
-                                />
-                              </svg>
-                            </span>
-                            <span
-                              id="radix-_r_0_"
-                              role="tooltip"
-                              style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                            >
-                              In Zwischenablage kopieren
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    In Zwischenablage kopieren
                   </div>
                   <div
                     class="leading-relaxed text-slate-700"
@@ -607,7 +478,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                       class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_1_-form-item"
+                      for="_r_0_-form-item"
                     >
                       label 0
                       <span
@@ -619,7 +490,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     <p
                       class="text-muted-foreground text-sm"
                       data-slot="form-description"
-                      id="_r_1_-form-item-description"
+                      id="_r_0_-form-item-description"
                     >
                        
                       description 0
@@ -629,7 +500,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     >
                       <button
                         aria-autocomplete="none"
-                        aria-controls="radix-_r_2_"
+                        aria-controls="radix-_r_1_"
                         aria-expanded="false"
                         class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                         data-size="default"
@@ -702,7 +573,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                       class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_3_-form-item"
+                      for="_r_2_-form-item"
                     >
                       label 1
                       <span
@@ -714,7 +585,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     <p
                       class="text-muted-foreground text-sm"
                       data-slot="form-description"
-                      id="_r_3_-form-item-description"
+                      id="_r_2_-form-item-description"
                     >
                        
                       description 1
@@ -724,7 +595,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     >
                       <button
                         aria-autocomplete="none"
-                        aria-controls="radix-_r_4_"
+                        aria-controls="radix-_r_3_"
                         aria-expanded="false"
                         class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                         data-size="default"
@@ -797,7 +668,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                       class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_5_-form-item"
+                      for="_r_4_-form-item"
                     >
                       label 2
                       <span
@@ -809,7 +680,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     <p
                       class="text-muted-foreground text-sm"
                       data-slot="form-description"
-                      id="_r_5_-form-item-description"
+                      id="_r_4_-form-item-description"
                     >
                        
                       description 2
@@ -819,7 +690,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                     >
                       <button
                         aria-autocomplete="none"
-                        aria-controls="radix-_r_6_"
+                        aria-controls="radix-_r_5_"
                         aria-expanded="false"
                         class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                         data-size="default"
@@ -923,7 +794,6 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                 data-slot="tooltip-trigger"
-                data-state="closed"
                 data-testid="copy-prompt-btn"
                 type="submit"
               >
@@ -958,54 +828,12 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
                 </span>
               </button>
               <div
-                data-testid="mock-react-presence"
+                class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                data-slot="tooltip-content"
+                data-testid="mock-tooltip-content"
+                sideoffset="0"
               >
-                <div
-                  data-testid="mock-react-portal"
-                >
-                  <div
-                    data-testid="mock-react-presence"
-                  >
-                    <div
-                      data-radix-popper-content-wrapper=""
-                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
-                    >
-                      <div
-                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
-                        data-align="center"
-                        data-side="top"
-                        data-slot="tooltip-content"
-                        data-state="closed"
-                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
-                      >
-                        In Zwischenablage kopieren
-                        <span
-                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
-                        >
-                          <svg
-                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
-                            height="5"
-                            preserveAspectRatio="none"
-                            style="display: block;"
-                            viewBox="0 0 30 10"
-                            width="10"
-                          >
-                            <polygon
-                              points="0,0 30,0 15,10"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          id="radix-_r_7_"
-                          role="tooltip"
-                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                        >
-                          In Zwischenablage kopieren
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                In Zwischenablage kopieren
               </div>
             </div>
           </form>

@@ -9,20 +9,20 @@ import prisma from "@/data/repositories/prisma";
 import { TemplateService } from "../prompt";
 import { ServiceFactory } from "../service.factory";
 
-import { toPromptTemplateUpdate } from "./catalog.mapper";
+import { toPromptUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.user.service";
 
 const catalogRepo = new CatalogRepository(prisma);
 const catalogRepoMock = catalogRepo as DeepMockProxy<CatalogRepository>;
 
 const serviceFactory = new ServiceFactory(prisma);
-const templateService = serviceFactory.getTemplateService();
+const templateService = serviceFactory.getPromptService();
 
 const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
 
 const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
 
-describe("addCatalogEntryToUserTemplates tests", () => {
+describe("addCatalogEntryToUserPrompts tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -38,15 +38,13 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
       const entryId = "missing-id-1";
       const fn = () =>
-         catalogService.addCatalogEntryToUserTemplates(userId, entryId);
+         catalogService.addCatalogEntryToUserPrompts(userId, entryId);
 
       await expect(fn).rejects.toThrow();
 
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pGetPublishedEntryById).toHaveBeenCalledWith(entryId);
-      expect(
-         templateServiceMock.createTemplateDescriptor
-      ).not.toHaveBeenCalled();
+      expect(templateServiceMock.createPrompt).not.toHaveBeenCalled();
       expect(catalogRepo.pIncrementCopyCount).not.toHaveBeenCalled();
    });
 
@@ -55,25 +53,21 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       catalogRepoMock.pGetPublishedEntryById.mockResolvedValue(entry);
 
       const descriptor = dtestData.dPrompt();
-      templateServiceMock.createTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
+      templateServiceMock.createPrompt.mockResolvedValue(descriptor);
       catalogRepoMock.pIncrementCopyCount.mockResolvedValue();
 
       const userId = "user-id-1";
 
-      const result = await catalogService.addCatalogEntryToUserTemplates(
+      const result = await catalogService.addCatalogEntryToUserPrompts(
          userId,
          entry.id
       );
 
-      const expectedTemplateData = toPromptTemplateUpdate(entry);
+      const expectedTemplateData = toPromptUpdate(entry);
 
       expect(result).toEqual(descriptor);
-      expect(
-         templateServiceMock.createTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(templateServiceMock.createTemplateDescriptor).toHaveBeenCalledWith(
+      expect(templateServiceMock.createPrompt).toHaveBeenCalledTimes(1);
+      expect(templateServiceMock.createPrompt).toHaveBeenCalledWith(
          userId,
          expectedTemplateData
       );

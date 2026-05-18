@@ -1,7 +1,7 @@
 export {
    getTemplateDescriptorsPage,
    getTemplateDescriptor,
-   createTemplateDescriptor,
+   createPrompt,
    updateTemplateDescriptor,
    deleteTemplateDescriptor,
    getPromptGenerationTemplateData,
@@ -13,6 +13,7 @@ export {
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
+   getPromptsUsage,
 } from "./prompt.user.actions";
 
 export {

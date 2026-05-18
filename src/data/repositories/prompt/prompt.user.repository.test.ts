@@ -23,7 +23,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptWithContent, toDPrompt, toDPrompts } from "./prompt.mapper";
+import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
 import { TemplateRepository } from "./prompt.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -975,7 +975,7 @@ describe("pDeletePrompt tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pDeletePrompt - descriptor deleted - test", async () => {
+   test("prompt deleted - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "descriptor-id-1";
 
@@ -990,12 +990,31 @@ describe("pDeletePrompt tests", () => {
    });
 });
 
+describe("pGetPromptsCount tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("prompts count retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      await repository.pGetPromptsCount(userId);
+
+      const expectedArgs: PromptCountArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
 describe("pToggleFavorite tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pToggleFavorite - isFavorite true - test", async () => {
+   test("isFavorite true - test", async () => {
       const descriptorId = "descriptor-id-1";
       const userId = "user-id-1";
 
@@ -1010,7 +1029,7 @@ describe("pToggleFavorite tests", () => {
       expect(prismaMock.prompt.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 
-   test("pToggleFavorite - isFavorite false - test", async () => {
+   test("isFavorite false - test", async () => {
       const descriptorId = "descriptor-id-1";
       const userId = "user-id-1";
 
@@ -1031,7 +1050,7 @@ describe("pGetTemplateCategories tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetTemplateCategories - categories retrieved - test", async () => {
+   test("categories retrieved - test", async () => {
       const userId = "user-id-1";
       const descriptors = ptestData.pPromptsWithCategories();
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);

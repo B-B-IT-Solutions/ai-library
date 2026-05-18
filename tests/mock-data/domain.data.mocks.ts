@@ -1,4 +1,5 @@
-﻿import { range } from "es-toolkit";
+﻿import { addDays } from "date-fns";
+import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
@@ -43,6 +44,7 @@ import {
    DPromptsFilter,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptsUsage,
    DPromptUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
@@ -71,6 +73,7 @@ import {
    DSubscriptionHistoryCreate,
    DSubscriptionPlan,
    DSubscriptionUpdate,
+   DTrialStatus,
 } from "@/data/types/domain/subscription";
 import {
    DResetPasswordToken,
@@ -108,6 +111,16 @@ export const dUserInternal = (index = 1): DUserInternal => {
       password: `password-${index}`,
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
       emailVerified: new Date("2025-09-27"),
+      trialEndsAt: addDays(new Date("2025-09-27"), 14),
+      planChosenAt: addDays(new Date("2025-09-27"), 11),
+   };
+};
+
+export const dTrialStatus = (isActive = true, daysLeft = 5): DTrialStatus => {
+   return {
+      isActive,
+      daysLeft,
+      endsAt: addDays(new Date(), daysLeft),
    };
 };
 
@@ -235,6 +248,7 @@ export const dUserCreate = (index = 1): DUserCreate => {
       email: "test@email.com",
       hashedPassword: "hashedPassword-1",
       legalNoticesAcceptedAt: new Date("2025-09-27"),
+      trialEndsAt: new Date("2025-10-11"),
    };
 };
 
@@ -490,6 +504,13 @@ export const dInstruction = (index = 1): DInstruction => {
       title: `title ${index}`,
       description: `description ${index}`,
       step: index,
+   };
+};
+
+export const dPromptsUsage = (index = 1): DPromptsUsage => {
+   return {
+      current: 5 + index,
+      limit: 50 + index,
    };
 };
 

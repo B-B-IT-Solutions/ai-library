@@ -3,10 +3,12 @@
 import { auth } from "@/auth";
 import { LoginUser } from "@/data/types/next-auth";
 
+import { AiLibAuthenticationError } from "./types";
+
 export const requireUser = async (): Promise<LoginUser> => {
    const session = await auth();
    if (!session?.user?.id) {
-      throw new Error("Authentication required");
+      throw new AiLibAuthenticationError("Authentication required");
    }
 
    const user: LoginUser = {

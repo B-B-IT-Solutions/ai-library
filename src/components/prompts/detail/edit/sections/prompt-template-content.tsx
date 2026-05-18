@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
@@ -11,7 +10,7 @@ type Props = {
    control: Control<DPromptUpdate>;
 };
 
-export const PromptTemplateContent: FC<Props> = ({ control }) => {
+export const PromptTemplateContent = ({ control }: Props) => {
    const content = () => {
       return (
          <FormMDEditor<DPromptUpdate>
@@ -32,7 +31,7 @@ export const PromptTemplateContent: FC<Props> = ({ control }) => {
             <p className="mt-1 text-sm text-slate-500">
                Verwenden Sie{" "}
                <code className="rounded bg-slate-100 px-1 py-0.5">
-                  {`{{feldname}}`}
+                  {`{{feld_name}}`}
                </code>{" "}
                für Platzhalter, die durch Ihre Felder ersetzt werden
             </p>

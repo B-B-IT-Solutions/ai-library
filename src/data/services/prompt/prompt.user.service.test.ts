@@ -1,6 +1,8 @@
 ﻿jest.mock("@/data/repositories/prompt");
 jest.mock("@/data/services/settings");
+jest.mock("@/data/services/subscription");
 jest.mock("@/lib/template");
+jest.mock("@/lib/subscription/server-guards");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -11,26 +13,34 @@ import { TemplateRepository } from "@/data/repositories/prompt";
 import {
    DPromptFieldValues,
    DPromptGenerationData,
+   DPromptsUsage,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
+import { DSubscriptionTier } from "@/data/types/domain/subscription";
+import { FeatureName } from "@/lib/subscription/access-control";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
+import { SubscriptionService } from "../subscription";
 
 import { TemplateService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
+const subscriptionService = serviceFactory.getSubscriptionService();
 
 const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
+const subscriptionServiceMock =
+   subscriptionService as DeepMockProxy<SubscriptionService>;
 
 const templateRepo = new TemplateRepository(prisma);
 const templateRepoMock = templateRepo as DeepMockProxy<TemplateRepository>;
 
 const templateService = new TemplateService(
    templateRepoMock,
-   settingsServiceMock
+   settingsServiceMock,
+   subscriptionServiceMock
 );
 
 const sValidate = TemplateEngine.validate;
@@ -87,27 +97,39 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
-describe("createTemplateDescriptor tests", () => {
+describe("createPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("createTemplateDescriptor - descriptor created - test", async () => {
+   it("prompt created - test", async () => {
       const userId = "user-id-1";
+      const feature: FeatureName = "maxPrompts";
+
+      const promptsCount = 71;
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const newPrompt = dtestData.dPrompt();
+      templateRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
+
       const newData = dtestData.dPromptUpdate();
-      const newDescriptor = dtestData.dPrompt();
-      templateRepoMock.pCreatePrompt.mockResolvedValue(newDescriptor);
+      const result = await templateService.createPrompt(userId, newData);
 
-      const result = await templateService.createTemplateDescriptor(
-         userId,
-         newData
-      );
-
-      expect(result).toEqual(newDescriptor);
+      expect(result).toEqual(newPrompt);
       expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledWith(
          userId,
          newData
+      );
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         feature,
+         promptsCount
       );
    });
 });
@@ -662,5 +684,97 @@ describe("getTemplateDescriptorModels tests", () => {
       expect(result).toEqual(models);
       expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getPromptsUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("prompts usage retrieved - PRO tier - test", async () => {
+      const userId = "user-id-1";
+      const promptsCount = 51;
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const tier: DSubscriptionTier = "PRO";
+      subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
+
+      const result = await templateService.getPromptsUsage(userId);
+
+      const expectedResult: DPromptsUsage = {
+         current: promptsCount,
+         limit: -1,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+   });
+
+   it("prompts usage retrieved - BASIC tier - test", async () => {
+      const userId = "user-id-1";
+      const promptsCount = 31;
+
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const tier: DSubscriptionTier = "BASIC";
+      subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
+
+      const result = await templateService.getPromptsUsage(userId);
+
+      const expectedResult: DPromptsUsage = {
+         current: promptsCount,
+         limit: 50,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+   });
+
+   it("prompts usage retrieved - FREE tier - test", async () => {
+      const userId = "user-id-1";
+      const promptsCount = 3;
+
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const tier: DSubscriptionTier = "FREE";
+      subscriptionServiceMock.getUserTier.mockResolvedValue(tier);
+
+      const result = await templateService.getPromptsUsage(userId);
+
+      const expectedResult: DPromptsUsage = {
+         current: promptsCount,
+         limit: 5,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getPromptsCount tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("count retrieved - test", async () => {
+      const userId = "user-id-1";
+      const count = 12;
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(count);
+
+      const result = await templateService.getPromptsCount(userId);
+
+      expect(result).toBe(count);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
    });
 });

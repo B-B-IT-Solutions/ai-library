@@ -19,7 +19,7 @@ jest.mock("@/components/shared/md", () => {
    return { MDEditor };
 });
 
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -31,12 +31,9 @@ import {
    typeIntoTipTap,
 } from "@tests";
 import mockRouter from "next-router-mock";
-import { toast } from "sonner";
+import { Action, ExternalToast, toast } from "sonner";
 
-import {
-   createTemplateDescriptor,
-   updateTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -45,10 +42,9 @@ import { initPromptTemplate } from "./utils";
 
 jest.setTimeout(10000);
 
-const createTemplateDescriptorMock =
-   createTemplateDescriptor as jest.MockedFunction<
-      typeof createTemplateDescriptor
-   >;
+const createTemplateDescriptorMock = createPrompt as jest.MockedFunction<
+   typeof createPrompt
+>;
 const updateTemplateDescriptorMock =
    updateTemplateDescriptor as jest.MockedFunction<
       typeof updateTemplateDescriptor
@@ -439,6 +435,65 @@ describe("TemplateEditForm functionality tests", () => {
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
       });
+   });
+
+   it("new entry - save btn clicked - failed - upgradeRequired - test", async () => {
+      const result: ActionResult = {
+         success: false,
+         message: "Limit erreicht. Bitte upgrade dein Abo.",
+         upgradeRequired: true,
+      };
+      createTemplateDescriptorMock.mockResolvedValue(result);
+
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} />);
+
+      assertRendered();
+
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      const expectedPayload: DPromptUpdate = {
+         title: "Test Template",
+         description: "Test Description",
+         content: "Template Content {{task}}",
+         categories: [],
+         fields: [],
+         globalFieldIds: [],
+         recommendedModel: "Claude",
+      };
+
+      const expectedToastPayload = {
+         action: {
+            label: "Upgrade",
+            onClick: expect.any(Function),
+         },
+      };
+
+      await waitFor(() => {
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
+            expectedPayload
+         );
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(
+            result.message,
+            expectedToastPayload
+         );
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const toastCall = toastMock.error.mock.calls[0];
+      const toastOptions = toastCall[1] as ExternalToast;
+      const action = toastOptions.action as Action;
+      const event = null as unknown as MouseEvent<HTMLButtonElement>;
+      action.onClick(event);
+
+      expect(mockRouter.asPath).toEqual("/subscription/pricing");
    });
 
    it("new entry - save btn clicked  - failed - test", async () => {

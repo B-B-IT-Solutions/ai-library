@@ -14,10 +14,7 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
-import {
-   createTemplateDescriptor,
-   updateTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
 import {
    DPrompt,
    DPromptField,
@@ -134,10 +131,17 @@ export const TemplateEditForm = ({
             toast.error(result.message);
          }
       } else {
-         const result = await createTemplateDescriptor(data);
+         const result = await createPrompt(data);
          if (result.success) {
             toast.success(result.message);
             router.push("/templates");
+         } else if (result.upgradeRequired) {
+            toast.error(result.message, {
+               action: {
+                  label: "Upgrade",
+                  onClick: () => router.push("/subscription/pricing"),
+               },
+            });
          } else {
             toast.error(result.message);
          }

@@ -12,6 +12,7 @@ import {
 } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
+import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
 import { PromptService } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
@@ -19,7 +20,6 @@ import {
 } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
-import { PublicTemplateService, TemplateService } from "@/data/services/prompt";
 import {
    PasswordResetService,
    UserService,
@@ -91,7 +91,7 @@ export class ServiceFactory {
       if (!this.catalogService) {
          this.catalogService = new CatalogService(
             this.repositories.catalogRepository(),
-            this.getTemplateService()
+            this.getPromptService()
          );
       }
       return this.catalogService;
@@ -142,7 +142,7 @@ export class ServiceFactory {
       return this.orderService;
    }
 
-   getPromptService(): PromptService {
+   getPrompt0Service(): PromptService {
       if (!this.promptService) {
          this.promptService = new PromptService(
             this.repositories.promptRepository()
@@ -151,11 +151,12 @@ export class ServiceFactory {
       return this.promptService;
    }
 
-   getTemplateService(): TemplateService {
+   getPromptService(): TemplateService {
       if (!this.templateService) {
          this.templateService = new TemplateService(
             this.repositories.templateRepository(),
-            this.getSettingsService()
+            this.getSettingsService(),
+            this.getSubscriptionService()
          );
       }
       return this.templateService;
@@ -175,7 +176,8 @@ export class ServiceFactory {
    getSubscriptionService(): SubscriptionService {
       if (!this.subscriptionService) {
          this.subscriptionService = new SubscriptionService(
-            this.repositories.subscriptionRepository()
+            this.repositories.subscriptionRepository(),
+            this.getUserService()
          );
       }
       return this.subscriptionService;

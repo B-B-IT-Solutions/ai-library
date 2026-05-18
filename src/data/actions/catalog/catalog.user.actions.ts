@@ -9,8 +9,9 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
-export const addCatalogEntryToUserTemplates = async (
+export const addCatalogEntryToUserPrompts = async (
    catalogEntryId: string
 ): Promise<ActionResult<DCatalogEntryCopyResult>> => {
    try {
@@ -20,7 +21,7 @@ export const addCatalogEntryToUserTemplates = async (
 
       const user = await requireUser();
       const service = getService();
-      const descriptor = await service.addCatalogEntryToUserTemplates(
+      const descriptor = await service.addCatalogEntryToUserPrompts(
          user.id,
          catalogEntryId
       );
@@ -34,6 +35,15 @@ export const addCatalogEntryToUserTemplates = async (
       };
    } catch (error) {
       console.error(formatError(error));
+
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
+
       return {
          success: false,
          message: "Vorlage konnte nicht übernommen werden.",

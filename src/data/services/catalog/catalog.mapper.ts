@@ -6,7 +6,7 @@ import {
 } from "@/data/types/domain/catalog";
 import { DPromptFieldUpdate, DPromptUpdate } from "@/data/types/domain/prompt";
 
-export const toPromptTemplateUpdate = (
+export const toPromptUpdate = (
    entry: DCatalogEntryWithContent
 ): DPromptUpdate => {
    const fields = toPromptFieldUpdates(entry.fields);

@@ -6,16 +6,19 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { TemplateService } from "@/data/services/prompt";
-import { DPromptFieldValues } from "@/data/types/domain/prompt";
+import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+import { AiLibAuthenticationError } from "../types";
 
 import {
    composePromptFromTemplate,
-   createTemplateDescriptor,
+   createPrompt,
    deleteTemplateDescriptor,
    downloadTemplate,
    getPromptGenerationTemplateData,
+   getPromptsUsage,
    getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
@@ -32,8 +35,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const sGetTemplateDescriptorsPage =
    TemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDescriptor = TemplateService.prototype.getTemplateDescriptor;
-const sCreateTemplateDescriptor =
-   TemplateService.prototype.createTemplateDescriptor;
+const sCreatePrompt = TemplateService.prototype.createPrompt;
 const sUpdateTemplateDescriptor =
    TemplateService.prototype.updateTemplateDescriptor;
 const sDeleteTemplateDescriptor =
@@ -60,10 +62,9 @@ const sGetTemplateDescriptorsPageMock =
    >;
 const sGetTemplateDescriptorMock =
    sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
-const sCreateTemplateDescriptorMock =
-   sCreateTemplateDescriptor as jest.MockedFunction<
-      typeof sCreateTemplateDescriptor
-   >;
+const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
+   typeof sCreatePrompt
+>;
 const sUpdateTemplateDescriptorMock =
    sUpdateTemplateDescriptor as jest.MockedFunction<
       typeof sUpdateTemplateDescriptor
@@ -103,6 +104,11 @@ const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
    >;
+
+const sGetPromptsUsage = TemplateService.prototype.getPromptsUsage;
+const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
+   typeof sGetPromptsUsage
+>;
 
 describe("getTemplateDescriptorsPage tests", () => {
    beforeEach(() => {
@@ -230,7 +236,7 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
-describe("createTemplateDescriptor tests", () => {
+describe("createPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -245,7 +251,7 @@ describe("createTemplateDescriptor tests", () => {
       requireUserMock.mockRejectedValue(error);
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -254,19 +260,19 @@ describe("createTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sCreatePromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("error - test", async () => {
+   it("db error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sCreateTemplateDescriptorMock.mockRejectedValue(error);
+      sCreatePromptMock.mockRejectedValue(error);
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -275,24 +281,44 @@ describe("createTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         updateData
-      );
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("descriptor created - test", async () => {
+   it("subscription error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
+      sCreatePromptMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptUpdate();
+
+      const result = await createPrompt(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("prompt created - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const newDescriptor = dtestData.dPrompt();
-      sCreateTemplateDescriptorMock.mockResolvedValue(newDescriptor);
+      sCreatePromptMock.mockResolvedValue(newDescriptor);
 
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -301,11 +327,8 @@ describe("createTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
-         user.id,
-         updateData
-      );
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
    });
 });
 
@@ -1051,7 +1074,7 @@ describe("getPromptTemplateCategories tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPromptTemplateCategories - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
@@ -1063,7 +1086,7 @@ describe("getPromptTemplateCategories tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("getPromptTemplateCategories test", async () => {
+   it("test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -1076,5 +1099,68 @@ describe("getPromptTemplateCategories tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getPromptsUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new AiLibAuthenticationError("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptsUsage();
+
+      const expectedResult: DPromptsUsage = {
+         current: 0,
+         limit: 0,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sGetPromptsUsageMock.mockRejectedValue(error);
+
+      const result = await getPromptsUsage();
+
+      const expectedResult: DPromptsUsage = {
+         current: 0,
+         limit: -1,
+      };
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledWith(user.id);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("prompt usage retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const usage = dtestData.dPromptsUsage();
+      sGetPromptsUsageMock.mockResolvedValue(usage);
+
+      const result = await getPromptsUsage();
+
+      expect(result).toEqual(usage);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsUsageMock).toHaveBeenCalledWith(user.id);
    });
 });

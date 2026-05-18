@@ -95,3 +95,9 @@ export type DSubscriptionHistoryCreate = {
    stripeEventId?: string;
    metadata?: Record<string, any>;
 };
+
+export type DTrialStatus = {
+   isActive: boolean;
+   daysLeft: number;
+   endsAt: Date | null;
+};

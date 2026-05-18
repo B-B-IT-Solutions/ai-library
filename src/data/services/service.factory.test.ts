@@ -5,12 +5,12 @@ import { CatalogService, PublicCatalogService } from "./catalog";
 import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
+import { PublicTemplateService, TemplateService } from "./prompt";
 import { PromptService } from "./prompt0";
 import { ServiceFactory } from "./service.factory";
 import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
-import { PublicTemplateService, TemplateService } from "./prompt";
 import {
    PasswordResetService,
    UserService,
@@ -136,28 +136,28 @@ describe("getOrderService tests", () => {
    });
 });
 
+describe("getPrompt0Service tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getPrompt0Service();
+      expect(service).toBeInstanceOf(PromptService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getPrompt0Service();
+      const service2 = serviceFactory.getPrompt0Service();
+      expect(service1).toBe(service2);
+   });
+});
+
 describe("getPromptService tests", () => {
    it("new instance - test", () => {
       const service = serviceFactory.getPromptService();
-      expect(service).toBeInstanceOf(PromptService);
+      expect(service).toBeInstanceOf(TemplateService);
    });
 
    it("existing instance - test", () => {
       const service1 = serviceFactory.getPromptService();
       const service2 = serviceFactory.getPromptService();
-      expect(service1).toBe(service2);
-   });
-});
-
-describe("getTemplateService tests", () => {
-   it("new instance - test", () => {
-      const service = serviceFactory.getTemplateService();
-      expect(service).toBeInstanceOf(TemplateService);
-   });
-
-   it("existing instance - test", () => {
-      const service1 = serviceFactory.getTemplateService();
-      const service2 = serviceFactory.getTemplateService();
       expect(service1).toBe(service2);
    });
 });

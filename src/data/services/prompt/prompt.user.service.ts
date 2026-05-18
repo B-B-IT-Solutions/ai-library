@@ -7,12 +7,15 @@ import {
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptsUsage,
    DPromptUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
+import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
 import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
+import { SubscriptionService } from "../subscription";
 
 import { resolveAllTemplateFields } from "./utils";
 
@@ -22,16 +25,11 @@ type DGetPromptTemplatesDescriptorsParams = {
 };
 
 export class TemplateService {
-   private repository: TemplateRepository;
-   private settingService: SettingsService;
-
    constructor(
-      repository: TemplateRepository,
-      settingsService: SettingsService
-   ) {
-      this.repository = repository;
-      this.settingService = settingsService;
-   }
+      private readonly repository: TemplateRepository,
+      private readonly settingService: SettingsService,
+      private readonly subscriptionService: SubscriptionService
+   ) {}
 
    async getTemplateDescriptorsPage(
       userId: string,
@@ -47,10 +45,15 @@ export class TemplateService {
       return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
    }
 
-   async createTemplateDescriptor(
-      userId: string,
-      data: DPromptUpdate
-   ): Promise<DPrompt> {
+   async createPrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
+      const currentCount = await this.getPromptsCount(userId);
+      const feature: FeatureName = "maxPrompts";
+      await this.subscriptionService.requireCountLimit(
+         userId,
+         feature,
+         currentCount
+      );
+
       return await this.repository.pCreatePrompt(userId, data);
    }
 
@@ -203,5 +206,22 @@ export class TemplateService {
 
    async getTemplateDescriptorModels(userId: string): Promise<string[]> {
       return await this.repository.pGetTemplateModels(userId);
+   }
+
+   async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
+      const [current, tier] = await Promise.all([
+         this.getPromptsCount(userId),
+         this.subscriptionService.getUserTier(userId),
+      ]);
+
+      const limit = TIER_FEATURES[tier].maxPrompts;
+      return {
+         current,
+         limit,
+      };
+   }
+
+   async getPromptsCount(userId: string): Promise<number> {
+      return await this.repository.pGetPromptsCount(userId);
    }
 }

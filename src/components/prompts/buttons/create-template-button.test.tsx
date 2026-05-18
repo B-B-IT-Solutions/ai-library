@@ -31,6 +31,22 @@ describe("CreateTemplateButton rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("atLimit true - test", async () => {
+      const { container } = render(<CreateTemplateButton atLimit={true} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const btn = screen.getByTestId("create-template-btn");
+      expect(btn).toBeDisabled();
+
+      const tooltip = screen.getByTestId("create-template-btn-tooltip");
+      assertInDocument(tooltip);
+
+      expect(container).toMatchSnapshot();
+   });
 });
 
 describe("CreateTemplateButton functionality tests", () => {

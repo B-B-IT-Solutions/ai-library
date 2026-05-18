@@ -7,20 +7,21 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { CatalogService } from "@/data/services/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
-import { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
+import { addCatalogEntryToUserPrompts } from "./catalog.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sAddCatalogEntryToUserTemplates =
-   CatalogService.prototype.addCatalogEntryToUserTemplates;
+const sAddCatalogEntryToUserPrompts =
+   CatalogService.prototype.addCatalogEntryToUserPrompts;
 
-const sAddCatalogEntryToUserTemplatesMock =
-   sAddCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof sAddCatalogEntryToUserTemplates
+const sAddCatalogEntryToUserPromptsMock =
+   sAddCatalogEntryToUserPrompts as jest.MockedFunction<
+      typeof sAddCatalogEntryToUserPrompts
    >;
 
-describe("addCatalogEntryToUserTemplates tests", () => {
+describe("addCatalogEntryToUserPrompts tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -33,7 +34,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await addCatalogEntryToUserTemplates(invalidId);
+      const result = await addCatalogEntryToUserPrompts(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -42,7 +43,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserPromptsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid CatalogEntry ID.");
    });
@@ -53,7 +54,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -62,7 +63,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserPromptsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -72,11 +73,11 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sAddCatalogEntryToUserTemplatesMock.mockRejectedValue(error);
+      sAddCatalogEntryToUserPromptsMock.mockRejectedValue(error);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -84,8 +85,35 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
+         user.id,
+         catalogEntryId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("subscription error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
+      sAddCatalogEntryToUserPromptsMock.mockRejectedValue(error);
+
+      const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
+
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );
@@ -98,10 +126,10 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const descriptor = dtestData.dPrompt();
-      sAddCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
+      sAddCatalogEntryToUserPromptsMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
-      const result = await addCatalogEntryToUserTemplates(catalogEntryId);
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
 
       const expectedResult: ActionResult<DCatalogEntryCopyResult> = {
          success: true,
@@ -113,8 +141,8 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
 
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );

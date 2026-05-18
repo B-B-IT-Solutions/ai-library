@@ -145,5 +145,5 @@ export const deletePrompt = async (promptId: string) => {
 
 const getSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getPromptService();
+   return factory.getPrompt0Service();
 };
