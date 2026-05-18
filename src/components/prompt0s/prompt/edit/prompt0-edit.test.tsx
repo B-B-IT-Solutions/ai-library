@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptEdit } from "./prompt-edit";
+import { PromptEdit } from "./prompt0-edit";
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("prompt-edit");

@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt0";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 
-import { PromptEdit } from "./prompt-edit";
+import { PromptEdit } from "./prompt0-edit";
 
 const mockCreatePrompt = createPrompt as jest.MockedFunction<
    typeof createPrompt

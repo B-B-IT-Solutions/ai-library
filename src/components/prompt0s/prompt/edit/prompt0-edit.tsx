@@ -8,7 +8,7 @@ import {
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
-import { PromptEditForm } from "./prompt-edit-form";
+import { PromptEditForm } from "./prompt0-edit-form";
 
 type Props = {
    prompt?: DPrompt0;
