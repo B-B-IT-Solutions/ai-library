@@ -53,6 +53,7 @@ describe("PricingPlans rendering tests", () => {
 
    it("PricingPlans - freeAction provided - renders custom free action - test", async () => {
       const plans = dtestData.dSubscriptionPlans();
+      plans[0].tier = "FREE";
 
       const { container } = render(
          <PricingPlans
