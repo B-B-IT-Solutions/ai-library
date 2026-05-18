@@ -2,6 +2,10 @@
 jest.mock("@/data/services/settings");
 jest.mock("@/data/services/subscription");
 jest.mock("@/lib/template");
+jest.mock("@/lib/subscription", () => ({
+   ...jest.requireActual("@/lib/subscription"),
+   requireCountLimit: jest.fn(),
+}));
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -16,6 +20,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
+import { requireCountLimit } from "@/lib/subscription";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
@@ -45,6 +50,10 @@ const sValidate = TemplateEngine.validate;
 const sReplace = TemplateEngine.replace;
 const sValidateMock = sValidate as jest.MockedFunction<typeof sValidate>;
 const sReplaceMock = sReplace as jest.MockedFunction<typeof sReplace>;
+
+const requireCountLimitMock = requireCountLimit as jest.MockedFunction<
+   typeof requireCountLimit
+>;
 
 describe("getTemplateDescriptorsPage tests", () => {
    beforeEach(() => {
@@ -102,17 +111,28 @@ describe("createPrompt tests", () => {
 
    it("prompt created - test", async () => {
       const userId = "user-id-1";
-      const newData = dtestData.dPromptUpdate();
-      const newDescriptor = dtestData.dPrompt();
-      templateRepoMock.pCreatePrompt.mockResolvedValue(newDescriptor);
 
+      const promptsCount = 71;
+      templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const newPrompt = dtestData.dPrompt();
+      templateRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
+
+      const newData = dtestData.dPromptUpdate();
       const result = await templateService.createPrompt(userId, newData);
 
-      expect(result).toEqual(newDescriptor);
+      expect(result).toEqual(newPrompt);
       expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pCreatePrompt).toHaveBeenCalledWith(
          userId,
          newData
+      );
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(requireCountLimitMock).toHaveBeenCalledTimes(1);
+      expect(requireCountLimitMock).toHaveBeenCalledWith(
+         "maxPrompts",
+         promptsCount
       );
    });
 });
@@ -678,7 +698,6 @@ describe("getPromptsUsage tests", () => {
    it("prompts usage retrieved - PRO tier - test", async () => {
       const userId = "user-id-1";
       const promptsCount = 51;
-
       templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
 
       const tier: DSubscriptionTier = "PRO";
