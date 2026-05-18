@@ -4,7 +4,7 @@ exports[`Prompt0sDashboard rendering tests rendered - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="prompts-dashboard"
+    data-testid="prompt0s-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"

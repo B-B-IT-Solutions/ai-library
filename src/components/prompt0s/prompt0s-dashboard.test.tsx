@@ -10,7 +10,7 @@ import { Prompt0sDashboard } from "./prompt0s-dashboard";
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 
 const assertRendered = () => {
-   const dashboard = screen.getByTestId("prompts-dashboard");
+   const dashboard = screen.getByTestId("prompt0s-dashboard");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const toolbar = screen.getByTestId("prompts-toolbar");
    const prompts = screen.getByTestId("prompts-grid");

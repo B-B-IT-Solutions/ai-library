@@ -31,7 +31,7 @@ export const Prompt0sDashboard = async () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
             className="flex h-full flex-col bg-slate-50"
-            data-testid="prompts-dashboard"
+            data-testid="prompt0s-dashboard"
          >
             <div className="space-y-4 border-b bg-white px-6 py-4">
                <div className="flex items-center justify-between">
