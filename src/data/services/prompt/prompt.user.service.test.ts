@@ -17,7 +17,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
-import { requireCountLimit } from "@/lib/subscription/server-guards";
+import { FeatureName } from "@/lib/subscription/access-control";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
@@ -47,10 +47,6 @@ const sValidate = TemplateEngine.validate;
 const sReplace = TemplateEngine.replace;
 const sValidateMock = sValidate as jest.MockedFunction<typeof sValidate>;
 const sReplaceMock = sReplace as jest.MockedFunction<typeof sReplace>;
-
-const requireCountLimitMock = requireCountLimit as jest.MockedFunction<
-   typeof requireCountLimit
->;
 
 describe("getTemplateDescriptorsPage tests", () => {
    beforeEach(() => {
@@ -108,6 +104,7 @@ describe("createPrompt tests", () => {
 
    it("prompt created - test", async () => {
       const userId = "user-id-1";
+      const feature: FeatureName = "maxPrompts";
 
       const promptsCount = 71;
       templateRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
@@ -126,9 +123,12 @@ describe("createPrompt tests", () => {
       );
       expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
-      expect(requireCountLimitMock).toHaveBeenCalledTimes(1);
-      expect(requireCountLimitMock).toHaveBeenCalledWith(
-         "maxPrompts",
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         feature,
          promptsCount
       );
    });

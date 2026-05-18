@@ -8,10 +8,9 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { SubscriptionService } from "@/data/services/subscription";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
-import { canAccessFeature, FeatureName, getFeatureLimit, hasReachedLimit } from "./access-control";
+import { canAccessFeature, FeatureName } from "./access-control";
 import {
    checkFeatureAccess,
-   requireCountLimit,
    requireSubscriptionAccess,
    SubscriptionAccessError,
 } from "./server-guards";
@@ -19,12 +18,6 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const canAccessFeatureMock = canAccessFeature as jest.MockedFunction<
    typeof canAccessFeature
->;
-const getFeatureLimitMock = getFeatureLimit as jest.MockedFunction<
-   typeof getFeatureLimit
->;
-const hasReachedLimitMock = hasReachedLimit as jest.MockedFunction<
-   typeof hasReachedLimit
 >;
 
 const sGetUserTier = SubscriptionService.prototype.getUserTier;
@@ -291,91 +284,5 @@ describe("checkFeatureAccess tests", () => {
             error
          );
       });
-   });
-});
-
-describe("requireCountLimit tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("requireCountLimit - under limit - resolves without error - test", async () => {
-      const user = dtestData.dLoginUser();
-      const tier: DSubscriptionTier = "BASIC";
-      const feature: FeatureName = "maxPrompts";
-      const currentCount = 10;
-
-      requireUserMock.mockResolvedValue(user);
-      sGetUserTierMock.mockResolvedValue(tier);
-      hasReachedLimitMock.mockReturnValue(false);
-
-      await expect(
-         requireCountLimit(feature, currentCount)
-      ).resolves.toBeUndefined();
-
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
-      expect(hasReachedLimitMock).toHaveBeenCalledWith(tier, feature, currentCount);
-   });
-
-   it("requireCountLimit - at limit - throws SubscriptionAccessError - test", async () => {
-      const user = dtestData.dLoginUser();
-      const tier: DSubscriptionTier = "FREE";
-      const feature: FeatureName = "maxPrompts";
-      const currentCount = 5;
-      const limit = 5;
-
-      requireUserMock.mockResolvedValue(user);
-      sGetUserTierMock.mockResolvedValue(tier);
-      hasReachedLimitMock.mockReturnValue(true);
-      getFeatureLimitMock.mockReturnValue(limit);
-
-      await expect(requireCountLimit(feature, currentCount)).rejects.toThrow(
-         SubscriptionAccessError
-      );
-
-      expect(hasReachedLimitMock).toHaveBeenCalledWith(tier, feature, currentCount);
-      expect(getFeatureLimitMock).toHaveBeenCalledWith(tier, feature);
-   });
-
-   it("requireCountLimit - PRO tier (unlimited = -1) - resolves without error - test", async () => {
-      const user = dtestData.dLoginUser();
-      const tier: DSubscriptionTier = "PRO";
-      const feature: FeatureName = "maxPrompts";
-      const currentCount = 9999;
-
-      requireUserMock.mockResolvedValue(user);
-      sGetUserTierMock.mockResolvedValue(tier);
-      hasReachedLimitMock.mockReturnValue(false);
-
-      await expect(
-         requireCountLimit(feature, currentCount)
-      ).resolves.toBeUndefined();
-
-      expect(hasReachedLimitMock).toHaveBeenCalledWith(tier, feature, currentCount);
-      expect(getFeatureLimitMock).not.toHaveBeenCalled();
-   });
-
-   it("requireCountLimit - SubscriptionAccessError message contains tier and limit - test", async () => {
-      const user = dtestData.dLoginUser();
-      const tier: DSubscriptionTier = "BASIC";
-      const feature: FeatureName = "maxLibraryItems";
-      const currentCount = 20;
-      const limit = 20;
-
-      requireUserMock.mockResolvedValue(user);
-      sGetUserTierMock.mockResolvedValue(tier);
-      hasReachedLimitMock.mockReturnValue(true);
-      getFeatureLimitMock.mockReturnValue(limit);
-
-      try {
-         await requireCountLimit(feature, currentCount);
-      } catch (error) {
-         expect(error).toBeInstanceOf(SubscriptionAccessError);
-         expect((error as SubscriptionAccessError).feature).toBe(feature);
-         expect((error as SubscriptionAccessError).message).toContain(
-            String(limit)
-         );
-      }
    });
 });
