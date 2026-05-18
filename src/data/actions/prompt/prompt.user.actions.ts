@@ -307,15 +307,18 @@ export const getPromptTemplateCategories = async (): Promise<string[]> => {
 export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
    try {
       const user = await requireUser();
-      const factory = new ServiceFactory(prisma);
-      const [current, tier] = await Promise.all([
-         factory.getPromptService().getPromptsCount(user.id),
-         factory.getSubscriptionService().getUserTier(user.id),
-      ]);
-      const limit = TIER_FEATURES[tier].maxPrompts;
-      return { current, limit };
-   } catch {
-      return { current: 0, limit: -1 };
+      const service = getService();
+      return await service.getPromptsUsage(user.id);
+   } catch (error) {
+      console.error(
+         "DPromptUsage can't be retrieved, falling back to unlimited",
+         formatError(error)
+      );
+
+      return {
+         current: 0,
+         limit: -1,
+      };
    }
 };
 

@@ -204,26 +204,16 @@ export class TemplateService {
    }
 
    async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
-      try {
-         const [current, tier] = await Promise.all([
-            this.getPromptsCount(userId),
-            this.subscriptionService.getUserTier(userId),
-         ]);
-         const limit = TIER_FEATURES[tier].maxPrompts;
-         return {
-            current,
-            limit,
-         };
-      } catch (error) {
-         console.error(
-            "DPromptUsage can't be retrieved, falling back to unlimited",
-            error
-         );
-         return {
-            current: 0,
-            limit: -1,
-         };
-      }
+      const [current, tier] = await Promise.all([
+         this.getPromptsCount(userId),
+         this.subscriptionService.getUserTier(userId),
+      ]);
+
+      const limit = TIER_FEATURES[tier].maxPrompts;
+      return {
+         current,
+         limit,
+      };
    }
 
    async getPromptsCount(userId: string): Promise<number> {
