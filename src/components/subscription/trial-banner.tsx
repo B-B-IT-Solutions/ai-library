@@ -46,7 +46,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
                      ? "bg-orange-600 text-white hover:bg-orange-700"
                      : "bg-blue-600 text-white hover:bg-blue-700"
                )}
-               data-testid="trial-banner-cta"
+               data-testid="subcription-link"
             >
                Jetzt Abo wählen
             </Link>
@@ -55,7 +55,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
                onClick={() => setDismissed(true)}
                aria-label="Banner schließen"
                className="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
-               data-testid="trial-banner-dismiss"
+               data-testid="dismiss-btn"
             >
                <X className="h-4 w-4" />
             </button>

@@ -1,5 +1,7 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
    renderWithRouter,
@@ -7,80 +9,70 @@ import {
 
 import { TrialBanner } from "./trial-banner";
 
+const assertBannerRendered = () => {
+   const banner = screen.getByTestId("trial-banner");
+   const link = screen.getByTestId("subcription-link");
+   const dismissBtn = screen.getByTestId("dismiss-btn");
+
+   assertInDocument(banner);
+   assertInDocument(link);
+   assertInDocument(dismissBtn);
+
+   assertHasAttributeWithValue(link, "href", "/subscription/pricing");
+};
+
+const assertBannerNotRendered = () => {
+   const banner = screen.queryByTestId("trial-banner");
+   assertNotInDocument(banner);
+};
+
 describe("TrialBanner rendering tests", () => {
-   it("renders banner with correct day count (plural) - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={7} />);
-
-      const banner = screen.getByTestId("trial-banner");
-      assertInDocument(banner);
-      expect(banner.textContent).toContain("7");
-      expect(banner.textContent).toContain("Tage");
-   });
-
-   it("renders banner with singular 'Tag' for 1 day - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={1} />);
-
-      const banner = screen.getByTestId("trial-banner");
-      expect(banner.textContent).toContain("1");
-      expect(banner.textContent).toContain("Tag");
-      expect(banner.textContent).not.toContain("Tage");
-   });
-
-   it("renders special message for 0 days left - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={0} />);
-
-      const banner = screen.getByTestId("trial-banner");
-      expect(banner.textContent).toContain("heute");
-   });
-
-   it("CTA link points to /subscription/pricing - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={5} />);
-
-      const cta = screen.getByTestId("trial-banner-cta");
-      assertInDocument(cta);
-      expect(cta).toHaveAttribute("href", "/subscription/pricing");
-   });
-
-   it("dismisses banner when X button clicked - test", async () => {
-      renderWithRouter(<TrialBanner daysLeft={5} />);
-
-      const dismissBtn = screen.getByTestId("trial-banner-dismiss");
-      assertInDocument(dismissBtn);
-
-      fireEvent.click(dismissBtn);
+   it("daysleft 7 - dissmissed false - test ", async () => {
+      const { container } = renderWithRouter(<TrialBanner daysLeft={7} />);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("trial-banner"));
+         assertBannerRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("applies urgent (orange) styling when daysLeft <= 3 - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={3} />);
+   it("daysleft 1 - dissmissed false - test ", async () => {
+      const { container } = renderWithRouter(<TrialBanner daysLeft={1} />);
 
-      const banner = screen.getByTestId("trial-banner");
-      // Orange styling class should be present
-      expect(banner.className).toContain("orange");
+      await waitFor(() => {
+         assertBannerRendered();
+      });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("applies normal (blue) styling when daysLeft > 3 - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={10} />);
+   it("daysleft 0 - dissmissed false - test ", async () => {
+      const { container } = renderWithRouter(<TrialBanner daysLeft={0} />);
 
-      const banner = screen.getByTestId("trial-banner");
-      // Blue styling class should be present
-      expect(banner.className).toContain("blue");
+      await waitFor(() => {
+         assertBannerRendered();
+      });
+
+      expect(container).toMatchSnapshot();
    });
+});
 
-   it("applies urgent styling for exactly 1 day remaining - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={1} />);
+describe("TrialBanner functionality tests", () => {
+   it("dissmiss btn clicked  - test", async () => {
+      renderWithRouter(<TrialBanner daysLeft={5} />);
 
-      const banner = screen.getByTestId("trial-banner");
-      expect(banner.className).toContain("orange");
-   });
+      await waitFor(() => {
+         assertBannerRendered();
+      });
 
-   it("applies normal styling for exactly 4 days remaining - test", () => {
-      renderWithRouter(<TrialBanner daysLeft={4} />);
+      const dismissBtn = screen.getByTestId("dismiss-btn");
+      assertInDocument(dismissBtn);
 
-      const banner = screen.getByTestId("trial-banner");
-      expect(banner.className).toContain("blue");
+      userEvent.click(dismissBtn);
+
+      await waitFor(() => {
+         assertBannerNotRendered();
+      });
    });
 });

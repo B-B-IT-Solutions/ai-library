@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] = `
+<div>
+  <div
+    aria-live="polite"
+    class="flex items-center justify-between gap-4 px-4 py-2 text-sm bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+    data-testid="trial-banner"
+    role="status"
+  >
+    <span>
+      Dein Trial endet heute – wähle jetzt einen Plan.
+    </span>
+    <div
+      class="flex shrink-0 items-center gap-3"
+    >
+      <a
+        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-orange-600 text-white hover:bg-orange-700"
+        data-testid="subcription-link"
+        href="/subscription/pricing"
+      >
+        Jetzt Abo wählen
+      </a>
+      <button
+        aria-label="Banner schließen"
+        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        data-testid="dismiss-btn"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-x h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] = `
+<div>
+  <div
+    aria-live="polite"
+    class="flex items-center justify-between gap-4 px-4 py-2 text-sm bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+    data-testid="trial-banner"
+    role="status"
+  >
+    <span>
+      Noch 1 Tag kostenlos – danach Abo erforderlich.
+    </span>
+    <div
+      class="flex shrink-0 items-center gap-3"
+    >
+      <a
+        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-orange-600 text-white hover:bg-orange-700"
+        data-testid="subcription-link"
+        href="/subscription/pricing"
+      >
+        Jetzt Abo wählen
+      </a>
+      <button
+        aria-label="Banner schließen"
+        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        data-testid="dismiss-btn"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-x h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] = `
+<div>
+  <div
+    aria-live="polite"
+    class="flex items-center justify-between gap-4 px-4 py-2 text-sm bg-blue-50 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+    data-testid="trial-banner"
+    role="status"
+  >
+    <span>
+      Noch 7 Tage kostenlos – danach Abo erforderlich.
+    </span>
+    <div
+      class="flex shrink-0 items-center gap-3"
+    >
+      <a
+        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700"
+        data-testid="subcription-link"
+        href="/subscription/pricing"
+      >
+        Jetzt Abo wählen
+      </a>
+      <button
+        aria-label="Banner schließen"
+        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        data-testid="dismiss-btn"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-x h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
