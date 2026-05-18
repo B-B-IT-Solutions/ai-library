@@ -6,10 +6,10 @@ import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PublicTemplateService } from "@/data/services/prompt";
 
 import {
-   getPublicPromptGenerationTemplateData,
-   getPublicPromptTemplate,
-   getPublicTemplateDescriptor,
-   getPublicTemplateDescriptorsPage,
+   getPublicPrompt,
+   getPublicPromptContent,
+   getPublicPromptGenerationData,
+   getPublicPromptsPage,
 } from "./prompt.public.actions";
 
 const sGetPublicTemplateDescriptorsPage =
@@ -38,7 +38,7 @@ const sGetPublicTemplateDataForPromptGenerationMock =
       typeof sGetPublicTemplateDataForPromptGeneration
    >;
 
-describe("getPublicTemplateDescriptorsPage tests", () => {
+describe("getPublicPromptsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -54,7 +54,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       sGetPublicTemplateDescriptorsPageMock.mockRejectedValue(error);
 
       const query = dtestData.dPromptsPageQuery();
-      const result = await getPublicTemplateDescriptorsPage(query);
+      const result = await getPublicPromptsPage(query);
 
       expect(result).toEqual(EMPTY_PAGE);
       expect(sGetPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
@@ -63,13 +63,13 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("descriptors retrieved - test", async () => {
+   it("prompts retrieved - test", async () => {
       const page = dtestData.dPromptsPage();
       sGetPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
 
-      const result = await getPublicTemplateDescriptorsPage(query);
+      const result = await getPublicPromptsPage(query);
 
       expect(result).toEqual(page);
       expect(sGetPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
@@ -77,7 +77,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 });
 
-describe("getPublicTemplateDescriptor tests", () => {
+describe("getPublicPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -90,7 +90,7 @@ describe("getPublicTemplateDescriptor tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getPublicTemplateDescriptor(invalidId);
+      const result = await getPublicPrompt(invalidId);
 
       expect(result).toBeNull();
       expect(sGetPublicTemplateDescriptorMock).not.toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe("getPublicTemplateDescriptor tests", () => {
       sGetPublicTemplateDescriptorMock.mockRejectedValue(error);
 
       const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicTemplateDescriptor(descriptorId);
+      const result = await getPublicPrompt(descriptorId);
 
       expect(result).toBeNull();
       expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
@@ -115,11 +115,11 @@ describe("getPublicTemplateDescriptor tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("descriptor null - test", async () => {
+   it("prompt null - test", async () => {
       sGetPublicTemplateDescriptorMock.mockResolvedValue(null);
 
       const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicTemplateDescriptor(descriptorId);
+      const result = await getPublicPrompt(descriptorId);
 
       expect(result).toBeNull();
       expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
@@ -128,12 +128,12 @@ describe("getPublicTemplateDescriptor tests", () => {
       );
    });
 
-   it("descriptor defined - test", async () => {
+   it("prompt defined - test", async () => {
       const descriptor = dtestData.dPrompt();
       sGetPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
 
       const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicTemplateDescriptor(descriptorId);
+      const result = await getPublicPrompt(descriptorId);
 
       expect(result).toEqual(descriptor);
       expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
@@ -143,7 +143,7 @@ describe("getPublicTemplateDescriptor tests", () => {
    });
 });
 
-describe("getPublicPromptTemplate tests", () => {
+describe("getPublicPromptContent tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -156,7 +156,7 @@ describe("getPublicPromptTemplate tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getPublicPromptTemplate(invalidId);
+      const result = await getPublicPromptContent(invalidId);
 
       expect(result).toBeNull();
       expect(sGetPublicPromptTemplateMock).not.toHaveBeenCalled();
@@ -170,7 +170,7 @@ describe("getPublicPromptTemplate tests", () => {
       sGetPublicPromptTemplateMock.mockRejectedValue(error);
 
       const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicPromptTemplate(templateId);
+      const result = await getPublicPromptContent(templateId);
 
       expect(result).toBeNull();
       expect(sGetPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
@@ -179,23 +179,23 @@ describe("getPublicPromptTemplate tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("template null - test", async () => {
+   it("promptContent null - test", async () => {
       sGetPublicPromptTemplateMock.mockResolvedValue(null);
 
       const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicPromptTemplate(templateId);
+      const result = await getPublicPromptContent(templateId);
 
       expect(result).toBeNull();
       expect(sGetPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
       expect(sGetPublicPromptTemplateMock).toHaveBeenCalledWith(templateId);
    });
 
-   it("template defined - test", async () => {
+   it("promptContent defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       sGetPublicPromptTemplateMock.mockResolvedValue(prompt);
 
       const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPublicPromptTemplate(templateId);
+      const result = await getPublicPromptContent(templateId);
 
       expect(result).toEqual(prompt);
       expect(sGetPublicPromptTemplateMock).toHaveBeenCalledTimes(1);
@@ -203,7 +203,7 @@ describe("getPublicPromptTemplate tests", () => {
    });
 });
 
-describe("getPromptGenerationTemplateData tests", () => {
+describe("getPublicPromptGenerationData tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -216,7 +216,7 @@ describe("getPromptGenerationTemplateData tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getPublicPromptGenerationTemplateData(invalidId);
+      const result = await getPublicPromptGenerationData(invalidId);
 
       expect(result).toBeNull();
       expect(
@@ -232,7 +232,7 @@ describe("getPromptGenerationTemplateData tests", () => {
       sGetPublicTemplateDataForPromptGenerationMock.mockRejectedValue(error);
 
       const templateId = "afa27716-b1e5-4db9-86bc-0efb890ff5d9";
-      const result = await getPublicPromptGenerationTemplateData(templateId);
+      const result = await getPublicPromptGenerationData(templateId);
 
       expect(result).toEqual(null);
       expect(
@@ -250,7 +250,7 @@ describe("getPromptGenerationTemplateData tests", () => {
       sGetPublicTemplateDataForPromptGenerationMock.mockResolvedValue(data);
 
       const templateId = "afa27716-b1e5-4db9-86bc-0efb890ff5d9";
-      const result = await getPublicPromptGenerationTemplateData(templateId);
+      const result = await getPublicPromptGenerationData(templateId);
 
       expect(result).toEqual(data);
       expect(

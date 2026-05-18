@@ -14,7 +14,7 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 
-export const getPublicTemplateDescriptorsPage = async (
+export const getPublicPromptsPage = async (
    query: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
    try {
@@ -26,7 +26,7 @@ export const getPublicTemplateDescriptorsPage = async (
    }
 };
 
-export const getPublicTemplateDescriptor = async (
+export const getPublicPrompt = async (
    descriptorId: string
 ): Promise<DPrompt | null> => {
    try {
@@ -42,7 +42,7 @@ export const getPublicTemplateDescriptor = async (
    }
 };
 
-export const getPublicPromptTemplate = async (
+export const getPublicPromptContent = async (
    templateId: string
 ): Promise<DPromptWithContent | null> => {
    try {
@@ -58,7 +58,7 @@ export const getPublicPromptTemplate = async (
    }
 };
 
-export const getPublicPromptGenerationTemplateData = async (
+export const getPublicPromptGenerationData = async (
    templateId: string
 ): Promise<DPromptGenerationData | null> => {
    try {

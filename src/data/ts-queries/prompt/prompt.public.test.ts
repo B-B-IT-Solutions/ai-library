@@ -8,7 +8,7 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt";
+import { getPublicPromptsPage } from "@/data/actions/prompt";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import {
@@ -17,10 +17,9 @@ import {
 } from "./prompt.public";
 import { LoadTemplateDescriptorsParams } from "./types";
 
-const getPublicTemplateDescriptorsPageMock =
-   getPublicTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getPublicTemplateDescriptorsPage
-   >;
+const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
+   typeof getPublicPromptsPage
+>;
 
 describe("loadTemplateDescriptors hooks tests", () => {
    beforeEach(() => {
@@ -52,7 +51,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
 
    test("useInfiniteLoadPublicTemplateDescriptors test", async () => {
       const page = dtestData.dPromptsPage();
-      getPublicTemplateDescriptorsPageMock.mockResolvedValue(page);
+      getPublicPromptsPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
@@ -75,10 +74,8 @@ describe("loadTemplateDescriptors hooks tests", () => {
          expect(result.current.data?.pageParams).toEqual([0]);
          expect(result.current.data?.pages).toHaveLength(1);
          expect(result.current.data?.pages[0]).toEqual(page);
-         expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-         expect(getPublicTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-            expectedQuery
-         );
+         expect(getPublicPromptsPageMock).toHaveBeenCalledTimes(1);
+         expect(getPublicPromptsPageMock).toHaveBeenCalledWith(expectedQuery);
       });
    });
 });

@@ -17,8 +17,8 @@ export {
 } from "./prompt.user.actions";
 
 export {
-   getPublicTemplateDescriptorsPage,
-   getPublicTemplateDescriptor,
-   getPublicPromptTemplate,
-   getPublicPromptGenerationTemplateData,
+   getPublicPromptsPage,
+   getPublicPrompt,
+   getPublicPromptContent,
+   getPublicPromptGenerationData,
 } from "./prompt.public.actions";

@@ -3,16 +3,13 @@ import { notFound } from "next/navigation";
 
 import { PublicTemplateView } from "@/components/prompts";
 import { getPublicCollectionByToken } from "@/data/actions/collection";
-import {
-   getPublicPromptTemplate,
-   getPublicTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { getPublicPrompt, getPublicPromptContent } from "@/data/actions/prompt";
 
 export const generateMetadata = async ({
    params,
 }: PageProps): Promise<Metadata> => {
    const { id } = await params;
-   const descriptor = await getPublicTemplateDescriptor(id);
+   const descriptor = await getPublicPrompt(id);
    if (!descriptor) {
       return { title: "Vorlage nicht gefunden" };
    }
@@ -42,14 +39,14 @@ export const PublicTemplatePage = async ({
    const { id } = await params;
    const { col: colToken } = await searchParams;
 
-   const descriptor = await getPublicTemplateDescriptor(id);
+   const descriptor = await getPublicPrompt(id);
 
    if (!descriptor) {
       return notFound();
    }
 
    const [template, collection] = await Promise.all([
-      getPublicPromptTemplate(descriptor.id),
+      getPublicPromptContent(descriptor.id),
       colToken ? getPublicCollectionByToken(colToken) : Promise.resolve(null),
    ]);
 
