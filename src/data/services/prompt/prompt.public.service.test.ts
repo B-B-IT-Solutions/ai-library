@@ -35,7 +35,7 @@ const publicPromptService = new PublicPromptService(
    settingsServiceMock
 );
 
-describe("getPublicTemplateDescriptorsPage tests", () => {
+describe("getPublicPromptsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -44,8 +44,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter = undefined;
 
-      const fn = () =>
-         publicPromptService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -60,8 +59,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = undefined;
 
-      const fn = () =>
-         publicPromptService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -76,8 +74,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = [];
 
-      const fn = () =>
-         publicPromptService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -92,8 +89,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
 
       const query = dtestData.dPromptsPageQuery();
-      const fn = () =>
-         publicPromptService.getPublicTemplateDescriptorsPage(query);
+      const fn = () => publicPromptService.getPublicPromptsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -116,8 +112,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       );
 
       const query = dtestData.dPromptsPageQuery();
-      const result =
-         await publicPromptService.getPublicTemplateDescriptorsPage(query);
+      const result = await publicPromptService.getPublicPromptsPage(query);
 
       expect(result).toEqual(page);
       expect(
@@ -135,7 +130,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
    });
 });
 
-describe("getPublicTemplateDataForPromptGeneration tests", () => {
+describe("getPublicPromptGenerationData tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -145,9 +140,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const templateId = "template-id-1";
       const result =
-         await publicPromptService.getPublicTemplateDataForPromptGeneration(
-            templateId
-         );
+         await publicPromptService.getPublicPromptGenerationData(templateId);
 
       expect(result).toBeNull();
       expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(
@@ -172,7 +165,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const { id, globalFieldIds } = template;
       const result =
-         await publicPromptService.getPublicTemplateDataForPromptGeneration(id);
+         await publicPromptService.getPublicPromptGenerationData(id);
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
@@ -197,21 +190,19 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
    });
 });
 
-describe("getPublicTemplateDescriptor tests", () => {
+describe("getPublicPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("descriptor retrieved - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
+   it("prompt retrieved - test", async () => {
+      const prompt = dtestData.dPrompt();
+      templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(prompt);
 
-      const { id } = descriptor;
-      const result = await publicPromptService.getPublicTemplateDescriptor(id);
+      const { id } = prompt;
+      const result = await publicPromptService.getPublicPrompt(id);
 
-      expect(result).toEqual(descriptor);
+      expect(result).toEqual(prompt);
       expect(
          templateRepoMock.pGetPublicTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
@@ -221,17 +212,17 @@ describe("getPublicTemplateDescriptor tests", () => {
    });
 });
 
-describe("getPublicPromptTemplate tests", () => {
+describe("getPublicPromptContent tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("template retrieved - test", async () => {
+   it("promptContent retrieved - test", async () => {
       const template = dtestData.dPromptWithContent();
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await publicPromptService.getPublicPromptTemplate(id);
+      const result = await publicPromptService.getPublicPromptContent(id);
 
       expect(result).toEqual(template);
       expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(

@@ -28,9 +28,7 @@ export class PublicPromptService {
       this.settingService = settingService;
    }
 
-   async getPublicTemplateDescriptorsPage(
-      query: DPromptsPageQuery
-   ): Promise<DPromptsPage> {
+   async getPublicPromptsPage(query: DPromptsPageQuery): Promise<DPromptsPage> {
       const { collectionIds = [] } = query.filter || {};
       if (!isEmpty(collectionIds)) {
          const collectionsPublic =
@@ -45,10 +43,10 @@ export class PublicPromptService {
       throw new Error("Invalid public temmplates query.");
    }
 
-   async getPublicTemplateDataForPromptGeneration(
+   async getPublicPromptGenerationData(
       teamplateId: string
    ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPublicPromptTemplate(teamplateId);
+      const template = await this.getPublicPromptContent(teamplateId);
 
       if (template) {
          const globalFields =
@@ -67,13 +65,11 @@ export class PublicPromptService {
       return null;
    }
 
-   async getPublicTemplateDescriptor(
-      descriptorId: string
-   ): Promise<DPrompt | null> {
+   async getPublicPrompt(descriptorId: string): Promise<DPrompt | null> {
       return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
    }
 
-   async getPublicPromptTemplate(
+   async getPublicPromptContent(
       templateId: string
    ): Promise<DPromptWithContent | null> {
       return await this.repository.pGetPublicPromptTemplate(templateId);

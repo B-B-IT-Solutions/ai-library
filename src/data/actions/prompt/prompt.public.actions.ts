@@ -19,7 +19,7 @@ export const getPublicPromptsPage = async (
 ): Promise<DPromptsPage> => {
    try {
       const service = getService();
-      return await service.getPublicTemplateDescriptorsPage(query);
+      return await service.getPublicPromptsPage(query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
@@ -35,7 +35,7 @@ export const getPublicPrompt = async (
       }
 
       const service = getService();
-      return await service.getPublicTemplateDescriptor(descriptorId);
+      return await service.getPublicPrompt(descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -51,7 +51,7 @@ export const getPublicPromptContent = async (
       }
 
       const service = getService();
-      return await service.getPublicPromptTemplate(templateId);
+      return await service.getPublicPromptContent(templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -67,7 +67,7 @@ export const getPublicPromptGenerationData = async (
       }
 
       const service = getService();
-      return await service.getPublicTemplateDataForPromptGeneration(templateId);
+      return await service.getPublicPromptGenerationData(templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;
