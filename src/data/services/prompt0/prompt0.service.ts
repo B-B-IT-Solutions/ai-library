@@ -16,29 +16,32 @@ export class Prompt0Service {
       this.promptRepository = promptRepository;
    }
 
-   async getPrompts(
+   async getPrompt0s(
       userId: string,
       query?: DPrompt0sPageQuery
    ): Promise<DPrompt0sPage> {
       return await this.promptRepository.pGetPromptDescriptors(userId, query);
    }
 
-   async getPrompt(userId: string, promptId: string): Promise<DPrompt0 | null> {
+   async getPrompt0(
+      userId: string,
+      promptId: string
+   ): Promise<DPrompt0 | null> {
       return await this.promptRepository.pGetPromptDescriptor(userId, promptId);
    }
 
-   async getPromptCategories(userId: string): Promise<string[]> {
+   async getPrompt0Categories(userId: string): Promise<string[]> {
       const categories =
          await this.promptRepository.pGetPromptCategories(userId);
       return map(categories, (c) => c.name);
    }
 
-   async createPrompt(userId: string, data: DPrompt0Update) {
+   async createPrompt0(userId: string, data: DPrompt0Update) {
       const prompt = updatePromptSchema.parse(data);
       await this.promptRepository.pCreatePrompt(userId, prompt);
    }
 
-   async updatePrompt(
+   async updatePrompt0(
       userId: string,
       promptId: string,
       data: DPrompt0Update,
@@ -68,11 +71,11 @@ export class Prompt0Service {
       );
    }
 
-   async toggleFavorite(userId: string, promptId: string, isFavorite: boolean) {
-      await this.promptRepository.pToggleFavorite(userId, promptId, isFavorite);
+   async deletePrompt0(userId: string, promptId: string) {
+      await this.promptRepository.pDeletePrompt(userId, promptId);
    }
 
-   async deletePrompt(userId: string, promptId: string) {
-      await this.promptRepository.pDeletePrompt(userId, promptId);
+   async toggleFavorite(userId: string, promptId: string, isFavorite: boolean) {
+      await this.promptRepository.pToggleFavorite(userId, promptId, isFavorite);
    }
 }

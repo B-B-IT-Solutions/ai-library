@@ -21,27 +21,29 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetPrompts = Prompt0Service.prototype.getPrompts;
-const sGetPrompt = Prompt0Service.prototype.getPrompt;
-const sGetPromptCategories = Prompt0Service.prototype.getPromptCategories;
-const sCreatePrompt = Prompt0Service.prototype.createPrompt;
-const sUpdatePrompt = Prompt0Service.prototype.updatePrompt;
-const sDeletePrompt = Prompt0Service.prototype.deletePrompt;
+const sGetPrompt0s = Prompt0Service.prototype.getPrompt0s;
+const sGetPrompt0 = Prompt0Service.prototype.getPrompt0;
+const sGetPrompt0Categories = Prompt0Service.prototype.getPrompt0Categories;
+const sCreatePrompt0 = Prompt0Service.prototype.createPrompt0;
+const sUpdatePrompt0 = Prompt0Service.prototype.updatePrompt0;
+const sDeletePrompt0 = Prompt0Service.prototype.deletePrompt0;
 const sToggleFavorite = Prompt0Service.prototype.toggleFavorite;
 
-const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
-const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;
-const sGetPromptCategoriesMock = sGetPromptCategories as jest.MockedFunction<
-   typeof sGetPromptCategories
+const sGetPrompt0sMock = sGetPrompt0s as jest.MockedFunction<
+   typeof sGetPrompt0s
 >;
-const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
-   typeof sCreatePrompt
+const sGetPrompt0Mock = sGetPrompt0 as jest.MockedFunction<typeof sGetPrompt0>;
+const sGetPrompt0CategoriesMock = sGetPrompt0Categories as jest.MockedFunction<
+   typeof sGetPrompt0Categories
 >;
-const sUpdatePromptMock = sUpdatePrompt as jest.MockedFunction<
-   typeof sUpdatePrompt
+const sCreatePrompt0Mock = sCreatePrompt0 as jest.MockedFunction<
+   typeof sCreatePrompt0
 >;
-const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
-   typeof sDeletePrompt
+const sUpdatePrompt0Mock = sUpdatePrompt0 as jest.MockedFunction<
+   typeof sUpdatePrompt0
+>;
+const sDeletePrompt0Mock = sDeletePrompt0 as jest.MockedFunction<
+   typeof sDeletePrompt0
 >;
 const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
    typeof sToggleFavorite
@@ -65,7 +67,7 @@ describe("getPrompt0s tests", () => {
 
       expect(result).toEqual(EMPTY_PAGE);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).not.toHaveBeenCalled();
+      expect(sGetPrompt0sMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -75,13 +77,13 @@ describe("getPrompt0s tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const page = dtestData.dPrompt0sPage();
-      sGetPromptsMock.mockResolvedValue(page);
+      sGetPrompt0sMock.mockResolvedValue(page);
 
       const result = await getPrompt0s();
 
       expect(result).toEqual(page);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, undefined);
+      expect(sGetPrompt0sMock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0sMock).toHaveBeenCalledWith(user.id, undefined);
    });
 
    it("query empty - test", async () => {
@@ -89,14 +91,14 @@ describe("getPrompt0s tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const page = dtestData.dPrompt0sPage();
-      sGetPromptsMock.mockResolvedValue(page);
+      sGetPrompt0sMock.mockResolvedValue(page);
 
       const query: DPrompt0sPageQuery = {};
       const result = await getPrompt0s(query);
 
       expect(result).toEqual(page);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, query);
+      expect(sGetPrompt0sMock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0sMock).toHaveBeenCalledWith(user.id, query);
    });
 
    it("query defined - test", async () => {
@@ -104,14 +106,14 @@ describe("getPrompt0s tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const page = dtestData.dPrompt0sPage();
-      sGetPromptsMock.mockResolvedValue(page);
+      sGetPrompt0sMock.mockResolvedValue(page);
 
       const query = dtestData.dPrompt0sPageQuery();
       const result = await getPrompt0s(query);
 
       expect(result).toEqual(page);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, query);
+      expect(sGetPrompt0sMock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0sMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 
@@ -133,7 +135,7 @@ describe("getPrompt0Categories tests", () => {
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptCategoriesMock).not.toHaveBeenCalled();
+      expect(sGetPrompt0CategoriesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -142,14 +144,14 @@ describe("getPrompt0Categories tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const categories = dtestData.dPrompt0CategoriesString();
-      sGetPromptCategoriesMock.mockResolvedValue(categories);
+      sGetPrompt0CategoriesMock.mockResolvedValue(categories);
 
       const result = await getPrompt0Categories();
 
       expect(result).toEqual(categories);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptCategoriesMock).toHaveBeenCalledWith(user.id);
+      expect(sGetPrompt0CategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0CategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -170,7 +172,7 @@ describe("getPrompt0 tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sGetPromptMock).not.toHaveBeenCalled();
+      expect(sGetPrompt0Mock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
@@ -184,7 +186,7 @@ describe("getPrompt0 tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).not.toHaveBeenCalled();
+      expect(sGetPrompt0Mock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -193,14 +195,14 @@ describe("getPrompt0 tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sGetPromptMock.mockResolvedValue(null);
+      sGetPrompt0Mock.mockResolvedValue(null);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt0(promptId);
 
       expect(result).toBeNull();
-      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, promptId);
+      expect(sGetPrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0Mock).toHaveBeenCalledWith(user.id, promptId);
    });
 
    it("product defined - test", async () => {
@@ -208,14 +210,14 @@ describe("getPrompt0 tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const prompt = dtestData.dPrompt0();
-      sGetPromptMock.mockResolvedValue(prompt);
+      sGetPrompt0Mock.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt0(id);
 
       expect(result).toEqual(prompt);
-      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, id);
+      expect(sGetPrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sGetPrompt0Mock).toHaveBeenCalledWith(user.id, id);
    });
 });
 
@@ -243,7 +245,7 @@ describe("createPrompt0 tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).not.toHaveBeenCalled();
+      expect(sCreatePrompt0Mock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -252,7 +254,7 @@ describe("createPrompt0 tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const prompt = dtestData.dPrompt0Update();
-      sCreatePromptMock.mockRejectedValue(new Error("db error"));
+      sCreatePrompt0Mock.mockRejectedValue(new Error("db error"));
 
       const result: ActionResult = await createPrompt0(prompt);
       const expectedResult = {
@@ -261,8 +263,8 @@ describe("createPrompt0 tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, prompt);
+      expect(sCreatePrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sCreatePrompt0Mock).toHaveBeenCalledWith(user.id, prompt);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -270,7 +272,7 @@ describe("createPrompt0 tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sCreatePromptMock.mockResolvedValue();
+      sCreatePrompt0Mock.mockResolvedValue();
 
       const prompt = dtestData.dPrompt0Update();
 
@@ -281,8 +283,8 @@ describe("createPrompt0 tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, prompt);
+      expect(sCreatePrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sCreatePrompt0Mock).toHaveBeenCalledWith(user.id, prompt);
    });
 });
 
@@ -310,7 +312,7 @@ describe("updatePrompt0 tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdatePromptMock).not.toHaveBeenCalled();
+      expect(sUpdatePrompt0Mock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
@@ -331,7 +333,7 @@ describe("updatePrompt0 tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).not.toHaveBeenCalled();
+      expect(sUpdatePrompt0Mock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -351,8 +353,8 @@ describe("updatePrompt0 tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+      expect(sUpdatePrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePrompt0Mock).toHaveBeenCalledWith(
          user.id,
          promptId,
          prompt,
@@ -375,13 +377,79 @@ describe("updatePrompt0 tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+      expect(sUpdatePrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePrompt0Mock).toHaveBeenCalledWith(
          user.id,
          promptId,
          prompt,
          true
       );
+   });
+});
+
+describe("deletePrompt0 tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await deletePrompt0(invalidId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sDeletePrompt0Mock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt0(promptId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePrompt0Mock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("prompt0 deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt0(promptId);
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Prompt erfolgreich gelöscht.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePrompt0Mock).toHaveBeenCalledTimes(1);
+      expect(sDeletePrompt0Mock).toHaveBeenCalledWith(user.id, promptId);
    });
 });
 
@@ -470,71 +538,5 @@ describe("toggleFavorite tests", () => {
          promptId,
          false
       );
-   });
-});
-
-describe("deletePrompt0 tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-
-      const result = await deletePrompt0(invalidId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Prompt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeletePromptMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-
-      const result = await deletePrompt0(promptId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Prompt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("prompt0 deleted - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-
-      const result = await deletePrompt0(promptId);
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Prompt erfolgreich gelöscht.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 });
