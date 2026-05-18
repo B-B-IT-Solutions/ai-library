@@ -1,8 +1,9 @@
 jest.mock("@/data/repositories/subscription");
 jest.mock("@/data/services/user");
+jest.mock("@/lib/subscription/access-control");
 
 import { dtestData } from "@tests";
-import { addDays, differenceInDays, subDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
@@ -17,8 +18,22 @@ import {
    DSubscriptionTier,
    DTrialStatus,
 } from "@/data/types/domain/subscription";
+import {
+   FeatureName,
+   getFeatureLimit,
+   hasReachedLimit,
+} from "@/lib/subscription/access-control";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 import { SubscriptionService } from "./subscription.service";
+
+const getFeatureLimitMock = getFeatureLimit as jest.MockedFunction<
+   typeof getFeatureLimit
+>;
+
+const hasReachedLimitMock = hasReachedLimit as jest.MockedFunction<
+   typeof hasReachedLimit
+>;
 
 const serviceFactory = new ServiceFactory(prisma);
 const userService = serviceFactory.getUserService();
@@ -785,6 +800,77 @@ describe("setPlanChosen tests", () => {
          userId,
          expectedDate
       );
+   });
+});
+
+describe("requireCountLimit tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("hasReachedLimit false - test", async () => {
+      const userId = "user-id-1";
+      const tier: DSubscriptionTier = "FREE";
+      const feature: FeatureName = "maxPrompts";
+      const currentCount = 5;
+
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
+      hasReachedLimitMock.mockReturnValue(false);
+
+      await service.requireCountLimit(userId, feature, currentCount);
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(hasReachedLimitMock).toHaveBeenCalledTimes(1);
+      expect(hasReachedLimitMock).toHaveBeenCalledWith(
+         tier,
+         feature,
+         currentCount
+      );
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
+      expect(getFeatureLimitMock).not.toHaveBeenCalled();
+   });
+
+   it("hasReachedLimit true - test", async () => {
+      const userId = "user-id-1";
+      const tier: DSubscriptionTier = "FREE";
+      const feature: FeatureName = "maxPrompts";
+      const currentCount = 15;
+
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
+      hasReachedLimitMock.mockReturnValue(true);
+
+      const fn = () => service.requireCountLimit(userId, feature, currentCount);
+
+      await expect(fn).rejects.toThrow(SubscriptionAccessError);
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(hasReachedLimitMock).toHaveBeenCalledTimes(1);
+      expect(hasReachedLimitMock).toHaveBeenCalledWith(
+         tier,
+         feature,
+         currentCount
+      );
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
+      expect(getFeatureLimitMock).toHaveBeenCalledTimes(1);
+      expect(getFeatureLimitMock).toHaveBeenCalledWith(tier, feature);
    });
 });
 
