@@ -12,7 +12,7 @@ import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
 
-import { PublicTemplateService } from "./prompt.public.service";
+import { PublicPromptService } from "./prompt.public.service";
 import { resolveAllTemplateFields } from "./utils";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -29,7 +29,7 @@ const templateRepo = new PublicTemplateRepository(prisma);
 const templateRepoMock =
    templateRepo as DeepMockProxy<PublicTemplateRepository>;
 
-const templateService = new PublicTemplateService(
+const publicPromptService = new PublicPromptService(
    templateRepoMock,
    collectionServiceMock,
    settingsServiceMock
@@ -44,7 +44,8 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter = undefined;
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () =>
+         publicPromptService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -59,7 +60,8 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = undefined;
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () =>
+         publicPromptService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -74,7 +76,8 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       const query = dtestData.dPromptsPageQuery();
       query.filter!.collectionIds = [];
 
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () =>
+         publicPromptService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -89,7 +92,8 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
 
       const query = dtestData.dPromptsPageQuery();
-      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+      const fn = () =>
+         publicPromptService.getPublicTemplateDescriptorsPage(query);
 
       await expect(fn).rejects.toThrow(Error);
       expect(
@@ -113,7 +117,7 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
 
       const query = dtestData.dPromptsPageQuery();
       const result =
-         await templateService.getPublicTemplateDescriptorsPage(query);
+         await publicPromptService.getPublicTemplateDescriptorsPage(query);
 
       expect(result).toEqual(page);
       expect(
@@ -141,7 +145,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const templateId = "template-id-1";
       const result =
-         await templateService.getPublicTemplateDataForPromptGeneration(
+         await publicPromptService.getPublicTemplateDataForPromptGeneration(
             templateId
          );
 
@@ -168,7 +172,7 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
 
       const { id, globalFieldIds } = template;
       const result =
-         await templateService.getPublicTemplateDataForPromptGeneration(id);
+         await publicPromptService.getPublicTemplateDataForPromptGeneration(id);
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
@@ -205,7 +209,7 @@ describe("getPublicTemplateDescriptor tests", () => {
       );
 
       const { id } = descriptor;
-      const result = await templateService.getPublicTemplateDescriptor(id);
+      const result = await publicPromptService.getPublicTemplateDescriptor(id);
 
       expect(result).toEqual(descriptor);
       expect(
@@ -227,7 +231,7 @@ describe("getPublicPromptTemplate tests", () => {
       templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await templateService.getPublicPromptTemplate(id);
+      const result = await publicPromptService.getPublicPromptTemplate(id);
 
       expect(result).toEqual(template);
       expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(

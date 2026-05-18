@@ -76,5 +76,5 @@ export const getPublicPromptGenerationData = async (
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getPublicTemplateService();
+   return factory.getPublicPromptService();
 };

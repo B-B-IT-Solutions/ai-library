@@ -24,7 +24,7 @@ type DGetPromptTemplatesDescriptorsParams = {
    categories?: string[];
 };
 
-export class TemplateService {
+export class PromptService {
    constructor(
       private readonly repository: TemplateRepository,
       private readonly settingService: SettingsService,

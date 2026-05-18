@@ -13,7 +13,7 @@ import { PublicSettingsService } from "../settings";
 
 import { resolveAllTemplateFields } from "./utils";
 
-export class PublicTemplateService {
+export class PublicPromptService {
    private repository: PublicTemplateRepository;
    private collectionService: PublicCollectionService;
    private settingService: PublicSettingsService;

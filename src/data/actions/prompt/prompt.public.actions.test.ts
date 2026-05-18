@@ -3,7 +3,7 @@ jest.mock("@/data/services/prompt");
 import { dtestData } from "@tests";
 
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { PublicTemplateService } from "@/data/services/prompt";
+import { PublicPromptService } from "@/data/services/prompt";
 
 import {
    getPublicPrompt,
@@ -13,13 +13,13 @@ import {
 } from "./prompt.public.actions";
 
 const sGetPublicTemplateDescriptorsPage =
-   PublicTemplateService.prototype.getPublicTemplateDescriptorsPage;
+   PublicPromptService.prototype.getPublicTemplateDescriptorsPage;
 const sGetPublicTemplateDescriptor =
-   PublicTemplateService.prototype.getPublicTemplateDescriptor;
+   PublicPromptService.prototype.getPublicTemplateDescriptor;
 const sGetPublicPromptTemplate =
-   PublicTemplateService.prototype.getPublicPromptTemplate;
+   PublicPromptService.prototype.getPublicPromptTemplate;
 const sGetPublicTemplateDataForPromptGeneration =
-   PublicTemplateService.prototype.getPublicTemplateDataForPromptGeneration;
+   PublicPromptService.prototype.getPublicTemplateDataForPromptGeneration;
 
 const sGetPublicTemplateDescriptorsPageMock =
    sGetPublicTemplateDescriptorsPage as jest.MockedFunction<

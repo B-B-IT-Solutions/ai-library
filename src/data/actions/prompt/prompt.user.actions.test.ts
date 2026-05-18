@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { TemplateService } from "@/data/services/prompt";
+import { PromptService } from "@/data/services/prompt";
 import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
@@ -33,28 +33,28 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetTemplateDescriptorsPage =
-   TemplateService.prototype.getTemplateDescriptorsPage;
-const sGetTemplateDescriptor = TemplateService.prototype.getTemplateDescriptor;
-const sCreatePrompt = TemplateService.prototype.createPrompt;
+   PromptService.prototype.getTemplateDescriptorsPage;
+const sGetTemplateDescriptor = PromptService.prototype.getTemplateDescriptor;
+const sCreatePrompt = PromptService.prototype.createPrompt;
 const sUpdateTemplateDescriptor =
-   TemplateService.prototype.updateTemplateDescriptor;
+   PromptService.prototype.updateTemplateDescriptor;
 const sDeleteTemplateDescriptor =
-   TemplateService.prototype.deleteTemplateDescriptor;
+   PromptService.prototype.deleteTemplateDescriptor;
 const sGetTemplateDataForPromptGeneration =
-   TemplateService.prototype.getTemplateDataForPromptGeneration;
+   PromptService.prototype.getTemplateDataForPromptGeneration;
 const sComposePromptFromTemplate =
-   TemplateService.prototype.composePromptFromTemplate;
-const sDownloadTemplate = TemplateService.prototype.downloadTemplate;
+   PromptService.prototype.composePromptFromTemplate;
+const sDownloadTemplate = PromptService.prototype.downloadTemplate;
 const sToggleTemplateDescriptorFavorite =
-   TemplateService.prototype.toggleTemplateDescriptorFavorite;
+   PromptService.prototype.toggleTemplateDescriptorFavorite;
 const sGetTemplateDescriptorCategories =
-   TemplateService.prototype.getTemplateDescriptorCategories;
+   PromptService.prototype.getTemplateDescriptorCategories;
 const sGetTemplateDescriptorModels =
-   TemplateService.prototype.getTemplateDescriptorModels;
-const sGetPrompts = TemplateService.prototype.getPrompts;
-const sGetPromptTemplate = TemplateService.prototype.getPromptTemplate;
+   PromptService.prototype.getTemplateDescriptorModels;
+const sGetPrompts = PromptService.prototype.getPrompts;
+const sGetPromptTemplate = PromptService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
-   TemplateService.prototype.getPromptTemplateCategories;
+   PromptService.prototype.getPromptTemplateCategories;
 
 const sGetTemplateDescriptorsPageMock =
    sGetTemplateDescriptorsPage as jest.MockedFunction<
@@ -105,7 +105,7 @@ const sGetPromptTemplateCategoriesMock =
       typeof sGetPromptTemplateCategories
    >;
 
-const sGetPromptsUsage = TemplateService.prototype.getPromptsUsage;
+const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
    typeof sGetPromptsUsage
 >;
