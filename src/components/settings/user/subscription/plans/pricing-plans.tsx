@@ -1,9 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { map } from "es-toolkit/compat";
 
-import { ChooseFreePlanButton } from "@/components/subscription/buttons/choose-free-plan-button";
 import { Badge } from "@/components/shadcn/badge";
 import {
    DBillingInterval,
@@ -11,6 +10,7 @@ import {
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
 
+import { ChooseFreePlanButton } from "./buttons/choose-free-plan-button";
 import { PricingPlan } from "./pricing-plan";
 
 type Props = {
@@ -18,11 +18,13 @@ type Props = {
    currentSubscription: DSubscription | null;
 };
 
-export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
+export const PricingPlans = ({ plans, currentSubscription }: Props) => {
    // No paid subscription → user is on trial or FREE.
    // Allow explicit FREE selection (sets planChosenAt, closes the trial gate).
    // Users with a paid subscription who want FREE must cancel via Settings.
-   const freeAction = !currentSubscription ? <ChooseFreePlanButton /> : undefined;
+   const freeAction = !currentSubscription ? (
+      <ChooseFreePlanButton />
+   ) : undefined;
 
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 

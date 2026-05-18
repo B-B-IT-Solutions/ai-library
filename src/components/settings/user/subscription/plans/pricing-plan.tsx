@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ReactNode } from "react";
 import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -17,19 +17,19 @@ import {
 } from "@/data/types/domain/subscription";
 import { ActivateSubscriptionButton } from "../buttons";
 
-type PricingPlanProps = {
+type Props = {
    plan: DSubscriptionPlan;
    billingInterval: DBillingInterval;
    isCurrent: boolean;
-   freeAction?: React.ReactNode;
+   freeAction?: ReactNode;
 };
 
-export const PricingPlan: FC<PricingPlanProps> = ({
+export const PricingPlan = ({
    plan,
    billingInterval,
    isCurrent,
    freeAction,
-}) => {
+}: Props) => {
    const getPrice = () => {
       const { monthlyPrice, yearlyPrice } = plan;
       return billingInterval === "MONTHLY" ? monthlyPrice : yearlyPrice;
