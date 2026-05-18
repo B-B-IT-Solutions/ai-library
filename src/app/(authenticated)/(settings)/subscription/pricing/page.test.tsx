@@ -1,7 +1,12 @@
 jest.mock("@/data/actions/subscription");
+jest.mock("@/components/subscription/buttons/choose-free-plan-button", () => ({
+   ChooseFreePlanButton: () => (
+      <button data-testid="choose-free-plan-btn">Kostenlos starten</button>
+   ),
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
 import {
@@ -35,7 +40,7 @@ describe("PricingPage rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("PricingPage - rendered - test", async () => {
+   it("subscription defined - no ChooseFreePlanButton - test", async () => {
       const subscription = dtestData.dSubscription();
       const plans = dtestData.dSubscriptionPlans();
 
@@ -48,6 +53,24 @@ describe("PricingPage rendering tests", () => {
          assertRendered();
          expect(getSubscriptionMock).toHaveBeenCalledTimes(1);
          expect(getSubscriptionPlansMock).toHaveBeenCalledTimes(1);
+         assertNotInDocument(screen.queryByTestId("choose-free-plan-btn"));
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("subscription null - ChooseFreePlanButton visible on FREE plan - test", async () => {
+      const plans = dtestData.dSubscriptionPlans();
+      plans[0].tier = "FREE";
+
+      getSubscriptionMock.mockResolvedValue(null);
+      getSubscriptionPlansMock.mockResolvedValue(plans);
+
+      const { container } = await renderAsyncRSC(PricingPage, {});
+
+      await waitFor(() => {
+         assertRendered();
+         assertInDocument(screen.getByTestId("choose-free-plan-btn"));
       });
 
       expect(container).toMatchSnapshot();
