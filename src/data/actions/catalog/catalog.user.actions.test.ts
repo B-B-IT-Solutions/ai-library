@@ -7,6 +7,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { CatalogService } from "@/data/services/catalog";
 import { DCatalogEntryCopyResult } from "@/data/types/domain/catalog";
 import { ActionResult } from "@/data/types/utils";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 import { addCatalogEntryToUserPrompts } from "./catalog.user.actions";
 
@@ -81,6 +82,33 @@ describe("addCatalogEntryToUserPrompts tests", () => {
       const expectedResult: ActionResult = {
          success: false,
          message: "Vorlage konnte nicht übernommen werden.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
+         user.id,
+         catalogEntryId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("subscription error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
+      sAddCatalogEntryToUserPromptsMock.mockRejectedValue(error);
+
+      const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
+
+      const result = await addCatalogEntryToUserPrompts(catalogEntryId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
       };
 
       expect(result).toEqual(expectedResult);
