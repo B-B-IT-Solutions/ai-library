@@ -35,14 +35,14 @@ export class PromptService {
       userId: string,
       query?: DPromptsPageQuery
    ): Promise<DPromptsPage> {
-      return await this.repository.pGetTemplateDescriptorsPage(userId, query);
+      return await this.repository.pGetPromptsPage(userId, query);
    }
 
    async getPrompt(
       userId: string,
       descriptorId: string
    ): Promise<DPrompt | null> {
-      return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
+      return await this.repository.pGetPrompt(userId, descriptorId);
    }
 
    async createPrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
@@ -188,21 +188,20 @@ export class PromptService {
       userId: string,
       templateId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPromptTemplate(userId, templateId);
+      return await this.repository.pGetPromptContent(userId, templateId);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {
-      const categories =
-         await this.repository.pGetPromptTemplateCategories(userId);
+      const categories = await this.repository.pGetPromptCategories(userId);
       return map(categories, (c) => c.name);
    }
 
    async getPromptCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGetTemplateCategories(userId);
+      return await this.repository.pGePromptCategories(userId);
    }
 
    async getPromptModels(userId: string): Promise<string[]> {
-      return await this.repository.pGetTemplateModels(userId);
+      return await this.repository.pGetPromptModels(userId);
    }
 
    async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
