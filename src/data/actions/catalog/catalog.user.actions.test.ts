@@ -12,15 +12,15 @@ import { addCatalogEntryToUserTemplates } from "./catalog.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sAddCatalogEntryToUserTemplates =
-   CatalogService.prototype.addCatalogEntryToUserTemplates;
+const sAddCatalogEntryToUserPrompts =
+   CatalogService.prototype.addCatalogEntryToUserPrompts;
 
-const sAddCatalogEntryToUserTemplatesMock =
-   sAddCatalogEntryToUserTemplates as jest.MockedFunction<
-      typeof sAddCatalogEntryToUserTemplates
+const sAddCatalogEntryToUserPromptsMock =
+   sAddCatalogEntryToUserPrompts as jest.MockedFunction<
+      typeof sAddCatalogEntryToUserPrompts
    >;
 
-describe("addCatalogEntryToUserTemplates tests", () => {
+describe("addCatalogEntryToUserPrompts tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -42,7 +42,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserPromptsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid CatalogEntry ID.");
    });
@@ -62,7 +62,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).not.toHaveBeenCalled();
+      expect(sAddCatalogEntryToUserPromptsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -72,7 +72,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sAddCatalogEntryToUserTemplatesMock.mockRejectedValue(error);
+      sAddCatalogEntryToUserPromptsMock.mockRejectedValue(error);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
 
@@ -84,8 +84,8 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );
@@ -98,7 +98,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const descriptor = dtestData.dPrompt();
-      sAddCatalogEntryToUserTemplatesMock.mockResolvedValue(descriptor);
+      sAddCatalogEntryToUserPromptsMock.mockResolvedValue(descriptor);
 
       const catalogEntryId = "ffc685b5-832b-42b6-b995-830e26b62f35";
       const result = await addCatalogEntryToUserTemplates(catalogEntryId);
@@ -113,8 +113,8 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       expect(result).toEqual(expectedResult);
 
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(sAddCatalogEntryToUserTemplatesMock).toHaveBeenCalledWith(
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sAddCatalogEntryToUserPromptsMock).toHaveBeenCalledWith(
          user.id,
          catalogEntryId
       );

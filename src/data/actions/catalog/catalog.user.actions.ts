@@ -30,7 +30,7 @@ export const addCatalogEntryToUserTemplates = async (
       await requireCountLimit("maxLibraryItems", currentCount);
 
       const service = getCatalogService();
-      const descriptor = await service.addCatalogEntryToUserTemplates(
+      const descriptor = await service.addCatalogEntryToUserPrompts(
          user.id,
          catalogEntryId
       );

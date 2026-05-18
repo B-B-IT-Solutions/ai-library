@@ -9,7 +9,7 @@ import prisma from "@/data/repositories/prisma";
 import { TemplateService } from "../prompt";
 import { ServiceFactory } from "../service.factory";
 
-import { toPromptTemplateUpdate } from "./catalog.mapper";
+import { toPromptUpdate } from "./catalog.mapper";
 import { CatalogService } from "./catalog.user.service";
 
 const catalogRepo = new CatalogRepository(prisma);
@@ -22,7 +22,7 @@ const templateServiceMock = templateService as DeepMockProxy<TemplateService>;
 
 const catalogService = new CatalogService(catalogRepoMock, templateServiceMock);
 
-describe("addCatalogEntryToUserTemplates tests", () => {
+describe("addCatalogEntryToUserPrompts tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -38,7 +38,7 @@ describe("addCatalogEntryToUserTemplates tests", () => {
       const userId = "user-id-1";
       const entryId = "missing-id-1";
       const fn = () =>
-         catalogService.addCatalogEntryToUserTemplates(userId, entryId);
+         catalogService.addCatalogEntryToUserPrompts(userId, entryId);
 
       await expect(fn).rejects.toThrow();
 
@@ -58,12 +58,12 @@ describe("addCatalogEntryToUserTemplates tests", () => {
 
       const userId = "user-id-1";
 
-      const result = await catalogService.addCatalogEntryToUserTemplates(
+      const result = await catalogService.addCatalogEntryToUserPrompts(
          userId,
          entry.id
       );
 
-      const expectedTemplateData = toPromptTemplateUpdate(entry);
+      const expectedTemplateData = toPromptUpdate(entry);
 
       expect(result).toEqual(descriptor);
       expect(templateServiceMock.createPrompt).toHaveBeenCalledTimes(1);
