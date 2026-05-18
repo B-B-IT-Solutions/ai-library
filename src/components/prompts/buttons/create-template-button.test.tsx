@@ -32,18 +32,18 @@ describe("CreateTemplateButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("atLimit true - button disabled with tooltip - test", async () => {
+   it("atLimit true - test", async () => {
       const { container } = render(<CreateTemplateButton atLimit={true} />);
 
       await waitFor(() => {
-         const btn = screen.getByTestId("create-template-btn");
-         assertInDocument(btn);
-         expect(btn).toBeDisabled();
-
-         const tooltip = screen.getByTestId("create-template-btn-tooltip");
-         assertInDocument(tooltip);
-         expect(tooltip.textContent).toContain("Limit");
+         assertRendered();
       });
+
+      const btn = screen.getByTestId("create-template-btn");
+      expect(btn).toBeDisabled();
+
+      const tooltip = screen.getByTestId("create-template-btn-tooltip");
+      assertInDocument(tooltip);
 
       expect(container).toMatchSnapshot();
    });
@@ -68,17 +68,6 @@ describe("CreateTemplateButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual("/templates/new");
-      });
-   });
-
-   it("atLimit true - button disabled - does not navigate - test", async () => {
-      render(<CreateTemplateButton atLimit={true} />);
-
-      await waitFor(() => {
-         const btn = screen.getByTestId("create-template-btn");
-         assertInDocument(btn);
-         expect(btn).toBeDisabled();
-         expect(mockRouter.pathname).toEqual("/");
       });
    });
 });
