@@ -681,6 +681,11 @@ describe("hasActiveAccess tests", () => {
 describe("getTrialStatus tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
    });
 
    it("trialEndsAt null - test", async () => {
@@ -727,13 +732,9 @@ describe("getTrialStatus tests", () => {
 
       const result = await service.getTrialStatus(userId);
 
-      const daysLeft = Math.max(
-         0,
-         differenceInDays(user.trialEndsAt, new Date())
-      );
       const expectdResult: DTrialStatus = {
          isActive: true,
-         daysLeft,
+         daysLeft: 7,
          endsAt: user.trialEndsAt,
       };
 
