@@ -1,3 +1,3 @@
 export { PromptEditForm } from "./edit/prompt-edit-form";
 export { PromptEdit } from "./edit/prompt-edit";
-export { PromptView } from "./view/prompt-view";
+export { Prompt0View } from "./view/prompt0-view";

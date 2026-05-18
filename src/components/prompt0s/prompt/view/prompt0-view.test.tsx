@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptView } from "./prompt-view";
+import { Prompt0View } from "./prompt0-view";
 
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");
@@ -13,10 +13,10 @@ const assertRendered = () => {
    assertInDocument(form);
 };
 
-describe("PromptView rendering tests", () => {
+describe("Prompt0View rendering tests", () => {
    it("rendered - test", async () => {
       const prompt = dtestData.dPrompt0();
-      const { container } = render(<PromptView prompt={prompt} />);
+      const { container } = render(<Prompt0View prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

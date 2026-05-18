@@ -25,7 +25,7 @@ type Props = {
    prompt: DPrompt0;
 };
 
-export const PromptViewForm = ({ prompt }: Props) => {
+export const Prompt0ViewForm = ({ prompt }: Props) => {
    const actions = () => {
       return (
          <div className="flex items-center gap-2">

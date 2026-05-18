@@ -8,13 +8,13 @@ import {
 import { DPrompt0 } from "@/data/types/domain/prompt0";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
-import { PromptViewForm } from "./prompt-view-form";
+import { Prompt0ViewForm } from "./prompt0-view-form";
 
 type Props = {
    prompt: DPrompt0;
 };
 
-export const PromptView = ({ prompt }: Props) => {
+export const Prompt0View = ({ prompt }: Props) => {
    return (
       <ItemDetailsView data-testid="prompt-view">
          <ItemDetailsViewHeader>
@@ -27,7 +27,7 @@ export const PromptView = ({ prompt }: Props) => {
                <PromptBreadcrumb variant="view" label={prompt.title} />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
-               <PromptViewForm prompt={prompt} />
+               <Prompt0ViewForm prompt={prompt} />
             </ItemDetailsViewBody>
          </ItemDetailsViewContent>
       </ItemDetailsView>
