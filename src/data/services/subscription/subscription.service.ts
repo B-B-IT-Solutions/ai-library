@@ -11,6 +11,12 @@ import {
    DSubscriptionUpdate,
    DTrialStatus,
 } from "@/data/types/domain/subscription";
+import {
+   FeatureName,
+   getFeatureLimit,
+   hasReachedLimit,
+} from "@/lib/subscription/access-control";
+import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 export class SubscriptionService {
    constructor(
@@ -175,6 +181,26 @@ export class SubscriptionService {
    /** Set that the user has chosen a subscription plan (including FREE). */
    async setPlanChosen(userId: string): Promise<void> {
       await this.userService.updatePlanChosenAt(userId, new Date());
+   }
+
+   /**
+    * Checks whether the user has reached a count-based tier limit (e.g. maxPrompts).
+    * Throws `SubscriptionAccessError` when the limit is reached
+    */
+   async requireCountLimit(
+      userId: string,
+      feature: FeatureName,
+      currentCount: number
+   ): Promise<void> {
+      const tier = await this.getUserTier(userId);
+
+      if (hasReachedLimit(tier, feature, currentCount)) {
+         const limit = getFeatureLimit(tier, feature);
+         throw new SubscriptionAccessError(
+            `Limit erreicht: Dein Plan (${tier}) erlaubt maximal ${limit} Einträge für "${feature}". Bitte upgrade dein Abo.`,
+            feature
+         );
+      }
    }
 
    isSubscriptinoActive(subscription: DSubscription | null): boolean {

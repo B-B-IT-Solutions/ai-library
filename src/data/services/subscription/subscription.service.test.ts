@@ -787,3 +787,74 @@ describe("setPlanChosen tests", () => {
       );
    });
 });
+
+describe("isSubscriptinoActive tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("subscription null - test", async () => {
+      const result = service.isSubscriptinoActive(null);
+      expect(result).toBe(false);
+   });
+
+   it("subscription.status CANCELED - test", async () => {
+      const subscription = dtestData.dSubscription();
+      subscription.status = "CANCELED";
+
+      const result = service.isSubscriptinoActive(null);
+      expect(result).toBe(false);
+   });
+
+   it("subscription.status ACTIVE - test", async () => {
+      const subscription = dtestData.dSubscription();
+      subscription.status = "ACTIVE";
+
+      const result = service.isSubscriptinoActive(subscription);
+      expect(result).toBe(true);
+   });
+});
+
+describe("isSubscriptionWithiGracePeriod tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   it("subscription null - test", async () => {
+      const result = service.isSubscriptionWithiGracePeriod(null);
+      expect(result).toBe(false);
+   });
+
+   it("subscription.status ACTIVE - test", async () => {
+      const subscription = dtestData.dSubscription();
+      subscription.status = "ACTIVE";
+
+      const result = service.isSubscriptionWithiGracePeriod(null);
+      expect(result).toBe(false);
+   });
+
+   it("subscription.status CANCELED - after grace period - test", async () => {
+      const yesterday = subDays(Date.now(), 1);
+      const subscription = dtestData.dSubscription();
+      subscription.status = "CANCELED";
+      subscription.currentPeriodEnd = yesterday.toISOString();
+
+      const result = service.isSubscriptionWithiGracePeriod(subscription);
+      expect(result).toBe(false);
+   });
+
+   it("subscription.status CANCELED - within grace period - test", async () => {
+      const tomorrow = addDays(Date.now(), 1);
+      const subscription = dtestData.dSubscription();
+      subscription.status = "CANCELED";
+      subscription.currentPeriodEnd = tomorrow.toISOString();
+
+      const result = service.isSubscriptionWithiGracePeriod(subscription);
+      expect(result).toBe(true);
+   });
+});
