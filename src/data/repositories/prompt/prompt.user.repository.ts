@@ -258,7 +258,9 @@ export class TemplateRepository {
    }
 
    async pGetPromptsCount(userId: string): Promise<number> {
-      const args: PromptCountArgs = { where: { userId } };
+      const args: PromptCountArgs = {
+         where: { userId },
+      };
       return await this.prisma.prompt.count(args);
    }
 
