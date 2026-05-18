@@ -16,7 +16,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import {
    composePromptFromTemplate,
-   createTemplateDescriptor,
+   createPrompt,
    deleteTemplateDescriptor,
    downloadTemplate,
    getPromptGenerationTemplateData,
@@ -240,7 +240,7 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
-describe("createTemplateDescriptor tests", () => {
+describe("createPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -255,7 +255,7 @@ describe("createTemplateDescriptor tests", () => {
       requireUserMock.mockRejectedValue(error);
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -276,7 +276,7 @@ describe("createTemplateDescriptor tests", () => {
       sCreateTemplateDescriptorMock.mockRejectedValue(error);
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -302,7 +302,7 @@ describe("createTemplateDescriptor tests", () => {
 
       const updateData = dtestData.dPromptUpdate();
 
-      const result = await createTemplateDescriptor(updateData);
+      const result = await createPrompt(updateData);
 
       const expectedResult: ActionResult = {
          success: true,

@@ -33,10 +33,7 @@ import {
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import {
-   createTemplateDescriptor,
-   updateTemplateDescriptor,
-} from "@/data/actions/prompt";
+import { createPrompt, updateTemplateDescriptor } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -45,10 +42,9 @@ import { initPromptTemplate } from "./utils";
 
 jest.setTimeout(10000);
 
-const createTemplateDescriptorMock =
-   createTemplateDescriptor as jest.MockedFunction<
-      typeof createTemplateDescriptor
-   >;
+const createTemplateDescriptorMock = createPrompt as jest.MockedFunction<
+   typeof createPrompt
+>;
 const updateTemplateDescriptorMock =
    updateTemplateDescriptor as jest.MockedFunction<
       typeof updateTemplateDescriptor

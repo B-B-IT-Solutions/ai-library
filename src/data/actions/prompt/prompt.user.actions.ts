@@ -59,7 +59,7 @@ export const getTemplateDescriptor = async (
    }
 };
 
-export const createTemplateDescriptor = async (
+export const createPrompt = async (
    data: DPromptUpdate
 ): Promise<ActionResult> => {
    try {

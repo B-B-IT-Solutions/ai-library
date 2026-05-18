@@ -1,7 +1,7 @@
 export {
    getTemplateDescriptorsPage,
    getTemplateDescriptor,
-   createTemplateDescriptor,
+   createPrompt,
    updateTemplateDescriptor,
    deleteTemplateDescriptor,
    getPromptGenerationTemplateData,
