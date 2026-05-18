@@ -4,7 +4,7 @@ exports[`PromptsDashboard rendering tests rendered test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -925,7 +925,7 @@ exports[`PromptsDashboard rendering tests usage indicator - isAtLimit false - te
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -1846,7 +1846,7 @@ exports[`PromptsDashboard rendering tests usage indicator - isAtLimit true - tes
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"
@@ -2779,7 +2779,7 @@ exports[`PromptsDashboard rendering tests usage indicator - unlimited - test 1`]
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="templates-dashboard"
+    data-testid="prompts-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"

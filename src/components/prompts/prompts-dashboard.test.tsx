@@ -77,7 +77,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 };
 
 const assertRendered = () => {
-   const dashboard = screen.getByTestId("templates-dashboard");
+   const dashboard = screen.getByTestId("prompts-dashboard");
    const createTemplateBtn = screen.getByTestId("create-template-btn");
    const usageIndicator = screen.getByTestId("prompts-usage-indicator");
    const toolbar = screen.getByTestId("templates-toolbar");
