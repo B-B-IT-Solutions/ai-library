@@ -133,5 +133,4 @@ describe("PricingPlan rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
 });
