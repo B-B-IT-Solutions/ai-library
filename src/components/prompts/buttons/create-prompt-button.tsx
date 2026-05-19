@@ -20,10 +20,6 @@ export const CreatePromptButton = ({
 }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
 
-   const href = collectionId
-      ? `/templates/new?collectionId=${collectionId}`
-      : "/templates/new";
-
    if (requirePlanUpgrade) {
       return (
          <>
@@ -44,6 +40,10 @@ export const CreatePromptButton = ({
          </>
       );
    }
+
+   const href = collectionId
+      ? `/templates/new?collectionId=${collectionId}`
+      : "/templates/new";
 
    return (
       <Button

@@ -1,7 +1,11 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   assertNotInDocument,
+} from "@tests";
 import mockRouter from "next-router-mock";
 
 import { CreatePromptButton } from "./create-prompt-button";
@@ -9,6 +13,11 @@ import { CreatePromptButton } from "./create-prompt-button";
 const assertRendered = () => {
    const btn = screen.getByTestId("create-prompt-btn");
    assertInDocument(btn);
+};
+
+const assertHrefAttribute = (href: string) => {
+   const btn = screen.getByTestId("create-prompt-btn");
+   assertHasAttributeWithValue(btn, "href", href);
 };
 
 const assertDialogRendered = () => {
@@ -22,21 +31,36 @@ const assertDialogNotRendered = () => {
 };
 
 describe("CreatePromptButton rendering tests", () => {
-   it("requirePlanUpgrade false - size undefined - rendered test", async () => {
+   it("requirePlanUpgrade false - size undefined - test", async () => {
       const { container } = render(<CreatePromptButton />);
 
       await waitFor(() => {
          assertRendered();
+         assertHrefAttribute("/templates/new");
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("requirePlanUpgrade false - size sm - rendered test", async () => {
+   it("requirePlanUpgrade false - size sm - test", async () => {
       const { container } = render(<CreatePromptButton size="sm" />);
 
       await waitFor(() => {
          assertRendered();
+         assertHrefAttribute("/templates/new");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("requirePlanUpgrade false - collectionId - test", async () => {
+      const { container } = render(
+         <CreatePromptButton collectionId="collection-id-1" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertHrefAttribute("/templates/new?collectionId=collection-id-1");
       });
 
       expect(container).toMatchSnapshot();
@@ -89,8 +113,9 @@ describe("CreatePromptButton functionality tests", () => {
       });
    });
 
-   it("collectionId provided - btn clicked - test", async () => {
-      const collectionId = "test-collection-id";
+   it("requirePlanUpgrade false - collectionId - btn clicked - test", async () => {
+      const collectionId = "collection-id-123";
+
       render(<CreatePromptButton collectionId={collectionId} />);
 
       await waitFor(() => {
