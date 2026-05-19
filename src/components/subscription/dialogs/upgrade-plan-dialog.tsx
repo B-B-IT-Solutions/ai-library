@@ -27,7 +27,7 @@ export const UpgradePlanDialog = ({ open, onOpenChange, feature }: Props) => {
             data-testid="upgrade-plan-dialog"
          >
             {/* Farbiger Header-Bereich */}
-            <div className="bg-gradient-to-br from-primary to-primary/70 px-6 pb-8 pt-8 text-primary-foreground">
+            <div className="bg-linear-to-br from-primary to-primary/70 px-6 pt-8 pb-8 text-primary-foreground">
                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 ring-4 ring-white/10">
                   <Zap className="h-8 w-8" />
                </div>
