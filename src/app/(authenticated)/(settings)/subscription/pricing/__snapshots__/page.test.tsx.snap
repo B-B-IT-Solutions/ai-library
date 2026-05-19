@@ -17,7 +17,7 @@ exports[`PricingPage rendering tests rendered - test 1`] = `
       <p
         class="mx-auto max-w-2xl text-xl text-muted-foreground"
       >
-        Nutze das volle Potential deiner Prompts mit unseren flexiblen Abonnement-Plänen
+        Entfalte das volle Potential deiner Prompts mit unseren flexiblen Abonnement-Plänen
       </p>
     </div>
     <div

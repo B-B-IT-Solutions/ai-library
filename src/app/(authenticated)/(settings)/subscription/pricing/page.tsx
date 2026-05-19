@@ -19,7 +19,7 @@ export const PricingPage = async () => {
          <div className="mb-12 text-center">
             <h1 className="mb-4 text-4xl font-bold">Plan wählen</h1>
             <p className="mx-auto max-w-2xl text-xl text-muted-foreground">
-               Nutze das volle Potential deiner Prompts mit unseren flexiblen
+               Entfalte das volle Potential deiner Prompts mit unseren flexiblen
                Abonnement-Plänen
             </p>
          </div>
