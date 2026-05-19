@@ -1,12 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/components/shadcn/tooltip";
+import { UpgradePlanDialog } from "@/components/subscription";
 
 type Props = {
    size?: "default" | "sm";
@@ -17,26 +16,26 @@ export const CreateTemplateButton = ({
    size = "default",
    atLimit = false,
 }: Props) => {
+   const [dialogOpen, setDialogOpen] = useState(false);
+
    if (atLimit) {
       return (
-         <Tooltip>
-            <TooltipTrigger asChild>
-               <span>
-                  <Button
-                     size={size}
-                     disabled
-                     className="cursor-not-allowed gap-2"
-                     data-testid="create-template-btn"
-                  >
-                     <Plus className="h-4 w-4" />
-                     Neue Vorlage
-                  </Button>
-               </span>
-            </TooltipTrigger>
-            <TooltipContent data-testid="create-template-btn-tooltip">
-               Limit erreicht. Upgrade deinen Plan für mehr Vorlagen.
-            </TooltipContent>
-         </Tooltip>
+         <>
+            <Button
+               size={size}
+               className="cursor-pointer gap-2"
+               onClick={() => setDialogOpen(true)}
+               data-testid="create-template-btn"
+            >
+               <Plus className="h-4 w-4" />
+               Neue Vorlage
+            </Button>
+            <UpgradePlanDialog
+               open={dialogOpen}
+               onOpenChange={setDialogOpen}
+               featureLabel="Vorlagen"
+            />
+         </>
       );
    }
 
