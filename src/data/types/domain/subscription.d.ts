@@ -30,9 +30,12 @@ export type DSubscriptionPlan = {
 export type DSubscriptionPlanFeatures = {
    maxPrompts: number;
    maxCollections: number;
-   canAccessMarketplace: boolean;
-   canPurchaseItems: boolean;
+   maxPromptVariables: number;
+   maxGlobalPromptVariables: number;
+   canAccessPromptTemplatingEditor: boolean;
+   canAccessDirectOpenInAiTool: boolean;
    canExportPrompts: boolean;
+   canShareCollections: boolean;
    canUseAdvancedFeatures: boolean;
 };
 

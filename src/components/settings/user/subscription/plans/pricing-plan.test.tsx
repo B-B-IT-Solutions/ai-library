@@ -57,8 +57,9 @@ describe("PricingPlan rendering tests", () => {
       plan.tier = "PRO";
       plan.features.maxPrompts = -1;
       plan.features.maxCollections = -1;
-      plan.features.canPurchaseItems = true;
-      plan.features.canExportPrompts = true;
+      plan.features.maxPromptVariables = -1;
+      plan.features.maxGlobalPromptVariables = -1;
+      plan.features.canAccessPromptTemplatingEditor = true;
       plan.features.canUseAdvancedFeatures = true;
 
       const { container } = render(
@@ -79,7 +80,8 @@ describe("PricingPlan rendering tests", () => {
    it("PricingPlan - tier BASIC - test", async () => {
       const plan = dtestData.dSubscriptionPlan();
       plan.tier = "BASIC";
-      plan.features.canAccessMarketplace = false;
+      plan.features.maxPromptVariables = -1;
+      plan.features.maxGlobalPromptVariables = 15;
 
       const { container } = render(
          <PricingPlan plan={plan} billingInterval="MONTHLY" isCurrent={false} />
