@@ -22,39 +22,61 @@ type Props = {
 export const UpgradePlanDialog = ({ open, onOpenChange, feature }: Props) => {
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-         <DialogContent data-testid="upgrade-plan-dialog">
-            <DialogHeader>
-               <div className="mb-2 flex justify-center" aria-hidden>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                     <Zap className="h-6 w-6 text-primary" />
-                  </div>
+         <DialogContent
+            className="overflow-hidden p-0"
+            data-testid="upgrade-plan-dialog"
+         >
+            {/* Farbiger Header-Bereich */}
+            <div className="bg-gradient-to-br from-primary to-primary/70 px-6 pb-8 pt-8 text-primary-foreground">
+               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 ring-4 ring-white/10">
+                  <Zap className="h-8 w-8" />
                </div>
-               <DialogTitle className="text-center">
-                  Plan-Upgrade erforderlich
-               </DialogTitle>
-               <DialogDescription className="text-center">
-                  Du hast dein Limit für{" "}
-                  <span className="font-medium text-foreground">{feature}</span>{" "}
-                  erreicht. Upgrade deinen Plan um mehr erstellen zu können.
-               </DialogDescription>
-            </DialogHeader>
+               <DialogHeader>
+                  <DialogTitle className="text-center text-xl text-primary-foreground">
+                     Plan-Upgrade erforderlich
+                  </DialogTitle>
+                  <DialogDescription className="mt-1 text-center text-primary-foreground/80">
+                     Du hast dein Limit für{" "}
+                     <span className="font-semibold text-primary-foreground">
+                        {feature}
+                     </span>{" "}
+                     erreicht.
+                  </DialogDescription>
+               </DialogHeader>
+            </div>
 
-            <DialogFooter className="mt-2 sm:flex-col sm:gap-2">
-               <Button asChild={true} className="w-full gap-2">
-                  <Link href="/subscription/pricing" data-testid="upgrade-btn">
-                     <Zap className="h-4 w-4" />
-                     Plan upgraden
-                  </Link>
-               </Button>
-               <Button
-                  variant="outline"
-                  className="w-full cursor-pointer"
-                  onClick={() => onOpenChange(false)}
-                  data-testid="cancel-btn"
-               >
-                  Abbrechen
-               </Button>
-            </DialogFooter>
+            {/* Inhalt */}
+            <div className="px-6 py-5">
+               <p className="mb-5 text-center text-sm text-muted-foreground">
+                  Mit einem Upgrade bekommst du mehr{" "}
+                  <span className="font-medium text-foreground">{feature}</span>
+                  , erweiterte Funktionen und unbegrenzte Möglichkeiten.
+               </p>
+
+               <DialogFooter className="flex-col gap-2 sm:flex-col">
+                  <Button
+                     asChild={true}
+                     className="w-full gap-2 font-semibold"
+                     size="lg"
+                  >
+                     <Link
+                        href="/subscription/pricing"
+                        data-testid="upgrade-btn"
+                     >
+                        <Zap className="h-4 w-4" />
+                        Jetzt upgraden
+                     </Link>
+                  </Button>
+                  <Button
+                     variant="ghost"
+                     className="w-full cursor-pointer text-muted-foreground"
+                     onClick={() => onOpenChange(false)}
+                     data-testid="cancel-btn"
+                  >
+                     Vielleicht später
+                  </Button>
+               </DialogFooter>
+            </div>
          </DialogContent>
       </Dialog>
    );

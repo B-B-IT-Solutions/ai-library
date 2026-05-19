@@ -33,7 +33,7 @@ export const CreatePromptButton = ({
             <UpgradePlanDialog
                open={dialogOpen}
                onOpenChange={setDialogOpen}
-               feature="Prompt"
+               feature="Prompts"
             />
          </>
       );
