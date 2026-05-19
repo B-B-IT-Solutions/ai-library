@@ -134,16 +134,26 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             className="flex min-h-0 flex-1 flex-col px-6 pt-4"
             data-testid="use-template-form"
          >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
-               <TemplatePreview
-                  template={template}
-                  values={currentValues}
-                  resolvedContent={resolvedContent}
-               />
-               <TemplateFieldsForm
-                  templateData={templateData}
-                  control={form.control}
-               />
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 lg:min-h-[40vh] lg:grid-cols-2">
+               <div className="flex min-h-0 flex-col gap-2 lg:pr-4">
+                  <p className="text-xs font-medium text-muted-foreground">
+                     Vorschau
+                  </p>
+                  <TemplatePreview
+                     template={template}
+                     values={currentValues}
+                     resolvedContent={resolvedContent}
+                  />
+               </div>
+               <div className="flex min-h-0 flex-col gap-2 lg:border-l lg:pl-4">
+                  <p className="text-xs font-medium text-muted-foreground">
+                     Felder ausfüllen
+                  </p>
+                  <TemplateFieldsForm
+                     templateData={templateData}
+                     control={form.control}
+                  />
+               </div>
             </div>
             {footer()}
          </form>
