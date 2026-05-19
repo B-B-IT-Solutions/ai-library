@@ -76,9 +76,12 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
    };
 
    const featureMaxPromptVariables = () => {
-      if (plan.features.maxPromptVariables) {
+      if (plan.features.maxPromptVariables === -1) {
          return feature("Unbegrenzte Prompt-Platzhalter");
       }
+      return feature(
+         `Bis zu ${plan.features.maxCollections} Prompt-Platzhalter`
+      );
    };
 
    const featureMaxGlobalPromptVariables = () => {
@@ -98,7 +101,7 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
 
    const featureCanExportPrompts = () => {
       if (plan.features.canAccessPromptTemplatingEditor) {
-         return feature("Prompts exportieren");
+         return feature("Exportieren von Prompts");
       }
    };
 
