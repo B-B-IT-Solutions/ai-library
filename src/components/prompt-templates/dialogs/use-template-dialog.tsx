@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { isEmpty } from "es-toolkit/compat";
 import { Maximize2, Minimize2, X } from "lucide-react";
 
 import {
@@ -27,14 +26,6 @@ export const UseTemplateDialog = ({
    onCancel,
 }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
-   const hasFields = !isEmpty(generationData.allFields);
-
-   const dialogTitle = () => {
-      if (hasFields) {
-         return "Vorlage Felder Ausfüllen";
-      }
-      return "Vorlage Anwenden";
-   };
 
    const expandBtn = () => {
       return (
@@ -77,9 +68,6 @@ export const UseTemplateDialog = ({
             </DialogClose>
             <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
                <DialogTitle>{prompt.title}</DialogTitle>
-               <p className="text-sm font-semibold text-muted-foreground">
-                  {prompt.title}
-               </p>
             </DialogHeader>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UseTemplateForm
