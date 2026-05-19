@@ -46,7 +46,7 @@ export const UpgradePlanDialog = ({
             </DialogHeader>
 
             <DialogFooter className="mt-2 sm:flex-col sm:gap-2">
-               <Button asChild className="w-full gap-2">
+               <Button asChild={true} className="w-full gap-2">
                   <Link href="/subscription/pricing" data-testid="upgrade-btn">
                      <Zap className="h-4 w-4" />
                      Plan upgraden
@@ -54,7 +54,7 @@ export const UpgradePlanDialog = ({
                </Button>
                <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full cursor-pointer"
                   onClick={() => onOpenChange(false)}
                   data-testid="upgrade-dialog-cancel-btn"
                >
