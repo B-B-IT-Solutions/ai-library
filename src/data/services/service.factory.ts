@@ -156,7 +156,8 @@ export class ServiceFactory {
          this.promptService = new PromptService(
             this.repositories.promptRepository(),
             this.getSettingsService(),
-            this.getSubscriptionService()
+            this.getSubscriptionService(),
+            this.getCollectionService()
          );
       }
       return this.promptService;

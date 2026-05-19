@@ -1,6 +1,7 @@
 ﻿jest.mock("@/data/repositories/prompt");
 jest.mock("@/data/services/settings");
 jest.mock("@/data/services/subscription");
+jest.mock("@/data/services/collection");
 jest.mock("@/lib/template");
 jest.mock("@/lib/subscription/server-guards");
 
@@ -19,6 +20,7 @@ import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
+import { CollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
@@ -29,10 +31,13 @@ import { resolveAllTemplateFields } from "./utils";
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
 const subscriptionService = serviceFactory.getSubscriptionService();
+const collectionService = serviceFactory.getCollectionService();
 
 const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
 const subscriptionServiceMock =
    subscriptionService as DeepMockProxy<SubscriptionService>;
+const collectionServiceMock =
+   collectionService as DeepMockProxy<CollectionService>;
 
 const promptRepo = new PromptRepository(prisma);
 const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;
@@ -40,7 +45,8 @@ const promptRepoMock = promptRepo as DeepMockProxy<PromptRepository>;
 const promptService = new PromptService(
    promptRepoMock,
    settingsServiceMock,
-   subscriptionServiceMock
+   subscriptionServiceMock,
+   collectionServiceMock
 );
 
 const sValidate = TemplateEngine.validate;
@@ -94,7 +100,43 @@ describe("createPrompt tests", () => {
       jest.clearAllMocks();
    });
 
-   it("prompt created - test", async () => {
+   it("prompt created - collectionId undefined - test", async () => {
+      const userId = "user-id-1";
+      const feature: FeatureName = "maxPrompts";
+
+      const promptsCount = 71;
+      promptRepoMock.pGetPromptsCount.mockResolvedValue(promptsCount);
+
+      const newPrompt = dtestData.dPrompt();
+      promptRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
+
+      const crate = dtestData.dPromptUpdateCrate();
+      crate.collectionId = undefined;
+
+      const result = await promptService.createPrompt(userId, crate);
+
+      expect(result).toEqual(newPrompt);
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(
+         userId,
+         crate.data
+      );
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         feature,
+         promptsCount
+      );
+      expect(
+         collectionServiceMock.addPromptToCollection
+      ).not.toHaveBeenCalled();
+   });
+
+   it("prompt created - collectionId defined - test", async () => {
       const userId = "user-id-1";
       const feature: FeatureName = "maxPrompts";
 
@@ -122,6 +164,14 @@ describe("createPrompt tests", () => {
          userId,
          feature,
          promptsCount
+      );
+      expect(collectionServiceMock.addPromptToCollection).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionServiceMock.addPromptToCollection).toHaveBeenCalledWith(
+         userId,
+         crate.collectionId,
+         newPrompt.id
       );
    });
 });
