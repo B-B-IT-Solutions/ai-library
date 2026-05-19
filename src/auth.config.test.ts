@@ -288,17 +288,9 @@ describe("auth.config - callback.authorized - tests", () => {
 
          const result = authorized({ request, auth });
 
-         const expectedResponseInit = {
-            request: {
-               headers: new Headers({
-                  "x-pathname": path,
-               }),
-            },
-         };
-
          expect(result).toBe(mockResponse);
          expect(nextMock).toHaveBeenCalledTimes(1);
-         expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
+         expect(nextMock).toHaveBeenCalledWith();
       });
    });
 
@@ -319,17 +311,9 @@ describe("auth.config - callback.authorized - tests", () => {
 
          const result = authorized({ request, auth: null });
 
-         const expectedResponseInit = {
-            request: {
-               headers: new Headers({
-                  "x-pathname": path,
-               }),
-            },
-         };
-
          expect(result).toBe(mockResponse);
          expect(nextMock).toHaveBeenCalledTimes(1);
-         expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
+         expect(nextMock).toHaveBeenCalledWith();
       });
    });
 
@@ -344,7 +328,7 @@ describe("auth.config - callback.authorized - tests", () => {
       const request = {
          nextUrl: { pathname: "/public" },
          cookies: { get: jest.fn().mockReturnValue(undefined) },
-         headers: new Headers({ "header-1": "value-1" }),
+         headers: new Headers(),
       } as unknown as NextRequest;
 
       const auth = {
@@ -353,20 +337,11 @@ describe("auth.config - callback.authorized - tests", () => {
 
       const result = authorized({ request, auth });
 
-      const expectedResponseInit = {
-         request: {
-            headers: new Headers({
-               "header-1": "value-1",
-               "x-pathname": "/public",
-            }),
-         },
-      };
-
       expect(result).toEqual(mockResponse);
       expect(request.cookies.get).toHaveBeenCalledTimes(1);
       expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
       expect(nextMock).toHaveBeenCalledTimes(1);
-      expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
+      expect(nextMock).toHaveBeenCalledWith();
       expect(mockResponse.cookies.set).toHaveBeenCalledWith(
          "sessionCartId",
          expect.any(String)
@@ -391,19 +366,11 @@ describe("auth.config - callback.authorized - tests", () => {
 
       const result = authorized({ request, auth });
 
-      const expectedResponseInit = {
-         request: {
-            headers: new Headers({
-               "x-pathname": "/public",
-            }),
-         },
-      };
-
       expect(result).toEqual(mockResponse);
       expect(request.cookies.get).toHaveBeenCalledTimes(1);
       expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
       expect(nextMock).toHaveBeenCalledTimes(1);
-      expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
+      expect(nextMock).toHaveBeenCalledWith();
    });
 });
 

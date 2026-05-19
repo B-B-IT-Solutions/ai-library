@@ -75,14 +75,12 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 
 const assertRendered = () => {
    const dashboard = screen.getByTestId("prompts-dashboard");
-   const createTemplateBtn = screen.getByTestId("create-template-btn");
-   const usageIndicator = screen.getByTestId("prompts-usage-indicator");
+   const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const toolbar = screen.getByTestId("templates-toolbar");
    const entries = screen.getByTestId("template-items-grid");
 
    assertInDocument(dashboard);
-   assertInDocument(createTemplateBtn);
-   assertInDocument(usageIndicator);
+   assertInDocument(createPromptBtn);
    assertInDocument(toolbar);
    assertInDocument(entries);
 };
@@ -144,72 +142,6 @@ describe("PromptsDashboard rendering tests", () => {
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("usage indicator - isAtLimit false - test", async () => {
-      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-
-      const categories = dtestData.dTemplateCategories();
-      const models = dtestData.dTemplateModels();
-      getPromptCategoriesMock.mockResolvedValue(categories);
-      getPromptModelsMock.mockResolvedValue(models);
-
-      const usage: DPromptsUsage = {
-         current: 12,
-         limit: 50,
-      };
-      getPromptsUsageMock.mockResolvedValue(usage);
-
-      const { container } = await renderAsyncRSC(PromptsDashboard, {});
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("usage indicator - isAtLimit true - test", async () => {
-      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-
-      const categories = dtestData.dTemplateCategories();
-      const models = dtestData.dTemplateModels();
-      getPromptCategoriesMock.mockResolvedValue(categories);
-      getPromptModelsMock.mockResolvedValue(models);
-
-      const usage: DPromptsUsage = {
-         current: 50,
-         limit: 50,
-      };
-      getPromptsUsageMock.mockResolvedValue(usage);
-
-      const { container } = await renderAsyncRSC(PromptsDashboard, {});
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("usage indicator - unlimited - test", async () => {
-      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-      getPromptCategoriesMock.mockResolvedValue([]);
-      getPromptModelsMock.mockResolvedValue([]);
-
-      const usage: DPromptsUsage = {
-         current: 500,
-         limit: -1,
-      };
-      getPromptsUsageMock.mockResolvedValue(usage);
-
-      const { container } = await renderAsyncRSC(PromptsDashboard, {});
-
-      await waitFor(() => {
-         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
