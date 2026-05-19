@@ -142,7 +142,7 @@ export const addPromptToCollection = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.addTemplateToCollection(user.id, collectionId, promptId);
+      await service.addPromptToCollection(user.id, collectionId, promptId);
 
       return {
          success: true,
@@ -167,11 +167,7 @@ export const removePromptFromCollection = async (
       }
       const user = await requireUser();
       const service = getService();
-      await service.removeTemplateFromCollection(
-         user.id,
-         collectionId,
-         promptId
-      );
+      await service.removePromptFromCollection(user.id, collectionId, promptId);
 
       return {
          success: true,

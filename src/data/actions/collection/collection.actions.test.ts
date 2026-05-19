@@ -29,10 +29,10 @@ const sGetCollectionById = CollectionService.prototype.getCollectionById;
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
-const sAddTemplateToCollection =
-   CollectionService.prototype.addTemplateToCollection;
-const sRemoveTemplateFromCollection =
-   CollectionService.prototype.removeTemplateFromCollection;
+const sAddPromptToCollection =
+   CollectionService.prototype.addPromptToCollection;
+const sRemovePromptFromCollection =
+   CollectionService.prototype.removePromptFromCollection;
 const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
 const sGetCollectionTemplateIds =
    CollectionService.prototype.getCollectionTemplateIds;
@@ -56,13 +56,11 @@ const sUpdateCollectionMock = sUpdateCollection as jest.MockedFunction<
 const sDeleteCollectionMock = sDeleteCollection as jest.MockedFunction<
    typeof sDeleteCollection
 >;
-const sAddTemplateToCollectionMock =
-   sAddTemplateToCollection as jest.MockedFunction<
-      typeof sAddTemplateToCollection
-   >;
-const sRemoveTemplateFromCollectionMock =
-   sRemoveTemplateFromCollection as jest.MockedFunction<
-      typeof sRemoveTemplateFromCollection
+const sAddPromptToCollectionMock =
+   sAddPromptToCollection as jest.MockedFunction<typeof sAddPromptToCollection>;
+const sRemovePromptFromCollectionMock =
+   sRemovePromptFromCollection as jest.MockedFunction<
+      typeof sRemovePromptFromCollection
    >;
 const sSetCollectionPublicMock = sSetCollectionPublic as jest.MockedFunction<
    typeof sSetCollectionPublic
@@ -532,7 +530,7 @@ describe("addPromptToCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(sAddPromptToCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -549,7 +547,7 @@ describe("addPromptToCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(sAddPromptToCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -569,7 +567,7 @@ describe("addPromptToCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(sAddPromptToCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
@@ -578,7 +576,7 @@ describe("addPromptToCollection tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sAddTemplateToCollectionMock.mockRejectedValue(error);
+      sAddPromptToCollectionMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       const promptId = "223e4567-e89b-12d3-a456-426614174000";
@@ -591,8 +589,8 @@ describe("addPromptToCollection tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sAddTemplateToCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
+      expect(sAddPromptToCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sAddPromptToCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
          promptId
@@ -604,7 +602,7 @@ describe("addPromptToCollection tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sAddTemplateToCollectionMock.mockResolvedValue();
+      sAddPromptToCollectionMock.mockResolvedValue();
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       const promptId = "223e4567-e89b-12d3-a456-426614174000";
@@ -617,8 +615,8 @@ describe("addPromptToCollection tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sAddTemplateToCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
+      expect(sAddPromptToCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sAddPromptToCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
          promptId
@@ -652,7 +650,7 @@ describe("removeTemplateFromCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(sRemovePromptFromCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -672,7 +670,7 @@ describe("removeTemplateFromCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(sRemovePromptFromCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -692,7 +690,7 @@ describe("removeTemplateFromCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(sRemovePromptFromCollectionMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
@@ -701,7 +699,7 @@ describe("removeTemplateFromCollection tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sRemoveTemplateFromCollectionMock.mockRejectedValue(error);
+      sRemovePromptFromCollectionMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       const promptId = "223e4567-e89b-12d3-a456-426614174000";
@@ -714,8 +712,8 @@ describe("removeTemplateFromCollection tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
+      expect(sRemovePromptFromCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sRemovePromptFromCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
          promptId
@@ -727,7 +725,7 @@ describe("removeTemplateFromCollection tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sRemoveTemplateFromCollectionMock.mockResolvedValue();
+      sRemovePromptFromCollectionMock.mockResolvedValue();
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       const promptId = "223e4567-e89b-12d3-a456-426614174000";
@@ -740,8 +738,8 @@ describe("removeTemplateFromCollection tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
+      expect(sRemovePromptFromCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sRemovePromptFromCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
          promptId

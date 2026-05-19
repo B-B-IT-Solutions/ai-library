@@ -159,7 +159,7 @@ describe("getCollectionTemplateIds tests", () => {
    });
 });
 
-describe("addTemplateToCollection tests", () => {
+describe("addPromptToCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -167,15 +167,15 @@ describe("addTemplateToCollection tests", () => {
    it("collection not found - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       collectionRepoMock.pGetCollectionById.mockResolvedValue(null);
 
       const fn = async () =>
-         await collectionService.addTemplateToCollection(
+         await collectionService.addPromptToCollection(
             userId,
             collectionId,
-            descriptorId
+            promptId
          );
 
       expect(fn).rejects.toThrow(Error);
@@ -189,17 +189,17 @@ describe("addTemplateToCollection tests", () => {
       ).not.toHaveBeenCalled();
    });
 
-   it("template added - test", async () => {
+   it("prompt added - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       const collection = dtestData.dCollection();
       collectionRepoMock.pGetCollectionById.mockResolvedValue(collection);
 
-      await collectionService.addTemplateToCollection(
+      await collectionService.addPromptToCollection(
          userId,
          collection.id,
-         descriptorId
+         promptId
       );
 
       expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledTimes(1);
@@ -213,12 +213,12 @@ describe("addTemplateToCollection tests", () => {
       expect(collectionRepoMock.pAddTemplateToCollection).toHaveBeenCalledWith(
          userId,
          collection.id,
-         descriptorId
+         promptId
       );
    });
 });
 
-describe("removeTemplateFromCollection tests", () => {
+describe("removePromptFromCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -226,15 +226,15 @@ describe("removeTemplateFromCollection tests", () => {
    it("collection not found - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       collectionRepoMock.pGetCollectionById.mockResolvedValue(null);
 
       const fn = async () =>
-         await collectionService.removeTemplateFromCollection(
+         await collectionService.removePromptFromCollection(
             userId,
             collectionId,
-            descriptorId
+            promptId
          );
 
       expect(fn).rejects.toThrow(Error);
@@ -248,17 +248,17 @@ describe("removeTemplateFromCollection tests", () => {
       ).not.toHaveBeenCalled();
    });
 
-   it("template removed - test", async () => {
+   it("prompt removed - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "descriptor-id-1";
 
       const collection = dtestData.dCollection();
       collectionRepoMock.pGetCollectionById.mockResolvedValue(collection);
 
-      await collectionService.removeTemplateFromCollection(
+      await collectionService.removePromptFromCollection(
          userId,
          collection.id,
-         descriptorId
+         promptId
       );
 
       expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledTimes(1);
@@ -271,7 +271,7 @@ describe("removeTemplateFromCollection tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          collectionRepoMock.pRemoveTemplateFromCollection
-      ).toHaveBeenCalledWith(userId, collection.id, descriptorId);
+      ).toHaveBeenCalledWith(userId, collection.id, promptId);
    });
 });
 
