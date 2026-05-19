@@ -28,7 +28,7 @@ exports[`CreatePromptButton rendering tests requirePlanUpgrade false - size sm -
         d="M12 5v14"
       />
     </svg>
-    Neue Vorlage
+    Neuer Prompt
   </a>
 </div>
 `;
@@ -61,7 +61,7 @@ exports[`CreatePromptButton rendering tests requirePlanUpgrade false - size unde
         d="M12 5v14"
       />
     </svg>
-    Neue Vorlage
+    Neuer Prompt
   </a>
 </div>
 `;

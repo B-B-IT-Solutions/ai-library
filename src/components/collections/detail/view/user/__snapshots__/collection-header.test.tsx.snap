@@ -115,7 +115,7 @@ exports[`CollectionHeader rendering tests description null - test 1`] = `
             d="M12 5v14"
           />
         </svg>
-        Neue Vorlage
+        Neuer Prompt
       </a>
       <div
         data-slot="dropdown-menu"
@@ -285,7 +285,7 @@ exports[`CollectionHeader rendering tests isPublic false - badge hidden - test 1
             d="M12 5v14"
           />
         </svg>
-        Neue Vorlage
+        Neuer Prompt
       </a>
       <div
         data-slot="dropdown-menu"
@@ -487,7 +487,7 @@ exports[`CollectionHeader rendering tests isPublic true - badge shown - test 1`]
             d="M12 5v14"
           />
         </svg>
-        Neue Vorlage
+        Neuer Prompt
       </a>
       <div
         data-slot="dropdown-menu"

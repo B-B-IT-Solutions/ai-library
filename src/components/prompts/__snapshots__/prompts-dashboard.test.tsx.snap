@@ -53,7 +53,7 @@ exports[`PromptsDashboard rendering tests rendered test 1`] = `
                 d="M12 5v14"
               />
             </svg>
-            Neue Vorlage
+            Neuer Prompt
           </a>
         </div>
       </div>
