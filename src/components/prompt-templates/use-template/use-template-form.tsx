@@ -134,7 +134,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             className="flex min-h-0 flex-1 flex-col"
             data-testid="use-template-form"
          >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 pt-4 lg:min-h-[40vh] lg:grid-cols-2">
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
                <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
                   <p className="text-xs font-medium text-muted-foreground">
                      Vorschau
