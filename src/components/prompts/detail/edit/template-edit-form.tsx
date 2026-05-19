@@ -14,7 +14,6 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { addPromptToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
    DPrompt,
@@ -142,17 +141,8 @@ export const TemplateEditForm = ({
          const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            if (collectionId && result.data) {
-               const collectionResult = await addPromptToCollection(
-                  collectionId,
-                  result.data.id
-               );
-               if (collectionResult.success) {
-                  router.push(`/collections/${collectionId}`);
-               } else {
-                  toast.error(collectionResult.message);
-                  router.push("/templates");
-               }
+            if (collectionId) {
+               router.push(`/collections/${collectionId}`);
             } else {
                router.push("/templates");
             }

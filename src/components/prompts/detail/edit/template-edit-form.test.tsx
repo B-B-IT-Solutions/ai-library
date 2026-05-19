@@ -1,4 +1,3 @@
-jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
@@ -34,7 +33,6 @@ import {
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { addPromptToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
    DPrompt,
@@ -53,9 +51,6 @@ const createPromptMock = createPrompt as jest.MockedFunction<
 >;
 const updatePromptMock = updatePrompt as jest.MockedFunction<
    typeof updatePrompt
->;
-const addPromptToCollectionMock = addPromptToCollection as jest.MockedFunction<
-   typeof addPromptToCollection
 >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -620,20 +615,14 @@ describe("TemplateEditForm functionality tests", () => {
       });
    });
 
-   it("new entry - collectionId - save btn clicked - collection add success - test", async () => {
+   it("new entry - collectionId - save btn clicked - success - test", async () => {
       const newPrompt = dtestData.dPrompt();
       const createResult: ActionResult<DPrompt> = {
          success: true,
-         message: "Vorlage erfolgreich erstellt",
+         message: "Prompt erfolgreich erstellt",
          data: newPrompt,
       };
       createPromptMock.mockResolvedValue(createResult);
-
-      const collectionResult: ActionResult = {
-         success: true,
-         message: "Vorlage hinzugefügt",
-      };
-      addPromptToCollectionMock.mockResolvedValue(collectionResult);
 
       const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
       const fields = dtestData.dGlobalPromptFields();
@@ -652,18 +641,13 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
-         expect(addPromptToCollectionMock).toHaveBeenCalledTimes(1);
-         expect(addPromptToCollectionMock).toHaveBeenCalledWith(
-            collectionId,
-            newPrompt.id
-         );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
          expect(mockRouter.pathname).toEqual(`/collections/${collectionId}`);
       });
    });
 
-   it("new entry - collectionId - save btn clicked - collection add failed - test", async () => {
+   it("new entry - collectionId - save btn clicked - failed - test", async () => {
       const newPrompt = dtestData.dPrompt();
       const createResult: ActionResult<DPrompt> = {
          success: true,
@@ -671,12 +655,6 @@ describe("TemplateEditForm functionality tests", () => {
          data: newPrompt,
       };
       createPromptMock.mockResolvedValue(createResult);
-
-      const collectionResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
-      };
-      addPromptToCollectionMock.mockResolvedValue(collectionResult);
 
       const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
       const fields = dtestData.dGlobalPromptFields();
@@ -695,10 +673,8 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
-         expect(addPromptToCollectionMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
-         expect(toastMock.error).toHaveBeenCalledWith(collectionResult.message);
          expect(mockRouter.pathname).toEqual("/templates");
       });
    });
