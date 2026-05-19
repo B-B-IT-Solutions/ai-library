@@ -20,6 +20,7 @@ import {
    DPrompt,
    DPromptField,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
@@ -134,7 +135,11 @@ export const TemplateEditForm = ({
             toast.error(result.message);
          }
       } else {
-         const result = await createPrompt(data);
+         const crate: DPromptUpdateCrate = {
+            data,
+            collectionId,
+         };
+         const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
             if (collectionId && result.data) {

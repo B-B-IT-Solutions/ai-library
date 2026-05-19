@@ -36,7 +36,7 @@ import { Action, ExternalToast, toast } from "sonner";
 
 import { addTemplateToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { TemplateEditForm } from "./template-edit-form";
@@ -44,7 +44,7 @@ import { initPromptTemplate } from "./utils";
 
 jest.setTimeout(10000);
 
-const createTemplateDescriptorMock = createPrompt as jest.MockedFunction<
+const createPromptMock = createPrompt as jest.MockedFunction<
    typeof createPrompt
 >;
 const updatePromptMock = updatePrompt as jest.MockedFunction<
@@ -344,12 +344,12 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("new entry - save btn clicked  - success - test", async () => {
-      const result: ActionResult = {
+      const result: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
          data: dtestData.dPrompt(),
       };
-      createTemplateDescriptorMock.mockResolvedValue(result);
+      createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
@@ -359,7 +359,7 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      expect(createTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(createPromptMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
@@ -379,10 +379,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
-            expectedPayload
-         );
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
+         expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/templates");
@@ -444,12 +442,12 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("new entry - save btn clicked - failed - upgradeRequired - test", async () => {
-      const result: ActionResult = {
+      const result: ActionResult<DPrompt> = {
          success: false,
          message: "Limit erreicht. Bitte upgrade dein Abo.",
          upgradeRequired: true,
       };
-      createTemplateDescriptorMock.mockResolvedValue(result);
+      createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
@@ -481,10 +479,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
-            expectedPayload
-         );
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
+         expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             result.message,
@@ -503,11 +499,11 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("new entry - save btn clicked  - failed - test", async () => {
-      const result: ActionResult = {
+      const result: ActionResult<DPrompt> = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
-      createTemplateDescriptorMock.mockResolvedValue(result);
+      createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
       render(<TemplateEditForm globalFields={fields} />);
@@ -517,7 +513,7 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      expect(createTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(createPromptMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
@@ -538,10 +534,8 @@ describe("TemplateEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
-            expectedPayload
-         );
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
+         expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");
@@ -603,12 +597,12 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("new entry - collectionId - save btn clicked - collection add success - test", async () => {
       const newPrompt = dtestData.dPrompt();
-      const createResult: ActionResult = {
+      const createResult: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
          data: newPrompt,
       };
-      createTemplateDescriptorMock.mockResolvedValue(createResult);
+      createPromptMock.mockResolvedValue(createResult);
 
       const collectionResult: ActionResult = {
          success: true,
@@ -618,7 +612,9 @@ describe("TemplateEditForm functionality tests", () => {
 
       const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} collectionId={collectionId} />);
+      render(
+         <TemplateEditForm globalFields={fields} collectionId={collectionId} />
+      );
 
       assertRendered();
 
@@ -630,7 +626,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(saveBtn);
 
       await waitFor(() => {
-         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(addTemplateToCollectionMock).toHaveBeenCalledTimes(1);
          expect(addTemplateToCollectionMock).toHaveBeenCalledWith(
             collectionId,
@@ -644,12 +640,12 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("new entry - collectionId - save btn clicked - collection add failed - test", async () => {
       const newPrompt = dtestData.dPrompt();
-      const createResult: ActionResult = {
+      const createResult: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
          data: newPrompt,
       };
-      createTemplateDescriptorMock.mockResolvedValue(createResult);
+      createPromptMock.mockResolvedValue(createResult);
 
       const collectionResult: ActionResult = {
          success: false,
@@ -659,7 +655,9 @@ describe("TemplateEditForm functionality tests", () => {
 
       const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} collectionId={collectionId} />);
+      render(
+         <TemplateEditForm globalFields={fields} collectionId={collectionId} />
+      );
 
       assertRendered();
 
@@ -671,7 +669,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(saveBtn);
 
       await waitFor(() => {
-         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(addTemplateToCollectionMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
