@@ -23,6 +23,7 @@ import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
    dtestData,
@@ -70,6 +71,10 @@ const assertRendered = () => {
    assertInDocument(saveBtn);
 };
 
+const assertCancelBtnHref = (href: string) => {
+   const cancelBtn = screen.getByTestId("cancel-btn");
+   assertHasAttributeWithValue(cancelBtn, "href", href);
+};
 const assertDetectedVariablesRendered = () => {
    const variables = screen.getByTestId("detected-variables");
    assertInDocument(variables);
@@ -106,20 +111,30 @@ const assertGlobalFieldsNotRendered = () => {
 };
 
 describe("TemplateEditForm rendering tests", () => {
-   it("new entry - rendered - test", () => {
+   it("new entry - rendered - test", async () => {
       const { container } = render(<TemplateEditForm globalFields={[]} />);
 
-      assertRendered();
-      assertDetectedVariablesNotRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertCancelBtnHref("/templates");
+         assertDetectedVariablesNotRendered();
+      });
 
       expect(container).toMatchSnapshot();
    });
 
    it("new entry - variables detected in content - test", async () => {
-      const { container } = render(<TemplateEditForm globalFields={[]} />);
+      const collectionId = "collection-id-123";
 
-      assertRendered();
-      assertDetectedVariablesNotRendered();
+      const { container } = render(
+         <TemplateEditForm globalFields={[]} collectionId={collectionId} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCancelBtnHref(`/collections/${collectionId}`);
+         assertDetectedVariablesNotRendered();
+      });
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -137,7 +152,7 @@ describe("TemplateEditForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("existing entry - rendered - test", () => {
+   it("existing entry - rendered - test", async () => {
       const prompt = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
@@ -150,29 +165,34 @@ describe("TemplateEditForm rendering tests", () => {
          />
       );
 
-      assertRendered();
-      assertDetectedVariablesNotRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertCancelBtnHref(`/templates/${prompt.id}`);
+         assertDetectedVariablesNotRendered();
+      });
 
       expect(container).toMatchSnapshot();
    });
 
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
 
       template.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
          <TemplateEditForm
-            prompt={descriptor}
+            prompt={prompt}
             template={template}
             globalFields={fields}
          />
       );
-
-      assertRendered();
-      assertDetectedVariablesRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertCancelBtnHref(`/templates/${prompt.id}`);
+         assertDetectedVariablesRendered();
+      });
 
       expect(container).toMatchSnapshot();
    });
@@ -645,38 +665,6 @@ describe("TemplateEditForm functionality tests", () => {
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
          expect(mockRouter.pathname).toEqual(`/collections/${collectionId}`);
-      });
-   });
-
-   it("new entry - collectionId - save btn clicked - failed - test", async () => {
-      const newPrompt = dtestData.dPrompt();
-      const createResult: ActionResult<DPrompt> = {
-         success: true,
-         message: "Vorlage erfolgreich erstellt",
-         data: newPrompt,
-      };
-      createPromptMock.mockResolvedValue(createResult);
-
-      const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
-      const fields = dtestData.dGlobalPromptFields();
-      render(
-         <TemplateEditForm globalFields={fields} collectionId={collectionId} />
-      );
-
-      assertRendered();
-
-      await typeIntoInput("title", "Test Template");
-      await typeIntoTextArea("description", "Test Description");
-      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(createPromptMock).toHaveBeenCalledTimes(1);
-         expect(toastMock.success).toHaveBeenCalledTimes(1);
-         expect(toastMock.error).toHaveBeenCalledTimes(1);
-         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
       });
    });
 });

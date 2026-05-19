@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Loader, Save } from "lucide-react";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -167,17 +167,16 @@ export const TemplateEditForm = ({
 
    const cancelBtn = () => {
       return (
-         <Link href={cancelHref}>
-            <Button
-               type="button"
-               variant="outline"
-               disabled={isSubmitting}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               Abbrechen
-            </Button>
-         </Link>
+         <Button
+            asChild={true}
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="cancel-btn"
+         >
+            <Link href={cancelHref}>Abbrechen</Link>
+         </Button>
       );
    };
 
@@ -187,7 +186,7 @@ export const TemplateEditForm = ({
             type="submit"
             disabled={isSubmitting}
             className="cursor-pointer"
-            data-testid={"save-btn"}
+            data-testid="save-btn"
          >
             {isSubmitting ? (
                <>
@@ -195,10 +194,7 @@ export const TemplateEditForm = ({
                   {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
                </>
             ) : (
-               <>
-                  <Save className="h-4 w-4" />
-                  {isEdit ? "Vorlage speichern" : "Vorlage erstellen"}
-               </>
+               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
             )}
          </Button>
       );
