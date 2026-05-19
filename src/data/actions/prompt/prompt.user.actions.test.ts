@@ -6,7 +6,11 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
+import {
+   DPrompt,
+   DPromptFieldValues,
+   DPromptsUsage,
+} from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
@@ -223,9 +227,9 @@ describe("createPrompt tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -244,9 +248,9 @@ describe("createPrompt tests", () => {
 
       const error = new Error("db error");
       sCreatePromptMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -256,7 +260,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -266,9 +270,9 @@ describe("createPrompt tests", () => {
 
       const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
       sCreatePromptMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -279,7 +283,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -287,22 +291,23 @@ describe("createPrompt tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const newDescriptor = dtestData.dPrompt();
-      sCreatePromptMock.mockResolvedValue(newDescriptor);
+      const newPrompt = dtestData.dPrompt();
+      sCreatePromptMock.mockResolvedValue(newPrompt);
 
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
-      const expectedResult: ActionResult = {
+      const expectedResult: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
+         data: newPrompt,
       };
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
    });
 });
 

@@ -15,7 +15,7 @@ const assertRendered = () => {
 };
 
 describe("TemplateEdit rendering tests", () => {
-   it("new entry - test", async () => {
+   it("new entry - collectionId undefined - test", async () => {
       const { container } = render(<TemplateEdit globalFields={[]} />);
 
       await waitFor(() => {
@@ -25,14 +25,26 @@ describe("TemplateEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
+   it("new entry - collectionId defined - test", async () => {
+      const { container } = render(
+         <TemplateEdit globalFields={[]} collectionId="collection-id-123" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("edit existing entry - test", async () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
          <TemplateEdit
-            descriptor={descriptor}
+            prompt={prompt}
             template={template}
             globalFields={fields}
          />

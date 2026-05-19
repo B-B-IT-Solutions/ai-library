@@ -111,6 +111,9 @@ describe("CollectionHeader functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual("/templates/new");
+         expect(mockRouter.query).toEqual({
+            collectionId: collection.id,
+         });
       });
    });
 

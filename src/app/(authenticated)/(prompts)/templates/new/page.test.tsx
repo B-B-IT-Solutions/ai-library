@@ -6,31 +6,57 @@ import { Metadata } from "next";
 
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
-import { metadata, NewTemplatePage } from "./page";
+import { metadata, NewPromptPage, PageProps, PageSearchParams } from "./page";
 
-const getGlobalPromptFieldsMock =
-   getGlobalPromptFields as jest.MockedFunction<
-      typeof getGlobalPromptFields
-   >;
+const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
+   typeof getGlobalPromptFields
+>;
 
 const expectedMetadata: Metadata = {
-   title: "Neue Vorlage",
+   title: "Neuer Prompt",
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("new-template-page");
+   const page = screen.getByTestId("new-prompt-page");
    const entryEdit = screen.getByTestId("template-edit");
 
    assertInDocument(page);
    assertInDocument(entryEdit);
 };
 
-describe("NewTemplatePage rendering tests", () => {
-   it("rendered test", async () => {
+describe("NewPromptPage rendering tests", () => {
+   it("collectionId undefined - test", async () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
-      const { container } = await renderAsyncRSC(NewTemplatePage, {});
+      const searchParams: PageSearchParams = {};
+
+      const props: PageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+
+      const { container } = await renderAsyncRSC(NewPromptPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collectionId defined - test", async () => {
+      const templateFields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
+
+      const searchParams: PageSearchParams = {
+         collectionId: "collection-id-1",
+      };
+
+      const props: PageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+
+      const { container } = await renderAsyncRSC(NewPromptPage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -40,7 +66,7 @@ describe("NewTemplatePage rendering tests", () => {
    });
 });
 
-describe("NewLibraryEntryPage functionality tests", () => {
+describe("NewPromptPage functionality tests", () => {
    it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });

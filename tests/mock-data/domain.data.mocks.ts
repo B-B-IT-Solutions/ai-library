@@ -46,6 +46,7 @@ import {
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
@@ -555,6 +556,13 @@ export const dPromptWithContent = (index = 1): DPromptWithContent => {
    return {
       ...dPrompt(index),
       content: `content ${index}`,
+   };
+};
+
+export const dPromptUpdateCrate = (index = 1): DPromptUpdateCrate => {
+   return {
+      data: dPromptUpdate(index),
+      collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
    };
 };
 

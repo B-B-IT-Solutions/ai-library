@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Loader, Save } from "lucide-react";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ import {
    DPrompt,
    DPromptField,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
@@ -37,22 +38,24 @@ import {
 } from "./utils";
 
 type Props = {
-   descriptor?: DPrompt;
+   prompt?: DPrompt;
    template?: DPromptWithContent;
+   collectionId?: string;
    globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({
-   descriptor,
+   prompt,
    template,
+   collectionId,
    globalFields,
 }: Props) => {
    const router = useRouter();
-   const isEdit = !!descriptor;
+   const isEdit = !!prompt;
 
    const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
-      defaultValues: initPromptTemplate(descriptor, template),
+      defaultValues: initPromptTemplate(prompt, template),
    });
 
    const {
@@ -123,18 +126,26 @@ export const TemplateEditForm = ({
 
    const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updatePrompt(descriptor.id, data);
+         const result = await updatePrompt(prompt.id, data);
          if (result.success) {
             toast.success(result.message);
-            router.push(`/templates/${descriptor.id}`);
+            router.push(`/templates/${prompt.id}`);
          } else {
             toast.error(result.message);
          }
       } else {
-         const result = await createPrompt(data);
+         const crate: DPromptUpdateCrate = {
+            data,
+            collectionId,
+         };
+         const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            router.push("/templates");
+            if (collectionId) {
+               router.push(`/collections/${collectionId}`);
+            } else {
+               router.push(`/templates/${result.data!.id}`);
+            }
          } else if (result.upgradeRequired) {
             toast.error(result.message, {
                action: {
@@ -148,19 +159,24 @@ export const TemplateEditForm = ({
       }
    };
 
+   const cancelHref = isEdit
+      ? `/templates/${prompt!.id}`
+      : collectionId
+        ? `/collections/${collectionId}`
+        : "/templates";
+
    const cancelBtn = () => {
       return (
-         <Link href={isEdit ? `/templates/${descriptor.id}` : "/templates"}>
-            <Button
-               type="button"
-               variant="outline"
-               disabled={isSubmitting}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               Abbrechen
-            </Button>
-         </Link>
+         <Button
+            asChild={true}
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="cancel-btn"
+         >
+            <Link href={cancelHref}>Abbrechen</Link>
+         </Button>
       );
    };
 
@@ -170,7 +186,7 @@ export const TemplateEditForm = ({
             type="submit"
             disabled={isSubmitting}
             className="cursor-pointer"
-            data-testid={"save-btn"}
+            data-testid="save-btn"
          >
             {isSubmitting ? (
                <>
@@ -178,10 +194,7 @@ export const TemplateEditForm = ({
                   {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
                </>
             ) : (
-               <>
-                  <Save className="h-4 w-4" />
-                  {isEdit ? "Vorlage speichern" : "Vorlage erstellen"}
-               </>
+               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
             )}
          </Button>
       );

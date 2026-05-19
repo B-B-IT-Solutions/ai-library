@@ -1,10 +1,10 @@
 import { Skeleton } from "@/components/shadcn/skeleton";
 
-export const NewTemplateLoading = () => {
+export const NewPromptLoading = () => {
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="new-template-loading"
+         data-testid="new-prompt-loading"
       >
          {/* Top Navigation Bar */}
          <div className="border-b border-slate-200 bg-white px-6 py-4">
@@ -48,4 +48,4 @@ export const NewTemplateLoading = () => {
    );
 };
 
-export default NewTemplateLoading;
+export default NewPromptLoading;

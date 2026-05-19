@@ -9,11 +9,13 @@ import {
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
 import { TemplateEngine } from "@/lib/template";
+import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
@@ -28,7 +30,8 @@ export class PromptService {
    constructor(
       private readonly repository: PromptRepository,
       private readonly settingService: SettingsService,
-      private readonly subscriptionService: SubscriptionService
+      private readonly subscriptionService: SubscriptionService,
+      private readonly collectionService: CollectionService
    ) {}
 
    async getPromptsPage(
@@ -45,7 +48,10 @@ export class PromptService {
       return await this.repository.pGetPrompt(userId, descriptorId);
    }
 
-   async createPrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
+   async createPrompt(
+      userId: string,
+      crate: DPromptUpdateCrate
+   ): Promise<DPrompt> {
       const currentCount = await this.getPromptsCount(userId);
       const feature: FeatureName = "maxPrompts";
       await this.subscriptionService.requireCountLimit(
@@ -54,7 +60,19 @@ export class PromptService {
          currentCount
       );
 
-      return await this.repository.pCreatePrompt(userId, data);
+      const { data, collectionId } = crate;
+
+      const prompt = await this.repository.pCreatePrompt(userId, data);
+
+      if (collectionId) {
+         this.collectionService.addPromptToCollection(
+            userId,
+            collectionId,
+            prompt.id
+         );
+      }
+
+      return prompt;
    }
 
    async updatePrompt(

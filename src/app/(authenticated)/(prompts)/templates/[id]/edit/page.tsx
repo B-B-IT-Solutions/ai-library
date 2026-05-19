@@ -18,18 +18,18 @@ export type PageProps = {
 };
 
 export const EditTemplatePage = async ({ params }: PageProps) => {
-   const { id: descriptorId } = await params;
+   const { id: promptId } = await params;
 
-   const [descriptor, globalFields] = await Promise.all([
-      getPrompt(descriptorId),
+   const [prompt, globalFields] = await Promise.all([
+      getPrompt(promptId),
       getGlobalPromptFields(),
    ]);
 
-   if (!descriptor) {
+   if (!prompt) {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor.id);
+   const template = await getPromptTemplate(prompt.id);
 
    if (!template) {
       return notFound();
@@ -38,7 +38,7 @@ export const EditTemplatePage = async ({ params }: PageProps) => {
    return (
       <div className="h-screen bg-slate-50" data-testid="template-edit-page">
          <TemplateEdit
-            descriptor={descriptor}
+            prompt={prompt}
             template={template}
             globalFields={globalFields}
          />

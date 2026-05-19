@@ -57,10 +57,10 @@ export class CollectionService {
       );
    }
 
-   async addTemplateToCollection(
+   async addPromptToCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const collection = await this.getCollectionById(userId, collectionId);
       if (!collection) {
@@ -70,14 +70,14 @@ export class CollectionService {
       await this.collectionRepository.pAddTemplateToCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
    }
 
-   async removeTemplateFromCollection(
+   async removePromptFromCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const collection = await this.getCollectionById(userId, collectionId);
       if (!collection) {
@@ -87,7 +87,7 @@ export class CollectionService {
       await this.collectionRepository.pRemoveTemplateFromCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
    }
 

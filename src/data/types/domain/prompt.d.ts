@@ -21,6 +21,11 @@ export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
 
 export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 
+export type DPromptUpdateCrate = {
+   data: DPromptUpdate;
+   collectionId?: string;
+};
+
 export type DPromptCategory = {
    name: string;
 };

@@ -15,6 +15,7 @@ import {
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -54,16 +55,17 @@ export const getPrompt = async (
 };
 
 export const createPrompt = async (
-   data: DPromptUpdate
-): Promise<ActionResult> => {
+   crate: DPromptUpdateCrate
+): Promise<ActionResult<DPrompt>> => {
    try {
       const user = await requireUser();
       const service = getService();
-      await service.createPrompt(user.id, data);
+      const prompt = await service.createPrompt(user.id, crate);
 
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
+         data: prompt,
       };
    } catch (error) {
       console.error(formatError(error));

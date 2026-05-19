@@ -9,11 +9,13 @@ import { UpgradePlanDialog } from "@/components/subscription";
 
 type Props = {
    size?: "default" | "sm";
+   collectionId?: string;
    requirePlanUpgrade?: boolean;
 };
 
 export const CreatePromptButton = ({
    size = "default",
+   collectionId,
    requirePlanUpgrade,
 }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
@@ -39,6 +41,10 @@ export const CreatePromptButton = ({
       );
    }
 
+   const href = collectionId
+      ? `/templates/new?collectionId=${collectionId}`
+      : "/templates/new";
+
    return (
       <Button
          asChild={true}
@@ -46,7 +52,7 @@ export const CreatePromptButton = ({
          className="cursor-pointer gap-2"
          data-testid="create-prompt-btn"
       >
-         <Link href="/templates/new">
+         <Link href={href}>
             <Plus className="h-4 w-4" />
             Neuer Prompt
          </Link>

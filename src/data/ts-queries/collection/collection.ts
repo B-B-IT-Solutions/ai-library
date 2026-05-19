@@ -12,9 +12,9 @@ import {
 import { filter, isEmpty } from "es-toolkit/compat";
 
 import {
-   addTemplateToCollection,
+   addPromptToCollection,
    getCollectionTemplateIds,
-   removeTemplateFromCollection,
+   removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
@@ -47,15 +47,15 @@ export const addTemplateToCollectionOptions = (
 ): UseMutationOptions<ActionResult, Error, AddTemplateToCollectionParams> => {
    return {
       mutationFn: (params) => {
-         const { collectionId, templateDescriptorId } = params;
-         return addTemplateToCollection(collectionId, templateDescriptorId);
+         const { collectionId, promptId } = params;
+         return addPromptToCollection(collectionId, promptId);
       },
       onSuccess: (_, params) => {
          const updater = (templateIds: string[]) => {
             if (isEmpty(templateIds)) {
-               return [params.templateDescriptorId];
+               return [params.promptId];
             }
-            return [...templateIds, params.templateDescriptorId];
+            return [...templateIds, params.promptId];
          };
          queryClient.setQueryData(
             collectionKeys.collectionTemplateIds(params.collectionId),
@@ -84,18 +84,12 @@ export const removeTemplateFromCollectionOptions = (
 > => {
    return {
       mutationFn: (params) => {
-         const { collectionId, templateDescriptorId } = params;
-         return removeTemplateFromCollection(
-            collectionId,
-            templateDescriptorId
-         );
+         const { collectionId, promptId } = params;
+         return removePromptFromCollection(collectionId, promptId);
       },
       onSuccess: (_, params) => {
          const updater = (templateIds: string[]) => {
-            return filter(
-               templateIds,
-               (id) => id != params.templateDescriptorId
-            );
+            return filter(templateIds, (id) => id != params.promptId);
          };
          queryClient.setQueryData(
             collectionKeys.collectionTemplateIds(params.collectionId),

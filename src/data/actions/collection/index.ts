@@ -8,8 +8,8 @@ export {
    setCollectionPublic,
    updateCollection,
    getCollectionTemplateIds,
-   addTemplateToCollection,
-   removeTemplateFromCollection,
+   addPromptToCollection,
+   removePromptFromCollection,
 } from "./collection.actions";
 
 export { getPublicCollectionByToken } from "./collection.public.actions";
