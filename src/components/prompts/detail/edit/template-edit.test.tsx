@@ -15,8 +15,20 @@ const assertRendered = () => {
 };
 
 describe("TemplateEdit rendering tests", () => {
-   it("new entry - test", async () => {
+   it("new entry - collectionId undefined - test", async () => {
       const { container } = render(<TemplateEdit globalFields={[]} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("new entry - collectionId defined - test", async () => {
+      const { container } = render(
+         <TemplateEdit globalFields={[]} collectionId="collection-id-123" />
+      );
 
       await waitFor(() => {
          assertRendered();
