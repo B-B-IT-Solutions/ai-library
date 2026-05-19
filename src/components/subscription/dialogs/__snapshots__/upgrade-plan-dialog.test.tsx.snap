@@ -41,64 +41,63 @@ exports[`UpgradePlanDialog rendering tests open true - test 1`] = `
         data-testid="upgrade-plan-dialog"
       >
         <div
-          class="flex flex-col gap-2 text-center sm:text-left"
+          class="flex flex-col text-center sm:text-left items-center gap-4"
           data-slot="dialog-header"
         >
           <div
-            aria-hidden="true"
-            class="mb-2 flex justify-center"
+            class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 ring-4 ring-primary/20"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-zap h-8 w-8 text-primary"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+              />
+            </svg>
+          </div>
+          <div
+            class="space-y-1.5 text-center"
           >
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10"
+              class="font-semibold text-xl"
+              data-slot="dialog-title"
+              data-testid="mock-react-dialog-title"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-zap h-6 w-6 text-primary"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
-                />
-              </svg>
+              Plan-Upgrade erforderlich
             </div>
-          </div>
-          <div
-            class="text-lg leading-none font-semibold text-center"
-            data-slot="dialog-title"
-            data-testid="mock-react-dialog-title"
-          >
-            Plan-Upgrade erforderlich
-          </div>
-          <div
-            class="text-sm text-muted-foreground text-center"
-            data-slot="dialog-description"
-            data-testid="mock-react-dialog-description"
-          >
-            Du hast dein Limit für
-             
-            <span
-              class="font-medium text-foreground"
+            <div
+              class="text-sm text-muted-foreground"
+              data-slot="dialog-description"
+              data-testid="mock-react-dialog-description"
             >
-              Vorlagen
-            </span>
-             
-            erreicht. Upgrade deinen Plan um mehr erstellen zu können.
+              Du hast dein Limit für
+               
+              <span
+                class="font-semibold text-foreground"
+              >
+                Vorlagen
+              </span>
+               
+              erreicht. Upgrade deinen Plan um mehr erstellen zu können.
+            </div>
           </div>
         </div>
         <div
-          class="flex flex-col-reverse gap-2 sm:justify-end mt-2 sm:flex-col sm:gap-2"
+          class="flex sm:justify-end mt-2 flex-col gap-2 sm:flex-col"
           data-slot="dialog-footer"
         >
           <a
-            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full gap-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 w-full gap-2 font-semibold"
             data-slot="button"
             data-testid="upgrade-btn"
             href="/subscription/pricing"
@@ -120,14 +119,14 @@ exports[`UpgradePlanDialog rendering tests open true - test 1`] = `
                 d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
               />
             </svg>
-            Plan upgraden
+            Jetzt upgraden
           </a>
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer text-muted-foreground"
             data-slot="button"
             data-testid="cancel-btn"
           >
-            Abbrechen
+            Vielleicht später
           </button>
         </div>
         <button
