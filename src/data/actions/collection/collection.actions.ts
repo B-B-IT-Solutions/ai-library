@@ -131,7 +131,7 @@ export const getCollectionTemplateIds = async (
    }
 };
 
-export const addTemplateToCollection = async (
+export const addPromptToCollection = async (
    collectionId: string,
    templateDescriptorId: string
 ): Promise<ActionResult> => {
@@ -150,13 +150,13 @@ export const addTemplateToCollection = async (
 
       return {
          success: true,
-         message: "Vorlage hinzugefügt",
+         message: "Prompt hinzugefügt",
       };
    } catch (error) {
       console.error(formatError(error));
       return {
          success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
+         message: "Prompt konnte nicht hinzugefügt werden",
       };
    }
 };

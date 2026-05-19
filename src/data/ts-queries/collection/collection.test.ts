@@ -13,7 +13,7 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import { mockDeep } from "jest-mock-extended";
 
 import {
-   addTemplateToCollection,
+   addPromptToCollection,
    getCollectionTemplateIds,
    removeTemplateFromCollection,
 } from "@/data/actions/collection";
@@ -44,10 +44,9 @@ const getCollectionTemplateIdsMock =
       typeof getCollectionTemplateIds
    >;
 
-const addTemplateToCollectionMock =
-   addTemplateToCollection as jest.MockedFunction<
-      typeof addTemplateToCollection
-   >;
+const addPromptToCollectionMock = addPromptToCollection as jest.MockedFunction<
+   typeof addPromptToCollection
+>;
 
 const removeTemplateFromCollectionMock =
    removeTemplateFromCollection as jest.MockedFunction<
@@ -121,11 +120,11 @@ describe("addTemplateToCollection hooks tests", () => {
       };
 
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
-      const templateDescriptorId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
+      const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const params: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId,
+         promptId,
       };
 
       options.onSuccess!(result, params, undefined, mutationContextMock);
@@ -147,17 +146,14 @@ describe("addTemplateToCollection hooks tests", () => {
       ) => string[];
 
       const updaterParams1: string[] = [];
-      const expectedUpdaterResult1 = [templateDescriptorId];
+      const expectedUpdaterResult1 = [promptId];
 
       const updaterResult1 = updaterFn(updaterParams1);
       expect(updaterResult1).toEqual(expectedUpdaterResult1);
 
       const templateDescriptorId2 = "fbde9eda-9341-4200-91d6-633237e4164b";
       const updaterParams2 = [templateDescriptorId2];
-      const expectedUpdaterResult2 = [
-         templateDescriptorId2,
-         templateDescriptorId,
-      ];
+      const expectedUpdaterResult2 = [templateDescriptorId2, promptId];
       const updaterResult2 = updaterFn(updaterParams2);
       expect(updaterResult2).toEqual(expectedUpdaterResult2);
    });
@@ -168,10 +164,10 @@ describe("addTemplateToCollection hooks tests", () => {
          message: "Template added to collection",
       };
 
-      addTemplateToCollectionMock.mockResolvedValue(actionResult);
+      addPromptToCollectionMock.mockResolvedValue(actionResult);
 
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
-      const templateDescriptorId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
+      const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const { result } = renderHookWithReactQuery(() =>
          useAddTemplateToCollection()
@@ -179,16 +175,16 @@ describe("addTemplateToCollection hooks tests", () => {
 
       const params: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId,
+         promptId,
       };
 
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(addTemplateToCollectionMock).toHaveBeenCalledTimes(1);
-         expect(addTemplateToCollectionMock).toHaveBeenCalledWith(
+         expect(addPromptToCollectionMock).toHaveBeenCalledTimes(1);
+         expect(addPromptToCollectionMock).toHaveBeenCalledWith(
             params.collectionId,
-            params.templateDescriptorId
+            params.promptId
          );
       });
    });
@@ -219,11 +215,11 @@ describe("removeTemplateFromCollection hooks tests", () => {
       };
 
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
-      const templateDescriptorId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
+      const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const params: RemoveTemplateFromCollectionParams = {
          collectionId,
-         templateDescriptorId,
+         promptId,
       };
 
       options.onSuccess!(result, params, undefined, mutationContextMock);
@@ -250,9 +246,9 @@ describe("removeTemplateFromCollection hooks tests", () => {
       const updaterResult1 = updaterFn(updaterParams1);
       expect(updaterResult1).toEqual(expectedUpdaterResult1);
 
-      const templateDescriptorId2 = "fbde9eda-9341-4200-91d6-633237e4164b";
-      const updaterParams2 = [templateDescriptorId, templateDescriptorId2];
-      const expectedUpdaterResult2 = [templateDescriptorId2];
+      const promptId2 = "fbde9eda-9341-4200-91d6-633237e4164b";
+      const updaterParams2 = [promptId, promptId2];
+      const expectedUpdaterResult2 = [promptId2];
       const updaterResult2 = updaterFn(updaterParams2);
       expect(updaterResult2).toEqual(expectedUpdaterResult2);
    });
@@ -266,7 +262,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
       removeTemplateFromCollectionMock.mockResolvedValue(actionResult);
 
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
-      const templateDescriptorId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
+      const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const { result } = renderHookWithReactQuery(() =>
          useRemoveTemplateFromCollection()
@@ -274,7 +270,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
 
       const params: RemoveTemplateFromCollectionParams = {
          collectionId,
-         templateDescriptorId,
+         promptId,
       };
 
       await waitFor(() => {
@@ -283,7 +279,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
          expect(removeTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
          expect(removeTemplateFromCollectionMock).toHaveBeenCalledWith(
             params.collectionId,
-            params.templateDescriptorId
+            params.promptId
          );
       });
    });

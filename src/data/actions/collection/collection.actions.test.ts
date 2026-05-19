@@ -9,7 +9,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   addTemplateToCollection,
+   addPromptToCollection,
    createCollection,
    deleteCollection,
    getCollectionById,
@@ -509,7 +509,7 @@ describe("getCollectionTemplateIds tests", () => {
    });
 });
 
-describe("addTemplateToCollection tests", () => {
+describe("addPromptToCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -521,16 +521,13 @@ describe("addTemplateToCollection tests", () => {
 
    it("invalid collectionId UUID - test", async () => {
       const invalidCollectionId = "invalid-uuid-1";
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await addTemplateToCollection(
-         invalidCollectionId,
-         templateId
-      );
+      const result = await addPromptToCollection(invalidCollectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
+         message: "Prompt konnte nicht hinzugefügt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -541,16 +538,13 @@ describe("addTemplateToCollection tests", () => {
 
    it("invalid templateDescriptorId UUID - test", async () => {
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const invalidTemplateId = "invalid-uuid-1";
+      const invalidPromptId = "invalid-uuid-1";
 
-      const result = await addTemplateToCollection(
-         collectionId,
-         invalidTemplateId
-      );
+      const result = await addPromptToCollection(collectionId, invalidPromptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
+         message: "Prompt konnte nicht hinzugefügt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -564,13 +558,13 @@ describe("addTemplateToCollection tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await addTemplateToCollection(collectionId, templateId);
+      const result = await addPromptToCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
+         message: "Prompt konnte nicht hinzugefügt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -587,13 +581,13 @@ describe("addTemplateToCollection tests", () => {
       sAddTemplateToCollectionMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await addTemplateToCollection(collectionId, templateId);
+      const result = await addPromptToCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht hinzugefügt werden",
+         message: "Prompt konnte nicht hinzugefügt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -601,7 +595,7 @@ describe("addTemplateToCollection tests", () => {
       expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
-         templateId
+         promptId
       );
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -613,13 +607,13 @@ describe("addTemplateToCollection tests", () => {
       sAddTemplateToCollectionMock.mockResolvedValue();
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await addTemplateToCollection(collectionId, templateId);
+      const result = await addPromptToCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: true,
-         message: "Vorlage hinzugefügt",
+         message: "Prompt hinzugefügt",
       };
 
       expect(result).toEqual(expectedResult);
@@ -627,7 +621,7 @@ describe("addTemplateToCollection tests", () => {
       expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
-         templateId
+         promptId
       );
    });
 });

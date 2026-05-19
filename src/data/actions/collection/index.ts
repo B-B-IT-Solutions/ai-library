@@ -8,7 +8,7 @@ export {
    setCollectionPublic,
    updateCollection,
    getCollectionTemplateIds,
-   addTemplateToCollection,
+   addPromptToCollection,
    removeTemplateFromCollection,
 } from "./collection.actions";
 

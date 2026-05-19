@@ -53,10 +53,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       (t) => !includes(templateIds, t.id)
    );
 
-   const addTemplateToCollection = (descriptor: DPrompt) => {
+   const addTemplateToCollection = (prompt: DPrompt) => {
       const params: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId: descriptor.id,
+         promptId: prompt.id,
       };
       addTemplate(params, {
          onSuccess: (result) => {
@@ -68,10 +68,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       });
    };
 
-   const removeTemplateFromCollection = (descriptor: DPrompt) => {
+   const removeTemplateFromCollection = (prompt: DPrompt) => {
       const params: RemoveTemplateFromCollectionParams = {
          collectionId,
-         templateDescriptorId: descriptor.id,
+         promptId: prompt.id,
       };
       removeTemplate(params, {
          onSuccess: (result) => {

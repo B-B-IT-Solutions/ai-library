@@ -266,7 +266,7 @@ describe("CollectionTemplates functionality tests", () => {
 
       const expectedParams: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId: page.content[0].id,
+         promptId: page.content[0].id,
       };
 
       const expectedCallback = expect.objectContaining({
@@ -329,7 +329,7 @@ describe("CollectionTemplates functionality tests", () => {
 
       const expectedParams: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId: page.content[0].id,
+         promptId: page.content[0].id,
       };
 
       const expectedCallback = expect.objectContaining({
@@ -390,7 +390,7 @@ describe("CollectionTemplates functionality tests", () => {
 
       const expectedParams: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId: page.content[0].id,
+         promptId: page.content[0].id,
       };
 
       const expectedCallback = expect.objectContaining({
@@ -450,7 +450,7 @@ describe("CollectionTemplates functionality tests", () => {
 
       const expectedParams: AddTemplateToCollectionParams = {
          collectionId,
-         templateDescriptorId: page.content[0].id,
+         promptId: page.content[0].id,
       };
 
       const expectedCallback = expect.objectContaining({
