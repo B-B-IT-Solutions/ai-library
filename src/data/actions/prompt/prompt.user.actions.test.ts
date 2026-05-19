@@ -291,8 +291,8 @@ describe("createPrompt tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const newDescriptor = dtestData.dPrompt();
-      sCreatePromptMock.mockResolvedValue(newDescriptor);
+      const newPrompt = dtestData.dPrompt();
+      sCreatePromptMock.mockResolvedValue(newPrompt);
 
       const updateData = dtestData.dPromptUpdate();
 
@@ -301,7 +301,7 @@ describe("createPrompt tests", () => {
       const expectedResult: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
-         data: newDescriptor,
+         data: newPrompt,
       };
 
       expect(result).toEqual(expectedResult);
