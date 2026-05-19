@@ -69,12 +69,10 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
    };
 
    const featureMaxLibraryItems = () => {
-      if (plan.features.maxLibraryItems === -1) {
-         return feature("Unbegrenzte Bibliotheks-Einträge");
+      if (plan.features.maxCollections === -1) {
+         return feature("Unbegrenzte Sammlungen");
       }
-      return feature(
-         `Bis zu ${plan.features.maxLibraryItems} Bibliotheks-Einträge`
-      );
+      return feature(`Bis zu ${plan.features.maxCollections} Sammlungen`);
    };
 
    const featureMarketplaceAccess = () => {

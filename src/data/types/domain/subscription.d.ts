@@ -29,7 +29,7 @@ export type DSubscriptionPlan = {
 
 export type DSubscriptionPlanFeatures = {
    maxPrompts: number;
-   maxLibraryItems: number;
+   maxCollections: number;
    canAccessMarketplace: boolean;
    canPurchaseItems: boolean;
    canExportPrompts: boolean;

@@ -192,7 +192,7 @@ export const dSubscriptionPlan = (index = 1): DSubscriptionPlan => {
       stripeProductId: `d48fabe0-8c26-4dcf-959a-f87b15e3efb${index}`,
       features: {
          maxPrompts: 5,
-         maxLibraryItems: 3,
+         maxCollections: 3,
          canAccessMarketplace: true,
          canPurchaseItems: false,
          canExportPrompts: false,

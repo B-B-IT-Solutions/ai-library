@@ -12,7 +12,7 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       stripeProductId: null,
       features: {
          maxPrompts: 5,
-         maxLibraryItems: 3,
+         maxCollections: 3,
          canAccessMarketplace: true,
          canPurchaseItems: false,
          canExportPrompts: false,
@@ -34,7 +34,7 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       stripeProductId: "prod_Qzbijhak3aLOfT",
       features: {
          maxPrompts: 50,
-         maxLibraryItems: 20,
+         maxCollections: 20,
          canAccessMarketplace: true,
          canPurchaseItems: true,
          canExportPrompts: true,
@@ -56,7 +56,7 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       stripeProductId: "prod_TqsX0nvnnyROov",
       features: {
          maxPrompts: -1, // unlimited
-         maxLibraryItems: -1, // unlimited
+         maxCollections: -1, // unlimited
          canAccessMarketplace: true,
          canPurchaseItems: true,
          canExportPrompts: true,
