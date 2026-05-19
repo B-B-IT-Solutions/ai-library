@@ -33,8 +33,8 @@ export const TrialBanner = ({ daysLeft }: Props) => {
       >
          <span>
             {daysLeft === 0
-               ? "Dein Trial endet heute – wähle jetzt einen Plan."
-               : `Noch ${daysLeft} ${daysLeft === 1 ? "Tag" : "Tage"} kostenlos – danach Abo erforderlich.`}
+               ? "Dein Trial endet heute – danach gelten die Free-Tier Limits."
+               : `Noch ${daysLeft} ${daysLeft === 1 ? "Tag" : "Tage"} Trial – danach gelten die Free-Tier Limits.`}
          </span>
 
          <div className="flex shrink-0 items-center gap-3">
@@ -48,7 +48,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
                )}
                data-testid="subcription-link"
             >
-               Jetzt Abo wählen
+               Jetzt upgraden
             </Link>
 
             <button

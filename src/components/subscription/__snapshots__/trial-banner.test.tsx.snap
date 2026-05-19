@@ -9,7 +9,7 @@ exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] =
     role="status"
   >
     <span>
-      Dein Trial endet heute – wähle jetzt einen Plan.
+      Dein Trial endet heute – danach gelten die Free-Tier Limits.
     </span>
     <div
       class="flex shrink-0 items-center gap-3"
@@ -19,7 +19,7 @@ exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] =
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
-        Jetzt Abo wählen
+        Jetzt upgraden
       </a>
       <button
         aria-label="Banner schließen"
@@ -61,7 +61,7 @@ exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] =
     role="status"
   >
     <span>
-      Noch 1 Tag kostenlos – danach Abo erforderlich.
+      Noch 1 Tag Trial – danach gelten die Free-Tier Limits.
     </span>
     <div
       class="flex shrink-0 items-center gap-3"
@@ -71,7 +71,7 @@ exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] =
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
-        Jetzt Abo wählen
+        Jetzt upgraden
       </a>
       <button
         aria-label="Banner schließen"
@@ -113,7 +113,7 @@ exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] =
     role="status"
   >
     <span>
-      Noch 7 Tage kostenlos – danach Abo erforderlich.
+      Noch 7 Tage Trial – danach gelten die Free-Tier Limits.
     </span>
     <div
       class="flex shrink-0 items-center gap-3"
@@ -123,7 +123,7 @@ exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] =
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
-        Jetzt Abo wählen
+        Jetzt upgraden
       </a>
       <button
         aria-label="Banner schließen"
