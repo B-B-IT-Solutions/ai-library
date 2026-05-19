@@ -6,6 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { CatalogRepository } from "@/data/repositories/catalog";
 import prisma from "@/data/repositories/prisma";
+import { DPromptUpdateCrate } from "@/data/types/domain/prompt";
 import { PromptService } from "../prompt";
 import { ServiceFactory } from "../service.factory";
 
@@ -63,13 +64,17 @@ describe("addCatalogEntryToUserPrompts tests", () => {
          entry.id
       );
 
-      const expectedTemplateData = toPromptUpdate(entry);
+      const expectedData = toPromptUpdate(entry);
+
+      const expectedPayload: DPromptUpdateCrate = {
+         data: expectedData,
+      };
 
       expect(result).toEqual(descriptor);
       expect(promptServiceMock.createPrompt).toHaveBeenCalledTimes(1);
       expect(promptServiceMock.createPrompt).toHaveBeenCalledWith(
          userId,
-         expectedTemplateData
+         expectedPayload
       );
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledTimes(1);
       expect(catalogRepo.pIncrementCopyCount).toHaveBeenCalledWith(entry.id);

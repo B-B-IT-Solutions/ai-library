@@ -148,11 +148,12 @@ describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
       "/collections",
+      "/settings",
+      "/subscription",
       "/marketplace",
       "/products/123",
       "/templates",
       "/checkout",
-      "/settings",
       "/profile",
       "/user/123",
       "/orders/456",

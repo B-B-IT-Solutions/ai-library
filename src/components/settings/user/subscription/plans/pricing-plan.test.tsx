@@ -52,13 +52,15 @@ const assertCurrentBtnNotRendered = () => {
 };
 
 describe("PricingPlan rendering tests", () => {
-   it("PricingPlan - tier PRO - test", async () => {
+   it("tier PRO - test", async () => {
       const plan = dtestData.dSubscriptionPlan();
       plan.tier = "PRO";
       plan.features.maxPrompts = -1;
-      plan.features.maxLibraryItems = -1;
-      plan.features.canPurchaseItems = true;
-      plan.features.canExportPrompts = true;
+      plan.features.maxCollections = -1;
+      plan.features.maxPromptVariables = -1;
+      plan.features.maxGlobalPromptVariables = -1;
+      plan.features.canAccessPromptTemplatingEditor = true;
+      plan.features.canShareCollections = true;
       plan.features.canUseAdvancedFeatures = true;
 
       const { container } = render(
@@ -76,10 +78,11 @@ describe("PricingPlan rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlan - tier BASIC - test", async () => {
+   it("tier BASIC - test", async () => {
       const plan = dtestData.dSubscriptionPlan();
       plan.tier = "BASIC";
-      plan.features.canAccessMarketplace = false;
+      plan.features.maxPromptVariables = -1;
+      plan.features.maxGlobalPromptVariables = 15;
 
       const { container } = render(
          <PricingPlan plan={plan} billingInterval="MONTHLY" isCurrent={false} />
@@ -96,9 +99,13 @@ describe("PricingPlan rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlan - tier FREE - current false - test", async () => {
+   it("tier FREE - current false - test", async () => {
       const plan = dtestData.dSubscriptionPlan();
       plan.tier = "FREE";
+      plan.features.maxPromptVariables = 5;
+      plan.features.canAccessPromptTemplatingEditor = false;
+      plan.features.canAccessDirectOpenInAiTool = false;
+      plan.features.canExportPrompts = false;
 
       const { container } = render(
          <PricingPlan plan={plan} billingInterval="MONTHLY" isCurrent={false} />
@@ -115,7 +122,7 @@ describe("PricingPlan rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlan - tier FREE - current true - test", async () => {
+   it("tier FREE - current true - test", async () => {
       const plan = dtestData.dSubscriptionPlan();
       plan.tier = "FREE";
 

@@ -4,18 +4,21 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
    {
       tier: "FREE",
       name: "Free",
-      description: "Get started with basic features",
+      description: "Beginnen Sie mit den Grundfunktionen",
       monthlyPrice: 0,
       yearlyPrice: 0,
       stripePriceIdMonthly: null,
       stripePriceIdYearly: null,
       stripeProductId: null,
       features: {
-         maxPrompts: 5,
-         maxLibraryItems: 3,
-         canAccessMarketplace: true,
-         canPurchaseItems: false,
-         canExportPrompts: false,
+         maxPrompts: 20,
+         maxCollections: 3,
+         maxPromptVariables: -1,
+         maxGlobalPromptVariables: 5,
+         canAccessPromptTemplatingEditor: true,
+         canAccessDirectOpenInAiTool: true,
+         canExportPrompts: true,
+         canShareCollections: false,
          canUseAdvancedFeatures: false,
       },
       isActive: true,
@@ -23,9 +26,9 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
    {
       tier: "BASIC",
       name: "Basic",
-      description: "Perfect for individuals and small teams",
-      monthlyPrice: 9.9,
-      yearlyPrice: 99.0,
+      description: "Ideal für erfahrene Anwender",
+      monthlyPrice: 4.99,
+      yearlyPrice: 49.99,
       // stripePriceIdMonthly: null, // To be updated with actual Stripe price ID
       // stripePriceIdYearly: null, // To be updated with actual Stripe price ID
       // stripeProductId: null, // To be updated with actual Stripe product ID
@@ -33,11 +36,14 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       stripePriceIdYearly: "price_1Q7cVWGzyOS6MDj9LkUscmlZ",
       stripeProductId: "prod_Qzbijhak3aLOfT",
       features: {
-         maxPrompts: 50,
-         maxLibraryItems: 20,
-         canAccessMarketplace: true,
-         canPurchaseItems: true,
+         maxPrompts: 100,
+         maxCollections: 25,
+         maxPromptVariables: -1,
+         maxGlobalPromptVariables: -1,
+         canAccessPromptTemplatingEditor: true,
+         canAccessDirectOpenInAiTool: true,
          canExportPrompts: true,
+         canShareCollections: false,
          canUseAdvancedFeatures: false,
       },
       isActive: true,
@@ -45,9 +51,9 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
    {
       tier: "PRO",
       name: "Pro",
-      description: "Unlimited access for power users",
-      monthlyPrice: 19.9,
-      yearlyPrice: 199.0,
+      description: "Unbegrenzter Zugriff für Power-User",
+      monthlyPrice: 6.99,
+      yearlyPrice: 69.99,
       // stripePriceIdMonthly: null, // To be updated with actual Stripe price ID
       // stripePriceIdYearly: null, // To be updated with actual Stripe price ID
       // stripeProductId: null, // To be updated with actual Stripe product ID
@@ -56,10 +62,13 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       stripeProductId: "prod_TqsX0nvnnyROov",
       features: {
          maxPrompts: -1, // unlimited
-         maxLibraryItems: -1, // unlimited
-         canAccessMarketplace: true,
-         canPurchaseItems: true,
+         maxCollections: -1, // unlimited
+         maxPromptVariables: -1,
+         maxGlobalPromptVariables: -1,
+         canAccessPromptTemplatingEditor: true,
+         canAccessDirectOpenInAiTool: true,
          canExportPrompts: true,
+         canShareCollections: true,
          canUseAdvancedFeatures: true,
       },
       isActive: true,

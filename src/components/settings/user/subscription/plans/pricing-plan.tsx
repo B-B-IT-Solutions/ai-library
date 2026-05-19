@@ -61,41 +61,57 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
       );
    };
 
-   const featurePrompts = () => {
+   const featureMaxPrompts = () => {
       if (plan.features.maxPrompts === -1) {
          return feature("Unbegrenzte Prompts");
       }
       return feature(`Bis zu ${plan.features.maxPrompts} Prompts`);
    };
 
-   const featureMaxLibraryItems = () => {
-      if (plan.features.maxLibraryItems === -1) {
-         return feature("Unbegrenzte Bibliotheks-Einträge");
+   const featureMaxCollections = () => {
+      if (plan.features.maxCollections === -1) {
+         return feature("Unbegrenzte Sammlungen");
+      }
+      return feature(`Bis zu ${plan.features.maxCollections} Sammlungen`);
+   };
+
+   const featureMaxPromptVariables = () => {
+      if (plan.features.maxPromptVariables === -1) {
+         return feature("Unbegrenzte Prompt-Platzhalter");
       }
       return feature(
-         `Bis zu ${plan.features.maxLibraryItems} Bibliotheks-Einträge`
+         `Bis zu ${plan.features.maxCollections} Prompt-Platzhalter`
       );
    };
 
-   const featureMarketplaceAccess = () => {
-      if (plan.features.canAccessMarketplace) {
-         return feature("Zugang zum Marktplatz");
+   const featureMaxGlobalPromptVariables = () => {
+      if (plan.features.maxGlobalPromptVariables === -1) {
+         return feature("Unbegrenzte globale Prompt-Platzhalter");
+      }
+      return feature(
+         `Bis zu ${plan.features.maxGlobalPromptVariables} globalen Prompt-Platzhalter`
+      );
+   };
+
+   const featureCanAccessDirectOpenInAiTool = () => {
+      if (plan.features.canAccessDirectOpenInAiTool) {
+         return feature("Direktstart im KI-Tool");
       }
    };
 
-   const featureItemsPurchase = () => {
-      if (plan.features.canPurchaseItems) {
-         return feature("Premium-Inhalte kaufen");
+   const featureCanExportPrompts = () => {
+      if (plan.features.canAccessPromptTemplatingEditor) {
+         return feature("Exportieren von Prompts");
       }
    };
 
-   const featureExportPrompts = () => {
-      if (plan.features.canExportPrompts) {
-         return feature("Prompts exportieren");
+   const featureCanShareCollections = () => {
+      if (plan.features.canShareCollections) {
+         return feature("Teilen von Sammlungen");
       }
    };
 
-   const featuredvancedFeatures = () => {
+   const featureAdvancedFeatures = () => {
       if (plan.features.canUseAdvancedFeatures) {
          return feature("Erweiterte Funktionen");
       }
@@ -104,12 +120,14 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
    const features = () => {
       return (
          <ul className="space-y-3" data-testid="features">
-            {featurePrompts()}
-            {featureMaxLibraryItems()}
-            {featureMarketplaceAccess()}
-            {featureItemsPurchase()}
-            {featureExportPrompts()}
-            {featuredvancedFeatures()}
+            {featureMaxPrompts()}
+            {featureMaxCollections()}
+            {featureMaxPromptVariables()}
+            {featureMaxGlobalPromptVariables()}
+            {featureCanAccessDirectOpenInAiTool()}
+            {featureCanExportPrompts()}
+            {featureCanShareCollections()}
+            {featureAdvancedFeatures()}
          </ul>
       );
    };

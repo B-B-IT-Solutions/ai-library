@@ -47,6 +47,8 @@ export const authConfig: NextAuthConfig = {
          const protectedPaths = [
             /\/prompts/,
             /\/collections/,
+            /\/settings/,
+            /\/subscription/,
             /^\/marketplace/,
             /\/products\/(.*)/,
             /^\/templates/,
@@ -54,7 +56,6 @@ export const authConfig: NextAuthConfig = {
             /\/orders\/(.*)/,
             /\/profile/,
             /\/user\/(.*)/,
-            /\/settings/,
             /\/admin/,
          ];
 
