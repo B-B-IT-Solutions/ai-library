@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`NewTemplatePage rendering tests collectionId provided - rendered test 1`] = `
+exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
 <div>
   <div
     class="flex h-screen flex-col bg-slate-50"
-    data-testid="new-template-page"
+    data-testid="new-prompt-page"
   >
     <div
       class="flex h-full flex-col bg-slate-50"
@@ -16,12 +16,12 @@ exports[`NewTemplatePage rendering tests collectionId provided - rendered test 1
         <h1
           class="text-2xl font-bold text-slate-900"
         >
-          Neue Vorlage Erstellen
+          Neuen Prompt Erstellen
         </h1>
         <p
           class="mt-0.5 text-sm text-slate-600"
         >
-          Erstellen Sie eine neue Vorlage
+          Erstellen Sie einen neuen Prompt
         </p>
       </div>
       <div
@@ -1011,7 +1011,7 @@ exports[`NewTemplatePage rendering tests collectionId provided - rendered test 1
                 >
                   <a
                     data-testid="mock-link"
-                    href="/collections/test-collection-id"
+                    href="/collections/collection-id-1"
                   >
                     <button
                       class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
@@ -1064,11 +1064,11 @@ exports[`NewTemplatePage rendering tests collectionId provided - rendered test 1
 </div>
 `;
 
-exports[`NewTemplatePage rendering tests no collectionId - rendered test 1`] = `
+exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
 <div>
   <div
     class="flex h-screen flex-col bg-slate-50"
-    data-testid="new-template-page"
+    data-testid="new-prompt-page"
   >
     <div
       class="flex h-full flex-col bg-slate-50"
@@ -1080,12 +1080,12 @@ exports[`NewTemplatePage rendering tests no collectionId - rendered test 1`] = `
         <h1
           class="text-2xl font-bold text-slate-900"
         >
-          Neue Vorlage Erstellen
+          Neuen Prompt Erstellen
         </h1>
         <p
           class="mt-0.5 text-sm text-slate-600"
         >
-          Erstellen Sie eine neue Vorlage
+          Erstellen Sie einen neuen Prompt
         </p>
       </div>
       <div

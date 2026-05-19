@@ -40,15 +40,15 @@ import {
 type Props = {
    descriptor?: DPrompt;
    template?: DPromptWithContent;
-   globalFields: DGlobalPromptField[];
    collectionId?: string;
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({
    descriptor,
    template,
-   globalFields,
    collectionId,
+   globalFields,
 }: Props) => {
    const router = useRouter();
    const isEdit = !!descriptor;

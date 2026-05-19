@@ -20,12 +20,12 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
         <h1
           class="text-2xl font-bold text-slate-900"
         >
-          Vorlage Bearbeiten
+          Prompt Bearbeiten
         </h1>
         <p
           class="mt-0.5 text-sm text-slate-600"
         >
-          Bearbeiten Sie die Vorlage
+          Bearbeiten Sie den Prompt
         </p>
       </div>
       <div

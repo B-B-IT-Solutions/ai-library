@@ -14,23 +14,21 @@ import { TemplateEditForm } from "./template-edit-form";
 type Props = {
    descriptor?: DPrompt;
    template?: DPromptWithContent;
-   globalFields: DGlobalPromptField[];
    collectionId?: string;
+   globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEdit = ({
    descriptor,
    template,
-   globalFields,
    collectionId,
+   globalFields,
 }: Props) => {
    const header = () => {
-      const title = descriptor
-         ? "Vorlage Bearbeiten"
-         : "Neue Vorlage Erstellen";
+      const title = descriptor ? "Prompt Bearbeiten" : "Neuen Prompt Erstellen";
       const text = descriptor
-         ? "Bearbeiten Sie die Vorlage"
-         : "Erstellen Sie eine neue Vorlage";
+         ? "Bearbeiten Sie den Prompt"
+         : "Erstellen Sie einen neuen Prompt";
 
       return (
          <>
@@ -64,8 +62,8 @@ export const TemplateEdit = ({
                <TemplateEditForm
                   descriptor={descriptor}
                   template={template}
-                  globalFields={globalFields}
                   collectionId={collectionId}
+                  globalFields={globalFields}
                />
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>

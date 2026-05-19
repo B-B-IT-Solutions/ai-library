@@ -4,10 +4,10 @@ import { TemplateEdit } from "@/components/prompts";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
-   title: "Neue Vorlage",
+   title: "Neuer Prompt",
 };
 
-type PageSearchParams = {
+export type PageSearchParams = {
    collectionId?: string;
 };
 
@@ -15,21 +15,21 @@ export type PageProps = {
    searchParams: Promise<PageSearchParams>;
 };
 
-export const NewTemplatePage = async ({ searchParams }: PageProps) => {
+export const NewPromptPage = async ({ searchParams }: PageProps) => {
    const { collectionId } = await searchParams;
    const globalFields = await getGlobalPromptFields();
 
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="new-template-page"
+         data-testid="new-prompt-page"
       >
          <TemplateEdit
-            globalFields={globalFields}
             collectionId={collectionId}
+            globalFields={globalFields}
          />
       </div>
    );
 };
 
-export default NewTemplatePage;
+export default NewPromptPage;
