@@ -76,7 +76,7 @@ export const UseTemplateDialog = ({
                </button>
             </DialogClose>
             <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
-               <DialogTitle>{dialogTitle()}</DialogTitle>
+               <DialogTitle>{prompt.title}</DialogTitle>
                <p className="text-sm font-semibold text-muted-foreground">
                   {prompt.title}
                </p>
