@@ -25,7 +25,7 @@ export const CreateTemplateButton = ({
                size={size}
                className="cursor-pointer gap-2"
                onClick={() => setDialogOpen(true)}
-               data-testid="create-template-btn"
+               data-testid="create-prompt-btn"
             >
                <Plus className="h-4 w-4" />
                Neue Vorlage
@@ -44,7 +44,7 @@ export const CreateTemplateButton = ({
          asChild={true}
          size={size}
          className="cursor-pointer gap-2"
-         data-testid="create-template-btn"
+         data-testid="create-prompt-btn"
       >
          <Link href="/templates/new">
             <Plus className="h-4 w-4" />
