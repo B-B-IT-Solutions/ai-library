@@ -21,7 +21,7 @@ const assertRendered = () => {
 };
 
 describe("PricingPlans rendering tests", () => {
-   it("PricingPlans - currentSubscription null - test", async () => {
+   it("currentSubscription null - test", async () => {
       const plans = dtestData.dSubscriptionPlans();
 
       const { container } = render(
@@ -35,7 +35,7 @@ describe("PricingPlans rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlans - currentSubscription defined - test", async () => {
+   it("currentSubscription defined - test", async () => {
       const plans = dtestData.dSubscriptionPlans();
       const subscription = dtestData.dSubscription();
       subscription.plan = plans[1];
@@ -53,7 +53,7 @@ describe("PricingPlans rendering tests", () => {
 });
 
 describe("PricingPlans functionality tests", () => {
-   it("PricingPlans - interval switching - test", async () => {
+   it("interval switching - test", async () => {
       const plans = dtestData.dSubscriptionPlans();
       render(<PricingPlans plans={plans} currentSubscription={null} />);
 

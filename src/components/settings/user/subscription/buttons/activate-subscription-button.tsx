@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -9,15 +9,17 @@ import { Button } from "@/components/shadcn/button";
 import { createSubscriptionCheckoutSession } from "@/data/actions/stripe";
 import { DBillingInterval } from "@/data/types/domain/subscription";
 
-type ActivateSubscriptionButtonProps = {
+type Props = {
    planId: string;
    billingInterval: DBillingInterval;
    isPopular: boolean;
 };
 
-export const ActivateSubscriptionButton: FC<
-   ActivateSubscriptionButtonProps
-> = ({ planId, billingInterval, isPopular }) => {
+export const ActivateSubscriptionButton = ({
+   planId,
+   billingInterval,
+   isPopular,
+}: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
@@ -41,11 +43,11 @@ export const ActivateSubscriptionButton: FC<
          return (
             <>
                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Loading...
+               Lädt...
             </>
          );
       }
-      return "Subscribe";
+      return "Abonnieren";
    };
 
    return (
@@ -53,7 +55,7 @@ export const ActivateSubscriptionButton: FC<
          variant={isPopular ? "default" : "outline"}
          onClick={handleSubscribe}
          disabled={isPending}
-         className="w-full"
+         className="w-full cursor-pointer"
          data-testid="activate-subscription-btn"
       >
          {btnIcon()}

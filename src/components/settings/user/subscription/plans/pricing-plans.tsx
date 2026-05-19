@@ -9,6 +9,7 @@ import {
    DSubscription,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
+import { cn } from "@/lib/utils";
 
 import { PricingPlan } from "./pricing-plan";
 
@@ -35,32 +36,42 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
       const isYearly = interval === "YEARLY";
 
       return (
-         <div className="inline-flex rounded-lg border p-1">
+         <div className="inline-flex items-center rounded-full border bg-background p-1 shadow-sm">
             <button
                onClick={() => setInterval("MONTHLY")}
-               className={`rounded-md px-4 py-2 transition-colors ${
+               className={cn(
+                  "rounded-full px-5 py-2 text-sm font-medium transition-all",
                   isMonthly
-                     ? "bg-primary text-primary-foreground"
-                     : "hover:bg-muted"
-               }`}
+                     ? "bg-primary text-primary-foreground shadow-sm"
+                     : "text-muted-foreground hover:text-foreground"
+               )}
                data-active={isMonthly}
                data-testid="monthly-btn"
             >
-               Monthly
+               Monatlich
             </button>
             <button
                onClick={() => setInterval("YEARLY")}
-               className={`rounded-md px-4 py-2 transition-colors ${
+               className={cn(
+                  "flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all",
                   isYearly
-                     ? "bg-primary text-primary-foreground"
-                     : "hover:bg-muted"
-               }`}
+                     ? "bg-primary text-primary-foreground shadow-sm"
+                     : "text-muted-foreground hover:text-foreground"
+               )}
                data-active={isYearly}
                data-testid="yearly-btn"
             >
-               Yearly
-               <Badge variant="secondary" className="ml-2">
-                  Save 17%
+               Jährlich
+               <Badge
+                  variant="secondary"
+                  className={cn(
+                     "px-2 py-0.5 text-xs",
+                     isYearly
+                        ? "border-transparent bg-white/20 text-white"
+                        : "border-transparent bg-green-100 text-green-700"
+                  )}
+               >
+                  Spare 17%
                </Badge>
             </button>
          </div>

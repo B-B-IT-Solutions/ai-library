@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Star } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -14,6 +14,7 @@ import {
    DBillingInterval,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
+import { cn } from "@/lib/utils";
 import { ActivateSubscriptionButton } from "../buttons";
 
 type Props = {
@@ -22,11 +23,7 @@ type Props = {
    isCurrent: boolean;
 };
 
-export const PricingPlan = ({
-   plan,
-   billingInterval,
-   isCurrent,
-}: Props) => {
+export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
    const getPrice = () => {
       const { monthlyPrice, yearlyPrice } = plan;
       return billingInterval === "MONTHLY" ? monthlyPrice : yearlyPrice;
@@ -40,10 +37,11 @@ export const PricingPlan = ({
       if (isPopular) {
          return (
             <Badge
-               className="absolute -top-3 left-1/2 -translate-x-1/2"
+               className="absolute -top-3.5 left-1/2 -translate-x-1/2 gap-1.5 px-3 py-1"
                data-testid="popular-badge"
             >
-               Most Popular
+               <Star className="h-3 w-3 fill-current" />
+               Beliebtester
             </Badge>
          );
       }
@@ -51,9 +49,14 @@ export const PricingPlan = ({
 
    const feature = (label: string) => {
       return (
-         <li className="flex items-start" data-testid="feature">
-            <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-            <span>{label}</span>
+         <li className="flex items-center gap-2.5" data-testid="feature">
+            <Check
+               className={cn(
+                  "h-4 w-4 shrink-0",
+                  isPopular ? "text-primary" : "text-muted-foreground"
+               )}
+            />
+            <span className="text-sm">{label}</span>
          </li>
       );
    };
@@ -76,13 +79,13 @@ export const PricingPlan = ({
 
    const featureMarketplaceAccess = () => {
       if (plan.features.canAccessMarketplace) {
-         return feature("Access to marketplace");
+         return feature("Zugang zum Marktplatz");
       }
    };
 
    const featureItemsPurchase = () => {
       if (plan.features.canPurchaseItems) {
-         return feature("Purchase premium items");
+         return feature("Premium-Inhalte kaufen");
       }
    };
 
@@ -115,12 +118,12 @@ export const PricingPlan = ({
       if (isFree) {
          return (
             <Button
-               variant={isCurrent ? "outline" : "default"}
+               variant={isCurrent ? "outline" : "secondary"}
                disabled={true}
                className="w-full"
                data-testid="free-btn"
             >
-               {isCurrent ? "Current Plan" : "Free"}
+               {isCurrent ? "Aktueller Plan" : "Kostenlos"}
             </Button>
          );
       }
@@ -133,7 +136,7 @@ export const PricingPlan = ({
                className="w-full"
                data-testid="current-btn"
             >
-               Current Plan
+               Aktueller Plan
             </Button>
          );
       }
@@ -149,25 +152,35 @@ export const PricingPlan = ({
 
    return (
       <Card
-         className={`relative ${isPopular ? "border-primary shadow-lg" : ""}`}
+         className={cn(
+            "relative flex flex-col",
+            isPopular ? "shadow-xl ring-2 ring-primary" : "shadow-sm"
+         )}
          data-testid="pricing-plan"
       >
          {popularBadge()}
 
-         <CardHeader>
+         <CardHeader className="pb-4">
             <CardTitle className="text-2xl">{plan.name}</CardTitle>
             <CardDescription>{plan.description}</CardDescription>
          </CardHeader>
 
-         <CardContent>
-            <div className="mb-6">
-               <span className="text-4xl font-bold">
-                  CHF {price.toFixed(2)}
-               </span>
-               {!isFree && (
-                  <span className="text-muted-foreground">
-                     /{billingInterval === "MONTHLY" ? "month" : "year"}
+         <CardContent className="flex flex-1 flex-col gap-6">
+            <div>
+               <div className="flex items-baseline gap-1.5">
+                  <span className="text-4xl font-bold">
+                     CHF {price.toFixed(2)}
                   </span>
+                  {!isFree && (
+                     <span className="text-sm text-muted-foreground">
+                        /{billingInterval === "MONTHLY" ? "Monat" : "Jahr"}
+                     </span>
+                  )}
+               </div>
+               {isFree && (
+                  <p className="mt-1 text-sm text-muted-foreground">
+                     Für immer kostenlos
+                  </p>
                )}
             </div>
             {features()}
