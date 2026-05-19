@@ -36,7 +36,11 @@ import { Action, ExternalToast, toast } from "sonner";
 
 import { addTemplateToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPrompt, DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPrompt,
+   DPromptUpdate,
+   DPromptUpdateCrate,
+} from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { TemplateEditForm } from "./template-edit-form";
@@ -343,7 +347,7 @@ describe("TemplateEditForm functionality tests", () => {
       });
    });
 
-   it("new entry - save btn clicked  - success - test", async () => {
+   it("new entry - save btn clicked - success - test", async () => {
       const result: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -368,7 +372,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const expectedPayload: DPromptUpdate = {
+      const expectedData: DPromptUpdate = {
          title: "Test Template",
          description: "Test Description",
          content: "Template Content {{task}}",
@@ -376,6 +380,10 @@ describe("TemplateEditForm functionality tests", () => {
          fields: [],
          globalFieldIds: [],
          recommendedModel: "Claude",
+      };
+
+      const expectedPayload: DPromptUpdateCrate = {
+         data: expectedData,
       };
 
       await waitFor(() => {
@@ -387,7 +395,7 @@ describe("TemplateEditForm functionality tests", () => {
       });
    });
 
-   it("existing entry - save btn clicked  - success - test", async () => {
+   it("existing entry - save btn clicked - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -449,8 +457,12 @@ describe("TemplateEditForm functionality tests", () => {
       };
       createPromptMock.mockResolvedValue(result);
 
+      const collectionId = "collection-id-1";
+
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} />);
+      render(
+         <TemplateEditForm globalFields={fields} collectionId={collectionId} />
+      );
 
       assertRendered();
 
@@ -461,7 +473,7 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPayload: DPromptUpdate = {
+      const expectedData: DPromptUpdate = {
          title: "Test Template",
          description: "Test Description",
          content: "Template Content {{task}}",
@@ -469,6 +481,11 @@ describe("TemplateEditForm functionality tests", () => {
          fields: [],
          globalFieldIds: [],
          recommendedModel: "Claude",
+      };
+
+      const expectedPayload: DPromptUpdateCrate = {
+         data: expectedData,
+         collectionId,
       };
 
       const expectedToastPayload = {
@@ -498,7 +515,7 @@ describe("TemplateEditForm functionality tests", () => {
       expect(mockRouter.asPath).toEqual("/subscription/pricing");
    });
 
-   it("new entry - save btn clicked  - failed - test", async () => {
+   it("new entry - save btn clicked - failed - test", async () => {
       const result: ActionResult<DPrompt> = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
@@ -506,7 +523,11 @@ describe("TemplateEditForm functionality tests", () => {
       createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} />);
+      const collectionId = "collection-id-123";
+
+      render(
+         <TemplateEditForm globalFields={fields} collectionId={collectionId} />
+      );
 
       assertRendered();
 
@@ -523,7 +544,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const expectedPayload: DPromptUpdate = {
+      const expectedData: DPromptUpdate = {
          title: "Test Template",
          description: "Test Description",
          content: "Template Content {{task}}",
@@ -531,6 +552,11 @@ describe("TemplateEditForm functionality tests", () => {
          fields: [],
          globalFieldIds: [],
          recommendedModel: "Claude",
+      };
+
+      const expectedPayload: DPromptUpdateCrate = {
+         data: expectedData,
+         collectionId,
       };
 
       await waitFor(() => {
