@@ -11,7 +11,6 @@ export const toDUserInternal = (pUser: User): DUserInternal => {
       stripeCustomerId: pUser.stripeCustomerId,
       emailVerified: pUser.emailVerified,
       trialEndsAt: pUser.trialEndsAt,
-      planChosenAt: pUser.planChosenAt,
       updatedAt: pUser.updatedAt.toISOString(),
       createdAt: pUser.createdAt.toISOString(),
    };

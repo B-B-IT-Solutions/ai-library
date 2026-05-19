@@ -77,7 +77,6 @@ export const pUser = (index = 1): User => {
       legalNoticesAcceptedAt: new Date("2025-09-27"),
       iubendaLegalNoticesSynced: true,
       trialEndsAt: addDays(new Date("2025-09-27"), 14),
-      planChosenAt: addDays(new Date("2025-09-27"), 11),
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };

@@ -112,7 +112,6 @@ export const dUserInternal = (index = 1): DUserInternal => {
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
       emailVerified: new Date("2025-09-27"),
       trialEndsAt: addDays(new Date("2025-09-27"), 14),
-      planChosenAt: addDays(new Date("2025-09-27"), 11),
    };
 };
 

@@ -112,13 +112,6 @@ export class UserService {
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
-   async updatePlanChosenAt(userId: string, planChosenAt: Date) {
-      const updateData: UserUpdateData = {
-         planChosenAt,
-      };
-      await this.userRepository.pUpdateUser(userId, updateData);
-   }
-
    async updateUserStripeCustomerId(userId: string, stripeCustomerId: string) {
       const updateData: UserUpdateData = {
          stripeCustomerId,

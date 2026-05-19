@@ -1,15 +1,8 @@
-jest.mock("@/components/subscription/buttons/choose-free-plan-button", () => ({
-   ChooseFreePlanButton: () => (
-      <button data-testid="choose-free-plan-btn">Kostenlos starten</button>
-   ),
-}));
-
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
-   assertNotInDocument,
    dtestData,
 } from "@tests";
 
@@ -58,39 +51,6 @@ describe("PricingPlans rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlans - currentSubscription null - FREE plan - ChooseFreePlanButton shown - test", async () => {
-      const plans = dtestData.dSubscriptionPlans();
-      plans[0].tier = "FREE";
-
-      const { container } = render(
-         <PricingPlans plans={plans} currentSubscription={null} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertInDocument(screen.getByTestId("choose-free-plan-btn"));
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("PricingPlans - currentSubscription defined - FREE plan - no ChooseFreePlanButton - test", async () => {
-      const plans = dtestData.dSubscriptionPlans();
-      plans[0].tier = "FREE";
-      const subscription = dtestData.dSubscription();
-      subscription.plan = plans[1];
-
-      const { container } = render(
-         <PricingPlans plans={plans} currentSubscription={subscription} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertNotInDocument(screen.queryByTestId("choose-free-plan-btn"));
-      });
-
-      expect(container).toMatchSnapshot();
-   });
 });
 
 describe("PricingPlans functionality tests", () => {

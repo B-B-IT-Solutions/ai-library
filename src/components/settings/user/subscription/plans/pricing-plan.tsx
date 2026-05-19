@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -21,14 +20,12 @@ type Props = {
    plan: DSubscriptionPlan;
    billingInterval: DBillingInterval;
    isCurrent: boolean;
-   freeAction?: ReactNode;
 };
 
 export const PricingPlan = ({
    plan,
    billingInterval,
    isCurrent,
-   freeAction,
 }: Props) => {
    const getPrice = () => {
       const { monthlyPrice, yearlyPrice } = plan;
@@ -116,9 +113,6 @@ export const PricingPlan = ({
 
    const footerBtn = () => {
       if (isFree) {
-         if (!isCurrent && freeAction) {
-            return <>{freeAction}</>;
-         }
          return (
             <Button
                variant={isCurrent ? "outline" : "default"}
@@ -126,7 +120,7 @@ export const PricingPlan = ({
                className="w-full"
                data-testid="free-btn"
             >
-               {isCurrent ? "Current Plan" : "Kostenlos starten"}
+               {isCurrent ? "Current Plan" : "Free"}
             </Button>
          );
       }

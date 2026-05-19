@@ -1,16 +1,11 @@
 import { ReactNode } from "react";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { Sidebar } from "@/components/shared";
-import { TrialBanner, TrialExpiredGate } from "@/components/subscription";
+import { TrialBanner } from "@/components/subscription";
 import { requireUser } from "@/data/actions/auth-utils";
-import {
-   getHasActiveAccess,
-   getTrialStatus,
-} from "@/data/actions/subscription";
-
-import { isPaywallExempt } from "./utils";
+import { getTrialStatus } from "@/data/actions/subscription";
 
 export type Props = {
    children: ReactNode;
@@ -21,19 +16,9 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
 
    const user = await requireUser();
    const cookieStore = await cookies();
-   const headersList = await headers();
 
    const sidebarCookie = cookieStore.get("sidebar_state");
    const defaultOpen = !sidebarCookie || sidebarCookie.value === "true";
-
-   const pathname = headersList.get("x-pathname") ?? "";
-
-   if (!isPaywallExempt(pathname)) {
-      const hasAccess = await getHasActiveAccess();
-      if (!hasAccess) {
-         return <TrialExpiredGate />;
-      }
-   }
 
    const trialStatus = await getTrialStatus();
 

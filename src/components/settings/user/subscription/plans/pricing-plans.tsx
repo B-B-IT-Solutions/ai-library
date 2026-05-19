@@ -10,7 +10,6 @@ import {
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
 
-import { ChooseFreePlanButton } from "./buttons/choose-free-plan-button";
 import { PricingPlan } from "./pricing-plan";
 
 type Props = {
@@ -19,13 +18,6 @@ type Props = {
 };
 
 export const PricingPlans = ({ plans, currentSubscription }: Props) => {
-   // No paid subscription → user is on trial or FREE.
-   // Allow explicit FREE selection (sets planChosenAt, closes the trial gate).
-   // Users with a paid subscription who want FREE must cancel via Settings.
-   const freeAction = !currentSubscription ? (
-      <ChooseFreePlanButton />
-   ) : undefined;
-
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
    const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
@@ -83,7 +75,6 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
                plan={plan}
                billingInterval={interval}
                isCurrent={isCurrent(plan.tier)}
-               freeAction={freeAction}
             />
          );
       });

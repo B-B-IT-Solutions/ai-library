@@ -32,7 +32,6 @@ export type DUserInternal = DUser & {
    stripeCustomerId: string | null;
    emailVerified: Date | null;
    trialEndsAt: Date | null;
-   planChosenAt: Date | null;
 };
 
 export type DUserCreate = {

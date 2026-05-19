@@ -134,33 +134,4 @@ describe("PricingPlan rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PricingPlan - tier FREE - current false - freeAction provided - test", async () => {
-      const plan = dtestData.dSubscriptionPlan();
-      plan.tier = "FREE";
-
-      const { container } = render(
-         <PricingPlan
-            plan={plan}
-            billingInterval="MONTHLY"
-            isCurrent={false}
-            freeAction={
-               <button data-testid="custom-free-action">
-                  Kostenlos starten
-               </button>
-            }
-         />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertFreeBtnNotRendered();
-         assertPopularBadgeNotRendered();
-         assertCurrentBtnNotRendered();
-         assertActivateBtnNotRendered();
-         const customAction = screen.getByTestId("custom-free-action");
-         expect(customAction).toBeInTheDocument();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
 });
