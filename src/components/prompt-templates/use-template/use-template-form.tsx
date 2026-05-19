@@ -79,7 +79,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
    const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {};
 
    const footer = () => (
-      <div className="flex shrink-0 items-center justify-end gap-2 border-t bg-background px-6 py-4">
+      <div className="flex shrink-0 items-center justify-end gap-2 bg-background px-6 py-4">
          <DropdownMenu>
             <DropdownMenuTrigger asChild={true}>
                <Button
@@ -135,7 +135,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             data-testid="use-template-form"
          >
             <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 pt-4 lg:min-h-[40vh] lg:grid-cols-2">
-               <div className="flex min-h-0 flex-col gap-2 lg:pr-4">
+               <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
                   <p className="text-xs font-medium text-muted-foreground">
                      Vorschau
                   </p>
@@ -145,9 +145,9 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                      resolvedContent={resolvedContent}
                   />
                </div>
-               <div className="flex min-h-0 flex-col gap-2 lg:border-l lg:pl-4">
+               <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
                   <p className="text-xs font-medium text-muted-foreground">
-                     Felder ausfüllen
+                     Platzhalter ausfüllen
                   </p>
                   <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
                      <TemplateFieldsForm
