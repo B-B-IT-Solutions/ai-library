@@ -9,7 +9,7 @@ exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] =
     role="status"
   >
     <div
-      class="flex items-center gap-2"
+      class="flex items-center gap-2.5"
     >
       <svg
         aria-hidden="true"
@@ -34,14 +34,21 @@ exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] =
         />
       </svg>
       <span>
-        Dein Trial endet heute – danach gelten die Free-Tier Limits.
+        Dein Trial endet
+         
+        <strong
+          class="font-semibold"
+        >
+          heute
+        </strong>
+         – danach gelten die Free-Tier Limits.
       </span>
     </div>
     <div
-      class="flex shrink-0 items-center gap-3"
+      class="flex shrink-0 items-center gap-2"
     >
       <a
-        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-orange-600 text-white hover:bg-orange-700"
+        class="rounded-full px-4 py-1 text-xs font-semibold text-white transition-colors bg-orange-600 hover:bg-orange-700"
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
@@ -49,7 +56,7 @@ exports[`TrialBanner rendering tests daysleft 0 - dissmissed false - test  1`] =
       </a>
       <button
         aria-label="Banner schließen"
-        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        class="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
         data-testid="dismiss-btn"
       >
         <svg
@@ -87,7 +94,7 @@ exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] =
     role="status"
   >
     <div
-      class="flex items-center gap-2"
+      class="flex items-center gap-2.5"
     >
       <svg
         aria-hidden="true"
@@ -112,14 +119,24 @@ exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] =
         />
       </svg>
       <span>
-        Noch 1 Tag Trial – danach gelten die Free-Tier Limits.
+        Noch
+         
+        <strong
+          class="font-semibold"
+        >
+          1
+           
+          Tag
+        </strong>
+         
+        Trial – danach gelten die Free-Tier Limits.
       </span>
     </div>
     <div
-      class="flex shrink-0 items-center gap-3"
+      class="flex shrink-0 items-center gap-2"
     >
       <a
-        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-orange-600 text-white hover:bg-orange-700"
+        class="rounded-full px-4 py-1 text-xs font-semibold text-white transition-colors bg-orange-600 hover:bg-orange-700"
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
@@ -127,7 +144,7 @@ exports[`TrialBanner rendering tests daysleft 1 - dissmissed false - test  1`] =
       </a>
       <button
         aria-label="Banner schließen"
-        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        class="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
         data-testid="dismiss-btn"
       >
         <svg
@@ -165,7 +182,7 @@ exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] =
     role="status"
   >
     <div
-      class="flex items-center gap-2"
+      class="flex items-center gap-2.5"
     >
       <svg
         aria-hidden="true"
@@ -190,14 +207,24 @@ exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] =
         />
       </svg>
       <span>
-        Noch 7 Tage Trial – danach gelten die Free-Tier Limits.
+        Noch
+         
+        <strong
+          class="font-semibold"
+        >
+          7
+           
+          Tage
+        </strong>
+         
+        Trial – danach gelten die Free-Tier Limits.
       </span>
     </div>
     <div
-      class="flex shrink-0 items-center gap-3"
+      class="flex shrink-0 items-center gap-2"
     >
       <a
-        class="rounded px-3 py-1 text-xs font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700"
+        class="rounded-full px-4 py-1 text-xs font-semibold text-white transition-colors bg-blue-600 hover:bg-blue-700"
         data-testid="subcription-link"
         href="/subscription/pricing"
       >
@@ -205,7 +232,7 @@ exports[`TrialBanner rendering tests daysleft 7 - dissmissed false - test  1`] =
       </a>
       <button
         aria-label="Banner schließen"
-        class="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+        class="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
         data-testid="dismiss-btn"
       >
         <svg

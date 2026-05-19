@@ -19,6 +19,23 @@ export const TrialBanner = ({ daysLeft }: Props) => {
 
    const isUrgent = daysLeft <= 3;
 
+   const message =
+      daysLeft === 0 ? (
+         <>
+            Dein Trial endet{" "}
+            <strong className="font-semibold">heute</strong> – danach gelten
+            die Free-Tier Limits.
+         </>
+      ) : (
+         <>
+            Noch{" "}
+            <strong className="font-semibold">
+               {daysLeft} {daysLeft === 1 ? "Tag" : "Tage"}
+            </strong>{" "}
+            Trial – danach gelten die Free-Tier Limits.
+         </>
+      );
+
    return (
       <div
          className={cn(
@@ -31,23 +48,19 @@ export const TrialBanner = ({ daysLeft }: Props) => {
          role="status"
          aria-live="polite"
       >
-         <div className="flex items-center gap-2">
+         <div className="flex items-center gap-2.5">
             <Clock className="h-4 w-4 shrink-0" />
-            <span>
-               {daysLeft === 0
-                  ? "Dein Trial endet heute – danach gelten die Free-Tier Limits."
-                  : `Noch ${daysLeft} ${daysLeft === 1 ? "Tag" : "Tage"} Trial – danach gelten die Free-Tier Limits.`}
-            </span>
+            <span>{message}</span>
          </div>
 
-         <div className="flex shrink-0 items-center gap-3">
+         <div className="flex shrink-0 items-center gap-2">
             <Link
                href="/subscription/pricing"
                className={cn(
-                  "rounded px-3 py-1 text-xs font-medium transition-colors",
+                  "rounded-full px-4 py-1 text-xs font-semibold text-white transition-colors",
                   isUrgent
-                     ? "bg-orange-600 text-white hover:bg-orange-700"
-                     : "bg-blue-600 text-white hover:bg-blue-700"
+                     ? "bg-orange-600 hover:bg-orange-700"
+                     : "bg-blue-600 hover:bg-blue-700"
                )}
                data-testid="subcription-link"
             >
@@ -57,7 +70,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
             <button
                onClick={() => setDismissed(true)}
                aria-label="Banner schließen"
-               className="rounded p-1 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+               className="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
                data-testid="dismiss-btn"
             >
                <X className="h-4 w-4" />
