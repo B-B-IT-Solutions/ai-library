@@ -15,7 +15,7 @@ const assertRendered = () => {
    assertInDocument(btn);
 };
 
-const assertHrefAttribute = (href: string) => {
+const assertBtnHrefAttribute = (href: string) => {
    const btn = screen.getByTestId("create-prompt-btn");
    assertHasAttributeWithValue(btn, "href", href);
 };
@@ -36,7 +36,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHrefAttribute("/templates/new");
+         assertBtnHrefAttribute("/templates/new");
       });
 
       expect(container).toMatchSnapshot();
@@ -47,7 +47,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHrefAttribute("/templates/new");
+         assertBtnHrefAttribute("/templates/new");
       });
 
       expect(container).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHrefAttribute("/templates/new?collectionId=collection-id-1");
+         assertBtnHrefAttribute("/templates/new?collectionId=collection-id-1");
       });
 
       expect(container).toMatchSnapshot();
