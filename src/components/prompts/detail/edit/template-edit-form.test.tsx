@@ -1,3 +1,4 @@
+jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
@@ -33,6 +34,7 @@ import {
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
+import { addTemplateToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -48,6 +50,10 @@ const createTemplateDescriptorMock = createPrompt as jest.MockedFunction<
 const updatePromptMock = updatePrompt as jest.MockedFunction<
    typeof updatePrompt
 >;
+const addTemplateToCollectionMock =
+   addTemplateToCollection as jest.MockedFunction<
+      typeof addTemplateToCollection
+   >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
@@ -341,6 +347,7 @@ describe("TemplateEditForm functionality tests", () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
+         data: dtestData.dPrompt(),
       };
       createTemplateDescriptorMock.mockResolvedValue(result);
 
@@ -591,6 +598,85 @@ describe("TemplateEditForm functionality tests", () => {
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");
+      });
+   });
+
+   it("new entry - collectionId - save btn clicked - collection add success - test", async () => {
+      const newPrompt = dtestData.dPrompt();
+      const createResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+         data: newPrompt,
+      };
+      createTemplateDescriptorMock.mockResolvedValue(createResult);
+
+      const collectionResult: ActionResult = {
+         success: true,
+         message: "Vorlage hinzugefügt",
+      };
+      addTemplateToCollectionMock.mockResolvedValue(collectionResult);
+
+      const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} collectionId={collectionId} />);
+
+      assertRendered();
+
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      await waitFor(() => {
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(addTemplateToCollectionMock).toHaveBeenCalledTimes(1);
+         expect(addTemplateToCollectionMock).toHaveBeenCalledWith(
+            collectionId,
+            newPrompt.id
+         );
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
+         expect(mockRouter.pathname).toEqual(`/collections/${collectionId}`);
+      });
+   });
+
+   it("new entry - collectionId - save btn clicked - collection add failed - test", async () => {
+      const newPrompt = dtestData.dPrompt();
+      const createResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+         data: newPrompt,
+      };
+      createTemplateDescriptorMock.mockResolvedValue(createResult);
+
+      const collectionResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
+      addTemplateToCollectionMock.mockResolvedValue(collectionResult);
+
+      const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} collectionId={collectionId} />);
+
+      assertRendered();
+
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      await waitFor(() => {
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(addTemplateToCollectionMock).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(collectionResult.message);
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 });

@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
-import { metadata, NewTemplatePage } from "./page";
+import { metadata, NewTemplatePage, PageProps } from "./page";
 
 const getGlobalPromptFieldsMock =
    getGlobalPromptFields as jest.MockedFunction<
@@ -26,11 +26,32 @@ const assertRendered = () => {
 };
 
 describe("NewTemplatePage rendering tests", () => {
-   it("rendered test", async () => {
+   it("no collectionId - rendered test", async () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
-      const { container } = await renderAsyncRSC(NewTemplatePage, {});
+      const props: PageProps = {
+         searchParams: Promise.resolve({}),
+      };
+
+      const { container } = await renderAsyncRSC(NewTemplatePage, props);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collectionId provided - rendered test", async () => {
+      const templateFields = dtestData.dGlobalPromptFields();
+      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
+
+      const props: PageProps = {
+         searchParams: Promise.resolve({ collectionId: "test-collection-id" }),
+      };
+
+      const { container } = await renderAsyncRSC(NewTemplatePage, props);
 
       await waitFor(() => {
          assertRendered();

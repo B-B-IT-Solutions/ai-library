@@ -7,7 +7,16 @@ export const metadata: Metadata = {
    title: "Neue Vorlage",
 };
 
-export const NewTemplatePage = async () => {
+type PageSearchParams = {
+   collectionId?: string;
+};
+
+export type PageProps = {
+   searchParams: Promise<PageSearchParams>;
+};
+
+export const NewTemplatePage = async ({ searchParams }: PageProps) => {
+   const { collectionId } = await searchParams;
    const globalFields = await getGlobalPromptFields();
 
    return (
@@ -15,7 +24,10 @@ export const NewTemplatePage = async () => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-template-page"
       >
-         <TemplateEdit globalFields={globalFields} />
+         <TemplateEdit
+            globalFields={globalFields}
+            collectionId={collectionId}
+         />
       </div>
    );
 };

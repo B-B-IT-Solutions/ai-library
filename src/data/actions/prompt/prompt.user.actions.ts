@@ -55,15 +55,16 @@ export const getPrompt = async (
 
 export const createPrompt = async (
    data: DPromptUpdate
-): Promise<ActionResult> => {
+): Promise<ActionResult<DPrompt>> => {
    try {
       const user = await requireUser();
       const service = getService();
-      await service.createPrompt(user.id, data);
+      const prompt = await service.createPrompt(user.id, data);
 
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
+         data: prompt,
       };
    } catch (error) {
       console.error(formatError(error));

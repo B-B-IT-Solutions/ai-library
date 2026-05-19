@@ -6,7 +6,11 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import { DPromptFieldValues, DPromptsUsage } from "@/data/types/domain/prompt";
+import {
+   DPrompt,
+   DPromptFieldValues,
+   DPromptsUsage,
+} from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
@@ -294,9 +298,10 @@ describe("createPrompt tests", () => {
 
       const result = await createPrompt(updateData);
 
-      const expectedResult: ActionResult = {
+      const expectedResult: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
+         data: newDescriptor,
       };
 
       expect(result).toEqual(expectedResult);

@@ -53,6 +53,18 @@ describe("CreatePromptButton rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("collectionId provided - test", async () => {
+      const { container } = render(
+         <CreatePromptButton collectionId="test-collection-id" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
 });
 
 describe("CreatePromptButton functionality tests", () => {
@@ -74,6 +86,24 @@ describe("CreatePromptButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual("/templates/new");
+      });
+   });
+
+   it("collectionId provided - btn clicked - test", async () => {
+      const collectionId = "test-collection-id";
+      render(<CreatePromptButton collectionId={collectionId} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const btn = screen.getByTestId("create-prompt-btn");
+      await userEvent.click(btn);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual("/templates/new");
+         expect(mockRouter.query).toEqual({ collectionId });
       });
    });
 

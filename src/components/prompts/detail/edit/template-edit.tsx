@@ -15,9 +15,15 @@ type Props = {
    descriptor?: DPrompt;
    template?: DPromptWithContent;
    globalFields: DGlobalPromptField[];
+   collectionId?: string;
 };
 
-export const TemplateEdit = ({ descriptor, template, globalFields }: Props) => {
+export const TemplateEdit = ({
+   descriptor,
+   template,
+   globalFields,
+   collectionId,
+}: Props) => {
    const header = () => {
       const title = descriptor
          ? "Vorlage Bearbeiten"
@@ -59,6 +65,7 @@ export const TemplateEdit = ({ descriptor, template, globalFields }: Props) => {
                   descriptor={descriptor}
                   template={template}
                   globalFields={globalFields}
+                  collectionId={collectionId}
                />
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>

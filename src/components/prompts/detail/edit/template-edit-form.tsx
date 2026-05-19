@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
+import { addTemplateToCollection } from "@/data/actions/collection";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
    DPrompt,
@@ -40,12 +41,14 @@ type Props = {
    descriptor?: DPrompt;
    template?: DPromptWithContent;
    globalFields: DGlobalPromptField[];
+   collectionId?: string;
 };
 
 export const TemplateEditForm = ({
    descriptor,
    template,
    globalFields,
+   collectionId,
 }: Props) => {
    const router = useRouter();
    const isEdit = !!descriptor;
@@ -134,7 +137,20 @@ export const TemplateEditForm = ({
          const result = await createPrompt(data);
          if (result.success) {
             toast.success(result.message);
-            router.push("/templates");
+            if (collectionId && result.data) {
+               const collectionResult = await addTemplateToCollection(
+                  collectionId,
+                  result.data.id
+               );
+               if (collectionResult.success) {
+                  router.push(`/collections/${collectionId}`);
+               } else {
+                  toast.error(collectionResult.message);
+                  router.push("/templates");
+               }
+            } else {
+               router.push("/templates");
+            }
          } else if (result.upgradeRequired) {
             toast.error(result.message, {
                action: {
@@ -148,9 +164,15 @@ export const TemplateEditForm = ({
       }
    };
 
+   const cancelHref = isEdit
+      ? `/templates/${descriptor!.id}`
+      : collectionId
+        ? `/collections/${collectionId}`
+        : "/templates";
+
    const cancelBtn = () => {
       return (
-         <Link href={isEdit ? `/templates/${descriptor.id}` : "/templates"}>
+         <Link href={cancelHref}>
             <Button
                type="button"
                variant="outline"
