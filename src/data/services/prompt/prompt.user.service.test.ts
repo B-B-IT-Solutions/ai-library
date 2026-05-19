@@ -104,14 +104,14 @@ describe("createPrompt tests", () => {
       const newPrompt = dtestData.dPrompt();
       promptRepoMock.pCreatePrompt.mockResolvedValue(newPrompt);
 
-      const newData = dtestData.dPromptUpdate();
-      const result = await promptService.createPrompt(userId, newData);
+      const crate = dtestData.dPromptUpdateCrate();
+      const result = await promptService.createPrompt(userId, crate);
 
       expect(result).toEqual(newPrompt);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(
          userId,
-         newData
+         crate.data
       );
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);

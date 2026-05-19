@@ -227,9 +227,9 @@ describe("createPrompt tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -248,9 +248,9 @@ describe("createPrompt tests", () => {
 
       const error = new Error("db error");
       sCreatePromptMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -260,7 +260,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -270,9 +270,9 @@ describe("createPrompt tests", () => {
 
       const error = new SubscriptionAccessError("limit achieved", "maxPrompts");
       sCreatePromptMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -283,7 +283,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -294,9 +294,9 @@ describe("createPrompt tests", () => {
       const newPrompt = dtestData.dPrompt();
       sCreatePromptMock.mockResolvedValue(newPrompt);
 
-      const updateData = dtestData.dPromptUpdate();
+      const crate = dtestData.dPromptUpdateCrate();
 
-      const result = await createPrompt(updateData);
+      const result = await createPrompt(crate);
 
       const expectedResult: ActionResult<DPrompt> = {
          success: true,
@@ -307,7 +307,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, updateData);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, crate);
    });
 });
 

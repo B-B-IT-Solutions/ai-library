@@ -9,6 +9,7 @@ import {
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
+   DPromptUpdateCrate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -45,7 +46,10 @@ export class PromptService {
       return await this.repository.pGetPrompt(userId, descriptorId);
    }
 
-   async createPrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
+   async createPrompt(
+      userId: string,
+      crate: DPromptUpdateCrate
+   ): Promise<DPrompt> {
       const currentCount = await this.getPromptsCount(userId);
       const feature: FeatureName = "maxPrompts";
       await this.subscriptionService.requireCountLimit(
@@ -54,7 +58,7 @@ export class PromptService {
          currentCount
       );
 
-      return await this.repository.pCreatePrompt(userId, data);
+      return await this.repository.pCreatePrompt(userId, crate.data);
    }
 
    async updatePrompt(
