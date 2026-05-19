@@ -50,7 +50,6 @@ describe("PricingPlans rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
 });
 
 describe("PricingPlans functionality tests", () => {
