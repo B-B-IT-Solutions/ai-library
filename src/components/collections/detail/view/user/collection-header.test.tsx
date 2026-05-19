@@ -18,7 +18,7 @@ const assertRendered = () => {
    const breadcrumb = screen.getByTestId("collection-breadcrumb");
    const overview = screen.getByTestId("overview");
    const actions = screen.getByTestId("actions");
-   const createBtn = screen.getByTestId("create-template-btn");
+   const createBtn = screen.getByTestId("create-prompt-btn");
    const moreOptionsBtn = screen.getByTestId("more-options-btn");
 
    assertInDocument(header);
@@ -93,7 +93,7 @@ describe("CollectionHeader functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("create template btn clicked - test", async () => {
+   it("create prompt btn clicked - test", async () => {
       const collection = dtestData.dCollection(1);
 
       renderWithRouter(
@@ -106,7 +106,7 @@ describe("CollectionHeader functionality tests", () => {
          expect(mockRouter.pathname).toEqual("/collections/test-id");
       });
 
-      const createBtn = screen.getByTestId("create-template-btn");
+      const createBtn = screen.getByTestId("create-prompt-btn");
       await userEvent.click(createBtn);
 
       await waitFor(() => {

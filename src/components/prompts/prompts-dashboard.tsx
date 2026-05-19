@@ -13,7 +13,6 @@ import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
-import { cn } from "@/lib/utils";
 
 import { CreateTemplateButton } from "./buttons";
 import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
@@ -48,7 +47,7 @@ export const PromptsDashboard = async () => {
       getPromptsUsage(),
    ]);
 
-   const isAtLimit = usage.limit !== -1 && usage.current >= usage.limit;
+   const isUpgradeRequired = usage.limit !== -1 && usage.current >= usage.limit;
    // const isAtLimit = true;
 
    return (
@@ -66,20 +65,11 @@ export const PromptsDashboard = async () => {
                      <p className="mt-1 text-sm text-slate-600">
                         Verwalten Sie Ihre gespeicherten Prompts
                      </p>
-                     <p
-                        className={cn(
-                           "mt-1 text-xs",
-                           isAtLimit ? "text-red-500" : "text-slate-400"
-                        )}
-                        data-testid="prompts-usage-indicator"
-                     >
-                        {usage.limit === -1
-                           ? `${usage.current} Vorlagen`
-                           : `${usage.current} / ${usage.limit} Vorlagen`}
-                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                     <CreateTemplateButton atLimit={isAtLimit} />
+                     <CreateTemplateButton
+                        isUpgradeRequired={isUpgradeRequired}
+                     />
                   </div>
                </div>
 

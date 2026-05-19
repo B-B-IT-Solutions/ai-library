@@ -33,7 +33,9 @@ describe("CreateTemplateButton rendering tests", () => {
    });
 
    it("atLimit true - test", async () => {
-      const { container } = render(<CreateTemplateButton atLimit={true} />);
+      const { container } = render(
+         <CreateTemplateButton isUpgradeRequired={true} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -66,7 +68,7 @@ describe("CreateTemplateButton functionality tests", () => {
    });
 
    it("atLimit true - btn clicked - upgrade dialog shown - test", async () => {
-      render(<CreateTemplateButton atLimit={true} />);
+      render(<CreateTemplateButton isUpgradeRequired={true} />);
 
       await waitFor(() => {
          assertRendered();
@@ -82,7 +84,7 @@ describe("CreateTemplateButton functionality tests", () => {
    });
 
    it("atLimit true - dialog opened - cancel clicked - dialog closed - test", async () => {
-      render(<CreateTemplateButton atLimit={true} />);
+      render(<CreateTemplateButton isUpgradeRequired={true} />);
 
       const btn = screen.getByTestId("create-prompt-btn");
       await userEvent.click(btn);

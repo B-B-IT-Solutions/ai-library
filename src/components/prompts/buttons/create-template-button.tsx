@@ -9,16 +9,16 @@ import { UpgradePlanDialog } from "@/components/subscription";
 
 type Props = {
    size?: "default" | "sm";
-   atLimit?: boolean;
+   isUpgradeRequired?: boolean;
 };
 
 export const CreateTemplateButton = ({
    size = "default",
-   atLimit = false,
+   isUpgradeRequired = false,
 }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
 
-   if (atLimit) {
+   if (isUpgradeRequired) {
       return (
          <>
             <Button
