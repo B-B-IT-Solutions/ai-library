@@ -103,37 +103,6 @@ export class SubscriptionService {
       return "FREE";
    }
 
-   async hasActiveAccess(userId: string): Promise<boolean> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
-         userId,
-      });
-
-      // subscription active
-      if (this.isSubscriptinoActive(subscription)) {
-         return true;
-      }
-
-      // subscription cancelled - within grace period
-      if (this.isSubscriptionWithiGracePeriod(subscription)) {
-         return true;
-      }
-
-      const user = await this.userService.getUserInternalById(userId);
-
-      // trial active
-      if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
-         return true;
-      }
-
-      // user has chosen a plan (incl. FREE after trial)
-      if (user?.planChosenAt) {
-         return true;
-      }
-
-      // trial expired and no plan chosen
-      return false;
-   }
-
    /**
     * Returns the current trial status for a user.
     * isActive = false if the trial has expired, the user has an active subscription, or no trial was ever started.
@@ -176,11 +145,6 @@ export class SubscriptionService {
          daysLeft,
          endsAt: trialEndsAt,
       };
-   }
-
-   /** Set that the user has chosen a subscription plan (including FREE). */
-   async setPlanChosen(userId: string): Promise<void> {
-      await this.userService.updatePlanChosenAt(userId, new Date());
    }
 
    /**

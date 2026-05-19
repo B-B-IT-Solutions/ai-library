@@ -245,7 +245,7 @@ exports[`PricingPlan rendering tests PricingPlan - tier FREE - current false - t
         data-testid="free-btn"
         disabled=""
       >
-        Kostenlos starten
+        Free
       </button>
     </div>
   </div>

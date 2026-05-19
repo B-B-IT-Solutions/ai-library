@@ -10,7 +10,7 @@ export const metadata: Metadata = {
    title: "Preise",
 };
 
-const PricingPage = async () => {
+export const PricingPage = async () => {
    const plans = await getSubscriptionPlans();
    const subscription = await getSubscription();
 

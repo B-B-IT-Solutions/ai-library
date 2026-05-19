@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -17,17 +16,17 @@ import {
 } from "@/data/types/domain/subscription";
 import { ActivateSubscriptionButton } from "../buttons";
 
-type PricingPlanProps = {
+type Props = {
    plan: DSubscriptionPlan;
    billingInterval: DBillingInterval;
    isCurrent: boolean;
 };
 
-export const PricingPlan: FC<PricingPlanProps> = ({
+export const PricingPlan = ({
    plan,
    billingInterval,
    isCurrent,
-}) => {
+}: Props) => {
    const getPrice = () => {
       const { monthlyPrice, yearlyPrice } = plan;
       return billingInterval === "MONTHLY" ? monthlyPrice : yearlyPrice;
@@ -121,7 +120,7 @@ export const PricingPlan: FC<PricingPlanProps> = ({
                className="w-full"
                data-testid="free-btn"
             >
-               {isCurrent ? "Current Plan" : "Kostenlos starten"}
+               {isCurrent ? "Current Plan" : "Free"}
             </Button>
          );
       }

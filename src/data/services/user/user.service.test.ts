@@ -472,28 +472,6 @@ describe("updateUser tests", () => {
    });
 });
 
-describe("updatePlanChosenAt tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("planChosenAt updated - test", async () => {
-      const userId = "user-id-1";
-      const planChosenAt = new Date();
-
-      await userService.updatePlanChosenAt(userId, planChosenAt);
-
-      const expectedData: UserUpdateData = {
-         planChosenAt,
-      };
-      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
-         userId,
-         expectedData
-      );
-   });
-});
-
 describe("updateUserStripeCustomerId tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

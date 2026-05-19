@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PricingPage rendering tests PricingPage - rendered - test 1`] = `
+exports[`PricingPage rendering tests rendered - test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-16"

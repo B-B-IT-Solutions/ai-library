@@ -9,7 +9,7 @@ import {
    getSubscriptionPlans,
 } from "@/data/actions/subscription";
 
-import PricingPage, { metadata } from "./page";
+import { metadata, PricingPage } from "./page";
 
 const getSubscriptionMock = getSubscription as jest.MockedFunction<
    typeof getSubscription
@@ -35,7 +35,7 @@ describe("PricingPage rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("PricingPage - rendered - test", async () => {
+   it("rendered - test", async () => {
       const subscription = dtestData.dSubscription();
       const plans = dtestData.dSubscriptionPlans();
 
@@ -55,7 +55,7 @@ describe("PricingPage rendering tests", () => {
 });
 
 describe("PricingPage functionality tests", () => {
-   it("PricingPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { map } from "es-toolkit/compat";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -17,11 +17,12 @@ type Props = {
    currentSubscription: DSubscription | null;
 };
 
-export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
+export const PricingPlans = ({ plans, currentSubscription }: Props) => {
    const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
+   const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
+
    const sortedPlans = [...plans].sort((a, b) => {
-      const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
       return tierOrder[a.tier] - tierOrder[b.tier];
    });
 
