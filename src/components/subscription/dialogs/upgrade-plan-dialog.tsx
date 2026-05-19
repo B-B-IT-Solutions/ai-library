@@ -44,7 +44,7 @@ export const UpgradePlanDialog = ({ open, onOpenChange, feature }: Props) => {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col gap-2 border-t pt-4">
+            <div className="flex flex-col gap-2 pt-2">
                <Button asChild size="lg" className="w-full gap-2 font-semibold">
                   <Link href="/subscription/pricing" data-testid="upgrade-btn">
                      <Zap className="h-4 w-4" />
