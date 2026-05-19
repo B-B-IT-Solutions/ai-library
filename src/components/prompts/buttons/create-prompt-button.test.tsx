@@ -11,12 +11,12 @@ const assertRendered = () => {
    assertInDocument(btn);
 };
 
-const assertPlanUpgradeDialogRendered = () => {
+const assertDialogRendered = () => {
    const dialog = screen.getByTestId("upgrade-plan-dialog");
    assertInDocument(dialog);
 };
 
-const assertPlanUpgradeDialogNotgRendered = () => {
+const assertDialogNotRendered = () => {
    const dialog = screen.queryByTestId("upgrade-plan-dialog");
    assertNotInDocument(dialog);
 };
@@ -66,14 +66,14 @@ describe("CreatePromptButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const btn = screen.getByTestId("create-prompt-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates/new");
+         expect(mockRouter.asPath).toEqual("/templates/new");
       });
    });
 
@@ -82,21 +82,21 @@ describe("CreatePromptButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertPlanUpgradeDialogNotgRendered();
+         assertDialogNotRendered();
       });
 
       const btn = screen.getByTestId("create-prompt-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         assertPlanUpgradeDialogRendered();
+         assertDialogRendered();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         assertPlanUpgradeDialogNotgRendered();
+         assertDialogNotRendered();
       });
    });
 });

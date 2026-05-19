@@ -1,13 +1,35 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   assertNotInDocument,
+} from "@tests";
+import mockRouter from "next-router-mock";
 
 import { UpgradePlanDialog } from "./upgrade-plan-dialog";
 
+const assertDialogRendered = () => {
+   const dialog = screen.getByTestId("upgrade-plan-dialog");
+   const upgradeBtn = screen.getByTestId("upgrade-btn");
+   const cancelBtn = screen.getByTestId("cancel-btn");
+
+   assertInDocument(dialog);
+   assertInDocument(upgradeBtn);
+   assertInDocument(cancelBtn);
+
+   assertHasAttributeWithValue(upgradeBtn, "href", "/subscription/pricing");
+};
+
+const assertDialogNotRendered = () => {
+   const dialog = screen.queryByTestId("upgrade-plan-dialog");
+   assertNotInDocument(dialog);
+};
+
 describe("UpgradePlanDialog rendering tests", () => {
-   it("open false - dialog not visible - test", async () => {
-      render(
+   it("open false - test", async () => {
+      const { container } = render(
          <UpgradePlanDialog
             open={false}
             onOpenChange={jest.fn()}
@@ -16,11 +38,13 @@ describe("UpgradePlanDialog rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("upgrade-plan-dialog"));
+         assertDialogNotRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("open true - dialog visible - test", async () => {
+   it("open true - test", async () => {
       const { container } = render(
          <UpgradePlanDialog
             open={true}
@@ -30,12 +54,7 @@ describe("UpgradePlanDialog rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("upgrade-plan-dialog"));
-         expect(
-            screen.getByTestId("upgrade-plan-dialog").textContent
-         ).toContain("Vorlagen");
-         assertInDocument(screen.getByTestId("upgrade-btn"));
-         assertInDocument(screen.getByTestId("upgrade-dialog-cancel-btn"));
+         assertDialogRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -43,7 +62,35 @@ describe("UpgradePlanDialog rendering tests", () => {
 });
 
 describe("UpgradePlanDialog functionality tests", () => {
-   it("cancel clicked - onOpenChange called with false - test", async () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("upgrade btn clicked - test", async () => {
+      render(
+         <UpgradePlanDialog
+            open={true}
+            onOpenChange={jest.fn()}
+            feature="Vorlagen"
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const btn = screen.getByTestId("upgrade-btn");
+
+      await userEvent.click(btn);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual("/subscription/pricing");
+      });
+   });
+
+   it("cancel btn clicked - test", async () => {
       const onOpenChange = jest.fn();
 
       render(
@@ -55,27 +102,16 @@ describe("UpgradePlanDialog functionality tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("upgrade-plan-dialog"));
+         assertDialogRendered();
+         expect(onOpenChange).not.toHaveBeenCalled();
       });
 
-      const cancelBtn = screen.getByTestId("upgrade-dialog-cancel-btn");
+      const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
-      expect(onOpenChange).toHaveBeenCalledWith(false);
-   });
-
-   it("upgrade btn links to pricing page - test", async () => {
-      render(
-         <UpgradePlanDialog
-            open={true}
-            onOpenChange={jest.fn()}
-            feature="Vorlagen"
-         />
-      );
-
       await waitFor(() => {
-         const upgradeBtn = screen.getByTestId("upgrade-btn");
-         expect(upgradeBtn).toHaveAttribute("href", "/subscription/pricing");
+         expect(onOpenChange).toHaveBeenCalledTimes(1);
+         expect(onOpenChange).toHaveBeenCalledWith(false);
       });
    });
 });
