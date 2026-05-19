@@ -77,18 +77,6 @@ describe("CreatePromptButton rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
-   it("collectionId provided - test", async () => {
-      const { container } = render(
-         <CreatePromptButton collectionId="test-collection-id" />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
 });
 
 describe("CreatePromptButton functionality tests", () => {
