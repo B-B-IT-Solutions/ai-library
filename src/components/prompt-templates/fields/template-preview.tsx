@@ -32,7 +32,7 @@ export const TemplatePreview = ({
                data-testid="copy-preview-btn"
             />
             <div
-               className="leading-relaxed text-slate-700"
+               className="leading-relaxed text-foreground/85"
                data-testid="preview"
             >
                <MDRenderer

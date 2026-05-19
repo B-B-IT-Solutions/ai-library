@@ -79,7 +79,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
    const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {};
 
    const footer = () => (
-      <div className="flex shrink-0 items-center justify-end gap-2 bg-background py-4">
+      <div className="flex shrink-0 items-center justify-end gap-2 border-t bg-background py-4">
          <DropdownMenu>
             <DropdownMenuTrigger asChild={true}>
                <Button
@@ -131,7 +131,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
-            className="flex min-h-0 flex-1 flex-col px-6"
+            className="flex min-h-0 flex-1 flex-col px-6 pt-4"
             data-testid="use-template-form"
          >
             <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
