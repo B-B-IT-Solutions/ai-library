@@ -21,7 +21,7 @@ export const addCatalogEntryToUserPrompts = async (
 
       const user = await requireUser();
       const service = getService();
-      const descriptor = await service.addCatalogEntryToUserPrompts(
+      const prompt = await service.addCatalogEntryToUserPrompts(
          user.id,
          catalogEntryId
       );
@@ -30,7 +30,7 @@ export const addCatalogEntryToUserPrompts = async (
          success: true,
          message: "Vorlage erfolgreich übernommen.",
          data: {
-            templateId: descriptor.id,
+            templateId: prompt.id,
          },
       };
    } catch (error) {

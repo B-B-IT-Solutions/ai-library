@@ -1,5 +1,5 @@
 import { CatalogRepository } from "@/data/repositories/catalog";
-import { DPrompt } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptUpdateCrate } from "@/data/types/domain/prompt";
 import { PromptService } from "../prompt";
 
 import { toPromptUpdate } from "./catalog.mapper";
@@ -23,11 +23,14 @@ export class CatalogService {
          );
       }
 
-      const templateData = toPromptUpdate(entry);
+      const data = toPromptUpdate(entry);
+      const crate: DPromptUpdateCrate = {
+         data,
+      };
 
       const newDescriptor = await this.promptService.createPrompt(
          userId,
-         templateData
+         crate
       );
 
       // fire & forget — do not await
