@@ -7,7 +7,7 @@ exports[`CreateSubscriptionButton rendering tests CreateSubscriptionButton - isP
     data-slot="button"
     data-testid="activate-subscription-btn"
   >
-    Subscribe
+    Abonnieren
   </button>
 </div>
 `;
@@ -19,7 +19,7 @@ exports[`CreateSubscriptionButton rendering tests CreateSubscriptionButton - isP
     data-slot="button"
     data-testid="activate-subscription-btn"
   >
-    Subscribe
+    Abonnieren
   </button>
 </div>
 `;

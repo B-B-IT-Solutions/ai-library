@@ -41,11 +41,11 @@ export const ActivateSubscriptionButton: FC<
          return (
             <>
                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Loading...
+               Lädt...
             </>
          );
       }
-      return "Subscribe";
+      return "Abonnieren";
    };
 
    return (
