@@ -138,13 +138,13 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - rendered - test", () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
          <TemplateEditForm
-            descriptor={descriptor}
+            prompt={prompt}
             template={template}
             globalFields={fields}
          />
@@ -165,7 +165,7 @@ describe("TemplateEditForm rendering tests", () => {
 
       const { container } = render(
          <TemplateEditForm
-            descriptor={descriptor}
+            prompt={descriptor}
             template={template}
             globalFields={fields}
          />
@@ -218,7 +218,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       render(
          <TemplateEditForm
-            descriptor={descriptor}
+            prompt={descriptor}
             template={template}
             globalFields={fields}
          />
@@ -342,10 +342,11 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("new entry - save btn clicked - success - test", async () => {
+      const newPrompt = dtestData.dPrompt();
       const result: ActionResult<DPrompt> = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
-         data: dtestData.dPrompt(),
+         data: newPrompt,
       };
       createPromptMock.mockResolvedValue(result);
 
@@ -385,7 +386,7 @@ describe("TemplateEditForm functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
       });
    });
 
@@ -402,7 +403,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       render(
          <TemplateEditForm
-            descriptor={descriptor}
+            prompt={descriptor}
             template={template}
             globalFields={fields}
          />
@@ -575,7 +576,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       render(
          <TemplateEditForm
-            descriptor={descriptor}
+            prompt={descriptor}
             template={template}
             globalFields={fields}
          />
@@ -675,7 +676,7 @@ describe("TemplateEditForm functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
       });
    });
 });

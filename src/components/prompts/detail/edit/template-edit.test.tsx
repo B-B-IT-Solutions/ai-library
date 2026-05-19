@@ -38,13 +38,13 @@ describe("TemplateEdit rendering tests", () => {
    });
 
    it("edit existing entry - test", async () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
          <TemplateEdit
-            descriptor={descriptor}
+            prompt={prompt}
             template={template}
             globalFields={fields}
          />

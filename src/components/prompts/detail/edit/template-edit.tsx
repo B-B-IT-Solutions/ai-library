@@ -12,21 +12,21 @@ import { TemplateBreadcrumb } from "../../breadcrumbs";
 import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
-   descriptor?: DPrompt;
+   prompt?: DPrompt;
    template?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEdit = ({
-   descriptor,
+   prompt,
    template,
    collectionId,
    globalFields,
 }: Props) => {
    const header = () => {
-      const title = descriptor ? "Prompt Bearbeiten" : "Neuen Prompt Erstellen";
-      const text = descriptor
+      const title = prompt ? "Prompt Bearbeiten" : "Neuen Prompt Erstellen";
+      const text = prompt
          ? "Bearbeiten Sie den Prompt"
          : "Erstellen Sie einen neuen Prompt";
 
@@ -39,12 +39,12 @@ export const TemplateEdit = ({
    };
 
    const breadcrumbs = () => {
-      if (descriptor) {
+      if (prompt) {
          return (
             <TemplateBreadcrumb
                variant="edit"
-               label={descriptor.title}
-               entryId={descriptor.id}
+               label={prompt.title}
+               entryId={prompt.id}
             />
          );
       }
@@ -60,7 +60,7 @@ export const TemplateEdit = ({
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
                <TemplateEditForm
-                  descriptor={descriptor}
+                  prompt={prompt}
                   template={template}
                   collectionId={collectionId}
                   globalFields={globalFields}

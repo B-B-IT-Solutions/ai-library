@@ -38,24 +38,24 @@ import {
 } from "./utils";
 
 type Props = {
-   descriptor?: DPrompt;
+   prompt?: DPrompt;
    template?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({
-   descriptor,
+   prompt,
    template,
    collectionId,
    globalFields,
 }: Props) => {
    const router = useRouter();
-   const isEdit = !!descriptor;
+   const isEdit = !!prompt;
 
    const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
-      defaultValues: initPromptTemplate(descriptor, template),
+      defaultValues: initPromptTemplate(prompt, template),
    });
 
    const {
@@ -126,10 +126,10 @@ export const TemplateEditForm = ({
 
    const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updatePrompt(descriptor.id, data);
+         const result = await updatePrompt(prompt.id, data);
          if (result.success) {
             toast.success(result.message);
-            router.push(`/templates/${descriptor.id}`);
+            router.push(`/templates/${prompt.id}`);
          } else {
             toast.error(result.message);
          }
@@ -144,7 +144,7 @@ export const TemplateEditForm = ({
             if (collectionId) {
                router.push(`/collections/${collectionId}`);
             } else {
-               router.push("/templates");
+               router.push(`/templates/${result.data!.id}`);
             }
          } else if (result.upgradeRequired) {
             toast.error(result.message, {
@@ -160,7 +160,7 @@ export const TemplateEditForm = ({
    };
 
    const cancelHref = isEdit
-      ? `/templates/${descriptor!.id}`
+      ? `/templates/${prompt!.id}`
       : collectionId
         ? `/collections/${collectionId}`
         : "/templates";
