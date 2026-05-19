@@ -6,8 +6,9 @@ import mockRouter from "next-router-mock";
 
 import { CreateTemplateButton } from "./create-template-button";
 
-const assertBtnRendered = () => {
-   assertInDocument(screen.getByTestId("create-template-btn"));
+const assertRendered = () => {
+   const btn = screen.getByTestId("create-template-btn");
+   assertInDocument(btn);
 };
 
 describe("CreateTemplateButton rendering tests", () => {
@@ -15,7 +16,7 @@ describe("CreateTemplateButton rendering tests", () => {
       const { container } = render(<CreateTemplateButton />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -25,7 +26,7 @@ describe("CreateTemplateButton rendering tests", () => {
       const { container } = render(<CreateTemplateButton size="sm" />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -35,7 +36,7 @@ describe("CreateTemplateButton rendering tests", () => {
       const { container } = render(<CreateTemplateButton atLimit={true} />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertRendered();
       });
 
       const btn = screen.getByTestId("create-template-btn");
@@ -56,7 +57,7 @@ describe("CreateTemplateButton functionality tests", () => {
       render(<CreateTemplateButton />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
@@ -72,7 +73,7 @@ describe("CreateTemplateButton functionality tests", () => {
       render(<CreateTemplateButton atLimit={true} />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertRendered();
          assertNotInDocument(screen.queryByTestId("upgrade-plan-dialog"));
       });
 
