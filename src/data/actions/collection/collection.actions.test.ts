@@ -16,7 +16,7 @@ import {
    getCollections,
    getCollectionTemplateIds,
    getTemplateCollectionIds,
-   removeTemplateFromCollection,
+   removePromptFromCollection,
    setCollectionPublic,
    updateCollection,
    updateTemplateCollections,
@@ -638,16 +638,16 @@ describe("removeTemplateFromCollection tests", () => {
 
    it("invalid collectionId UUID - test", async () => {
       const invalidCollectionId = "invalid-uuid-1";
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await removeTemplateFromCollection(
+      const result = await removePromptFromCollection(
          invalidCollectionId,
-         templateId
+         promptId
       );
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht entfernt werden",
+         message: "Prompt konnte nicht entfernt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -656,18 +656,18 @@ describe("removeTemplateFromCollection tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("invalid templateDescriptorId UUID - test", async () => {
+   it("invalid promptId UUID - test", async () => {
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const invalidTemplateId = "invalid-uuid-1";
+      const invalidPromptId = "invalid-uuid-1";
 
-      const result = await removeTemplateFromCollection(
+      const result = await removePromptFromCollection(
          collectionId,
-         invalidTemplateId
+         invalidPromptId
       );
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht entfernt werden",
+         message: "Prompt konnte nicht entfernt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -681,16 +681,13 @@ describe("removeTemplateFromCollection tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await removeTemplateFromCollection(
-         collectionId,
-         templateId
-      );
+      const result = await removePromptFromCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht entfernt werden",
+         message: "Prompt konnte nicht entfernt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -707,16 +704,13 @@ describe("removeTemplateFromCollection tests", () => {
       sRemoveTemplateFromCollectionMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await removeTemplateFromCollection(
-         collectionId,
-         templateId
-      );
+      const result = await removePromptFromCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Vorlage konnte nicht entfernt werden",
+         message: "Prompt konnte nicht entfernt werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -724,28 +718,25 @@ describe("removeTemplateFromCollection tests", () => {
       expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
-         templateId
+         promptId
       );
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("template - removed - test", async () => {
+   it("prompt - removed - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       sRemoveTemplateFromCollectionMock.mockResolvedValue();
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+      const promptId = "223e4567-e89b-12d3-a456-426614174000";
 
-      const result = await removeTemplateFromCollection(
-         collectionId,
-         templateId
-      );
+      const result = await removePromptFromCollection(collectionId, promptId);
 
       const expectedResult: ActionResult = {
          success: true,
-         message: "Vorlage entfernt",
+         message: "Prompt entfernt",
       };
 
       expect(result).toEqual(expectedResult);
@@ -753,7 +744,7 @@ describe("removeTemplateFromCollection tests", () => {
       expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
-         templateId
+         promptId
       );
    });
 });

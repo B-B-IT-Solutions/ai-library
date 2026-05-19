@@ -15,7 +15,7 @@ import { mockDeep } from "jest-mock-extended";
 import {
    addPromptToCollection,
    getCollectionTemplateIds,
-   removeTemplateFromCollection,
+   removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
@@ -48,9 +48,9 @@ const addPromptToCollectionMock = addPromptToCollection as jest.MockedFunction<
    typeof addPromptToCollection
 >;
 
-const removeTemplateFromCollectionMock =
-   removeTemplateFromCollection as jest.MockedFunction<
-      typeof removeTemplateFromCollection
+const removePromptFromCollectionMock =
+   removePromptFromCollection as jest.MockedFunction<
+      typeof removePromptFromCollection
    >;
 
 describe("loadCollectionTemplateIds hooks tests", () => {
@@ -259,7 +259,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
          message: "Template removed from collection",
       };
 
-      removeTemplateFromCollectionMock.mockResolvedValue(actionResult);
+      removePromptFromCollectionMock.mockResolvedValue(actionResult);
 
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
       const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
@@ -276,8 +276,8 @@ describe("removeTemplateFromCollection hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(removeTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
-         expect(removeTemplateFromCollectionMock).toHaveBeenCalledWith(
+         expect(removePromptFromCollectionMock).toHaveBeenCalledTimes(1);
+         expect(removePromptFromCollectionMock).toHaveBeenCalledWith(
             params.collectionId,
             params.promptId
          );

@@ -9,7 +9,7 @@ export {
    updateCollection,
    getCollectionTemplateIds,
    addPromptToCollection,
-   removeTemplateFromCollection,
+   removePromptFromCollection,
 } from "./collection.actions";
 
 export { getPublicCollectionByToken } from "./collection.public.actions";

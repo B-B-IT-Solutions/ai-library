@@ -133,20 +133,16 @@ export const getCollectionTemplateIds = async (
 
 export const addPromptToCollection = async (
    collectionId: string,
-   templateDescriptorId: string
+   promptId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(collectionId) || !isValidUuid(templateDescriptorId)) {
+      if (!isValidUuid(collectionId) || !isValidUuid(promptId)) {
          throw new Error("Invalid collection or template ID.");
       }
 
       const user = await requireUser();
       const service = getService();
-      await service.addTemplateToCollection(
-         user.id,
-         collectionId,
-         templateDescriptorId
-      );
+      await service.addTemplateToCollection(user.id, collectionId, promptId);
 
       return {
          success: true,
@@ -161,12 +157,12 @@ export const addPromptToCollection = async (
    }
 };
 
-export const removeTemplateFromCollection = async (
+export const removePromptFromCollection = async (
    collectionId: string,
-   templateDescriptorId: string
+   promptId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(collectionId) || !isValidUuid(templateDescriptorId)) {
+      if (!isValidUuid(collectionId) || !isValidUuid(promptId)) {
          throw new Error("Invalid collection or template ID.");
       }
       const user = await requireUser();
@@ -174,18 +170,18 @@ export const removeTemplateFromCollection = async (
       await service.removeTemplateFromCollection(
          user.id,
          collectionId,
-         templateDescriptorId
+         promptId
       );
 
       return {
          success: true,
-         message: "Vorlage entfernt",
+         message: "Prompt entfernt",
       };
    } catch (error) {
       console.error(formatError(error));
       return {
          success: false,
-         message: "Vorlage konnte nicht entfernt werden",
+         message: "Prompt konnte nicht entfernt werden",
       };
    }
 };

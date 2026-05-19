@@ -14,7 +14,7 @@ import { filter, isEmpty } from "es-toolkit/compat";
 import {
    addPromptToCollection,
    getCollectionTemplateIds,
-   removeTemplateFromCollection,
+   removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
@@ -85,7 +85,7 @@ export const removeTemplateFromCollectionOptions = (
    return {
       mutationFn: (params) => {
          const { collectionId, promptId } = params;
-         return removeTemplateFromCollection(collectionId, promptId);
+         return removePromptFromCollection(collectionId, promptId);
       },
       onSuccess: (_, params) => {
          const updater = (templateIds: string[]) => {
