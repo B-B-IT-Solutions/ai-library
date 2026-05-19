@@ -11,8 +11,18 @@ const assertRendered = () => {
    assertInDocument(btn);
 };
 
+const assertPlanUpgradeDialogRendered = () => {
+   const dialog = screen.getByTestId("upgrade-plan-dialog");
+   assertInDocument(dialog);
+};
+
+const assertPlanUpgradeDialogNotgRendered = () => {
+   const dialog = screen.queryByTestId("upgrade-plan-dialog");
+   assertNotInDocument(dialog);
+};
+
 describe("CreateTemplateButton rendering tests", () => {
-   it("size - undefined - rendered test", async () => {
+   it("requirePlanUpgrade false - size undefined - rendered test", async () => {
       const { container } = render(<CreateTemplateButton />);
 
       await waitFor(() => {
@@ -22,7 +32,7 @@ describe("CreateTemplateButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("size - sm - rendered test", async () => {
+   it("requirePlanUpgrade false - size sm - rendered test", async () => {
       const { container } = render(<CreateTemplateButton size="sm" />);
 
       await waitFor(() => {
@@ -32,9 +42,9 @@ describe("CreateTemplateButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("atLimit true - test", async () => {
+   it("requirePlanUpgrade true - test", async () => {
       const { container } = render(
-         <CreateTemplateButton isUpgradeRequired={true} />
+         <CreateTemplateButton requirePlanUpgrade={true} />
       );
 
       await waitFor(() => {
@@ -51,7 +61,7 @@ describe("CreateTemplateButton functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("create btn clicked - navigates to new template - test", async () => {
+   it("requirePlanUpgrade false - btn clicked - test", async () => {
       render(<CreateTemplateButton />);
 
       await waitFor(() => {
@@ -67,37 +77,26 @@ describe("CreateTemplateButton functionality tests", () => {
       });
    });
 
-   it("atLimit true - btn clicked - upgrade dialog shown - test", async () => {
-      render(<CreateTemplateButton isUpgradeRequired={true} />);
+   it("requirePlanUpgrade true - btn clicked - test", async () => {
+      render(<CreateTemplateButton requirePlanUpgrade={true} />);
 
       await waitFor(() => {
          assertRendered();
-         assertNotInDocument(screen.queryByTestId("upgrade-plan-dialog"));
+         assertPlanUpgradeDialogNotgRendered();
       });
 
       const btn = screen.getByTestId("create-prompt-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("upgrade-plan-dialog"));
-      });
-   });
-
-   it("atLimit true - dialog opened - cancel clicked - dialog closed - test", async () => {
-      render(<CreateTemplateButton isUpgradeRequired={true} />);
-
-      const btn = screen.getByTestId("create-prompt-btn");
-      await userEvent.click(btn);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("upgrade-plan-dialog"));
+         assertPlanUpgradeDialogRendered();
       });
 
-      const cancelBtn = screen.getByTestId("upgrade-dialog-cancel-btn");
+      const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("upgrade-plan-dialog"));
+         assertPlanUpgradeDialogNotgRendered();
       });
    });
 });

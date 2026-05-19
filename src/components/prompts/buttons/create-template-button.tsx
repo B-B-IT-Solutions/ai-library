@@ -9,16 +9,16 @@ import { UpgradePlanDialog } from "@/components/subscription";
 
 type Props = {
    size?: "default" | "sm";
-   isUpgradeRequired?: boolean;
+   requirePlanUpgrade?: boolean;
 };
 
 export const CreateTemplateButton = ({
    size = "default",
-   isUpgradeRequired = false,
+   requirePlanUpgrade,
 }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
 
-   if (isUpgradeRequired) {
+   if (requirePlanUpgrade) {
       return (
          <>
             <Button
@@ -33,7 +33,7 @@ export const CreateTemplateButton = ({
             <UpgradePlanDialog
                open={dialogOpen}
                onOpenChange={setDialogOpen}
-               featureLabel="Vorlagen"
+               feature="Prompt"
             />
          </>
       );

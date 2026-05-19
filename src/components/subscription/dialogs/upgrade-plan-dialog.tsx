@@ -16,14 +16,10 @@ import {
 type Props = {
    open: boolean;
    onOpenChange: (open: boolean) => void;
-   featureLabel: string;
+   feature: string;
 };
 
-export const UpgradePlanDialog = ({
-   open,
-   onOpenChange,
-   featureLabel,
-}: Props) => {
+export const UpgradePlanDialog = ({ open, onOpenChange, feature }: Props) => {
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogContent data-testid="upgrade-plan-dialog">
@@ -38,9 +34,7 @@ export const UpgradePlanDialog = ({
                </DialogTitle>
                <DialogDescription className="text-center">
                   Du hast dein Limit für{" "}
-                  <span className="font-medium text-foreground">
-                     {featureLabel}
-                  </span>{" "}
+                  <span className="font-medium text-foreground">{feature}</span>{" "}
                   erreicht. Upgrade deinen Plan um mehr erstellen zu können.
                </DialogDescription>
             </DialogHeader>
@@ -56,7 +50,7 @@ export const UpgradePlanDialog = ({
                   variant="outline"
                   className="w-full cursor-pointer"
                   onClick={() => onOpenChange(false)}
-                  data-testid="upgrade-dialog-cancel-btn"
+                  data-testid="cancel-btn"
                >
                   Abbrechen
                </Button>

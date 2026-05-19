@@ -68,7 +68,7 @@ export const PromptsDashboard = async () => {
                   </div>
                   <div className="flex items-center gap-3">
                      <CreateTemplateButton
-                        isUpgradeRequired={isUpgradeRequired}
+                        requirePlanUpgrade={isUpgradeRequired}
                      />
                   </div>
                </div>

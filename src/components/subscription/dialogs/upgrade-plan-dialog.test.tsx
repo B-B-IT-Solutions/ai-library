@@ -11,7 +11,7 @@ describe("UpgradePlanDialog rendering tests", () => {
          <UpgradePlanDialog
             open={false}
             onOpenChange={jest.fn()}
-            featureLabel="Vorlagen"
+            feature="Vorlagen"
          />
       );
 
@@ -25,15 +25,15 @@ describe("UpgradePlanDialog rendering tests", () => {
          <UpgradePlanDialog
             open={true}
             onOpenChange={jest.fn()}
-            featureLabel="Vorlagen"
+            feature="Vorlagen"
          />
       );
 
       await waitFor(() => {
          assertInDocument(screen.getByTestId("upgrade-plan-dialog"));
-         expect(screen.getByTestId("upgrade-plan-dialog").textContent).toContain(
-            "Vorlagen"
-         );
+         expect(
+            screen.getByTestId("upgrade-plan-dialog").textContent
+         ).toContain("Vorlagen");
          assertInDocument(screen.getByTestId("upgrade-btn"));
          assertInDocument(screen.getByTestId("upgrade-dialog-cancel-btn"));
       });
@@ -50,7 +50,7 @@ describe("UpgradePlanDialog functionality tests", () => {
          <UpgradePlanDialog
             open={true}
             onOpenChange={onOpenChange}
-            featureLabel="Vorlagen"
+            feature="Vorlagen"
          />
       );
 
@@ -69,7 +69,7 @@ describe("UpgradePlanDialog functionality tests", () => {
          <UpgradePlanDialog
             open={true}
             onOpenChange={jest.fn()}
-            featureLabel="Vorlagen"
+            feature="Vorlagen"
          />
       );
 
