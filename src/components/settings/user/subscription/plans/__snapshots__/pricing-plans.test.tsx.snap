@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined - test 1`] = `
+exports[`PricingPlans rendering tests currentSubscription defined - test 1`] = `
 <div>
   <div
     data-testid="pricing-plans"
@@ -498,7 +498,7 @@ exports[`PricingPlans rendering tests PricingPlans - currentSubscription defined
 </div>
 `;
 
-exports[`PricingPlans rendering tests PricingPlans - currentSubscription null - test 1`] = `
+exports[`PricingPlans rendering tests currentSubscription null - test 1`] = `
 <div>
   <div
     data-testid="pricing-plans"
