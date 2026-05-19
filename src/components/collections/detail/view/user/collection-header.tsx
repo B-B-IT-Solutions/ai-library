@@ -1,7 +1,7 @@
 import { Globe } from "lucide-react";
 
+import { CreatePromptButton } from "@/components/prompts/buttons";
 import { Badge } from "@/components/shadcn/badge";
-import { CreateTemplateButton } from "@/components/prompts/buttons";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../../breadcrumbs";
 import { MoreOptionsButton } from "../../../buttons";
@@ -46,7 +46,7 @@ export const CollectionHeader = ({ collection }: Props) => {
             className="flex shrink-0 items-center gap-2"
             data-testid="actions"
          >
-            <CreateTemplateButton />
+            <CreatePromptButton />
             <MoreOptionsButton collection={collection} />
          </div>
       </div>

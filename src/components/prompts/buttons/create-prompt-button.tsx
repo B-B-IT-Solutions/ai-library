@@ -12,7 +12,7 @@ type Props = {
    requirePlanUpgrade?: boolean;
 };
 
-export const CreateTemplateButton = ({
+export const CreatePromptButton = ({
    size = "default",
    requirePlanUpgrade,
 }: Props) => {
@@ -28,7 +28,7 @@ export const CreateTemplateButton = ({
                data-testid="create-prompt-btn"
             >
                <Plus className="h-4 w-4" />
-               Neue Vorlage
+               Neuer Prompt
             </Button>
             <UpgradePlanDialog
                open={dialogOpen}

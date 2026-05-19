@@ -14,7 +14,7 @@ import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { CreateTemplateButton } from "./buttons";
+import { CreatePromptButton } from "./buttons";
 import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
@@ -67,7 +67,7 @@ export const PromptsDashboard = async () => {
                      </p>
                   </div>
                   <div className="flex items-center gap-3">
-                     <CreateTemplateButton
+                     <CreatePromptButton
                         requirePlanUpgrade={isUpgradeRequired}
                      />
                   </div>

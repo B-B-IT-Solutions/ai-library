@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { CreateTemplateButton } from "./create-template-button";
+import { CreatePromptButton } from "./create-prompt-button";
 
 const assertRendered = () => {
    const btn = screen.getByTestId("create-prompt-btn");
@@ -21,9 +21,9 @@ const assertPlanUpgradeDialogNotgRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("CreateTemplateButton rendering tests", () => {
+describe("CreatePromptButton rendering tests", () => {
    it("requirePlanUpgrade false - size undefined - rendered test", async () => {
-      const { container } = render(<CreateTemplateButton />);
+      const { container } = render(<CreatePromptButton />);
 
       await waitFor(() => {
          assertRendered();
@@ -33,7 +33,7 @@ describe("CreateTemplateButton rendering tests", () => {
    });
 
    it("requirePlanUpgrade false - size sm - rendered test", async () => {
-      const { container } = render(<CreateTemplateButton size="sm" />);
+      const { container } = render(<CreatePromptButton size="sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -44,7 +44,7 @@ describe("CreateTemplateButton rendering tests", () => {
 
    it("requirePlanUpgrade true - test", async () => {
       const { container } = render(
-         <CreateTemplateButton requirePlanUpgrade={true} />
+         <CreatePromptButton requirePlanUpgrade={true} />
       );
 
       await waitFor(() => {
@@ -55,14 +55,14 @@ describe("CreateTemplateButton rendering tests", () => {
    });
 });
 
-describe("CreateTemplateButton functionality tests", () => {
+describe("CreatePromptButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
    it("requirePlanUpgrade false - btn clicked - test", async () => {
-      render(<CreateTemplateButton />);
+      render(<CreatePromptButton />);
 
       await waitFor(() => {
          assertRendered();
@@ -78,7 +78,7 @@ describe("CreateTemplateButton functionality tests", () => {
    });
 
    it("requirePlanUpgrade true - btn clicked - test", async () => {
-      render(<CreateTemplateButton requirePlanUpgrade={true} />);
+      render(<CreatePromptButton requirePlanUpgrade={true} />);
 
       await waitFor(() => {
          assertRendered();
