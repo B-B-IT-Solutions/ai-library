@@ -12,7 +12,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
-import { UseTemplateForm } from "../use-template/use-template-form";
+import { UseTemplateForm } from "../use-prompt/use-prompt-form";
 
 type Props = {
    prompt: DPrompt;

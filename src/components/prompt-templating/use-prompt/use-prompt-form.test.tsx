@@ -8,7 +8,7 @@ import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { UseTemplateForm } from "./use-template-form";
+import { UseTemplateForm } from "./use-prompt-form";
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<

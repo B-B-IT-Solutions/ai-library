@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { UseTemplateDialog } from "./use-template-dialog";
+import { UseTemplateDialog } from "./use-prompt-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("use-template-dialog");
