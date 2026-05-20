@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Wand2 } from "lucide-react";
 
-import { UseTemplateDialog } from "@/components/prompt-templating";
+import { UsePromptDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
@@ -19,7 +19,7 @@ export const UseCatalogEntryButton = ({ entry }: Props) => {
    const dialog = () => {
       if (isOpen) {
          return (
-            <UseTemplateDialog
+            <UsePromptDialog
                prompt={toDPrompt(entry)}
                generationData={toDPromptGenerationData(entry)}
                onCancel={() => setIsOpen(false)}

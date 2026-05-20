@@ -20,7 +20,7 @@ type Props = {
    onCancel: CallbackFn;
 };
 
-export const UseTemplateDialog = ({
+export const UsePromptDialog = ({
    prompt,
    generationData,
    onCancel,
@@ -50,7 +50,7 @@ export const UseTemplateDialog = ({
       <Dialog
          open={true}
          onOpenChange={() => onCancel()}
-         data-testid="use-template-dialog"
+         data-testid="use-prompt-dialog"
       >
          <DialogContent
             showCloseButton={false}

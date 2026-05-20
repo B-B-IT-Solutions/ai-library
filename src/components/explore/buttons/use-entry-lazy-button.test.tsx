@@ -23,12 +23,12 @@ const assertRendered = () => {
 };
 
 const assertDialogRendered = () => {
-   const btn = screen.getByTestId("use-template-dialog");
+   const btn = screen.getByTestId("use-prompt-dialog");
    assertInDocument(btn);
 };
 
 const assertDialogNotRendered = () => {
-   const btn = screen.queryByTestId("use-template-dialog");
+   const btn = screen.queryByTestId("use-prompt-dialog");
    assertNotInDocument(btn);
 };
 

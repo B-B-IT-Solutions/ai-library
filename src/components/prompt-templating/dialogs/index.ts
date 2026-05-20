@@ -1,1 +1,1 @@
-export { UseTemplateDialog } from "./use-prompt-dialog";
+export { UsePromptDialog } from "./use-prompt-dialog";

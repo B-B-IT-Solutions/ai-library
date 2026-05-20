@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - test 1`] = `
+exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - test 1`] = `
 <div>
   <div
     data-slot="dialog"
-    data-testid="use-template-dialog"
+    data-testid="use-prompt-dialog"
   >
     <div
       data-slot="dialog-portal"
@@ -308,11 +308,11 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
 </div>
 `;
 
-exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - test 1`] = `
+exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
-    data-testid="use-template-dialog"
+    data-testid="use-prompt-dialog"
   >
     <div
       data-slot="dialog-portal"
