@@ -57,8 +57,8 @@ export const SubscriptionConfirmation = () => {
             </div>
          </CardContent>
 
-         <div className="border-t bg-muted/40 px-6 py-3">
-            <p className="text-center text-xs text-muted-foreground/70">
+         <div className="border-t bg-muted/40 px-6 pt-3 pb-2">
+            <p className="text-xs text-muted-foreground/70">
                Du kannst dein Abonnement jederzeit in den Einstellungen anpassen
                oder kündigen.
             </p>
