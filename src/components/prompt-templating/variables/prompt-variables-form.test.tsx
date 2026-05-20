@@ -12,8 +12,8 @@ import {
    DPromptGenerationData,
 } from "@/data/types/domain/prompt";
 
-import { buildFieldsSchema } from "./fields.schema";
-import { TemplateFieldsForm } from "./template-fields-form";
+import { PromptVariablesForm } from "./prompt-variables-form";
+import { buildFieldsSchema } from "./variables.schema";
 
 type Props = {
    templateData: DPromptGenerationData;
@@ -40,7 +40,7 @@ const TestWrapper = ({ templateData }: Props) => {
 
    return (
       <FormProvider {...form}>
-         <TemplateFieldsForm
+         <PromptVariablesForm
             templateData={templateData}
             control={form.control}
          />
@@ -68,7 +68,7 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const form = screen.getByTestId("template-fields-form");
+   const form = screen.getByTestId("prompt-variables-form");
    assertInDocument(form);
 };
 
@@ -79,8 +79,8 @@ const assertFieldsRendered = (fields: DPromptField[]) => {
    });
 };
 
-describe("TemplateFieldForm rendering tests", () => {
-   it("TemplateFieldForm renders test", async () => {
+describe("PromptVariablesForm rendering tests", () => {
+   it("render test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
       const age = createField("NUMBER", "age", "Age");

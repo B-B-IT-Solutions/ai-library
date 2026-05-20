@@ -12,7 +12,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
-import { UseTemplateForm } from "../use-template/use-template-form";
+import { UseTemplateForm } from "../use-prompt/use-prompt-form";
 
 type Props = {
    prompt: DPrompt;
@@ -20,7 +20,7 @@ type Props = {
    onCancel: CallbackFn;
 };
 
-export const UseTemplateDialog = ({
+export const UsePromptDialog = ({
    prompt,
    generationData,
    onCancel,
@@ -50,7 +50,7 @@ export const UseTemplateDialog = ({
       <Dialog
          open={true}
          onOpenChange={() => onCancel()}
-         data-testid="use-template-dialog"
+         data-testid="use-prompt-dialog"
       >
          <DialogContent
             showCloseButton={false}

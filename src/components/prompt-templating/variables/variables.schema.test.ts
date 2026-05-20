@@ -2,7 +2,7 @@
 
 import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 
-import { buildFieldsSchema } from "./fields.schema";
+import { buildFieldsSchema } from "./variables.schema";
 
 const createField = (
    type: DPromptFieldType,

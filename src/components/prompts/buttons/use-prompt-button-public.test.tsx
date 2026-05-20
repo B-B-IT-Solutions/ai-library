@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPublicPromptGenerationData } from "@/data/actions/prompt";
 
-import { PublicUseTemplateButton } from "./use-template-button-public";
+import { PublicUseTemplateButton } from "./use-prompt-button-public";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -19,17 +19,17 @@ const getPublicPromptGenerationDataMock =
    >;
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("public-use-template-btn");
+   const btn = screen.getByTestId("public-use-prompt-btn");
    assertInDocument(btn);
 };
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("use-template-dialog");
+   const dialog = screen.getByTestId("use-prompt-dialog");
    assertInDocument(dialog);
 };
 
 const assertDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("use-template-dialog");
+   const dialog = screen.queryByTestId("use-prompt-dialog");
    assertNotInDocument(dialog);
 };
 
@@ -83,7 +83,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
          assertRendered();
       });
 
-      const btn = screen.getByTestId("public-use-template-btn");
+      const btn = screen.getByTestId("public-use-prompt-btn");
       expect(btn).toHaveClass("custom-class");
       expect(container).toMatchSnapshot();
    });
@@ -105,7 +105,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const useTemplateBtn = screen.getByTestId("public-use-template-btn");
+      const useTemplateBtn = screen.getByTestId("public-use-prompt-btn");
       await userEvent.click(useTemplateBtn);
 
       await waitFor(() => {
@@ -134,7 +134,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("public-use-template-btn");
+      const createPromptBtn = screen.getByTestId("public-use-prompt-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
@@ -154,7 +154,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("public-use-template-btn");
+      const createPromptBtn = screen.getByTestId("public-use-prompt-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {

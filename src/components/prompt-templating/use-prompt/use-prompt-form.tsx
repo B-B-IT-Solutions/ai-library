@@ -21,9 +21,9 @@ import {
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
-import { buildFieldsSchema } from "../fields/fields.schema";
-import { TemplateFieldsForm } from "../fields/template-fields-form";
-import { TemplatePreview } from "../fields/template-preview";
+import { PromptPreview } from "../variables/prompt-preview";
+import { PromptVariablesForm } from "../variables/prompt-variables-form";
+import { buildFieldsSchema } from "../variables/variables.schema";
 
 import {
    getOtherAiTools,
@@ -139,7 +139,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   <p className="text-xs font-medium text-muted-foreground">
                      Vorschau
                   </p>
-                  <TemplatePreview
+                  <PromptPreview
                      template={template}
                      values={currentValues}
                      resolvedContent={resolvedContent}
@@ -150,7 +150,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                      Platzhalter ausfüllen
                   </p>
                   <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
-                     <TemplateFieldsForm
+                     <PromptVariablesForm
                         templateData={templateData}
                         control={form.control}
                      />

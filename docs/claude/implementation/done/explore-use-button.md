@@ -16,10 +16,10 @@ Der `UseTemplateDialog` mit dem „Öffnen In"-Flow existiert bereits vollständ
 
 Dafür werden **zwei separate Button-Komponenten** gebaut:
 
-| Komponente | Kontext | Verhalten |
-|------------|---------|-----------|
-| `CatalogEntryUseButton` | Detail-Page | Content vorhanden → Dialog öffnet direkt |
-| `CatalogEntryUseLazyButton` | Karte | Click → Server Action → Dialog öffnet nach Laden |
+| Komponente                  | Kontext     | Verhalten                                        |
+| --------------------------- | ----------- | ------------------------------------------------ |
+| `CatalogEntryUseButton`     | Detail-Page | Content vorhanden → Dialog öffnet direkt         |
+| `CatalogEntryUseLazyButton` | Karte       | Click → Server Action → Dialog öffnet nach Laden |
 
 ---
 
@@ -78,6 +78,7 @@ export const toCatalogEntryTemplateData = (
 Client Component. Content ist bereits vorhanden — Dialog öffnet sofort beim Klick.
 
 **Props:**
+
 ```ts
 type Props = {
    entry: DCatalogEntryWithContent;
@@ -85,11 +86,13 @@ type Props = {
 ```
 
 **State:**
+
 ```ts
 const [isOpen, setIsOpen] = useState(false);
 ```
 
 **Render:**
+
 ```tsx
 "use client";
 
@@ -122,6 +125,7 @@ export const CatalogEntryUseButton = ({ entry }: Props) => {
 ```
 
 **Imports:**
+
 - `UseTemplateDialog` aus `@/components/prompt-templates`
 - `toCatalogEntryDescriptor`, `toCatalogEntryTemplateData` aus `./catalog-entry-use.utils`
 - `DCatalogEntryWithContent` aus `@/data/types/domain/catalog`
@@ -133,13 +137,13 @@ export const CatalogEntryUseButton = ({ entry }: Props) => {
 
 ### Neue Datei: `src/components/explore/buttons/catalog-entry-use-button.test.tsx`
 
-| Test | Was geprüft wird |
-|------|-----------------|
-| Button wird gerendert | `data-testid="catalog-entry-use-btn"` ist im DOM |
-| Dialog nicht sichtbar beim Laden | `use-template-dialog` ist initial nicht im DOM |
-| Klick öffnet Dialog | Nach `userEvent.click` ist `use-template-dialog` im DOM |
-| Dialog schließt bei `onCancel` | Nach Dialog-Schließen ist `use-template-dialog` nicht mehr im DOM |
-| Snapshot | Grundzustand (Dialog geschlossen) |
+| Test                             | Was geprüft wird                                                |
+| -------------------------------- | --------------------------------------------------------------- |
+| Button wird gerendert            | `data-testid="catalog-entry-use-btn"` ist im DOM                |
+| Dialog nicht sichtbar beim Laden | `use-prompt-dialog` ist initial nicht im DOM                    |
+| Klick öffnet Dialog              | Nach `userEvent.click` ist `use-prompt-dialog` im DOM           |
+| Dialog schließt bei `onCancel`   | Nach Dialog-Schließen ist `use-prompt-dialog` nicht mehr im DOM |
+| Snapshot                         | Grundzustand (Dialog geschlossen)                               |
 
 Testdaten: `dtestData.dCatalogEntryWithContent(1)`
 
@@ -152,6 +156,7 @@ Testdaten: `dtestData.dCatalogEntryWithContent(1)`
 Client Component. Lädt den Content beim ersten Klick via Server Action nach, dann öffnet der Dialog.
 
 **Props:**
+
 ```ts
 type Props = {
    slug: string;
@@ -160,6 +165,7 @@ type Props = {
 ```
 
 **State:**
+
 ```ts
 const [isLoading, setIsLoading] = useState(false);
 const [entry, setEntry] = useState<DCatalogEntryWithContent | null>(null);
@@ -167,6 +173,7 @@ const [isOpen, setIsOpen] = useState(false);
 ```
 
 **Handler:**
+
 ```ts
 const handleClick = async () => {
    setIsLoading(true);
@@ -183,6 +190,7 @@ const handleClick = async () => {
 ```
 
 **Render:**
+
 ```tsx
 "use client";
 
@@ -223,6 +231,7 @@ export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
 ```
 
 **Imports:**
+
 - `UseTemplateDialog` aus `@/components/prompt-templates`
 - `getPublishedCatalogEntryBySlug` aus `@/data/actions/catalog`
 - `toCatalogEntryDescriptor`, `toCatalogEntryTemplateData` aus `./catalog-entry-use.utils`
@@ -236,17 +245,18 @@ export const CatalogEntryUseLazyButton = ({ slug }: Props) => {
 
 ### Neue Datei: `src/components/explore/buttons/catalog-entry-use-lazy-button.test.tsx`
 
-| Test | Was geprüft wird |
-|------|-----------------|
-| Button wird gerendert | `data-testid="catalog-entry-use-lazy-btn"` ist im DOM |
-| Klick triggert `getPublishedCatalogEntryBySlug` | Mock wird mit `slug` aufgerufen |
-| Loading-Zustand während Fetch | Button ist `disabled` während des Ladens |
-| Erfolgreicher Fetch öffnet Dialog | `use-template-dialog` erscheint nach erfolgreichem Fetch |
-| Fehlgeschlagener Fetch zeigt Toast | `toast.error` wird aufgerufen wenn Action `null` zurückgibt |
-| Dialog schließt bei `onCancel` | Dialog verschwindet, `entry`-State wird zurückgesetzt |
-| Snapshot | Grundzustand (nicht loading, Dialog geschlossen) |
+| Test                                            | Was geprüft wird                                            |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| Button wird gerendert                           | `data-testid="catalog-entry-use-lazy-btn"` ist im DOM       |
+| Klick triggert `getPublishedCatalogEntryBySlug` | Mock wird mit `slug` aufgerufen                             |
+| Loading-Zustand während Fetch                   | Button ist `disabled` während des Ladens                    |
+| Erfolgreicher Fetch öffnet Dialog               | `use-prompt-dialog` erscheint nach erfolgreichem Fetch      |
+| Fehlgeschlagener Fetch zeigt Toast              | `toast.error` wird aufgerufen wenn Action `null` zurückgibt |
+| Dialog schließt bei `onCancel`                  | Dialog verschwindet, `entry`-State wird zurückgesetzt       |
+| Snapshot                                        | Grundzustand (nicht loading, Dialog geschlossen)            |
 
 **Mock für die Server Action:**
+
 ```ts
 jest.mock("@/data/actions/catalog", () => ({
    getPublishedCatalogEntryBySlug: jest.fn(),
@@ -272,6 +282,7 @@ export { CatalogEntryUseLazyButton } from "./catalog-entry-use-lazy-button";
 `CatalogEntryView` ist eine **Server Component** — bleibt so. Die neuen Client Components werden importiert und eingebunden.
 
 **Import erweitern:**
+
 ```ts
 import { CatalogEntryCopyButton, CatalogEntryUseButton } from "../../buttons";
 ```
@@ -307,6 +318,7 @@ import { CatalogEntryCopyButton, CatalogEntryUseButton } from "../../buttons";
 ### Tests: `catalog-entry-view.test.tsx`
 
 Hilfsfunktion ergänzen:
+
 ```ts
 const assertUseBtnRendered = () => {
    const header = screen.getByTestId("header");
@@ -330,6 +342,7 @@ In allen bestehenden `it()`-Blöcken `assertUseBtnRendered()` aufrufen.
 `ExploreEntryCard` ist eine **Server Component** — bleibt so. `CatalogEntryUseLazyButton` ist der Client-Teil.
 
 **Import ergänzen:**
+
 ```ts
 import { CatalogEntryUseLazyButton } from "@/components/explore/buttons";
 ```
@@ -358,6 +371,7 @@ import { CatalogEntryUseLazyButton } from "@/components/explore/buttons";
 ### Tests: `explore-entry-card.test.tsx`
 
 Neue Tests ergänzen:
+
 ```ts
 it("ExploreEntryCard - renders use lazy button - test", async () => {
    const entry = dtestData.dCatalogEntry(1);
@@ -378,20 +392,20 @@ Bestehende Snapshot-Tests laufen nach dem Löschen des Snapshots neu durch.
 
 ## Dateien-Übersicht
 
-| Aktion | Datei |
-|--------|-------|
-| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use.utils.ts` |
-| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-button.tsx` |
-| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-button.test.tsx` |
-| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-lazy-button.tsx` |
-| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-lazy-button.test.tsx` |
-| **Ändern** | `src/components/explore/buttons/index.tsx` |
-| **Ändern** | `src/components/explore/detail/view/catalog-entry-view.tsx` |
-| **Ändern** | `src/components/explore/detail/view/catalog-entry-view.test.tsx` |
-| **Ändern** | `src/components/explore/lists/items/explore-entry-card.tsx` |
-| **Ändern** | `src/components/explore/lists/items/explore-entry-card.test.tsx` |
-| **Löschen** | `src/components/explore/detail/view/__snapshots__/catalog-entry-view.test.tsx.snap` |
-| **Löschen** | `src/components/explore/lists/items/__snapshots__/explore-entry-card.test.tsx.snap` |
+| Aktion            | Datei                                                                               |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use.utils.ts`                         |
+| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-button.tsx`                       |
+| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-button.test.tsx`                  |
+| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-lazy-button.tsx`                  |
+| **Neu erstellen** | `src/components/explore/buttons/catalog-entry-use-lazy-button.test.tsx`             |
+| **Ändern**        | `src/components/explore/buttons/index.tsx`                                          |
+| **Ändern**        | `src/components/explore/detail/view/catalog-entry-view.tsx`                         |
+| **Ändern**        | `src/components/explore/detail/view/catalog-entry-view.test.tsx`                    |
+| **Ändern**        | `src/components/explore/lists/items/explore-entry-card.tsx`                         |
+| **Ändern**        | `src/components/explore/lists/items/explore-entry-card.test.tsx`                    |
+| **Löschen**       | `src/components/explore/detail/view/__snapshots__/catalog-entry-view.test.tsx.snap` |
+| **Löschen**       | `src/components/explore/lists/items/__snapshots__/explore-entry-card.test.tsx.snap` |
 
 ---
 
@@ -407,18 +421,21 @@ Bestehende Snapshot-Tests laufen nach dem Löschen des Snapshots neu durch.
 ## Akzeptanzkriterien
 
 ### Detail-Page (`/explore/[slug]`)
+
 - [ ] „Prompt anwenden"-Button erscheint im Header-CTA (vor dem Copy-Button)
 - [ ] „Prompt anwenden"-Button erscheint im Bottom-CTA (vor dem Copy-Button)
 - [ ] Klick öffnet Dialog sofort (kein Laden nötig)
 - [ ] Formularfelder stimmen mit den Feldern des Catalog-Eintrags überein
 
 ### Karte (`/explore`)
+
 - [ ] „Anwenden"-Button erscheint auf jeder Karte neben „Ansehen"
 - [ ] Klick zeigt Loading-Zustand (Button disabled + Spinner)
 - [ ] Dialog öffnet nach erfolgreichem Laden des Contents
 - [ ] Fehlerfall zeigt `toast.error`
 
 ### Beide Kontexte
+
 - [ ] Live-Vorschau rendert Prompt korrekt mit ausgefüllten Werten
 - [ ] „Öffnen In"-Dropdown öffnet gewähltes KI-Tool mit fertigem Prompt
 - [ ] Copy-Button kopiert fertigen Prompt in Zwischenablage

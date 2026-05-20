@@ -19,7 +19,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         </p>
         <div
           class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
-          data-testid="template-preview"
+          data-testid="prompt-preview"
         >
           <button
             data-slot="tooltip-trigger"
@@ -115,7 +115,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         >
           <div
             class="space-y-4"
-            data-testid="template-fields-form"
+            data-testid="prompt-variables-form"
           >
             <div>
               <div

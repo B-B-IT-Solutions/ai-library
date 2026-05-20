@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Loader2, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { UseTemplateDialog } from "@/components/prompt-templates";
+import { UsePromptDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { getPublishedCatalogEntryBySlug } from "@/data/actions/catalog";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
@@ -35,7 +35,7 @@ export const UseCatalogEntryLazyButton = ({ slug }: Props) => {
    const dialog = () => {
       if (isOpen && entry) {
          return (
-            <UseTemplateDialog
+            <UsePromptDialog
                prompt={toDPrompt(entry)}
                generationData={toDPromptGenerationData(entry)}
                onCancel={() => {

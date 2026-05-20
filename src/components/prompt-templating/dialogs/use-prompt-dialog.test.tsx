@@ -3,10 +3,10 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { UseTemplateDialog } from "./use-template-dialog";
+import { UsePromptDialog } from "./use-prompt-dialog";
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("use-template-dialog");
+   const dialog = screen.getByTestId("use-prompt-dialog");
    const promptFromTemplate = screen.getByTestId("use-template-form");
    const expandBtn = screen.getByTestId("expand-btn");
    const closeBtn = screen.getByTestId("close-btn");
@@ -17,7 +17,7 @@ const assertDialogRendered = () => {
    assertInDocument(closeBtn);
 };
 
-describe("UseTemplateDialog rendering tests", () => {
+describe("UsePromptDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -28,7 +28,7 @@ describe("UseTemplateDialog rendering tests", () => {
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <UseTemplateDialog
+         <UsePromptDialog
             prompt={descriptor}
             generationData={templateData}
             onCancel={cancelFn}
@@ -49,7 +49,7 @@ describe("UseTemplateDialog rendering tests", () => {
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <UseTemplateDialog
+         <UsePromptDialog
             prompt={descriptor}
             generationData={templateData}
             onCancel={cancelFn}
@@ -64,7 +64,7 @@ describe("UseTemplateDialog rendering tests", () => {
    });
 });
 
-describe("UseTemplateDialog functionality tests", () => {
+describe("UsePromptDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -75,7 +75,7 @@ describe("UseTemplateDialog functionality tests", () => {
       const cancelFn = jest.fn();
 
       render(
-         <UseTemplateDialog
+         <UsePromptDialog
             prompt={descriptor}
             generationData={templateData}
             onCancel={cancelFn}

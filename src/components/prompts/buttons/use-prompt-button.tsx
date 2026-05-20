@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { UseTemplateDialog } from "@/components/prompt-templates";
+import { UsePromptDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
@@ -39,7 +39,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
    const dialog = () => {
       if (templateData) {
          return (
-            <UseTemplateDialog
+            <UsePromptDialog
                prompt={descriptor}
                generationData={templateData}
                onCancel={handleCancel}
@@ -77,7 +77,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="use-template-btn"
+            data-testid="use-prompt-btn"
          >
             {label()}
          </Button>

@@ -8,18 +8,18 @@ import {
    DPromptGenerationData,
 } from "@/data/types/domain/prompt";
 
-import { CheckBoxField } from "./field/field-check-box";
-import { GenericField } from "./field/field-generic";
-import { RadioField } from "./field/field-radio";
-import { SelectField } from "./field/field-select";
-import { TextAreaField } from "./field/field-textarea";
+import { CheckBoxField } from "./variable/field-check-box";
+import { GenericField } from "./variable/field-generic";
+import { RadioField } from "./variable/field-radio";
+import { SelectField } from "./variable/field-select";
+import { TextAreaField } from "./variable/field-textarea";
 
 type Props = {
    templateData: DPromptGenerationData;
    control: Control<FieldValues>;
 };
 
-export const TemplateFieldsForm = ({ templateData, control }: Props) => {
+export const PromptVariablesForm = ({ templateData, control }: Props) => {
    const { allFields: fields } = templateData;
 
    const renderField = (field: DPromptField) => {
@@ -47,10 +47,7 @@ export const TemplateFieldsForm = ({ templateData, control }: Props) => {
    };
 
    return (
-      <div
-         className="space-y-4"
-         data-testid="template-fields-form"
-      >
+      <div className="space-y-4" data-testid="prompt-variables-form">
          {renderFields()}
       </div>
    );

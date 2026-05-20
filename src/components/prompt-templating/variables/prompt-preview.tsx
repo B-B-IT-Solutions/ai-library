@@ -13,15 +13,11 @@ type Props = {
    resolvedContent: string;
 };
 
-export const TemplatePreview = ({
-   template,
-   values,
-   resolvedContent,
-}: Props) => {
+export const PromptPreview = ({ template, values, resolvedContent }: Props) => {
    return (
       <div
          className="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
-         data-testid="template-preview"
+         data-testid="prompt-preview"
       >
          <CopyButton
             content={resolvedContent}

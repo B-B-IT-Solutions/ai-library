@@ -8,7 +8,7 @@ import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { UseTemplateForm } from "./use-template-form";
+import { UseTemplateForm } from "./use-prompt-form";
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
@@ -36,8 +36,8 @@ const createField = (
 
 const assertRendered = () => {
    const promptFromTemplate = screen.getByTestId("use-template-form");
-   const preview = screen.getByTestId("template-preview");
-   const form = screen.getByTestId("template-fields-form");
+   const preview = screen.getByTestId("prompt-preview");
+   const form = screen.getByTestId("prompt-variables-form");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");
    const openInAiBtn = screen.getByTestId("open-in-ai-btn");
