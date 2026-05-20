@@ -21,7 +21,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
-import { TemplateFieldsForm } from "../variables/template-fields-form";
+import { PromptVariablesForm } from "../variables/prompt-variables-form";
 import { TemplatePreview } from "../variables/template-preview";
 import { buildFieldsSchema } from "../variables/variables.schema";
 
@@ -150,7 +150,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                      Platzhalter ausfüllen
                   </p>
                   <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
-                     <TemplateFieldsForm
+                     <PromptVariablesForm
                         templateData={templateData}
                         control={form.control}
                      />

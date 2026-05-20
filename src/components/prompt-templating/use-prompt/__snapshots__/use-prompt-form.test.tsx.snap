@@ -115,7 +115,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         >
           <div
             class="space-y-4"
-            data-testid="template-fields-form"
+            data-testid="prompt-variables-form"
           >
             <div>
               <div

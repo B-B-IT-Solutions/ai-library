@@ -19,7 +19,7 @@ type Props = {
    control: Control<FieldValues>;
 };
 
-export const TemplateFieldsForm = ({ templateData, control }: Props) => {
+export const PromptVariablesForm = ({ templateData, control }: Props) => {
    const { allFields: fields } = templateData;
 
    const renderField = (field: DPromptField) => {
@@ -47,7 +47,7 @@ export const TemplateFieldsForm = ({ templateData, control }: Props) => {
    };
 
    return (
-      <div className="space-y-4" data-testid="template-fields-form">
+      <div className="space-y-4" data-testid="prompt-variables-form">
          {renderFields()}
       </div>
    );

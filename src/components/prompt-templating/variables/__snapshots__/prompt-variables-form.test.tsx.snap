@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = `
+exports[`PromptVariablesForm rendering tests render test 1`] = `
 <div>
   <div
     class="space-y-4"
