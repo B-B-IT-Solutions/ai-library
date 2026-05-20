@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Settings2, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -42,18 +42,15 @@ export const SubscriptionConfirmation = () => {
                   </Link>
                </Button>
 
-               <Button
-                  asChild={true}
-                  variant="outline"
-                  className="w-full"
-                  size="lg"
-                  data-testid="view-subscription-link"
-               >
-                  <Link href="/settings/subscription">
-                     <Settings2 className="h-4 w-4" />
+               <div className="flex justify-center pt-1">
+                  <Link
+                     href="/settings/subscription"
+                     className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                     data-testid="view-subscription-link"
+                  >
                      Abo verwalten
                   </Link>
-               </Button>
+               </div>
             </div>
          </CardContent>
 
