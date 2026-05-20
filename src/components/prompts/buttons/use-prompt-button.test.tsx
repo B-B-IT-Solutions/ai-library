@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPromptGenerationData } from "@/data/actions/prompt";
 
-import { UseTemplateButton } from "./use-template-button";
+import { UseTemplateButton } from "./use-prompt-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -19,7 +19,7 @@ const getPromptGenerationDataMock =
    >;
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("use-template-btn");
+   const btn = screen.getByTestId("use-prompt-btn");
    assertInDocument(btn);
 };
 
@@ -80,7 +80,7 @@ describe("UseTemplateButton rendering tests", () => {
          assertRendered();
       });
 
-      const btn = screen.getByTestId("use-template-btn");
+      const btn = screen.getByTestId("use-prompt-btn");
       expect(btn).toHaveClass("custom-class");
       expect(container).toMatchSnapshot();
    });
@@ -102,7 +102,7 @@ describe("UseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const useTemplateBtn = screen.getByTestId("use-template-btn");
+      const useTemplateBtn = screen.getByTestId("use-prompt-btn");
       await userEvent.click(useTemplateBtn);
 
       await waitFor(() => {
@@ -129,7 +129,7 @@ describe("UseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("use-template-btn");
+      const createPromptBtn = screen.getByTestId("use-prompt-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
@@ -149,7 +149,7 @@ describe("UseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("use-template-btn");
+      const createPromptBtn = screen.getByTestId("use-prompt-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {

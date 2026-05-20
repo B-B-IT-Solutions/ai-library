@@ -77,7 +77,7 @@ export const PublicUseTemplateButton = ({ descriptor, className }: Props) => {
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="public-use-template-btn"
+            data-testid="public-use-prompt-btn"
          >
             {label()}
          </Button>
