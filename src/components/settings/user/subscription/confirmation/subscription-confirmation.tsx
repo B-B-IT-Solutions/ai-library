@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -33,28 +33,25 @@ export const SubscriptionConfirmation = () => {
          </CardHeader>
 
          <CardContent className="pb-8">
-            <div className="space-y-2.5">
-               <Button asChild={true} className="w-full" size="lg">
+            <div className="flex flex-col items-center gap-4">
+               <Button asChild={true} size="lg">
                   <Link href="/prompts" data-testid="prompts-link">
                      Zu meinen Prompts
-                     <ArrowRight className="h-4 w-4" />
                   </Link>
                </Button>
 
-               <div className="flex justify-center pt-1">
-                  <Link
-                     href="/settings/subscription"
-                     className="text-sm text-foreground underline-offset-4 hover:underline"
-                     data-testid="view-subscription-link"
-                  >
-                     Abo verwalten
-                  </Link>
-               </div>
+               <Link
+                  href="/settings/subscription"
+                  className="text-sm text-foreground underline-offset-4 hover:underline"
+                  data-testid="view-subscription-link"
+               >
+                  Abo verwalten
+               </Link>
             </div>
          </CardContent>
 
          <div className="border-t bg-muted/40 px-6 pt-3 pb-2">
-            <p className="text-xs text-muted-foreground/70">
+            <p className="text-center text-xs text-muted-foreground/70">
                Du kannst dein Abonnement jederzeit in den Einstellungen anpassen
                oder kündigen.
             </p>
