@@ -36,8 +36,7 @@ export const SubscriptionConfirmation = () => {
             <div className="space-y-2.5">
                <Button asChild={true} className="w-full" size="lg">
                   <Link href="/prompts" data-testid="prompts-link">
-                     <Sparkles className="h-4 w-4" />
-                     Jetzt loslegen
+                     Zu meinen Prompts
                      <ArrowRight className="h-4 w-4" />
                   </Link>
                </Button>
