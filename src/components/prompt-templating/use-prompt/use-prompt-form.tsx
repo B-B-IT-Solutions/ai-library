@@ -21,9 +21,9 @@ import {
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
-import { buildFieldsSchema } from "../fields/fields.schema";
-import { TemplateFieldsForm } from "../fields/template-fields-form";
-import { TemplatePreview } from "../fields/template-preview";
+import { TemplateFieldsForm } from "../variables/template-fields-form";
+import { TemplatePreview } from "../variables/template-preview";
+import { buildFieldsSchema } from "../variables/variables.schema";
 
 import {
    getOtherAiTools,

@@ -12,8 +12,8 @@ import {
    DPromptGenerationData,
 } from "@/data/types/domain/prompt";
 
-import { buildFieldsSchema } from "./fields.schema";
 import { TemplateFieldsForm } from "./template-fields-form";
+import { buildFieldsSchema } from "./variables.schema";
 
 type Props = {
    templateData: DPromptGenerationData;
