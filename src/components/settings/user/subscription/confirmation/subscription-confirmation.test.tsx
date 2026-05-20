@@ -14,8 +14,8 @@ const assertRendered = () => {
    assertInDocument(subscriptionLink);
 };
 
-describe("SubscriptionStatus rendering tests", () => {
-   it("Subscription - free plan - test", async () => {
+describe("SubscriptionConfirmation rendering tests", () => {
+   it("rendered - test", async () => {
       const { container } = render(<SubscriptionConfirmation />);
 
       await waitFor(() => {
