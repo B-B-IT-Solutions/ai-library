@@ -33,7 +33,7 @@ export const SubscriptionConfirmation = () => {
             </CardDescription>
          </CardHeader>
 
-         <CardContent className="space-y-6 pb-8">
+         <CardContent className="pb-8">
             <div className="space-y-2.5">
                <Button asChild={true} className="w-full" size="lg">
                   <Link href="/prompts" data-testid="prompts-link">
@@ -57,7 +57,7 @@ export const SubscriptionConfirmation = () => {
                </Button>
             </div>
 
-            <Separator />
+            <Separator className="my-8" />
 
             <p className="text-center text-xs text-muted-foreground">
                Du kannst dein Abonnement jederzeit in den Einstellungen
