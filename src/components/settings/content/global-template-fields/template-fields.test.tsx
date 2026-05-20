@@ -12,17 +12,16 @@ import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import { GlobalPromptFields } from "./template-fields";
 
-const getGlobalPromptFieldsMock =
-   getGlobalPromptFields as jest.MockedFunction<
-      typeof getGlobalPromptFields
-   >;
+const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
+   typeof getGlobalPromptFields
+>;
 
 const assertRendered = () => {
    const fields = screen.getByTestId("template-fields");
    assertInDocument(fields);
 };
 
-const assertFieldsRendered = () => {
+const assertVariablesRendered = () => {
    const addBtn = screen.getByTestId("add-template-field-btn");
    const fieldItems = screen.getAllByTestId("template-field");
 
@@ -66,7 +65,7 @@ describe("TemplateFields rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertEmptyStateNotRendered();
       });
 

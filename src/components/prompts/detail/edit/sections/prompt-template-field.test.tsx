@@ -52,7 +52,7 @@ const assertRendered = () => {
    assertInDocument(removeBtn);
 };
 
-const assertFieldsRendered = (index: number) => {
+const assertVariablesRendered = (index: number) => {
    const name = screen.getByTestId(`fields.${index}.name`);
    const label = screen.getByTestId(`fields.${index}.label`);
    const type = screen.getByTestId(`fields.${index}.type`);
@@ -81,7 +81,7 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });
@@ -98,7 +98,7 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });
@@ -115,7 +115,7 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });

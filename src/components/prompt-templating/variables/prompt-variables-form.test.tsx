@@ -72,7 +72,7 @@ const assertRendered = () => {
    assertInDocument(form);
 };
 
-const assertFieldsRendered = (fields: DPromptVariable[]) => {
+const assertVariablesRendered = (fields: DPromptVariable[]) => {
    forEach(fields, (f) => {
       const field = screen.getByTestId(f.name);
       assertInDocument(field);
@@ -114,7 +114,7 @@ describe("PromptVariablesForm rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertFieldsRendered(fields);
+         assertVariablesRendered(fields);
       });
 
       expect(container).toMatchSnapshot();
