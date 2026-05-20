@@ -11,7 +11,7 @@ export {
    globalPromptFieldInitValues,
 } from "./utils/init-values";
 export {
-   TEMPLATE_FIELD_OPTIONS,
-   getTemplateFieldTypeLabel,
+   PROMPT_VARIABLE_OPTIONS,
+   getPromptVariableTypeLabel,
 } from "./utils/utils";
 export { GlobalPromptFieldsPicker } from "./picker";

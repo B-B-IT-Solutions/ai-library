@@ -3,13 +3,13 @@
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
-   DPromptFieldValues,
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptVariableValues,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -124,7 +124,7 @@ export class PromptService {
    async composePromptFromTemplate(
       userId: string,
       descriptorId: string,
-      fieldValues: DPromptFieldValues
+      fieldValues: DPromptVariableValues
    ): Promise<DPrompt0Update> {
       const descriptor = await this.getPrompt(userId, descriptorId);
 

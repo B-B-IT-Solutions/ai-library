@@ -2,7 +2,7 @@
 
 import { dtestData } from "@tests";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
@@ -17,7 +17,7 @@ const sExtractVariablesMock = sExtractVariables as jest.MockedFunction<
 describe("resolveAllTemplateFields tests", () => {
    const globalFieldToTemplateFieldInternal = (
       gf: DGlobalPromptField
-   ): DPromptField => {
+   ): DPromptVariable => {
       return {
          id: gf.id,
          promptId: "",
@@ -35,7 +35,7 @@ describe("resolveAllTemplateFields tests", () => {
    const missingVariableToTemplateFieldInternal = (
       name: string,
       index: number
-   ): DPromptField => {
+   ): DPromptVariable => {
       return {
          id: name,
          promptId: "",

@@ -9,13 +9,13 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
-   DPromptFieldValues,
    DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptVariableValues,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -151,7 +151,7 @@ export const getPromptGenerationData = async (
 
 export const composePromptFromTemplate = async (
    descriptorId: string,
-   fieldValues: DPromptFieldValues
+   fieldValues: DPromptVariableValues
 ): Promise<ActionResult<DPrompt0Update>> => {
    try {
       if (!isValidUuid(descriptorId)) {

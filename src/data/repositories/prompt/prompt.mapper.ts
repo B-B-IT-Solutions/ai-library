@@ -6,7 +6,7 @@ import {
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptField,
+   DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
@@ -36,16 +36,18 @@ export const toDPromptWithContent = (
    return {
       ...toDPrompt(prompt),
       content: prompt.content.content,
-      fields: toDTemplateFields(prompt.fields),
+      fields: toDPromptVariables(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };
 };
 
-export const toDTemplateFields = (fields: PromptField[]): DPromptField[] => {
-   return map(fields, toDTemplateField).sort((a, b) => a.order - b.order);
+export const toDPromptVariables = (
+   fields: PromptField[]
+): DPromptVariable[] => {
+   return map(fields, toDPromptVariable).sort((a, b) => a.order - b.order);
 };
 
-export const toDTemplateField = (field: PromptField): DPromptField => {
+export const toDPromptVariable = (field: PromptField): DPromptVariable => {
    return {
       id: field.id,
       promptId: field.promptId,

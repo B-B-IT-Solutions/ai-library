@@ -3,13 +3,13 @@
 import { Control, FieldValues, Path } from "react-hook-form";
 
 import { FormDynamicValues } from "@/components/shared/widgets";
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 
-import { isOptionsFieldType } from "./utils/utils";
+import { isOptionsPromptVariableType } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
-   type: DPromptFieldType;
+   type: DPromptVariableType;
    control: Control<T>;
 };
 
@@ -18,7 +18,7 @@ export const TemplateFieldSelectOptions = <T extends FieldValues>({
    type,
    control,
 }: Props<T>) => {
-   if (!isOptionsFieldType(type)) {
+   if (!isOptionsPromptVariableType(type)) {
       return null;
    }
 

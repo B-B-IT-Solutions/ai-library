@@ -4,12 +4,12 @@ import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 
 import { SelectField } from "./field-select";
 
 type Props = {
-   field: DPromptField;
+   field: DPromptVariable;
    defaultValue?: string;
 };
 
@@ -27,7 +27,7 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = "" }) => {
    );
 };
 
-const baseField: DPromptField = {
+const baseField: DPromptVariable = {
    id: "test-select",
    promptId: "1",
    name: "name-1",
@@ -60,7 +60,7 @@ describe("SelectField rendering tests", () => {
    });
 
    it("SelectField - required true - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          required: true,
          options: undefined,

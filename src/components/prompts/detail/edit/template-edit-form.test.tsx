@@ -59,14 +59,14 @@ const assertRendered = () => {
    const form = screen.getByTestId("template-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
    const templateContent = screen.getByTestId("prompt-template-content");
-   const fields = screen.getByTestId("prompt-template-fields");
+   const variables = screen.getByTestId("prompt-variables");
    const cancelBtn = screen.getByTestId("cancel-btn");
    const saveBtn = screen.getByTestId("save-btn");
 
    assertInDocument(form);
    assertInDocument(basicInfo);
    assertInDocument(templateContent);
-   assertInDocument(fields);
+   assertInDocument(variables);
    assertInDocument(cancelBtn);
    assertInDocument(saveBtn);
 };
@@ -87,16 +87,16 @@ const assertDetectedVariablesNotRendered = () => {
 
 const assertTemplateFieldsEmptyRendered = () => {
    const fieldsEmpty = screen.getByTestId("fields-empty");
-   const field = screen.queryByTestId("prompt-template-field");
+   const variable = screen.queryByTestId("prompt-variable");
    assertInDocument(fieldsEmpty);
-   assertNotInDocument(field);
+   assertNotInDocument(variable);
 };
 
 const assertTemplateFieldRendered = () => {
-   const field = screen.getByTestId("prompt-template-field");
+   const variable = screen.getByTestId("prompt-variable");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
 
-   assertInDocument(field);
+   assertInDocument(variable);
    assertNotInDocument(fieldsEmpty);
 };
 
@@ -262,8 +262,8 @@ describe("TemplateEditForm functionality tests", () => {
       assertRendered();
       assertTemplateFieldsEmptyRendered();
 
-      const fieldsSection = screen.getByTestId("prompt-template-fields");
-      const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
+      const variablesSection = screen.getByTestId("prompt-variables");
+      const addFieldBtn = within(variablesSection).getByTestId("add-btn");
 
       await userEvent.click(addFieldBtn);
 
@@ -279,14 +279,14 @@ describe("TemplateEditForm functionality tests", () => {
       assertRendered();
       assertTemplateFieldsEmptyRendered();
 
-      const fieldsSection = screen.getByTestId("prompt-template-fields");
-      const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
+      const variablesSection = screen.getByTestId("prompt-variables");
+      const addFieldBtn = within(variablesSection).getByTestId("add-btn");
       await userEvent.click(addFieldBtn);
 
       assertTemplateFieldRendered();
 
-      const field = screen.getByTestId("prompt-template-field");
-      const removeBtn = within(field).getByTestId("remove-btn");
+      const variable = screen.getByTestId("prompt-variable");
+      const removeBtn = within(variable).getByTestId("remove-btn");
       await userEvent.click(removeBtn);
 
       await waitFor(() => {

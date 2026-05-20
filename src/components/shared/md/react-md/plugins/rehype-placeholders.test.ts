@@ -1,4 +1,4 @@
-﻿import { DPromptFieldValues } from "@/data/types/domain/prompt";
+﻿import { DPromptVariableValues } from "@/data/types/domain/prompt";
 
 import { rehypePlaceholders } from "./rehype-placeholders";
 
@@ -14,7 +14,7 @@ const makeSpan = (className: string, text: string) => ({
 
 const makeTextNode = (value: string) => ({ type: "text", value });
 
-const runPlugin = (textContent: string, values: DPromptFieldValues) => {
+const runPlugin = (textContent: string, values: DPromptVariableValues) => {
    const parent = {
       type: "element",
       tagName: "p",

@@ -4,13 +4,13 @@ import { HTMLInputTypeAttribute } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { FormInput, FormSelect } from "@/components/shared/widgets";
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 
-import { isOptionsFieldType } from "./utils/utils";
+import { isOptionsPromptVariableType } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: FieldPath<T>;
-   type: DPromptFieldType;
+   type: DPromptVariableType;
    options: string[];
    control: Control<T>;
 };
@@ -34,7 +34,7 @@ export const TemplateFieldDefaultValue = <T extends FieldValues>({
       }
    };
 
-   if (isOptionsFieldType(type)) {
+   if (isOptionsPromptVariableType(type)) {
       return (
          <FormSelect<T>
             name={name}

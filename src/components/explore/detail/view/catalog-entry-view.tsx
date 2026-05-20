@@ -14,13 +14,13 @@ import {
    DCatalogEntry,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 import {
    AddCatalogEntryToLibraryButton,
    UseCatalogEntryButton,
 } from "../../buttons";
 
-const FIELD_TYPE_LABELS: Record<DPromptFieldType, string> = {
+const FIELD_TYPE_LABELS: Record<DPromptVariableType, string> = {
    TEXT: "Text",
    TEXTAREA: "Mehrzeiliger Text",
    SELECT: "Auswahl",

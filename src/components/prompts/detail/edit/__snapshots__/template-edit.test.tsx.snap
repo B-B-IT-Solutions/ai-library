@@ -1003,7 +1003,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
               />
               <section
                 class="space-y-4"
-                data-testid="prompt-template-fields"
+                data-testid="prompt-variables"
               >
                 <div
                   class="flex items-center justify-between"
@@ -1210,7 +1210,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                 >
                   <div
                     class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                    data-testid="prompt-template-field"
+                    data-testid="prompt-variable"
                   >
                     <div
                       class="mb-4 flex items-center justify-between"
@@ -1821,7 +1821,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                   </div>
                   <div
                     class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                    data-testid="prompt-template-field"
+                    data-testid="prompt-variable"
                   >
                     <div
                       class="mb-4 flex items-center justify-between"
@@ -2432,7 +2432,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                   </div>
                   <div
                     class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                    data-testid="prompt-template-field"
+                    data-testid="prompt-variable"
                   >
                     <div
                       class="mb-4 flex items-center justify-between"
@@ -3973,7 +3973,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
               />
               <section
                 class="space-y-4"
-                data-testid="prompt-template-fields"
+                data-testid="prompt-variables"
               >
                 <div
                   class="flex items-center justify-between"
@@ -5005,7 +5005,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
               />
               <section
                 class="space-y-4"
-                data-testid="prompt-template-fields"
+                data-testid="prompt-variables"
               >
                 <div
                   class="flex items-center justify-between"

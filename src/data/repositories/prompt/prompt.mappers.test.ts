@@ -7,7 +7,7 @@ import {
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
-   DPromptField,
+   DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
@@ -39,18 +39,22 @@ const toDPromptWithContentInternal = (
    return {
       ...toDPromptInternal(prompt),
       content: prompt.content.content,
-      fields: toDPromptFieldsInternal(prompt.fields),
+      fields: toDPromptVariablesInternal(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
    };
 };
 
-export const toDPromptFieldsInternal = (
+export const toDPromptVariablesInternal = (
    fields: PromptField[]
-): DPromptField[] => {
-   return map(fields, toDPromptFieldInternal).sort((a, b) => a.order - b.order);
+): DPromptVariable[] => {
+   return map(fields, toDPromptVariableInternal).sort(
+      (a, b) => a.order - b.order
+   );
 };
 
-export const toDPromptFieldInternal = (field: PromptField): DPromptField => ({
+export const toDPromptVariableInternal = (
+   field: PromptField
+): DPromptVariable => ({
    id: field.id,
    promptId: field.promptId,
    name: field.name,
@@ -63,7 +67,7 @@ export const toDPromptFieldInternal = (field: PromptField): DPromptField => ({
    options: field.options as string[] | undefined,
 });
 
-describe("prompt.template mappers tests", () => {
+describe("prompt mappers tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

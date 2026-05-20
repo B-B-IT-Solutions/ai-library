@@ -2,14 +2,14 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { DPromptFieldValues } from "@/data/types/domain/prompt";
+import { DPromptVariableValues } from "@/data/types/domain/prompt";
 
 import { components } from "./components";
 import { rehypePlaceholders } from "./plugins/rehype-placeholders";
 
 type Plugin = {
    type: "rehype-placeholders";
-   value: DPromptFieldValues;
+   value: DPromptVariableValues;
 };
 
 type Props = {

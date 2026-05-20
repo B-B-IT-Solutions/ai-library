@@ -33,7 +33,7 @@ const assertContentNotRendered = async () => {
    assertNotInDocument(fieldsList);
 };
 
-const assertFieldsRendered = async () => {
+const assertVariablesRendered = async () => {
    const fieldOptions = screen.getAllByTestId("field-option");
    const empty = screen.queryByTestId("fields-empty");
 
@@ -128,7 +128,7 @@ describe("GlobalPromptFieldsPicker rendering tests", () => {
 
       await waitFor(() => {
          assertContentRendered();
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertAddBtnNotRendered();
       });
 
@@ -161,7 +161,7 @@ describe("GlobalPromptFieldsPicker rendering tests", () => {
 
       await waitFor(() => {
          assertContentRendered();
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertAddBtnNotRendered();
       });
 
@@ -203,7 +203,7 @@ describe("GlobalPromptFieldsPicker functionality tests", () => {
       await userEvent.click(pickerBtn);
 
       await waitFor(() => {
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertContentRendered();
          expect(addFieldsFn).not.toHaveBeenCalled();
       });
@@ -255,7 +255,7 @@ describe("GlobalPromptFieldsPicker functionality tests", () => {
       await userEvent.click(pickerBtn);
 
       await waitFor(() => {
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertContentRendered();
          expect(addFieldsFn).not.toHaveBeenCalled();
       });
@@ -313,7 +313,7 @@ describe("GlobalPromptFieldsPicker functionality tests", () => {
       await userEvent.click(pickerBtn);
 
       await waitFor(() => {
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertContentRendered();
       });
 
@@ -361,7 +361,7 @@ describe("GlobalPromptFieldsPicker functionality tests", () => {
       await userEvent.click(pickerBtn);
 
       await waitFor(() => {
-         assertFieldsRendered();
+         assertVariablesRendered();
          assertContentRendered();
          expect(addFieldsFn).not.toHaveBeenCalled();
       });

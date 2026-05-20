@@ -1,7 +1,7 @@
 ﻿import z from "zod";
 
 import {
-   templateFieldSchema,
+   promptVariableSchema,
    updateTemplateSchema,
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
@@ -17,7 +17,7 @@ export type DPromptsFilter = {
    collectionIds?: string[];
 };
 
-export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
+export type DPromptVariableUpdate = z.infer<typeof promptVariableSchema>;
 
 export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 
@@ -32,7 +32,7 @@ export type DPromptCategory = {
 
 export type DPromptGenerationData = {
    template: DPromptWithContent;
-   allFields: DPromptField[];
+   allFields: DPromptVariable[];
 };
 
 export type DPrompt = {
@@ -42,7 +42,7 @@ export type DPrompt = {
    recommendedModel: string;
    isFavorite: boolean;
    categories: DPromptCategory[];
-   fields: DPromptField[];
+   fields: DPromptVariable[];
    globalFieldIds: string[];
    updatedAt: string;
    createdAt: string;
@@ -52,7 +52,7 @@ export type DPromptWithContent = DPrompt & {
    content: string;
 };
 
-export type DPromptFieldType =
+export type DPromptVariableType =
    | "TEXT"
    | "TEXTAREA"
    | "SELECT"
@@ -62,22 +62,22 @@ export type DPromptFieldType =
    | "DATE"
    | "EMAIL";
 
-export type DPromptFieldValueType = string | number | null | undefined;
+export type DPromptVariableValueType = string | number | null | undefined;
 
-export type DPromptField = {
+export type DPromptVariable = {
    id: string;
    promptId: string;
    name: string;
    label: string;
    description: string | null;
-   type: DPromptFieldType;
+   type: DPromptVariableType;
    required: boolean;
    order: number;
    defaultValue: string | null;
    options?: string[];
 };
 
-export type DPromptFieldValues = Record<string, DPromptFieldValueType>;
+export type DPromptVariableValues = Record<string, DPromptVariableValueType>;
 
 export type DPromptsUsage = {
    current: number;

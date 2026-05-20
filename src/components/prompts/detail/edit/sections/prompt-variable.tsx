@@ -25,7 +25,7 @@ type Props = {
    watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptField = ({
+export const PromptVariable = ({
    index,
    isUsed,
    hasName,
@@ -119,7 +119,7 @@ export const PromptField = ({
                  ? "border-green-200 bg-green-50"
                  : "border-slate-200 bg-slate-50"
          }`}
-         data-testid="prompt-template-field"
+         data-testid="prompt-variable"
       >
          {header()}
          {formInputs()}

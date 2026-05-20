@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
+exports[`PromptVariables rendering tests variables - test 1`] = `
 <div>
   <section
     class="space-y-4"
-    data-testid="prompt-template-fields"
+    data-testid="prompt-variables"
   >
     <div
       class="flex items-center justify-between"
@@ -211,7 +211,7 @@ exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
     >
       <div
         class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-        data-testid="prompt-template-field"
+        data-testid="prompt-variable"
       >
         <div
           class="mb-4 flex items-center justify-between"
@@ -742,7 +742,7 @@ exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
       </div>
       <div
         class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-        data-testid="prompt-template-field"
+        data-testid="prompt-variable"
       >
         <div
           class="mb-4 flex items-center justify-between"
@@ -1273,7 +1273,7 @@ exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
       </div>
       <div
         class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-        data-testid="prompt-template-field"
+        data-testid="prompt-variable"
       >
         <div
           class="mb-4 flex items-center justify-between"
@@ -1807,11 +1807,11 @@ exports[`PromptFieldss rendering tests PromptFields - fields - test 1`] = `
 </div>
 `;
 
-exports[`PromptFieldss rendering tests PromptFields - fields empty - test 1`] = `
+exports[`PromptVariables rendering tests variables empty - test 1`] = `
 <div>
   <section
     class="space-y-4"
-    data-testid="prompt-template-fields"
+    data-testid="prompt-variables"
   >
     <div
       class="flex items-center justify-between"

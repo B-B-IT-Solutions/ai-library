@@ -7,14 +7,14 @@ import { Control, UseFormWatch } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import { GlobalPromptFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptGlobalPromptField } from "./prompt-global-template-field";
-import { PromptField } from "./prompt-template-field";
+import { PromptVariable } from "./prompt-variable";
 
 type Props = {
-   fields: DPromptField[];
+   fields: DPromptVariable[];
    detectedVariables: string[];
    globalFields: DGlobalPromptField[];
    globalFieldIds: string[];
@@ -26,7 +26,7 @@ type Props = {
    watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptFields = ({
+export const PromptVariables = ({
    fields,
    detectedVariables,
    globalFields,
@@ -103,13 +103,13 @@ export const PromptFields = ({
       }
    };
 
-   const renderTemplateField = (field: DPromptField, idx: number) => {
+   const renderTemplateField = (field: DPromptVariable, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
       const hasName = !isEmpty(fieldName);
 
       return (
-         <PromptField
+         <PromptVariable
             key={field.id}
             index={idx}
             isUsed={isUsed}
@@ -143,7 +143,7 @@ export const PromptFields = ({
    };
 
    return (
-      <section className="space-y-4" data-testid="prompt-template-fields">
+      <section className="space-y-4" data-testid="prompt-variables">
          {header()}
          {renderGlobalFields()}
          {renderTemplateFields()}

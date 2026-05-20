@@ -4,10 +4,10 @@ import { FC } from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 import { FormSelect } from "@/components/shared/widgets";
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 
 type Props = {
-   field: DPromptField;
+   field: DPromptVariable;
    control: Control<FieldValues>;
 };
 

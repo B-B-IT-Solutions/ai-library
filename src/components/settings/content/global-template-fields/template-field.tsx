@@ -1,5 +1,5 @@
 import { Badge } from "@/components/shadcn/badge";
-import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
+import { getPromptVariableTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { DeleteTemplateFieldButton, EditTemplateFieldButton } from "./buttons";
@@ -23,7 +23,7 @@ export const GlobalPromptFieldItem = ({ field }: Props) => {
                {field.label}
             </span>
             <Badge variant="secondary" className="text-xs">
-               {getTemplateFieldTypeLabel(field.type)}
+               {getPromptVariableTypeLabel(field.type)}
             </Badge>
          </div>
          <div className="flex items-center gap-1">

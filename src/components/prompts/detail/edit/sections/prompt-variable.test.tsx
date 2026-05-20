@@ -7,7 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
-import { PromptField } from "./prompt-template-field";
+import { PromptVariable } from "./prompt-variable";
 
 type Props = {
    index: number;
@@ -30,7 +30,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
 
    return (
       <FormProvider {...form}>
-         <PromptField
+         <PromptVariable
             index={index}
             isUsed={isUsed}
             hasName={hasName}
@@ -43,7 +43,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
 };
 
 const assertRendered = () => {
-   const field = screen.getByTestId("prompt-template-field");
+   const field = screen.getByTestId("prompt-variable");
    const header = screen.getByTestId("header");
    const removeBtn = screen.getByTestId("remove-btn");
 
@@ -52,7 +52,7 @@ const assertRendered = () => {
    assertInDocument(removeBtn);
 };
 
-const assertFieldsRendered = (index: number) => {
+const assertVariablesRendered = (index: number) => {
    const name = screen.getByTestId(`fields.${index}.name`);
    const label = screen.getByTestId(`fields.${index}.label`);
    const type = screen.getByTestId(`fields.${index}.type`);
@@ -68,8 +68,8 @@ const assertFieldsRendered = (index: number) => {
    assertInDocument(required);
 };
 
-describe("PromptField rendering tests", () => {
-   it("PromptField - hasName false - isUsed false - test", () => {
+describe("PromptVariable rendering tests", () => {
+   it("hasName false - isUsed false - test", () => {
       const index = 0;
       const { container } = render(
          <TestWrapper
@@ -81,12 +81,12 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptField - - hasName true - isUsed false - test", () => {
+   it("hasName true - isUsed false - test", () => {
       const index = 1;
       const { container } = render(
          <TestWrapper
@@ -98,12 +98,12 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptField - hasName true - isUsed true - test", () => {
+   it("hasName true - isUsed true - test", () => {
       const index = 5;
       const { container } = render(
          <TestWrapper
@@ -115,14 +115,14 @@ describe("PromptField rendering tests", () => {
       );
 
       assertRendered();
-      assertFieldsRendered(index);
+      assertVariablesRendered(index);
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("PromptField functionality tests", () => {
-   it("PromptField - remove btn clicked - test", async () => {
+describe("PromptVariable functionality tests", () => {
+   it("remove btn clicked - test", async () => {
       const removeFn = jest.fn();
 
       render(

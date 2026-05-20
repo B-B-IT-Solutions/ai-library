@@ -5,10 +5,10 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   DPromptFieldType,
-   DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptVariableType,
+   DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -870,7 +870,7 @@ describe("pCreatePrompt tests", () => {
             },
          },
          fields: {
-            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+            create: map(data.fields, (field: DPromptVariableUpdate) => ({
                name: field.name,
                label: field.label,
                description: field.description,
@@ -937,11 +937,11 @@ describe("pUpdatePrompt tests", () => {
          },
          fields: {
             deleteMany: {},
-            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+            create: map(data.fields, (field: DPromptVariableUpdate) => ({
                name: field.name,
                label: field.label,
                description: field.description,
-               type: field.type as DPromptFieldType,
+               type: field.type as DPromptVariableType,
                required: field.required,
                order: field.order,
                defaultValue: field.defaultValue,

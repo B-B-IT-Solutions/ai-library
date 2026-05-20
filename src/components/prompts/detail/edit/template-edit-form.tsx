@@ -17,9 +17,9 @@ import { newTemplateFieldInitValues } from "@/components/shared/template-fields"
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
    DPrompt,
-   DPromptField,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
@@ -28,8 +28,8 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 import {
    BasicInfo,
    DetectedVariables,
-   PromptFields,
    PromptTemplateContent,
+   PromptVariables,
 } from "./sections";
 import {
    extractVariablesFromContent,
@@ -228,8 +228,8 @@ export const TemplateEditForm = ({
                      onSyncAll={handleSyncAllVariables}
                   />
                   {detectedVariables.length > 0 && <Separator />}
-                  <PromptFields
-                     fields={fields as DPromptField[]}
+                  <PromptVariables
+                     fields={fields as DPromptVariable[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
                      globalFieldIds={form.watch("globalFieldIds")}

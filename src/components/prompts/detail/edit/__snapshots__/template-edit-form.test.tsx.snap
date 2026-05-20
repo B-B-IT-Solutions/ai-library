@@ -403,7 +403,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
         />
         <section
           class="space-y-4"
-          data-testid="prompt-template-fields"
+          data-testid="prompt-variables"
         >
           <div
             class="flex items-center justify-between"
@@ -610,7 +610,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
           >
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -1221,7 +1221,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
             </div>
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -1832,7 +1832,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
             </div>
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -3169,7 +3169,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
         />
         <section
           class="space-y-4"
-          data-testid="prompt-template-fields"
+          data-testid="prompt-variables"
         >
           <div
             class="flex items-center justify-between"
@@ -3376,7 +3376,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
           >
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -3987,7 +3987,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
             </div>
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -4598,7 +4598,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
             </div>
             <div
               class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-              data-testid="prompt-template-field"
+              data-testid="prompt-variable"
             >
               <div
                 class="mb-4 flex items-center justify-between"
@@ -5536,7 +5536,7 @@ exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
         />
         <section
           class="space-y-4"
-          data-testid="prompt-template-fields"
+          data-testid="prompt-variables"
         >
           <div
             class="flex items-center justify-between"
@@ -6255,7 +6255,7 @@ exports[`TemplateEditForm rendering tests new entry - variables detected in cont
         />
         <section
           class="space-y-4"
-          data-testid="prompt-template-fields"
+          data-testid="prompt-variables"
         >
           <div
             class="flex items-center justify-between"

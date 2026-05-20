@@ -1,14 +1,17 @@
 ﻿import z from "zod";
 
-import { DPromptField, DPromptFieldType } from "@/data/types/domain/prompt";
+import {
+   DPromptVariable,
+   DPromptVariableType,
+} from "@/data/types/domain/prompt";
 
 import { buildFieldsSchema } from "./variables.schema";
 
 const createField = (
-   type: DPromptFieldType,
+   type: DPromptVariableType,
    required = false,
    name = "testField"
-): DPromptField => ({
+): DPromptVariable => ({
    id: "1",
    promptId: "1",
    name,
