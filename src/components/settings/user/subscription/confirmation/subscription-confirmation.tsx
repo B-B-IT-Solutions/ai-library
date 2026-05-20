@@ -45,7 +45,7 @@ export const SubscriptionConfirmation = () => {
                <div className="flex justify-center pt-1">
                   <Link
                      href="/settings/subscription"
-                     className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                     className="text-sm text-foreground underline-offset-4 hover:underline"
                      data-testid="view-subscription-link"
                   >
                      Abo verwalten
