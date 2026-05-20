@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { UseTemplateDialog } from "@/components/prompt-templates";
+import { UseTemplateDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { getPublicPromptGenerationData } from "@/data/actions/prompt";
 import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Wand2 } from "lucide-react";
 
-import { UseTemplateDialog } from "@/components/prompt-templates";
+import { UseTemplateDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
