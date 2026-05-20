@@ -9,7 +9,7 @@ import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptFields } from "./prompt-template-fields";
+import { PromptVariables } from "./prompt-variables";
 
 type Props = {
    fields: DPromptVariable[];
@@ -46,7 +46,7 @@ const TestWrapper = ({
 
    return (
       <FormProvider {...form}>
-         <PromptFields
+         <PromptVariables
             fields={fields}
             globalFields={globalFields}
             globalFieldIds={globalFieldIds}
@@ -63,7 +63,7 @@ const TestWrapper = ({
 };
 
 const assertRendered = () => {
-   const templateFields = screen.getByTestId("prompt-template-fields");
+   const templateFields = screen.getByTestId("prompt-variables");
    const addBtn = screen.getByTestId("add-btn");
 
    assertInDocument(templateFields);
@@ -72,7 +72,7 @@ const assertRendered = () => {
 
 const assertTemplateFieldsRendered = () => {
    const fields = screen.getByTestId("fields");
-   const fieldItems = screen.getAllByTestId("prompt-template-field");
+   const fieldItems = screen.getAllByTestId("prompt-variable");
 
    assertInDocument(fields);
    expect(fieldItems).toHaveLength(3);
@@ -80,7 +80,7 @@ const assertTemplateFieldsRendered = () => {
 
 const assertTemplateFieldsEmpty = () => {
    const empty = screen.getByTestId("fields-empty");
-   const fieldItems = screen.queryAllByTestId("prompt-template-field");
+   const fieldItems = screen.queryAllByTestId("prompt-variable");
 
    assertInDocument(empty);
    expect(fieldItems).toHaveLength(0);
@@ -99,8 +99,8 @@ const assertGlobalFieldsNotRendered = () => {
    assertNotInDocument(globalFields);
 };
 
-describe("PromptFieldss rendering tests", () => {
-   it("PromptFields - fields empty - test", () => {
+describe("PromptVariables rendering tests", () => {
+   it("variables empty - test", () => {
       const { container } = render(
          <TestWrapper
             fields={[]}
@@ -121,7 +121,7 @@ describe("PromptFieldss rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptFields - fields - test", () => {
+   it("variables - test", () => {
       const fields = dtestData.dPromptFields();
       fields[0].name = " ";
       const globalFields = dtestData.dGlobalPromptFields();
@@ -148,8 +148,8 @@ describe("PromptFieldss rendering tests", () => {
    });
 });
 
-describe("PromptFields functionality tests", () => {
-   it("PromptFields - add global field btn clicked - test", async () => {
+describe("PromptVariables functionality tests", () => {
+   it("add global variable btn clicked - test", async () => {
       const fields = dtestData.dPromptFields();
       const globalFields = dtestData.dGlobalPromptFields();
       const addGlobalFieldFn = jest.fn();
@@ -187,7 +187,7 @@ describe("PromptFields functionality tests", () => {
       expect(addGlobalFieldFn).toHaveBeenCalledWith([globalField.id]);
    });
 
-   it("PromptFields - remove global field btn clicked - test", async () => {
+   it("remove global variable btn clicked - test", async () => {
       const fields = dtestData.dPromptFields();
       const globalFields = dtestData.dGlobalPromptFields();
       const globalField = globalFields[0];
@@ -219,7 +219,7 @@ describe("PromptFields functionality tests", () => {
       expect(removeGlobalFieldFn).toHaveBeenCalledWith(globalField.id);
    });
 
-   it("PromptFields - add prompt template field btn clicked - test", async () => {
+   it("add prompt variable btn clicked - test", async () => {
       const fields = dtestData.dPromptFields();
       const detectedVariables = [fields[0].name];
       const addFieldFn = jest.fn();
@@ -245,7 +245,7 @@ describe("PromptFields functionality tests", () => {
       expect(addFieldFn).toHaveBeenCalledTimes(1);
    });
 
-   it("PromptFields - remove prompt template field btn clicked - test", async () => {
+   it("remove prompt variable btn clicked - test", async () => {
       const fields = dtestData.dPromptFields();
       const detectedVariables = [fields[0].name];
       const removeFieldFn = jest.fn();

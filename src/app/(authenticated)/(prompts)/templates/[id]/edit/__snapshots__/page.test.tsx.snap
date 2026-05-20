@@ -1011,7 +1011,7 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
                 />
                 <section
                   class="space-y-4"
-                  data-testid="prompt-template-fields"
+                  data-testid="prompt-variables"
                 >
                   <div
                     class="flex items-center justify-between"
@@ -1218,7 +1218,7 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
                   >
                     <div
                       class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                      data-testid="prompt-template-field"
+                      data-testid="prompt-variable"
                     >
                       <div
                         class="mb-4 flex items-center justify-between"
@@ -1829,7 +1829,7 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
                     </div>
                     <div
                       class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                      data-testid="prompt-template-field"
+                      data-testid="prompt-variable"
                     >
                       <div
                         class="mb-4 flex items-center justify-between"
@@ -2440,7 +2440,7 @@ exports[`EditTemplatePage rendering tests descriptor retrieved - template retrie
                     </div>
                     <div
                       class="rounded-lg border p-6 border-orange-200 bg-orange-50"
-                      data-testid="prompt-template-field"
+                      data-testid="prompt-variable"
                     >
                       <div
                         class="mb-4 flex items-center justify-between"

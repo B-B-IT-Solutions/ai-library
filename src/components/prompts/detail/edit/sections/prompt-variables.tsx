@@ -11,7 +11,7 @@ import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptGlobalPromptField } from "./prompt-global-template-field";
-import { PromptField } from "./prompt-template-field";
+import { PromptVariable } from "./prompt-variable";
 
 type Props = {
    fields: DPromptVariable[];
@@ -26,7 +26,7 @@ type Props = {
    watch: UseFormWatch<DPromptUpdate>;
 };
 
-export const PromptFields = ({
+export const PromptVariables = ({
    fields,
    detectedVariables,
    globalFields,
@@ -109,7 +109,7 @@ export const PromptFields = ({
       const hasName = !isEmpty(fieldName);
 
       return (
-         <PromptField
+         <PromptVariable
             key={field.id}
             index={idx}
             isUsed={isUsed}
@@ -143,7 +143,7 @@ export const PromptFields = ({
    };
 
    return (
-      <section className="space-y-4" data-testid="prompt-template-fields">
+      <section className="space-y-4" data-testid="prompt-variables">
          {header()}
          {renderGlobalFields()}
          {renderTemplateFields()}
