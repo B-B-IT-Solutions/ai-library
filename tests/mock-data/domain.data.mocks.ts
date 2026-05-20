@@ -37,7 +37,6 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptFieldUpdate,
    DPromptGenerationData,
    DPromptsFilter,
    DPromptsPage,
@@ -46,6 +45,7 @@ import {
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariable,
+   DPromptVariableUpdate,
    DPromptVariableValues,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
@@ -600,11 +600,11 @@ export const dPromptField = (index = 1): DPromptVariable => {
    };
 };
 
-export const dPromptFieldUpdates = (count = 3): DPromptFieldUpdate[] => {
+export const dPromptFieldUpdates = (count = 3): DPromptVariableUpdate[] => {
    return range(0, count).map((i) => dPromptFieldUpdate(i));
 };
 
-export const dPromptFieldUpdate = (index = 1): DPromptFieldUpdate => {
+export const dPromptFieldUpdate = (index = 1): DPromptVariableUpdate => {
    return {
       name: `field ${index}`,
       label: `label ${index}`,

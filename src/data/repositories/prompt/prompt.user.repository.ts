@@ -8,11 +8,11 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
    DPromptVariableType,
+   DPromptVariableUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
@@ -160,7 +160,7 @@ export class PromptRepository {
             },
          },
          fields: {
-            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+            create: map(data.fields, (field: DPromptVariableUpdate) => ({
                name: field.name,
                label: field.label,
                description: field.description,
@@ -217,7 +217,7 @@ export class PromptRepository {
          },
          fields: {
             deleteMany: {},
-            create: map(data.fields, (field: DPromptFieldUpdate) => ({
+            create: map(data.fields, (field: DPromptVariableUpdate) => ({
                name: field.name,
                label: field.label,
                description: field.description,

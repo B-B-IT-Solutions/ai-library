@@ -17,7 +17,7 @@ export type DPromptsFilter = {
    collectionIds?: string[];
 };
 
-export type DPromptFieldUpdate = z.infer<typeof templateFieldSchema>;
+export type DPromptVariableUpdate = z.infer<typeof templateFieldSchema>;
 
 export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 
