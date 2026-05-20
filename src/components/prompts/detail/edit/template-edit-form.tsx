@@ -28,8 +28,8 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 import {
    BasicInfo,
    DetectedVariables,
-   PromptFields,
    PromptTemplateContent,
+   PromptVariables,
 } from "./sections";
 import {
    extractVariablesFromContent,
@@ -228,7 +228,7 @@ export const TemplateEditForm = ({
                      onSyncAll={handleSyncAllVariables}
                   />
                   {detectedVariables.length > 0 && <Separator />}
-                  <PromptFields
+                  <PromptVariables
                      fields={fields as DPromptVariable[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
