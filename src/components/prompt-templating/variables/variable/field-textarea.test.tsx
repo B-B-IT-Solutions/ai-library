@@ -4,12 +4,12 @@ import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 
 import { TextAreaField } from "./field-textarea";
 
 type Props = {
-   field: DPromptField;
+   field: DPromptVariable;
    defaultValue?: string;
 };
 
@@ -27,7 +27,7 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = "" }) => {
    );
 };
 
-const baseField: DPromptField = {
+const baseField: DPromptVariable = {
    id: "test-textarea",
    promptId: "1",
    name: "name-1",
@@ -59,7 +59,7 @@ describe("TextAreaField rendering tests", () => {
    });
 
    it("TextAreaField - required true - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          required: true,
       };

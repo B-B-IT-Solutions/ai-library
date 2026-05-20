@@ -1,6 +1,6 @@
 ﻿import { upperCase } from "es-toolkit/compat";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 
 import {
    getTemplateFieldTypeLabel,
@@ -10,9 +10,9 @@ import {
    TEMPLATE_FIELD_OPTIONS,
 } from "./utils";
 
-const expectedOptionFieldTypes: DPromptFieldType[] = ["SELECT", "RADIO"];
+const expectedOptionFieldTypes: DPromptVariableType[] = ["SELECT", "RADIO"];
 
-const expecteTemplateFieldLabels: Record<DPromptFieldType, string> = {
+const expecteTemplateFieldLabels: Record<DPromptVariableType, string> = {
    TEXT: "Text",
    TEXTAREA: "Textarea",
    EMAIL: "E-Mail",
@@ -56,7 +56,7 @@ describe("template field type tests", () => {
       const expectedResult2 = upperCase(expecteTemplateFieldLabels.NUMBER);
       expect(result2).toEqual(expectedResult2);
 
-      const type = "UNKNOW" as DPromptFieldType;
+      const type = "UNKNOW" as DPromptVariableType;
       const result3 = getTemplateFieldTypeLabel(type);
       expect(result3).toEqual(type);
    });

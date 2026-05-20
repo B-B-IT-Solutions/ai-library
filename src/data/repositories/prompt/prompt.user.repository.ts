@@ -8,11 +8,11 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptFieldType,
    DPromptFieldUpdate,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptVariableType,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
@@ -164,7 +164,7 @@ export class PromptRepository {
                name: field.name,
                label: field.label,
                description: field.description,
-               type: field.type as DPromptFieldType,
+               type: field.type as DPromptVariableType,
                required: field.required,
                order: field.order,
                defaultValue: field.defaultValue,
@@ -221,7 +221,7 @@ export class PromptRepository {
                name: field.name,
                label: field.label,
                description: field.description,
-               type: field.type as DPromptFieldType,
+               type: field.type as DPromptVariableType,
                required: field.required,
                order: field.order,
                defaultValue: field.defaultValue,

@@ -1,6 +1,6 @@
 ﻿import { dtestData } from "@tests";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import {
@@ -10,7 +10,7 @@ import {
 } from "./init-values";
 
 const expectedExistingTemplateFieldInitValues = (
-   field: DGlobalPromptField | DPromptField
+   field: DGlobalPromptField | DPromptVariable
 ) => {
    return {
       name: field.name,

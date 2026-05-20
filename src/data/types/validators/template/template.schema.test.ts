@@ -1,59 +1,59 @@
 import { ZodError } from "zod";
 
 import {
-   templateFieldSchema,
-   templateFieldTypeSchema,
+   promptVariableSchema,
+   promptVariableTypeSchema,
    updateTemplateSchema,
 } from "./template.schema";
 
 describe("templateFieldTypeSchema - tests", () => {
    it("TEXT type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("TEXT");
+      const validatedValue = promptVariableTypeSchema.parse("TEXT");
       expect(validatedValue).toBe("TEXT");
    });
 
    it("TEXTAREA type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("TEXTAREA");
+      const validatedValue = promptVariableTypeSchema.parse("TEXTAREA");
       expect(validatedValue).toBe("TEXTAREA");
    });
 
    it("SELECT type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("SELECT");
+      const validatedValue = promptVariableTypeSchema.parse("SELECT");
       expect(validatedValue).toBe("SELECT");
    });
 
    it("CHECKBOX type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("CHECKBOX");
+      const validatedValue = promptVariableTypeSchema.parse("CHECKBOX");
       expect(validatedValue).toBe("CHECKBOX");
    });
 
    it("RADIO type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("RADIO");
+      const validatedValue = promptVariableTypeSchema.parse("RADIO");
       expect(validatedValue).toBe("RADIO");
    });
 
    it("NUMBER type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("NUMBER");
+      const validatedValue = promptVariableTypeSchema.parse("NUMBER");
       expect(validatedValue).toBe("NUMBER");
    });
 
    it("DATE type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("DATE");
+      const validatedValue = promptVariableTypeSchema.parse("DATE");
       expect(validatedValue).toBe("DATE");
    });
 
    it("EMAIL type valid - test", () => {
-      const validatedValue = templateFieldTypeSchema.parse("EMAIL");
+      const validatedValue = promptVariableTypeSchema.parse("EMAIL");
       expect(validatedValue).toBe("EMAIL");
    });
 
    it("invalid type - test", () => {
-      const fn = () => templateFieldTypeSchema.parse("INVALID_TYPE");
+      const fn = () => promptVariableTypeSchema.parse("INVALID_TYPE");
       expect(fn).toThrow(ZodError);
    });
 
    it("empty string - test", () => {
-      const fn = () => templateFieldTypeSchema.parse("");
+      const fn = () => promptVariableTypeSchema.parse("");
       expect(fn).toThrow(ZodError);
    });
 });
@@ -71,7 +71,7 @@ describe("templateFieldSchema - tests", () => {
          options: ["option1", "option2"],
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues).toEqual(fieldData);
    });
 
@@ -84,7 +84,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues).toEqual({
          name: "name",
          label: "Name",
@@ -101,7 +101,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -112,7 +112,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -125,7 +125,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.name).toBe("a".repeat(50));
    });
 
@@ -136,7 +136,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -147,7 +147,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -160,7 +160,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.label).toBe("a".repeat(250));
    });
 
@@ -173,7 +173,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.description).toBeUndefined();
    });
 
@@ -185,7 +185,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -199,7 +199,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.description).toBe("a".repeat(500));
    });
 
@@ -210,7 +210,7 @@ describe("templateFieldSchema - tests", () => {
          type: "INVALID",
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -223,7 +223,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.required).toBe(true);
    });
 
@@ -236,7 +236,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.required).toBe(false);
    });
 
@@ -249,7 +249,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.order).toBe(0);
    });
 
@@ -262,7 +262,7 @@ describe("templateFieldSchema - tests", () => {
          order: 5,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.order).toBe(5);
    });
 
@@ -275,7 +275,7 @@ describe("templateFieldSchema - tests", () => {
          order: -1,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.order).toBe(-1);
    });
 
@@ -287,7 +287,7 @@ describe("templateFieldSchema - tests", () => {
          order: 1.5,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -300,7 +300,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.defaultValue).toBeUndefined();
    });
 
@@ -314,7 +314,7 @@ describe("templateFieldSchema - tests", () => {
          defaultValue: "Default text",
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.defaultValue).toBe("Default text");
    });
 
@@ -327,7 +327,7 @@ describe("templateFieldSchema - tests", () => {
          order: 0,
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.options).toBeUndefined();
    });
 
@@ -341,7 +341,7 @@ describe("templateFieldSchema - tests", () => {
          options: ["USA", "UK", "Germany"],
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.options).toEqual(["USA", "UK", "Germany"]);
    });
 
@@ -355,7 +355,7 @@ describe("templateFieldSchema - tests", () => {
          options: [],
       };
 
-      const validatedValues = templateFieldSchema.parse(fieldData);
+      const validatedValues = promptVariableSchema.parse(fieldData);
       expect(validatedValues.options).toEqual([]);
    });
 
@@ -365,7 +365,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -375,7 +375,7 @@ describe("templateFieldSchema - tests", () => {
          type: "TEXT" as const,
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -385,7 +385,7 @@ describe("templateFieldSchema - tests", () => {
          label: "Label",
       };
 
-      const fn = () => templateFieldSchema.parse(fieldData);
+      const fn = () => promptVariableSchema.parse(fieldData);
       expect(fn).toThrow(ZodError);
    });
 
@@ -410,7 +410,7 @@ describe("templateFieldSchema - tests", () => {
             order: 0,
          };
 
-         const validatedValues = templateFieldSchema.parse(fieldData);
+         const validatedValues = promptVariableSchema.parse(fieldData);
          expect(validatedValues.type).toBe(type);
       });
    });

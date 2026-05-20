@@ -7,9 +7,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 
 import {
-   DPromptField,
-   DPromptFieldType,
    DPromptGenerationData,
+   DPromptVariable,
+   DPromptVariableType,
 } from "@/data/types/domain/prompt";
 
 import { PromptVariablesForm } from "./prompt-variables-form";
@@ -49,11 +49,11 @@ const TestWrapper = ({ templateData }: Props) => {
 };
 
 const createField = (
-   type: DPromptFieldType,
+   type: DPromptVariableType,
    name: string,
    label: string,
    required = false
-): DPromptField => {
+): DPromptVariable => {
    return {
       id: `field-${name}`,
       promptId: "1",
@@ -72,7 +72,7 @@ const assertRendered = () => {
    assertInDocument(form);
 };
 
-const assertFieldsRendered = (fields: DPromptField[]) => {
+const assertFieldsRendered = (fields: DPromptVariable[]) => {
    forEach(fields, (f) => {
       const field = screen.getByTestId(f.name);
       assertInDocument(field);
@@ -87,16 +87,16 @@ describe("PromptVariablesForm rendering tests", () => {
       const birthdate = createField("DATE", "birthdate", "Birth Date");
       const bio = createField("TEXTAREA", "bio", "Biography");
       const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
-      const gender: DPromptField = {
+      const gender: DPromptVariable = {
          ...createField("RADIO", "gender", "Gender"),
          options: ["Male", "Female"],
       };
-      const country: DPromptField = {
+      const country: DPromptVariable = {
          ...createField("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };
 
-      const fields: DPromptField[] = [
+      const fields: DPromptVariable[] = [
          name,
          email,
          age,

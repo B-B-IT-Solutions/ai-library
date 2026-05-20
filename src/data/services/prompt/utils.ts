@@ -1,6 +1,9 @@
 ﻿import { filter, map } from "es-toolkit/compat";
 
-import { DPromptField, DPromptWithContent } from "@/data/types/domain/prompt";
+import {
+   DPromptVariable,
+   DPromptWithContent,
+} from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
 
@@ -27,11 +30,13 @@ export const resolveAllTemplateFields = (
 
 const globalFieldsToTemplateFields = (
    gfs: DGlobalPromptField[]
-): DPromptField[] => {
+): DPromptVariable[] => {
    return map(gfs, globalFieldToTemplateField);
 };
 
-const globalFieldToTemplateField = (gf: DGlobalPromptField): DPromptField => {
+const globalFieldToTemplateField = (
+   gf: DGlobalPromptField
+): DPromptVariable => {
    return {
       id: gf.id,
       promptId: "",
@@ -48,7 +53,7 @@ const globalFieldToTemplateField = (gf: DGlobalPromptField): DPromptField => {
 
 const missingVariablesToTemplateFields = (
    variableNames: string[]
-): DPromptField[] => {
+): DPromptVariable[] => {
    return map(variableNames, (v, idx) =>
       missingVariableToTemplateField(v, idx)
    );
@@ -57,7 +62,7 @@ const missingVariablesToTemplateFields = (
 const missingVariableToTemplateField = (
    name: string,
    index: number
-): DPromptField => {
+): DPromptVariable => {
    return {
       id: name,
       promptId: "",

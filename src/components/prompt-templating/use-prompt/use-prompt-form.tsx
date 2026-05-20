@@ -16,8 +16,8 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import {
-   DPromptFieldValues,
    DPromptGenerationData,
+   DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
@@ -58,7 +58,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
 
    const currentValues = useWatch<DFieldsType>({
       control: form.control,
-   }) as DPromptFieldValues;
+   }) as DPromptVariableValues;
 
    const resolvedContent = TemplateEngine.replace(
       template.content,

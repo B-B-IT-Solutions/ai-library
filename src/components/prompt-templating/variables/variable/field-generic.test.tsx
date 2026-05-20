@@ -4,12 +4,12 @@ import { render } from "@testing-library/react";
 import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 
 import { GenericField } from "./field-generic";
 
 type Props = {
-   field: DPromptField;
+   field: DPromptVariable;
    defaultValue?: string;
 };
 
@@ -27,7 +27,7 @@ const TestWrapper: FC<Props> = ({ field, defaultValue = "" }) => {
    );
 };
 
-const baseField: DPromptField = {
+const baseField: DPromptVariable = {
    id: "test-generic",
    promptId: "1",
    name: "name-1",
@@ -54,7 +54,7 @@ const assertType = (type: string) => {
 
 describe("GenericField rendering tests", () => {
    it("GenericField - type TEXT - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          type: "TEXT",
       };
@@ -69,7 +69,7 @@ describe("GenericField rendering tests", () => {
    });
 
    it("GenericField - type TEXT - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          type: "NUMBER",
       };
@@ -84,7 +84,7 @@ describe("GenericField rendering tests", () => {
    });
 
    it("GenericField - - type EMAIL - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          type: "EMAIL",
          required: true,
@@ -101,7 +101,7 @@ describe("GenericField rendering tests", () => {
    });
 
    it("GenericField - - type DATE - test", async () => {
-      const field: DPromptField = {
+      const field: DPromptVariable = {
          ...baseField,
          type: "DATE",
          required: true,

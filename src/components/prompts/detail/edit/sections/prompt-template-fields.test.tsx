@@ -6,13 +6,13 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
-import { DPromptField, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptFields } from "./prompt-template-fields";
 
 type Props = {
-   fields: DPromptField[];
+   fields: DPromptVariable[];
    globalFields: DGlobalPromptField[];
    globalFieldIds: string[];
    detectedVariables: string[];

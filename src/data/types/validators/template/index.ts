@@ -1,5 +1,5 @@
 export {
    updateTemplateSchema,
-   templateFieldSchema,
-   templateFieldTypeSchema,
+   promptVariableSchema as templateFieldSchema,
+   promptVariableTypeSchema as templateFieldTypeSchema,
 } from "./template.schema";

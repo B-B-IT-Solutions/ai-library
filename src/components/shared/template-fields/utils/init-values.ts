@@ -1,4 +1,7 @@
-﻿import { DPromptField, DPromptFieldUpdate } from "@/data/types/domain/prompt";
+﻿import {
+   DPromptFieldUpdate,
+   DPromptVariable,
+} from "@/data/types/domain/prompt";
 import {
    DGlobalPromptField,
    DGlobalPromptFieldUpdate,
@@ -31,11 +34,11 @@ export const newTemplateFieldInitValues = (
 
 type TemplateFieldInitValuesFn = {
    (field: DGlobalPromptField): DGlobalPromptFieldUpdate;
-   (field: DPromptField): DPromptFieldUpdate;
+   (field: DPromptVariable): DPromptFieldUpdate;
 };
 
 export const existingTemplateFieldInitValues: TemplateFieldInitValuesFn = (
-   field: DGlobalPromptField | DPromptField
+   field: DGlobalPromptField | DPromptVariable
 ): DGlobalPromptFieldUpdate | DPromptFieldUpdate => {
    return {
       name: field.name,

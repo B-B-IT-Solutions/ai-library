@@ -3,13 +3,13 @@ import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 
 import { TemplateFieldDefaultValue } from "./template.field.default-value";
 
 type Props = {
    name: string;
-   type: DPromptFieldType;
+   type: DPromptVariableType;
    options: string[];
 };
 

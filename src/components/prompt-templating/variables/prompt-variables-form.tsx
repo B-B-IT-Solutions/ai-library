@@ -4,8 +4,8 @@ import { map } from "es-toolkit/compat";
 import { Control, FieldValues } from "react-hook-form";
 
 import {
-   DPromptField,
    DPromptGenerationData,
+   DPromptVariable,
 } from "@/data/types/domain/prompt";
 
 import { CheckBoxField } from "./variable/field-check-box";
@@ -22,7 +22,7 @@ type Props = {
 export const PromptVariablesForm = ({ templateData, control }: Props) => {
    const { allFields: fields } = templateData;
 
-   const renderField = (field: DPromptField) => {
+   const renderField = (field: DPromptVariable) => {
       switch (field.type) {
          case "TEXTAREA":
             return <TextAreaField field={field} control={control} />;

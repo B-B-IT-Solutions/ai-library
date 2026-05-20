@@ -10,9 +10,9 @@ import {
    ZodType,
 } from "zod";
 
-import { DPromptField } from "@/data/types/domain/prompt";
+import { DPromptVariable } from "@/data/types/domain/prompt";
 
-const emailValidator = (field: DPromptField): ZodEmail => {
+const emailValidator = (field: DPromptVariable): ZodEmail => {
    const validator = z.email("Ungültige E-Mail");
    if (field.required) {
       return validator.min(1, `${field.label} ist erforderlich`);
@@ -20,7 +20,7 @@ const emailValidator = (field: DPromptField): ZodEmail => {
    return validator;
 };
 
-const numberValidator = (field: DPromptField): ZodCoercedNumber => {
+const numberValidator = (field: DPromptVariable): ZodCoercedNumber => {
    const validator = z.coerce.number();
    if (field.required) {
       return validator.min(1, `${field.label} ist erforderlich`);
@@ -28,7 +28,7 @@ const numberValidator = (field: DPromptField): ZodCoercedNumber => {
    return validator;
 };
 
-const dateValidator = (field: DPromptField): ZodString => {
+const dateValidator = (field: DPromptVariable): ZodString => {
    const validator = z.string();
    if (field.required) {
       return validator.min(1, `${field.label} ist erforderlich`);
@@ -37,7 +37,7 @@ const dateValidator = (field: DPromptField): ZodString => {
 };
 
 const booleanValidator = (
-   field: DPromptField
+   field: DPromptVariable
 ): ZodDefault<ZodBoolean> | ZodOptional<ZodDefault<ZodBoolean>> => {
    const validator = z.boolean().default(false);
    if (!field.required) {
@@ -46,7 +46,7 @@ const booleanValidator = (
    return validator;
 };
 
-export const buildFieldsSchema = (fields: DPromptField[]) => {
+export const buildFieldsSchema = (fields: DPromptVariable[]) => {
    const shape: Record<string, ZodType> = {};
    forEach(fields, (field) => {
       let validator: ZodType;

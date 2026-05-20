@@ -1,6 +1,6 @@
 ﻿import z from "zod";
 
-import { DPromptFieldType } from "@/data/types/domain/prompt";
+import { DPromptVariableType } from "@/data/types/domain/prompt";
 import { globalPromptFieldSchema } from "@/data/types/validators/settings";
 
 export type DSettingsSection =
@@ -17,7 +17,7 @@ export type DGlobalPromptField = {
    name: string;
    label: string;
    description: string | null;
-   type: DPromptFieldType;
+   type: DPromptVariableType;
    required: boolean;
    defaultValue: string | null;
    options?: string[];

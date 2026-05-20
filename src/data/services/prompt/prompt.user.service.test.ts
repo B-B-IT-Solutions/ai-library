@@ -12,9 +12,9 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptFieldValues,
    DPromptGenerationData,
    DPromptsUsage,
+   DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
@@ -335,7 +335,7 @@ describe("composePromptFromTemplate tests", () => {
 
       const userId = "user-id-1";
       const id = "non-existent-id";
-      const fieldValues: DPromptFieldValues = {};
+      const fieldValues: DPromptVariableValues = {};
 
       const fn = () =>
          promptService.composePromptFromTemplate(userId, id, fieldValues);
@@ -357,7 +357,7 @@ describe("composePromptFromTemplate tests", () => {
 
       const userId = "user-id-1";
       const { id } = descriptor;
-      const fieldValues: DPromptFieldValues = {};
+      const fieldValues: DPromptVariableValues = {};
 
       const fn = () =>
          promptService.composePromptFromTemplate(userId, id, fieldValues);
@@ -388,7 +388,7 @@ describe("composePromptFromTemplate tests", () => {
 
       const userId = "user-id-1";
       const { id } = descriptor;
-      const fieldValues: DPromptFieldValues = {
+      const fieldValues: DPromptVariableValues = {
          email: "invalid-email",
       };
 
@@ -422,7 +422,7 @@ describe("composePromptFromTemplate tests", () => {
 
       const userId = "user-id-1";
       const { id } = descriptor;
-      const fieldValues: DPromptFieldValues = {
+      const fieldValues: DPromptVariableValues = {
          email: "test1@email.com",
       };
 
