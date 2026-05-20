@@ -41,7 +41,7 @@ export const UseTemplateDialog = ({
                   : "max-h-[90vh] sm:max-w-5xl"
             }`}
          >
-            <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-4">
+            <div className="flex shrink-0 items-center justify-between gap-4 px-6 pt-4 pb-3">
                <DialogTitle className="min-w-0 truncate text-base leading-tight font-semibold">
                   Prompt Anwenden: {prompt.title}
                </DialogTitle>
