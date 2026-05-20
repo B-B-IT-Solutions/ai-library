@@ -8,7 +8,10 @@ export const metadata: Metadata = {
 
 export const SubscriptionSuccessPage = async () => {
    return (
-      <div className="h-full" data-testid="subscription-success-page">
+      <div
+         className="flex h-full items-center justify-center p-4"
+         data-testid="subscription-success-page"
+      >
          <SubscriptionConfirmation />
       </div>
    );
