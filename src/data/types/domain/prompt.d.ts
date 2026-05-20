@@ -1,7 +1,7 @@
 ﻿import z from "zod";
 
 import {
-   templateFieldSchema,
+   promptVariableSchema,
    updateTemplateSchema,
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
@@ -17,7 +17,7 @@ export type DPromptsFilter = {
    collectionIds?: string[];
 };
 
-export type DPromptVariableUpdate = z.infer<typeof templateFieldSchema>;
+export type DPromptVariableUpdate = z.infer<typeof promptVariableSchema>;
 
 export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
 

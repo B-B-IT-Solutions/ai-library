@@ -58,7 +58,7 @@ describe("templateFieldTypeSchema - tests", () => {
    });
 });
 
-describe("templateFieldSchema - tests", () => {
+describe("promptVariableSchema - tests", () => {
    it("complete valid data - test", () => {
       const fieldData = {
          name: "email",
