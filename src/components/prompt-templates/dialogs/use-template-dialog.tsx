@@ -27,6 +27,25 @@ export const UseTemplateDialog = ({
 }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
 
+   const expandBtn = () => {
+      return (
+         <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-foreground"
+            onClick={() => setIsExpanded((v) => !v)}
+            aria-label={isExpanded ? "Verkleinern" : "Vergrößern"}
+            data-testid="expand-btn"
+         >
+            {isExpanded ? (
+               <Minimize2 className="h-4 w-4" />
+            ) : (
+               <Maximize2 className="h-4 w-4" />
+            )}
+         </Button>
+      );
+   };
+
    return (
       <Dialog
          open={true}
@@ -41,25 +60,12 @@ export const UseTemplateDialog = ({
                   : "max-h-[90vh] sm:max-w-5xl"
             }`}
          >
-            <div className="flex shrink-0 items-center justify-between gap-4 px-6 pt-4 pb-3">
+            <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-4">
                <DialogTitle className="min-w-0 truncate text-base leading-tight font-semibold">
                   Prompt Anwenden: {prompt.title}
                </DialogTitle>
                <div className="flex shrink-0 items-center gap-1">
-                  <Button
-                     variant="ghost"
-                     size="icon"
-                     className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                     onClick={() => setIsExpanded((v) => !v)}
-                     aria-label={isExpanded ? "Verkleinern" : "Vergrößern"}
-                     data-testid="expand-btn"
-                  >
-                     {isExpanded ? (
-                        <Minimize2 className="h-4 w-4" />
-                     ) : (
-                        <Maximize2 className="h-4 w-4" />
-                     )}
-                  </Button>
+                  {expandBtn()}
                   <DialogClose asChild={true}>
                      <Button
                         variant="ghost"
