@@ -32,8 +32,8 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       // stripePriceIdMonthly: null, // To be updated with actual Stripe price ID
       // stripePriceIdYearly: null, // To be updated with actual Stripe price ID
       // stripeProductId: null, // To be updated with actual Stripe product ID
-      stripePriceIdMonthly: "price_1Q7cVWGzyOS6MDj9pbEC42Ax",
-      stripePriceIdYearly: "price_1Q7cVWGzyOS6MDj9LkUscmlZ",
+      stripePriceIdMonthly: "price_1TZ9wpGzyOS6MDj9QJUsDzWf",
+      stripePriceIdYearly: "price_1TZ9y2GzyOS6MDj9y1dhDXFN",
       stripeProductId: "prod_Qzbijhak3aLOfT",
       features: {
          maxPrompts: 100,
@@ -57,8 +57,8 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       // stripePriceIdMonthly: null, // To be updated with actual Stripe price ID
       // stripePriceIdYearly: null, // To be updated with actual Stripe price ID
       // stripeProductId: null, // To be updated with actual Stripe product ID
-      stripePriceIdMonthly: "price_1StAn2GzyOS6MDj99RqYE5NF",
-      stripePriceIdYearly: "price_1StAm5GzyOS6MDj9hEhgUOuu",
+      stripePriceIdMonthly: "price_1TZ9rZGzyOS6MDj99Pa333wS",
+      stripePriceIdYearly: "price_1TZ9tNGzyOS6MDj9OTlibvCy",
       stripeProductId: "prod_TqsX0nvnnyROov",
       features: {
          maxPrompts: -1, // unlimited
