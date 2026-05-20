@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { isEmpty } from "es-toolkit/compat";
 import { Maximize2, Minimize2, X } from "lucide-react";
 
+import { Button } from "@/components/shadcn/button";
 import {
    Dialog,
    DialogClose,
    DialogContent,
-   DialogHeader,
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
@@ -27,20 +26,15 @@ export const UseTemplateDialog = ({
    onCancel,
 }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
-   const hasFields = !isEmpty(generationData.allFields);
-
-   const dialogTitle = () => {
-      if (hasFields) {
-         return "Vorlage Felder Ausfüllen";
-      }
-      return "Vorlage Anwenden";
-   };
 
    const expandBtn = () => {
       return (
-         <button
+         <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-foreground"
             onClick={() => setIsExpanded((v) => !v)}
-            className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+            aria-label={isExpanded ? "Verkleinern" : "Vergrößern"}
             data-testid="expand-btn"
          >
             {isExpanded ? (
@@ -48,7 +42,7 @@ export const UseTemplateDialog = ({
             ) : (
                <Maximize2 className="h-4 w-4" />
             )}
-         </button>
+         </Button>
       );
    };
 
@@ -66,21 +60,25 @@ export const UseTemplateDialog = ({
                   : "max-h-[90vh] sm:max-w-5xl"
             }`}
          >
-            {expandBtn()}
-            <DialogClose asChild={true}>
-               <button
-                  className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
-                  data-testid="close-btn"
-               >
-                  <X className="h-4 w-4" />
-               </button>
-            </DialogClose>
-            <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
-               <DialogTitle>{dialogTitle()}</DialogTitle>
-               <p className="text-sm font-semibold text-muted-foreground">
-                  {prompt.title}
-               </p>
-            </DialogHeader>
+            <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-4">
+               <DialogTitle className="min-w-0 truncate text-base leading-tight font-semibold">
+                  Prompt Anwenden: {prompt.title}
+               </DialogTitle>
+               <div className="flex shrink-0 items-center gap-1">
+                  {expandBtn()}
+                  <DialogClose asChild={true}>
+                     <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                        aria-label="Schließen"
+                        data-testid="close-btn"
+                     >
+                        <X className="h-4 w-4" />
+                     </Button>
+                  </DialogClose>
+               </div>
+            </div>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UseTemplateForm
                   templateData={generationData}

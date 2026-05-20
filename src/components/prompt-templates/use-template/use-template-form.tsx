@@ -79,7 +79,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
    const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {};
 
    const footer = () => (
-      <div className="flex shrink-0 items-center justify-end gap-2 bg-background py-4">
+      <div className="flex shrink-0 items-center justify-end gap-2 bg-background px-6 py-4">
          <DropdownMenu>
             <DropdownMenuTrigger asChild={true}>
                <Button
@@ -131,19 +131,31 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
-            className="flex min-h-0 flex-1 flex-col px-6"
+            className="flex min-h-0 flex-1 flex-col"
             data-testid="use-template-form"
          >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
-               <TemplatePreview
-                  template={template}
-                  values={currentValues}
-                  resolvedContent={resolvedContent}
-               />
-               <TemplateFieldsForm
-                  templateData={templateData}
-                  control={form.control}
-               />
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
+               <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
+                  <p className="text-xs font-medium text-muted-foreground">
+                     Vorschau
+                  </p>
+                  <TemplatePreview
+                     template={template}
+                     values={currentValues}
+                     resolvedContent={resolvedContent}
+                  />
+               </div>
+               <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
+                  <p className="text-xs font-medium text-muted-foreground">
+                     Platzhalter ausfüllen
+                  </p>
+                  <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
+                     <TemplateFieldsForm
+                        templateData={templateData}
+                        control={form.control}
+                     />
+                  </div>
+               </div>
             </div>
             {footer()}
          </form>

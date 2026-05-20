@@ -4,7 +4,7 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
    {
       tier: "FREE",
       name: "Free",
-      description: "Beginnen Sie mit den Grundfunktionen",
+      description: "Mit den Grundfunktionen starten",
       monthlyPrice: 0,
       yearlyPrice: 0,
       stripePriceIdMonthly: null,
