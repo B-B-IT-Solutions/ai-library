@@ -4,7 +4,7 @@ import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { FormSelect } from "@/components/shared/widgets";
 
-import { TEMPLATE_FIELD_OPTIONS } from "./utils/utils";
+import { PROMPT_VARIABLE_OPTIONS } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: FieldPath<T>;
@@ -19,7 +19,7 @@ export const TemplateFieldType = <T extends FieldValues>({
       <FormSelect<T>
          name={name}
          label="Typ"
-         options={TEMPLATE_FIELD_OPTIONS}
+         options={PROMPT_VARIABLE_OPTIONS}
          control={control}
       />
    );

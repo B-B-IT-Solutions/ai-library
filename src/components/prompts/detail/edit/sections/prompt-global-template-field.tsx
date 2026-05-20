@@ -4,7 +4,7 @@ import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
+import { getPromptVariableTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 type Props = {
@@ -38,7 +38,7 @@ export const PromptGlobalPromptField = ({
                </code>
             </div>
             <Badge variant="secondary" className="text-xs">
-               {getTemplateFieldTypeLabel(field.type)}
+               {getPromptVariableTypeLabel(field.type)}
             </Badge>
             {field.required && (
                <Badge variant="outline" className="text-xs">

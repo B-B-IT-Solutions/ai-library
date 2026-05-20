@@ -2,9 +2,12 @@
 
 import { DPromptVariableType } from "@/data/types/domain/prompt";
 
-export const OPTIONS_FIELD_TYPES: DPromptVariableType[] = ["SELECT", "RADIO"];
+export const OPTIONS_PROMPT_VARIABLE_TYPES: DPromptVariableType[] = [
+   "SELECT",
+   "RADIO",
+];
 
-export const TEMPLATE_FIELD_LABELS: Record<DPromptVariableType, string> = {
+export const PROMPT_VARIABLE_LABELS: Record<DPromptVariableType, string> = {
    TEXT: "Text",
    TEXTAREA: "Textarea",
    EMAIL: "E-Mail",
@@ -15,19 +18,19 @@ export const TEMPLATE_FIELD_LABELS: Record<DPromptVariableType, string> = {
    RADIO: "Radio",
 };
 
-export const TEMPLATE_FIELD_OPTIONS = map(
-   Object.entries(TEMPLATE_FIELD_LABELS),
+export const PROMPT_VARIABLE_OPTIONS = map(
+   Object.entries(PROMPT_VARIABLE_LABELS),
    ([value, label]) => ({
       value,
       label,
    })
 );
 
-export const getTemplateFieldTypeLabel = (type: DPromptVariableType) => {
-   const label = TEMPLATE_FIELD_LABELS[type] ?? type;
+export const getPromptVariableTypeLabel = (type: DPromptVariableType) => {
+   const label = PROMPT_VARIABLE_LABELS[type] ?? type;
    return upperCase(label);
 };
 
-export const isOptionsFieldType = (type: DPromptVariableType) => {
-   return includes(OPTIONS_FIELD_TYPES, type);
+export const isOptionsPromptVariableType = (type: DPromptVariableType) => {
+   return includes(OPTIONS_PROMPT_VARIABLE_TYPES, type);
 };

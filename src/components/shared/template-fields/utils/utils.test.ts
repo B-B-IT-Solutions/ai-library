@@ -3,16 +3,19 @@
 import { DPromptVariableType } from "@/data/types/domain/prompt";
 
 import {
-   getTemplateFieldTypeLabel,
-   isOptionsFieldType,
-   OPTIONS_FIELD_TYPES,
-   TEMPLATE_FIELD_LABELS,
-   TEMPLATE_FIELD_OPTIONS,
+   getPromptVariableTypeLabel,
+   isOptionsPromptVariableType,
+   OPTIONS_PROMPT_VARIABLE_TYPES,
+   PROMPT_VARIABLE_LABELS,
+   PROMPT_VARIABLE_OPTIONS,
 } from "./utils";
 
-const expectedOptionFieldTypes: DPromptVariableType[] = ["SELECT", "RADIO"];
+const expectedOptionPromptVariableTypes: DPromptVariableType[] = [
+   "SELECT",
+   "RADIO",
+];
 
-const expecteTemplateFieldLabels: Record<DPromptVariableType, string> = {
+const expectePromptVariableLabels: Record<DPromptVariableType, string> = {
    TEXT: "Text",
    TEXTAREA: "Textarea",
    EMAIL: "E-Mail",
@@ -23,7 +26,7 @@ const expecteTemplateFieldLabels: Record<DPromptVariableType, string> = {
    RADIO: "Radio",
 };
 
-const expectedTemplateFieldOptions = [
+const expectedPromptVariableOptions = [
    { value: "TEXT", label: "Text" },
    { value: "TEXTAREA", label: "Textarea" },
    { value: "EMAIL", label: "E-Mail" },
@@ -34,38 +37,40 @@ const expectedTemplateFieldOptions = [
    { value: "RADIO", label: "Radio" },
 ];
 
-describe("template field type tests", () => {
-   it("OPTION_FIEDL_TYPES test", () => {
-      expect(OPTIONS_FIELD_TYPES).toEqual(expectedOptionFieldTypes);
+describe("prompt variable type tests", () => {
+   it("OPTIONS_PROMPT_VARIABLE_TYPES test", () => {
+      expect(OPTIONS_PROMPT_VARIABLE_TYPES).toEqual(
+         expectedOptionPromptVariableTypes
+      );
    });
 
-   it("TEMPLATE_FIELD_LABELS test", () => {
-      expect(TEMPLATE_FIELD_LABELS).toEqual(expecteTemplateFieldLabels);
+   it("PROMPT_VARIABLE_LABELS test", () => {
+      expect(PROMPT_VARIABLE_LABELS).toEqual(expectePromptVariableLabels);
    });
 
-   it("TEMPLATE_FIELD_OPTIONS test", () => {
-      expect(TEMPLATE_FIELD_OPTIONS).toEqual(expectedTemplateFieldOptions);
+   it("PROMPT_VARIABLE_OPTIONS test", () => {
+      expect(PROMPT_VARIABLE_OPTIONS).toEqual(expectedPromptVariableOptions);
    });
 
-   it("getTemplateFieldTypeLabel - test", () => {
-      const result1 = getTemplateFieldTypeLabel("TEXT");
-      const expectedResult1 = upperCase(expecteTemplateFieldLabels.TEXT);
+   it("getPromptVariableTypeLabel - test", () => {
+      const result1 = getPromptVariableTypeLabel("TEXT");
+      const expectedResult1 = upperCase(expectePromptVariableLabels.TEXT);
       expect(result1).toEqual(expectedResult1);
 
-      const result2 = getTemplateFieldTypeLabel("NUMBER");
-      const expectedResult2 = upperCase(expecteTemplateFieldLabels.NUMBER);
+      const result2 = getPromptVariableTypeLabel("NUMBER");
+      const expectedResult2 = upperCase(expectePromptVariableLabels.NUMBER);
       expect(result2).toEqual(expectedResult2);
 
       const type = "UNKNOW" as DPromptVariableType;
-      const result3 = getTemplateFieldTypeLabel(type);
+      const result3 = getPromptVariableTypeLabel(type);
       expect(result3).toEqual(type);
    });
 
-   it("isOptionsFieldType - test", () => {
-      expect(isOptionsFieldType("TEXT")).toEqual(false);
-      expect(isOptionsFieldType("NUMBER")).toEqual(false);
-      expect(isOptionsFieldType("EMAIL")).toEqual(false);
-      expect(isOptionsFieldType("SELECT")).toEqual(true);
-      expect(isOptionsFieldType("RADIO")).toEqual(true);
+   it("isOptionsPromptVariableType - test", () => {
+      expect(isOptionsPromptVariableType("TEXT")).toEqual(false);
+      expect(isOptionsPromptVariableType("NUMBER")).toEqual(false);
+      expect(isOptionsPromptVariableType("EMAIL")).toEqual(false);
+      expect(isOptionsPromptVariableType("SELECT")).toEqual(true);
+      expect(isOptionsPromptVariableType("RADIO")).toEqual(true);
    });
 });

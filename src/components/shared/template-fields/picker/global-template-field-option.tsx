@@ -3,7 +3,7 @@
 import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
+import { getPromptVariableTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +64,7 @@ export const GlobalPromptFieldOption = ({
             </code>
          </div>
          <Badge variant="secondary" className="ml-2 shrink-0 text-xs">
-            {getTemplateFieldTypeLabel(field.type)}
+            {getPromptVariableTypeLabel(field.type)}
          </Badge>
       </button>
    );
