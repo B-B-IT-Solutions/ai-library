@@ -1,10 +1,10 @@
 ﻿import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { TemplatePreview } from "./template-preview";
+import { PromptPreview } from "./prompt-preview";
 
 const assertRendered = () => {
-   const templatePreview = screen.getByTestId("template-preview");
+   const templatePreview = screen.getByTestId("prompt-preview");
    const preview = screen.getByTestId("preview");
    const mdRenderer = screen.getByTestId("react-md");
    const copyBtn = screen.getByTestId("copy-preview-btn");
@@ -15,12 +15,12 @@ const assertRendered = () => {
    assertInDocument(copyBtn);
 };
 
-describe("TemplatePreview rendering tests", () => {
-   it("TemplatePreview rendered test", async () => {
+describe("PromptPreview rendering tests", () => {
+   it("render test", async () => {
       const template = dtestData.dPromptWithContent();
       const values = dtestData.dPromptFieldValues();
       const { container } = render(
-         <TemplatePreview
+         <PromptPreview
             template={template}
             values={values}
             resolvedContent="content 1"

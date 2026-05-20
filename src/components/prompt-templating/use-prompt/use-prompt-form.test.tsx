@@ -36,7 +36,7 @@ const createField = (
 
 const assertRendered = () => {
    const promptFromTemplate = screen.getByTestId("use-template-form");
-   const preview = screen.getByTestId("template-preview");
+   const preview = screen.getByTestId("prompt-preview");
    const form = screen.getByTestId("prompt-variables-form");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");

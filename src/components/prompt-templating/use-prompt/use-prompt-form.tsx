@@ -21,8 +21,8 @@ import {
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
+import { PromptPreview } from "../variables/prompt-preview";
 import { PromptVariablesForm } from "../variables/prompt-variables-form";
-import { TemplatePreview } from "../variables/template-preview";
 import { buildFieldsSchema } from "../variables/variables.schema";
 
 import {
@@ -139,7 +139,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   <p className="text-xs font-medium text-muted-foreground">
                      Vorschau
                   </p>
-                  <TemplatePreview
+                  <PromptPreview
                      template={template}
                      values={currentValues}
                      resolvedContent={resolvedContent}
