@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SubscriptionConfirmation rendering tests rendered - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm w-full max-w-lg overflow-hidden pb-0"
+    data-slot="card"
+    data-testid="subscription-confirmation"
+  >
+    <div
+      class="h-1.5 w-full bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500"
+    />
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pt-8 pb-4 text-center"
+      data-slot="card-header"
+    >
+      <div
+        class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 shadow-md ring-8 ring-green-50 dark:bg-green-900 dark:ring-green-950"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-circle-check-big h-10 w-10 text-green-600 dark:text-green-400"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.801 10A10 10 0 1 1 17 3.335"
+          />
+          <path
+            d="m9 11 3 3L22 4"
+          />
+        </svg>
+      </div>
+      <div
+        class="text-3xl font-bold tracking-tight"
+        data-slot="card-title"
+      >
+        Abo aktiviert!
+      </div>
+      <div
+        class="text-muted-foreground mt-2 text-base leading-relaxed"
+        data-slot="card-description"
+      >
+        Dein Abonnement wurde erfolgreich aktiviert. Du hast jetzt Zugang zu allen Funktionen deines Tarifs.
+      </div>
+    </div>
+    <div
+      class="px-6 pb-8"
+      data-slot="card-content"
+    >
+      <div
+        class="flex flex-col items-center gap-4"
+      >
+        <a
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+          data-slot="button"
+          data-testid="prompts-link"
+          href="/prompts"
+        >
+          Zu meinen Prompts
+        </a>
+        <a
+          class="text-sm text-foreground underline-offset-4 hover:underline"
+          data-testid="view-subscription-link"
+          href="/settings/subscription"
+        >
+          Abo verwalten
+        </a>
+      </div>
+    </div>
+    <div
+      class="border-t bg-muted/40 px-6 pt-3 pb-2"
+    >
+      <p
+        class="text-center text-xs text-muted-foreground/70"
+      >
+        Du kannst dein Abonnement jederzeit in den Einstellungen anpassen oder kündigen.
+      </p>
+    </div>
+  </div>
+</div>
+`;

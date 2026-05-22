@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import SubscriptionSuccessPage, { metadata } from "./page";
+import { metadata, SubscriptionSuccessPage } from "./page";
 
 const expectedMetadata: Metadata = {
    title: "Subscription Success",
@@ -10,20 +10,14 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("subscription-success-page");
-   const promptsLink = screen.getByTestId("prompts-link");
-   const subscriptionLink = screen.getByTestId("subscription-link");
+   const confirmation = screen.getByTestId("subscription-confirmation");
 
    assertInDocument(page);
-   assertInDocument(promptsLink);
-   assertInDocument(subscriptionLink);
+   assertInDocument(confirmation);
 };
 
 describe("SubscriptionSuccessPage rendering tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("SubscriptionSuccessPage - rendered - test", async () => {
+   it("rendered - test", async () => {
       const { container } = await renderAsyncRSC(SubscriptionSuccessPage, {});
 
       await waitFor(() => {
@@ -35,7 +29,7 @@ describe("SubscriptionSuccessPage rendering tests", () => {
 });
 
 describe("SubscriptionSuccessPage functionality tests", () => {
-   it("SubscriptionSuccessPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

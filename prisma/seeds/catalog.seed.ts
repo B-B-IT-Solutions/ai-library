@@ -449,7 +449,7 @@ const catalogEntries = [
          "Generiere 5 verschiedene Eröffnungssätze für deinen Text – von der provokanten These bis zur Neugier-Lücke. Perfekt um den besten Hook auszuwählen statt beim ersten Entwurf zu bleiben.",
       recommendedModel: "GPT-4o",
       content:
-         "Du bist ein erfahrener Werbetexter. Schreib 5 verschiedene Eröffnungssätze für folgenden Text:\n\nThema: {{thema}}\nZielgruppe: {{zielgruppe}}\nPlattform: {{plattform}}\n\nVerwende diese 5 verschiedenen Hook-Typen:\n1. Provokante These (widerspricht einer gängigen Meinung)\n2. Konkrete Zahl / Statistik\n3. \"Was wäre wenn\"-Szenario\n4. Schmerz-Hook (benennt ein Problem direkt)\n5. Neugier-Lücke (stellt eine Frage, die unbedingt beantwortet werden will)\n\nFormattiere jeden Hook als eigenständigen Satz. Keine Erklärungen.",
+         'Du bist ein erfahrener Werbetexter. Schreib 5 verschiedene Eröffnungssätze für folgenden Text:\n\nThema: {{thema}}\nZielgruppe: {{zielgruppe}}\nPlattform: {{plattform}}\n\nVerwende diese 5 verschiedenen Hook-Typen:\n1. Provokante These (widerspricht einer gängigen Meinung)\n2. Konkrete Zahl / Statistik\n3. "Was wäre wenn"-Szenario\n4. Schmerz-Hook (benennt ein Problem direkt)\n5. Neugier-Lücke (stellt eine Frage, die unbedingt beantwortet werden will)\n\nFormattiere jeden Hook als eigenständigen Satz. Keine Erklärungen.',
       categorySlug: "marketing-content",
       fields: [
          {
@@ -546,13 +546,14 @@ const catalogEntries = [
          "Wandle technische Features in echte Kundenvorteile um. Kunden kaufen keine Features – sie kaufen Ergebnisse. Dieser Prompt erzwingt den Perspektivwechsel vom Anbieter zum Kunden.",
       recommendedModel: "GPT-4o",
       content:
-         "Du bist ein erfahrener Werbetexter. Hier sind die technischen Features meines Produkts:\n\n{{feature_liste}}\n\nDeine Aufgabe: Wandle jedes Feature in einen konkreten Kundennutzen um.\nNutze die Formel: \"[Feature] – das bedeutet für dich: [konkreter Nutzen im Alltag]\"\n\nZielgruppe: {{zielgruppe}}\nTon: {{tonalitaet}}\n\nDanach: Wähle die 3 stärksten Benefits aus und schreib sie als kurze, prägnante Bullet Points (max. 10 Wörter pro Bullet).",
+         'Du bist ein erfahrener Werbetexter. Hier sind die technischen Features meines Produkts:\n\n{{feature_liste}}\n\nDeine Aufgabe: Wandle jedes Feature in einen konkreten Kundennutzen um.\nNutze die Formel: "[Feature] – das bedeutet für dich: [konkreter Nutzen im Alltag]"\n\nZielgruppe: {{zielgruppe}}\nTon: {{tonalitaet}}\n\nDanach: Wähle die 3 stärksten Benefits aus und schreib sie als kurze, prägnante Bullet Points (max. 10 Wörter pro Bullet).',
       categorySlug: "marketing-content",
       fields: [
          {
             name: "feature_liste",
             label: "Feature-Liste",
-            description: "Liste deine Produkt-Features auf (eine Zeile pro Feature)",
+            description:
+               "Liste deine Produkt-Features auf (eine Zeile pro Feature)",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -572,7 +573,13 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 2,
-            options: ["Direkt", "Empathisch", "Sachlich", "Inspirierend", "Humorvoll"],
+            options: [
+               "Direkt",
+               "Empathisch",
+               "Sachlich",
+               "Inspirierend",
+               "Humorvoll",
+            ],
          },
       ],
    },
@@ -583,7 +590,7 @@ const catalogEntries = [
          "Erstelle 10 Betreffzeilen in 5 verschiedenen Typen – mit geschätzter Öffnungsrate. Schluss mit dem Raten: wähle datenbasiert den stärksten Betreff für deine Kampagne.",
       recommendedModel: "GPT-4o",
       content:
-         "Du bist ein E-Mail-Marketing-Experte. Schreib 10 Betreffzeilen für folgende E-Mail:\n\nInhalt der E-Mail: {{email_inhalt}}\nZielgruppe: {{zielgruppe}}\nZiel: {{ziel}}\n\nNutze diese Betreffzeilen-Typen (je 2):\n- Neugier (\"Warum die meisten X falsch machen...\")\n- Direkter Nutzen (\"In 10 Minuten zu X\")\n- Personalisierung / Spezifität (\"Für [Jobtitel/Situation]\")\n- Dringlichkeit / Knappheit\n- Überraschung / Paradox\n\nJede Betreffzeile: max. 50 Zeichen. Ohne Clickbait-Floskeln.\nDanach bewerte jede mit einer geschätzten Öffnungsrate (1–10) und begründe kurz.",
+         'Du bist ein E-Mail-Marketing-Experte. Schreib 10 Betreffzeilen für folgende E-Mail:\n\nInhalt der E-Mail: {{email_inhalt}}\nZielgruppe: {{zielgruppe}}\nZiel: {{ziel}}\n\nNutze diese Betreffzeilen-Typen (je 2):\n- Neugier ("Warum die meisten X falsch machen...")\n- Direkter Nutzen ("In 10 Minuten zu X")\n- Personalisierung / Spezifität ("Für [Jobtitel/Situation]")\n- Dringlichkeit / Knappheit\n- Überraschung / Paradox\n\nJede Betreffzeile: max. 50 Zeichen. Ohne Clickbait-Floskeln.\nDanach bewerte jede mit einer geschätzten Öffnungsrate (1–10) und begründe kurz.',
       categorySlug: "email-kommunikation",
       fields: [
          {
@@ -609,7 +616,13 @@ const catalogEntries = [
             type: "SELECT" as const,
             required: true,
             order: 2,
-            options: ["Klick", "Kauf", "Terminbuchung", "Anmeldung", "Information"],
+            options: [
+               "Klick",
+               "Kauf",
+               "Terminbuchung",
+               "Anmeldung",
+               "Information",
+            ],
          },
       ],
    },
@@ -626,7 +639,8 @@ const catalogEntries = [
          {
             name: "beispieltext",
             label: "Beispieltext",
-            description: "Text der Marke oder Person, deren Stil du übernehmen möchtest",
+            description:
+               "Text der Marke oder Person, deren Stil du übernehmen möchtest",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,

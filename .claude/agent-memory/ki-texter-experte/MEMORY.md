@@ -1,0 +1,1 @@
+- [LinkedIn Tone: Positiv](feedback_linkedin_tone.md) — Alle LinkedIn-Posts müssen positiv gerahmt sein, keine Problem/Schmerz-Hooks
