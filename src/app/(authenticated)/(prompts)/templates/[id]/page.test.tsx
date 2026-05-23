@@ -31,32 +31,9 @@ describe("PromptPage rendering tests", () => {
    });
 
    it("prompt null - test", async () => {
-      getPromptMock.mockResolvedValue(null);
-
-      const params: PageParams = { id: "descriptor-id-1" };
-      const props: PageProps = {
-         params: Promise.resolve(params),
-      };
-
-      const { container } = await renderAsyncRSC(PromptPage, props);
-
-      await waitFor(() => {
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).not.toHaveBeenCalled();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("prompt retrieved - template null - test", async () => {
-      const prompt = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(prompt);
-
       getPromptWithContentMock.mockResolvedValue(null);
 
-      const params: PageParams = { id: "descriptor-id-1" };
+      const params: PageParams = { id: "prompt-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
@@ -64,24 +41,20 @@ describe("PromptPage rendering tests", () => {
       const { container } = await renderAsyncRSC(PromptPage, props);
 
       await waitFor(() => {
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
+         expect(getPromptMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("prompt retrieved - template retrieved - test", async () => {
-      const prompt = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(prompt);
+   it("prompt retrieved - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      getPromptWithContentMock.mockResolvedValue(prompt);
 
-      const template = dtestData.dPromptWithContent();
-      getPromptWithContentMock.mockResolvedValue(template);
-
-      const params: PageParams = { id: "descriptor-id-1" };
+      const params: PageParams = { id: "prompt-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
@@ -90,10 +63,10 @@ describe("PromptPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(notFoundMock).not.toHaveBeenCalled();
+         expect(getPromptMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -123,9 +96,10 @@ describe("PromptPage functionality tests", () => {
       expect(metadata).toEqual(expectedMetadata);
       expect(getPromptMock).toHaveBeenCalledTimes(1);
       expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
+      expect(getPromptWithContentMock).not.toHaveBeenCalled();
    });
 
-   it("generateMetadata - prompt defined - test", async () => {
+   it("generateMetadata - prompt retrieved - test", async () => {
       const prompt = dtestData.dPrompt();
       getPromptMock.mockResolvedValue(prompt);
 
@@ -144,5 +118,6 @@ describe("PromptPage functionality tests", () => {
       expect(metadata).toEqual(expectedMetadata);
       expect(getPromptMock).toHaveBeenCalledTimes(1);
       expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
+      expect(getPromptWithContentMock).not.toHaveBeenCalled();
    });
 });

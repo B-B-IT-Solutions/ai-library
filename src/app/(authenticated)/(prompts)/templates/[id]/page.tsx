@@ -24,21 +24,15 @@ export async function generateMetadata({
 
 export const PromptPage = async ({ params }: PageProps) => {
    const { id: promptId } = await params;
-   const prompt = await getPrompt(promptId);
+   const prompt = await getPromptWithContent(promptId);
 
    if (!prompt) {
       return notFound();
    }
 
-   const template = await getPromptWithContent(prompt.id);
-
-   if (!template) {
-      return notFound();
-   }
-
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-view-page">
-         <PromptView prompt={template} />
+         <PromptView prompt={prompt} />
       </div>
    );
 };
