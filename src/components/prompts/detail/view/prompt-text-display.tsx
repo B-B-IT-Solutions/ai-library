@@ -51,8 +51,8 @@ export const PromptTextDisplay = ({ template }: Props) => {
                )}
             </Button>
          </div>
-         <div className="rounded-lg bg-slate-950 p-5">
-            <MDRenderer className="font-mono text-sm leading-relaxed text-slate-100">
+         <div className="rounded-lg bg-slate-100 p-5">
+            <MDRenderer className="font-mono text-sm leading-relaxed text-slate-900">
                {template.content}
             </MDRenderer>
          </div>
