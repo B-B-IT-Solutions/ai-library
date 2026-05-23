@@ -57,12 +57,12 @@ exports[`DeleteAcount rendering tests DeleteAcount rendered - no subscription - 
     >
       <div>
         <h3
-          class="text-sm font-medium mb-1"
+          class="mb-1 text-sm font-medium"
         >
           Konto löschen
         </h3>
         <p
-          class="text-sm text-muted-foreground mb-4"
+          class="mb-4 text-sm text-muted-foreground"
         >
           Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
@@ -151,12 +151,12 @@ exports[`DeleteAcount rendering tests DeleteAcount rendered - subscription ACTIV
     >
       <div>
         <h3
-          class="text-sm font-medium mb-1"
+          class="mb-1 text-sm font-medium"
         >
           Konto löschen
         </h3>
         <p
-          class="text-sm text-muted-foreground mb-4"
+          class="mb-4 text-sm text-muted-foreground"
         >
           Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
@@ -258,12 +258,12 @@ exports[`DeleteAcount rendering tests DeleteAcount rendered - subscription CANCE
     >
       <div>
         <h3
-          class="text-sm font-medium mb-1"
+          class="mb-1 text-sm font-medium"
         >
           Konto löschen
         </h3>
         <p
-          class="text-sm text-muted-foreground mb-4"
+          class="mb-4 text-sm text-muted-foreground"
         >
           Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
