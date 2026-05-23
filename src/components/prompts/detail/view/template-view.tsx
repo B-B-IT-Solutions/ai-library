@@ -31,10 +31,12 @@ export const TemplateView = ({ descriptor, template }: Props) => {
             <div className="mx-auto max-w-6xl px-6 py-8">
                <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
                   {/* Main content */}
-                  <TemplateViewForm
-                     descriptor={descriptor}
-                     template={template}
-                  />
+                  <div className="rounded-xl bg-white p-6 shadow-sm">
+                     <TemplateViewForm
+                        descriptor={descriptor}
+                        template={template}
+                     />
+                  </div>
 
                   {/* Sidebar */}
                   <aside className="space-y-3 lg:sticky lg:top-8 lg:self-start">
