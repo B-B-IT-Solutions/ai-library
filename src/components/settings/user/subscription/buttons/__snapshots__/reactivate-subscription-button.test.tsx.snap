@@ -7,7 +7,7 @@ exports[`ReactivateSubscriptionButton rendering tests ReactivateSubscriptionButt
     data-slot="button"
     data-testid="reactivate-subscription-btn"
   >
-    Reactivate
+    Reaktivieren
   </button>
 </div>
 `;

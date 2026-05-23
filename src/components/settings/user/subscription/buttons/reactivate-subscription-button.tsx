@@ -29,11 +29,11 @@ export const ReactivateSubscriptionButton: FC = () => {
          return (
             <>
                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Loading...
+               Lädt...
             </>
          );
       }
-      return "Reactivate";
+      return "Reaktivieren";
    };
 
    return (

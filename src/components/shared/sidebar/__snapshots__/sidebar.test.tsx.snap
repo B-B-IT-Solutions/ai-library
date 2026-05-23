@@ -261,7 +261,7 @@ exports[`Sidebar rendering tests sidebar collapsed - rendered test 1`] = `
                 data-sidebar="group-label"
                 data-slot="sidebar-group-label"
               >
-                Other
+                Mehr
               </div>
               <div
                 class="w-full text-sm"
@@ -675,7 +675,7 @@ exports[`Sidebar rendering tests sidebar open - rendered test 1`] = `
                 data-sidebar="group-label"
                 data-slot="sidebar-group-label"
               >
-                Other
+                Mehr
               </div>
               <div
                 class="w-full text-sm"

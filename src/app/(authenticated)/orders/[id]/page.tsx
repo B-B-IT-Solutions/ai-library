@@ -8,7 +8,7 @@ import { Button } from "@/components/shadcn/button";
 import { getOrder } from "@/data/actions/order";
 
 export const metadata: Metadata = {
-   title: "Order",
+   title: "Bestellung",
 };
 
 export type OrderParams = {
@@ -32,14 +32,14 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
             <div className="py-12 text-center" data-testid="order-not-found">
                <Package className="mx-auto mb-4 h-16 w-16 text-slate-300" />
                <h2 className="mb-2 text-xl font-semibold text-slate-900">
-                  Order not found
+                  Bestellung nicht gefunden
                </h2>
                <p className="mb-6 text-slate-600">
-                  The order you're looking for doesn't exist or you don't have
-                  access to it.
+                  Die gesuchte Bestellung existiert nicht oder du hast keinen
+                  Zugriff darauf.
                </p>
                <Link href="/orders" data-testid="orders-link">
-                  <Button>View All Orders</Button>
+                  <Button>Alle Bestellungen</Button>
                </Link>
             </div>
          </div>
@@ -78,11 +78,11 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
                <CheckCircle className="h-12 w-12 text-green-600" />
                <div>
                   <h2 className="mb-1 text-xl font-semibold text-green-900">
-                     Order Successful!
+                     Bestellung erfolgreich!
                   </h2>
                   <p className="text-green-700">
-                     Your order has been completed and your templates are ready
-                     in your library.
+                     Deine Bestellung ist abgeschlossen und deine Vorlagen sind
+                     in deiner Bibliothek verfügbar.
                   </p>
                </div>
             </div>
@@ -95,18 +95,18 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
             <div className="mb-4 flex items-start justify-between">
                <div>
                   <h1 className="mb-1 text-2xl font-bold text-slate-900">
-                     Order Details
+                     Bestelldetails
                   </h1>
-                  <p className="text-sm text-slate-600">Order ID: {order.id}</p>
+                  <p className="text-sm text-slate-600">Bestell-ID: {order.id}</p>
                   <p className="text-sm text-slate-600">
-                     Date: {format(new Date(order.createdAt), "PPP")}
+                     Datum: {format(new Date(order.createdAt), "PPP")}
                   </p>
                </div>
                {statusBadge()}
             </div>
 
             <div className="space-y-3 border-t pt-4">
-               <h3 className="mb-2 font-semibold">Items</h3>
+               <h3 className="mb-2 font-semibold">Artikel</h3>
                {map(order.items, (item) => (
                   <div key={item.id} className="flex justify-between text-sm">
                      <div>
@@ -120,7 +120,7 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
                ))}
 
                <div className="flex justify-between border-t pt-3 text-lg font-semibold">
-                  <span>Total</span>
+                  <span>Gesamt</span>
                   <span>CHF {order.totalAmount}</span>
                </div>
             </div>
@@ -132,11 +132,11 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
                className="flex-1"
                data-testid="library-link"
             >
-               <Button className="w-full cursor-pointer">Go to Library</Button>
+               <Button className="w-full cursor-pointer">Zur Bibliothek</Button>
             </Link>
             <Link href="/orders" className="flex-1" data-testid="orders-link">
                <Button variant="outline" className="w-full cursor-pointer">
-                  View All Orders
+                  Alle Bestellungen
                </Button>
             </Link>
          </div>

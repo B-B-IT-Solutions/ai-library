@@ -9,7 +9,7 @@ import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 
 export const metadata: Metadata = {
-   title: "Cart",
+   title: "Warenkorb",
 };
 
 export const CartPage = async () => {
@@ -22,18 +22,18 @@ export const CartPage = async () => {
             data-testid="cart-page-empty"
          >
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
-               Shopping Cart
+               Warenkorb
             </h1>
             <div className="text-center py-12">
                <ShoppingBag className="w-16 h-16 mx-auto text-slate-300 mb-4" />
                <h2 className="text-xl font-semibold text-slate-900 mb-2">
-                  Your cart is empty
+                  Dein Warenkorb ist leer
                </h2>
                <p className="text-slate-600 mb-6">
-                  Start shopping to add items to your cart
+                  Entdecke den Marktplatz und füge Artikel hinzu
                </p>
                <Link href="/marketplace" data-testid="market-place-link">
-                  <Button>Browse Marketplace</Button>
+                  <Button>Marktplatz entdecken</Button>
                </Link>
             </div>
          </div>
@@ -43,7 +43,7 @@ export const CartPage = async () => {
    return (
       <div className="container mx-auto px-4 py-8" data-testid="cart-page">
          <h1 className="text-3xl font-bold text-slate-900 mb-8">
-            Shopping Cart
+            Warenkorb
          </h1>
 
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -54,7 +54,7 @@ export const CartPage = async () => {
 
                <Link href="/marketplace" data-testid="continue-shopping-link">
                   <Button variant="outline" className="w-full">
-                     Continue Shopping
+                     Weiter einkaufen
                   </Button>
                </Link>
             </div>

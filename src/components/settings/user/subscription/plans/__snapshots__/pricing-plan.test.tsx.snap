@@ -357,7 +357,7 @@ exports[`PricingPlan rendering tests tier FREE - current false - test 1`] = `
           <span
             class="text-sm"
           >
-            Bis zu 20 Prompt-Platzhalter
+            Bis zu 5 Prompt-Platzhalter
           </span>
         </li>
         <li
