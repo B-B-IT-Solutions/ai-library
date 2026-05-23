@@ -120,14 +120,15 @@ exports[`TemplateView rendering tests rendered test 1`] = `
                   class="text-sm text-slate-500"
                 >
                   Erstellt 
-                  27. September 2025
-                   · 
+                  27. Sept. 2025, 02:00 AM
+                   ·
+                   
                   model 1
                 </p>
               </div>
               <div
                 class="mb-8"
-                data-testid="short-description"
+                data-testid="description"
               >
                 <div
                   class="mb-3 border-t border-slate-200 pt-4"
