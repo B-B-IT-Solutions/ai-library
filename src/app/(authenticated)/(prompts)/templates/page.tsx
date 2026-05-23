@@ -7,14 +7,14 @@ import {
 } from "@/components/prompts";
 
 export const metadata: Metadata = {
-   title: "Meine Vorlagen",
+   title: "Meine Prompts",
 };
 
 export type PageProps = {
    searchParams: Promise<SearchParams>;
 };
 
-export const TemplatesPage = async (props: PageProps) => {
+export const PromptsPage = async (props: PageProps) => {
    await templatesSearchParamsCache.parse(props.searchParams);
 
    return (
@@ -24,4 +24,4 @@ export const TemplatesPage = async (props: PageProps) => {
    );
 };
 
-export default TemplatesPage;
+export default PromptsPage;

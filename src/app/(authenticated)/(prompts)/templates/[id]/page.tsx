@@ -16,13 +16,13 @@ export async function generateMetadata({
    params,
 }: PageProps): Promise<Metadata> {
    const { id } = await params;
-   const descriptor = await getPrompt(id);
+   const prompt = await getPrompt(id);
    return {
-      title: descriptor?.title ?? "Vorlage",
+      title: prompt?.title ?? "Prompt",
    };
 }
 
-export const TemplatePage = async ({ params }: PageProps) => {
+export const PromptPage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
    const descriptor = await getPrompt(descriptorId);
 
@@ -43,4 +43,4 @@ export const TemplatePage = async ({ params }: PageProps) => {
    );
 };
 
-export default TemplatePage;
+export default PromptPage;
