@@ -19,10 +19,10 @@ const assertRendered = () => {
 describe("TemplateView rendering tests", () => {
    it("rendered test", async () => {
       const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
 
       const { container } = render(
-         <TemplateView descriptor={descriptor} prompt={template} />
+         <TemplateView descriptor={descriptor} prompt={prompt} />
       );
 
       await waitFor(() => {
