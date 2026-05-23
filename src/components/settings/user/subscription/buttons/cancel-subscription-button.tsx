@@ -53,11 +53,11 @@ export const CancelSubscriptionButton = ({ subscription }: Props) => {
          return (
             <>
                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Wird kündigt...
+               Wird gekündigt...
             </>
          );
       }
-      return "Cancel Subscription";
+      return "Kündigen";
    };
 
    return (
@@ -74,16 +74,16 @@ export const CancelSubscriptionButton = ({ subscription }: Props) => {
          </AlertDialogTrigger>
          <AlertDialogContent data-testid="dialog-content">
             <AlertDialogHeader>
-               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+               <AlertDialogTitle>Bist du sicher?</AlertDialogTitle>
                <AlertDialogDescription>
-                  Your subscription will be canceled at the end of the current
-                  billing period. You'll continue to have access until{" "}
+                  Dein Abonnement wird zum Ende des aktuellen Abrechnungszeitraums
+                  gekündigt. Du behältst deinen Zugang bis{" "}
                   {formatDate(subscription.currentPeriodEnd)}.
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
                <AlertDialogCancel data-testid="cancel-btn">
-                  Keep Subscription
+                  Abonnement behalten
                </AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleCancel}
