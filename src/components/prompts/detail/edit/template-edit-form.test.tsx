@@ -153,16 +153,11 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - rendered - test", async () => {
-      const prompt = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
-         <TemplateEditForm
-            prompt={prompt}
-            template={template}
-            globalFields={fields}
-         />
+         <TemplateEditForm prompt={prompt} globalFields={fields} />
       );
 
       await waitFor(() => {
@@ -176,17 +171,12 @@ describe("TemplateEditForm rendering tests", () => {
 
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      const prompt = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
 
-      template.content = "Hello {{{{name}}, your role is {{{{role}}";
+      prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
-         <TemplateEditForm
-            prompt={prompt}
-            template={template}
-            globalFields={fields}
-         />
+         <TemplateEditForm prompt={prompt} globalFields={fields} />
       );
       await waitFor(() => {
          assertRendered();
@@ -232,17 +222,10 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("remove global field btn clicked - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(
-         <TemplateEditForm
-            prompt={descriptor}
-            template={template}
-            globalFields={fields}
-         />
-      );
+      render(<TemplateEditForm prompt={prompt} globalFields={fields} />);
 
       assertRendered();
       assertGlobalFieldsRendered();
@@ -417,17 +400,10 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updatePromptMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(
-         <TemplateEditForm
-            prompt={descriptor}
-            template={template}
-            globalFields={fields}
-         />
-      );
+      render(<TemplateEditForm prompt={prompt} globalFields={fields} />);
 
       assertRendered();
 
@@ -441,7 +417,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTemplate(descriptor, template);
+      const initValue = initPromptTemplate(prompt);
       const expectedPayload: DPromptUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
@@ -455,12 +431,12 @@ describe("TemplateEditForm functionality tests", () => {
       await waitFor(() => {
          expect(updatePromptMock).toHaveBeenCalledTimes(1);
          expect(updatePromptMock).toHaveBeenCalledWith(
-            descriptor.id,
+            prompt.id,
             expectedPayload
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
       });
    });
 
@@ -590,17 +566,10 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updatePromptMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(
-         <TemplateEditForm
-            prompt={descriptor}
-            template={template}
-            globalFields={fields}
-         />
-      );
+      render(<TemplateEditForm prompt={prompt} globalFields={fields} />);
 
       assertRendered();
 
@@ -613,7 +582,7 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTemplate(descriptor, template);
+      const initValue = initPromptTemplate(prompt);
       const expectedPayload: DPromptUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
@@ -627,7 +596,7 @@ describe("TemplateEditForm functionality tests", () => {
       await waitFor(() => {
          expect(updatePromptMock).toHaveBeenCalledTimes(1);
          expect(updatePromptMock).toHaveBeenCalledWith(
-            descriptor.id,
+            prompt.id,
             expectedPayload
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);

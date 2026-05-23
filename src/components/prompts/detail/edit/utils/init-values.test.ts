@@ -1,25 +1,20 @@
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import {
-   DPrompt,
-   DPromptWithContent,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 
 import { initPromptTemplate } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
-   descriptor: DPrompt,
-   template: DPromptWithContent
+   prompt: DPromptWithContent
 ): DPromptUpdate => {
    return {
-      title: descriptor.title,
-      description: descriptor.description,
-      content: template.content,
-      recommendedModel: descriptor.recommendedModel,
-      categories: descriptor.categories.map((c) => c.name),
-      fields: map(template.fields, (f) => ({
+      title: prompt.title,
+      description: prompt.description,
+      content: prompt.content,
+      recommendedModel: prompt.recommendedModel,
+      categories: prompt.categories.map((c) => c.name),
+      fields: map(prompt.fields, (f) => ({
          name: f.name,
          label: f.label,
          description: f.description ?? "",
@@ -29,7 +24,7 @@ const expectedInitPromptTempalteExisting = (
          defaultValue: f.defaultValue ?? "",
          options: f.options ?? [],
       })),
-      globalFieldIds: template.globalFieldIds ?? [],
+      globalFieldIds: prompt.globalFieldIds ?? [],
    };
 };
 
@@ -51,17 +46,13 @@ describe("initPromptTempalte tests", () => {
    });
 
    it("initPromptTempalte - existing entry test", () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
-      const field = template.fields[0];
+      const prompt = dtestData.dPromptWithContent();
+      const field = prompt.fields[0];
       field.description = null;
       field.defaultValue = null;
       field.options = undefined;
-      const initValues = initPromptTemplate(descriptor, template);
-      const expectedValues = expectedInitPromptTempalteExisting(
-         descriptor,
-         template
-      );
+      const initValues = initPromptTemplate(prompt);
+      const expectedValues = expectedInitPromptTempalteExisting(prompt);
       expect(initValues).toEqual(expectedValues);
    });
 });

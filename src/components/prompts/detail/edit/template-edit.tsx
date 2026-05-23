@@ -5,25 +5,19 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
-   prompt?: DPrompt;
-   template?: DPromptWithContent;
+   prompt?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
 };
 
-export const TemplateEdit = ({
-   prompt,
-   template,
-   collectionId,
-   globalFields,
-}: Props) => {
+export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
    const header = () => {
       const title = prompt ? "Prompt Bearbeiten" : "Neuen Prompt Erstellen";
       const text = prompt
@@ -61,7 +55,6 @@ export const TemplateEdit = ({
             <ItemDetailsEditBody>
                <TemplateEditForm
                   prompt={prompt}
-                  template={template}
                   collectionId={collectionId}
                   globalFields={globalFields}
                />

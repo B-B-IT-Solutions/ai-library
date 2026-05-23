@@ -16,7 +16,6 @@ import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
-   DPrompt,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariable,
@@ -38,15 +37,13 @@ import {
 } from "./utils";
 
 type Props = {
-   prompt?: DPrompt;
-   template?: DPromptWithContent;
+   prompt?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
 };
 
 export const TemplateEditForm = ({
    prompt,
-   template,
    collectionId,
    globalFields,
 }: Props) => {
@@ -55,7 +52,7 @@ export const TemplateEditForm = ({
 
    const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
-      defaultValues: initPromptTemplate(prompt, template),
+      defaultValues: initPromptTemplate(prompt),
    });
 
    const {

@@ -6,12 +6,10 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
+import { getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
-import { EditTemplatePage, metadata, PageParams, PageProps } from "./page";
-
-const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
+import { EditPromptPage, metadata, PageParams, PageProps } from "./page";
 
 const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
    typeof getPromptWithContent
@@ -28,20 +26,20 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("template-edit-page");
+   const page = screen.getByTestId("prompt-edit-page");
    const editEntry = screen.getByTestId("template-edit");
 
    assertInDocument(page);
    assertInDocument(editEntry);
 };
 
-describe("EditTemplatePage rendering tests", () => {
+describe("EditPromptPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("descriptor null - test", async () => {
-      getPromptMock.mockResolvedValue(null);
+   it("prompt null - test", async () => {
+      getPromptWithContentMock.mockResolvedValue(null);
       getGlobalPromptFieldsMock.mockResolvedValue([]);
 
       const params: PageParams = { id: "descriptor-id-1" };
@@ -49,51 +47,20 @@ describe("EditTemplatePage rendering tests", () => {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(EditTemplatePage, props);
+      const { container } = await renderAsyncRSC(EditPromptPage, props);
 
       await waitFor(() => {
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).not.toHaveBeenCalled();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("descriptor retrieved - template null - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(descriptor);
-
-      getPromptWithContentMock.mockResolvedValue(null);
-
-      const templateFields = dtestData.dGlobalPromptFields();
-      getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
-
-      const params: PageParams = { id: "descriptor-id-1" };
-      const props: PageProps = {
-         params: Promise.resolve(params),
-      };
-
-      const { container } = await renderAsyncRSC(EditTemplatePage, props);
-
-      await waitFor(() => {
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptor retrieved - template retrieved - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(descriptor);
-
-      const template = dtestData.dPromptWithContent();
-      getPromptWithContentMock.mockResolvedValue(template);
+   it("prompt retrieved - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      getPromptWithContentMock.mockResolvedValue(prompt);
 
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
@@ -103,21 +70,20 @@ describe("EditTemplatePage rendering tests", () => {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(EditTemplatePage, props);
+      const { container } = await renderAsyncRSC(EditPromptPage, props);
 
       await waitFor(() => {
          assertRendered();
-         expect(getPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(notFoundMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("EditTemplatePage functionality tests", () => {
+describe("EditPromptPage functionality tests", () => {
    it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
