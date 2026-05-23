@@ -91,6 +91,18 @@ Access to the database always goes through a factory chain:
 
 Jest 30 + React Testing Library. Test environment: jsdom. Key mocks are pre-configured in `jest.config.ts` for: next-auth, next/headers, next/cache, Prisma client, Radix UI components, and Tiptap. The test timezone is forced to `CET` via `cross-env`.
 
+## UI Component Guidelines
+
+See **[UI-DESIGN-GUIDELINES.md](./UI-DESIGN-GUIDELINES.md)** for mandatory standards when implementing UI components. Key rules:
+
+- All visible UI text must be **German (de-DE)** — English strings in the UI are a bug
+- **Colors: semantic tokens first** — use `text-foreground`, `text-muted-foreground`, `bg-card`, `bg-muted`, `border-border` instead of hardcoded `slate-*` classes
+- Forms: always use widget components from `src/components/shared/widgets/`, never raw `FormField`
+- Loading states: use skeleton components from `src/components/shared/skeletons.tsx`
+- Destructive actions: always use `DeleteDropdownMenuItem` with an `AlertDialog` confirmation
+- Icon-only buttons: always add `aria-label` + `<Tooltip>`
+- Submit buttons: always show a loading spinner while pending
+
 ## Testing
 
 ### Unit Tests
