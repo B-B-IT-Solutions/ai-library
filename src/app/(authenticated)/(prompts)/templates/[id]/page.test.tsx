@@ -5,14 +5,14 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 import { generateMetadata, PageParams, PageProps, PromptPage } from "./page";
 
 const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
-const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
-   typeof getPromptTemplate
+const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
+   typeof getPromptWithContent
 >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -44,7 +44,7 @@ describe("PromptPage rendering tests", () => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).not.toHaveBeenCalled();
+         expect(getPromptWithContentMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe("PromptPage rendering tests", () => {
       const prompt = dtestData.dPrompt();
       getPromptMock.mockResolvedValue(prompt);
 
-      getPromptTemplateMock.mockResolvedValue(null);
+      getPromptWithContentMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -66,8 +66,8 @@ describe("PromptPage rendering tests", () => {
       await waitFor(() => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(prompt.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -79,7 +79,7 @@ describe("PromptPage rendering tests", () => {
       getPromptMock.mockResolvedValue(prompt);
 
       const template = dtestData.dPromptWithContent();
-      getPromptTemplateMock.mockResolvedValue(template);
+      getPromptWithContentMock.mockResolvedValue(template);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -92,8 +92,8 @@ describe("PromptPage rendering tests", () => {
          assertRendered();
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(prompt.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
       });
 
       expect(container).toMatchSnapshot();

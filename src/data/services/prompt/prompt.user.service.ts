@@ -48,6 +48,13 @@ export class PromptService {
       return await this.repository.pGetPrompt(userId, descriptorId);
    }
 
+   async getPromptWithContent(
+      userId: string,
+      templateId: string
+   ): Promise<DPromptWithContent | null> {
+      return await this.repository.pGetPromptContent(userId, templateId);
+   }
+
    async createPrompt(
       userId: string,
       crate: DPromptUpdateCrate
@@ -101,7 +108,7 @@ export class PromptService {
       userId: string,
       teamplateId: string
    ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPromptTemplate(userId, teamplateId);
+      const template = await this.getPromptWithContent(userId, teamplateId);
 
       if (template) {
          const globalFields =
@@ -134,7 +141,7 @@ export class PromptService {
          );
       }
 
-      const template = await this.getPromptTemplate(userId, descriptor.id);
+      const template = await this.getPromptWithContent(userId, descriptor.id);
 
       if (!template) {
          throw new Error(`Template with ID ${descriptor.id} not found`);
@@ -168,7 +175,7 @@ export class PromptService {
          );
       }
 
-      const template = await this.getPromptTemplate(userId, descriptor.id);
+      const template = await this.getPromptWithContent(userId, descriptor.id);
 
       if (!template) {
          throw new Error(`Template with ID ${descriptor.id} not found`);
@@ -200,13 +207,6 @@ export class PromptService {
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPrompt[]> {
       return await this.repository.pGetPrompts(params);
-   }
-
-   async getPromptTemplate(
-      userId: string,
-      templateId: string
-   ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPromptContent(userId, templateId);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {

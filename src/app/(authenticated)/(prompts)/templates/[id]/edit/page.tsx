@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateEdit } from "@/components/prompts";
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export const EditTemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   const template = await getPromptTemplate(prompt.id);
+   const template = await getPromptWithContent(prompt.id);
 
    if (!template) {
       return notFound();

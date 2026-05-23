@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateView } from "@/components/prompts";
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 export type PageParams = {
    id: string;
@@ -23,14 +23,14 @@ export async function generateMetadata({
 }
 
 export const PromptPage = async ({ params }: PageProps) => {
-   const { id: descriptorId } = await params;
-   const descriptor = await getPrompt(descriptorId);
+   const { id: promptId } = await params;
+   const descriptor = await getPrompt(promptId);
 
    if (!descriptor) {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor.id);
+   const template = await getPromptWithContent(descriptor.id);
 
    if (!template) {
       return notFound();
