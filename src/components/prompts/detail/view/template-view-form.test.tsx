@@ -8,16 +8,10 @@ const assertRendered = () => {
    const form = screen.getByTestId("template-view-form");
    const shortDescription = screen.getByTestId("short-description");
    const content = screen.getByTestId("prompt-text");
-   const usePromptBtn = screen.getByTestId("use-prompt-btn");
-   const editEntryBtn = screen.getByTestId("edit-template-btn");
-   const moreOptionsBtn = screen.getByTestId("more-options-btn");
 
    assertInDocument(form);
    assertInDocument(shortDescription);
    assertInDocument(content);
-   assertInDocument(usePromptBtn);
-   assertInDocument(editEntryBtn);
-   assertInDocument(moreOptionsBtn);
 };
 
 const assertCategoriesRendered = () => {

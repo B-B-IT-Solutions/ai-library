@@ -8,10 +8,16 @@ const assertRendered = () => {
    const libraryEntry = screen.getByTestId("template-view");
    const breadcrumb = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("template-view-form");
+   const usePromptBtn = screen.getByTestId("use-prompt-btn");
+   const editEntryBtn = screen.getByTestId("edit-template-btn");
+   const deleteBtn = screen.getByTestId("delete-template-btn");
 
    assertInDocument(libraryEntry);
    assertInDocument(breadcrumb);
    assertInDocument(form);
+   assertInDocument(usePromptBtn);
+   assertInDocument(editEntryBtn);
+   assertInDocument(deleteBtn);
 };
 
 describe("TemplateView rendering tests", () => {

@@ -13,9 +13,10 @@ import { DPrompt } from "@/data/types/domain/prompt";
 type Props = {
    descriptor: DPrompt;
    asMenuItem?: boolean;
+   className?: string;
 };
 
-export const DownloadTemplateButton = ({ descriptor, asMenuItem }: Props) => {
+export const DownloadTemplateButton = ({ descriptor, asMenuItem, className }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const handleDownload = () => {
@@ -70,7 +71,7 @@ export const DownloadTemplateButton = ({ descriptor, asMenuItem }: Props) => {
          variant="outline"
          onClick={handleDownload}
          disabled={isPending}
-         className="cursor-pointer"
+         className={className ?? "cursor-pointer"}
          data-testid="download-template-btn"
       >
          {label()}

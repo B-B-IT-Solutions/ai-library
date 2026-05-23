@@ -1,13 +1,9 @@
 import { isEmpty, map } from "es-toolkit/compat";
+import { format } from "date-fns";
+import { de } from "date-fns/locale";
 
-import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
-import {
-   EditTemplateButton,
-   MoreOptionsButton,
-   UseTemplateButton,
-} from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
@@ -17,14 +13,18 @@ type Props = {
 };
 
 export const TemplateViewForm = ({ descriptor, template }: Props) => {
+   const createdAt = format(new Date(descriptor.createdAt), "d. MMMM yyyy", {
+      locale: de,
+   });
+
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
-            <div className="mt-4 flex flex-wrap gap-2" data-testid="categories">
+            <div className="mb-3 flex flex-wrap gap-2" data-testid="categories">
                {map(descriptor.categories, (cat) => (
                   <span
                      key={cat.name}
-                     className="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-700"
+                     className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
                   >
                      {cat.name}
                   </span>
@@ -35,32 +35,32 @@ export const TemplateViewForm = ({ descriptor, template }: Props) => {
    };
 
    return (
-      <Card data-testid="template-view-form">
-         <CardHeader className="border-b border-slate-200">
-            <div className="flex items-start justify-between gap-4">
-               <div className="flex-1">
-                  <span className="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700">
-                     {descriptor.recommendedModel}
-                  </span>
-               </div>
-               <div className="flex shrink-0 items-center gap-2">
-                  <UseTemplateButton descriptor={descriptor} />
-                  <EditTemplateButton descriptor={descriptor} />
-                  <MoreOptionsButton descriptor={descriptor} />
-               </div>
-            </div>
+      <div data-testid="template-view-form">
+         {/* Hero block */}
+         <div className="mb-8">
             {categories()}
-         </CardHeader>
+            <h1 className="mb-2 text-3xl font-bold text-slate-900">
+               {descriptor.title}
+            </h1>
+            <p className="text-sm text-slate-500">
+               Erstellt {createdAt} · {descriptor.recommendedModel}
+            </p>
+         </div>
 
-         <CardContent className="space-y-6 px-6">
-            <div data-testid="short-description">
-               <h2 className="text-xl font-semibold text-slate-900">
+         {/* Description */}
+         <div className="mb-8" data-testid="short-description">
+            <div className="mb-3 border-t border-slate-200 pt-4">
+               <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
                   Beschreibung
-               </h2>
-               <MDRenderer>{descriptor.description}</MDRenderer>
+               </span>
             </div>
+            <MDRenderer>{descriptor.description}</MDRenderer>
+         </div>
+
+         {/* Prompt text */}
+         <div className="border-t border-slate-200 pt-4">
             <PromptTextDisplay template={template} />
-         </CardContent>
-      </Card>
+         </div>
+      </div>
    );
 };
