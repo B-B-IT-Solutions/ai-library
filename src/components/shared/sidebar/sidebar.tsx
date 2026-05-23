@@ -103,7 +103,7 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                </SidebarGroupContent>
             </SidebarGroup>
             <SidebarGroup data-testid="group-other">
-               <SidebarGroupLabel>Other</SidebarGroupLabel>
+               <SidebarGroupLabel>Mehr</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(navigationMenu3)}</SidebarMenu>
                </SidebarGroupContent>

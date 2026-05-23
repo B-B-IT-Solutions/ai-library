@@ -266,7 +266,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Other
+                  Mehr
                 </div>
                 <div
                   class="w-full text-sm"
@@ -693,7 +693,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Other
+                  Mehr
                 </div>
                 <div
                   class="w-full text-sm"
@@ -1120,7 +1120,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - te
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Other
+                  Mehr
                 </div>
                 <div
                   class="w-full text-sm"
@@ -1547,7 +1547,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive false -
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Other
+                  Mehr
                 </div>
                 <div
                   class="w-full text-sm"
@@ -1974,7 +1974,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive true - 
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Other
+                  Mehr
                 </div>
                 <div
                   class="w-full text-sm"

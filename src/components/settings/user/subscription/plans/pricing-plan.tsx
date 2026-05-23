@@ -80,7 +80,7 @@ export const PricingPlan = ({ plan, billingInterval, isCurrent }: Props) => {
          return feature("Unbegrenzte Prompt-Platzhalter");
       }
       return feature(
-         `Bis zu ${plan.features.maxCollections} Prompt-Platzhalter`
+         `Bis zu ${plan.features.maxPromptVariables} Prompt-Platzhalter`
       );
    };
 
