@@ -45,7 +45,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                 data-testid="root-link"
                 href="/templates"
               >
-                Vorlagen
+                Prompts
               </a>
             </li>
             <li
@@ -3124,7 +3124,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
                 data-testid="root-link"
                 href="/templates"
               >
-                Vorlagen
+                Prompts
               </a>
             </li>
             <li
@@ -3162,7 +3162,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
                 data-slot="breadcrumb-page"
                 role="link"
               >
-                Neue Vorlage
+                Neuer Prompt
               </span>
             </li>
           </ol>
@@ -4156,7 +4156,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
                 data-testid="root-link"
                 href="/templates"
               >
-                Vorlagen
+                Prompts
               </a>
             </li>
             <li
@@ -4194,7 +4194,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
                 data-slot="breadcrumb-page"
                 role="link"
               >
-                Neue Vorlage
+                Neuer Prompt
               </span>
             </li>
           </ol>

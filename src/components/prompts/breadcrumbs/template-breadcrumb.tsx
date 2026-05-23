@@ -22,7 +22,7 @@ type Props =
 
 export const TemplateBreadcrumb = (props: Props) => {
    const defaultRoot: BreadcrumbLinkProps = {
-      label: "Vorlagen",
+      label: "Prompts",
       href: "/templates",
    };
 
@@ -32,7 +32,7 @@ export const TemplateBreadcrumb = (props: Props) => {
             root={props.root || defaultRoot}
             variant={props.variant}
             page={{
-               label: "Neue Vorlage",
+               label: "Neuer Prompt",
             }}
             data-testid="template-breadcrumb"
          />
