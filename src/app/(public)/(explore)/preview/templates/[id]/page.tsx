@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PublicTemplateView } from "@/components/prompts";
+import { PublicPromptView } from "@/components/prompts";
 import { getPublicCollectionByToken } from "@/data/actions/collection";
 import { getPublicPrompt, getPublicPromptContent } from "@/data/actions/prompt";
 
@@ -39,14 +39,14 @@ export const PublicTemplatePage = async ({
    const { id } = await params;
    const { col: colToken } = await searchParams;
 
-   const descriptor = await getPublicPrompt(id);
+   const prompt = await getPublicPrompt(id);
 
-   if (!descriptor) {
+   if (!prompt) {
       return notFound();
    }
 
    const [template, collection] = await Promise.all([
-      getPublicPromptContent(descriptor.id),
+      getPublicPromptContent(prompt.id),
       colToken ? getPublicCollectionByToken(colToken) : Promise.resolve(null),
    ]);
 
@@ -55,9 +55,9 @@ export const PublicTemplatePage = async ({
    }
 
    return (
-      <div data-testid="public-template-view-page">
-         <PublicTemplateView
-            descriptor={descriptor}
+      <div data-testid="public-prompt-view-page">
+         <PublicPromptView
+            descriptor={prompt}
             template={template}
             collection={collection}
          />

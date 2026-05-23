@@ -18,7 +18,7 @@ type Props = {
    collection?: DCollection | null;
 };
 
-export const PublicTemplateView = ({
+export const PublicPromptView = ({
    descriptor,
    template,
    collection,
@@ -34,7 +34,7 @@ export const PublicTemplateView = ({
    };
 
    return (
-      <div className="bg-slate-50" data-testid="public-template-view">
+      <div className="bg-slate-50" data-testid="public-prompt-view">
          {/* Page header */}
          <div className="border-b bg-white">
             <div className="container mx-auto max-w-5xl px-4 py-6">

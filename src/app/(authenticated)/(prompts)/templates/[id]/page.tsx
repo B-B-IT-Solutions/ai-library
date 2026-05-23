@@ -24,13 +24,13 @@ export async function generateMetadata({
 
 export const PromptPage = async ({ params }: PageProps) => {
    const { id: promptId } = await params;
-   const descriptor = await getPrompt(promptId);
+   const prompt = await getPrompt(promptId);
 
-   if (!descriptor) {
+   if (!prompt) {
       return notFound();
    }
 
-   const template = await getPromptWithContent(descriptor.id);
+   const template = await getPromptWithContent(prompt.id);
 
    if (!template) {
       return notFound();

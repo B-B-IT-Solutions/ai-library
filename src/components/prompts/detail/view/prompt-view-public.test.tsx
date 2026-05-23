@@ -2,10 +2,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PublicTemplateView } from "./template-view-public";
+import { PublicPromptView } from "./prompt-view-public";
 
 const assertRendered = () => {
-   const view = screen.getByTestId("public-template-view");
+   const view = screen.getByTestId("public-prompt-view");
    const breadcrumb = screen.getByTestId("template-breadcrumb");
    const content = screen.getByTestId("prompt-text");
 
@@ -14,13 +14,13 @@ const assertRendered = () => {
    assertInDocument(content);
 };
 
-describe("PublicTemplateView rendering tests", () => {
+describe("PublicPromptView rendering tests", () => {
    it("collection undefined - test", async () => {
       const descriptor = dtestData.dPrompt();
       const template = dtestData.dPromptWithContent();
 
       const { container } = render(
-         <PublicTemplateView
+         <PublicPromptView
             descriptor={descriptor}
             template={template}
             collection={undefined}
@@ -40,7 +40,7 @@ describe("PublicTemplateView rendering tests", () => {
       const collection = dtestData.dCollection();
 
       const { container } = render(
-         <PublicTemplateView
+         <PublicPromptView
             descriptor={descriptor}
             template={template}
             collection={collection}
