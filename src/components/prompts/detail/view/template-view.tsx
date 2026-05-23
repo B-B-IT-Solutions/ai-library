@@ -28,8 +28,8 @@ export const TemplateView = ({ descriptor, template }: Props) => {
 
          {/* Scrollable content */}
          <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-6xl px-6 py-8">
-               <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+            <div className="mx-auto max-w-7xl px-6 py-8">
+               <div className="grid gap-8 lg:grid-cols-[1fr_260px]">
                   {/* Main content */}
                   <div className="rounded-xl bg-white p-6 shadow-sm">
                      <TemplateViewForm
