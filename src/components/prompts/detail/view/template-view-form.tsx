@@ -1,9 +1,8 @@
-import { format } from "date-fns";
-import { de } from "date-fns/locale";
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { MDRenderer } from "@/components/shared/md";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
+import { formatDateTime } from "@/lib/utils";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
@@ -13,10 +12,6 @@ type Props = {
 };
 
 export const TemplateViewForm = ({ descriptor, template }: Props) => {
-   const createdAt = format(new Date(descriptor.createdAt), "d. MMMM yyyy", {
-      locale: de,
-   });
-
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -43,12 +38,13 @@ export const TemplateViewForm = ({ descriptor, template }: Props) => {
                {descriptor.title}
             </h1>
             <p className="text-sm text-slate-500">
-               Erstellt {createdAt} · {descriptor.recommendedModel}
+               Erstellt {formatDateTime(descriptor.createdAt).dateTime} ·{" "}
+               {descriptor.recommendedModel}
             </p>
          </div>
 
          {/* Description */}
-         <div className="mb-8" data-testid="short-description">
+         <div className="mb-8" data-testid="description">
             <div className="mb-3 border-t border-slate-200 pt-4">
                <span className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                   Beschreibung

@@ -6,11 +6,11 @@ import { TemplateViewForm } from "./template-view-form";
 
 const assertRendered = () => {
    const form = screen.getByTestId("template-view-form");
-   const shortDescription = screen.getByTestId("short-description");
+   const description = screen.getByTestId("description");
    const content = screen.getByTestId("prompt-text");
 
    assertInDocument(form);
-   assertInDocument(shortDescription);
+   assertInDocument(description);
    assertInDocument(content);
 };
 
