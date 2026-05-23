@@ -210,66 +210,67 @@ export const TemplateEditForm = ({
    };
 
    return (
-      <Card data-testid="template-edit-form">
-         <CardContent className="p-0">
-            <Form {...form}>
-               <form
-                  id="template-edit-form"
-                  onSubmit={form.handleSubmit(onSubmit)}
-               >
-                  <div>
-                     <div className="border-b border-slate-200 p-6">
-                        <BasicInfo control={form.control} />
-                     </div>
-                     <div className="p-6">
-                        <Tabs defaultValue="editor">
-                           <TabsList>
-                              <TabsTrigger value="editor">
-                                 Prompt-Editor
-                              </TabsTrigger>
-                              <TabsTrigger value="fields">
-                                 Vorlagen-Felder
-                                 {fields.length > 0 && (
-                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
-                                       {fields.length}
-                                    </span>
-                                 )}
-                              </TabsTrigger>
-                           </TabsList>
-                           <TabsContent value="editor" className="space-y-6">
-                              <PromptTemplateContent control={form.control} />
-                              <DetectedVariables
-                                 detectedVariables={detectedVariables}
-                                 variableStatus={variableStatus}
-                                 onAddVariable={handleAddVariableAsField}
-                                 onSyncAll={handleSyncAllVariables}
-                              />
-                           </TabsContent>
-                           <TabsContent value="fields">
-                              <PromptVariables
-                                 fields={fields as DPromptVariable[]}
-                                 detectedVariables={detectedVariables}
-                                 globalFields={globalFields}
-                                 globalFieldIds={form.watch("globalFieldIds")}
-                                 onAddField={handleAddField}
-                                 onRemoveField={removeField}
-                                 onAddGlobalFieldIds={handleAddGlobalFieldIds}
-                                 onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                                 control={form.control}
-                                 watch={form.watch}
-                              />
-                           </TabsContent>
-                        </Tabs>
-                     </div>
-                  </div>
-                  {/* Mobile-only action buttons (desktop uses sticky header) */}
-                  <div className="flex items-center justify-end gap-3 border-t border-slate-200 p-6 lg:hidden">
-                     {cancelBtn()}
-                     {submitBtn()}
-                  </div>
-               </form>
-            </Form>
-         </CardContent>
-      </Card>
+      <div data-testid="template-edit-form" className="space-y-4">
+         <Form {...form}>
+            <form
+               id="template-edit-form"
+               onSubmit={form.handleSubmit(onSubmit)}
+               className="space-y-4"
+            >
+               <Card>
+                  <CardContent className="p-6">
+                     <BasicInfo control={form.control} />
+                  </CardContent>
+               </Card>
+               <Card>
+                  <CardContent className="p-6">
+                     <Tabs defaultValue="editor">
+                        <TabsList>
+                           <TabsTrigger value="editor">
+                              Prompt-Editor
+                           </TabsTrigger>
+                           <TabsTrigger value="fields">
+                              Vorlagen-Felder
+                              {fields.length > 0 && (
+                                 <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                    {fields.length}
+                                 </span>
+                              )}
+                           </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="editor" className="space-y-6">
+                           <PromptTemplateContent control={form.control} />
+                           <DetectedVariables
+                              detectedVariables={detectedVariables}
+                              variableStatus={variableStatus}
+                              onAddVariable={handleAddVariableAsField}
+                              onSyncAll={handleSyncAllVariables}
+                           />
+                        </TabsContent>
+                        <TabsContent value="fields">
+                           <PromptVariables
+                              fields={fields as DPromptVariable[]}
+                              detectedVariables={detectedVariables}
+                              globalFields={globalFields}
+                              globalFieldIds={form.watch("globalFieldIds")}
+                              onAddField={handleAddField}
+                              onRemoveField={removeField}
+                              onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                              onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
+                              control={form.control}
+                              watch={form.watch}
+                           />
+                        </TabsContent>
+                     </Tabs>
+                  </CardContent>
+               </Card>
+               {/* Mobile-only action buttons (desktop uses sticky header) */}
+               <div className="flex items-center justify-end gap-3 lg:hidden">
+                  {cancelBtn()}
+                  {submitBtn()}
+               </div>
+            </form>
+         </Form>
+      </div>
    );
 };
