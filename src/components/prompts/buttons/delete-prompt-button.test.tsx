@@ -104,10 +104,10 @@ describe("DeletePromptButton functionality tests", () => {
       deletePromptMock.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPrompt();
-      render(<DeletePromptButton prompt={prompt} />);
+      render(<DeletePromptButton prompt={prompt} asMenuItem={true} />);
 
       await waitFor(() => {
-         assertBtnRendered();
+         assertMenuItemRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
