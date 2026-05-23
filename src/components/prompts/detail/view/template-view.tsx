@@ -7,6 +7,7 @@ import {
    UseTemplateButton,
 } from "../../buttons";
 
+import { PromptViewSidebar } from "./sidebar";
 import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
@@ -38,6 +39,7 @@ export const TemplateView = ({ descriptor, template }: Props) => {
                   </div>
 
                   {/* Sidebar */}
+                  <PromptViewSidebar prompt={descriptor} />
                   <aside className="space-y-3 lg:sticky lg:top-8 lg:self-start">
                      <UseTemplateButton
                         descriptor={descriptor}
