@@ -1,19 +1,18 @@
-import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { PromptForm } from "./form";
 import { PromptSidebar } from "./sidebar";
 
 type Props = {
-   descriptor: DPrompt;
    prompt: DPromptWithContent;
 };
 
-export const TemplateView = ({ prompt }: Props) => {
+export const PromptView = ({ prompt }: Props) => {
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
-         data-testid="template-view"
+         data-testid="prompt-view"
       >
          {/* Sticky topbar */}
          <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center border-b border-slate-200 bg-white px-6">

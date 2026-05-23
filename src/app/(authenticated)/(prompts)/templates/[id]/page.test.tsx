@@ -18,11 +18,11 @@ const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const assertRendered = () => {
-   const page = screen.getByTestId("template-view-page");
-   const viewEntry = screen.getByTestId("template-view");
+   const page = screen.getByTestId("prompt-view-page");
+   const view = screen.getByTestId("prompt-view");
 
    assertInDocument(page);
-   assertInDocument(viewEntry);
+   assertInDocument(view);
 };
 
 describe("PromptPage rendering tests", () => {

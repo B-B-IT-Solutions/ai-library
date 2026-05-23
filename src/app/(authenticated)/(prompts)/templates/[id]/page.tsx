@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TemplateView } from "@/components/prompts";
+import { PromptView } from "@/components/prompts";
 import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 export type PageParams = {
@@ -37,8 +37,8 @@ export const PromptPage = async ({ params }: PageProps) => {
    }
 
    return (
-      <div className="h-screen bg-slate-50" data-testid="template-view-page">
-         <TemplateView descriptor={descriptor} prompt={template} />
+      <div className="h-screen bg-slate-50" data-testid="prompt-view-page">
+         <PromptView prompt={template} />
       </div>
    );
 };
