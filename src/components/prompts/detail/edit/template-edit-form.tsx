@@ -12,7 +12,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
-import { Separator } from "@/components/shadcn/separator";
+import {
+   Tabs,
+   TabsContent,
+   TabsList,
+   TabsTrigger,
+} from "@/components/shadcn/tabs";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
@@ -213,32 +218,50 @@ export const TemplateEditForm = ({
                   onSubmit={form.handleSubmit(onSubmit)}
                >
                   <div className="lg:grid lg:grid-cols-[2fr_3fr] lg:divide-x lg:divide-slate-200">
-                     {/* Left: Metadata + Fields */}
-                     <div className="space-y-6 p-6">
+                     {/* Left: Metadata only */}
+                     <div className="p-6">
                         <BasicInfo control={form.control} />
-                        <Separator />
-                        <PromptVariables
-                           fields={fields as DPromptVariable[]}
-                           detectedVariables={detectedVariables}
-                           globalFields={globalFields}
-                           globalFieldIds={form.watch("globalFieldIds")}
-                           onAddField={handleAddField}
-                           onRemoveField={removeField}
-                           onAddGlobalFieldIds={handleAddGlobalFieldIds}
-                           onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                           control={form.control}
-                           watch={form.watch}
-                        />
                      </div>
-                     {/* Right: Content + Variables */}
-                     <div className="space-y-6 border-t border-slate-200 p-6 lg:border-t-0">
-                        <PromptTemplateContent control={form.control} />
-                        <DetectedVariables
-                           detectedVariables={detectedVariables}
-                           variableStatus={variableStatus}
-                           onAddVariable={handleAddVariableAsField}
-                           onSyncAll={handleSyncAllVariables}
-                        />
+                     {/* Right: Tabs for Editor and Fields */}
+                     <div className="border-t border-slate-200 p-6 lg:border-t-0">
+                        <Tabs defaultValue="editor">
+                           <TabsList className="mb-4">
+                              <TabsTrigger value="editor">
+                                 Prompt-Editor
+                              </TabsTrigger>
+                              <TabsTrigger value="fields">
+                                 Vorlagen-Felder
+                                 {fields.length > 0 && (
+                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                       {fields.length}
+                                    </span>
+                                 )}
+                              </TabsTrigger>
+                           </TabsList>
+                           <TabsContent value="editor" className="space-y-6">
+                              <PromptTemplateContent control={form.control} />
+                              <DetectedVariables
+                                 detectedVariables={detectedVariables}
+                                 variableStatus={variableStatus}
+                                 onAddVariable={handleAddVariableAsField}
+                                 onSyncAll={handleSyncAllVariables}
+                              />
+                           </TabsContent>
+                           <TabsContent value="fields">
+                              <PromptVariables
+                                 fields={fields as DPromptVariable[]}
+                                 detectedVariables={detectedVariables}
+                                 globalFields={globalFields}
+                                 globalFieldIds={form.watch("globalFieldIds")}
+                                 onAddField={handleAddField}
+                                 onRemoveField={removeField}
+                                 onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                                 onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
+                                 control={form.control}
+                                 watch={form.watch}
+                              />
+                           </TabsContent>
+                        </Tabs>
                      </div>
                   </div>
                   {/* Mobile-only action buttons (desktop uses sticky header) */}
