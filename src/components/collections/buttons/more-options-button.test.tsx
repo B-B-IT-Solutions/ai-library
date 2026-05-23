@@ -23,7 +23,7 @@ const assertContextMenuRendered = () => {
 
 const assertContextMenuNotRendered = () => {
    const editBtn = screen.queryByTestId("edit-template-menu-item");
-   const deleteBtn = screen.queryByTestId("delete-template-menu-item");
+   const deleteBtn = screen.queryByTestId("delete-prompt-menu-item");
 
    assertNotInDocument(editBtn);
    assertNotInDocument(deleteBtn);

@@ -23,7 +23,7 @@ export const PromptSidebar = ({ prompt }: Props) => {
          <div className="space-y-1 pt-1">
             <EditButton prompt={prompt} />
             <DownloadPromptButton prompt={prompt} />
-            <DeleteTemplateButton descriptor={prompt} asButton />
+            <DeleteTemplateButton prompt={prompt} asButton />
          </div>
          <div className="border-t border-slate-200 pt-4">
             <p className="mb-2 text-xs font-medium text-slate-400">

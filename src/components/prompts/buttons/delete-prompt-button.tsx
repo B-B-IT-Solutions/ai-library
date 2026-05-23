@@ -21,11 +21,11 @@ import { deletePrompt } from "@/data/actions/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    asButton?: boolean;
 };
 
-export const DeleteTemplateButton = ({ descriptor, asButton }: Props) => {
+export const DeletePromptButton = ({ prompt: descriptor, asButton }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +57,7 @@ export const DeleteTemplateButton = ({ descriptor, asButton }: Props) => {
                description:
                   "Diese Aktion kann nicht rückgängig gemacht werden. Die Vorlage wird dauerhaft gelöscht.",
             }}
-            data-testid="delete-template-menu-item"
+            data-testid="delete-prompt-menu-item"
          />
       );
    }
@@ -66,10 +66,9 @@ export const DeleteTemplateButton = ({ descriptor, asButton }: Props) => {
       <>
          <Button
             variant="ghost"
-            // size="sm"
             onClick={() => setIsOpen(true)}
             className="w-full cursor-pointer justify-start text-red-600 hover:bg-red-50 hover:text-red-700"
-            data-testid="delete-template-btn"
+            data-testid="delete-prompt-btn"
          >
             <Trash2 className="mr-2 h-4 w-4" />
             Löschen

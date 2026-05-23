@@ -9,7 +9,7 @@ const assertRendered = () => {
    const usePromptBtn = screen.getByTestId("use-prompt-btn");
    const editPromptBtn = screen.getByTestId("edit-prompt-btn");
    const downloadPromptBtn = screen.getByTestId("download-prompt-btn");
-   const deletePromptBtn = screen.getByTestId("delete-template-btn");
+   const deletePromptBtn = screen.getByTestId("delete-prompt-btn");
 
    assertInDocument(sidebar);
    assertInDocument(usePromptBtn);
