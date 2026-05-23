@@ -30,9 +30,7 @@ exports[`DownloadTemplateButton rendering tests asMenuItem false - test 1`] = `
         d="m7 10 5 5 5-5"
       />
     </svg>
-    <span>
-      Herunterladen
-    </span>
+    Herunterladen
   </button>
 </div>
 `;
@@ -68,9 +66,7 @@ exports[`DownloadTemplateButton rendering tests asMenuItem true - test 1`] = `
         d="m7 10 5 5 5-5"
       />
     </svg>
-    <span>
-      Herunterladen
-    </span>
+    Herunterladen
   </div>
 </div>
 `;

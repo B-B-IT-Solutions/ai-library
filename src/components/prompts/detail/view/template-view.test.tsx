@@ -8,7 +8,7 @@ const assertRendered = () => {
    const libraryEntry = screen.getByTestId("template-view");
    const breadcrumb = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("template-view-form");
-   const sidebar = screen.getByTestId("prompt-view-sidebar");
+   const sidebar = screen.getByTestId("prompt-sidebar");
 
    assertInDocument(libraryEntry);
    assertInDocument(breadcrumb);

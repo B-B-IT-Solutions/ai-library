@@ -10,11 +10,11 @@ type Props = {
    prompt: DPrompt;
 };
 
-export const PromptViewSidebar = ({ prompt }: Props) => {
+export const PromptSidebar = ({ prompt }: Props) => {
    return (
       <aside
          className="space-y-3 lg:sticky lg:top-8 lg:self-start"
-         data-testid="prompt-view-sidebar"
+         data-testid="prompt-sidebar"
       >
          <UseTemplateButton
             descriptor={prompt}

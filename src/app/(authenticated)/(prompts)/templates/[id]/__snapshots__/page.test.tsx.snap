@@ -128,14 +128,15 @@ exports[`PromptPage rendering tests prompt retrieved - template retrieved - test
                     class="text-sm text-slate-500"
                   >
                     Erstellt 
-                    27. September 2025
-                     · 
+                    27. Sept. 2025, 02:00 AM
+                     ·
+                     
                     model 1
                   </p>
                 </div>
                 <div
                   class="mb-8"
-                  data-testid="short-description"
+                  data-testid="description"
                 >
                   <div
                     class="mb-3 border-t border-slate-200 pt-4"
@@ -229,6 +230,7 @@ exports[`PromptPage rendering tests prompt retrieved - template retrieved - test
             </div>
             <aside
               class="space-y-3 lg:sticky lg:top-8 lg:self-start"
+              data-testid="prompt-sidebar"
             >
               <button
                 class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 text-white hover:bg-blue-700 w-full justify-center py-5 text-sm"

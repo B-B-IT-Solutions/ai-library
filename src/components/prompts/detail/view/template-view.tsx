@@ -1,7 +1,7 @@
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
-import { PromptViewSidebar } from "./sidebar";
+import { PromptSidebar } from "./sidebar";
 import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
@@ -33,7 +33,7 @@ export const TemplateView = ({ descriptor, template }: Props) => {
                   </div>
 
                   {/* Sidebar */}
-                  <PromptViewSidebar prompt={descriptor} />
+                  <PromptSidebar prompt={descriptor} />
                </div>
             </div>
          </div>

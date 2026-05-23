@@ -1,1 +1,1 @@
-export { PromptViewSidebar } from "./prompt-view-sidebar";
+export { PromptSidebar } from "./prompt-sidebar";

@@ -2,10 +2,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptViewSidebar } from "./prompt-view-sidebar";
+import { PromptSidebar } from "./prompt-sidebar";
 
 const assertRendered = () => {
-   const sidebar = screen.getByTestId("prompt-view-sidebar");
+   const sidebar = screen.getByTestId("prompt-sidebar");
    const usePromptBtn = screen.getByTestId("use-prompt-btn");
    const editPromptBtn = screen.getByTestId("edit-template-btn");
    const downloadPromptBtn = screen.getByTestId("download-template-btn");
@@ -18,11 +18,11 @@ const assertRendered = () => {
    assertInDocument(deletePromptBtn);
 };
 
-describe("PromptViewSidebar rendering tests", () => {
+describe("PromptSidebar rendering tests", () => {
    it("rendered - test", async () => {
       const prompt = dtestData.dPromptWithContent();
 
-      const { container } = render(<PromptViewSidebar prompt={prompt} />);
+      const { container } = render(<PromptSidebar prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
