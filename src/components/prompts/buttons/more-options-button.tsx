@@ -32,7 +32,7 @@ export const MoreOptionsButton = ({ descriptor }: Props) => {
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
             <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
-            <DeletePromptButton prompt={descriptor} />
+            <DeletePromptButton prompt={descriptor} asMenuItem={true} />
          </DropdownMenuContent>
       </DropdownMenu>
    );

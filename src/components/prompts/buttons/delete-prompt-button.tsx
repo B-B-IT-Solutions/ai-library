@@ -22,16 +22,16 @@ import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
    prompt: DPrompt;
-   asButton?: boolean;
+   asMenuItem?: boolean;
 };
 
-export const DeletePromptButton = ({ prompt: descriptor, asButton }: Props) => {
+export const DeletePromptButton = ({ prompt, asMenuItem }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [isOpen, setIsOpen] = useState(false);
 
    const handleDelete = async () => {
-      const result = await deletePrompt(descriptor.id);
+      const result = await deletePrompt(prompt.id);
       if (result.success) {
          toast.success(result.message);
          router.push("/templates");
@@ -47,7 +47,7 @@ export const DeletePromptButton = ({ prompt: descriptor, asButton }: Props) => {
       });
    };
 
-   if (!asButton) {
+   if (asMenuItem) {
       return (
          <DeleteDropdownMenuItem
             label="Löschen"
@@ -79,7 +79,7 @@ export const DeletePromptButton = ({ prompt: descriptor, asButton }: Props) => {
                   <AlertDialogTitle>Vorlage löschen?</AlertDialogTitle>
                   <AlertDialogDescription>
                      Diese Aktion kann nicht rückgängig gemacht werden. Die
-                     Vorlage „{descriptor.title}" wird dauerhaft gelöscht.
+                     Vorlage „{prompt.title}" wird dauerhaft gelöscht.
                   </AlertDialogDescription>
                </AlertDialogHeader>
                <AlertDialogFooter>

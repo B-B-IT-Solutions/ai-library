@@ -18,18 +18,38 @@ const deletePromptMock = deletePrompt as jest.MockedFunction<
    typeof deletePrompt
 >;
 
-const assertRendered = () => {
-   const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
+const assertMenuItemRendered = () => {
+   const deleteMenuItem = screen.getByTestId("delete-prompt-menu-item");
+   assertInDocument(deleteMenuItem);
+};
+
+const assertBtnRendered = () => {
+   const deleteBtn = screen.getByTestId("delete-prompt-btn");
    assertInDocument(deleteBtn);
 };
 
 describe("DeletePromptButton rendering tests", () => {
-   it("rendered test", async () => {
+   it("asMenuItem true - test", async () => {
       const prompt = dtestData.dPrompt();
-      const { container } = render(<DeletePromptButton prompt={prompt} />);
+      const { container } = render(
+         <DeletePromptButton prompt={prompt} asMenuItem={true} />
+      );
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("asMenuItem false - test", async () => {
+      const prompt = dtestData.dPrompt();
+      const { container } = render(
+         <DeletePromptButton prompt={prompt} asMenuItem={false} />
+      );
+
+      await waitFor(() => {
+         assertBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -53,11 +73,11 @@ describe("DeletePromptButton functionality tests", () => {
       render(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
+      const deleteBtn = screen.getByTestId("delete-prompt-btn");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
@@ -87,11 +107,11 @@ describe("DeletePromptButton functionality tests", () => {
       render(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
+      const deleteBtn = screen.getByTestId("delete-prompt-btn");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
@@ -115,11 +135,11 @@ describe("DeletePromptButton functionality tests", () => {
       render(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
+      const deleteBtn = screen.getByTestId("delete-prompt-btn");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
