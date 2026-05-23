@@ -119,8 +119,8 @@ export const DeleteAcountDialog = () => {
                         <div className="space-y-3">
                            <p>
                               Diese Aktion kann nicht rückgängig gemacht werden.
-                              Ihr Konto, alle Bestellungen und
-                              Bibliothekseinträge werden dauerhaft gelöscht.
+                              Ihr Konto, alle Prompts und Sammlungen werden
+                              dauerhaft gelöscht.
                            </p>
                            <p className="rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm font-medium text-destructive">
                               Warnung: Dies ist eine dauerhafte Löschung!
