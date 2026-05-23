@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Loader } from "lucide-react";
+import { Loader, Maximize2, Minimize2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -73,6 +73,7 @@ export const TemplateEditForm = ({
    });
 
    const { isSubmitting } = form.formState;
+   const [isEditorExpanded, setIsEditorExpanded] = useState(false);
 
    useEffect(() => {
       onSubmittingChange?.(isSubmitting);
@@ -217,27 +218,45 @@ export const TemplateEditForm = ({
                onSubmit={form.handleSubmit(onSubmit)}
                className="space-y-4"
             >
-               <Card>
-                  <CardContent className="p-6">
-                     <BasicInfo control={form.control} />
-                  </CardContent>
-               </Card>
+               {!isEditorExpanded && (
+                  <Card>
+                     <CardContent className="p-6">
+                        <BasicInfo control={form.control} />
+                     </CardContent>
+                  </Card>
+               )}
                <Card>
                   <CardContent className="p-6">
                      <Tabs defaultValue="editor">
-                        <TabsList>
-                           <TabsTrigger value="editor">
-                              Prompt-Editor
-                           </TabsTrigger>
-                           <TabsTrigger value="fields">
-                              Vorlagen-Felder
-                              {fields.length > 0 && (
-                                 <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
-                                    {fields.length}
-                                 </span>
+                        <div className="mb-4 flex items-center justify-between">
+                           <TabsList>
+                              <TabsTrigger value="editor">
+                                 Prompt-Editor
+                              </TabsTrigger>
+                              <TabsTrigger value="fields">
+                                 Vorlagen-Felder
+                                 {fields.length > 0 && (
+                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                       {fields.length}
+                                    </span>
+                                 )}
+                              </TabsTrigger>
+                           </TabsList>
+                           <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setIsEditorExpanded((v) => !v)}
+                              className="cursor-pointer text-slate-500 hover:text-slate-900"
+                              title={isEditorExpanded ? "Verkleinern" : "Vergrößern"}
+                           >
+                              {isEditorExpanded ? (
+                                 <Minimize2 className="h-4 w-4" />
+                              ) : (
+                                 <Maximize2 className="h-4 w-4" />
                               )}
-                           </TabsTrigger>
-                        </TabsList>
+                           </Button>
+                        </div>
                         <TabsContent value="editor" className="space-y-6">
                            <PromptTemplateContent control={form.control} />
                            <DetectedVariables
