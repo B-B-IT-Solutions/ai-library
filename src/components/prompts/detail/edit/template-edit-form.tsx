@@ -217,15 +217,13 @@ export const TemplateEditForm = ({
                   id="template-edit-form"
                   onSubmit={form.handleSubmit(onSubmit)}
                >
-                  <div className="lg:grid lg:grid-cols-[2fr_3fr] lg:divide-x lg:divide-slate-200">
-                     {/* Left: Metadata only */}
-                     <div className="p-6">
+                  <div>
+                     <div className="border-b border-slate-200 p-6">
                         <BasicInfo control={form.control} />
                      </div>
-                     {/* Right: Tabs for Editor and Fields */}
-                     <div className="border-t border-slate-200 p-6 lg:border-t-0">
+                     <div className="p-6">
                         <Tabs defaultValue="editor">
-                           <TabsList className="mb-4">
+                           <TabsList>
                               <TabsTrigger value="editor">
                                  Prompt-Editor
                               </TabsTrigger>

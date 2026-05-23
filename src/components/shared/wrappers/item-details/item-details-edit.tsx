@@ -50,7 +50,7 @@ const ItemDetailsEditBreadcrumbs = ({
 
 const ItemDetailsEditBody = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div className="mx-auto max-w-7xl" data-testid={testId}>
+      <div className="mx-auto max-w-5xl" data-testid={testId}>
          {children}
       </div>
    );
