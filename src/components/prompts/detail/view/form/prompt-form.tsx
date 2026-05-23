@@ -37,7 +37,7 @@ export const PromptForm = ({ prompt }: Props) => {
                {prompt.title}
             </h1>
             <p className="text-sm text-slate-500">
-               Erstellt {formatDateTime(prompt.createdAt).dateTime} ·{" "}
+               Erstellt {formatDateTime(prompt.createdAt).dateOnly} ·{" "}
                {prompt.recommendedModel}
             </p>
          </div>
