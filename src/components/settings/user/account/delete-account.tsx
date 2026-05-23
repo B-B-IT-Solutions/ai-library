@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertTriangle, Eye, EyeOff } from "lucide-react";
+import { AlertTriangle, Eye, EyeOff, Lock } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -34,10 +34,23 @@ import {
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import { deleteUser } from "@/data/actions/user";
+import { DSubscription } from "@/data/types/domain/subscription";
 import { DUserAccountDelete } from "@/data/types/domain/user";
 import { deleteAccountSchema } from "@/data/types/validators/user";
 
-export const DeleteAcount = () => {
+const canDeleteAccount = (subscription: DSubscription | null): boolean => {
+   if (!subscription) {
+      return true;
+   }
+   return subscription.status === "CANCELED";
+};
+
+type Props = {
+   subscription: DSubscription | null;
+};
+
+export const DeleteAcount = ({ subscription }: Props) => {
+   const isDeletionAllowed = canDeleteAccount(subscription);
    const [isOpen, setIsOpen] = useState(false);
    const [isPending, startTransition] = useTransition();
    const [showPassword, setShowPassword] = useState(false);
@@ -126,7 +139,7 @@ export const DeleteAcount = () => {
                                  werden. Ihr Konto, alle Bestellungen und
                                  Bibliothekseinträge werden dauerhaft gelöscht.
                               </p>
-                              <p className="bg-destructive/10 border border-destructive/20 rounded-md p-3 text-sm font-medium text-destructive">
+                              <p className="rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm font-medium text-destructive">
                                  Warnung: Dies ist eine dauerhafte Löschung!
                               </p>
                            </div>
@@ -150,13 +163,13 @@ export const DeleteAcount = () => {
                                           autoComplete="current-password"
                                           placeholder="Passwort eingeben"
                                           aria-invalid={fieldState.invalid}
-                                          className="pr-10 h-11"
+                                          className="h-11 pr-10"
                                           data-testid="password-input"
                                        />
                                        <button
                                           type="button"
                                           onClick={toggleShowPassword}
-                                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                                          className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                           aria-label={inputAriaLabel(
                                              showPassword
                                           )}
@@ -198,6 +211,21 @@ export const DeleteAcount = () => {
       );
    };
 
+   const blockedNotice = () => {
+      return (
+         <div
+            className="flex items-start gap-3 rounded-md border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950"
+            data-testid="delete-blocked-notice"
+         >
+            <Lock className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+               Ihr Konto kann nicht gelöscht werden, solange ein aktives
+               Abonnement besteht. Bitte kündigen Sie zuerst Ihr Abonnement.
+            </p>
+         </div>
+      );
+   };
+
    return (
       <Card className="border-destructive" data-testid="delete-account">
          <CardHeader>
@@ -211,12 +239,12 @@ export const DeleteAcount = () => {
          </CardHeader>
          <CardContent>
             <div>
-               <h3 className="text-sm font-medium mb-1">Konto löschen</h3>
-               <p className="text-sm text-muted-foreground mb-4">
+               <h3 className="mb-1 text-sm font-medium">Konto löschen</h3>
+               <p className="mb-4 text-sm text-muted-foreground">
                   Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten.
                   Diese Aktion kann nicht rückgängig gemacht werden.
                </p>
-               {dialog()}
+               {isDeletionAllowed ? dialog() : blockedNotice()}
             </div>
          </CardContent>
       </Card>

@@ -7,10 +7,12 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
+   dtestData,
 } from "@tests";
 import { toast } from "sonner";
 
 import { deleteUser } from "@/data/actions/user";
+import { DSubscription } from "@/data/types/domain/subscription";
 import { DUserAccountDelete } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
@@ -26,6 +28,14 @@ const assertRendered = () => {
 
    assertInDocument(account);
    assertInDocument(deleteBtn);
+};
+
+const assertBlockedRendered = () => {
+   const account = screen.getByTestId("delete-account");
+   const notice = screen.getByTestId("delete-blocked-notice");
+
+   assertInDocument(account);
+   assertInDocument(notice);
 };
 
 const assertPasswordRendered = () => {
@@ -57,8 +67,8 @@ const assertPasswordNotVisible = () => {
 };
 
 describe("DeleteAcount rendering tests", () => {
-   it("DeleteAcount rendered test", async () => {
-      const { container } = render(<DeleteAcount />);
+   it("DeleteAcount rendered - no subscription - test", async () => {
+      const { container } = render(<DeleteAcount subscription={null} />);
 
       await waitFor(() => {
          assertRendered();
@@ -66,6 +76,52 @@ describe("DeleteAcount rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("DeleteAcount rendered - subscription CANCELED - test", async () => {
+      const subscription: DSubscription = {
+         ...dtestData.dSubscription(),
+         status: "CANCELED",
+      };
+      const { container } = render(<DeleteAcount subscription={subscription} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("DeleteAcount rendered - subscription ACTIVE - shows blocked notice - test", async () => {
+      const subscription: DSubscription = {
+         ...dtestData.dSubscription(),
+         status: "ACTIVE",
+      };
+      const { container } = render(<DeleteAcount subscription={subscription} />);
+
+      await waitFor(() => {
+         assertBlockedRendered();
+         expect(screen.queryByTestId("delete-btn")).not.toBeInTheDocument();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it.each(["INCOMPLETE", "PAST_DUE", "UNPAID", "TRIALING", "PAUSED"] as const)(
+      "DeleteAcount rendered - subscription %s - shows blocked notice - test",
+      async (status) => {
+         const subscription: DSubscription = {
+            ...dtestData.dSubscription(),
+            status,
+         };
+
+         render(<DeleteAcount subscription={subscription} />);
+
+         await waitFor(() => {
+            assertBlockedRendered();
+            expect(screen.queryByTestId("delete-btn")).not.toBeInTheDocument();
+         });
+      }
+   );
 });
 
 describe("DeleteAcount functionality tests", () => {
@@ -80,7 +136,7 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcount />);
+      render(<DeleteAcount subscription={null} />);
 
       await waitFor(() => {
          assertRendered();
@@ -131,7 +187,7 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcount />);
+      render(<DeleteAcount subscription={null} />);
 
       await waitFor(() => {
          assertRendered();
@@ -182,7 +238,7 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcount />);
+      render(<DeleteAcount subscription={null} />);
 
       await waitFor(() => {
          assertRendered();
@@ -208,7 +264,7 @@ describe("DeleteAcount functionality tests", () => {
    });
 
    it("DeleteAcount - show password btn clicked - test", async () => {
-      render(<DeleteAcount />);
+      render(<DeleteAcount subscription={null} />);
 
       await waitFor(() => {
          assertRendered();
@@ -244,5 +300,20 @@ describe("DeleteAcount functionality tests", () => {
       await waitFor(() => {
          assertPasswordNotVisible();
       });
+   });
+
+   it("DeleteAcount - blocked - does not call deleteUser - test", async () => {
+      const subscription: DSubscription = {
+         ...dtestData.dSubscription(),
+         status: "ACTIVE",
+      };
+
+      render(<DeleteAcount subscription={subscription} />);
+
+      await waitFor(() => {
+         assertBlockedRendered();
+      });
+
+      expect(deleteUserMock).not.toHaveBeenCalled();
    });
 });
