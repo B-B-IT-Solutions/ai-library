@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptTextDisplay } from "./prompt-text-display";
+import { PromptText } from "./prompt-text";
 
 const { writeText } = navigator.clipboard;
 
@@ -21,7 +21,7 @@ describe("PromptTextDisplay rendering tests", () => {
    it("PromptTextDisplay rendered test", async () => {
       const template = dtestData.dPromptWithContent();
 
-      const { container } = render(<PromptTextDisplay template={template} />);
+      const { container } = render(<PromptText prompt={template} />);
 
       await waitFor(() => {
          assertRendered();
@@ -40,7 +40,7 @@ describe("PromptTextDisplay functionality tests", () => {
    it("PromptTextDisplay - copy btn clicked - success - test", async () => {
       const template = dtestData.dPromptWithContent();
 
-      render(<PromptTextDisplay template={template} />);
+      render(<PromptText prompt={template} />);
 
       await waitFor(() => {
          assertRendered();
@@ -63,7 +63,7 @@ describe("PromptTextDisplay functionality tests", () => {
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
       const template = dtestData.dPromptWithContent();
-      render(<PromptTextDisplay template={template} />);
+      render(<PromptText prompt={template} />);
 
       await waitFor(() => {
          assertRendered();
@@ -81,7 +81,7 @@ describe("PromptTextDisplay functionality tests", () => {
    it("PromptTextDisplay - copy btn clicked - copied state resets after 2 seconds - test", async () => {
       const template = dtestData.dPromptWithContent();
 
-      render(<PromptTextDisplay template={template} />);
+      render(<PromptText prompt={template} />);
 
       await waitFor(() => {
          assertRendered();

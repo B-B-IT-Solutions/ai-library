@@ -8,10 +8,10 @@ import { MDRenderer } from "@/components/shared/md";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 
 type Props = {
-   template: DPromptWithContent;
+   prompt: DPromptWithContent;
 };
 
-export const PromptTextDisplay = ({ template }: Props) => {
+export const PromptText = ({ prompt: template }: Props) => {
    const [copied, setCopied] = useState(false);
 
    const copyToClipboard = async () => {
@@ -34,7 +34,7 @@ export const PromptTextDisplay = ({ template }: Props) => {
                onClick={copyToClipboard}
                variant="ghost"
                size="sm"
-               className="h-8 px-3 hover:bg-slate-200"
+               className="h-8 cursor-pointer px-3 hover:bg-slate-200"
                title="In Zwischenablage kopieren"
                data-testid="copy-btn"
             >

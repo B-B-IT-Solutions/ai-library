@@ -1,8 +1,8 @@
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
+import { PromptForm } from "./form";
 import { PromptSidebar } from "./sidebar";
-import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
    descriptor: DPrompt;
@@ -26,10 +26,7 @@ export const TemplateView = ({ descriptor, template }: Props) => {
                <div className="grid gap-8 lg:grid-cols-[1fr_260px]">
                   {/* Main content */}
                   <div className="rounded-xl bg-white p-6 shadow-sm">
-                     <TemplateViewForm
-                        descriptor={descriptor}
-                        template={template}
-                     />
+                     <PromptForm descriptor={descriptor} prompt={template} />
                   </div>
 
                   {/* Sidebar */}

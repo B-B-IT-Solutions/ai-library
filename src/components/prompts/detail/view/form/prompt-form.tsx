@@ -4,14 +4,14 @@ import { MDRenderer } from "@/components/shared/md";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
-import { PromptTextDisplay } from "./prompt-text-display";
+import { PromptText } from "./prompt-text";
 
 type Props = {
    descriptor: DPrompt;
-   template: DPromptWithContent;
+   prompt: DPromptWithContent;
 };
 
-export const TemplateViewForm = ({ descriptor, template }: Props) => {
+export const PromptForm = ({ descriptor, prompt }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -55,7 +55,7 @@ export const TemplateViewForm = ({ descriptor, template }: Props) => {
 
          {/* Prompt text */}
          <div className="border-t border-slate-200 pt-4">
-            <PromptTextDisplay template={template} />
+            <PromptText prompt={prompt} />
          </div>
       </div>
    );
