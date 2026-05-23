@@ -2,22 +2,16 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { TemplateViewForm } from "./template-view-form";
+import { PromptForm } from "./prompt-form";
 
 const assertRendered = () => {
    const form = screen.getByTestId("template-view-form");
-   const shortDescription = screen.getByTestId("short-description");
+   const description = screen.getByTestId("description");
    const content = screen.getByTestId("prompt-text");
-   const usePromptBtn = screen.getByTestId("use-prompt-btn");
-   const editEntryBtn = screen.getByTestId("edit-template-btn");
-   const moreOptionsBtn = screen.getByTestId("more-options-btn");
 
    assertInDocument(form);
-   assertInDocument(shortDescription);
+   assertInDocument(description);
    assertInDocument(content);
-   assertInDocument(usePromptBtn);
-   assertInDocument(editEntryBtn);
-   assertInDocument(moreOptionsBtn);
 };
 
 const assertCategoriesRendered = () => {
@@ -32,13 +26,10 @@ const assertCategoriesNotRendered = () => {
 
 describe("LibraryEntryViewForm rendering tests", () => {
    it("categories empty - rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
-      descriptor.categories = [];
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
+      prompt.categories = [];
 
-      const { container } = render(
-         <TemplateViewForm descriptor={descriptor} template={template} />
-      );
+      const { container } = render(<PromptForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -49,12 +40,9 @@ describe("LibraryEntryViewForm rendering tests", () => {
    });
 
    it("with categories - rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
 
-      const { container } = render(
-         <TemplateViewForm descriptor={descriptor} template={template} />
-      );
+      const { container } = render(<PromptForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

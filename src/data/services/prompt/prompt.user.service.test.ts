@@ -95,6 +95,25 @@ describe("getPrompt tests", () => {
    });
 });
 
+describe("getPromptWithContent tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("prompt retrieved - test", async () => {
+      const userId = "user-id-1";
+      const template = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
+
+      const { id } = template;
+      const result = await promptService.getPromptWithContent(userId, id);
+
+      expect(result).toEqual(template);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
+   });
+});
+
 describe("createPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -590,25 +609,6 @@ describe("getPrompts tests", () => {
       expect(result).toEqual(templates);
       expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(params);
-   });
-});
-
-describe("getPromptTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getPromptTemplate - template retrieved - test", async () => {
-      const userId = "user-id-1";
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
-
-      const { id } = template;
-      const result = await promptService.getPromptTemplate(userId, id);
-
-      expect(result).toEqual(template);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
 });
 

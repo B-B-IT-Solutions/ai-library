@@ -13,7 +13,7 @@ import { Metadata } from "next";
 
 import { templatesSearchParamsCache } from "@/components/prompts";
 
-import { metadata, PageProps, TemplatesPage } from "./page";
+import { metadata, PageProps, PromptsPage } from "./page";
 
 const templatesSearchParamsCacheParseMock =
    templatesSearchParamsCache.parse as jest.MockedFunction<
@@ -21,7 +21,7 @@ const templatesSearchParamsCacheParseMock =
    >;
 
 const expectedMetadata: Metadata = {
-   title: "Meine Vorlagen",
+   title: "Meine Prompts",
 };
 
 const assertRendered = () => {
@@ -32,7 +32,7 @@ const assertRendered = () => {
    assertInDocument(dashboard);
 };
 
-describe("TemplatesPage rendering tests", () => {
+describe("PromptsPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -44,7 +44,7 @@ describe("TemplatesPage rendering tests", () => {
          searchParams: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(TemplatesPage, props);
+      const { container } = await renderAsyncRSC(PromptsPage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -58,7 +58,7 @@ describe("TemplatesPage rendering tests", () => {
    });
 });
 
-describe("TemplatesPage functionality tests", () => {
+describe("PromptsPage functionality tests", () => {
    it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });

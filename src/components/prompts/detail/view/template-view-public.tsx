@@ -10,7 +10,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
-import { PromptTextDisplay } from "./prompt-text-display";
+import { PromptText } from "./form";
 
 type Props = {
    descriptor: DPrompt;
@@ -80,7 +80,7 @@ export const PublicTemplateView = ({
                </CardHeader>
 
                <CardContent className="pt-6">
-                  <PromptTextDisplay template={template} />
+                  <PromptText prompt={template} />
                </CardContent>
             </Card>
 

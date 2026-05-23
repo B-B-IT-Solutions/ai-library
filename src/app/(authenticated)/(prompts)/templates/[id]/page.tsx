@@ -2,11 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateView } from "@/components/prompts";
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
-
-export const metadata: Metadata = {
-   title: "Vorlage",
-};
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 export type PageParams = {
    id: string;
@@ -16,15 +12,25 @@ export type PageProps = {
    params: Promise<PageParams>;
 };
 
-export const TemplatePage = async ({ params }: PageProps) => {
-   const { id: descriptorId } = await params;
-   const descriptor = await getPrompt(descriptorId);
+export async function generateMetadata({
+   params,
+}: PageProps): Promise<Metadata> {
+   const { id } = await params;
+   const prompt = await getPrompt(id);
+   return {
+      title: prompt?.title ?? "Prompt",
+   };
+}
+
+export const PromptPage = async ({ params }: PageProps) => {
+   const { id: promptId } = await params;
+   const descriptor = await getPrompt(promptId);
 
    if (!descriptor) {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor.id);
+   const template = await getPromptWithContent(descriptor.id);
 
    if (!template) {
       return notFound();
@@ -32,9 +38,9 @@ export const TemplatePage = async ({ params }: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="template-view-page">
-         <TemplateView descriptor={descriptor} template={template} />
+         <TemplateView descriptor={descriptor} prompt={template} />
       </div>
    );
 };
 
-export default TemplatePage;
+export default PromptPage;

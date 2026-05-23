@@ -41,13 +41,28 @@ export const getPromptsPage = async (
    }
 };
 
-export const getPrompt = async (
-   descriptorId: string
-): Promise<DPrompt | null> => {
+export const getPrompt = async (promptId: string): Promise<DPrompt | null> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getPrompt(user.id, descriptorId);
+      return await service.getPrompt(user.id, promptId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const getPromptWithContent = async (
+   promptId: string
+): Promise<DPromptWithContent | null> => {
+   try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Template ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptWithContent(user.id, promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -262,23 +277,6 @@ export const getPromptTemplates = async (
 ): Promise<DPrompt[]> => {
    const service = getService();
    return await service.getPrompts(params);
-};
-
-export const getPromptTemplate = async (
-   templateId: string
-): Promise<DPromptWithContent | null> => {
-   try {
-      if (!isValidUuid(templateId)) {
-         throw new Error("Invalid Template ID.");
-      }
-
-      const user = await requireUser();
-      const service = getService();
-      return await service.getPromptTemplate(user.id, templateId);
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {

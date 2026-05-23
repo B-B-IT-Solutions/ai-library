@@ -5,21 +5,17 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
-import { metadata, PageParams, PageProps, TemplatePage } from "./page";
+import { generateMetadata, PageParams, PageProps, PromptPage } from "./page";
 
 const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
-const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
-   typeof getPromptTemplate
+const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
+   typeof getPromptWithContent
 >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
-
-const expectedMetadata: Metadata = {
-   title: "Vorlage",
-};
 
 const assertRendered = () => {
    const page = screen.getByTestId("template-view-page");
@@ -29,12 +25,12 @@ const assertRendered = () => {
    assertInDocument(viewEntry);
 };
 
-describe("TemplatePage rendering tests", () => {
+describe("PromptPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("descriptor null - test", async () => {
+   it("prompt null - test", async () => {
       getPromptMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
@@ -42,70 +38,111 @@ describe("TemplatePage rendering tests", () => {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(TemplatePage, props);
+      const { container } = await renderAsyncRSC(PromptPage, props);
 
       await waitFor(() => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).not.toHaveBeenCalled();
+         expect(getPromptWithContentMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptor retrieved - template null - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(descriptor);
+   it("prompt retrieved - template null - test", async () => {
+      const prompt = dtestData.dPrompt();
+      getPromptMock.mockResolvedValue(prompt);
 
-      getPromptTemplateMock.mockResolvedValue(null);
+      getPromptWithContentMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(TemplatePage, props);
+      const { container } = await renderAsyncRSC(PromptPage, props);
 
       await waitFor(() => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptor retrieved - template retrieved - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPromptMock.mockResolvedValue(descriptor);
+   it("prompt retrieved - template retrieved - test", async () => {
+      const prompt = dtestData.dPrompt();
+      getPromptMock.mockResolvedValue(prompt);
 
       const template = dtestData.dPromptWithContent();
-      getPromptTemplateMock.mockResolvedValue(template);
+      getPromptWithContentMock.mockResolvedValue(template);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(TemplatePage, props);
+      const { container } = await renderAsyncRSC(PromptPage, props);
 
       await waitFor(() => {
          assertRendered();
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(prompt.id);
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("TemplatePage functionality tests", () => {
-   it("metadata - test", async () => {
+describe("PromptPage functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("generateMetadata - prompt null - test", async () => {
+      getPromptMock.mockResolvedValue(null);
+
+      const pageParams: PageParams = {
+         id: "prompt-id-1",
+      };
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const metadata = await generateMetadata(props);
+      const expectedMetadata: Metadata = {
+         title: "Prompt",
+      };
+
       expect(metadata).toEqual(expectedMetadata);
+      expect(getPromptMock).toHaveBeenCalledTimes(1);
+      expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
+   });
+
+   it("generateMetadata - prompt defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+      getPromptMock.mockResolvedValue(prompt);
+
+      const pageParams: PageParams = {
+         id: "prompt-id-1",
+      };
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const metadata = await generateMetadata(props);
+      const expectedMetadata: Metadata = {
+         title: prompt.title,
+      };
+
+      expect(metadata).toEqual(expectedMetadata);
+      expect(getPromptMock).toHaveBeenCalledTimes(1);
+      expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
    });
 });

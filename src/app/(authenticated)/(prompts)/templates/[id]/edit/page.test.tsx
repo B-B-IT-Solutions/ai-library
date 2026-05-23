@@ -6,15 +6,15 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt, getPromptTemplate } from "@/data/actions/prompt";
+import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import { EditTemplatePage, metadata, PageParams, PageProps } from "./page";
 
 const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
-const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
-   typeof getPromptTemplate
+const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
+   typeof getPromptWithContent
 >;
 
 const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
@@ -55,7 +55,7 @@ describe("EditTemplatePage rendering tests", () => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).not.toHaveBeenCalled();
+         expect(getPromptWithContentMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe("EditTemplatePage rendering tests", () => {
       const descriptor = dtestData.dPrompt();
       getPromptMock.mockResolvedValue(descriptor);
 
-      getPromptTemplateMock.mockResolvedValue(null);
+      getPromptWithContentMock.mockResolvedValue(null);
 
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
@@ -80,8 +80,8 @@ describe("EditTemplatePage rendering tests", () => {
       await waitFor(() => {
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(descriptor.id);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -93,7 +93,7 @@ describe("EditTemplatePage rendering tests", () => {
       getPromptMock.mockResolvedValue(descriptor);
 
       const template = dtestData.dPromptWithContent();
-      getPromptTemplateMock.mockResolvedValue(template);
+      getPromptWithContentMock.mockResolvedValue(template);
 
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
@@ -109,8 +109,8 @@ describe("EditTemplatePage rendering tests", () => {
          assertRendered();
          expect(getPromptMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).toHaveBeenCalledWith(params.id);
-         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
-         expect(getPromptTemplateMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(descriptor.id);
       });
 
       expect(container).toMatchSnapshot();
