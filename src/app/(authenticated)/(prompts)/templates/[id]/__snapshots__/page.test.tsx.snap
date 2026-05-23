@@ -48,7 +48,7 @@ exports[`TemplatePage rendering tests descriptor retrieved - template retrieved 
                   data-testid="root-link"
                   href="/templates"
                 >
-                  Vorlagen
+                  Prompts
                 </a>
               </li>
               <li

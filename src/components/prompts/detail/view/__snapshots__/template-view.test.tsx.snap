@@ -40,7 +40,7 @@ exports[`TemplateView rendering tests rendered test 1`] = `
                 data-testid="root-link"
                 href="/templates"
               >
-                Vorlagen
+                Prompts
               </a>
             </li>
             <li

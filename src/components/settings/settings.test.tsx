@@ -1,3 +1,8 @@
+jest.mock("./user/account", () => {
+   const AccountSettings = () => <div data-testid="account-settings"></div>;
+   return { AccountSettings };
+});
+
 jest.mock("./user/subscription", () => {
    const Subscription = () => <div data-testid="subscription"></div>;
    return { Subscription };
@@ -34,7 +39,7 @@ const assertContentNotRendered = (testId: string) => {
 };
 
 describe("Settings rendering tests", () => {
-   it("Settings - section general - rendered - test", async () => {
+   it("section general - rendered - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(<Settings user={user} section="general" />);
 
@@ -49,7 +54,7 @@ describe("Settings rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Settings - section account - test", async () => {
+   it("section account - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(<Settings user={user} section="account" />);
 
@@ -64,7 +69,7 @@ describe("Settings rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Settings - section subscription - test", async () => {
+   it("section subscription - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(
          <Settings user={user} section="subscription" />
@@ -81,7 +86,7 @@ describe("Settings rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Settings - section global-template-fields - test", async () => {
+   it("section global-template-fields - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(
          <Settings user={user} section="global-template-fields" />

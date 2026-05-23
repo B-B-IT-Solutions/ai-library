@@ -88,7 +88,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant edit - root undefined - t
           data-testid="root-link"
           href="/templates"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li
@@ -193,7 +193,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant new - root defined - test
           data-slot="breadcrumb-page"
           role="link"
         >
-          Neue Vorlage
+          Neuer Prompt
         </span>
       </li>
     </ol>
@@ -222,7 +222,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant new - root undefined - te
           data-testid="root-link"
           href="/templates"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li
@@ -260,7 +260,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant new - root undefined - te
           data-slot="breadcrumb-page"
           role="link"
         >
-          Neue Vorlage
+          Neuer Prompt
         </span>
       </li>
     </ol>
@@ -357,7 +357,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant view - root undefined - t
           data-testid="root-link"
           href="/templates"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li

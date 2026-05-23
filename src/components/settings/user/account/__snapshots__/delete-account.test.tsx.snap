@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`DeleteAcount rendering tests DeleteAcount rendered test 1`] = `
+exports[`DeleteAcount rendering tests subscription ACTIVE - cancelAtPeriodEnd true - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm border-destructive"
@@ -57,35 +57,238 @@ exports[`DeleteAcount rendering tests DeleteAcount rendered test 1`] = `
     >
       <div>
         <h3
-          class="text-sm font-medium mb-1"
+          class="mb-1 text-sm font-medium"
         >
           Konto löschen
         </h3>
         <p
-          class="text-sm text-muted-foreground mb-4"
+          class="mb-4 text-sm text-muted-foreground"
         >
           Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
         <div
-          data-slot="alert-dialog"
-          data-testid="mock-react-alert-dialog-root"
+          class="space-y-3"
+          data-testid="delete-account-dialog"
         >
-          <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-            data-slot="button"
-            data-testid="delete-btn"
-          >
-            Konto löschen
-          </button>
           <div
-            data-slot="alert-dialog-portal"
-            data-testid="mock-react-alert-dialog-portal"
+            data-slot="alert-dialog"
+            data-testid="mock-react-alert-dialog-root"
           >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer disabled:cursor-not-allowed"
+              data-slot="button"
+              data-testid="delete-btn"
+            >
+              Konto löschen
+            </button>
             <div
-              class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-              data-slot="alert-dialog-overlay"
-              data-testid="mock-react-alert-dialog-overlay"
-            />
+              data-slot="alert-dialog-portal"
+              data-testid="mock-react-alert-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="alert-dialog-overlay"
+                data-testid="mock-react-alert-dialog-overlay"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DeleteAcount rendering tests subscription CANCELED - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm border-destructive"
+    data-slot="card"
+    data-testid="delete-account"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-triangle-alert h-5 w-5 text-destructive"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+          />
+          <path
+            d="M12 9v4"
+          />
+          <path
+            d="M12 17h.01"
+          />
+        </svg>
+        <div
+          class="leading-none font-semibold text-destructive"
+          data-slot="card-title"
+        >
+          Gefahrenbereich
+        </div>
+      </div>
+      <div
+        class="text-muted-foreground text-sm"
+        data-slot="card-description"
+      >
+        Dauerhafte Aktionen für Ihr Konto
+      </div>
+    </div>
+    <div
+      class="px-6"
+      data-slot="card-content"
+    >
+      <div>
+        <h3
+          class="mb-1 text-sm font-medium"
+        >
+          Konto löschen
+        </h3>
+        <p
+          class="mb-4 text-sm text-muted-foreground"
+        >
+          Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
+        </p>
+        <div
+          class="space-y-3"
+          data-testid="delete-account-dialog"
+        >
+          <div
+            data-slot="alert-dialog"
+            data-testid="mock-react-alert-dialog-root"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer disabled:cursor-not-allowed"
+              data-slot="button"
+              data-testid="delete-btn"
+            >
+              Konto löschen
+            </button>
+            <div
+              data-slot="alert-dialog-portal"
+              data-testid="mock-react-alert-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="alert-dialog-overlay"
+                data-testid="mock-react-alert-dialog-overlay"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DeleteAcount rendering tests subscription null - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm border-destructive"
+    data-slot="card"
+    data-testid="delete-account"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-triangle-alert h-5 w-5 text-destructive"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+          />
+          <path
+            d="M12 9v4"
+          />
+          <path
+            d="M12 17h.01"
+          />
+        </svg>
+        <div
+          class="leading-none font-semibold text-destructive"
+          data-slot="card-title"
+        >
+          Gefahrenbereich
+        </div>
+      </div>
+      <div
+        class="text-muted-foreground text-sm"
+        data-slot="card-description"
+      >
+        Dauerhafte Aktionen für Ihr Konto
+      </div>
+    </div>
+    <div
+      class="px-6"
+      data-slot="card-content"
+    >
+      <div>
+        <h3
+          class="mb-1 text-sm font-medium"
+        >
+          Konto löschen
+        </h3>
+        <p
+          class="mb-4 text-sm text-muted-foreground"
+        >
+          Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.
+        </p>
+        <div
+          class="space-y-3"
+          data-testid="delete-account-dialog"
+        >
+          <div
+            data-slot="alert-dialog"
+            data-testid="mock-react-alert-dialog-root"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer disabled:cursor-not-allowed"
+              data-slot="button"
+              data-testid="delete-btn"
+            >
+              Konto löschen
+            </button>
+            <div
+              data-slot="alert-dialog-portal"
+              data-testid="mock-react-alert-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="alert-dialog-overlay"
+                data-testid="mock-react-alert-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
