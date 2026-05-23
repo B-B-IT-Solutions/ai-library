@@ -2,7 +2,7 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import {
    DeleteTemplateButton,
    DownloadTemplateButton,
-   EditTemplateButton,
+   EditButton,
    UseTemplateButton,
 } from "../../../buttons";
 
@@ -21,10 +21,7 @@ export const PromptSidebar = ({ prompt }: Props) => {
             className="w-full justify-center py-5 text-sm"
          />
          <div className="space-y-1 pt-1">
-            <EditTemplateButton
-               descriptor={prompt}
-               className="w-full cursor-pointer justify-start"
-            />
+            <EditButton prompt={prompt} />
             <DownloadTemplateButton
                descriptor={prompt}
                className="w-full cursor-pointer justify-start"
