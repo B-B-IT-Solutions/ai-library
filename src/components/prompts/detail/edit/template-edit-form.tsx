@@ -248,7 +248,9 @@ export const TemplateEditForm = ({
                               size="sm"
                               onClick={() => setIsEditorExpanded((v) => !v)}
                               className="cursor-pointer text-slate-500 hover:text-slate-900"
-                              title={isEditorExpanded ? "Verkleinern" : "Vergrößern"}
+                              title={
+                                 isEditorExpanded ? "Verkleinern" : "Vergrößern"
+                              }
                            >
                               {isEditorExpanded ? (
                                  <Minimize2 className="h-4 w-4" />
