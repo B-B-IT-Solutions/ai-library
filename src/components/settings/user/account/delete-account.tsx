@@ -20,6 +20,9 @@ export const DeleteAcount = ({ subscription }: Props) => {
       if (!subscription) {
          return true;
       }
+      if (subscription.status === "ACTIVE" && subscription.cancelAtPeriodEnd) {
+         return true;
+      }
       return subscription.status === "CANCELED";
    };
 

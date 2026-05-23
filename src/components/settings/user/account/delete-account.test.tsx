@@ -66,6 +66,23 @@ describe("DeleteAcount rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
+   it("subscription ACTIVE - cancelAtPeriodEnd true - test", async () => {
+      const subscription = dtestData.dSubscription();
+      subscription.status = "ACTIVE";
+      subscription.cancelAtPeriodEnd = true;
+
+      const { container } = render(
+         <DeleteAcount subscription={subscription} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertDeleteEnabledRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it.each([
       "ACTIVE",
       "INCOMPLETE",
@@ -73,15 +90,19 @@ describe("DeleteAcount rendering tests", () => {
       "UNPAID",
       "TRIALING",
       "PAUSED",
-   ] as const)("subscription %s - test", async (status) => {
-      const subscription = dtestData.dSubscription();
-      subscription.status = status;
+   ] as const)(
+      "subscription %s - cancelAtPeriodEnd false - test",
+      async (status) => {
+         const subscription = dtestData.dSubscription();
+         subscription.status = status;
+         subscription.cancelAtPeriodEnd = false;
 
-      render(<DeleteAcount subscription={subscription} />);
+         render(<DeleteAcount subscription={subscription} />);
 
-      await waitFor(() => {
-         assertRendered();
-         assertDeleteDisabledRendered();
-      });
-   });
+         await waitFor(() => {
+            assertRendered();
+            assertDeleteDisabledRendered();
+         });
+      }
+   );
 });
