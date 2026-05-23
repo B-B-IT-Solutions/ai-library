@@ -19,7 +19,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
-   DownloadTemplateButton,
+   DownloadPromptButton,
    PublicUseTemplateButton,
 } from "../../buttons";
 
@@ -89,10 +89,7 @@ export const PublicTemplateItemCard = ({
                   Zu Sammlung hinzufügen
                </DropdownMenuItem>
                <DropdownMenuSeparator />
-               <DownloadTemplateButton
-                  descriptor={descriptor}
-                  asMenuItem={true}
-               />
+               <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
             </DropdownMenuContent>
          </DropdownMenu>
       );

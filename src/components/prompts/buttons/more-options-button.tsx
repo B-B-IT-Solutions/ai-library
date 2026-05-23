@@ -11,7 +11,7 @@ import {
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { DeleteTemplateButton } from "./delete-template-button";
-import { DownloadTemplateButton } from "./download-template-button";
+import { DownloadPromptButton } from "./download-prompt-button";
 
 type Props = {
    descriptor: DPrompt;
@@ -31,7 +31,7 @@ export const MoreOptionsButton = ({ descriptor }: Props) => {
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
-            <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
+            <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
             <DeleteTemplateButton descriptor={descriptor} />
          </DropdownMenuContent>
       </DropdownMenu>
