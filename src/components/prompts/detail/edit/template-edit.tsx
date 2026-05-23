@@ -1,7 +1,13 @@
+"use client";
+
+import { ReactNode, useState } from "react";
+import { Loader } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/shadcn/button";
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
-   ItemDetailsEditBreadcrumbs,
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
@@ -18,21 +24,17 @@ type Props = {
 };
 
 export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
-   const header = () => {
-      const title = prompt ? "Prompt Bearbeiten" : "Neuen Prompt Erstellen";
-      const text = prompt
-         ? "Bearbeiten Sie den Prompt"
-         : "Erstellen Sie einen neuen Prompt";
+   const [isSubmitting, setIsSubmitting] = useState(false);
 
-      return (
-         <>
-            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
-            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
-         </>
-      );
-   };
+   const isEdit = !!prompt;
 
-   const breadcrumbs = () => {
+   const cancelHref = isEdit
+      ? `/templates/${prompt!.id}`
+      : collectionId
+        ? `/collections/${collectionId}`
+        : "/templates";
+
+   const breadcrumbs = (): ReactNode => {
       if (prompt) {
          return (
             <TemplateBreadcrumb
@@ -45,18 +47,49 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       return <TemplateBreadcrumb variant="new" />;
    };
 
+   const actions = (): ReactNode => {
+      return (
+         <>
+            <Button
+               asChild
+               type="button"
+               variant="outline"
+               disabled={isSubmitting}
+               className="cursor-pointer"
+            >
+               <Link href={cancelHref}>Abbrechen</Link>
+            </Button>
+            <Button
+               type="submit"
+               form="template-edit-form"
+               disabled={isSubmitting}
+               className="cursor-pointer"
+            >
+               {isSubmitting ? (
+                  <>
+                     <Loader className="h-4 w-4 animate-spin" />
+                     {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+                  </>
+               ) : (
+                  <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
+               )}
+            </Button>
+         </>
+      );
+   };
+
    return (
       <ItemDetailsEdit data-testid="template-edit">
-         <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
+         <ItemDetailsEditHeader actions={actions()}>
+            {breadcrumbs()}
+         </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
-            <ItemDetailsEditBreadcrumbs>
-               {breadcrumbs()}
-            </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
                <TemplateEditForm
                   prompt={prompt}
                   collectionId={collectionId}
                   globalFields={globalFields}
+                  onSubmittingChange={setIsSubmitting}
                />
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>

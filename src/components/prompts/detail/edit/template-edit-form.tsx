@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
 import { Loader } from "lucide-react";
@@ -40,12 +40,14 @@ type Props = {
    prompt?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
+   onSubmittingChange?: (isSubmitting: boolean) => void;
 };
 
 export const TemplateEditForm = ({
    prompt,
    collectionId,
    globalFields,
+   onSubmittingChange,
 }: Props) => {
    const router = useRouter();
    const isEdit = !!prompt;
@@ -53,6 +55,7 @@ export const TemplateEditForm = ({
    const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
       defaultValues: initPromptTemplate(prompt),
+      mode: "onBlur",
    });
 
    const {
@@ -65,6 +68,10 @@ export const TemplateEditForm = ({
    });
 
    const { isSubmitting } = form.formState;
+
+   useEffect(() => {
+      onSubmittingChange?.(isSubmitting);
+   }, [isSubmitting, onSubmittingChange]);
 
    const content = form.watch("content");
    const globalFieldIds = form.watch("globalFieldIds");
@@ -197,48 +204,48 @@ export const TemplateEditForm = ({
       );
    };
 
-   const buttons = () => {
-      return (
-         <div className="flex items-center justify-end gap-3 pt-2">
-            {cancelBtn()}
-            {submitBtn()}
-         </div>
-      );
-   };
-
    return (
       <Card data-testid="template-edit-form">
-         <CardContent>
+         <CardContent className="p-0">
             <Form {...form}>
                <form
+                  id="template-edit-form"
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
                >
-                  <BasicInfo control={form.control} />
-                  <Separator />
-                  <PromptTemplateContent control={form.control} />
-                  <Separator />
-                  <DetectedVariables
-                     detectedVariables={detectedVariables}
-                     variableStatus={variableStatus}
-                     onAddVariable={handleAddVariableAsField}
-                     onSyncAll={handleSyncAllVariables}
-                  />
-                  {detectedVariables.length > 0 && <Separator />}
-                  <PromptVariables
-                     fields={fields as DPromptVariable[]}
-                     detectedVariables={detectedVariables}
-                     globalFields={globalFields}
-                     globalFieldIds={form.watch("globalFieldIds")}
-                     onAddField={handleAddField}
-                     onRemoveField={removeField}
-                     onAddGlobalFieldIds={handleAddGlobalFieldIds}
-                     onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                     control={form.control}
-                     watch={form.watch}
-                  />
-                  <Separator />
-                  {buttons()}
+                  <div className="lg:grid lg:grid-cols-[2fr_3fr] lg:divide-x lg:divide-slate-200">
+                     {/* Left: Metadata + Fields */}
+                     <div className="space-y-6 p-6">
+                        <BasicInfo control={form.control} />
+                        <Separator />
+                        <PromptVariables
+                           fields={fields as DPromptVariable[]}
+                           detectedVariables={detectedVariables}
+                           globalFields={globalFields}
+                           globalFieldIds={form.watch("globalFieldIds")}
+                           onAddField={handleAddField}
+                           onRemoveField={removeField}
+                           onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                           onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
+                           control={form.control}
+                           watch={form.watch}
+                        />
+                     </div>
+                     {/* Right: Content + Variables */}
+                     <div className="space-y-6 border-t border-slate-200 p-6 lg:border-t-0">
+                        <PromptTemplateContent control={form.control} />
+                        <DetectedVariables
+                           detectedVariables={detectedVariables}
+                           variableStatus={variableStatus}
+                           onAddVariable={handleAddVariableAsField}
+                           onSyncAll={handleSyncAllVariables}
+                        />
+                     </div>
+                  </div>
+                  {/* Mobile-only action buttons (desktop uses sticky header) */}
+                  <div className="flex items-center justify-end gap-3 border-t border-slate-200 p-6 lg:hidden">
+                     {cancelBtn()}
+                     {submitBtn()}
+                  </div>
                </form>
             </Form>
          </CardContent>

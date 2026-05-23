@@ -1,6 +1,7 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 type Props = PropsWithChildren<{ "data-testid"?: string }>;
+type HeaderProps = Props & { actions?: ReactNode };
 
 const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
    return (
@@ -10,13 +11,20 @@ const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
    );
 };
 
-const ItemDetailsEditHeader = ({ children, "data-testid": testId }: Props) => {
+const ItemDetailsEditHeader = ({
+   children,
+   actions,
+   "data-testid": testId,
+}: HeaderProps) => {
    return (
       <div
-         className="border-b border-slate-200 bg-white px-6 py-4"
+         className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3"
          data-testid={testId}
       >
-         {children}
+         <div>{children}</div>
+         {actions && (
+            <div className="flex items-center gap-2">{actions}</div>
+         )}
       </div>
    );
 };
@@ -42,7 +50,7 @@ const ItemDetailsEditBreadcrumbs = ({
 
 const ItemDetailsEditBody = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div className="mx-auto max-w-5xl" data-testid={testId}>
+      <div className="mx-auto max-w-7xl" data-testid={testId}>
          {children}
       </div>
    );
