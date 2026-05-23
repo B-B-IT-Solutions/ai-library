@@ -13,7 +13,7 @@ import {
    AlertDialogHeader,
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
-import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
+import { Button } from "@/components/shadcn/button";
 import { AsyncCallbackFn } from "@/data/types/common";
 
 type Props = {
@@ -79,18 +79,18 @@ export const DeleteButton = ({
 
    return (
       <>
-         <DropdownMenuItem
-            variant="destructive"
+         <Button
+            variant="ghost"
             onClick={(e) => {
                e.preventDefault();
                setIsOpen(true);
             }}
-            className="cursor-pointer hover:bg-accent"
+            className="w-full cursor-pointer justify-start text-red-600 hover:bg-red-50 hover:text-red-700"
             data-testid={testId}
          >
             <Trash2 className="mr-2 h-4 w-4" />
             {label}
-         </DropdownMenuItem>
+         </Button>
          {alertDialog()}
       </>
    );

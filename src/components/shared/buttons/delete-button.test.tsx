@@ -87,8 +87,8 @@ describe("DeleteButton functionality tests", () => {
          expect(onDeleteFn).not.toHaveBeenCalled();
       });
 
-      const deleteMenuItem = screen.getByTestId("delete-dropdown-menu-item");
-      await userEvent.click(deleteMenuItem);
+      const deleteBtn = screen.getByTestId("delete-button");
+      await userEvent.click(deleteBtn);
 
       await waitFor(() => {
          assertDialogOpen();
@@ -124,8 +124,8 @@ describe("DeleteButton functionality tests", () => {
          expect(onDeleteFn).not.toHaveBeenCalled();
       });
 
-      const deleteMenuItem = screen.getByTestId("delete-dropdown-menu-item");
-      await userEvent.click(deleteMenuItem);
+      const deleteBtn = screen.getByTestId("delete-button");
+      await userEvent.click(deleteBtn);
 
       await waitFor(() => {
          assertDialogOpen();

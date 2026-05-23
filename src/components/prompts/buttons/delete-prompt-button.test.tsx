@@ -111,8 +111,8 @@ describe("DeletePromptButton functionality tests", () => {
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-prompt-btn");
-      await userEvent.click(deleteBtn);
+      const deleteMenuItem = screen.getByTestId("delete-prompt-menu-item");
+      await userEvent.click(deleteMenuItem);
 
       await waitFor(() => {
          expect(deletePromptMock).not.toHaveBeenCalled();
