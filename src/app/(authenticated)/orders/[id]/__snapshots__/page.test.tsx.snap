@@ -34,12 +34,12 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
         <h2
           class="mb-1 text-xl font-semibold text-green-900"
         >
-          Order Successful!
+          Bestellung erfolgreich!
         </h2>
         <p
           class="text-green-700"
         >
-          Your order has been completed and your templates are ready in your library.
+          Deine Bestellung ist abgeschlossen und deine Vorlagen sind in deiner Bibliothek verfügbar.
         </p>
       </div>
     </div>
@@ -54,18 +54,18 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
           <h1
             class="mb-1 text-2xl font-bold text-slate-900"
           >
-            Order Details
+            Bestelldetails
           </h1>
           <p
             class="text-sm text-slate-600"
           >
-            Order ID: 
+            Bestell-ID: 
             10fbd76c-4fd4-4294-a541-5d96e6a8e841
           </p>
           <p
             class="text-sm text-slate-600"
           >
-            Date: 
+            Datum: 
             September 27th, 2025
           </p>
         </div>
@@ -81,7 +81,7 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
         <h3
           class="mb-2 font-semibold"
         >
-          Items
+          Artikel
         </h3>
         <div
           class="flex justify-between text-sm"
@@ -159,7 +159,7 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
           class="flex justify-between border-t pt-3 text-lg font-semibold"
         >
           <span>
-            Total
+            Gesamt
           </span>
           <span>
             CHF 
@@ -180,7 +180,7 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
           data-slot="button"
         >
-          Go to Library
+          Zur Bibliothek
         </button>
       </a>
       <a
@@ -192,7 +192,7 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendere
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
           data-slot="button"
         >
-          View All Orders
+          Alle Bestellungen
         </button>
       </a>
     </div>
@@ -239,12 +239,12 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order not found - red
       <h2
         class="mb-2 text-xl font-semibold text-slate-900"
       >
-        Order not found
+        Bestellung nicht gefunden
       </h2>
       <p
         class="mb-6 text-slate-600"
       >
-        The order you're looking for doesn't exist or you don't have access to it.
+        Die gesuchte Bestellung existiert nicht oder du hast keinen Zugriff darauf.
       </p>
       <a
         data-testid="orders-link"
@@ -254,7 +254,7 @@ exports[`OrderDetailPage rendering tests OrderDetailPage - order not found - red
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
           data-slot="button"
         >
-          View All Orders
+          Alle Bestellungen
         </button>
       </a>
     </div>

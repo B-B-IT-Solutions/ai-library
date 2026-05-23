@@ -28,9 +28,9 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
       return (
          <Card data-testid="subscription-free-plan">
             <CardHeader>
-               <CardTitle>Subscription</CardTitle>
+               <CardTitle>Abonnement</CardTitle>
                <CardDescription>
-                  You are currently on the Free plan
+                  Du nutzt aktuell den kostenlosen Plan
                </CardDescription>
             </CardHeader>
             <CardContent>
@@ -53,21 +53,21 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
             return (
                <Badge variant="default" className="bg-green-500">
                   <CheckCircle className="mr-1 h-3 w-3" />
-                  Active
+                  Aktiv
                </Badge>
             );
          case "CANCELED":
             return (
                <Badge variant="secondary">
                   <AlertCircle className="mr-1 h-3 w-3" />
-                  Canceled
+                  Gekündigt
                </Badge>
             );
          case "PAST_DUE":
             return (
                <Badge variant="destructive">
                   <AlertCircle className="mr-1 h-3 w-3" />
-                  Past Due
+                  Überfällig
                </Badge>
             );
          default:
@@ -78,8 +78,8 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
    const currentPeriodEnd = () => {
       if (subscription.currentPeriodEnd) {
          const text = subscription.cancelAtPeriodEnd
-            ? "Expires On"
-            : "Next Billing Date";
+            ? "Läuft ab am"
+            : "Nächstes Abrechnungsdatum";
          return (
             <div data-testid="current-period-end">
                <div className="mb-1 text-sm font-medium text-muted-foreground">
@@ -102,12 +102,12 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
                   <AlertCircle className="mt-0.5 mr-2 h-5 w-5 text-amber-600 dark:text-amber-400" />
                   <div>
                      <div className="font-medium text-amber-900 dark:text-amber-100">
-                        Subscription Ending
+                        Abonnement läuft aus
                      </div>
                      <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
-                        Your subscription will end on{" "}
-                        {formatDate(subscription.currentPeriodEnd)}. You'll
-                        still have access until then.
+                        Dein Abonnement endet am{" "}
+                        {formatDate(subscription.currentPeriodEnd)}. Du behältst
+                        bis dahin deinen Zugang.
                      </div>
                   </div>
                </div>
@@ -134,10 +134,8 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
          <CardHeader>
             <div className="flex items-center justify-between">
                <div className="space-y-2">
-                  <CardTitle>Subscription</CardTitle>
-                  <CardDescription>
-                     Manage your subscription plan
-                  </CardDescription>
+                  <CardTitle>Abonnement</CardTitle>
+                  <CardDescription>Verwalte dein Abonnement</CardDescription>
                </div>
                {statusBadge()}
             </div>
@@ -146,7 +144,7 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
          <CardContent className="space-y-4">
             <div>
                <div className="mb-1 text-sm font-medium text-muted-foreground">
-                  Current Plan
+                  Aktueller Plan
                </div>
                <div className="text-lg font-semibold">
                   {subscription.plan.name}
@@ -155,7 +153,7 @@ export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
 
             <div>
                <div className="mb-1 text-sm font-medium text-muted-foreground">
-                  Billing Interval
+                  Abrechnungszeitraum
                </div>
                <div className="capitalize">
                   {subscription.billingInterval.toLowerCase()}

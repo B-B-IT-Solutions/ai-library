@@ -27,19 +27,25 @@ exports[`PricingPage rendering tests rendered - test 1`] = `
         class="mb-8 flex justify-center"
       >
         <div
+          aria-label="Abrechnungszeitraum"
           class="inline-flex items-center rounded-full border bg-background p-1 shadow-sm"
+          role="radiogroup"
         >
           <button
+            aria-checked="false"
             class="rounded-full px-5 py-2 text-sm font-medium transition-all text-muted-foreground hover:text-foreground"
             data-active="false"
             data-testid="monthly-btn"
+            role="radio"
           >
             Monatlich
           </button>
           <button
+            aria-checked="true"
             class="flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all bg-primary text-primary-foreground shadow-sm"
             data-active="true"
             data-testid="yearly-btn"
+            role="radio"
           >
             Jährlich
             <span

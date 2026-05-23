@@ -18,7 +18,7 @@ import {
 const getOrderMock = getOrder as jest.MockedFunction<typeof getOrder>;
 
 const expectedMetadata: Metadata = {
-   title: "Order",
+   title: "Bestellung",
 };
 
 const assertRendered = () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -21,13 +21,11 @@ import { cancelSubscription } from "@/data/actions/stripe";
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
-type CancelSubscriptionButtonProps = {
+type Props = {
    subscription: DSubscription;
 };
 
-export const CancelSubscriptionButton: FC<CancelSubscriptionButtonProps> = ({
-   subscription,
-}) => {
+export const CancelSubscriptionButton = ({ subscription }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
@@ -55,7 +53,7 @@ export const CancelSubscriptionButton: FC<CancelSubscriptionButtonProps> = ({
          return (
             <>
                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Canceling...
+               Wird kündigt...
             </>
          );
       }
@@ -68,9 +66,10 @@ export const CancelSubscriptionButton: FC<CancelSubscriptionButtonProps> = ({
             <Button
                variant="destructive"
                disabled={isPending}
+               className="cursor-pointer"
                data-testid="cancel-subscription-btn"
             >
-               Cancel Subscription
+               Abonnement Kündigen
             </Button>
          </AlertDialogTrigger>
          <AlertDialogContent data-testid="dialog-content">

@@ -48,7 +48,7 @@ const ProductPage = async (props: PageProps) => {
                <Button variant="ghost" asChild={true}>
                   <Link href="/marketplace" data-testid="marketplace-link-1">
                      <ArrowLeft className="mr-2 h-4 w-4" />
-                     Back to Marketplace
+                     Zurück zum Marktplatz
                   </Link>
                </Button>
             </div>
@@ -70,7 +70,7 @@ const ProductPage = async (props: PageProps) => {
                   />
                   <Button variant="outline" size="lg" asChild={true}>
                      <Link href="/marketplace" data-testid="marketplace-link-2">
-                        Continue Shopping
+                        Weiter einkaufen
                      </Link>
                   </Button>
                </div>

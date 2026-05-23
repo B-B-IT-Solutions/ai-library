@@ -36,8 +36,14 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
       const isYearly = interval === "YEARLY";
 
       return (
-         <div className="inline-flex items-center rounded-full border bg-background p-1 shadow-sm">
+         <div
+            role="radiogroup"
+            aria-label="Abrechnungszeitraum"
+            className="inline-flex items-center rounded-full border bg-background p-1 shadow-sm"
+         >
             <button
+               role="radio"
+               aria-checked={isMonthly}
                onClick={() => setInterval("MONTHLY")}
                className={cn(
                   "rounded-full px-5 py-2 text-sm font-medium transition-all",
@@ -51,6 +57,8 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
                Monatlich
             </button>
             <button
+               role="radio"
+               aria-checked={isYearly}
                onClick={() => setInterval("YEARLY")}
                className={cn(
                   "flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all",
