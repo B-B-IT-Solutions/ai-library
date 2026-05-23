@@ -355,3 +355,61 @@ Die wichtigsten drei Änderungen, die 80% des UX-Gewinns bringen:
 3. **BasicInfo-Reihenfolge** — minimaler Aufwand, direkt spürbarer Flow-Verbesserung
 
 Der Rest ist Iteration. Mit diesen drei Änderungen ist die Seite von einer langen Scroll-Form zu einem **echten Editor-Interface** geworden.
+
+---
+
+## 8. Offene Ideen für spätere Iterationen
+
+Diese Optionen wurden diskutiert und zurückgestellt. Beide adressieren das noch ungelöste Problem, dass **Variablen im Editor und ihre Feld-Definitionen räumlich getrennt** sind.
+
+---
+
+### Option D: Bidirektionales Highlighting *(Quick Win)*
+
+**Priorität:** Medium | **Aufwand:** Klein
+
+Beim bestehenden Tab-Layout (Editor-Tab / Felder-Tab) wird eine **Live-Verbindung** zwischen `{{variable}}`-Chips und Feld-Karten hergestellt:
+
+- Hover über `{{variable}}`-Chip in "Erkannte Variablen" → zugehörige Feld-Karte im Felder-Tab wird visuell hervorgehoben (Ring/Glow)
+- Klick auf einen **undefinierten** `{{variable}}`-Chip → automatischer Wechsel zum Felder-Tab mit Scroll zur leeren Position (oder direkt "Feld erstellen"-Aktion)
+- Klick auf eine Feld-Karte → Wechsel zum Editor-Tab mit Hervorhebung der `{{variable}}` im Editor-Text
+
+**Technisch:** Shared `highlightedVariable`-State (z.B. via `useState` im Form-Parent oder `useContext`), der sowohl in `DetectedVariables` als auch in `PromptVariables` abonniert wird. Tab-Wechsel via controlled `Tabs`-Komponente (`value` + `onValueChange`).
+
+**Dateien betroffen:**
+- `template-edit-form.tsx` — `activeTab`-State + `highlightedVariable`-State einführen
+- `detected-variables.tsx` — Chip-Hover/-Klick sendet `highlightedVariable`
+- `prompt-variables.tsx` / `prompt-variable.tsx` — reagiert auf `highlightedVariable` mit visueller Hervorhebung
+
+---
+
+### Option B: Inline-Variablen-Definition im Editor *(Best UX, größter Aufwand)*
+
+**Priorität:** Low (langfristig) | **Aufwand:** Groß
+
+Kein separates Felder-Panel mehr. Feld-Definitionen entstehen **direkt im Editor-Kontext**:
+
+- Beim Tippen von `{{variable}}` → Popover erscheint direkt am Cursor mit Felddefinitions-Formular (Label, Typ, Pflicht)
+- Klick auf eine bestehende `{{variable}}` im Text → Popover zeigt die aktuelle Feld-Definition zum Bearbeiten
+- Bereits definierte Variablen erscheinen im Editor farblich anders (grün) als undefinierte (orange)
+
+```
+  Editor-Text:
+  "Schreibe einen Post über {{thema}} für {{zielgruppe}}..."
+                              ↑ Klick
+                    ┌─────────────────────┐
+                    │ {{thema}}           │
+                    │ Label: [Thema     ] │
+                    │ Typ:   [Text    ▾] │
+                    │ [✓] Pflichtfeld     │
+                    │        [Fertig] [×] │
+                    └─────────────────────┘
+```
+
+**Technisch:** Erfordert eine **Tiptap-Extension** (Custom Node oder Mark), die `{{...}}`-Muster als interaktive Inline-Nodes rendert. Die Extension kommuniziert via Callback mit dem React-Form-State. Komplex, aber das intuitiv stärkste Pattern für diesen Anwendungsfall.
+
+**Dateien betroffen:**
+- Neue Tiptap-Extension: `src/components/shared/md/extensions/template-variable-extension.ts`
+- `prompt-template-content.tsx` — Extension registrieren
+- `template-edit-form.tsx` — Felder-Panel kann stark vereinfacht oder entfernt werden
+- `prompt-variables.tsx` — wird zur reinen Übersicht/Verwaltungsliste (kein primäres Eingabe-Interface mehr)
