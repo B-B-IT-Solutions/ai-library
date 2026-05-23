@@ -38,16 +38,11 @@ describe("TemplateEdit rendering tests", () => {
    });
 
    it("edit existing entry - test", async () => {
-      const prompt = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
-         <TemplateEdit
-            prompt={prompt}
-            template={template}
-            globalFields={fields}
-         />
+         <TemplateEdit prompt={prompt} globalFields={fields} />
       );
 
       await waitFor(() => {

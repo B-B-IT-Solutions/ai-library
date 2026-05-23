@@ -14,16 +14,16 @@ const assertRendered = () => {
 };
 
 const assertContextMenuRendered = () => {
-   const downloadBtn = screen.getByTestId("download-template-menu-item");
-   const deleteBtn = screen.getByTestId("delete-template-menu-item");
+   const downloadBtn = screen.getByTestId("download-prompt-menu-item");
+   const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
 
    assertInDocument(downloadBtn);
    assertInDocument(deleteBtn);
 };
 
 const assertContextMenuNotRendered = () => {
-   const downloadBtn = screen.queryByTestId("download-template-menu-item");
-   const deleteBtn = screen.queryByTestId("delete-template-menu-item");
+   const downloadBtn = screen.queryByTestId("download-prompt-menu-item");
+   const deleteBtn = screen.queryByTestId("delete-prompt-menu-item");
 
    assertNotInDocument(downloadBtn);
    assertNotInDocument(deleteBtn);

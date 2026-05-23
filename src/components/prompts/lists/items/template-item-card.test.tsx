@@ -39,7 +39,7 @@ const assertDropdownMenuItemsRendered = () => {
    const addToCollectionDialogMenuItem = screen.getByTestId(
       "show-add-to-collection-dialog"
    );
-   const downloadMenuItem = screen.getByTestId("download-template-menu-item");
+   const downloadMenuItem = screen.getByTestId("download-prompt-menu-item");
 
    assertInDocument(viewDetailsLink);
    assertInDocument(addToCollectionDialogMenuItem);
@@ -51,7 +51,7 @@ const assertDropdownMenuItemsNotRendered = () => {
    const addToCollectionDialog = screen.queryByTestId(
       "show-add-to-collection-dialog"
    );
-   const downloadMenuItem = screen.queryByTestId("download-template-menu-item");
+   const downloadMenuItem = screen.queryByTestId("download-prompt-menu-item");
 
    assertNotInDocument(viewDetailsLink);
    assertNotInDocument(addToCollectionDialog);

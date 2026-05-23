@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PublicTemplateView rendering tests collection defined - test 1`] = `
+exports[`PublicPromptView rendering tests collection defined - test 1`] = `
 <div>
   <div
     class="bg-slate-50"
-    data-testid="public-template-view"
+    data-testid="public-prompt-view"
   >
     <div
       class="border-b bg-white"
@@ -384,11 +384,11 @@ exports[`PublicTemplateView rendering tests collection defined - test 1`] = `
 </div>
 `;
 
-exports[`PublicTemplateView rendering tests collection undefined - test 1`] = `
+exports[`PublicPromptView rendering tests collection undefined - test 1`] = `
 <div>
   <div
     class="bg-slate-50"
-    data-testid="public-template-view"
+    data-testid="public-prompt-view"
   >
     <div
       class="border-b bg-white"

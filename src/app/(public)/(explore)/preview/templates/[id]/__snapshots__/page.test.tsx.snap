@@ -7,11 +7,11 @@ exports[`PublicTemplatePage rendering tests descriptor retrieved - template null
 exports[`PublicTemplatePage rendering tests descriptor retrieved - template retrieved - test 1`] = `
 <div>
   <div
-    data-testid="public-template-view-page"
+    data-testid="public-prompt-view-page"
   >
     <div
       class="bg-slate-50"
-      data-testid="public-template-view"
+      data-testid="public-prompt-view"
     >
       <div
         class="border-b bg-white"

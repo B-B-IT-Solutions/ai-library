@@ -3,20 +3,18 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { EditTemplateButton } from "./edit-template-button";
+import { EditButton } from "./edit-prompt-button";
 
 const assertRendered = () => {
-   const editBtn = screen.getByTestId("edit-template-btn");
+   const editBtn = screen.getByTestId("edit-prompt-btn");
    assertInDocument(editBtn);
 };
 
-describe("EditTemplateButton rendering tests", () => {
+describe("EditButton rendering tests", () => {
    it("rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
-      const { container } = renderWithRouter(
-         <EditTemplateButton descriptor={descriptor} />
-      );
+      const { container } = renderWithRouter(<EditButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -26,28 +24,26 @@ describe("EditTemplateButton rendering tests", () => {
    });
 });
 
-describe("EditTemplateButton functionality tests", () => {
+describe("EditButton functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
    });
 
    it("edit btn clicked - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      renderWithRouter(<EditTemplateButton descriptor={descriptor} />);
+      const prompt = dtestData.dPrompt();
+      renderWithRouter(<EditButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
-      const editBtn = screen.getByTestId("edit-template-btn");
+      const editBtn = screen.getByTestId("edit-prompt-btn");
       await userEvent.click(editBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(
-            `/templates/${descriptor.id}/edit`
-         );
+         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}/edit`);
       });
    });
 });

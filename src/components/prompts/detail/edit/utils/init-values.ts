@@ -1,23 +1,18 @@
 import { map } from "es-toolkit/compat";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
-import {
-   DPrompt,
-   DPromptWithContent,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 
 export const initPromptTemplate = (
-   descriptor?: DPrompt,
-   template?: DPromptWithContent
+   prompt?: DPromptWithContent
 ): DPromptUpdate => {
    return {
-      title: descriptor?.title ?? "",
-      description: descriptor?.description ?? "",
-      content: template?.content ?? "",
-      recommendedModel: descriptor?.recommendedModel ?? "Claude",
-      categories: map(descriptor?.categories, "name"),
-      fields: map(template?.fields, existingTemplateFieldInitValues),
-      globalFieldIds: template?.globalFieldIds ?? [],
+      title: prompt?.title ?? "",
+      description: prompt?.description ?? "",
+      content: prompt?.content ?? "",
+      recommendedModel: prompt?.recommendedModel ?? "Claude",
+      categories: map(prompt?.categories, "name"),
+      fields: map(prompt?.fields, existingTemplateFieldInitValues),
+      globalFieldIds: prompt?.globalFieldIds ?? [],
    };
 };

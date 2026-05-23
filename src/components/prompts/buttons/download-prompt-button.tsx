@@ -11,26 +11,21 @@ import { downloadPrompt } from "@/data/actions/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    asMenuItem?: boolean;
-   className?: string;
 };
 
-export const DownloadTemplateButton = ({
-   descriptor,
-   asMenuItem,
-   className,
-}: Props) => {
+export const DownloadPromptButton = ({ prompt, asMenuItem }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const handleDownload = () => {
       startTransition(async () => {
-         const result = await downloadPrompt(descriptor.id);
+         const result = await downloadPrompt(prompt.id);
          if (result.success && result.data) {
             const blob = new Blob([result.data], {
                type: "application/json",
             });
-            const fileName = `${descriptor.title.replace(/\s+/g, "_")}.json`;
+            const fileName = `${prompt.title.replace(/\s+/g, "_")}.json`;
             saveAs(blob, fileName);
             toast.success("Vorlage heruntergeladen!");
          } else {
@@ -63,7 +58,7 @@ export const DownloadTemplateButton = ({
             onClick={handleDownload}
             disabled={isPending}
             className="cursor-pointer hover:bg-accent"
-            data-testid="download-template-menu-item"
+            data-testid="download-prompt-menu-item"
          >
             {label()}
          </DropdownMenuItem>
@@ -75,8 +70,8 @@ export const DownloadTemplateButton = ({
          variant="outline"
          onClick={handleDownload}
          disabled={isPending}
-         className={className ?? "cursor-pointer"}
-         data-testid="download-template-btn"
+         className="w-full cursor-pointer justify-start"
+         data-testid="download-prompt-btn"
       >
          {label()}
       </Button>

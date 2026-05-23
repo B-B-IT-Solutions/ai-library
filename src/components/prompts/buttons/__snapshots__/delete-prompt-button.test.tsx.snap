@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DeletePromptButton rendering tests asMenuItem false - test 1`] = `
+<div>
+  <button
+    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer justify-start text-red-600 hover:bg-red-50 hover:text-red-700"
+    data-slot="button"
+    data-testid="delete-prompt-btn"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-trash2 lucide-trash-2 mr-2 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 11v6"
+      />
+      <path
+        d="M14 11v6"
+      />
+      <path
+        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+      />
+      <path
+        d="M3 6h18"
+      />
+      <path
+        d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+      />
+    </svg>
+    Löschen
+  </button>
+  <div
+    data-slot="alert-dialog"
+    data-testid="mock-react-alert-dialog-root"
+  >
+    <div
+      data-slot="alert-dialog-portal"
+      data-testid="mock-react-alert-dialog-portal"
+    >
+      <div
+        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+        data-slot="alert-dialog-overlay"
+        data-testid="mock-react-alert-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DeletePromptButton rendering tests asMenuItem true - test 1`] = `
+<div>
+  <div
+    class="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer hover:bg-accent"
+    data-slot="dropdown-menu-item"
+    data-testid="delete-prompt-menu-item"
+    data-variant="destructive"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-trash2 lucide-trash-2 mr-2 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 11v6"
+      />
+      <path
+        d="M14 11v6"
+      />
+      <path
+        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+      />
+      <path
+        d="M3 6h18"
+      />
+      <path
+        d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+      />
+    </svg>
+    Löschen
+  </div>
+  <div
+    data-slot="alert-dialog"
+    data-testid="mock-react-alert-dialog-root"
+  >
+    <div
+      data-slot="alert-dialog-portal"
+      data-testid="mock-react-alert-dialog-portal"
+    >
+      <div
+        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+        data-slot="alert-dialog-overlay"
+        data-testid="mock-react-alert-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;

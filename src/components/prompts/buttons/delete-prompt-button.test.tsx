@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 import { deletePrompt } from "@/data/actions/prompt";
 
-import { DeleteTemplateButton } from "./delete-template-button";
+import { DeletePromptButton } from "./delete-prompt-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -18,27 +18,45 @@ const deletePromptMock = deletePrompt as jest.MockedFunction<
    typeof deletePrompt
 >;
 
-const assertRendered = () => {
-   const deleteBtn = screen.getByTestId("delete-template-menu-item");
+const assertMenuItemRendered = () => {
+   const deleteMenuItem = screen.getByTestId("delete-prompt-menu-item");
+   assertInDocument(deleteMenuItem);
+};
+
+const assertBtnRendered = () => {
+   const deleteBtn = screen.getByTestId("delete-prompt-btn");
    assertInDocument(deleteBtn);
 };
 
-describe("DeleteTemplateButton rendering tests", () => {
-   it("rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
+describe("DeletePromptButton rendering tests", () => {
+   it("asMenuItem true - test", async () => {
+      const prompt = dtestData.dPrompt();
       const { container } = render(
-         <DeleteTemplateButton descriptor={descriptor} />
+         <DeletePromptButton prompt={prompt} asMenuItem={true} />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("asMenuItem false - test", async () => {
+      const prompt = dtestData.dPrompt();
+      const { container } = render(
+         <DeletePromptButton prompt={prompt} asMenuItem={false} />
+      );
+
+      await waitFor(() => {
+         assertBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("DeleteTemplateButton functionality tests", () => {
+describe("DeletePromptButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/templates/test-id");
@@ -51,15 +69,15 @@ describe("DeleteTemplateButton functionality tests", () => {
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
-      const descriptor = dtestData.dPrompt();
-      render(<DeleteTemplateButton descriptor={descriptor} />);
+      const prompt = dtestData.dPrompt();
+      render(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-template-menu-item");
+      const deleteBtn = screen.getByTestId("delete-prompt-btn");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
@@ -71,7 +89,7 @@ describe("DeleteTemplateButton functionality tests", () => {
 
       await waitFor(() => {
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
-         expect(deletePromptMock).toHaveBeenCalledWith(descriptor.id);
+         expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/templates");
@@ -85,16 +103,16 @@ describe("DeleteTemplateButton functionality tests", () => {
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
-      const descriptor = dtestData.dPrompt();
-      render(<DeleteTemplateButton descriptor={descriptor} />);
+      const prompt = dtestData.dPrompt();
+      render(<DeletePromptButton prompt={prompt} asMenuItem={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertMenuItemRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-template-menu-item");
-      await userEvent.click(deleteBtn);
+      const deleteMenuItem = screen.getByTestId("delete-prompt-menu-item");
+      await userEvent.click(deleteMenuItem);
 
       await waitFor(() => {
          expect(deletePromptMock).not.toHaveBeenCalled();
@@ -105,7 +123,7 @@ describe("DeleteTemplateButton functionality tests", () => {
 
       await waitFor(() => {
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
-         expect(deletePromptMock).toHaveBeenCalledWith(descriptor.id);
+         expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/templates/test-id");
@@ -113,15 +131,15 @@ describe("DeleteTemplateButton functionality tests", () => {
    });
 
    it("cancel btn clicked - delete not called - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      render(<DeleteTemplateButton descriptor={descriptor} />);
+      const prompt = dtestData.dPrompt();
+      render(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-template-menu-item");
+      const deleteBtn = screen.getByTestId("delete-prompt-btn");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {

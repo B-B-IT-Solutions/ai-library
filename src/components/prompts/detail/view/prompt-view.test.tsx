@@ -2,10 +2,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { TemplateView } from "./template-view";
+import { PromptView } from "./prompt-view";
 
 const assertRendered = () => {
-   const libraryEntry = screen.getByTestId("template-view");
+   const libraryEntry = screen.getByTestId("prompt-view");
    const breadcrumb = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("template-view-form");
    const sidebar = screen.getByTestId("prompt-sidebar");
@@ -16,14 +16,11 @@ const assertRendered = () => {
    assertInDocument(sidebar);
 };
 
-describe("TemplateView rendering tests", () => {
+describe("PromptView rendering tests", () => {
    it("rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
       const prompt = dtestData.dPromptWithContent();
 
-      const { container } = render(
-         <TemplateView descriptor={descriptor} prompt={prompt} />
-      );
+      const { container } = render(<PromptView prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

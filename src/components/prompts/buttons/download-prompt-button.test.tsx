@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 import { downloadPrompt } from "@/data/actions/prompt";
 
-import { DownloadTemplateButton } from "./download-template-button";
+import { DownloadPromptButton } from "./download-prompt-button";
 
 const saveAsMock = saveAs as jest.MockedFunction<typeof saveAs>;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -21,20 +21,20 @@ const downloadPromptMock = downloadPrompt as jest.MockedFunction<
 >;
 
 const assertRenderedMenuItem = () => {
-   const downloadMenuItem = screen.getByTestId("download-template-menu-item");
+   const downloadMenuItem = screen.getByTestId("download-prompt-menu-item");
    assertInDocument(downloadMenuItem);
 };
 
 const assertRenderedBtn = () => {
-   const downloadBtn = screen.getByTestId("download-template-btn");
+   const downloadBtn = screen.getByTestId("download-prompt-btn");
    assertInDocument(downloadBtn);
 };
 
-describe("DownloadTemplateButton rendering tests", () => {
+describe("DownloadPromptButton rendering tests", () => {
    it("asMenuItem true - test", async () => {
       const descriptor = dtestData.dPrompt();
       const { container } = render(
-         <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
+         <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
       );
 
       await waitFor(() => {
@@ -47,7 +47,7 @@ describe("DownloadTemplateButton rendering tests", () => {
    it("asMenuItem false - test", async () => {
       const descriptor = dtestData.dPrompt();
       const { container } = render(
-         <DownloadTemplateButton descriptor={descriptor} asMenuItem={false} />
+         <DownloadPromptButton prompt={descriptor} asMenuItem={false} />
       );
 
       await waitFor(() => {
@@ -58,7 +58,7 @@ describe("DownloadTemplateButton rendering tests", () => {
    });
 });
 
-describe("DownloadTemplateButton functionality tests", () => {
+describe("DownloadPromptButton functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
@@ -72,16 +72,14 @@ describe("DownloadTemplateButton functionality tests", () => {
       downloadPromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
-      render(
-         <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
-      );
+      render(<DownloadPromptButton prompt={descriptor} asMenuItem={true} />);
 
       await waitFor(() => {
          assertRenderedMenuItem();
          expect(downloadPromptMock).not.toHaveBeenCalled();
       });
 
-      const menuItem = screen.getByTestId("download-template-menu-item");
+      const menuItem = screen.getByTestId("download-prompt-menu-item");
       await userEvent.click(menuItem);
 
       const blob = new Blob([result.data], {
@@ -109,14 +107,14 @@ describe("DownloadTemplateButton functionality tests", () => {
       downloadPromptMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPrompt();
-      render(<DownloadTemplateButton descriptor={descriptor} />);
+      render(<DownloadPromptButton prompt={descriptor} />);
 
       await waitFor(() => {
          assertRenderedBtn();
          expect(downloadPromptMock).not.toHaveBeenCalled();
       });
 
-      const downloadBtn = screen.getByTestId("download-template-btn");
+      const downloadBtn = screen.getByTestId("download-prompt-btn");
       await userEvent.click(downloadBtn);
 
       await waitFor(() => {
