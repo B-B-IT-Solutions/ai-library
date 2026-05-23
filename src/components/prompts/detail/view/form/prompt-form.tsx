@@ -1,22 +1,21 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { MDRenderer } from "@/components/shared/md";
-import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
 import { PromptText } from "./prompt-text";
 
 type Props = {
-   descriptor: DPrompt;
    prompt: DPromptWithContent;
 };
 
-export const PromptForm = ({ descriptor, prompt }: Props) => {
+export const PromptForm = ({ prompt }: Props) => {
    const categories = () => {
-      if (!isEmpty(descriptor.categories)) {
+      if (!isEmpty(prompt.categories)) {
          return (
             <div className="mb-3 flex flex-wrap gap-2" data-testid="categories">
-               {map(descriptor.categories, (cat) => (
+               {map(prompt.categories, (cat) => (
                   <span
                      key={cat.name}
                      className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
@@ -35,11 +34,11 @@ export const PromptForm = ({ descriptor, prompt }: Props) => {
          <div className="mb-8">
             {categories()}
             <h1 className="mb-2 text-3xl font-bold text-slate-900">
-               {descriptor.title}
+               {prompt.title}
             </h1>
             <p className="text-sm text-slate-500">
-               Erstellt {formatDateTime(descriptor.createdAt).dateTime} ·{" "}
-               {descriptor.recommendedModel}
+               Erstellt {formatDateTime(prompt.createdAt).dateTime} ·{" "}
+               {prompt.recommendedModel}
             </p>
          </div>
 
@@ -50,7 +49,7 @@ export const PromptForm = ({ descriptor, prompt }: Props) => {
                   Beschreibung
                </span>
             </div>
-            <MDRenderer>{descriptor.description}</MDRenderer>
+            <MDRenderer>{prompt.description}</MDRenderer>
          </div>
 
          {/* Prompt text */}

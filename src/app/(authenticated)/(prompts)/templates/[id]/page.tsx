@@ -38,7 +38,7 @@ export const PromptPage = async ({ params }: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="template-view-page">
-         <TemplateView descriptor={descriptor} template={template} />
+         <TemplateView descriptor={descriptor} prompt={template} />
       </div>
    );
 };

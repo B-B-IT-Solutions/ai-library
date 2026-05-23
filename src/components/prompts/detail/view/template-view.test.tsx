@@ -22,7 +22,7 @@ describe("TemplateView rendering tests", () => {
       const template = dtestData.dPromptWithContent();
 
       const { container } = render(
-         <TemplateView descriptor={descriptor} template={template} />
+         <TemplateView descriptor={descriptor} prompt={template} />
       );
 
       await waitFor(() => {

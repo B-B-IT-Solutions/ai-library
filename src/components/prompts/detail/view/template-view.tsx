@@ -6,10 +6,10 @@ import { PromptSidebar } from "./sidebar";
 
 type Props = {
    descriptor: DPrompt;
-   template: DPromptWithContent;
+   prompt: DPromptWithContent;
 };
 
-export const TemplateView = ({ descriptor, template }: Props) => {
+export const TemplateView = ({ prompt }: Props) => {
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
@@ -17,7 +17,7 @@ export const TemplateView = ({ descriptor, template }: Props) => {
       >
          {/* Sticky topbar */}
          <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center border-b border-slate-200 bg-white px-6">
-            <TemplateBreadcrumb variant="view" label={descriptor.title} />
+            <TemplateBreadcrumb variant="view" label={prompt.title} />
          </div>
 
          {/* Scrollable content */}
@@ -26,11 +26,11 @@ export const TemplateView = ({ descriptor, template }: Props) => {
                <div className="grid gap-8 lg:grid-cols-[1fr_260px]">
                   {/* Main content */}
                   <div className="rounded-xl bg-white p-6 shadow-sm">
-                     <PromptForm descriptor={descriptor} prompt={template} />
+                     <PromptForm prompt={prompt} />
                   </div>
 
                   {/* Sidebar */}
-                  <PromptSidebar prompt={descriptor} />
+                  <PromptSidebar prompt={prompt} />
                </div>
             </div>
          </div>

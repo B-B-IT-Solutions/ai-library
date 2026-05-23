@@ -26,13 +26,10 @@ const assertCategoriesNotRendered = () => {
 
 describe("LibraryEntryViewForm rendering tests", () => {
    it("categories empty - rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
-      descriptor.categories = [];
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
+      prompt.categories = [];
 
-      const { container } = render(
-         <PromptForm descriptor={descriptor} prompt={template} />
-      );
+      const { container } = render(<PromptForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -43,12 +40,9 @@ describe("LibraryEntryViewForm rendering tests", () => {
    });
 
    it("with categories - rendered test", async () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
 
-      const { container } = render(
-         <PromptForm descriptor={descriptor} prompt={template} />
-      );
+      const { container } = render(<PromptForm prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
