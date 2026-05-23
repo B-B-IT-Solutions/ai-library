@@ -4,7 +4,9 @@ jest.mock("sonner");
 import { getByTestId, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
+   assertHasAttribute,
    assertHasAttributeWithValue,
+   assertHasNoAttribute,
    assertInDocument,
    assertNotInDocument,
 } from "@tests";
@@ -20,12 +22,28 @@ const deleteUserMock = deleteUser as jest.MockedFunction<typeof deleteUser>;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const assertRendered = () => {
+const assertDeleteEnabledRendered = () => {
    const dialog = screen.getByTestId("delete-account-dialog");
    const deleteBtn = screen.getByTestId("delete-btn");
+   const notice = screen.queryByTestId("delete-blocked-notice");
 
    assertInDocument(dialog);
    assertInDocument(deleteBtn);
+   assertNotInDocument(notice);
+
+   assertHasNoAttribute(deleteBtn, "disabled");
+};
+
+const assertDeleteDisabledRendered = () => {
+   const dialog = screen.getByTestId("delete-account-dialog");
+   const deleteBtn = screen.getByTestId("delete-btn");
+   const notice = screen.getByTestId("delete-blocked-notice");
+
+   assertInDocument(dialog);
+   assertInDocument(deleteBtn);
+   assertInDocument(notice);
+
+   assertHasAttribute(deleteBtn, "disabled");
 };
 
 const assertPasswordRendered = () => {
@@ -57,11 +75,21 @@ const assertPasswordNotVisible = () => {
 };
 
 describe("DeleteAcountDialog rendering tests", () => {
-   it("rendered test", async () => {
-      const { container } = render(<DeleteAcountDialog />);
+   it("candelete true - test", async () => {
+      const { container } = render(<DeleteAcountDialog canDelete={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertDeleteEnabledRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("candelete false - test", async () => {
+      const { container } = render(<DeleteAcountDialog canDelete={false} />);
+
+      await waitFor(() => {
+         assertDeleteDisabledRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -80,10 +108,10 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcountDialog />);
+      render(<DeleteAcountDialog canDelete={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertDeleteEnabledRendered();
          assertPasswordNotRendered();
          expect(deleteUserMock).not.toHaveBeenCalled();
       });
@@ -131,10 +159,10 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcountDialog />);
+      render(<DeleteAcountDialog canDelete={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertDeleteEnabledRendered();
          assertPasswordNotRendered();
          expect(deleteUserMock).not.toHaveBeenCalled();
       });
@@ -182,10 +210,10 @@ describe("DeleteAcount functionality tests", () => {
       };
       deleteUserMock.mockResolvedValue(result);
 
-      render(<DeleteAcountDialog />);
+      render(<DeleteAcountDialog canDelete={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertDeleteEnabledRendered();
          assertPasswordNotRendered();
          expect(deleteUserMock).not.toHaveBeenCalled();
       });
@@ -208,10 +236,10 @@ describe("DeleteAcount functionality tests", () => {
    });
 
    it("show password btn clicked - test", async () => {
-      render(<DeleteAcountDialog />);
+      render(<DeleteAcountDialog canDelete={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertDeleteEnabledRendered();
          assertPasswordNotRendered();
          expect(deleteUserMock).not.toHaveBeenCalled();
       });

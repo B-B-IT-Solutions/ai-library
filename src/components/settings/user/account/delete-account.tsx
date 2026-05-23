@@ -1,4 +1,4 @@
-import { AlertTriangle, Lock } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 import {
    Card,
@@ -23,27 +23,6 @@ export const DeleteAcount = ({ subscription }: Props) => {
       return subscription.status === "CANCELED";
    };
 
-   const isDeletionAllowed = canDeleteAccount(subscription);
-
-   const dialog = () => {
-      return <DeleteAcountDialog />;
-   };
-
-   const blockedNotice = () => {
-      return (
-         <div
-            className="flex items-start gap-3 rounded-md border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950"
-            data-testid="delete-blocked-notice"
-         >
-            <Lock className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
-            <p className="text-sm text-amber-800 dark:text-amber-200">
-               Ihr Konto kann nicht gelöscht werden, solange ein aktives
-               Abonnement besteht. Bitte kündigen Sie zuerst Ihr Abonnement.
-            </p>
-         </div>
-      );
-   };
-
    return (
       <Card className="border-destructive" data-testid="delete-account">
          <CardHeader>
@@ -62,7 +41,7 @@ export const DeleteAcount = ({ subscription }: Props) => {
                   Löschen Sie Ihr Konto dauerhaft und alle zugehörigen Daten.
                   Diese Aktion kann nicht rückgängig gemacht werden.
                </p>
-               {isDeletionAllowed ? dialog() : blockedNotice()}
+               <DeleteAcountDialog canDelete={canDeleteAccount(subscription)} />
             </div>
          </CardContent>
       </Card>

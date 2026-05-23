@@ -1,5 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertHasAttribute,
+   assertHasNoAttribute,
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+} from "@tests";
 
 import { DeleteAcount } from "./delete-account";
 
@@ -10,18 +16,26 @@ const assertRendered = () => {
 
 const assertDeleteEnabledRendered = () => {
    const dialog = screen.getByTestId("delete-account-dialog");
+   const deleteBtn = screen.getByTestId("delete-btn");
    const notice = screen.queryByTestId("delete-blocked-notice");
 
    assertInDocument(dialog);
+   assertInDocument(deleteBtn);
    assertNotInDocument(notice);
+
+   assertHasNoAttribute(deleteBtn, "disabled");
 };
 
 const assertDeleteDisabledRendered = () => {
+   const dialog = screen.getByTestId("delete-account-dialog");
+   const deleteBtn = screen.getByTestId("delete-btn");
    const notice = screen.getByTestId("delete-blocked-notice");
-   const dialog = screen.queryByTestId("delete-account-dialog");
 
+   assertInDocument(dialog);
+   assertInDocument(deleteBtn);
    assertInDocument(notice);
-   assertNotInDocument(dialog);
+
+   assertHasAttribute(deleteBtn, "disabled");
 };
 
 describe("DeleteAcount rendering tests", () => {
