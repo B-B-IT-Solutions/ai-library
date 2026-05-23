@@ -66,7 +66,7 @@ export const DeleteTemplateButton = ({ descriptor, asButton }: Props) => {
       <>
          <Button
             variant="ghost"
-            size="sm"
+            // size="sm"
             onClick={() => setIsOpen(true)}
             className="w-full cursor-pointer justify-start text-red-600 hover:bg-red-50 hover:text-red-700"
             data-testid="delete-template-btn"
