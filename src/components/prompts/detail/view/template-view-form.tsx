@@ -1,6 +1,6 @@
-import { isEmpty, map } from "es-toolkit/compat";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { MDRenderer } from "@/components/shared/md";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
@@ -50,7 +50,7 @@ export const TemplateViewForm = ({ descriptor, template }: Props) => {
          {/* Description */}
          <div className="mb-8" data-testid="short-description">
             <div className="mb-3 border-t border-slate-200 pt-4">
-               <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+               <span className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                   Beschreibung
                </span>
             </div>

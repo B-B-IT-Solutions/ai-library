@@ -6,14 +6,16 @@ import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
    descriptor: DPrompt;
+   className?: string;
 };
 
-export const EditTemplateButton = ({ descriptor }: Props) => {
+export const EditTemplateButton = ({ descriptor, className }: Props) => {
    return (
       <Button
          asChild={true}
          variant="outline"
          size="sm"
+         className={className}
          data-testid="edit-template-btn"
       >
          <Link href={`/templates/${descriptor.id}/edit`}>

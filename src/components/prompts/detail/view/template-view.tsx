@@ -21,9 +21,8 @@ export const TemplateView = ({ descriptor, template }: Props) => {
          data-testid="template-view"
       >
          {/* Sticky topbar */}
-         <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
+         <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center border-b border-slate-200 bg-white px-6">
             <TemplateBreadcrumb variant="view" label={descriptor.title} />
-            <EditTemplateButton descriptor={descriptor} />
          </div>
 
          {/* Scrollable content */}
@@ -45,6 +44,10 @@ export const TemplateView = ({ descriptor, template }: Props) => {
                         className="w-full justify-center py-5 text-sm"
                      />
                      <div className="space-y-1 pt-1">
+                        <EditTemplateButton
+                           descriptor={descriptor}
+                           className="w-full cursor-pointer justify-start"
+                        />
                         <DownloadTemplateButton
                            descriptor={descriptor}
                            className="w-full cursor-pointer justify-start"
