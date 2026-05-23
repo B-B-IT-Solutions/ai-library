@@ -38,12 +38,18 @@ const assertDeleteDisabledRendered = () => {
    const dialog = screen.getByTestId("delete-account-dialog");
    const deleteBtn = screen.getByTestId("delete-btn");
    const notice = screen.getByTestId("delete-blocked-notice");
+   const subscriptionLink = screen.getByTestId("subscription-link");
 
    assertInDocument(dialog);
    assertInDocument(deleteBtn);
    assertInDocument(notice);
 
    assertHasAttribute(deleteBtn, "disabled");
+   assertHasAttributeWithValue(
+      subscriptionLink,
+      "href",
+      "/settings/subscription"
+   );
 };
 
 const assertPasswordRendered = () => {

@@ -2,9 +2,12 @@
 
 exports[`DeleteAcountDialog rendering tests candelete false - test 1`] = `
 <div>
-  <div>
+  <div
+    class="space-y-3"
+    data-testid="delete-account-dialog"
+  >
     <div
-      class="flex items-start gap-3 rounded-md border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950"
+      class="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800/60 dark:bg-amber-950/40"
       data-testid="delete-blocked-notice"
     >
       <svg
@@ -32,18 +35,35 @@ exports[`DeleteAcountDialog rendering tests candelete false - test 1`] = `
           d="M7 11V7a5 5 0 0 1 10 0v4"
         />
       </svg>
-      <p
-        class="text-sm text-amber-800 dark:text-amber-200"
+      <div
+        class="space-y-1"
       >
-        Ihr Konto kann nicht gelöscht werden, solange ein aktives Abonnement besteht. Bitte kündigen Sie zuerst Ihr Abonnement.
-      </p>
+        <p
+          class="text-sm font-medium text-amber-900 dark:text-amber-100"
+        >
+          Löschen nicht möglich
+        </p>
+        <p
+          class="text-sm text-amber-700 dark:text-amber-300"
+        >
+          Ihr Konto hat ein aktives Abonnement. Bitte kündigen Sie zuerst Ihr Abo, bevor Sie das Konto löschen.
+           
+          <a
+            class="font-medium underline underline-offset-4 hover:text-amber-900 dark:hover:text-amber-100"
+            data-testid="subscription-link"
+            href="/settings/subscription"
+          >
+            Zum Abonnement
+          </a>
+        </p>
+      </div>
     </div>
     <div
       data-slot="alert-dialog"
-      data-testid="delete-account-dialog"
+      data-testid="mock-react-alert-dialog-root"
     >
       <button
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer disabled:cursor-not-allowed"
         data-slot="button"
         data-testid="delete-btn"
         disabled=""
@@ -67,13 +87,16 @@ exports[`DeleteAcountDialog rendering tests candelete false - test 1`] = `
 
 exports[`DeleteAcountDialog rendering tests candelete true - test 1`] = `
 <div>
-  <div>
+  <div
+    class="space-y-3"
+    data-testid="delete-account-dialog"
+  >
     <div
       data-slot="alert-dialog"
-      data-testid="delete-account-dialog"
+      data-testid="mock-react-alert-dialog-root"
     >
       <button
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer disabled:cursor-not-allowed"
         data-slot="button"
         data-testid="delete-btn"
       >
