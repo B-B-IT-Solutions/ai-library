@@ -16,7 +16,11 @@ type Props = {
    className?: string;
 };
 
-export const DownloadTemplateButton = ({ descriptor, asMenuItem, className }: Props) => {
+export const DownloadTemplateButton = ({
+   descriptor,
+   asMenuItem,
+   className,
+}: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const handleDownload = () => {
@@ -48,7 +52,7 @@ export const DownloadTemplateButton = ({ descriptor, asMenuItem, className }: Pr
       return (
          <>
             <Download className="mr-2 h-4 w-4" />
-            <span>Herunterladen</span>
+            Herunterladen
          </>
       );
    };
