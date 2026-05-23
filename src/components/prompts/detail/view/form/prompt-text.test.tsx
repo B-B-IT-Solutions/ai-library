@@ -17,11 +17,11 @@ const assertRendered = () => {
    assertInDocument(copyBtn);
 };
 
-describe("PromptTextDisplay rendering tests", () => {
-   it("PromptTextDisplay rendered test", async () => {
-      const template = dtestData.dPromptWithContent();
+describe("PromptText rendering tests", () => {
+   it("rendered - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
 
-      const { container } = render(<PromptText prompt={template} />);
+      const { container } = render(<PromptText prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -31,16 +31,16 @@ describe("PromptTextDisplay rendering tests", () => {
    });
 });
 
-describe("PromptTextDisplay functionality tests", () => {
+describe("PromptText functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       jest.clearAllMocks();
    });
 
-   it("PromptTextDisplay - copy btn clicked - success - test", async () => {
-      const template = dtestData.dPromptWithContent();
+   it("copy btn clicked - success - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
 
-      render(<PromptText prompt={template} />);
+      render(<PromptText prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -52,18 +52,18 @@ describe("PromptTextDisplay functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(template.content);
+         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
          expect(copyBtn).toHaveTextContent("Kopiert!");
       });
    });
 
-   it("PromptTextDisplay - copy btn clicked - failed - test", async () => {
+   it("copy btn clicked - failed - test", async () => {
       const error = new Error("Clipboard error");
       writeTextMock.mockRejectedValue(error);
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
-      const template = dtestData.dPromptWithContent();
-      render(<PromptText prompt={template} />);
+      const prompt = dtestData.dPromptWithContent();
+      render(<PromptText prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -78,10 +78,10 @@ describe("PromptTextDisplay functionality tests", () => {
       });
    });
 
-   it("PromptTextDisplay - copy btn clicked - copied state resets after 2 seconds - test", async () => {
-      const template = dtestData.dPromptWithContent();
+   it("copy btn clicked - copied state resets after 2 seconds - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
 
-      render(<PromptText prompt={template} />);
+      render(<PromptText prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -91,7 +91,7 @@ describe("PromptTextDisplay functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(template.content);
+         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
          expect(copyBtn).toHaveTextContent("Kopiert!");
       });
 
