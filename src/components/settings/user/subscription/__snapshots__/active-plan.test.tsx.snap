@@ -34,7 +34,7 @@ exports[`SubscriptionStatus rendering tests Subscription - free plan - test 1`] 
         data-testid="view-plans-link"
         href="/subscription/pricing"
       >
-        View Plans
+        Pläne anzeigen
       </a>
     </div>
   </div>
@@ -402,7 +402,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - canceled 
           data-slot="button"
           data-testid="reactivate-subscription-btn"
         >
-          Reactivate
+          Reaktivieren
         </button>
       </div>
     </div>
@@ -600,7 +600,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - canceled 
           data-slot="button"
           data-testid="reactivate-subscription-btn"
         >
-          Reactivate
+          Reaktivieren
         </button>
       </div>
     </div>

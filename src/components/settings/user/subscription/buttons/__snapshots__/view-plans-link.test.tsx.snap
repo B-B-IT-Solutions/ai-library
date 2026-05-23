@@ -8,7 +8,7 @@ exports[`ViewPlansLink rendering tests ViewPlansLink rendered test 1`] = `
     data-testid="view-plans-link"
     href="/subscription/pricing"
   >
-    View Plans
+    Pläne anzeigen
   </a>
 </div>
 `;
