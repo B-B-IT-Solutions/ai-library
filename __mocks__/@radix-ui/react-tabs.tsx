@@ -52,6 +52,7 @@ const Trigger: React.FC<{
 
    return (
       <button
+         type="button"
          data-testid={`mock-react-tabs-trigger-${value}`}
          data-state={isActive ? "active" : "inactive"}
          disabled={disabled}

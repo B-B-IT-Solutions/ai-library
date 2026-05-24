@@ -73,8 +73,8 @@ export const BasicInfo: FC<Props> = ({ control }) => {
       <section className="space-y-4" data-testid="basic-info">
          {title()}
          {description()}
-         {recommendedModel()}
          {renderCategories()}
+         {recommendedModel()}
       </section>
    );
 };

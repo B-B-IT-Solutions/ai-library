@@ -1,10 +1,9 @@
-﻿"use client";
+"use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Loader } from "lucide-react";
-import Link from "next/link";
+import { Maximize2, Minimize2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -12,7 +11,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
-import { Separator } from "@/components/shadcn/separator";
+import {
+   Tabs,
+   TabsContent,
+   TabsList,
+   TabsTrigger,
+} from "@/components/shadcn/tabs";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import {
@@ -40,12 +44,14 @@ type Props = {
    prompt?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
+   onSubmit: (isSubmiting: boolean) => void;
 };
 
 export const TemplateEditForm = ({
    prompt,
    collectionId,
    globalFields,
+   onSubmit: onSubmittingChange,
 }: Props) => {
    const router = useRouter();
    const isEdit = !!prompt;
@@ -53,6 +59,7 @@ export const TemplateEditForm = ({
    const form = useForm<DPromptUpdate>({
       resolver: zodResolver(updateTemplateSchema),
       defaultValues: initPromptTemplate(prompt),
+      mode: "onBlur",
    });
 
    const {
@@ -65,6 +72,11 @@ export const TemplateEditForm = ({
    });
 
    const { isSubmitting } = form.formState;
+   const [isEditorExpanded, setIsEditorExpanded] = useState(false);
+
+   useEffect(() => {
+      onSubmittingChange?.(isSubmitting);
+   }, [isSubmitting, onSubmittingChange]);
 
    const content = form.watch("content");
    const globalFieldIds = form.watch("globalFieldIds");
@@ -156,92 +168,90 @@ export const TemplateEditForm = ({
       }
    };
 
-   const cancelHref = isEdit
-      ? `/templates/${prompt!.id}`
-      : collectionId
-        ? `/collections/${collectionId}`
-        : "/templates";
-
-   const cancelBtn = () => {
-      return (
-         <Button
-            asChild={true}
-            type="button"
-            variant="outline"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid="cancel-btn"
-         >
-            <Link href={cancelHref}>Abbrechen</Link>
-         </Button>
-      );
-   };
-
-   const submitBtn = () => {
-      return (
-         <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid="save-btn"
-         >
-            {isSubmitting ? (
-               <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
-               </>
-            ) : (
-               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
-            )}
-         </Button>
-      );
-   };
-
-   const buttons = () => {
-      return (
-         <div className="flex items-center justify-end gap-3 pt-2">
-            {cancelBtn()}
-            {submitBtn()}
-         </div>
-      );
-   };
-
    return (
-      <Card data-testid="template-edit-form">
-         <CardContent>
-            <Form {...form}>
-               <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
-               >
-                  <BasicInfo control={form.control} />
-                  <Separator />
-                  <PromptTemplateContent control={form.control} />
-                  <Separator />
-                  <DetectedVariables
-                     detectedVariables={detectedVariables}
-                     variableStatus={variableStatus}
-                     onAddVariable={handleAddVariableAsField}
-                     onSyncAll={handleSyncAllVariables}
-                  />
-                  {detectedVariables.length > 0 && <Separator />}
-                  <PromptVariables
-                     fields={fields as DPromptVariable[]}
-                     detectedVariables={detectedVariables}
-                     globalFields={globalFields}
-                     globalFieldIds={form.watch("globalFieldIds")}
-                     onAddField={handleAddField}
-                     onRemoveField={removeField}
-                     onAddGlobalFieldIds={handleAddGlobalFieldIds}
-                     onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                     control={form.control}
-                     watch={form.watch}
-                  />
-                  <Separator />
-                  {buttons()}
-               </form>
-            </Form>
-         </CardContent>
-      </Card>
+      <div data-testid="template-edit-form" className="space-y-4">
+         <Form {...form}>
+            <form
+               id="template-edit-form"
+               onSubmit={form.handleSubmit(onSubmit)}
+               className="space-y-4"
+            >
+               {!isEditorExpanded && (
+                  <Card>
+                     <CardContent className="p-6">
+                        <BasicInfo control={form.control} />
+                     </CardContent>
+                  </Card>
+               )}
+               <Card>
+                  <CardContent className="p-6">
+                     <Tabs defaultValue="editor" data-testid="tabs">
+                        <div className="mb-4 flex items-center justify-between">
+                           <TabsList>
+                              <TabsTrigger
+                                 value="editor"
+                                 data-testid="editor-tab-trigger"
+                              >
+                                 Prompt-Editor
+                              </TabsTrigger>
+                              <TabsTrigger
+                                 value="variables"
+                                 data-testid="variables-tab-trigger"
+                              >
+                                 Vorlagen-Felder
+                                 {fields.length > 0 && (
+                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                       {fields.length}
+                                    </span>
+                                 )}
+                              </TabsTrigger>
+                           </TabsList>
+                           <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setIsEditorExpanded((v) => !v)}
+                              className="cursor-pointer text-slate-500 hover:text-slate-900"
+                              title={
+                                 isEditorExpanded ? "Verkleinern" : "Vergrößern"
+                              }
+                              data-testid="expand-editor-btn"
+                           >
+                              {isEditorExpanded ? (
+                                 <Minimize2 className="h-4 w-4" />
+                              ) : (
+                                 <Maximize2 className="h-4 w-4" />
+                              )}
+                           </Button>
+                        </div>
+                        <TabsContent value="editor">
+                           <PromptTemplateContent control={form.control} />
+                        </TabsContent>
+                        <TabsContent value="variables" className="space-y-6">
+                           <DetectedVariables
+                              detectedVariables={detectedVariables}
+                              variableStatus={variableStatus}
+                              onAddVariable={handleAddVariableAsField}
+                              onSyncAll={handleSyncAllVariables}
+                           />
+                           <PromptVariables
+                              fields={fields as DPromptVariable[]}
+                              detectedVariables={detectedVariables}
+                              globalFields={globalFields}
+                              globalFieldIds={form.watch("globalFieldIds")}
+                              onAddField={handleAddField}
+                              onRemoveField={removeField}
+                              onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                              onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
+                              control={form.control}
+                              watch={form.watch}
+                           />
+                        </TabsContent>
+                     </Tabs>
+                  </CardContent>
+               </Card>
+            </form>
+         </Form>
+      </div>
    );
 };
