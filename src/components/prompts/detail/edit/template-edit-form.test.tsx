@@ -37,7 +37,7 @@ const assertRendered = () => {
    const tabs = screen.getByTestId("tabs");
    const editorTab = screen.getByTestId("editor-tab-trigger");
    const variablesTab = screen.getByTestId("variables-tab-trigger");
-   const templateContent = screen.getByTestId("prompt-template-content");
+   const promptContent = screen.getByTestId("promt-content");
    const expandBtn = screen.getByTestId("expand-editor-btn");
 
    assertInDocument(form);
@@ -45,16 +45,16 @@ const assertRendered = () => {
    assertInDocument(tabs);
    assertInDocument(editorTab);
    assertInDocument(variablesTab);
-   assertInDocument(templateContent);
+   assertInDocument(promptContent);
    assertInDocument(expandBtn);
 };
 
 const assertEditorExpanded = () => {
-   const templateContent = screen.getByTestId("prompt-template-content");
+   const promptContent = screen.getByTestId("promt-content");
    const expandBtn = screen.getByTestId("expand-editor-btn");
    const basicInfo = screen.queryByTestId("basic-info");
 
-   assertInDocument(templateContent);
+   assertInDocument(promptContent);
    assertInDocument(expandBtn);
    assertNotInDocument(basicInfo);
 };

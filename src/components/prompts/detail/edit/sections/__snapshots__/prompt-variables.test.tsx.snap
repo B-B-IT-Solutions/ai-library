@@ -7,18 +7,18 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
     data-testid="prompt-variables"
   >
     <div
-      class="flex items-center justify-between"
+      class="flex items-start justify-between"
     >
       <div>
-        <h3
-          class="text-lg font-semibold text-slate-900"
+        <p
+          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
         >
-          Vorlagen-Felder
-        </h3>
+          Platzhalter konfigurieren
+        </p>
         <p
           class="mt-1 text-sm text-slate-500"
         >
-          Definieren Sie Felder, die Benutzer ausfüllen können
+          Definieren Sie Label und Feldtyp für jeden Platzhalter
         </p>
       </div>
       <div
@@ -1814,18 +1814,18 @@ exports[`PromptVariables rendering tests variables empty - test 1`] = `
     data-testid="prompt-variables"
   >
     <div
-      class="flex items-center justify-between"
+      class="flex items-start justify-between"
     >
       <div>
-        <h3
-          class="text-lg font-semibold text-slate-900"
+        <p
+          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
         >
-          Vorlagen-Felder
-        </h3>
+          Platzhalter konfigurieren
+        </p>
         <p
           class="mt-1 text-sm text-slate-500"
         >
-          Definieren Sie Felder, die Benutzer ausfüllen können
+          Definieren Sie Label und Feldtyp für jeden Platzhalter
         </p>
       </div>
       <div

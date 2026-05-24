@@ -24,7 +24,7 @@ const TestWrapper = () => {
 };
 
 const assertRendered = () => {
-   const section = screen.getByTestId("prompt-template-content");
+   const section = screen.getByTestId("promt-content");
    const content = screen.getByTestId("content");
 
    assertInDocument(section);
