@@ -95,11 +95,9 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
    return (
       <ItemDetailsEdit data-testid="template-edit">
          <ItemDetailsEditHeader>
-            <div className="flex items-center justify-between">
-               {breadcrumbs()}
-               <div className="hidden lg:flex" data-testid="header-actions">
-                  {actions()}
-               </div>
+            {breadcrumbs()}
+            <div className="ml-auto hidden lg:flex" data-testid="header-actions">
+               {actions()}
             </div>
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>

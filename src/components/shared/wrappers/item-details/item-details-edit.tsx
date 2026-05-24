@@ -13,7 +13,7 @@ const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
 const ItemDetailsEditHeader = ({ children, "data-testid": testId }: Props) => {
    return (
       <div
-         className="border-b border-slate-200 bg-white px-6 py-3"
+         className="sticky top-0 z-40 flex shrink-0 items-center border-b border-slate-200 bg-white px-6 py-3"
          data-testid={testId}
       >
          {children}
@@ -42,7 +42,7 @@ const ItemDetailsEditBreadcrumbs = ({
 
 const ItemDetailsEditBody = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div className="mx-auto max-w-5xl" data-testid={testId}>
+      <div className="mx-auto max-w-5xl px-6 py-8" data-testid={testId}>
          {children}
       </div>
    );
