@@ -68,7 +68,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
             type="submit"
             form="template-edit-form"
             disabled={isSubmitting}
-            className="cursor-pointer"
+            className="cursor-pointer bg-blue-600 hover:bg-blue-700"
             data-testid="save-btn"
          >
             {isSubmitting ? (
@@ -96,7 +96,10 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       <ItemDetailsEdit data-testid="template-edit">
          <ItemDetailsEditHeader>
             {breadcrumbs()}
-            <div className="ml-auto hidden lg:flex" data-testid="header-actions">
+            <div
+               className="ml-auto hidden lg:flex"
+               data-testid="header-actions"
+            >
                {actions()}
             </div>
          </ItemDetailsEditHeader>

@@ -25,7 +25,7 @@ export const CreatePromptButton = ({
          <>
             <Button
                size={size}
-               className="cursor-pointer gap-2"
+               className="cursor-pointer gap-2 bg-blue-600 hover:bg-blue-700"
                onClick={() => setDialogOpen(true)}
                data-testid="create-prompt-btn"
             >
@@ -49,7 +49,7 @@ export const CreatePromptButton = ({
       <Button
          asChild={true}
          size={size}
-         className="cursor-pointer gap-2"
+         className="cursor-pointer gap-2 bg-blue-600 hover:bg-blue-700"
          data-testid="create-prompt-btn"
       >
          <Link href={href}>
