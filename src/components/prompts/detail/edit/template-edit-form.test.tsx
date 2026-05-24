@@ -22,13 +22,7 @@ jest.mock("@/components/shared/md", () => {
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-   assertHasAttributeWithValue,
-   assertInDocument,
-   assertNotInDocument,
-   dtestData,
-} from "@tests";
-import mockRouter from "next-router-mock";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
 import { TemplateEditForm } from "./template-edit-form";
@@ -44,7 +38,6 @@ const assertRendered = () => {
    const editorTab = screen.getByTestId("editor-tab-trigger");
    const variablesTab = screen.getByTestId("variables-tab-trigger");
    const templateContent = screen.getByTestId("prompt-template-content");
-   // const variables = screen.getByTestId("prompt-variables");
 
    assertInDocument(form);
    assertInDocument(basicInfo);
@@ -52,7 +45,16 @@ const assertRendered = () => {
    assertInDocument(editorTab);
    assertInDocument(variablesTab);
    assertInDocument(templateContent);
-   // assertInDocument(variables);
+};
+
+const assertPromptVariablesRendered = () => {
+   const variables = screen.getByTestId("prompt-variables");
+   assertInDocument(variables);
+};
+
+const assertPromptVariablesNotRendered = () => {
+   const variables = screen.queryByTestId("prompt-variables");
+   assertNotInDocument(variables);
 };
 
 const assertDetectedVariablesRendered = () => {
@@ -99,6 +101,7 @@ describe("TemplateEditForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -118,6 +121,7 @@ describe("TemplateEditForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
       });
 
       const content = screen
@@ -151,6 +155,7 @@ describe("TemplateEditForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -172,171 +177,230 @@ describe("TemplateEditForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertDetectedVariablesRendered();
+         assertPromptVariablesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-// describe("TemplateEditForm functionality tests", () => {
-//    beforeEach(() => {
-//       jest.clearAllMocks();
-//       mockRouter.push("/");
-//    });
+describe("TemplateEditForm functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
 
-//    it("add global field btn clicked - test", async () => {
-//       const fields = dtestData.dGlobalPromptFields();
-//       render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+   it("add global field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
-//       assertRendered();
-//       assertGlobalFieldsNotRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
 
-//       const globalFieldBtn = screen.getByTestId(
-//          "global-template-fields-picker"
-//       );
-//       await userEvent.click(globalFieldBtn);
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
 
-//       const fieldOption1 = screen.getAllByTestId("field-option")[0];
-//       await userEvent.click(fieldOption1);
+      await waitFor(() => {
+         assertPromptVariablesRendered();
+      });
 
-//       assertGlobalFieldsNotRendered();
+      const globalFieldBtn = screen.getByTestId(
+         "global-template-fields-picker"
+      );
+      await userEvent.click(globalFieldBtn);
 
-//       const addBtn = screen.getByTestId("add-fields-btn");
-//       await userEvent.click(addBtn);
+      const fieldOption1 = screen.getAllByTestId("field-option")[0];
+      await userEvent.click(fieldOption1);
 
-//       assertGlobalFieldsRendered();
-//       expect(toastMock.success).toHaveBeenCalledTimes(1);
-//       expect(toastMock.success).toHaveBeenCalledWith(
-//          "1 globale Feld(er) hinzugefügt"
-//       );
-//    });
+      assertGlobalFieldsNotRendered();
 
-//    it("remove global field btn clicked - test", async () => {
-//       const prompt = dtestData.dPromptWithContent();
-//       const fields = dtestData.dGlobalPromptFields();
+      const addBtn = screen.getByTestId("add-fields-btn");
+      await userEvent.click(addBtn);
 
-//       render(
-//          <TemplateEditForm
-//             prompt={prompt}
-//             globalFields={fields}
-//             onSubmit={jest.fn()}
-//          />
-//       );
+      assertGlobalFieldsRendered();
+      expect(toastMock.success).toHaveBeenCalledTimes(1);
+      expect(toastMock.success).toHaveBeenCalledWith(
+         "1 globale Feld(er) hinzugefügt"
+      );
+   });
 
-//       assertRendered();
-//       assertGlobalFieldsRendered();
+   it("remove global field btn clicked - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
 
-//       const removeGlobalFieldBtn = screen.getByTestId(
-//          "remove-global-field-btn"
-//       );
-//       await userEvent.click(removeGlobalFieldBtn);
+      render(
+         <TemplateEditForm
+            prompt={prompt}
+            globalFields={fields}
+            onSubmit={jest.fn()}
+         />
+      );
 
-//       assertGlobalFieldsNotRendered();
-//    });
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
 
-//    it("add new template field btn clicked - test", async () => {
-//       const fields = dtestData.dGlobalPromptFields();
-//       render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
 
-//       assertRendered();
-//       assertTemplateFieldsEmptyRendered();
+      await waitFor(() => {
+         assertPromptVariablesRendered();
+         assertGlobalFieldsRendered();
+      });
 
-//       const variablesSection = screen.getByTestId("prompt-variables");
-//       const addFieldBtn = within(variablesSection).getByTestId("add-btn");
+      const removeGlobalFieldBtn = screen.getByTestId(
+         "remove-global-field-btn"
+      );
+      await userEvent.click(removeGlobalFieldBtn);
 
-//       await userEvent.click(addFieldBtn);
+      await waitFor(() => {
+         assertGlobalFieldsNotRendered();
+      });
+   });
 
-//       await waitFor(() => {
-//          assertTemplateFieldRendered();
-//       });
-//    });
+   it("add new template field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
-//    it("remove template field btn clicked - test", async () => {
-//       const fields = dtestData.dGlobalPromptFields();
-//       render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
 
-//       assertRendered();
-//       assertTemplateFieldsEmptyRendered();
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
 
-//       const variablesSection = screen.getByTestId("prompt-variables");
-//       const addFieldBtn = within(variablesSection).getByTestId("add-btn");
-//       await userEvent.click(addFieldBtn);
+      await waitFor(() => {
+         assertPromptVariablesRendered();
+         assertTemplateFieldsEmptyRendered();
+      });
 
-//       assertTemplateFieldRendered();
+      const variablesSection = screen.getByTestId("prompt-variables");
+      const addFieldBtn = within(variablesSection).getByTestId("add-btn");
 
-//       const variable = screen.getByTestId("prompt-variable");
-//       const removeBtn = within(variable).getByTestId("remove-btn");
-//       await userEvent.click(removeBtn);
+      await userEvent.click(addFieldBtn);
 
-//       await waitFor(() => {
-//          assertTemplateFieldsEmptyRendered();
-//       });
-//    });
+      await waitFor(() => {
+         assertTemplateFieldRendered();
+      });
+   });
 
-//    it("add variable as field - test", async () => {
-//       const fields = dtestData.dGlobalPromptFields();
-//       render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+   it("remove template field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
-//       assertRendered();
-//       assertDetectedVariablesNotRendered();
-//       assertTemplateFieldsEmptyRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
 
-//       const content = screen
-//          .getByTestId("tiptap-editor")
-//          .querySelector("input")!;
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
 
-//       await userEvent.type(content, "Hello {{{{name}}");
+      await waitFor(() => {
+         assertPromptVariablesRendered();
+         assertTemplateFieldsEmptyRendered();
+      });
 
-//       await waitFor(() => {
-//          assertDetectedVariablesRendered();
-//       });
+      const variablesSection = screen.getByTestId("prompt-variables");
+      const addFieldBtn = within(variablesSection).getByTestId("add-btn");
+      await userEvent.click(addFieldBtn);
 
-//       const detectedVariablesSection = screen.getByTestId("detected-variables");
-//       const addVariableBtn = within(detectedVariablesSection).getByTestId(
-//          "add-btn"
-//       );
+      assertTemplateFieldRendered();
 
-//       await userEvent.click(addVariableBtn);
+      const variable = screen.getByTestId("prompt-variable");
+      const removeBtn = within(variable).getByTestId("remove-btn");
+      await userEvent.click(removeBtn);
 
-//       await waitFor(() => {
-//          assertTemplateFieldRendered();
-//          expect(toastMock.success).toHaveBeenCalledTimes(1);
-//          expect(toastMock.success).toHaveBeenCalledWith(
-//             'Feld "name" hinzugefügt'
-//          );
-//       });
-//    });
+      await waitFor(() => {
+         assertTemplateFieldsEmptyRendered();
+      });
+   });
 
-//    it("sync all variables - test", async () => {
-//       const fields = dtestData.dGlobalPromptFields();
-//       render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+   it("add variable as field - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
-//       assertRendered();
-//       assertDetectedVariablesNotRendered();
-//       assertTemplateFieldsEmptyRendered();
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
 
-//       const content = screen
-//          .getByTestId("tiptap-editor")
-//          .querySelector("input")!;
+      // const variablesTab = screen.getByTestId("variables-tab-trigger");
+      // await userEvent.click(variablesTab);
 
-//       await userEvent.type(
-//          content,
-//          "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}"
-//       );
+      // await waitFor(() => {
+      //    assertPromptVariablesRendered();
+      //    assertTemplateFieldsEmptyRendered();
+      // });
 
-//       await waitFor(() => {
-//          assertDetectedVariablesRendered();
-//       });
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
 
-//       const detectedVariablesSection = screen.getByTestId("detected-variables");
-//       const syncAllBtn = within(detectedVariablesSection).getByTestId(
-//          "sync-all-btn"
-//       );
+      await userEvent.type(content, "Hello {{{{name}}");
 
-//       await userEvent.click(syncAllBtn);
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+      });
 
-//       await waitFor(() => {
-//          expect(toastMock.success).toHaveBeenCalledTimes(4);
-//       });
-//    });
-// });
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const addVariableBtn = within(detectedVariablesSection).getByTestId(
+         "add-btn"
+      );
+
+      await userEvent.click(addVariableBtn);
+
+      await waitFor(() => {
+         // assertTemplateFieldRendered();
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(
+            'Feld "name" hinzugefügt'
+         );
+      });
+   });
+
+   it("sync all variables - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesNotRendered();
+      });
+
+      // assertTemplateFieldsEmptyRendered();
+
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(
+         content,
+         "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}"
+      );
+
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+      });
+
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const syncAllBtn = within(detectedVariablesSection).getByTestId(
+         "sync-all-btn"
+      );
+
+      await userEvent.click(syncAllBtn);
+
+      await waitFor(() => {
+         expect(toastMock.success).toHaveBeenCalledTimes(4);
+      });
+   });
+});
