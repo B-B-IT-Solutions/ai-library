@@ -187,7 +187,7 @@ export const TemplateEditForm = ({
                               value="editor"
                               data-testid="editor-tab-trigger"
                            >
-                              Prompt-Editor
+                              Prompt
                            </TabsTrigger>
                            <TabsTrigger
                               value="variables"
