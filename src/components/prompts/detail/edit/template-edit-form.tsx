@@ -181,7 +181,7 @@ export const TemplateEditForm = ({
                )}
                <div className="rounded-xl bg-white p-6 shadow-sm">
                   <Tabs defaultValue="editor" data-testid="tabs">
-                     <div className="mb-4 flex items-center justify-between">
+                     <div className="mb-2 flex items-center justify-between">
                         <TabsList>
                            <TabsTrigger
                               value="editor"
