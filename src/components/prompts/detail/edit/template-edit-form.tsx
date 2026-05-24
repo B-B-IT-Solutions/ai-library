@@ -79,6 +79,7 @@ export const TemplateEditForm = ({
 
    const content = form.watch("content");
    const globalFieldIds = form.watch("globalFieldIds");
+   const watchedFields = form.watch("fields");
 
    const detectedVariables = useMemo(
       () => extractVariablesFromContent(content || ""),
@@ -86,16 +87,14 @@ export const TemplateEditForm = ({
    );
 
    const variableStatus = useMemo(() => {
-      const templateFieldNames = fields.map((f) =>
-         form.getValues(`fields.${fields.indexOf(f)}.name`)
-      );
+      const templateFieldNames = watchedFields.map((f) => f.name);
       const globalFieldNames = globalFields
          .filter((gf) => includes(globalFieldIds, gf.id))
          .map((gf) => gf.name);
 
       const allFieldNames = [...templateFieldNames, ...globalFieldNames];
       return getVariableStatus(detectedVariables, allFieldNames);
-   }, [detectedVariables, fields, form, globalFields, globalFieldIds]);
+   }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
 
    const handleAddField = () => {
       const order = fields.length;

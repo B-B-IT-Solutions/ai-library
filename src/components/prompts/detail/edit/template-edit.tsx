@@ -115,7 +115,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
          </ItemDetailsEditContent>
          {/* Mobile-only action buttons */}
          <div
-            className="flex justify-end lg:hidden"
+            className="flex justify-end border-t border-slate-200 bg-white px-6 py-3 lg:hidden"
             data-testid="footer-actions"
          >
             {actions()}

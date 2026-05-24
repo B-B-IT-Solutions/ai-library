@@ -2,13 +2,7 @@
 
 import { FC } from "react";
 import { includes, isEmpty, map } from "es-toolkit/compat";
-import {
-   AlertCircle,
-   CheckCircle2,
-   Plus,
-   RefreshCw,
-   Sparkles,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, Plus, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
@@ -32,20 +26,6 @@ export const DetectedVariables: FC<Props> = ({
    }
 
    const hasUndefinedVariables = !isEmpty(variableStatus.undefined);
-
-   const header = () => {
-      return (
-         <div>
-            <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-               <Sparkles className="h-5 w-5 text-indigo-600" />
-               Erkannte Variablen
-            </h3>
-            <p className="mt-1 text-sm text-slate-500">
-               Variablen, die in Ihrer Prompt-Vorlage gefunden wurden
-            </p>
-         </div>
-      );
-   };
 
    const renderDetectedVariable = (varName: string) => {
       const isDefined = !includes(variableStatus.undefined, varName);
@@ -112,8 +92,13 @@ export const DetectedVariables: FC<Props> = ({
    };
 
    return (
-      <section className="space-y-4" data-testid="detected-variables">
-         {header()}
+      <section className="space-y-2" data-testid="detected-variables">
+         <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+            Erkannte Platzhalter
+         </p>
+         <p className="text-sm text-slate-500">
+            Platzhalter, die im Prompt-Text gefunden wurden
+         </p>
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div className="mb-3 flex items-center justify-between">
                <div className="text-sm text-slate-700">

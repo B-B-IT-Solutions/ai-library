@@ -44,13 +44,13 @@ export const PromptVariables = ({
 
    const header = () => {
       return (
-         <div className="flex items-center justify-between">
+         <div className="flex items-start justify-between">
             <div>
-               <h3 className="text-lg font-semibold text-slate-900">
-                  Vorlagen-Felder
-               </h3>
+               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+                  Definierte Felder
+               </p>
                <p className="mt-1 text-sm text-slate-500">
-                  Definieren Sie Felder, die Benutzer ausfüllen können
+                  Felder, die Benutzer beim Anwenden ausfüllen können
                </p>
             </div>
             <div className="flex items-center gap-2">
