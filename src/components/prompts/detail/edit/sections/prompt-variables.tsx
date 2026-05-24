@@ -47,10 +47,10 @@ export const PromptVariables = ({
          <div className="flex items-start justify-between">
             <div>
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
-                  Definierte Felder
+                  Definierte Platzhalter
                </p>
                <p className="mt-1 text-sm text-slate-500">
-                  Felder, die Benutzer beim Anwenden ausfüllen können
+                  Platzhalter, für die ein Eingabefeld konfiguriert wurde
                </p>
             </div>
             <div className="flex items-center gap-2">
