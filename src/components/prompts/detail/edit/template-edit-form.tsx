@@ -193,7 +193,7 @@ export const TemplateEditForm = ({
                               value="variables"
                               data-testid="variables-tab-trigger"
                            >
-                              Vorlagen-Felder
+                              Platzhalter
                               {fields.length > 0 && (
                                  <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
                                     {fields.length}
