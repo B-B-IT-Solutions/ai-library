@@ -49,7 +49,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
 
    const actions = (): ReactNode => {
       return (
-         <>
+         <div className="flex items-center gap-2">
             <Button
                asChild
                type="button"
@@ -74,14 +74,17 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
                   <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
                )}
             </Button>
-         </>
+         </div>
       );
    };
 
    return (
       <ItemDetailsEdit data-testid="template-edit">
-         <ItemDetailsEditHeader actions={actions()}>
-            {breadcrumbs()}
+         <ItemDetailsEditHeader>
+            <div className="flex items-center justify-between">
+               {breadcrumbs()}
+               {actions()}
+            </div>
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBody>
