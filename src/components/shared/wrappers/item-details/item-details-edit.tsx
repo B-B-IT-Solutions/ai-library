@@ -12,7 +12,10 @@ const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
 
 const ItemDetailsEditHeader = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div className="border-slate-200 bg-white px-6 py-3" data-testid={testId}>
+      <div
+         className="border-b border-slate-200 bg-white px-6 py-3"
+         data-testid={testId}
+      >
          {children}
       </div>
    );

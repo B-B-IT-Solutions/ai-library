@@ -15,7 +15,7 @@ describe("ItemDetailsEdit rendering tests", () => {
       const { container } = render(
          <ItemDetailsEdit data-testid="item-details-edit">
             <div data-testid="test-child" />
-         </ItemDetailsEdit>,
+         </ItemDetailsEdit>
       );
 
       await waitFor(() => {
@@ -30,7 +30,7 @@ describe("ItemDetailsEdit rendering tests", () => {
       const { container } = render(
          <ItemDetailsEditHeader data-testid="item-details-edit-header">
             <div data-testid="test-child" />
-         </ItemDetailsEditHeader>,
+         </ItemDetailsEditHeader>
       );
 
       await waitFor(() => {
@@ -45,7 +45,7 @@ describe("ItemDetailsEdit rendering tests", () => {
       const { container } = render(
          <ItemDetailsEditContent data-testid="item-details-edit-content">
             <div data-testid="test-child" />
-         </ItemDetailsEditContent>,
+         </ItemDetailsEditContent>
       );
 
       await waitFor(() => {
@@ -60,7 +60,7 @@ describe("ItemDetailsEdit rendering tests", () => {
       const { container } = render(
          <ItemDetailsEditBreadcrumbs data-testid="item-details-edit-breadcrumbs">
             <div data-testid="test-child" />
-         </ItemDetailsEditBreadcrumbs>,
+         </ItemDetailsEditBreadcrumbs>
       );
 
       await waitFor(() => {
@@ -75,7 +75,7 @@ describe("ItemDetailsEdit rendering tests", () => {
       const { container } = render(
          <ItemDetailsEditBody data-testid="item-details-edit-body">
             <div data-testid="test-child" />
-         </ItemDetailsEditBody>,
+         </ItemDetailsEditBody>
       );
 
       await waitFor(() => {
@@ -100,7 +100,7 @@ describe("ItemDetailsEdit rendering tests", () => {
                   <div data-testid="test-body" />
                </ItemDetailsEditBody>
             </ItemDetailsEditContent>
-         </ItemDetailsEdit>,
+         </ItemDetailsEdit>
       );
 
       await waitFor(() => {
