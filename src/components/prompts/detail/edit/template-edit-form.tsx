@@ -9,7 +9,6 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import {
    Tabs,
@@ -177,79 +176,75 @@ export const TemplateEditForm = ({
                className="space-y-4"
             >
                {!isEditorExpanded && (
-                  <Card>
-                     <CardContent className="p-6">
-                        <BasicInfo control={form.control} />
-                     </CardContent>
-                  </Card>
+                  <div className="rounded-xl bg-white p-6 shadow-sm">
+                     <BasicInfo control={form.control} />
+                  </div>
                )}
-               <Card>
-                  <CardContent className="p-6">
-                     <Tabs defaultValue="editor" data-testid="tabs">
-                        <div className="mb-4 flex items-center justify-between">
-                           <TabsList>
-                              <TabsTrigger
-                                 value="editor"
-                                 data-testid="editor-tab-trigger"
-                              >
-                                 Prompt-Editor
-                              </TabsTrigger>
-                              <TabsTrigger
-                                 value="variables"
-                                 data-testid="variables-tab-trigger"
-                              >
-                                 Vorlagen-Felder
-                                 {fields.length > 0 && (
-                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
-                                       {fields.length}
-                                    </span>
-                                 )}
-                              </TabsTrigger>
-                           </TabsList>
-                           <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setIsEditorExpanded((v) => !v)}
-                              className="cursor-pointer text-slate-500 hover:text-slate-900"
-                              title={
-                                 isEditorExpanded ? "Verkleinern" : "Vergrößern"
-                              }
-                              data-testid="expand-editor-btn"
+               <div className="rounded-xl bg-white p-6 shadow-sm">
+                  <Tabs defaultValue="editor" data-testid="tabs">
+                     <div className="mb-4 flex items-center justify-between">
+                        <TabsList>
+                           <TabsTrigger
+                              value="editor"
+                              data-testid="editor-tab-trigger"
                            >
-                              {isEditorExpanded ? (
-                                 <Minimize2 className="h-4 w-4" />
-                              ) : (
-                                 <Maximize2 className="h-4 w-4" />
+                              Prompt-Editor
+                           </TabsTrigger>
+                           <TabsTrigger
+                              value="variables"
+                              data-testid="variables-tab-trigger"
+                           >
+                              Vorlagen-Felder
+                              {fields.length > 0 && (
+                                 <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                    {fields.length}
+                                 </span>
                               )}
-                           </Button>
-                        </div>
-                        <TabsContent value="editor">
-                           <PromptTemplateContent control={form.control} />
-                        </TabsContent>
-                        <TabsContent value="variables" className="space-y-6">
-                           <DetectedVariables
-                              detectedVariables={detectedVariables}
-                              variableStatus={variableStatus}
-                              onAddVariable={handleAddVariableAsField}
-                              onSyncAll={handleSyncAllVariables}
-                           />
-                           <PromptVariables
-                              fields={fields as DPromptVariable[]}
-                              detectedVariables={detectedVariables}
-                              globalFields={globalFields}
-                              globalFieldIds={form.watch("globalFieldIds")}
-                              onAddField={handleAddField}
-                              onRemoveField={removeField}
-                              onAddGlobalFieldIds={handleAddGlobalFieldIds}
-                              onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                              control={form.control}
-                              watch={form.watch}
-                           />
-                        </TabsContent>
-                     </Tabs>
-                  </CardContent>
-               </Card>
+                           </TabsTrigger>
+                        </TabsList>
+                        <Button
+                           type="button"
+                           variant="ghost"
+                           size="sm"
+                           onClick={() => setIsEditorExpanded((v) => !v)}
+                           className="cursor-pointer text-slate-500 hover:text-slate-900"
+                           title={
+                              isEditorExpanded ? "Verkleinern" : "Vergrößern"
+                           }
+                           data-testid="expand-editor-btn"
+                        >
+                           {isEditorExpanded ? (
+                              <Minimize2 className="h-4 w-4" />
+                           ) : (
+                              <Maximize2 className="h-4 w-4" />
+                           )}
+                        </Button>
+                     </div>
+                     <TabsContent value="editor">
+                        <PromptTemplateContent control={form.control} />
+                     </TabsContent>
+                     <TabsContent value="variables" className="space-y-6">
+                        <DetectedVariables
+                           detectedVariables={detectedVariables}
+                           variableStatus={variableStatus}
+                           onAddVariable={handleAddVariableAsField}
+                           onSyncAll={handleSyncAllVariables}
+                        />
+                        <PromptVariables
+                           fields={fields as DPromptVariable[]}
+                           detectedVariables={detectedVariables}
+                           globalFields={globalFields}
+                           globalFieldIds={form.watch("globalFieldIds")}
+                           onAddField={handleAddField}
+                           onRemoveField={removeField}
+                           onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                           onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
+                           control={form.control}
+                           watch={form.watch}
+                        />
+                     </TabsContent>
+                  </Tabs>
+               </div>
             </form>
          </Form>
       </div>
