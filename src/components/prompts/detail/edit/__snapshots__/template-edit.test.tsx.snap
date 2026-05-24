@@ -76,7 +76,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
         </nav>
         <div
           class="hidden lg:flex"
-          data-testid="header-btns"
+          data-testid="header-actions"
         >
           <div
             class="flex items-center gap-2"
@@ -1107,7 +1107,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
     </div>
     <div
       class="flex justify-end lg:hidden"
-      data-testid="footer-btns"
+      data-testid="footer-actions"
     >
       <div
         class="flex items-center gap-2"
@@ -1212,7 +1212,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
         </nav>
         <div
           class="hidden lg:flex"
-          data-testid="header-btns"
+          data-testid="header-actions"
         >
           <div
             class="flex items-center gap-2"
@@ -2129,7 +2129,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
     </div>
     <div
       class="flex justify-end lg:hidden"
-      data-testid="footer-btns"
+      data-testid="footer-actions"
     >
       <div
         class="flex items-center gap-2"
@@ -2234,7 +2234,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
         </nav>
         <div
           class="hidden lg:flex"
-          data-testid="header-btns"
+          data-testid="header-actions"
         >
           <div
             class="flex items-center gap-2"
@@ -3151,7 +3151,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
     </div>
     <div
       class="flex justify-end lg:hidden"
-      data-testid="footer-btns"
+      data-testid="footer-actions"
     >
       <div
         class="flex items-center gap-2"
