@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 
@@ -34,7 +34,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
         ? `/collections/${collectionId}`
         : "/templates";
 
-   const breadcrumbs = (): ReactNode => {
+   const breadcrumbs = () => {
       if (prompt) {
          return (
             <TemplateBreadcrumb
@@ -47,35 +47,47 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       return <TemplateBreadcrumb variant="new" />;
    };
 
+   const cancelBtn = () => {
+      return (
+         <Button
+            asChild={true}
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="cancel-btn"
+         >
+            <Link href={cancelHref}>Abbrechen</Link>
+         </Button>
+      );
+   };
+
+   const submitBtn = () => {
+      return (
+         <Button
+            type="submit"
+            form="template-edit-form"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="save-btn"
+         >
+            {isSubmitting ? (
+               <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+               </>
+            ) : (
+               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
+            )}
+         </Button>
+      );
+   };
+
    const actions = () => {
       return (
          <div className="flex items-center gap-2">
-            <Button
-               asChild={true}
-               type="button"
-               variant="outline"
-               disabled={isSubmitting}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               <Link href={cancelHref}>Abbrechen</Link>
-            </Button>
-            <Button
-               type="submit"
-               form="template-edit-form"
-               disabled={isSubmitting}
-               className="cursor-pointer"
-               data-testid="save-btn"
-            >
-               {isSubmitting ? (
-                  <>
-                     <Loader className="h-4 w-4 animate-spin" />
-                     {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
-                  </>
-               ) : (
-                  <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
-               )}
-            </Button>
+            {cancelBtn()}
+            {submitBtn()}
          </div>
       );
    };
