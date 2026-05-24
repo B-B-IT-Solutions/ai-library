@@ -47,11 +47,10 @@ export const PromptVariables = ({
          <div className="flex items-start justify-between">
             <div>
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
-                  Platzhalter mit Eingabefeldern
+                  Platzhalter konfigurieren
                </p>
                <p className="mt-1 text-sm text-slate-500">
-                  Konfigurieren Sie, wie die Platzhalter im Anwendungsformular
-                  erscheinen sollen
+                  Definieren Sie Label und Feldtyp für jeden Platzhalter
                </p>
             </div>
             <div className="flex items-center gap-2">
