@@ -21,7 +21,7 @@ export const PromptTemplateContent = ({ control }: Props) => {
          </p>
          <FormMDEditor<DPromptUpdate>
             name="content"
-            placeholder="Verwenden Sie {{feldname}} für Platzhalter, z.B. 'Schreibe einen Blog-Post über {{thema}}'"
+            placeholder="Du bist ein erfahrener {{rolle}}. Erstelle einen {{format}} über {{thema}} für {{zielgruppe}}."
             control={control}
          />
       </section>
