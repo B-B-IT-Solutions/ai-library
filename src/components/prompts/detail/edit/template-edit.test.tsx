@@ -1,8 +1,26 @@
-import { screen, waitFor } from "@testing-library/dom";
+import { getByTestId, screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
 import { TemplateEdit } from "./template-edit";
+
+const assertBtnRendered = () => {
+   const headerActions = screen.getByTestId("header-actions");
+   const headerCancelBtn = getByTestId(headerActions, "cancel-btn");
+   const headerSaveBtn = getByTestId(headerActions, "save-btn");
+
+   const footerActions = screen.getByTestId("footer-actions");
+   const footerCancelBtn = getByTestId(footerActions, "cancel-btn");
+   const footerSaveBtn = getByTestId(footerActions, "save-btn");
+
+   assertInDocument(headerActions);
+   assertInDocument(headerCancelBtn);
+   assertInDocument(headerSaveBtn);
+
+   assertInDocument(footerActions);
+   assertInDocument(footerCancelBtn);
+   assertInDocument(footerSaveBtn);
+};
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("template-edit");
@@ -12,6 +30,8 @@ const assertRendered = () => {
    assertInDocument(editEntry);
    assertInDocument(breadcrumbs);
    assertInDocument(form);
+
+   assertBtnRendered();
 };
 
 describe("TemplateEdit rendering tests", () => {

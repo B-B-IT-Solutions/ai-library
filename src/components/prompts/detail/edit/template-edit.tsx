@@ -97,7 +97,9 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
          <ItemDetailsEditHeader>
             <div className="flex items-center justify-between">
                {breadcrumbs()}
-               <div className="hidden lg:flex">{actions()}</div>
+               <div className="hidden lg:flex" data-testid="header-actions">
+                  {actions()}
+               </div>
             </div>
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
@@ -111,7 +113,12 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>
          {/* Mobile-only action buttons */}
-         <div className="flex justify-end lg:hidden">{actions()}</div>
+         <div
+            className="flex justify-end lg:hidden"
+            data-testid="footer-actions"
+         >
+            {actions()}
+         </div>
       </ItemDetailsEdit>
    );
 };
