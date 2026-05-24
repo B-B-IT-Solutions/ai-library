@@ -10,7 +10,7 @@ import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptGlobalPromptField } from "./prompt-global-template-field";
+import { PromptGlobalVariable } from "./prompt-global-variable";
 import { PromptVariable } from "./prompt-variable";
 
 type Props = {
@@ -78,7 +78,7 @@ export const PromptVariables = ({
    const renderGlobalField = (field: DGlobalPromptField) => {
       const isUsed = includes(detectedVariables, field.name);
       return (
-         <PromptGlobalPromptField
+         <PromptGlobalVariable
             key={field.id}
             field={field}
             isUsed={isUsed}
@@ -90,10 +90,7 @@ export const PromptVariables = ({
    const renderGlobalFields = () => {
       if (!isEmpty(resolvedGlobalFields)) {
          return (
-            <div
-               className="space-y-2"
-               data-testid="prompt-global-template-fields"
-            >
+            <div className="space-y-2" data-testid="prompt-global-variables">
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                   Globale Felder
                </p>

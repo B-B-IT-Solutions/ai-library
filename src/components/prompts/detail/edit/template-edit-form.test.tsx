@@ -79,7 +79,7 @@ const assertDetectedVariablesNotRendered = () => {
    assertNotInDocument(variables);
 };
 
-const assertTemplateFieldsEmptyRendered = () => {
+const assertPromptVariablesEmptyRendered = () => {
    const fieldsEmpty = screen.getByTestId("fields-empty");
    const variable = screen.queryByTestId("prompt-variable");
    assertInDocument(fieldsEmpty);
@@ -94,7 +94,7 @@ const assertTemplateFieldsRendered = (count: number) => {
    assertNotInDocument(fieldsEmpty);
 };
 
-const assertTemplateFieldRendered = () => {
+const assertPromptVariableRendered = () => {
    const variable = screen.getByTestId("prompt-variable");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
 
@@ -102,13 +102,13 @@ const assertTemplateFieldRendered = () => {
    assertNotInDocument(fieldsEmpty);
 };
 
-const assertGlobalFieldsRendered = () => {
-   const globalFields = screen.getByTestId("prompt-global-template-fields");
+const assertGlobalVariablesRendered = () => {
+   const globalFields = screen.getByTestId("prompt-global-variables");
    assertInDocument(globalFields);
 };
 
-const assertGlobalFieldsNotRendered = () => {
-   const globalFields = screen.queryByTestId("prompt-global-template-fields");
+const assertGlobalVariablesNotRendered = () => {
+   const globalFields = screen.queryByTestId("prompt-global-variables");
    assertNotInDocument(globalFields);
 };
 
@@ -301,12 +301,12 @@ describe("TemplateEditForm functionality tests", () => {
       const fieldOption1 = screen.getAllByTestId("field-option")[0];
       await userEvent.click(fieldOption1);
 
-      assertGlobalFieldsNotRendered();
+      assertGlobalVariablesNotRendered();
 
       const addBtn = screen.getByTestId("add-fields-btn");
       await userEvent.click(addBtn);
 
-      assertGlobalFieldsRendered();
+      assertGlobalVariablesRendered();
       expect(toastMock.success).toHaveBeenCalledTimes(1);
       expect(toastMock.success).toHaveBeenCalledWith(
          "1 globale Feld(er) hinzugefügt"
@@ -336,7 +336,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          assertPromptVariablesRendered();
-         assertGlobalFieldsRendered();
+         assertGlobalVariablesRendered();
       });
 
       const removeGlobalFieldBtn = screen.getByTestId(
@@ -345,7 +345,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(removeGlobalFieldBtn);
 
       await waitFor(() => {
-         assertGlobalFieldsNotRendered();
+         assertGlobalVariablesNotRendered();
       });
    });
 
@@ -364,7 +364,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          assertPromptVariablesRendered();
-         assertTemplateFieldsEmptyRendered();
+         assertPromptVariablesEmptyRendered();
       });
 
       const variablesSection = screen.getByTestId("prompt-variables");
@@ -373,7 +373,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(addFieldBtn);
 
       await waitFor(() => {
-         assertTemplateFieldRendered();
+         assertPromptVariableRendered();
       });
    });
 
@@ -392,21 +392,21 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          assertPromptVariablesRendered();
-         assertTemplateFieldsEmptyRendered();
+         assertPromptVariablesEmptyRendered();
       });
 
       const variablesSection = screen.getByTestId("prompt-variables");
       const addFieldBtn = within(variablesSection).getByTestId("add-btn");
       await userEvent.click(addFieldBtn);
 
-      assertTemplateFieldRendered();
+      assertPromptVariableRendered();
 
       const variable = screen.getByTestId("prompt-variable");
       const removeBtn = within(variable).getByTestId("remove-btn");
       await userEvent.click(removeBtn);
 
       await waitFor(() => {
-         assertTemplateFieldsEmptyRendered();
+         assertPromptVariablesEmptyRendered();
       });
    });
 
@@ -430,7 +430,7 @@ describe("TemplateEditForm functionality tests", () => {
       await waitFor(() => {
          assertDetectedVariablesRendered();
          assertPromptVariablesRendered();
-         assertTemplateFieldsEmptyRendered();
+         assertPromptVariablesEmptyRendered();
       });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");
@@ -441,7 +441,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(addVariableBtn);
 
       await waitFor(() => {
-         assertTemplateFieldRendered();
+         assertPromptVariableRendered();
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             'Feld "name" hinzugefügt'
@@ -472,7 +472,7 @@ describe("TemplateEditForm functionality tests", () => {
       await waitFor(() => {
          assertDetectedVariablesRendered();
          assertPromptVariablesRendered();
-         assertTemplateFieldsEmptyRendered();
+         assertPromptVariablesEmptyRendered();
       });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");

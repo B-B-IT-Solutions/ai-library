@@ -13,7 +13,7 @@ type Props = {
    onRemoveGlobalFieldId: (id: string) => void;
 };
 
-export const PromptGlobalPromptField = ({
+export const PromptGlobalVariable = ({
    field,
    isUsed,
    onRemoveGlobalFieldId,
@@ -26,7 +26,7 @@ export const PromptGlobalPromptField = ({
                ? "border-green-200 bg-green-50"
                : "border-orange-200 bg-orange-50"
          }`}
-         data-testid="prompt-global-template-field"
+         data-testid="prompt-global-variable"
       >
          <div className="flex items-center gap-3">
             <div>
