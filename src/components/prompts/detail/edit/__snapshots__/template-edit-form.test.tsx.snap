@@ -356,6 +356,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
                   data-slot="tabs-trigger"
                   data-state="active"
                   data-testid="editor-tab-trigger"
+                  type="button"
                 >
                   Prompt-Editor
                 </button>
@@ -364,6 +365,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
                   data-slot="tabs-trigger"
                   data-state="inactive"
                   data-testid="variables-tab-trigger"
+                  type="button"
                 >
                   Vorlagen-Felder
                   <span
@@ -845,6 +847,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
                   data-slot="tabs-trigger"
                   data-state="active"
                   data-testid="editor-tab-trigger"
+                  type="button"
                 >
                   Prompt-Editor
                 </button>
@@ -853,6 +856,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
                   data-slot="tabs-trigger"
                   data-state="inactive"
                   data-testid="variables-tab-trigger"
+                  type="button"
                 >
                   Vorlagen-Felder
                   <span
@@ -1509,6 +1513,7 @@ exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
                   data-slot="tabs-trigger"
                   data-state="active"
                   data-testid="editor-tab-trigger"
+                  type="button"
                 >
                   Prompt-Editor
                 </button>
@@ -1517,6 +1522,7 @@ exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
                   data-slot="tabs-trigger"
                   data-state="inactive"
                   data-testid="variables-tab-trigger"
+                  type="button"
                 >
                   Vorlagen-Felder
                 </button>
@@ -1884,6 +1890,7 @@ exports[`TemplateEditForm rendering tests new entry - variables detected in cont
                   data-slot="tabs-trigger"
                   data-state="active"
                   data-testid="editor-tab-trigger"
+                  type="button"
                 >
                   Prompt-Editor
                 </button>
@@ -1892,6 +1899,7 @@ exports[`TemplateEditForm rendering tests new entry - variables detected in cont
                   data-slot="tabs-trigger"
                   data-state="inactive"
                   data-testid="variables-tab-trigger"
+                  type="button"
                 >
                   Vorlagen-Felder
                 </button>
