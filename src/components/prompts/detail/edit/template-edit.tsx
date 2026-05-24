@@ -47,15 +47,16 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       return <TemplateBreadcrumb variant="new" />;
    };
 
-   const actions = (): ReactNode => {
+   const actions = () => {
       return (
          <div className="flex items-center gap-2">
             <Button
-               asChild
+               asChild={true}
                type="button"
                variant="outline"
                disabled={isSubmitting}
                className="cursor-pointer"
+               data-testid="cancel-btn"
             >
                <Link href={cancelHref}>Abbrechen</Link>
             </Button>
@@ -64,6 +65,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
                form="template-edit-form"
                disabled={isSubmitting}
                className="cursor-pointer"
+               data-testid="save-btn"
             >
                {isSubmitting ? (
                   <>
@@ -83,7 +85,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
          <ItemDetailsEditHeader>
             <div className="flex items-center justify-between">
                {breadcrumbs()}
-               {actions()}
+               <div className="hidden lg:flex">{actions()}</div>
             </div>
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
@@ -92,9 +94,11 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
                   prompt={prompt}
                   collectionId={collectionId}
                   globalFields={globalFields}
-                  onSubmittingChange={setIsSubmitting}
+                  onSubmit={setIsSubmitting}
                />
             </ItemDetailsEditBody>
+            {/* Mobile-only action buttons */}
+            <div className="flex justify-end lg:hidden">{actions()}</div>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>
    );

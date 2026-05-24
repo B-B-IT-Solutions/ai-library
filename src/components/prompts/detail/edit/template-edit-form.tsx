@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Loader, Maximize2, Minimize2 } from "lucide-react";
-import Link from "next/link";
+import { Maximize2, Minimize2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -45,14 +44,14 @@ type Props = {
    prompt?: DPromptWithContent;
    collectionId?: string;
    globalFields: DGlobalPromptField[];
-   onSubmittingChange?: (isSubmitting: boolean) => void;
+   onSubmit: (isSubmiting: boolean) => void;
 };
 
 export const TemplateEditForm = ({
    prompt,
    collectionId,
    globalFields,
-   onSubmittingChange,
+   onSubmit: onSubmittingChange,
 }: Props) => {
    const router = useRouter();
    const isEdit = !!prompt;
@@ -169,47 +168,6 @@ export const TemplateEditForm = ({
       }
    };
 
-   const cancelHref = isEdit
-      ? `/templates/${prompt!.id}`
-      : collectionId
-        ? `/collections/${collectionId}`
-        : "/templates";
-
-   const cancelBtn = () => {
-      return (
-         <Button
-            asChild={true}
-            type="button"
-            variant="outline"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid="cancel-btn"
-         >
-            <Link href={cancelHref}>Abbrechen</Link>
-         </Button>
-      );
-   };
-
-   const submitBtn = () => {
-      return (
-         <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid="save-btn"
-         >
-            {isSubmitting ? (
-               <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
-               </>
-            ) : (
-               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
-            )}
-         </Button>
-      );
-   };
-
    return (
       <div data-testid="template-edit-form" className="space-y-4">
          <Form {...form}>
@@ -285,11 +243,6 @@ export const TemplateEditForm = ({
                      </Tabs>
                   </CardContent>
                </Card>
-               {/* Mobile-only action buttons (desktop uses sticky header) */}
-               <div className="flex items-center justify-end gap-3 lg:hidden">
-                  {cancelBtn()}
-                  {submitBtn()}
-               </div>
             </form>
          </Form>
       </div>
