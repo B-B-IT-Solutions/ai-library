@@ -86,6 +86,14 @@ const assertTemplateFieldsEmptyRendered = () => {
    assertNotInDocument(variable);
 };
 
+const assertTemplateFieldsRendered = (count: number) => {
+   const variables = screen.getAllByTestId("prompt-variable");
+   const fieldsEmpty = screen.queryByTestId("fields-empty");
+
+   expect(variables).toHaveLength(count);
+   assertNotInDocument(fieldsEmpty);
+};
+
 const assertTemplateFieldRendered = () => {
    const variable = screen.getByTestId("prompt-variable");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
@@ -112,41 +120,16 @@ describe("TemplateEditForm rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertDetectedVariablesNotRendered();
-         assertPromptVariablesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
-   });
 
-   it("new entry - variables detected in content - test", async () => {
-      const collectionId = "collection-id-123";
-
-      const { container } = render(
-         <TemplateEditForm
-            globalFields={[]}
-            collectionId={collectionId}
-            onSubmit={jest.fn()}
-         />
-      );
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
 
       await waitFor(() => {
-         assertRendered();
          assertDetectedVariablesNotRendered();
-         assertPromptVariablesNotRendered();
-      });
-
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(
-         content,
-         "Hello {{{{name}}, your role is {{{{role}}"
-      );
-
-      await waitFor(() => {
-         assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -166,8 +149,16 @@ describe("TemplateEditForm rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
          assertDetectedVariablesNotRendered();
-         assertPromptVariablesNotRendered();
+         assertPromptVariablesRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -186,13 +177,75 @@ describe("TemplateEditForm rendering tests", () => {
             onSubmit={jest.fn()}
          />
       );
+
       await waitFor(() => {
          assertRendered();
-         assertDetectedVariablesRendered();
-         assertPromptVariablesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
+
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+});
+
+describe("TemplateEditForm variables detection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("new entry - variables detected in content - test", async () => {
+      const collectionId = "collection-id-123";
+
+      render(
+         <TemplateEditForm
+            globalFields={[]}
+            collectionId={collectionId}
+            onSubmit={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
+         assertDetectedVariablesNotRendered();
+         assertPromptVariablesRendered();
+      });
+
+      const editorTab = screen.getByTestId("editor-tab-trigger");
+      await userEvent.click(editorTab);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(
+         content,
+         "Hello {{{{name}}, your role is {{{{role}}"
+      );
+
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+      });
    });
 });
 
@@ -363,17 +416,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertDetectedVariablesNotRendered();
-         assertPromptVariablesNotRendered();
       });
-
-      // const variablesTab = screen.getByTestId("variables-tab-trigger");
-      // await userEvent.click(variablesTab);
-
-      // await waitFor(() => {
-      //    assertPromptVariablesRendered();
-      //    assertTemplateFieldsEmptyRendered();
-      // });
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -381,8 +424,13 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.type(content, "Hello {{{{name}}");
 
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
       await waitFor(() => {
          assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+         assertTemplateFieldsEmptyRendered();
       });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");
@@ -393,7 +441,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(addVariableBtn);
 
       await waitFor(() => {
-         // assertTemplateFieldRendered();
+         assertTemplateFieldRendered();
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             'Feld "name" hinzugefügt'
@@ -407,11 +455,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertDetectedVariablesNotRendered();
-         assertPromptVariablesNotRendered();
       });
-
-      // assertTemplateFieldsEmptyRendered();
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -422,8 +466,13 @@ describe("TemplateEditForm functionality tests", () => {
          "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}"
       );
 
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
       await waitFor(() => {
          assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+         assertTemplateFieldsEmptyRendered();
       });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");
@@ -434,6 +483,7 @@ describe("TemplateEditForm functionality tests", () => {
       await userEvent.click(syncAllBtn);
 
       await waitFor(() => {
+         assertTemplateFieldsRendered(3);
          expect(toastMock.success).toHaveBeenCalledTimes(4);
       });
    });

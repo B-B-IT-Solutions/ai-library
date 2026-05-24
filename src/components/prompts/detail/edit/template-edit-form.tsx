@@ -224,16 +224,16 @@ export const TemplateEditForm = ({
                               )}
                            </Button>
                         </div>
-                        <TabsContent value="editor" className="space-y-6">
+                        <TabsContent value="editor">
                            <PromptTemplateContent control={form.control} />
+                        </TabsContent>
+                        <TabsContent value="variables" className="space-y-6">
                            <DetectedVariables
                               detectedVariables={detectedVariables}
                               variableStatus={variableStatus}
                               onAddVariable={handleAddVariableAsField}
                               onSyncAll={handleSyncAllVariables}
                            />
-                        </TabsContent>
-                        <TabsContent value="variables">
                            <PromptVariables
                               fields={fields as DPromptVariable[]}
                               detectedVariables={detectedVariables}
