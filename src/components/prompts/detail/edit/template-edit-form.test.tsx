@@ -38,6 +38,7 @@ const assertRendered = () => {
    const editorTab = screen.getByTestId("editor-tab-trigger");
    const variablesTab = screen.getByTestId("variables-tab-trigger");
    const templateContent = screen.getByTestId("prompt-template-content");
+   const expandBtn = screen.getByTestId("expand-editor-btn");
 
    assertInDocument(form);
    assertInDocument(basicInfo);
@@ -45,6 +46,17 @@ const assertRendered = () => {
    assertInDocument(editorTab);
    assertInDocument(variablesTab);
    assertInDocument(templateContent);
+   assertInDocument(expandBtn);
+};
+
+const assertEditorExpanded = () => {
+   const templateContent = screen.getByTestId("prompt-template-content");
+   const expandBtn = screen.getByTestId("expand-editor-btn");
+   const basicInfo = screen.queryByTestId("basic-info");
+
+   assertInDocument(templateContent);
+   assertInDocument(expandBtn);
+   assertNotInDocument(basicInfo);
 };
 
 const assertPromptVariablesRendered = () => {
@@ -187,6 +199,28 @@ describe("TemplateEditForm rendering tests", () => {
 describe("TemplateEditForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+   });
+
+   it("expand btn clicked - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const expandBtn = screen.getByTestId("expand-editor-btn");
+      await userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertEditorExpanded();
+      });
+
+      await userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertRendered();
+      });
    });
 
    it("add global field btn clicked - test", async () => {

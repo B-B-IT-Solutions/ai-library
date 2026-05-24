@@ -215,6 +215,7 @@ export const TemplateEditForm = ({
                               title={
                                  isEditorExpanded ? "Verkleinern" : "Vergrößern"
                               }
+                              data-testid="expand-editor-btn"
                            >
                               {isEditorExpanded ? (
                                  <Minimize2 className="h-4 w-4" />
