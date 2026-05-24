@@ -109,9 +109,9 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
                   onSubmit={setIsSubmitting}
                />
             </ItemDetailsEditBody>
-            {/* Mobile-only action buttons */}
-            <div className="flex justify-end lg:hidden">{actions()}</div>
          </ItemDetailsEditContent>
+         {/* Mobile-only action buttons */}
+         <div className="flex justify-end lg:hidden">{actions()}</div>
       </ItemDetailsEdit>
    );
 };
