@@ -185,13 +185,19 @@ export const TemplateEditForm = ({
                )}
                <Card>
                   <CardContent className="p-6">
-                     <Tabs defaultValue="editor">
+                     <Tabs defaultValue="editor" data-testid="tabs">
                         <div className="mb-4 flex items-center justify-between">
                            <TabsList>
-                              <TabsTrigger value="editor">
+                              <TabsTrigger
+                                 value="editor"
+                                 data-testid="editor-tab-trigger"
+                              >
                                  Prompt-Editor
                               </TabsTrigger>
-                              <TabsTrigger value="fields">
+                              <TabsTrigger
+                                 value="variables"
+                                 data-testid="variables-tab-trigger"
+                              >
                                  Vorlagen-Felder
                                  {fields.length > 0 && (
                                     <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
@@ -226,7 +232,7 @@ export const TemplateEditForm = ({
                               onSyncAll={handleSyncAllVariables}
                            />
                         </TabsContent>
-                        <TabsContent value="fields">
+                        <TabsContent value="variables">
                            <PromptVariables
                               fields={fields as DPromptVariable[]}
                               detectedVariables={detectedVariables}

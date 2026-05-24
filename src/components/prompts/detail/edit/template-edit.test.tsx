@@ -24,6 +24,7 @@ import { getByTestId, screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    dtestData,
    typeIntoInput,
@@ -72,6 +73,17 @@ const assertBtnRendered = () => {
    assertInDocument(footerSaveBtn);
 };
 
+const assertCancelBtnHref = (href: string) => {
+   const headerActions = screen.getByTestId("header-actions");
+   const headerCancelBtn = getByTestId(headerActions, "cancel-btn");
+
+   const footerActions = screen.getByTestId("footer-actions");
+   const footerCancelBtn = getByTestId(footerActions, "cancel-btn");
+
+   assertHasAttributeWithValue(headerCancelBtn, "href", href);
+   assertHasAttributeWithValue(footerCancelBtn, "href", href);
+};
+
 const assertRendered = () => {
    const editEntry = screen.getByTestId("template-edit");
    const breadcrumbs = screen.getByTestId("template-breadcrumb");
@@ -90,18 +102,22 @@ describe("TemplateEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertCancelBtnHref("/templates");
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("new entry - collectionId defined - test", async () => {
+      const collectionId = "collection-id-123";
+
       const { container } = render(
-         <TemplateEdit globalFields={[]} collectionId="collection-id-123" />
+         <TemplateEdit globalFields={[]} collectionId={collectionId} />
       );
 
       await waitFor(() => {
          assertRendered();
+         assertCancelBtnHref(`/collections/${collectionId}`);
       });
 
       expect(container).toMatchSnapshot();
@@ -117,6 +133,7 @@ describe("TemplateEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertCancelBtnHref(`/templates/${prompt.id}`);
       });
 
       expect(container).toMatchSnapshot();
