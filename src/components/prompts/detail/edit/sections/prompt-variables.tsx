@@ -10,7 +10,7 @@ import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
-import { PromptGlobalPromptField } from "./prompt-global-template-field";
+import { PromptGlobalVariable } from "./prompt-global-variable";
 import { PromptVariable } from "./prompt-variable";
 
 type Props = {
@@ -44,13 +44,13 @@ export const PromptVariables = ({
 
    const header = () => {
       return (
-         <div className="flex items-center justify-between">
+         <div className="flex items-start justify-between">
             <div>
-               <h3 className="text-lg font-semibold text-slate-900">
-                  Vorlagen-Felder
-               </h3>
+               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+                  Platzhalter konfigurieren
+               </p>
                <p className="mt-1 text-sm text-slate-500">
-                  Definieren Sie Felder, die Benutzer ausfüllen können
+                  Definieren Sie Label und Feldtyp für jeden Platzhalter
                </p>
             </div>
             <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export const PromptVariables = ({
    const renderGlobalField = (field: DGlobalPromptField) => {
       const isUsed = includes(detectedVariables, field.name);
       return (
-         <PromptGlobalPromptField
+         <PromptGlobalVariable
             key={field.id}
             field={field}
             isUsed={isUsed}
@@ -90,10 +90,7 @@ export const PromptVariables = ({
    const renderGlobalFields = () => {
       if (!isEmpty(resolvedGlobalFields)) {
          return (
-            <div
-               className="space-y-2"
-               data-testid="prompt-global-template-fields"
-            >
+            <div className="space-y-2" data-testid="prompt-global-variables">
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                   Globale Felder
                </p>

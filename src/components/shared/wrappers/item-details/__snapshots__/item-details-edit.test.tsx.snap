@@ -7,7 +7,7 @@ exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders full composit
     data-testid="item-details-edit"
   >
     <div
-      class="border-b border-slate-200 bg-white px-6 py-3"
+      class="sticky top-0 z-40 flex shrink-0 items-center border-b border-slate-200 bg-white px-6 py-3"
       data-testid="item-details-edit-header"
     >
       <div
@@ -27,7 +27,7 @@ exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders full composit
         />
       </div>
       <div
-        class="mx-auto max-w-5xl"
+        class="mx-auto max-w-5xl px-6 py-8"
         data-testid="item-details-edit-body"
       >
         <div
@@ -55,7 +55,7 @@ exports[`ItemDetailsEdit rendering tests ItemDetailsEdit - renders with testid a
 exports[`ItemDetailsEdit rendering tests ItemDetailsEditBody - renders with testid and children - test 1`] = `
 <div>
   <div
-    class="mx-auto max-w-5xl"
+    class="mx-auto max-w-5xl px-6 py-8"
     data-testid="item-details-edit-body"
   >
     <div
@@ -94,7 +94,7 @@ exports[`ItemDetailsEdit rendering tests ItemDetailsEditContent - renders with t
 exports[`ItemDetailsEdit rendering tests ItemDetailsEditHeader - renders with testid and children - test 1`] = `
 <div>
   <div
-    class="border-b border-slate-200 bg-white px-6 py-3"
+    class="sticky top-0 z-40 flex shrink-0 items-center border-b border-slate-200 bg-white px-6 py-3"
     data-testid="item-details-edit-header"
   >
     <div

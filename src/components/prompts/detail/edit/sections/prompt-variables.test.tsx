@@ -87,15 +87,15 @@ const assertTemplateFieldsEmpty = () => {
 };
 
 const assertGlobalFieldsRendered = () => {
-   const globalFields = screen.getByTestId("prompt-global-template-fields");
-   const fieldItems = screen.getAllByTestId("prompt-global-template-field");
+   const globalFields = screen.getByTestId("prompt-global-variables");
+   const fieldItems = screen.getAllByTestId("prompt-global-variable");
 
    assertInDocument(globalFields);
    expect(fieldItems).toHaveLength(1);
 };
 
 const assertGlobalFieldsNotRendered = () => {
-   const globalFields = screen.queryByTestId("prompt-global-template-fields");
+   const globalFields = screen.queryByTestId("prompt-global-variables");
    assertNotInDocument(globalFields);
 };
 

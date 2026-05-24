@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptTemplateContent } from "./prompt-template-content";
+import { PromptContent } from "./prompt-content";
 
 const TestWrapper = () => {
    const form = useForm({
@@ -18,13 +18,13 @@ const TestWrapper = () => {
 
    return (
       <FormProvider {...form}>
-         <PromptTemplateContent control={form.control} />
+         <PromptContent control={form.control} />
       </FormProvider>
    );
 };
 
 const assertRendered = () => {
-   const section = screen.getByTestId("prompt-template-content");
+   const section = screen.getByTestId("promt-content");
    const content = screen.getByTestId("content");
 
    assertInDocument(section);

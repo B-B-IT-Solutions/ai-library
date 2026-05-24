@@ -2,10 +2,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptGlobalPromptField } from "./prompt-global-template-field";
+import { PromptGlobalVariable } from "./prompt-global-variable";
 
 const assertRendered = () => {
-   const field = screen.getByTestId("prompt-global-template-field");
+   const field = screen.getByTestId("prompt-global-variable");
    const removeBtn = screen.getByTestId("remove-global-field-btn");
 
    assertInDocument(field);
@@ -17,7 +17,7 @@ describe("PromptGlobalPromptField rendering tests", () => {
       const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <PromptGlobalPromptField
+         <PromptGlobalVariable
             field={field}
             isUsed={false}
             onRemoveGlobalFieldId={jest.fn()}
@@ -35,7 +35,7 @@ describe("PromptGlobalPromptField rendering tests", () => {
       const field = dtestData.dGlobalPromptField();
 
       const { container } = render(
-         <PromptGlobalPromptField
+         <PromptGlobalVariable
             field={field}
             isUsed={true}
             onRemoveGlobalFieldId={jest.fn()}
@@ -56,7 +56,7 @@ describe("PromptGlobalPromptField functionality tests", () => {
       const removeFn = jest.fn();
 
       render(
-         <PromptGlobalPromptField
+         <PromptGlobalVariable
             field={field}
             isUsed={false}
             onRemoveGlobalFieldId={removeFn}

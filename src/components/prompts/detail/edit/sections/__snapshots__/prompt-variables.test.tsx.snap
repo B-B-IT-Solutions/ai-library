@@ -7,18 +7,18 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
     data-testid="prompt-variables"
   >
     <div
-      class="flex items-center justify-between"
+      class="flex items-start justify-between"
     >
       <div>
-        <h3
-          class="text-lg font-semibold text-slate-900"
+        <p
+          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
         >
-          Vorlagen-Felder
-        </h3>
+          Platzhalter konfigurieren
+        </p>
         <p
           class="mt-1 text-sm text-slate-500"
         >
-          Definieren Sie Felder, die Benutzer ausfüllen können
+          Definieren Sie Label und Feldtyp für jeden Platzhalter
         </p>
       </div>
       <div
@@ -92,7 +92,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
     </div>
     <div
       class="space-y-2"
-      data-testid="prompt-global-template-fields"
+      data-testid="prompt-global-variables"
     >
       <p
         class="text-xs font-medium tracking-wide text-slate-400 uppercase"
@@ -101,7 +101,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
       </p>
       <div
         class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
-        data-testid="prompt-global-template-field"
+        data-testid="prompt-global-variable"
       >
         <div
           class="flex items-center gap-3"
@@ -1814,18 +1814,18 @@ exports[`PromptVariables rendering tests variables empty - test 1`] = `
     data-testid="prompt-variables"
   >
     <div
-      class="flex items-center justify-between"
+      class="flex items-start justify-between"
     >
       <div>
-        <h3
-          class="text-lg font-semibold text-slate-900"
+        <p
+          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
         >
-          Vorlagen-Felder
-        </h3>
+          Platzhalter konfigurieren
+        </p>
         <p
           class="mt-1 text-sm text-slate-500"
         >
-          Definieren Sie Felder, die Benutzer ausfüllen können
+          Definieren Sie Label und Feldtyp für jeden Platzhalter
         </p>
       </div>
       <div
