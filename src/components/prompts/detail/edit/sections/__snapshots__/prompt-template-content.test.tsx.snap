@@ -4,7 +4,7 @@ exports[`PromptTemplateContent rendering tests PromptTemplateContent rendered te
 <div>
   <section
     class="space-y-4"
-    data-testid="prompt-template-content"
+    data-testid="promt-content"
   >
     <div>
       <h3

@@ -414,7 +414,7 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
                     >
                       <section
                         class="space-y-4"
-                        data-testid="prompt-template-content"
+                        data-testid="promt-content"
                       >
                         <div>
                           <h3
@@ -1444,7 +1444,7 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
                     >
                       <section
                         class="space-y-4"
-                        data-testid="prompt-template-content"
+                        data-testid="promt-content"
                       >
                         <div>
                           <h3

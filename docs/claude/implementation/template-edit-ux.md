@@ -12,16 +12,16 @@ Die aktuelle Edit-Seite ist **funktional korrekt, aber ergonomisch schwach**. De
 
 ## 2. Problemanalyse im Detail
 
-| # | Problem | Häufigkeit | Schwere |
-|---|---------|-----------|---------|
-| P1 | Langer Single-Column-Scroll ohne Orientierung | Jeden Edit-Vorgang | 🔴 Hoch |
-| P2 | Save-Button außerhalb des Sichtfeldes | Jeden Speichervorgang | 🔴 Hoch |
-| P3 | Content ↔ Variablen räumlich getrennt | Bei jeder Variable | 🔴 Hoch |
-| P4 | Keine Live-Vorschau des befüllten Prompts | Jeden Edit-Vorgang | 🟠 Mittel |
-| P5 | Kein inline Validierungsfeedback | Bei Fehlern | 🟠 Mittel |
-| P6 | BasicInfo-Reihenfolge nicht nach Priorität | Jeden Edit-Vorgang | 🟡 Niedrig |
-| P7 | Header wiederholt Breadcrumb-Information | Visuell | 🟡 Niedrig |
-| P8 | Leerer Felder-Zustand nimmt Platz weg | Immer bei neuem Prompt | 🟡 Niedrig |
+| #   | Problem                                       | Häufigkeit             | Schwere    |
+| --- | --------------------------------------------- | ---------------------- | ---------- |
+| P1  | Langer Single-Column-Scroll ohne Orientierung | Jeden Edit-Vorgang     | 🔴 Hoch    |
+| P2  | Save-Button außerhalb des Sichtfeldes         | Jeden Speichervorgang  | 🔴 Hoch    |
+| P3  | Content ↔ Variablen räumlich getrennt         | Bei jeder Variable     | 🔴 Hoch    |
+| P4  | Keine Live-Vorschau des befüllten Prompts     | Jeden Edit-Vorgang     | 🟠 Mittel  |
+| P5  | Kein inline Validierungsfeedback              | Bei Fehlern            | 🟠 Mittel  |
+| P6  | BasicInfo-Reihenfolge nicht nach Priorität    | Jeden Edit-Vorgang     | 🟡 Niedrig |
+| P7  | Header wiederholt Breadcrumb-Information      | Visuell                | 🟡 Niedrig |
+| P8  | Leerer Felder-Zustand nimmt Platz weg         | Immer bei neuem Prompt | 🟡 Niedrig |
 
 ---
 
@@ -30,6 +30,7 @@ Die aktuelle Edit-Seite ist **funktional korrekt, aber ergonomisch schwach**. De
 ### Konzept: **Split-Editor mit Sticky Action Bar**
 
 Der Kerngedanke ist eine **Zwei-Spalten-Aufteilung** auf Desktop:
+
 - **Links (40%):** Metadaten-Panel — BasicInfo, Felder-Management, Einstellungen
 - **Rechts (60%):** Content-Workspace — Editor + Detected Variables live darunter
 
@@ -102,6 +103,7 @@ Dazu eine **Sticky Action Bar** oben rechts (im Header) mit den Aktions-Buttons,
 **Problem:** Header zeigt Titel doppelt (H1 + Breadcrumb). Save-Button ist nicht erreichbar ohne zu scrollen.
 
 **Lösung:**
+
 - Header enthält **nur** Breadcrumbs + Action Buttons (Abbrechen / Speichern)
 - H1 wird entfernt — der Breadcrumb `Vorlagen > [Titel] > Bearbeiten` gibt genug Kontext
 - Save-Button im Header ist der **primäre** CTA, immer sichtbar
@@ -150,12 +152,14 @@ lg: grid grid-cols-[380px_1fr] gap-0
 **Problem:** Reihenfolge nicht nach Nutzungsfrequenz. Kategorien kommen nach Modell.
 
 **Neue Reihenfolge:**
-1. **Titel** *(Pflichtfeld, prominentester Input)*
-2. **Kategorien** *(häufig genutzt für Filterbarkeit)*
-3. **Beschreibung** *(optional, längerer Text)*
-4. **Modell** *(selten geändert, sollte visuell zurücktreten)*
+
+1. **Titel** _(Pflichtfeld, prominentester Input)_
+2. **Kategorien** _(häufig genutzt für Filterbarkeit)_
+3. **Beschreibung** _(optional, längerer Text)_
+4. **Modell** _(selten geändert, sollte visuell zurücktreten)_
 
 **Weitere Verbesserungen:**
+
 - Pflichtfeld-Marker `*` nur bei Titel anzeigen
 - Modell-Select als kleinere, kompaktere Darstellung (z.B. Icon + Label statt vollem Select)
 - Kategorien-Input: zeige Vorschläge basierend auf existierenden Kategorien
@@ -246,6 +250,7 @@ PROMPT-VORLAGE        [✏ Bearbeiten]  [👁 Vorschau]
 ```
 
 Im Vorschau-Modus:
+
 - Editor wird ausgeblendet
 - Darstellung des Prompt-Textes mit **ausgefüllten Platzhalter-Inputs**
 - Jedes `{{feld}}` wird zu einem kleinen Inline-Input-Chip
@@ -272,30 +277,30 @@ Im Vorschau-Modus:
 
 ### 🔴 High Impact — sofort umsetzen
 
-| # | Änderung | Aufwand | Nutzen |
-|---|---------|---------|--------|
-| H1 | Action Buttons in Sticky Header | Klein | Riesig — Speichern immer erreichbar |
-| H2 | Zwei-Spalten-Layout (Content + Metadaten) | Mittel | Editor + Variablen zusammen sichtbar |
-| H3 | BasicInfo-Reihenfolge korrigieren | Minimal | Besserer Authoring-Flow |
-| H4 | H1 aus Header entfernen (Breadcrumb reicht) | Minimal | Cleaner, weniger redundant |
+| #   | Änderung                                    | Aufwand | Nutzen                               |
+| --- | ------------------------------------------- | ------- | ------------------------------------ |
+| H1  | Action Buttons in Sticky Header             | Klein   | Riesig — Speichern immer erreichbar  |
+| H2  | Zwei-Spalten-Layout (Content + Metadaten)   | Mittel  | Editor + Variablen zusammen sichtbar |
+| H3  | BasicInfo-Reihenfolge korrigieren           | Minimal | Besserer Authoring-Flow              |
+| H4  | H1 aus Header entfernen (Breadcrumb reicht) | Minimal | Cleaner, weniger redundant           |
 
 ### 🟠 Medium Impact — nächste Iteration
 
-| # | Änderung | Aufwand | Nutzen |
-|---|---------|---------|--------|
-| M1 | Kollabierbare Felder-Karten | Mittel | Bessere Übersicht bei vielen Feldern |
-| M2 | Inline-Validierung mit `onBlur` | Klein | Fehler früher sichtbar |
-| M3 | Empty-State Felder vereinfachen | Minimal | Weniger visual noise |
-| M4 | Variablen-Chips sortieren (undefiniert zuerst) | Minimal | Klarer Call-to-Action |
+| #   | Änderung                                       | Aufwand | Nutzen                               |
+| --- | ---------------------------------------------- | ------- | ------------------------------------ |
+| M1  | Kollabierbare Felder-Karten                    | Mittel  | Bessere Übersicht bei vielen Feldern |
+| M2  | Inline-Validierung mit `onBlur`                | Klein   | Fehler früher sichtbar               |
+| M3  | Empty-State Felder vereinfachen                | Minimal | Weniger visual noise                 |
+| M4  | Variablen-Chips sortieren (undefiniert zuerst) | Minimal | Klarer Call-to-Action                |
 
 ### 🟡 Low Impact — später / nice-to-have
 
-| # | Änderung | Aufwand | Nutzen |
-|---|---------|---------|--------|
-| L1 | Live-Vorschau-Modus | Groß | Nützlich aber kein Blocker |
-| L2 | Variablen-Tooltips mit Feld-Details | Klein | Kleine UX-Verbesserung |
-| L3 | Animierter Hinweis bei neuer `{{`-Variable | Mittel | Entdeckbarkeit |
-| L4 | Kategorie-Vorschläge aus existierenden | Mittel | Komfort-Feature |
+| #   | Änderung                                   | Aufwand | Nutzen                     |
+| --- | ------------------------------------------ | ------- | -------------------------- |
+| L1  | Live-Vorschau-Modus                        | Groß    | Nützlich aber kein Blocker |
+| L2  | Variablen-Tooltips mit Feld-Details        | Klein   | Kleine UX-Verbesserung     |
+| L3  | Animierter Hinweis bei neuer `{{`-Variable | Mittel  | Entdeckbarkeit             |
+| L4  | Kategorie-Vorschläge aus existierenden     | Mittel  | Komfort-Feature            |
 
 ---
 
@@ -313,14 +318,14 @@ src/components/prompts/detail/edit/
 
 ### Geänderte Dateien
 
-| Datei | Änderung |
-|-------|----------|
-| `template-edit.tsx` | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen |
+| Datei                    | Änderung                                                                                 |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| `template-edit.tsx`      | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen                |
 | `template-edit-form.tsx` | Buttons-Render nach oben (werden via Prop/Context an Header übergeben); `mode: "onBlur"` |
-| `item-details-edit.tsx` | Header-Slot für Buttons erweitern (z.B. `rightSlot?: ReactNode`) |
-| `basic-info.tsx` | Felder-Reihenfolge ändern: Titel → Kategorien → Beschreibung → Modell |
-| `prompt-variables.tsx` | Empty-State vereinfachen; Kollaps-Logik hinzufügen |
-| `detected-variables.tsx` | Chips sortieren; Tooltip hinzufügen; "Sync"-Button als primary wenn nötig |
+| `item-details-edit.tsx`  | Header-Slot für Buttons erweitern (z.B. `rightSlot?: ReactNode`)                         |
+| `basic-info.tsx`         | Felder-Reihenfolge ändern: Titel → Kategorien → Beschreibung → Modell                    |
+| `prompt-variables.tsx`   | Empty-State vereinfachen; Kollaps-Logik hinzufügen                                       |
+| `detected-variables.tsx` | Chips sortieren; Tooltip hinzufügen; "Sync"-Button als primary wenn nötig                |
 
 ### API-Änderung: `ItemDetailsEditHeader`
 
@@ -364,7 +369,7 @@ Diese Optionen wurden diskutiert und zurückgestellt. Beide adressieren das noch
 
 ---
 
-### Option D: Bidirektionales Highlighting *(Quick Win)*
+### Option D: Bidirektionales Highlighting _(Quick Win)_
 
 **Priorität:** Medium | **Aufwand:** Klein
 
@@ -377,13 +382,14 @@ Beim bestehenden Tab-Layout (Editor-Tab / Felder-Tab) wird eine **Live-Verbindun
 **Technisch:** Shared `highlightedVariable`-State (z.B. via `useState` im Form-Parent oder `useContext`), der sowohl in `DetectedVariables` als auch in `PromptVariables` abonniert wird. Tab-Wechsel via controlled `Tabs`-Komponente (`value` + `onValueChange`).
 
 **Dateien betroffen:**
+
 - `template-edit-form.tsx` — `activeTab`-State + `highlightedVariable`-State einführen
 - `detected-variables.tsx` — Chip-Hover/-Klick sendet `highlightedVariable`
 - `prompt-variables.tsx` / `prompt-variable.tsx` — reagiert auf `highlightedVariable` mit visueller Hervorhebung
 
 ---
 
-### Option B: Inline-Variablen-Definition im Editor *(Best UX, größter Aufwand)*
+### Option B: Inline-Variablen-Definition im Editor _(Best UX, größter Aufwand)_
 
 **Priorität:** Low (langfristig) | **Aufwand:** Groß
 
@@ -409,7 +415,8 @@ Kein separates Felder-Panel mehr. Feld-Definitionen entstehen **direkt im Editor
 **Technisch:** Erfordert eine **Tiptap-Extension** (Custom Node oder Mark), die `{{...}}`-Muster als interaktive Inline-Nodes rendert. Die Extension kommuniziert via Callback mit dem React-Form-State. Komplex, aber das intuitiv stärkste Pattern für diesen Anwendungsfall.
 
 **Dateien betroffen:**
+
 - Neue Tiptap-Extension: `src/components/shared/md/extensions/template-variable-extension.ts`
-- `prompt-template-content.tsx` — Extension registrieren
+- `promt-content.tsx` — Extension registrieren
 - `template-edit-form.tsx` — Felder-Panel kann stark vereinfacht oder entfernt werden
 - `prompt-variables.tsx` — wird zur reinen Übersicht/Verwaltungsliste (kein primäres Eingabe-Interface mehr)

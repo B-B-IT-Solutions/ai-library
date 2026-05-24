@@ -524,7 +524,7 @@ exports[`TemplateEdit rendering tests edit existing entry - test 1`] = `
                   >
                     <section
                       class="space-y-4"
-                      data-testid="prompt-template-content"
+                      data-testid="promt-content"
                     >
                       <div>
                         <h3
@@ -1039,7 +1039,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId defined - test 1`
                   >
                     <section
                       class="space-y-4"
-                      data-testid="prompt-template-content"
+                      data-testid="promt-content"
                     >
                       <div>
                         <h3
@@ -1554,7 +1554,7 @@ exports[`TemplateEdit rendering tests new entry - collectionId undefined - test 
                   >
                     <section
                       class="space-y-4"
-                      data-testid="prompt-template-content"
+                      data-testid="promt-content"
                     >
                       <div>
                         <h3

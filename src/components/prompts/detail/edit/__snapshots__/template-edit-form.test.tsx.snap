@@ -417,7 +417,7 @@ exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] =
             >
               <section
                 class="space-y-4"
-                data-testid="prompt-template-content"
+                data-testid="promt-content"
               >
                 <div>
                   <h3
@@ -3375,7 +3375,7 @@ exports[`TemplateEditForm rendering tests existing entry - variables detected in
             >
               <section
                 class="space-y-4"
-                data-testid="prompt-template-content"
+                data-testid="promt-content"
               >
                 <div>
                   <h3
@@ -6503,7 +6503,7 @@ exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
             >
               <section
                 class="space-y-4"
-                data-testid="prompt-template-content"
+                data-testid="promt-content"
               >
                 <div>
                   <h3

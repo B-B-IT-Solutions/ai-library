@@ -30,7 +30,7 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 import {
    BasicInfo,
    DetectedVariables,
-   PromptTemplateContent,
+   PromptContent,
    PromptVariables,
 } from "./sections";
 import {
@@ -220,7 +220,7 @@ export const TemplateEditForm = ({
                         </Button>
                      </div>
                      <TabsContent value="editor">
-                        <PromptTemplateContent control={form.control} />
+                        <PromptContent control={form.control} />
                      </TabsContent>
                      <TabsContent value="variables" className="space-y-6">
                         <DetectedVariables
