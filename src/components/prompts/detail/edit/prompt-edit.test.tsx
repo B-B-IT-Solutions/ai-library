@@ -42,8 +42,8 @@ import {
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
-import { TemplateEdit } from "./prompt-edit";
 import { initPromptTemplate } from "./form/utils";
+import { PromptEdit } from "./prompt-edit";
 
 jest.setTimeout(10000);
 
@@ -85,7 +85,7 @@ const assertCancelBtnHref = (href: string) => {
 };
 
 const assertRendered = () => {
-   const editEntry = screen.getByTestId("template-edit");
+   const editEntry = screen.getByTestId("prompt-edit");
    const breadcrumbs = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("prompt-edit-form");
 
@@ -96,9 +96,9 @@ const assertRendered = () => {
    assertBtnRendered();
 };
 
-describe("TemplateEdit rendering tests", () => {
+describe("PromptEdit rendering tests", () => {
    it("new entry - collectionId undefined - test", async () => {
-      const { container } = render(<TemplateEdit globalFields={[]} />);
+      const { container } = render(<PromptEdit globalFields={[]} />);
 
       await waitFor(() => {
          assertRendered();
@@ -112,7 +112,7 @@ describe("TemplateEdit rendering tests", () => {
       const collectionId = "collection-id-123";
 
       const { container } = render(
-         <TemplateEdit globalFields={[]} collectionId={collectionId} />
+         <PromptEdit globalFields={[]} collectionId={collectionId} />
       );
 
       await waitFor(() => {
@@ -128,7 +128,7 @@ describe("TemplateEdit rendering tests", () => {
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
-         <TemplateEdit prompt={prompt} globalFields={fields} />
+         <PromptEdit prompt={prompt} globalFields={fields} />
       );
 
       await waitFor(() => {
@@ -140,7 +140,7 @@ describe("TemplateEdit rendering tests", () => {
    });
 });
 
-describe("TemplateEdit functionality tests", () => {
+describe("PromptEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
@@ -156,7 +156,7 @@ describe("TemplateEdit functionality tests", () => {
       createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEdit globalFields={fields} />);
+      render(<PromptEdit globalFields={fields} />);
 
       await waitFor(() => {
          assertRendered();
@@ -208,7 +208,7 @@ describe("TemplateEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<TemplateEdit prompt={prompt} globalFields={fields} />);
+      render(<PromptEdit prompt={prompt} globalFields={fields} />);
 
       await waitFor(() => {
          assertRendered();
@@ -259,9 +259,7 @@ describe("TemplateEdit functionality tests", () => {
       const collectionId = "collection-id-1";
 
       const fields = dtestData.dGlobalPromptFields();
-      render(
-         <TemplateEdit globalFields={fields} collectionId={collectionId} />
-      );
+      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
 
       await waitFor(() => {
          assertRendered();
@@ -327,9 +325,7 @@ describe("TemplateEdit functionality tests", () => {
       const fields = dtestData.dGlobalPromptFields();
       const collectionId = "collection-id-123";
 
-      render(
-         <TemplateEdit globalFields={fields} collectionId={collectionId} />
-      );
+      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
 
       await waitFor(() => {
          assertRendered();
@@ -383,7 +379,7 @@ describe("TemplateEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<TemplateEdit prompt={prompt} globalFields={fields} />);
+      render(<PromptEdit prompt={prompt} globalFields={fields} />);
 
       await waitFor(() => {
          assertRendered();
@@ -433,9 +429,7 @@ describe("TemplateEdit functionality tests", () => {
 
       const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
       const fields = dtestData.dGlobalPromptFields();
-      render(
-         <TemplateEdit globalFields={fields} collectionId={collectionId} />
-      );
+      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
 
       await waitFor(() => {
          assertRendered();

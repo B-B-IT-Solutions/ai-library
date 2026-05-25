@@ -23,7 +23,7 @@ type Props = {
    globalFields: DGlobalPromptField[];
 };
 
-export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
+export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
    const isEdit = !!prompt;
@@ -93,7 +93,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
    };
 
    return (
-      <ItemDetailsEdit data-testid="template-edit">
+      <ItemDetailsEdit data-testid="prompt-edit">
          <ItemDetailsEditHeader>
             {breadcrumbs()}
             <div

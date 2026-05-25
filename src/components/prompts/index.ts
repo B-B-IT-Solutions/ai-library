@@ -1,3 +1,3 @@
 export { PromptsDashboard } from "./prompts-dashboard";
-export { PromptView, TemplateEdit, PublicPromptView } from "./detail";
+export { PromptView, PromptEdit, PublicPromptView } from "./detail";
 export { templatesSearchParamsCache } from "./search-params";

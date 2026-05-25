@@ -118,7 +118,7 @@ Nachher:
   Vorlagen / Blog-Post Generator / Bearbeiten    [Abbrechen]  [Speichern →]
 ```
 
-**Komponenten-Änderung:** `template-edit.tsx` — `header()`-Funktion entfernen, Buttons aus `prompt-edit-form.tsx` in `ItemDetailsEditHeader` hochziehen.
+**Komponenten-Änderung:** `prompt-edit.tsx` — `header()`-Funktion entfernen, Buttons aus `prompt-edit-form.tsx` in `ItemDetailsEditHeader` hochziehen.
 
 ---
 
@@ -320,7 +320,7 @@ src/components/prompts/detail/edit/
 
 | Datei                    | Änderung                                                                                 |
 | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `template-edit.tsx`      | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen                |
+| `prompt-edit.tsx`        | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen                |
 | `prompt-edit-form.tsx`   | Buttons-Render nach oben (werden via Prop/Context an Header übergeben); `mode: "onBlur"` |
 | `item-details-edit.tsx`  | Header-Slot für Buttons erweitern (z.B. `rightSlot?: ReactNode`)                         |
 | `basic-info.tsx`         | Felder-Reihenfolge ändern: Titel → Kategorien → Beschreibung → Modell                    |

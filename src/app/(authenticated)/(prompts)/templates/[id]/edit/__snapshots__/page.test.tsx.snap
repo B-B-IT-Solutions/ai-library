@@ -10,7 +10,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - test 1`] = `
   >
     <div
       class="flex h-full flex-col bg-slate-50"
-      data-testid="template-edit"
+      data-testid="prompt-edit"
     >
       <div
         class="sticky top-0 z-40 flex shrink-0 items-center border-b border-slate-200 bg-white px-6 py-3"

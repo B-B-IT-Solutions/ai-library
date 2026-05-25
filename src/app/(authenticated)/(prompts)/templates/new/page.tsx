@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { TemplateEdit } from "@/components/prompts";
+import { PromptEdit } from "@/components/prompts";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -24,10 +24,7 @@ export const NewPromptPage = async ({ searchParams }: PageProps) => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-prompt-page"
       >
-         <TemplateEdit
-            collectionId={collectionId}
-            globalFields={globalFields}
-         />
+         <PromptEdit collectionId={collectionId} globalFields={globalFields} />
       </div>
    );
 };
