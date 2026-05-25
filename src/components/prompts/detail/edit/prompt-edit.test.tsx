@@ -87,7 +87,7 @@ const assertCancelBtnHref = (href: string) => {
 const assertRendered = () => {
    const editEntry = screen.getByTestId("template-edit");
    const breadcrumbs = screen.getByTestId("template-breadcrumb");
-   const form = screen.getByTestId("template-edit-form");
+   const form = screen.getByTestId("prompt-edit-form");
 
    assertInDocument(editEntry);
    assertInDocument(breadcrumbs);

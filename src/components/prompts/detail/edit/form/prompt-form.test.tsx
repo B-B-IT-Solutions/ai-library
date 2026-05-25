@@ -32,7 +32,7 @@ jest.setTimeout(10000);
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
-   const form = screen.getByTestId("template-edit-form");
+   const form = screen.getByTestId("prompt-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
    const tabs = screen.getByTestId("tabs");
    const editorTab = screen.getByTestId("editor-tab-trigger");

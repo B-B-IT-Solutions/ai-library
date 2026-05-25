@@ -66,7 +66,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       return (
          <Button
             type="submit"
-            form="template-edit-form"
+            form="prompt-edit-form"
             disabled={isSubmitting}
             className="cursor-pointer bg-blue-600 hover:bg-blue-700"
             data-testid="save-btn"
