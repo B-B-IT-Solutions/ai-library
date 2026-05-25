@@ -1,4 +1,4 @@
 ﻿export { BasicInfo } from "./basic-info";
-export { DetectedVariables } from "./detected-variables";
 export { PromptContent } from "./prompt-content";
-export { PromptVariables } from "./prompt-variables";
+export { DetectedVariables } from "./variables/detected-variables";
+export { PromptVariables } from "./variables/prompt-variables";
