@@ -15,7 +15,7 @@ import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
-import { TemplateEditForm } from "./form/prompt-form";
+import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
@@ -105,7 +105,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBody>
-               <TemplateEditForm
+               <PromptEditForm
                   prompt={prompt}
                   collectionId={collectionId}
                   globalFields={globalFields}
