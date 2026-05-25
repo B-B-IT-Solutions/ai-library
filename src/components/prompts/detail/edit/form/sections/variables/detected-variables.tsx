@@ -73,7 +73,9 @@ export const DetectedVariables = ({
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div className="mb-3 flex items-center justify-between">
                <div className="text-sm text-slate-700">
-                  <span className="font-medium">{detectedVariables.length}</span>{" "}
+                  <span className="font-medium">
+                     {detectedVariables.length}
+                  </span>{" "}
                   Platzhalter im Prompt erkannt
                </div>
                {hasUndefinedVariables && (
