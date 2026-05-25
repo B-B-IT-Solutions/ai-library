@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { includes, isEmpty, map } from "es-toolkit/compat";
 import { AlertCircle, CheckCircle2, Plus, RefreshCw } from "lucide-react";
 
@@ -15,19 +14,20 @@ type Props = {
    onSyncAll: CallbackFn;
 };
 
-export const DetectedVariables: FC<Props> = ({
+export const DetectedVariables = ({
    detectedVariables,
    variableStatus,
    onAddVariable,
    onSyncAll,
-}) => {
+}: Props) => {
    if (isEmpty(detectedVariables)) {
       return null;
    }
 
    const hasUndefinedVariables = !isEmpty(variableStatus.undefined);
+   const undefinedCount = variableStatus.undefined.length;
 
-   const renderDetectedVariable = (varName: string) => {
+   const renderVariable = (varName: string) => {
       const isDefined = !includes(variableStatus.undefined, varName);
       return (
          <div
@@ -62,35 +62,6 @@ export const DetectedVariables: FC<Props> = ({
       );
    };
 
-   const renderDetectedVariables = () => {
-      return (
-         <div className="flex flex-wrap gap-2">
-            {map(detectedVariables, (varName) =>
-               renderDetectedVariable(varName)
-            )}
-         </div>
-      );
-   };
-
-   const renderUndefinedVariables = () => {
-      if (hasUndefinedVariables) {
-         return (
-            <div
-               className="mt-3 rounded-md bg-orange-100 p-3 text-sm text-orange-800"
-               data-testid="undefined-variables"
-            >
-               <div className="flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>
-                     {variableStatus.undefined.length} Variable(n) noch nicht
-                     als Feld definiert
-                  </span>
-               </div>
-            </div>
-         );
-      }
-   };
-
    return (
       <section className="space-y-2" data-testid="detected-variables">
          <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
@@ -102,10 +73,8 @@ export const DetectedVariables: FC<Props> = ({
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div className="mb-3 flex items-center justify-between">
                <div className="text-sm text-slate-700">
-                  <span className="font-medium">
-                     {detectedVariables.length}
-                  </span>{" "}
-                  Variable(n) im Content gefunden
+                  <span className="font-medium">{detectedVariables.length}</span>{" "}
+                  Platzhalter im Prompt erkannt
                </div>
                {hasUndefinedVariables && (
                   <Button
@@ -121,8 +90,22 @@ export const DetectedVariables: FC<Props> = ({
                   </Button>
                )}
             </div>
-            {renderDetectedVariables()}
-            {renderUndefinedVariables()}
+            <div className="flex flex-wrap gap-2">
+               {map(detectedVariables, renderVariable)}
+            </div>
+            {hasUndefinedVariables && (
+               <div
+                  className="mt-3 rounded-md bg-orange-100 p-3 text-sm text-orange-800"
+                  data-testid="undefined-variables"
+               >
+                  <div className="flex items-center gap-2">
+                     <AlertCircle className="h-4 w-4" />
+                     <span>
+                        {undefinedCount} Platzhalter noch nicht konfiguriert
+                     </span>
+                  </div>
+               </div>
+            )}
          </div>
       </section>
    );
