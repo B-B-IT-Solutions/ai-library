@@ -31,7 +31,7 @@ export const BasicInfo = ({ control }: Props) => {
          <FormInput<DPromptUpdate>
             name="title"
             label="Titel"
-            placeholder="z.B. Blog-Post Generator"
+            placeholder="Geben Sie den Titel des Prompts ein"
             control={control}
          />
          <FormTextArea<DPromptUpdate>
@@ -50,7 +50,7 @@ export const BasicInfo = ({ control }: Props) => {
          <FormDynamicValues<DPromptUpdate>
             name="categories"
             label="Kategorien"
-            placeholder="Kategorie hinzufügen"
+            placeholder="Fügen Sie Kategorie hinzu"
             control={control}
          />
       </section>
