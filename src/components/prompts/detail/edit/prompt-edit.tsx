@@ -15,7 +15,7 @@ import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
-import { TemplateEditForm } from "./template-edit-form";
+import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
@@ -23,7 +23,7 @@ type Props = {
    globalFields: DGlobalPromptField[];
 };
 
-export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
+export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
    const isEdit = !!prompt;
@@ -66,7 +66,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
       return (
          <Button
             type="submit"
-            form="template-edit-form"
+            form="prompt-edit-form"
             disabled={isSubmitting}
             className="cursor-pointer bg-blue-600 hover:bg-blue-700"
             data-testid="save-btn"
@@ -93,7 +93,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
    };
 
    return (
-      <ItemDetailsEdit data-testid="template-edit">
+      <ItemDetailsEdit data-testid="prompt-edit">
          <ItemDetailsEditHeader>
             {breadcrumbs()}
             <div
@@ -105,7 +105,7 @@ export const TemplateEdit = ({ prompt, collectionId, globalFields }: Props) => {
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBody>
-               <TemplateEditForm
+               <PromptEditForm
                   prompt={prompt}
                   collectionId={collectionId}
                   globalFields={globalFields}

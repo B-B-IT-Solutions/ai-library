@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TemplateEdit } from "@/components/prompts";
+import { PromptEdit } from "@/components/prompts";
 import { getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
@@ -31,7 +31,7 @@ export const EditPromptPage = async ({ params }: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-edit-page">
-         <TemplateEdit prompt={prompt} globalFields={globalFields} />
+         <PromptEdit prompt={prompt} globalFields={globalFields} />
       </div>
    );
 };

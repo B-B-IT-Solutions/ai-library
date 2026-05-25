@@ -39,7 +39,7 @@ const assertRendered = () => {
 };
 
 describe("BasicInfo rendering tests", () => {
-   it("BasicInfo rendered test", () => {
+   it("rendered - test", () => {
       const { container } = render(<TestWrapper />);
 
       assertRendered();

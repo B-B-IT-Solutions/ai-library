@@ -25,14 +25,14 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { TemplateEditForm } from "./template-edit-form";
+import { PromptEditForm } from "./prompt-form";
 
 jest.setTimeout(10000);
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
-   const form = screen.getByTestId("template-edit-form");
+   const form = screen.getByTestId("prompt-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
    const tabs = screen.getByTestId("tabs");
    const editorTab = screen.getByTestId("editor-tab-trigger");
@@ -112,10 +112,10 @@ const assertGlobalVariablesNotRendered = () => {
    assertNotInDocument(globalFields);
 };
 
-describe("TemplateEditForm rendering tests", () => {
+describe("PromptEditForm rendering tests", () => {
    it("new entry - rendered - test", async () => {
       const { container } = render(
-         <TemplateEditForm globalFields={[]} onSubmit={jest.fn()} />
+         <PromptEditForm globalFields={[]} onSubmit={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -140,7 +140,7 @@ describe("TemplateEditForm rendering tests", () => {
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = render(
-         <TemplateEditForm
+         <PromptEditForm
             prompt={prompt}
             globalFields={fields}
             onSubmit={jest.fn()}
@@ -171,7 +171,7 @@ describe("TemplateEditForm rendering tests", () => {
       prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
-         <TemplateEditForm
+         <PromptEditForm
             prompt={prompt}
             globalFields={fields}
             onSubmit={jest.fn()}
@@ -196,7 +196,7 @@ describe("TemplateEditForm rendering tests", () => {
    });
 });
 
-describe("TemplateEditForm variables detection tests", () => {
+describe("PromptEditForm variables detection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -205,7 +205,7 @@ describe("TemplateEditForm variables detection tests", () => {
       const collectionId = "collection-id-123";
 
       render(
-         <TemplateEditForm
+         <PromptEditForm
             globalFields={[]}
             collectionId={collectionId}
             onSubmit={jest.fn()}
@@ -249,14 +249,14 @@ describe("TemplateEditForm variables detection tests", () => {
    });
 });
 
-describe("TemplateEditForm functionality tests", () => {
+describe("PromptEditForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("expand btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();
@@ -278,7 +278,7 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("add global field btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();
@@ -318,7 +318,7 @@ describe("TemplateEditForm functionality tests", () => {
       const fields = dtestData.dGlobalPromptFields();
 
       render(
-         <TemplateEditForm
+         <PromptEditForm
             prompt={prompt}
             globalFields={fields}
             onSubmit={jest.fn()}
@@ -351,7 +351,7 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("add new template field btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();
@@ -379,7 +379,7 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("remove template field btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();
@@ -412,7 +412,7 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("add variable as field - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();
@@ -451,7 +451,7 @@ describe("TemplateEditForm functionality tests", () => {
 
    it("sync all variables - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      render(<TemplateEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      render(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
 
       await waitFor(() => {
          assertRendered();

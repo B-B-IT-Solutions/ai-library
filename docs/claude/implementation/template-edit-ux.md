@@ -118,7 +118,7 @@ Nachher:
   Vorlagen / Blog-Post Generator / Bearbeiten    [Abbrechen]  [Speichern →]
 ```
 
-**Komponenten-Änderung:** `template-edit.tsx` — `header()`-Funktion entfernen, Buttons aus `template-edit-form.tsx` in `ItemDetailsEditHeader` hochziehen.
+**Komponenten-Änderung:** `prompt-edit.tsx` — `header()`-Funktion entfernen, Buttons aus `prompt-edit-form.tsx` in `ItemDetailsEditHeader` hochziehen.
 
 ---
 
@@ -320,8 +320,8 @@ src/components/prompts/detail/edit/
 
 | Datei                    | Änderung                                                                                 |
 | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `template-edit.tsx`      | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen                |
-| `template-edit-form.tsx` | Buttons-Render nach oben (werden via Prop/Context an Header übergeben); `mode: "onBlur"` |
+| `prompt-edit.tsx`        | `header()` entfernen; Buttons aus Form hochziehen; Split-Layout einführen                |
+| `prompt-edit-form.tsx`   | Buttons-Render nach oben (werden via Prop/Context an Header übergeben); `mode: "onBlur"` |
 | `item-details-edit.tsx`  | Header-Slot für Buttons erweitern (z.B. `rightSlot?: ReactNode`)                         |
 | `basic-info.tsx`         | Felder-Reihenfolge ändern: Titel → Kategorien → Beschreibung → Modell                    |
 | `prompt-variables.tsx`   | Empty-State vereinfachen; Kollaps-Logik hinzufügen                                       |
@@ -383,7 +383,7 @@ Beim bestehenden Tab-Layout (Editor-Tab / Felder-Tab) wird eine **Live-Verbindun
 
 **Dateien betroffen:**
 
-- `template-edit-form.tsx` — `activeTab`-State + `highlightedVariable`-State einführen
+- `prompt-edit-form.tsx` — `activeTab`-State + `highlightedVariable`-State einführen
 - `detected-variables.tsx` — Chip-Hover/-Klick sendet `highlightedVariable`
 - `prompt-variables.tsx` / `prompt-variable.tsx` — reagiert auf `highlightedVariable` mit visueller Hervorhebung
 
@@ -418,5 +418,5 @@ Kein separates Felder-Panel mehr. Feld-Definitionen entstehen **direkt im Editor
 
 - Neue Tiptap-Extension: `src/components/shared/md/extensions/template-variable-extension.ts`
 - `promt-content.tsx` — Extension registrieren
-- `template-edit-form.tsx` — Felder-Panel kann stark vereinfacht oder entfernt werden
+- `prompt-edit-form.tsx` — Felder-Panel kann stark vereinfacht oder entfernt werden
 - `prompt-variables.tsx` — wird zur reinen Übersicht/Verwaltungsliste (kein primäres Eingabe-Interface mehr)

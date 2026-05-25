@@ -46,7 +46,7 @@ type Props = {
    onSubmit: (isSubmiting: boolean) => void;
 };
 
-export const TemplateEditForm = ({
+export const PromptEditForm = ({
    prompt,
    collectionId,
    globalFields,
@@ -167,10 +167,10 @@ export const TemplateEditForm = ({
    };
 
    return (
-      <div data-testid="template-edit-form" className="space-y-4">
+      <div data-testid="prompt-edit-form" className="space-y-4">
          <Form {...form}>
             <form
-               id="template-edit-form"
+               id="prompt-edit-form"
                onSubmit={form.handleSubmit(onSubmit)}
                className="space-y-4"
             >

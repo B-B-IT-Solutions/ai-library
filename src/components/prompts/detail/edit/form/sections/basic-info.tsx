@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { Control } from "react-hook-form";
 
 import {
@@ -23,58 +22,37 @@ type Props = {
    control: Control<DPromptUpdate>;
 };
 
-export const BasicInfo: FC<Props> = ({ control }) => {
-   const title = () => {
-      return (
+export const BasicInfo = ({ control }: Props) => {
+   return (
+      <section className="space-y-4" data-testid="basic-info">
+         <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+            Basisinformationen
+         </p>
          <FormInput<DPromptUpdate>
             name="title"
             label="Titel"
-            placeholder="z.B. Blog-Post Generator"
+            placeholder="Geben Sie den Titel des Prompts ein"
             control={control}
          />
-      );
-   };
-
-   const description = () => {
-      return (
          <FormTextArea<DPromptUpdate>
             name="description"
             label="Beschreibung"
-            placeholder="Beschreibung der Vorlage"
+            placeholder="Beschreiben Sie den Zweck dieses Prompts"
             rows={3}
             control={control}
          />
-      );
-   };
-
-   const recommendedModel = () => {
-      return (
          <FormSelect<DPromptUpdate>
             name="recommendedModel"
             label="Empfohlenes Modell"
             options={RECOMMENDED_MODELS}
             control={control}
          />
-      );
-   };
-
-   const renderCategories = () => {
-      return (
          <FormDynamicValues<DPromptUpdate>
             name="categories"
             label="Kategorien"
-            placeholder="Kategorie hinzufügen"
+            placeholder="Fügen Sie Kategorie hinzu"
             control={control}
          />
-      );
-   };
-
-   return (
-      <section className="space-y-4" data-testid="basic-info">
-         {title()}
-         {description()}
-         {renderCategories()}
-         {recommendedModel()}
       </section>
    );
 };
