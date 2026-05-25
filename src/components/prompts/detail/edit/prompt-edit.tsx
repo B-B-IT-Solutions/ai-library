@@ -15,7 +15,7 @@ import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
-import { TemplateEditForm } from "./template-edit-form";
+import { TemplateEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;

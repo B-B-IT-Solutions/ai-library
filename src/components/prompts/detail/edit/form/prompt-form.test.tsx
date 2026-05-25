@@ -25,7 +25,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { TemplateEditForm } from "./template-edit-form";
+import { TemplateEditForm } from "./prompt-form";
 
 jest.setTimeout(10000);
 

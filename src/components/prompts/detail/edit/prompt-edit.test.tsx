@@ -42,8 +42,8 @@ import {
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
-import { TemplateEdit } from "./template-edit";
-import { initPromptTemplate } from "./utils";
+import { TemplateEdit } from "./prompt-edit";
+import { initPromptTemplate } from "./form/utils";
 
 jest.setTimeout(10000);
 
