@@ -164,7 +164,7 @@ export const PromptVariables = ({
    };
 
    return (
-      <section className="space-y-4" data-testid="prompt-variables">
+      <section className="space-y-5" data-testid="prompt-variables">
          {header()}
          {renderGlobalFields()}
          {renderTemplateFields()}
