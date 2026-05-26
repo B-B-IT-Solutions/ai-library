@@ -1,7 +1,7 @@
 "use client";
 
 import { includes, isEmpty, map } from "es-toolkit/compat";
-import { AlertCircle, CheckCircle2, Plus, RefreshCw } from "lucide-react";
+import { AlertCircle, CheckCircle2, Plus, PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
@@ -90,7 +90,7 @@ export const DetectedVariables = ({
                      className="cursor-pointer text-orange-800 hover:bg-orange-100 hover:text-orange-900"
                      data-testid="sync-all-btn"
                   >
-                     <RefreshCw className="mr-2 h-3 w-3" />
+                     <PlusCircle className="mr-1 h-3 w-3" />
                      Alle hinzufügen
                   </Button>
                </div>
