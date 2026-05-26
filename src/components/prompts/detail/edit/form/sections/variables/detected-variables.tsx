@@ -1,8 +1,7 @@
 "use client";
 
-import { FC } from "react";
 import { includes, isEmpty, map } from "es-toolkit/compat";
-import { AlertCircle, CheckCircle2, Plus, RefreshCw } from "lucide-react";
+import { AlertCircle, CheckCircle2, Plus, PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
@@ -15,19 +14,20 @@ type Props = {
    onSyncAll: CallbackFn;
 };
 
-export const DetectedVariables: FC<Props> = ({
+export const DetectedVariables = ({
    detectedVariables,
    variableStatus,
    onAddVariable,
    onSyncAll,
-}) => {
+}: Props) => {
    if (isEmpty(detectedVariables)) {
       return null;
    }
 
    const hasUndefinedVariables = !isEmpty(variableStatus.undefined);
+   const undefinedCount = variableStatus.undefined.length;
 
-   const renderDetectedVariable = (varName: string) => {
+   const renderVariable = (varName: string) => {
       const isDefined = !includes(variableStatus.undefined, varName);
       return (
          <div
@@ -62,67 +62,42 @@ export const DetectedVariables: FC<Props> = ({
       );
    };
 
-   const renderDetectedVariables = () => {
-      return (
-         <div className="flex flex-wrap gap-2">
-            {map(detectedVariables, (varName) =>
-               renderDetectedVariable(varName)
-            )}
-         </div>
-      );
-   };
-
-   const renderUndefinedVariables = () => {
-      if (hasUndefinedVariables) {
-         return (
-            <div
-               className="mt-3 rounded-md bg-orange-100 p-3 text-sm text-orange-800"
-               data-testid="undefined-variables"
-            >
-               <div className="flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>
-                     {variableStatus.undefined.length} Variable(n) noch nicht
-                     als Feld definiert
-                  </span>
-               </div>
-            </div>
-         );
-      }
-   };
-
    return (
       <section className="space-y-2" data-testid="detected-variables">
          <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
             Erkannte Platzhalter
          </p>
          <p className="text-sm text-slate-500">
-            Platzhalter, die im Prompt-Text gefunden wurden
+            Platzhalter, die im Prompt erkannt wurden
          </p>
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <div className="mb-3 flex items-center justify-between">
-               <div className="text-sm text-slate-700">
-                  <span className="font-medium">
-                     {detectedVariables.length}
-                  </span>{" "}
-                  Variable(n) im Content gefunden
-               </div>
-               {hasUndefinedVariables && (
+            {hasUndefinedVariables && (
+               <div
+                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 px-3 py-1 text-sm text-orange-800"
+                  data-testid="undefined-variables"
+               >
+                  <div className="flex items-center gap-2">
+                     <AlertCircle className="h-4 w-4" />
+                     <span>
+                        {undefinedCount} Platzhalter noch nicht konfiguriert
+                     </span>
+                  </div>
                   <Button
                      type="button"
                      onClick={onSyncAll}
-                     variant="outline"
+                     variant="ghost"
                      size="sm"
-                     className="cursor-pointer"
+                     className="cursor-pointer text-orange-800 hover:bg-orange-100 hover:text-orange-900"
                      data-testid="sync-all-btn"
                   >
-                     <RefreshCw className="mr-2 h-3 w-3" />
-                     Alle synchronisieren
+                     <PlusCircle className="mr-1 h-3 w-3" />
+                     Alle hinzufügen
                   </Button>
-               )}
+               </div>
+            )}
+            <div className="flex flex-wrap gap-2">
+               {map(detectedVariables, renderVariable)}
             </div>
-            {renderDetectedVariables()}
-            {renderUndefinedVariables()}
          </div>
       </section>
    );
