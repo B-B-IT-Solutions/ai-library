@@ -19,10 +19,25 @@ const assertRendered = () => {
 };
 
 describe("PromptSidebar rendering tests", () => {
-   it("rendered - test", async () => {
+   it("collectionId undefined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
 
       const { container } = render(<PromptSidebar prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collectionId defined - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const collection = dtestData.dCollection();
+
+      const { container } = render(
+         <PromptSidebar prompt={prompt} collectionId={collection.id} />
+      );
 
       await waitFor(() => {
          assertRendered();

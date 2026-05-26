@@ -23,6 +23,7 @@ type Props = {
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DPromptsFilter;
+   collectionId?: string;
 };
 
 export const TemplateItems = ({
@@ -30,6 +31,7 @@ export const TemplateItems = ({
    groupBy,
    sortBy,
    filters,
+   collectionId,
 }: Props) => {
    const { data: collections = [] } = useLoadCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
@@ -60,6 +62,7 @@ export const TemplateItems = ({
             descriptors={entries}
             groupBy={groupBy}
             collections={collections}
+            collectionId={collectionId}
          />
       );
    }
@@ -75,6 +78,7 @@ export const TemplateItems = ({
             <TemplateItemsList
                descriptors={entries}
                collections={collections}
+               collectionId={collectionId}
             />
          </InfiniteScroll>
       );
@@ -87,7 +91,11 @@ export const TemplateItems = ({
          next={fetchNextPage}
          threshold={0.1}
       >
-         <TemplateItemsGrid descriptors={entries} collections={collections} />
+         <TemplateItemsGrid
+            descriptors={entries}
+            collections={collections}
+            collectionId={collectionId}
+         />
       </InfiniteScroll>
    );
 };

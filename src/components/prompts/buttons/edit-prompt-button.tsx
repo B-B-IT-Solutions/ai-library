@@ -6,9 +6,14 @@ import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
    prompt: DPrompt;
+   collectionId?: string;
 };
 
-export const EditButton = ({ prompt }: Props) => {
+export const EditButton = ({ prompt, collectionId }: Props) => {
+   const href = collectionId
+      ? `/templates/${prompt.id}/edit?collectionId=${collectionId}`
+      : `/templates/${prompt.id}/edit`;
+
    return (
       <Button
          asChild={true}
@@ -16,7 +21,7 @@ export const EditButton = ({ prompt }: Props) => {
          className="w-full cursor-pointer justify-start"
          data-testid="edit-prompt-btn"
       >
-         <Link href={`/templates/${prompt.id}/edit`}>
+         <Link href={href}>
             <Edit2 className="mr-2 h-4 w-4" />
             Bearbeiten
          </Link>

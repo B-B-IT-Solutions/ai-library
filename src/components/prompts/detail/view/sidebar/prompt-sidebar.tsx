@@ -8,9 +8,10 @@ import {
 
 type Props = {
    prompt: DPrompt;
+   collectionId?: string;
 };
 
-export const PromptSidebar = ({ prompt }: Props) => {
+export const PromptSidebar = ({ prompt, collectionId }: Props) => {
    return (
       <aside
          className="space-y-3 lg:sticky lg:top-8 lg:self-start"
@@ -21,7 +22,7 @@ export const PromptSidebar = ({ prompt }: Props) => {
             className="w-full justify-center py-5 text-sm"
          />
          <div className="space-y-1 pt-1">
-            <EditButton prompt={prompt} />
+            <EditButton prompt={prompt} collectionId={collectionId} />
             <DownloadPromptButton prompt={prompt} />
             <DeletePromptButton prompt={prompt} />
          </div>

@@ -8,10 +8,16 @@ import { TemplateItemCard } from "./items";
 type Props = {
    descriptors: DPrompt[];
    collections: DCollection[];
+   collectionId?: string;
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsGrid = ({ descriptors, collections, ref }: Props) => {
+export const TemplateItemsGrid = ({
+   descriptors,
+   collections,
+   collectionId,
+   ref,
+}: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
@@ -35,6 +41,7 @@ export const TemplateItemsGrid = ({ descriptors, collections, ref }: Props) => {
             key={descriptor.id}
             descriptor={descriptor}
             collections={collections}
+            collectionId={collectionId}
             ref={isLast ? ref : undefined}
          />
       );

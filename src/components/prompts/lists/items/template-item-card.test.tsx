@@ -69,12 +69,32 @@ const assertAddToCollectionDialogNotRendered = () => {
 };
 
 describe("TemplateItemCard rendering tests", () => {
-   it("viewMode grid - rendered test", async () => {
+   it("collectionId undefined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptor = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <TemplateItemCard descriptor={descriptor} collections={collections} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collectionId defined - test", async () => {
+      const collections = dtestData.dCollections();
+      const descriptor = dtestData.dPrompt();
+      const collection = dtestData.dCollection();
+
+      const { container } = renderWithReactQuery(
+         <TemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+            collectionId={collection.id}
+         />
       );
 
       await waitFor(() => {
@@ -113,7 +133,7 @@ describe("TemplateItemCard functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("title - view detail link clicked - test", async () => {
+   it("title - view detail link clicked - collectionId undefined - test", async () => {
       const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
@@ -135,7 +155,36 @@ describe("TemplateItemCard functionality tests", () => {
       });
    });
 
-   it("dropdown - view detail link clicked - test", async () => {
+   it("title - view detail link clicked - collectionId defined - test", async () => {
+      const descriptor = dtestData.dPrompt();
+      const collections = dtestData.dCollections();
+      const collection = dtestData.dCollection();
+
+      renderWithReactQuery(
+         <TemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+            collectionId={collection.id}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertDropdownMenuItemsNotRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const viewDetailsTitle = screen.getByTestId("view-details-link-title");
+      userEvent.click(viewDetailsTitle);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(
+            `/templates/${descriptor.id}?collectionId=${collection.id}`
+         );
+      });
+   });
+
+   it("dropdown - view detail link clicked - collectionId undefined - test", async () => {
       const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
@@ -162,6 +211,43 @@ describe("TemplateItemCard functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
+      });
+   });
+
+   it("dropdown - view detail link clicked - collectionId defined - test", async () => {
+      const descriptor = dtestData.dPrompt();
+      const collections = dtestData.dCollections();
+      const collection = dtestData.dCollection();
+
+      renderWithReactQuery(
+         <TemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+            collectionId={collection.id}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertDropdownMenuItemsNotRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
+      userEvent.click(dropdownMenuBtn);
+
+      await waitFor(() => {
+         assertDropdownMenuItemsRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const viewDetailsLink = screen.getByTestId("view-details-link");
+      userEvent.click(viewDetailsLink);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(
+            `/templates/${descriptor.id}?collectionId=${collection.id}`
+         );
       });
    });
 
