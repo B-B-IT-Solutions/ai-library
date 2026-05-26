@@ -66,6 +66,7 @@ describe("EditPromptPage rendering tests", () => {
       await waitFor(() => {
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(getCollectionByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 

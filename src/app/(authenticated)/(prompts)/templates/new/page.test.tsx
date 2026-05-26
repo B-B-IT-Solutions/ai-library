@@ -49,6 +49,7 @@ describe("NewPromptPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(getGlobalPromptFieldsMock).toHaveBeenCalledTimes(1);
          expect(getCollectionByIdMock).not.toHaveBeenCalled();
       });
 
@@ -74,6 +75,7 @@ describe("NewPromptPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(getGlobalPromptFieldsMock).toHaveBeenCalledTimes(1);
          expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
          expect(getCollectionByIdMock).toHaveBeenCalledWith(collection.id);
       });
