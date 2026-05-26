@@ -73,7 +73,7 @@ export const DetectedVariables = ({
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             {hasUndefinedVariables && (
                <div
-                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 p-3 text-sm text-orange-800"
+                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 px-3 py-2 text-sm text-orange-800"
                   data-testid="undefined-variables"
                >
                   <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export const DetectedVariables = ({
                      data-testid="sync-all-btn"
                   >
                      <RefreshCw className="mr-2 h-3 w-3" />
-                     Alle synchronisieren
+                     Alle hinzufügen
                   </Button>
                </div>
             )}
