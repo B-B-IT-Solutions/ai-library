@@ -50,7 +50,8 @@ export const PromptVariables = ({
                   Platzhalter konfigurieren
                </p>
                <p className="mt-1 text-sm text-slate-500">
-                  Legen Sie fest, wie jeder Platzhalter im Formular beim Anwenden des Prompts erscheint
+                  Legen Sie fest, wie jeder Platzhalter im Formular beim
+                  Anwenden des Prompts erscheint
                </p>
             </div>
             <div className="flex items-center justify-end gap-2">

@@ -96,8 +96,7 @@ export const GlobalPromptFieldsPicker = ({
                   className="w-full cursor-pointer"
                   data-testid="add-fields-btn"
                >
-                  {selectedIds.length} Feld
-                  {selectedIds.length !== 1 ? "er" : ""} hinzufügen
+                  {selectedIds.length} Platzhalter hinzufügen
                </Button>
             </div>
          );
@@ -115,13 +114,13 @@ export const GlobalPromptFieldsPicker = ({
                data-testid="global-template-fields-picker"
             >
                <Braces className="mr-1 h-4 w-4" />
-               Globale Felder
+               Globale Platzhalter
             </Button>
          </PopoverTrigger>
          <PopoverContent className="w-80 p-0" align="end">
             <div className="border-b p-3" data-testid="picker-header">
                <p className="mb-2 text-sm font-medium text-slate-900">
-                  Globale Felder importieren
+                  Globale Platzhalter auswählen
                </p>
                <div className="relative" data-testid="field-search">
                   <Search className="absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />

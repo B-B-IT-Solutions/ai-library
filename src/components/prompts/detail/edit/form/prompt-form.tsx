@@ -222,7 +222,7 @@ export const PromptEditForm = ({
                      <TabsContent value="editor">
                         <PromptContent control={form.control} />
                      </TabsContent>
-                     <TabsContent value="variables" className="space-y-6">
+                     <TabsContent value="variables" className="space-y-8">
                         <DetectedVariables
                            detectedVariables={detectedVariables}
                            variableStatus={variableStatus}
