@@ -17,10 +17,25 @@ const assertRendered = () => {
 };
 
 describe("PromptView rendering tests", () => {
-   it("rendered test", async () => {
+   it("collection undefined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
 
       const { container } = render(<PromptView prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collection defined - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const collection = dtestData.dCollection();
+
+      const { container } = render(
+         <PromptView prompt={prompt} collection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
