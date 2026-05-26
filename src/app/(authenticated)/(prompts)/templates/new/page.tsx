@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 import { PromptEdit } from "@/components/prompts";
+import { getCollectionById } from "@/data/actions/collection";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -17,14 +18,18 @@ export type PageProps = {
 
 export const NewPromptPage = async ({ searchParams }: PageProps) => {
    const { collectionId } = await searchParams;
-   const globalFields = await getGlobalPromptFields();
+
+   const [globalFields, collection] = await Promise.all([
+      getGlobalPromptFields(),
+      collectionId ? getCollectionById(collectionId) : Promise.resolve(null),
+   ]);
 
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-prompt-page"
       >
-         <PromptEdit collectionId={collectionId} globalFields={globalFields} />
+         <PromptEdit collection={collection} globalFields={globalFields} />
       </div>
    );
 };

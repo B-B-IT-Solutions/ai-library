@@ -1,15 +1,21 @@
 jest.mock("@/data/actions/settings");
+jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
+import { getCollectionById } from "@/data/actions/collection";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import { metadata, NewPromptPage, PageProps, PageSearchParams } from "./page";
 
 const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
    typeof getGlobalPromptFields
+>;
+
+const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
+   typeof getCollectionById
 >;
 
 const expectedMetadata: Metadata = {
@@ -25,6 +31,10 @@ const assertRendered = () => {
 };
 
 describe("NewPromptPage rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
    it("collectionId undefined - test", async () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
@@ -39,6 +49,7 @@ describe("NewPromptPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(getCollectionByIdMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -48,8 +59,11 @@ describe("NewPromptPage rendering tests", () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
+      const collection = dtestData.dCollection();
+      getCollectionByIdMock.mockResolvedValue(collection);
+
       const searchParams: PageSearchParams = {
-         collectionId: "collection-id-1",
+         collectionId: collection.id,
       };
 
       const props: PageProps = {
@@ -60,6 +74,8 @@ describe("NewPromptPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionByIdMock).toHaveBeenCalledWith(collection.id);
       });
 
       expect(container).toMatchSnapshot();
