@@ -44,7 +44,7 @@ export const PromptVariables = ({
 
    const header = () => {
       return (
-         <div className="space-y-3">
+         <div className="mb-1 space-y-3">
             <div>
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                   Platzhalter konfigurieren
