@@ -73,7 +73,7 @@ export const DetectedVariables = ({
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             {hasUndefinedVariables && (
                <div
-                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 px-3 py-2 text-sm text-orange-800"
+                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 px-3 py-1 text-sm text-orange-800"
                   data-testid="undefined-variables"
                >
                   <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export const DetectedVariables = ({
                      onClick={onSyncAll}
                      variant="ghost"
                      size="sm"
-                     className="cursor-pointer text-orange-800 hover:bg-orange-200 hover:text-orange-900"
+                     className="cursor-pointer text-orange-800 hover:bg-orange-100 hover:text-orange-900"
                      data-testid="sync-all-btn"
                   >
                      <RefreshCw className="mr-2 h-3 w-3" />
