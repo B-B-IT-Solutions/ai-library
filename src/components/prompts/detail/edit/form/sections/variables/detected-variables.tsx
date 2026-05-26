@@ -68,7 +68,7 @@ export const DetectedVariables = ({
             Erkannte Platzhalter
          </p>
          <p className="text-sm text-slate-500">
-            Platzhalter, die im Prompt-Text gefunden wurden
+            Platzhalter, die im Prompt erkannt wurden
          </p>
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div className="mb-3 flex items-center justify-between">
