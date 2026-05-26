@@ -63,7 +63,7 @@ export const PromptVariables = ({
                   data-testid="add-btn"
                >
                   <Plus className="mr-1 h-4 w-4" />
-                  Feld hinzufügen
+                  Platzhalter hinzufügen
                </Button>
                <GlobalPromptFieldsPicker
                   globalFields={globalFields}
@@ -92,7 +92,7 @@ export const PromptVariables = ({
          return (
             <div className="space-y-2" data-testid="prompt-global-variables">
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
-                  Globale Felder
+                  Globale Platzhalter
                </p>
                {map(resolvedGlobalFields, renderGlobalField)}
             </div>
@@ -120,15 +120,33 @@ export const PromptVariables = ({
 
    const renderTemplateFields = () => {
       if (isEmpty(fields)) {
+         const hasDetectedVariables = !isEmpty(detectedVariables);
          return (
             <div
                className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
                data-testid="fields-empty"
             >
-               <p className="text-slate-500">Noch keine Felder hinzugefügt</p>
-               <p className="mt-1 text-sm text-slate-400">
-                  Klicken Sie auf &quot;Feld hinzufügen&quot;, um zu beginnen
-               </p>
+               {hasDetectedVariables ? (
+                  <>
+                     <p className="text-slate-500">
+                        Noch keine Platzhalter konfiguriert
+                     </p>
+                     <p className="mt-1 text-sm text-slate-400">
+                        Fügen Sie die erkannten Platzhalter oben hinzu oder
+                        klicken Sie auf &quot;Platzhalter hinzufügen&quot;
+                     </p>
+                  </>
+               ) : (
+                  <>
+                     <p className="text-slate-500">
+                        Noch keine Platzhalter konfiguriert
+                     </p>
+                     <p className="mt-1 text-sm text-slate-400">
+                        Klicken Sie auf &quot;Platzhalter hinzufügen&quot;, um
+                        zu beginnen
+                     </p>
+                  </>
+               )}
             </div>
          );
       }
