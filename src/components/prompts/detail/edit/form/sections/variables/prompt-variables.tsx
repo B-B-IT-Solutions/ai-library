@@ -44,7 +44,7 @@ export const PromptVariables = ({
 
    const header = () => {
       return (
-         <div className="flex items-start justify-between">
+         <div className="space-y-3">
             <div>
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                   Platzhalter konfigurieren
@@ -53,7 +53,7 @@ export const PromptVariables = ({
                   Definieren Sie Label und Feldtyp für jeden Platzhalter
                </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-end gap-2">
                <Button
                   type="button"
                   onClick={onAddField}
