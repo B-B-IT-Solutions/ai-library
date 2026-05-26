@@ -71,33 +71,9 @@ export const DetectedVariables = ({
             Platzhalter, die im Prompt erkannt wurden
          </p>
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <div className="mb-3 flex items-center justify-between">
-               <div className="text-sm text-slate-700">
-                  <span className="font-medium">
-                     {detectedVariables.length}
-                  </span>{" "}
-                  Platzhalter im Prompt erkannt
-               </div>
-               {hasUndefinedVariables && (
-                  <Button
-                     type="button"
-                     onClick={onSyncAll}
-                     variant="outline"
-                     size="sm"
-                     className="cursor-pointer"
-                     data-testid="sync-all-btn"
-                  >
-                     <RefreshCw className="mr-2 h-3 w-3" />
-                     Alle synchronisieren
-                  </Button>
-               )}
-            </div>
-            <div className="flex flex-wrap gap-2">
-               {map(detectedVariables, renderVariable)}
-            </div>
             {hasUndefinedVariables && (
                <div
-                  className="mt-3 rounded-md bg-orange-100 p-3 text-sm text-orange-800"
+                  className="mb-3 flex items-center justify-between rounded-md bg-orange-100 p-3 text-sm text-orange-800"
                   data-testid="undefined-variables"
                >
                   <div className="flex items-center gap-2">
@@ -106,8 +82,22 @@ export const DetectedVariables = ({
                         {undefinedCount} Platzhalter noch nicht konfiguriert
                      </span>
                   </div>
+                  <Button
+                     type="button"
+                     onClick={onSyncAll}
+                     variant="ghost"
+                     size="sm"
+                     className="cursor-pointer text-orange-800 hover:bg-orange-200 hover:text-orange-900"
+                     data-testid="sync-all-btn"
+                  >
+                     <RefreshCw className="mr-2 h-3 w-3" />
+                     Alle synchronisieren
+                  </Button>
                </div>
             )}
+            <div className="flex flex-wrap gap-2">
+               {map(detectedVariables, renderVariable)}
+            </div>
          </div>
       </section>
    );
