@@ -151,8 +151,13 @@ export const PromptVariables = ({
          );
       }
       return (
-         <div className="space-y-4" data-testid="fields">
-            {map(fields, (field, idx) => renderTemplateField(field, idx))}
+         <div className="space-y-2" data-testid="fields">
+            <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+               Prompt Platzhalter
+            </p>
+            <div className="space-y-4">
+               {map(fields, (field, idx) => renderTemplateField(field, idx))}
+            </div>
          </div>
       );
    };
