@@ -43,18 +43,19 @@ export const PromptVariable = ({
             data-testid="header"
          >
             <div className="flex items-center gap-2">
-               <h4 className="font-medium text-slate-900">Feld {index + 1}</h4>
-               {hasName && isUsed && (
-                  <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
-                     <CheckCircle2 className="h-3 w-3" />
-                     Im Content verwendet
-                  </span>
-               )}
-               {hasName && !isUsed && (
-                  <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
-                     <AlertCircle className="h-3 w-3" />
-                     Nicht verwendet
-                  </span>
+               <h4 className="font-medium text-slate-900">Platzhalter {index + 1}</h4>
+               {hasName && (
+                  isUsed ? (
+                     <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Im Prompt verwendet
+                     </span>
+                  ) : (
+                     <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
+                        <AlertCircle className="h-3 w-3" />
+                        Nicht verwendet
+                     </span>
+                  )
                )}
             </div>
             <Button
@@ -71,8 +72,18 @@ export const PromptVariable = ({
       );
    };
 
-   const formInputs = () => {
-      return (
+   return (
+      <div
+         className={`rounded-lg border p-6 ${
+            hasName && !isUsed
+               ? "border-orange-200 bg-orange-50"
+               : hasName && isUsed
+                 ? "border-green-200 bg-green-50"
+                 : "border-slate-200 bg-slate-50"
+         }`}
+         data-testid="prompt-variable"
+      >
+         {header()}
          <div className="grid grid-cols-2 gap-4">
             <TemplateFieldName<DPromptUpdate>
                name={`fields.${index}.name`}
@@ -107,22 +118,6 @@ export const PromptVariable = ({
                control={control}
             />
          </div>
-      );
-   };
-
-   return (
-      <div
-         className={`rounded-lg border p-6 ${
-            hasName && !isUsed
-               ? "border-orange-200 bg-orange-50"
-               : hasName && isUsed
-                 ? "border-green-200 bg-green-50"
-                 : "border-slate-200 bg-slate-50"
-         }`}
-         data-testid="prompt-variable"
-      >
-         {header()}
-         {formInputs()}
       </div>
    );
 };
