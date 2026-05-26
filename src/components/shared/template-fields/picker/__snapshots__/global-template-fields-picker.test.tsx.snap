@@ -32,7 +32,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
         />
       </svg>
-      Globale Felder
+      Globale Platzhalter
     </button>
     <div
       data-testid="mock-react-popover-portal"
@@ -73,7 +73,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
         />
       </svg>
-      Globale Felder
+      Globale Platzhalter
     </button>
     <div
       data-testid="mock-react-popover-portal"
@@ -92,7 +92,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           <p
             class="mb-2 text-sm font-medium text-slate-900"
           >
-            Globale Felder importieren
+            Globale Platzhalter auswählen
           </p>
           <div
             class="relative"
@@ -249,8 +249,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
             type="button"
           >
             1
-             Feld
-             hinzufügen
+             Platzhalter hinzufügen
           </button>
         </div>
       </div>
@@ -291,7 +290,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
         />
       </svg>
-      Globale Felder
+      Globale Platzhalter
     </button>
     <div
       data-testid="mock-react-popover-portal"
@@ -310,7 +309,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           <p
             class="mb-2 text-sm font-medium text-slate-900"
           >
-            Globale Felder importieren
+            Globale Platzhalter auswählen
           </p>
           <div
             class="relative"
@@ -396,7 +395,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
         />
       </svg>
-      Globale Felder
+      Globale Platzhalter
     </button>
     <div
       data-testid="mock-react-popover-portal"
@@ -415,7 +414,7 @@ exports[`GlobalPromptFieldsPicker rendering tests GlobalPromptFieldsPicker - ope
           <p
             class="mb-2 text-sm font-medium text-slate-900"
           >
-            Globale Felder importieren
+            Globale Platzhalter auswählen
           </p>
           <div
             class="relative"

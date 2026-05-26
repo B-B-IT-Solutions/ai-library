@@ -16,7 +16,7 @@ exports[`PromptVariable rendering tests hasName false - isUsed false - test 1`] 
         <h4
           class="font-medium text-slate-900"
         >
-          Feld 
+          Platzhalter 
           1
         </h4>
       </div>
@@ -315,7 +315,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed false - test 1`] =
         <h4
           class="font-medium text-slate-900"
         >
-          Feld 
+          Platzhalter 
           2
         </h4>
         <span
@@ -650,7 +650,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed true - test 1`] = 
         <h4
           class="font-medium text-slate-900"
         >
-          Feld 
+          Platzhalter 
           6
         </h4>
         <span
@@ -678,7 +678,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed true - test 1`] = 
               d="m9 12 2 2 4-4"
             />
           </svg>
-          Im Content verwendet
+          Im Prompt verwendet
         </span>
       </div>
       <button
