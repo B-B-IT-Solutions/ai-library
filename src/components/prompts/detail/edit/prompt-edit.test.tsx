@@ -154,7 +154,9 @@ describe("PromptEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCancelBtnHref(`/templates/${prompt.id}`);
+         assertCancelBtnHref(
+            `/templates/${prompt.id}?collectionId=${collection.id}`
+         );
       });
 
       expect(container).toMatchSnapshot();

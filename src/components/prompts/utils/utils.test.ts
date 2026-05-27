@@ -1,20 +1,20 @@
 import { dtestData } from "@tests";
 
-import { isEdit, navigateBackUrl } from "./utils";
+import { isEditMode, navigateBackUrl } from "./utils";
 
-describe("isEdit - tests", () => {
-   it("isEdit false - test", () => {
-      const result = isEdit();
+describe("isEditMode - tests", () => {
+   it("isEditMode false - test", () => {
+      const result = isEditMode();
       expect(result).toBe(false);
 
       const prompt = dtestData.dPrompt();
-      const result2 = isEdit(prompt);
+      const result2 = isEditMode(prompt);
       expect(result2).toBe(true);
    });
 
-   it("isEdit true - test", () => {
+   it("isEditMode true - test", () => {
       const prompt = dtestData.dPrompt();
-      const result = isEdit(prompt);
+      const result = isEditMode(prompt);
       expect(result).toBe(true);
    });
 });

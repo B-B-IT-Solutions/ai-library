@@ -1,1 +1,1 @@
-export { navigateBackUrl } from "./utils";
+export { navigateBackUrl, isEditMode } from "./utils";
