@@ -1,3 +1,5 @@
+import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
@@ -6,9 +8,17 @@ import { PromptSidebar } from "./sidebar";
 
 type Props = {
    prompt: DPromptWithContent;
+   collection?: DCollection | null;
 };
 
-export const PromptView = ({ prompt }: Props) => {
+export const PromptView = ({ prompt, collection }: Props) => {
+   const collectionRoot: BreadcrumbLinkProps | undefined = collection
+      ? {
+           label: collection.name,
+           href: `/collections/${collection.id}`,
+        }
+      : undefined;
+
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
@@ -16,7 +26,11 @@ export const PromptView = ({ prompt }: Props) => {
       >
          {/* Sticky topbar */}
          <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center border-b border-slate-200 bg-white px-6">
-            <TemplateBreadcrumb variant="view" label={prompt.title} />
+            <TemplateBreadcrumb
+               variant="view"
+               label={prompt.title}
+               root={collectionRoot}
+            />
          </div>
 
          {/* Scrollable content */}
@@ -29,7 +43,7 @@ export const PromptView = ({ prompt }: Props) => {
                   </div>
 
                   {/* Sidebar */}
-                  <PromptSidebar prompt={prompt} />
+                  <PromptSidebar prompt={prompt} collection={collection} />
                </div>
             </div>
          </div>

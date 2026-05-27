@@ -19,12 +19,14 @@ type GroupedTemplates = {
 type Props = {
    descriptors: DPrompt[];
    collections: DCollection[];
+   collectionId?: string;
    groupBy: DListGroupByMode;
 };
 
 export const TemplateItemsGrouped = ({
    descriptors,
    collections,
+   collectionId,
    groupBy,
 }: Props) => {
    const grouped = useMemo(() => {
@@ -64,8 +66,9 @@ export const TemplateItemsGrouped = ({
                   {map(group.entries, (entry) => (
                      <TemplateItemCard
                         key={entry.id}
-                        descriptor={entry}
+                        prompt={entry}
                         collections={collections}
+                        collectionId={collectionId}
                      />
                   ))}
                </div>

@@ -1,38 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
+import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
+import { isEditMode, navigateBackPromptUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collectionId?: string;
+   collection?: DCollection | null;
    globalFields: DGlobalPromptField[];
 };
 
-export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
+export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
-   const isEdit = !!prompt;
+   const isEdit = useMemo(() => isEditMode(prompt), [prompt]);
 
-   const cancelHref = isEdit
-      ? `/templates/${prompt!.id}`
-      : collectionId
-        ? `/collections/${collectionId}`
-        : "/templates";
+   const backUrl = useMemo(
+      () => navigateBackPromptUrl(prompt, collection),
+      [prompt, collection]
+   );
+
+   const collectionRoot: BreadcrumbLinkProps | undefined = collection
+      ? {
+           label: collection.name,
+           href: `/collections/${collection.id}`,
+        }
+      : undefined;
 
    const breadcrumbs = () => {
       if (prompt) {
@@ -41,10 +50,11 @@ export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
                variant="edit"
                label={prompt.title}
                entryId={prompt.id}
+               root={collectionRoot}
             />
          );
       }
-      return <TemplateBreadcrumb variant="new" />;
+      return <TemplateBreadcrumb variant="new" root={collectionRoot} />;
    };
 
    const cancelBtn = () => {
@@ -57,7 +67,7 @@ export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
             className="cursor-pointer"
             data-testid="cancel-btn"
          >
-            <Link href={cancelHref}>Abbrechen</Link>
+            <Link href={backUrl}>Abbrechen</Link>
          </Button>
       );
    };
@@ -107,7 +117,7 @@ export const PromptEdit = ({ prompt, collectionId, globalFields }: Props) => {
             <ItemDetailsEditBody>
                <PromptEditForm
                   prompt={prompt}
-                  collectionId={collectionId}
+                  collectionId={collection?.id}
                   globalFields={globalFields}
                   onSubmit={setIsSubmitting}
                />

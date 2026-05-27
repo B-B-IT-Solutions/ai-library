@@ -15,7 +15,7 @@ const assertRendered = () => {
 };
 
 describe("TemplateItemsList rendering tests", () => {
-   it("templateDescriptors empty - test", async () => {
+   it("prompts empty - test", async () => {
       const collections = dtestData.dCollections();
 
       const { container } = renderWithReactQuery(
@@ -29,14 +29,31 @@ describe("TemplateItemsList rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("templateDescriptors with items - test", async () => {
+   it("prompts - collecitonId undefined - test", async () => {
       const collections = dtestData.dCollections();
-      const descriptors = dtestData.dPrompts();
+      const prompts = dtestData.dPrompts();
+
+      const { container } = renderWithReactQuery(
+         <TemplateItemsList descriptors={prompts} collections={collections} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("prompts - collecitonId defined - test", async () => {
+      const collections = dtestData.dCollections();
+      const prompts = dtestData.dPrompts();
+      const collection = dtestData.dCollection();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsList
-            descriptors={descriptors}
+            descriptors={prompts}
             collections={collections}
+            collectionId={collection.id}
          />
       );
 

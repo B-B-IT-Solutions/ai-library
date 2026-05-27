@@ -97,7 +97,7 @@ const assertRendered = () => {
 };
 
 describe("PromptEdit rendering tests", () => {
-   it("new entry - collectionId undefined - test", async () => {
+   it("new entry - collection undefined - test", async () => {
       const { container } = render(<PromptEdit globalFields={[]} />);
 
       await waitFor(() => {
@@ -108,22 +108,22 @@ describe("PromptEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("new entry - collectionId defined - test", async () => {
-      const collectionId = "collection-id-123";
+   it("new entry - collection defined - test", async () => {
+      const collection = dtestData.dCollection();
 
       const { container } = render(
-         <PromptEdit globalFields={[]} collectionId={collectionId} />
+         <PromptEdit globalFields={[]} collection={collection} />
       );
 
       await waitFor(() => {
          assertRendered();
-         assertCancelBtnHref(`/collections/${collectionId}`);
+         assertCancelBtnHref(`/collections/${collection.id}`);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("edit existing entry - test", async () => {
+   it("edit existing entry - collection undefined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
@@ -134,6 +134,29 @@ describe("PromptEdit rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCancelBtnHref(`/templates/${prompt.id}`);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("edit existing entry - collection defined - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
+      const collection = dtestData.dCollection();
+
+      const { container } = render(
+         <PromptEdit
+            prompt={prompt}
+            globalFields={fields}
+            collection={collection}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCancelBtnHref(
+            `/templates/${prompt.id}?collectionId=${collection.id}`
+         );
       });
 
       expect(container).toMatchSnapshot();
@@ -256,10 +279,10 @@ describe("PromptEdit functionality tests", () => {
       };
       createPromptMock.mockResolvedValue(result);
 
-      const collectionId = "collection-id-1";
+      const collection = dtestData.dCollection();
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
+      render(<PromptEdit globalFields={fields} collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -285,7 +308,7 @@ describe("PromptEdit functionality tests", () => {
 
       const expectedPayload: DPromptUpdateCrate = {
          data: expectedData,
-         collectionId,
+         collectionId: collection.id,
       };
 
       const expectedToastPayload = {
@@ -323,9 +346,9 @@ describe("PromptEdit functionality tests", () => {
       createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
-      const collectionId = "collection-id-123";
+      const collection = dtestData.dCollection();
 
-      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
+      render(<PromptEdit globalFields={fields} collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -357,7 +380,7 @@ describe("PromptEdit functionality tests", () => {
 
       const expectedPayload: DPromptUpdateCrate = {
          data: expectedData,
-         collectionId,
+         collectionId: collection.id,
       };
 
       await waitFor(() => {
@@ -427,9 +450,10 @@ describe("PromptEdit functionality tests", () => {
       };
       createPromptMock.mockResolvedValue(createResult);
 
-      const collectionId = "457bf695-6f74-44aa-9b3a-e179ea9e8171";
+      const collection = dtestData.dCollection();
+
       const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} collectionId={collectionId} />);
+      render(<PromptEdit globalFields={fields} collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -447,7 +471,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
-         expect(mockRouter.pathname).toEqual(`/collections/${collectionId}`);
+         expect(mockRouter.pathname).toEqual(`/collections/${collection.id}`);
       });
    });
 });

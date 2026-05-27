@@ -1,3 +1,4 @@
+import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    DeletePromptButton,
@@ -8,9 +9,10 @@ import {
 
 type Props = {
    prompt: DPrompt;
+   collection?: DCollection | null;
 };
 
-export const PromptSidebar = ({ prompt }: Props) => {
+export const PromptSidebar = ({ prompt, collection }: Props) => {
    return (
       <aside
          className="space-y-3 lg:sticky lg:top-8 lg:self-start"
@@ -21,7 +23,7 @@ export const PromptSidebar = ({ prompt }: Props) => {
             className="w-full justify-center py-5 text-sm"
          />
          <div className="space-y-1 pt-1">
-            <EditButton prompt={prompt} />
+            <EditButton prompt={prompt} collection={collection} />
             <DownloadPromptButton prompt={prompt} />
             <DeletePromptButton prompt={prompt} />
          </div>

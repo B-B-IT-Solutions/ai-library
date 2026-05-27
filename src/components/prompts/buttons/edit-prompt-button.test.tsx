@@ -11,10 +11,25 @@ const assertRendered = () => {
 };
 
 describe("EditButton rendering tests", () => {
-   it("rendered test", async () => {
+   it("collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithRouter(<EditButton prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collection defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+      const collection = dtestData.dCollection();
+
+      const { container } = renderWithRouter(
+         <EditButton prompt={prompt} collection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -30,7 +45,7 @@ describe("EditButton functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("edit btn clicked - test", async () => {
+   it("edit btn clicked - collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
       renderWithRouter(<EditButton prompt={prompt} />);
 
@@ -44,6 +59,26 @@ describe("EditButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}/edit`);
+      });
+   });
+
+   it("edit btn clicked - collection defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+      const collection = dtestData.dCollection();
+      renderWithRouter(<EditButton prompt={prompt} collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const editBtn = screen.getByTestId("edit-prompt-btn");
+      await userEvent.click(editBtn);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(
+            `/templates/${prompt.id}/edit?collectionId=${collection.id}`
+         );
       });
    });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { map } from "es-toolkit/compat";
 import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
@@ -22,21 +22,33 @@ import {
    DownloadPromptButton,
    UseTemplateButton,
 } from "../../buttons";
+import { viewPromptUrl } from "../../utils";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    collections: DCollection[];
+   collectionId?: string;
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
+export const TemplateItemCard = ({
+   prompt,
+   collections,
+   collectionId,
+   ref,
+}: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
+
+   const viewUrl = useMemo(
+      () => viewPromptUrl(prompt, collectionId),
+      [prompt, collectionId]
+   );
 
    const categories = () => {
       return (
          <div className="mb-2 flex flex-wrap gap-1" data-testid="categories">
-            {map(descriptor.categories, (cat) => (
+            {map(prompt.categories, (cat) => (
                <span
                   key={cat.name}
                   className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-700"
@@ -64,7 +76,7 @@ export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={`/templates/${descriptor.id}`}
+                     href={viewUrl}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -81,7 +93,7 @@ export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
                   Zu Sammlung hinzufügen
                </DropdownMenuItem>
                <DropdownMenuSeparator />
-               <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
+               <DownloadPromptButton prompt={prompt} asMenuItem={true} />
             </DropdownMenuContent>
          </DropdownMenu>
       );
@@ -93,20 +105,20 @@ export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
          className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
          data-testid="template-item-card"
       >
-         <AddToFavoriteButton descriptor={descriptor} />
+         <AddToFavoriteButton descriptor={prompt} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={`/templates/${descriptor.id}`}
+               href={viewUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >
                <h4 className="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
-                  {descriptor.title}
+                  {prompt.title}
                </h4>
             </Link>
             <div>
                <span className="self-start rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
-                  {descriptor.recommendedModel}
+                  {prompt.recommendedModel}
                </span>
             </div>
          </CardHeader>
@@ -115,17 +127,17 @@ export const TemplateItemCard = ({ descriptor, collections, ref }: Props) => {
             {categories()}
 
             <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
-               {descriptor.description}
+               {prompt.description}
             </p>
 
             <div className="flex gap-2 pt-2">
-               <UseTemplateButton descriptor={descriptor} className="flex-1" />
+               <UseTemplateButton descriptor={prompt} className="flex-1" />
                {dropdownMenu()}
             </div>
          </CardContent>
 
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            descriptor={prompt}
             collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}

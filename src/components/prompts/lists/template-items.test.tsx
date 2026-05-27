@@ -59,6 +59,7 @@ describe("LibraryDashboard rendering tests", () => {
 
    it("LibraryEntries - view grid - test", async () => {
       const filters = dtestData.dPromptsFilter();
+      const collection = dtestData.dCollection();
 
       const { container } = renderWithRouter(
          <TemplateItems
@@ -66,6 +67,7 @@ describe("LibraryDashboard rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
             filters={filters}
+            collectionId={collection.id}
          />
       );
 
