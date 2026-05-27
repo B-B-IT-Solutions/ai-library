@@ -124,7 +124,7 @@ export const PromptVariables = ({
          const hasDetectedVariables = !isEmpty(detectedVariables);
          return (
             <div
-               className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
+               className="mt-3 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
                data-testid="fields-empty"
             >
                {hasDetectedVariables ? (
