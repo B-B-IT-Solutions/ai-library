@@ -31,7 +31,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
 
    const isEdit = useMemo(() => isEditMode(prompt), [prompt]);
 
-   const cancelHref = useMemo(
+   const backUrl = useMemo(
       () => navigateBackUrl(prompt, collection),
       [prompt, collection]
    );
@@ -67,7 +67,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
             className="cursor-pointer"
             data-testid="cancel-btn"
          >
-            <Link href={cancelHref}>Abbrechen</Link>
+            <Link href={backUrl}>Abbrechen</Link>
          </Button>
       );
    };
