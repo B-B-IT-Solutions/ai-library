@@ -1,6 +1,6 @@
 import { dtestData } from "@tests";
 
-import { editPromptUrl, isEditMode, navigateBackUrl } from "./utils";
+import { editPromptUrl, isEditMode, navigateBackPromptUrl } from "./utils";
 
 describe("isEditMode - tests", () => {
    it("isEditMode false - test", () => {
@@ -36,28 +36,28 @@ describe("editPromptUrl - tests", () => {
    });
 });
 
-describe("navigateBackUrl - tests", () => {
+describe("navigateBackPromptUrl - tests", () => {
    it("prompt undefined - collection undefined - test", () => {
-      const result = navigateBackUrl();
+      const result = navigateBackPromptUrl();
       expect(result).toBe("/templates");
    });
 
    it("prompt undefined - collection defined - test", () => {
       const collection = dtestData.dCollection();
-      const result = navigateBackUrl(undefined, collection);
+      const result = navigateBackPromptUrl(undefined, collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });
 
    it("prompt defined - collection undefined - test", () => {
       const prompt = dtestData.dPrompt();
-      const result = navigateBackUrl(prompt);
+      const result = navigateBackPromptUrl(prompt);
       expect(result).toBe(`/templates/${prompt.id}`);
    });
 
    it("prompt defined - collection defined - test", () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
-      const result = navigateBackUrl(prompt, collection);
+      const result = navigateBackPromptUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
       );

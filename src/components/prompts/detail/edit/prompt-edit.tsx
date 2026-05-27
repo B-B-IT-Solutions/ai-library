@@ -16,7 +16,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
-import { isEditMode, navigateBackUrl } from "../../utils";
+import { isEditMode, navigateBackPromptUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
 
@@ -32,7 +32,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
    const isEdit = useMemo(() => isEditMode(prompt), [prompt]);
 
    const backUrl = useMemo(
-      () => navigateBackUrl(prompt, collection),
+      () => navigateBackPromptUrl(prompt, collection),
       [prompt, collection]
    );
 
