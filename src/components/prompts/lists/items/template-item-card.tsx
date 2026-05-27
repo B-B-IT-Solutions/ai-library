@@ -36,11 +36,12 @@ export const TemplateItemCard = ({
    collectionId,
    ref,
 }: Props) => {
-   const detailHref = collectionId
-      ? `/templates/${prompt.id}?collectionId=${collectionId}`
-      : `/templates/${prompt.id}`;
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
+
+   const viewPromptUrl = collectionId
+      ? `/templates/${prompt.id}?collectionId=${collectionId}`
+      : `/templates/${prompt.id}`;
 
    const categories = () => {
       return (
@@ -73,7 +74,7 @@ export const TemplateItemCard = ({
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={detailHref}
+                     href={viewPromptUrl}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -105,7 +106,7 @@ export const TemplateItemCard = ({
          <AddToFavoriteButton descriptor={prompt} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={detailHref}
+               href={viewPromptUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >

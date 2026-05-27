@@ -1,6 +1,11 @@
 import { dtestData } from "@tests";
 
-import { editPromptUrl, isEditMode, navigateBackPromptUrl } from "./utils";
+import {
+   editPromptUrl,
+   isEditMode,
+   navigateBackPromptUrl,
+   viewPromptUrl,
+} from "./utils";
 
 describe("isEditMode - tests", () => {
    it("isEditMode false - test", () => {
@@ -16,6 +21,23 @@ describe("isEditMode - tests", () => {
       const prompt = dtestData.dPrompt();
       const result = isEditMode(prompt);
       expect(result).toBe(true);
+   });
+});
+
+describe("viewPromptUrl - tests", () => {
+   it("collectionId undefined - test", () => {
+      const prompt = dtestData.dPrompt();
+      const result = viewPromptUrl(prompt);
+      expect(result).toBe(`/templates/${prompt.id}`);
+   });
+
+   it("collectionId defined - test", () => {
+      const prompt = dtestData.dPrompt();
+      const collection = dtestData.dCollection();
+      const result = viewPromptUrl(prompt, collection.id);
+      expect(result).toBe(
+         `/templates/${prompt.id}?collectionId=${collection.id}`
+      );
    });
 });
 
