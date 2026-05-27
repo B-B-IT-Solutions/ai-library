@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateItemsGrid rendering tests prompt - with items - collectionId defined - test 1`] = `
+exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
@@ -577,7 +577,7 @@ exports[`TemplateItemsGrid rendering tests prompt - with items - collectionId de
 </div>
 `;
 
-exports[`TemplateItemsGrid rendering tests prompt - with items - collectionId undefined - test 1`] = `
+exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
