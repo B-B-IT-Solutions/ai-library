@@ -13,10 +13,7 @@ export const viewPromptUrl = (prompt: DPrompt, collectionId?: string) => {
    return viewUrl;
 };
 
-export const editPromptUrl = (
-   prompt: DPrompt,
-   collection?: DCollection | null
-) => {
+export const editPromptUrl = (prompt: DPrompt, collection?: DCollection) => {
    const editUrl = `/templates/${prompt.id}/edit`;
    if (collection) {
       return `${editUrl}?collectionId=${collection.id}`;
@@ -24,9 +21,16 @@ export const editPromptUrl = (
    return editUrl;
 };
 
+export const newPromptUrl = (collection?: DCollection) => {
+   if (collection) {
+      return `/templates/new?collectionId=${collection.id}`;
+   }
+   return "/templates/new";
+};
+
 export const promptEditNavigateBackUrl = (
    prompt?: DPrompt,
-   collection?: DCollection | null
+   collection?: DCollection
 ) => {
    const isEdit = isEditMode(prompt);
 

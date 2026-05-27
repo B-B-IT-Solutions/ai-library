@@ -5,6 +5,7 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
+   dtestData,
 } from "@tests";
 import mockRouter from "next-router-mock";
 
@@ -53,14 +54,15 @@ describe("CreatePromptButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("requirePlanUpgrade false - collectionId - test", async () => {
+   it("requirePlanUpgrade false - collection - test", async () => {
+      const collection = dtestData.dCollection();
       const { container } = render(
-         <CreatePromptButton collectionId="collection-id-1" />
+         <CreatePromptButton collection={collection} />
       );
 
       await waitFor(() => {
          assertRendered();
-         assertBtnHrefAttribute("/templates/new?collectionId=collection-id-1");
+         assertBtnHrefAttribute(`/templates/new?collectionId=${collection.id}`);
       });
 
       expect(container).toMatchSnapshot();
@@ -102,9 +104,9 @@ describe("CreatePromptButton functionality tests", () => {
    });
 
    it("requirePlanUpgrade false - collectionId - btn clicked - test", async () => {
-      const collectionId = "collection-id-123";
+      const collection = dtestData.dCollection();
 
-      render(<CreatePromptButton collectionId={collectionId} />);
+      render(<CreatePromptButton collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -116,7 +118,7 @@ describe("CreatePromptButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual("/templates/new");
-         expect(mockRouter.query).toEqual({ collectionId });
+         expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
 

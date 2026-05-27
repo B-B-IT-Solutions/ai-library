@@ -4,6 +4,7 @@ import {
    breadcrumbRootUrl,
    editPromptUrl,
    isEditMode,
+   newPromptUrl,
    promptEditNavigateBackUrl,
    viewPromptUrl,
 } from "./utils";
@@ -56,6 +57,19 @@ describe("editPromptUrl - tests", () => {
       expect(result).toBe(
          `/templates/${prompt.id}/edit?collectionId=${collection.id}`
       );
+   });
+});
+
+describe("newPromptUrl - tests", () => {
+   it("collection undefined - test", () => {
+      const result = newPromptUrl();
+      expect(result).toBe("/templates/new");
+   });
+
+   it("collection defined - test", () => {
+      const collection = dtestData.dCollection();
+      const result = newPromptUrl(collection);
+      expect(result).toBe(`/templates/new?collectionId=${collection.id}`);
    });
 });
 
