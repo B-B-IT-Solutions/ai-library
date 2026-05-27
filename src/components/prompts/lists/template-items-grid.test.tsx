@@ -29,7 +29,7 @@ describe("TemplateItemsGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("prompt - with items - collectionId undefined - test", async () => {
+   it("prompt - collectionId undefined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();
 
@@ -47,7 +47,7 @@ describe("TemplateItemsGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("prompt - with items - collectionId defined - test", async () => {
+   it("prompt - collectionId defined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();
       const collection = dtestData.dCollection();
