@@ -2,28 +2,33 @@ import {
    BreadcrumbLinkProps,
    ItemDetailsBreadcrumb,
 } from "@/components/shared/breadcrumbs";
+import { DCollection } from "@/data/types/domain/collection";
+import { DPrompt } from "@/data/types/domain/prompt";
+import { breadcrumbRootUrl, viewPromptUrl } from "../utils/utils";
 
 type Props =
    | {
         variant: "view";
         label: string;
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "edit";
-        label: string;
-        entryId: string;
+        prompt: DPrompt;
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "new";
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      };
 
-export const TemplateBreadcrumb = (props: Props) => {
+export const PromptBreadcrumb = (props: Props) => {
    const defaultRoot: BreadcrumbLinkProps = {
-      label: "Prompts",
-      href: "/templates",
+      label: props.collection?.name || "Prompts",
+      href: breadcrumbRootUrl(props.collection),
    };
 
    if (props.variant === "new") {
@@ -40,14 +45,15 @@ export const TemplateBreadcrumb = (props: Props) => {
    }
 
    if (props.variant === "edit") {
+      const { prompt, variant, root, collection } = props;
       return (
          <ItemDetailsBreadcrumb
-            root={props.root || defaultRoot}
-            variant={props.variant}
+            root={root || defaultRoot}
+            variant={variant}
             link={{
-               href: `${defaultRoot.href}/${props.entryId}`,
-               label: props.label,
-               tooltip: props.label,
+               href: viewPromptUrl(prompt, collection?.id),
+               label: prompt.title,
+               tooltip: prompt.title,
             }}
             data-testid="template-breadcrumb"
          />

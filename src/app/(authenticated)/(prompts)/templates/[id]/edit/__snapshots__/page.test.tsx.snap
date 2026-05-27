@@ -69,7 +69,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - collectionId defined 
                 class="transition-colors hover:text-foreground max-w-40 truncate"
                 data-slot="breadcrumb-link"
                 data-testid="item-link"
-                href="/templates/334db648-f300-4284-8149-075ff465d751"
+                href="/templates/334db648-f300-4284-8149-075ff465d751?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
                 title="title 1"
               >
                 title 1

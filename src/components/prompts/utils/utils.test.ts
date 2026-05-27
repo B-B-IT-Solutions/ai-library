@@ -1,9 +1,10 @@
 import { dtestData } from "@tests";
 
 import {
+   breadcrumbRootUrl,
    editPromptUrl,
    isEditMode,
-   navigateBackPromptUrl,
+   promptEditNavigateBackUrl,
    viewPromptUrl,
 } from "./utils";
 
@@ -58,30 +59,43 @@ describe("editPromptUrl - tests", () => {
    });
 });
 
-describe("navigateBackPromptUrl - tests", () => {
+describe("promptEditNavigateBackUrl - tests", () => {
    it("prompt undefined - collection undefined - test", () => {
-      const result = navigateBackPromptUrl();
+      const result = promptEditNavigateBackUrl();
       expect(result).toBe("/templates");
    });
 
    it("prompt undefined - collection defined - test", () => {
       const collection = dtestData.dCollection();
-      const result = navigateBackPromptUrl(undefined, collection);
+      const result = promptEditNavigateBackUrl(undefined, collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });
 
    it("prompt defined - collection undefined - test", () => {
       const prompt = dtestData.dPrompt();
-      const result = navigateBackPromptUrl(prompt);
+      const result = promptEditNavigateBackUrl(prompt);
       expect(result).toBe(`/templates/${prompt.id}`);
    });
 
    it("prompt defined - collection defined - test", () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
-      const result = navigateBackPromptUrl(prompt, collection);
+      const result = promptEditNavigateBackUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
       );
+   });
+});
+
+describe("breadcrumbRootUrl - tests", () => {
+   it("collection undefined - test", () => {
+      const result = breadcrumbRootUrl();
+      expect(result).toBe("/templates");
+   });
+
+   it("collection defined - test", () => {
+      const collection = dtestData.dCollection();
+      const result = breadcrumbRootUrl(collection);
+      expect(result).toBe(`/collections/${collection.id}`);
    });
 });

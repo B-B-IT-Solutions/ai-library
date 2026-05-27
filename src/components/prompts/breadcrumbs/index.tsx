@@ -1,1 +1,1 @@
-export { TemplateBreadcrumb } from "./template-breadcrumb";
+export { PromptBreadcrumb } from "./prompt-breadcrumb";

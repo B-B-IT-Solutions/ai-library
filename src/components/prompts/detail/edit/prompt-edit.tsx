@@ -5,7 +5,6 @@ import { Loader } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
@@ -15,14 +14,14 @@ import {
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
-import { TemplateBreadcrumb } from "../../breadcrumbs";
-import { isEditMode, navigateBackPromptUrl } from "../../utils";
+import { PromptBreadcrumb } from "../../breadcrumbs";
+import { isEditMode, promptEditNavigateBackUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollection | null;
+   collection?: DCollection;
    globalFields: DGlobalPromptField[];
 };
 
@@ -32,29 +31,21 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
    const isEdit = useMemo(() => isEditMode(prompt), [prompt]);
 
    const backUrl = useMemo(
-      () => navigateBackPromptUrl(prompt, collection),
+      () => promptEditNavigateBackUrl(prompt, collection),
       [prompt, collection]
    );
-
-   const collectionRoot: BreadcrumbLinkProps | undefined = collection
-      ? {
-           label: collection.name,
-           href: `/collections/${collection.id}`,
-        }
-      : undefined;
 
    const breadcrumbs = () => {
       if (prompt) {
          return (
-            <TemplateBreadcrumb
+            <PromptBreadcrumb
                variant="edit"
-               label={prompt.title}
-               entryId={prompt.id}
-               root={collectionRoot}
+               prompt={prompt}
+               collection={collection}
             />
          );
       }
-      return <TemplateBreadcrumb variant="new" root={collectionRoot} />;
+      return <PromptBreadcrumb variant="new" collection={collection} />;
    };
 
    const cancelBtn = () => {

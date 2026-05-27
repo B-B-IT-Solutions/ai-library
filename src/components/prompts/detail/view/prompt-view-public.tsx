@@ -8,7 +8,7 @@ import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import { MDRenderer } from "@/components/shared/md";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt, DPromptWithContent } from "@/data/types/domain/prompt";
-import { TemplateBreadcrumb } from "../../breadcrumbs";
+import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptText } from "./form";
 
@@ -39,7 +39,7 @@ export const PublicPromptView = ({
          <div className="border-b bg-white">
             <div className="container mx-auto max-w-5xl px-4 py-6">
                <div className="mb-4">
-                  <TemplateBreadcrumb
+                  <PromptBreadcrumb
                      variant="view"
                      label={descriptor.title}
                      root={breadcrumbRoot}

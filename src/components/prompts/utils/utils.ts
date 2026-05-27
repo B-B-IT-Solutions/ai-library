@@ -24,7 +24,7 @@ export const editPromptUrl = (
    return editUrl;
 };
 
-export const navigateBackPromptUrl = (
+export const promptEditNavigateBackUrl = (
    prompt?: DPrompt,
    collection?: DCollection | null
 ) => {
@@ -41,5 +41,12 @@ export const navigateBackPromptUrl = (
       return `/templates/${prompt!.id}`;
    }
 
+   return "/templates";
+};
+
+export const breadcrumbRootUrl = (collection?: DCollection) => {
+   if (collection) {
+      return `/collections/${collection.id}`;
+   }
    return "/templates";
 };

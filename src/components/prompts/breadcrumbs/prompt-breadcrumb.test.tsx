@@ -1,10 +1,10 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { TemplateBreadcrumb } from "./template-breadcrumb";
+import { PromptBreadcrumb } from "./prompt-breadcrumb";
 
 const assertRendered = () => {
    const breadcrumbs = screen.getByTestId("template-breadcrumb");
@@ -24,9 +24,9 @@ const assertItemLinkNotRendered = () => {
    assertNotInDocument(itemLink);
 };
 
-describe("LibraryEntryBreadcrumb rendering test", () => {
+describe("PromptBreadcrumb rendering test", () => {
    it("variant new - root undefined - test", async () => {
-      const { container } = render(<TemplateBreadcrumb variant="new" />);
+      const { container } = render(<PromptBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -38,7 +38,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant new - root defined - test", async () => {
       const { container } = render(
-         <TemplateBreadcrumb
+         <PromptBreadcrumb
             variant="new"
             root={{
                href: "/root/1",
@@ -57,7 +57,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant view - root undefined - test", async () => {
       const { container } = render(
-         <TemplateBreadcrumb variant="view" label="Template 1" />
+         <PromptBreadcrumb variant="view" label="Template 1" />
       );
 
       await waitFor(() => {
@@ -70,7 +70,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant view - root defined - test", async () => {
       const { container } = render(
-         <TemplateBreadcrumb
+         <PromptBreadcrumb
             variant="view"
             label="Template 1"
             root={{
@@ -89,12 +89,9 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
    });
 
    it("variant edit - root undefined - test", async () => {
+      const prompt = dtestData.dPrompt();
       const { container } = render(
-         <TemplateBreadcrumb
-            variant="edit"
-            label="Template 2"
-            entryId="entry-id-1"
-         />
+         <PromptBreadcrumb variant="edit" prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -106,11 +103,12 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
    });
 
    it("variant edit - root defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+
       const { container } = render(
-         <TemplateBreadcrumb
+         <PromptBreadcrumb
             variant="edit"
-            label="Template 2"
-            entryId="entry-id-1"
+            prompt={prompt}
             root={{
                href: "/root/3",
                label: "Root Label 3",
@@ -127,13 +125,13 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
    });
 });
 
-describe("LibraryEntryBreadcrumb funtionality tests", () => {
+describe("PromptBreadcrumb funtionality tests", () => {
    beforeEach(() => {
       mockRouter.push("/");
    });
 
    it("variant new - root link clicked - test", async () => {
-      render(<TemplateBreadcrumb variant="new" />);
+      render(<PromptBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -148,7 +146,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant view - root link clicked - test", async () => {
-      render(<TemplateBreadcrumb variant="view" label="Template 1" />);
+      render(<PromptBreadcrumb variant="view" label="Template 1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -163,13 +161,9 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant edit - item link clicked - test", async () => {
-      render(
-         <TemplateBreadcrumb
-            variant="edit"
-            label="Template 123"
-            entryId="entry-id-123"
-         />
-      );
+      const prompt = dtestData.dPrompt();
+
+      render(<PromptBreadcrumb variant="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -179,7 +173,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates/entry-id-123");
+         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
       });
    });
 });
