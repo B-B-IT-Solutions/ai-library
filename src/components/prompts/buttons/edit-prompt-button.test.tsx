@@ -45,7 +45,7 @@ describe("EditButton functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("collection undefined - edit btn clicked - test", async () => {
+   it("edit btn clicked - collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
       renderWithRouter(<EditButton prompt={prompt} />);
 
@@ -62,7 +62,7 @@ describe("EditButton functionality tests", () => {
       });
    });
 
-   it("collection defined - edit btn clicked - test", async () => {
+   it("edit btn clicked - collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
       renderWithRouter(<EditButton prompt={prompt} collection={collection} />);
