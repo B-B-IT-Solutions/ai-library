@@ -43,7 +43,7 @@ export const PromptView = ({ prompt, collection }: Props) => {
                   </div>
 
                   {/* Sidebar */}
-                  <PromptSidebar prompt={prompt} collectionId={collection?.id} />
+                  <PromptSidebar prompt={prompt} collection={collection} />
                </div>
             </div>
          </div>

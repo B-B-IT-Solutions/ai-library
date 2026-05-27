@@ -2,16 +2,17 @@ import { Edit2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
    prompt: DPrompt;
-   collectionId?: string;
+   collection?: DCollection | null;
 };
 
-export const EditButton = ({ prompt, collectionId }: Props) => {
-   const href = collectionId
-      ? `/templates/${prompt.id}/edit?collectionId=${collectionId}`
+export const EditButton = ({ prompt, collection }: Props) => {
+   const href = collection
+      ? `/templates/${prompt.id}/edit?collectionId=${collection.id}`
       : `/templates/${prompt.id}/edit`;
 
    return (

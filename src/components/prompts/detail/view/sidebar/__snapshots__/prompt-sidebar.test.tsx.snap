@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptSidebar rendering tests collectionId defined - test 1`] = `
+exports[`PromptSidebar rendering tests collection defined - test 1`] = `
 <div>
   <aside
     class="space-y-3 lg:sticky lg:top-8 lg:self-start"
@@ -163,7 +163,7 @@ exports[`PromptSidebar rendering tests collectionId defined - test 1`] = `
 </div>
 `;
 
-exports[`PromptSidebar rendering tests collectionId undefined - test 1`] = `
+exports[`PromptSidebar rendering tests collection undefined - test 1`] = `
 <div>
   <aside
     class="space-y-3 lg:sticky lg:top-8 lg:self-start"

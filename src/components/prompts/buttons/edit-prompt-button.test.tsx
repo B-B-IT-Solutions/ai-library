@@ -11,7 +11,7 @@ const assertRendered = () => {
 };
 
 describe("EditButton rendering tests", () => {
-   it("collectionId undefined - test", async () => {
+   it("collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithRouter(<EditButton prompt={prompt} />);
@@ -23,12 +23,12 @@ describe("EditButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("collectionId defined - test", async () => {
+   it("collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
 
       const { container } = renderWithRouter(
-         <EditButton prompt={prompt} collectionId={collection.id} />
+         <EditButton prompt={prompt} collection={collection} />
       );
 
       await waitFor(() => {
@@ -45,7 +45,7 @@ describe("EditButton functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("collectionId undefined - edit btn clicked - test", async () => {
+   it("collection undefined - edit btn clicked - test", async () => {
       const prompt = dtestData.dPrompt();
       renderWithRouter(<EditButton prompt={prompt} />);
 
@@ -62,12 +62,10 @@ describe("EditButton functionality tests", () => {
       });
    });
 
-   it("collectionId defined - edit btn clicked - test", async () => {
+   it("collection defined - edit btn clicked - test", async () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
-      renderWithRouter(
-         <EditButton prompt={prompt} collectionId={collection.id} />
-      );
+      renderWithRouter(<EditButton prompt={prompt} collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
