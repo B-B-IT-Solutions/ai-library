@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 
 import { PromptBreadcrumb } from "./prompt-breadcrumb";
@@ -89,12 +89,9 @@ describe("PromptBreadcrumb rendering test", () => {
    });
 
    it("variant edit - root undefined - test", async () => {
+      const prompt = dtestData.dPrompt();
       const { container } = render(
-         <PromptBreadcrumb
-            variant="edit"
-            label="Template 2"
-            entryId="entry-id-1"
-         />
+         <PromptBreadcrumb variant="edit" prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -106,11 +103,12 @@ describe("PromptBreadcrumb rendering test", () => {
    });
 
    it("variant edit - root defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+
       const { container } = render(
          <PromptBreadcrumb
             variant="edit"
-            label="Template 2"
-            entryId="entry-id-1"
+            prompt={prompt}
             root={{
                href: "/root/3",
                label: "Root Label 3",
@@ -163,13 +161,9 @@ describe("PromptBreadcrumb funtionality tests", () => {
    });
 
    it("variant edit - item link clicked - test", async () => {
-      render(
-         <PromptBreadcrumb
-            variant="edit"
-            label="Template 123"
-            entryId="entry-id-123"
-         />
-      );
+      const prompt = dtestData.dPrompt();
+
+      render(<PromptBreadcrumb variant="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -179,7 +173,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates/entry-id-123");
+         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
       });
    });
 });

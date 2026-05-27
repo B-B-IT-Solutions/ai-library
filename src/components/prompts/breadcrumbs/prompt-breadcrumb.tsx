@@ -3,7 +3,8 @@ import {
    ItemDetailsBreadcrumb,
 } from "@/components/shared/breadcrumbs";
 import { DCollection } from "@/data/types/domain/collection";
-import { rootBreadcrumbUrl } from "../utils/utils";
+import { DPrompt } from "@/data/types/domain/prompt";
+import { rootBreadcrumbUrl, viewPromptUrl } from "../utils/utils";
 
 type Props =
    | {
@@ -14,8 +15,7 @@ type Props =
      }
    | {
         variant: "edit";
-        label: string;
-        entryId: string;
+        prompt: DPrompt;
         collection?: DCollection;
         root?: BreadcrumbLinkProps;
      }
@@ -45,14 +45,15 @@ export const PromptBreadcrumb = (props: Props) => {
    }
 
    if (props.variant === "edit") {
+      const { prompt, variant, root, collection } = props;
       return (
          <ItemDetailsBreadcrumb
-            root={props.root || defaultRoot}
-            variant={props.variant}
+            root={root || defaultRoot}
+            variant={variant}
             link={{
-               href: `${defaultRoot.href}/${props.entryId}`,
-               label: props.label,
-               tooltip: props.label,
+               href: viewPromptUrl(prompt, collection?.id),
+               label: prompt.title,
+               tooltip: prompt.title,
             }}
             data-testid="template-breadcrumb"
          />

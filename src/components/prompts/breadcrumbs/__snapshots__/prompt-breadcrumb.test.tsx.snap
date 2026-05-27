@@ -56,10 +56,10 @@ exports[`PromptBreadcrumb rendering test variant edit - root defined - test 1`] 
           class="transition-colors hover:text-foreground max-w-40 truncate"
           data-slot="breadcrumb-link"
           data-testid="item-link"
-          href="/templates/entry-id-1"
-          title="Template 2"
+          href="/templates/334db648-f300-4284-8149-075ff465d751"
+          title="title 1"
         >
-          Template 2
+          title 1
         </a>
       </li>
     </ol>
@@ -123,10 +123,10 @@ exports[`PromptBreadcrumb rendering test variant edit - root undefined - test 1`
           class="transition-colors hover:text-foreground max-w-40 truncate"
           data-slot="breadcrumb-link"
           data-testid="item-link"
-          href="/templates/entry-id-1"
-          title="Template 2"
+          href="/templates/334db648-f300-4284-8149-075ff465d751"
+          title="title 1"
         >
-          Template 2
+          title 1
         </a>
       </li>
     </ol>

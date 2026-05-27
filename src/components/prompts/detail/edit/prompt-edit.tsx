@@ -40,8 +40,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
          return (
             <PromptBreadcrumb
                variant="edit"
-               label={prompt.title}
-               entryId={prompt.id}
+               prompt={prompt}
                collection={collection}
             />
          );
