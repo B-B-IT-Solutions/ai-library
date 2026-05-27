@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import {
+   AlertCircle,
+   CheckCircle2,
+   ChevronDown,
+   ChevronUp,
+   Trash2,
+} from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
+   getPromptVariableTypeLabel,
    TemplateFieldDefaultValue,
    TemplateFieldDescription,
    TemplateFieldLabel,
@@ -14,7 +21,6 @@ import {
    TemplateFieldRequired,
    TemplateFieldSelectOptions,
    TemplateFieldType,
-   getPromptVariableTypeLabel,
 } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -50,8 +56,9 @@ export const PromptVariable = ({
            ? "border-green-200 bg-green-50"
            : "border-slate-200 bg-slate-50";
 
-   const statusBadge = hasName && (
-      isUsed ? (
+   const statusBadge =
+      hasName &&
+      (isUsed ? (
          <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
             <CheckCircle2 className="h-3 w-3" />
             Im Prompt verwendet
@@ -61,8 +68,7 @@ export const PromptVariable = ({
             <AlertCircle className="h-3 w-3" />
             Nicht verwendet
          </span>
-      )
-   );
+      ));
 
    if (!isOpen) {
       return (
@@ -76,7 +82,7 @@ export const PromptVariable = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(true)}
-                  className="cursor-pointer shrink-0 p-1"
+                  className="shrink-0 cursor-pointer p-1"
                   data-testid="toggle-btn"
                >
                   <ChevronDown className="h-4 w-4 text-slate-500" />
@@ -120,14 +126,17 @@ export const PromptVariable = ({
          className={`rounded-lg border p-6 ${borderClass}`}
          data-testid="prompt-variable"
       >
-         <div className="mb-4 flex items-center justify-between" data-testid="header">
+         <div
+            className="mb-4 flex items-center justify-between"
+            data-testid="header"
+         >
             <div className="flex min-w-0 items-center gap-2">
                <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
-                  className="cursor-pointer shrink-0 p-1"
+                  className="shrink-0 cursor-pointer p-1"
                   data-testid="toggle-btn"
                >
                   <ChevronUp className="h-4 w-4 text-slate-500" />
@@ -147,7 +156,7 @@ export const PromptVariable = ({
                onClick={onRemove}
                variant="ghost"
                size="sm"
-               className="cursor-pointer shrink-0"
+               className="shrink-0 cursor-pointer"
                data-testid="remove-btn"
             >
                <Trash2 className="h-4 w-4" />
