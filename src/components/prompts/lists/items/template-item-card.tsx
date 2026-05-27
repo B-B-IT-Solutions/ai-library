@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { map } from "es-toolkit/compat";
 import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
@@ -22,6 +22,7 @@ import {
    DownloadPromptButton,
    UseTemplateButton,
 } from "../../buttons";
+import { viewPromptUrl } from "../../utils";
 
 type Props = {
    prompt: DPrompt;
@@ -39,9 +40,10 @@ export const TemplateItemCard = ({
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
-   const viewPromptUrl = collectionId
-      ? `/templates/${prompt.id}?collectionId=${collectionId}`
-      : `/templates/${prompt.id}`;
+   const viewUrl = useMemo(
+      () => viewPromptUrl(prompt, collectionId),
+      [prompt, collectionId]
+   );
 
    const categories = () => {
       return (
@@ -74,7 +76,7 @@ export const TemplateItemCard = ({
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={viewPromptUrl}
+                     href={viewUrl}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -106,7 +108,7 @@ export const TemplateItemCard = ({
          <AddToFavoriteButton descriptor={prompt} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={viewPromptUrl}
+               href={viewUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >
