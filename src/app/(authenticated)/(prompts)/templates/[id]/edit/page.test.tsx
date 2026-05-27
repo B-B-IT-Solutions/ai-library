@@ -54,10 +54,10 @@ describe("EditPromptPage rendering tests", () => {
       getPromptWithContentMock.mockResolvedValue(null);
       getGlobalPromptFieldsMock.mockResolvedValue([]);
 
-      const params: PageParams = { id: "descriptor-id-1" };
+      const pageParams: PageParams = { id: "descriptor-id-1" };
       const searchParams: PageSearchParams = {};
       const props: PageProps = {
-         params: Promise.resolve(params),
+         params: Promise.resolve(pageParams),
          searchParams: Promise.resolve(searchParams),
       };
 
@@ -65,7 +65,7 @@ describe("EditPromptPage rendering tests", () => {
 
       await waitFor(() => {
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
          expect(getCollectionByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
@@ -80,10 +80,10 @@ describe("EditPromptPage rendering tests", () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
-      const params: PageParams = { id: "descriptor-id-1" };
+      const pageParams: PageParams = { id: "descriptor-id-1" };
       const searchParams: PageSearchParams = {};
       const props: PageProps = {
-         params: Promise.resolve(params),
+         params: Promise.resolve(pageParams),
          searchParams: Promise.resolve(searchParams),
       };
 
@@ -92,7 +92,7 @@ describe("EditPromptPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
          expect(getCollectionByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).not.toHaveBeenCalled();
       });
@@ -110,10 +110,10 @@ describe("EditPromptPage rendering tests", () => {
       const collection = dtestData.dCollection();
       getCollectionByIdMock.mockResolvedValue(collection);
 
-      const params: PageParams = { id: "descriptor-id-1" };
+      const pageParams: PageParams = { id: "descriptor-id-1" };
       const searchParams: PageSearchParams = { collectionId: collection.id };
       const props: PageProps = {
-         params: Promise.resolve(params),
+         params: Promise.resolve(pageParams),
          searchParams: Promise.resolve(searchParams),
       };
 
@@ -122,9 +122,11 @@ describe("EditPromptPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
-         expect(getPromptWithContentMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
          expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByIdMock).toHaveBeenCalledWith(collection.id);
+         expect(getCollectionByIdMock).toHaveBeenCalledWith(
+            searchParams.collectionId
+         );
          expect(notFoundMock).not.toHaveBeenCalled();
       });
 
