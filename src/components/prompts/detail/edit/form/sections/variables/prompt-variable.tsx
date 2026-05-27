@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-   AlertCircle,
-   CheckCircle2,
-   ChevronDown,
-   ChevronUp,
-   Trash2,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, Pencil, Trash2, X } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -77,16 +71,6 @@ export const PromptVariable = ({
             data-testid="prompt-variable"
          >
             <div className="flex items-center gap-3">
-               <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsOpen(true)}
-                  className="shrink-0 cursor-pointer p-1"
-                  data-testid="toggle-btn"
-               >
-                  <ChevronDown className="h-4 w-4 text-slate-500" />
-               </Button>
                <div>
                   <span className="text-sm font-medium text-slate-900">
                      {fieldLabel || `Platzhalter ${index + 1}`}
@@ -107,16 +91,28 @@ export const PromptVariable = ({
                )}
                {statusBadge}
             </div>
-            <Button
-               type="button"
-               onClick={onRemove}
-               variant="ghost"
-               size="sm"
-               className="cursor-pointer"
-               data-testid="remove-btn"
-            >
-               <Trash2 className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center">
+               <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(true)}
+                  className="shrink-0 cursor-pointer p-1"
+                  data-testid="toggle-btn"
+               >
+                  <Pencil className="h-3.5 w-3.5 text-slate-500" />
+               </Button>
+               <Button
+                  type="button"
+                  onClick={onRemove}
+                  variant="ghost"
+                  size="sm"
+                  className="cursor-pointer"
+                  data-testid="remove-btn"
+               >
+                  <Trash2 className="h-4 w-4" />
+               </Button>
+            </div>
          </div>
       );
    }
@@ -131,16 +127,6 @@ export const PromptVariable = ({
             data-testid="header"
          >
             <div className="flex min-w-0 items-center gap-2">
-               <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsOpen(false)}
-                  className="shrink-0 cursor-pointer p-1"
-                  data-testid="toggle-btn"
-               >
-                  <ChevronUp className="h-4 w-4 text-slate-500" />
-               </Button>
                <h4 className="font-medium text-slate-900">
                   Platzhalter {index + 1}
                </h4>
@@ -151,16 +137,28 @@ export const PromptVariable = ({
                )}
                {statusBadge}
             </div>
-            <Button
-               type="button"
-               onClick={onRemove}
-               variant="ghost"
-               size="sm"
-               className="shrink-0 cursor-pointer"
-               data-testid="remove-btn"
-            >
-               <Trash2 className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center">
+               <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(false)}
+                  className="shrink-0 cursor-pointer p-1"
+                  data-testid="toggle-btn"
+               >
+                  <X className="h-3.5 w-3.5 text-slate-500" />
+               </Button>
+               <Button
+                  type="button"
+                  onClick={onRemove}
+                  variant="ghost"
+                  size="sm"
+                  className="shrink-0 cursor-pointer"
+                  data-testid="remove-btn"
+               >
+                  <Trash2 className="h-4 w-4" />
+               </Button>
+            </div>
          </div>
          <div className="grid grid-cols-2 gap-4">
             <TemplateFieldName<DPromptUpdate>
