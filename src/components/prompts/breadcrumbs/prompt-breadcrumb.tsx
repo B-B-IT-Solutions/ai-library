@@ -20,7 +20,7 @@ type Props =
         root?: BreadcrumbLinkProps;
      };
 
-export const TemplateBreadcrumb = (props: Props) => {
+export const PromptBreadcrumb = (props: Props) => {
    const defaultRoot: BreadcrumbLinkProps = {
       label: "Prompts",
       href: "/templates",

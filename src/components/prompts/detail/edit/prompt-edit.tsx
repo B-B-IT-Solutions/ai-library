@@ -15,7 +15,7 @@ import {
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
-import { TemplateBreadcrumb } from "../../breadcrumbs";
+import { PromptBreadcrumb } from "../../breadcrumbs";
 import { isEditMode, navigateBackPromptUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
@@ -46,7 +46,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
    const breadcrumbs = () => {
       if (prompt) {
          return (
-            <TemplateBreadcrumb
+            <PromptBreadcrumb
                variant="edit"
                label={prompt.title}
                entryId={prompt.id}
@@ -54,7 +54,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
             />
          );
       }
-      return <TemplateBreadcrumb variant="new" root={collectionRoot} />;
+      return <PromptBreadcrumb variant="new" root={collectionRoot} />;
    };
 
    const cancelBtn = () => {

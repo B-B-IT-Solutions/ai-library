@@ -1,7 +1,7 @@
 import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
-import { TemplateBreadcrumb } from "../../breadcrumbs";
+import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptForm } from "./form";
 import { PromptSidebar } from "./sidebar";
@@ -26,7 +26,7 @@ export const PromptView = ({ prompt, collection }: Props) => {
       >
          {/* Sticky topbar */}
          <div className="sticky top-0 z-40 flex h-14 shrink-0 items-center border-b border-slate-200 bg-white px-6">
-            <TemplateBreadcrumb
+            <PromptBreadcrumb
                variant="view"
                label={prompt.title}
                root={collectionRoot}
