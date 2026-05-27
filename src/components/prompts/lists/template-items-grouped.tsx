@@ -66,7 +66,7 @@ export const TemplateItemsGrouped = ({
                   {map(group.entries, (entry) => (
                      <TemplateItemCard
                         key={entry.id}
-                        descriptor={entry}
+                        prompt={entry}
                         collections={collections}
                         collectionId={collectionId}
                      />

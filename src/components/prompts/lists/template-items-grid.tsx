@@ -39,7 +39,7 @@ export const TemplateItemsGrid = ({
       return (
          <TemplateItemCard
             key={descriptor.id}
-            descriptor={descriptor}
+            prompt={descriptor}
             collections={collections}
             collectionId={collectionId}
             ref={isLast ? ref : undefined}
