@@ -5,7 +5,6 @@ import { Loader } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,

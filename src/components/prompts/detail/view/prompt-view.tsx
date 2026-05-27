@@ -1,4 +1,3 @@
-import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { PromptBreadcrumb } from "../../breadcrumbs";
@@ -12,13 +11,6 @@ type Props = {
 };
 
 export const PromptView = ({ prompt, collection }: Props) => {
-   const collectionRoot: BreadcrumbLinkProps | undefined = collection
-      ? {
-           label: collection.name,
-           href: `/collections/${collection.id}`,
-        }
-      : undefined;
-
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
@@ -29,7 +21,7 @@ export const PromptView = ({ prompt, collection }: Props) => {
             <PromptBreadcrumb
                variant="view"
                label={prompt.title}
-               root={collectionRoot}
+               collection={collection}
             />
          </div>
 
