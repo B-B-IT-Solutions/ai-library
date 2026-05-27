@@ -4,7 +4,7 @@ import {
 } from "@/components/shared/breadcrumbs";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
-import { rootBreadcrumbUrl, viewPromptUrl } from "../utils/utils";
+import { breadcrumbRootUrl, viewPromptUrl } from "../utils/utils";
 
 type Props =
    | {
@@ -28,7 +28,7 @@ type Props =
 export const PromptBreadcrumb = (props: Props) => {
    const defaultRoot: BreadcrumbLinkProps = {
       label: props.collection?.name || "Prompts",
-      href: rootBreadcrumbUrl(props.collection),
+      href: breadcrumbRootUrl(props.collection),
    };
 
    if (props.variant === "new") {

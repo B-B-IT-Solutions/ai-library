@@ -1,10 +1,10 @@
 import { dtestData } from "@tests";
 
 import {
+   breadcrumbRootUrl,
    editPromptUrl,
    isEditMode,
    promptEditNavigateBackUrl,
-   rootBreadcrumbUrl,
    viewPromptUrl,
 } from "./utils";
 
@@ -87,15 +87,15 @@ describe("promptEditNavigateBackUrl - tests", () => {
    });
 });
 
-describe("rootBreadcrumbUrl - tests", () => {
+describe("breadcrumbRootUrl - tests", () => {
    it("collection undefined - test", () => {
-      const result = rootBreadcrumbUrl();
+      const result = breadcrumbRootUrl();
       expect(result).toBe("/templates");
    });
 
    it("collection defined - test", () => {
       const collection = dtestData.dCollection();
-      const result = rootBreadcrumbUrl(collection);
+      const result = breadcrumbRootUrl(collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });
 });

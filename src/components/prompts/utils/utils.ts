@@ -44,7 +44,7 @@ export const promptEditNavigateBackUrl = (
    return "/templates";
 };
 
-export const rootBreadcrumbUrl = (collection?: DCollection) => {
+export const breadcrumbRootUrl = (collection?: DCollection) => {
    if (collection) {
       return `/collections/${collection.id}`;
    }

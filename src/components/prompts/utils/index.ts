@@ -3,5 +3,5 @@ export {
    editPromptUrl,
    viewPromptUrl,
    promptEditNavigateBackUrl,
-   rootBreadcrumbUrl,
+   breadcrumbRootUrl,
 } from "./utils";
