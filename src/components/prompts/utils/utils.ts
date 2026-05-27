@@ -24,7 +24,7 @@ export const editPromptUrl = (
    return editUrl;
 };
 
-export const navigateBackPromptUrl = (
+export const promptEditNavigateBackUrl = (
    prompt?: DPrompt,
    collection?: DCollection | null
 ) => {

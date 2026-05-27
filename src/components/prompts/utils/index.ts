@@ -2,6 +2,6 @@ export {
    isEditMode,
    editPromptUrl,
    viewPromptUrl,
-   navigateBackPromptUrl,
+   promptEditNavigateBackUrl,
    rootBreadcrumbUrl,
 } from "./utils";
