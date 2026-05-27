@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
+import { editPromptUrl } from "../utils";
 
 type Props = {
    prompt: DPrompt;
@@ -11,9 +12,7 @@ type Props = {
 };
 
 export const EditButton = ({ prompt, collection }: Props) => {
-   const href = collection
-      ? `/templates/${prompt.id}/edit?collectionId=${collection.id}`
-      : `/templates/${prompt.id}/edit`;
+   const href = editPromptUrl(prompt, collection);
 
    return (
       <Button
