@@ -5,6 +5,17 @@ export const isEditMode = (prompt?: DPrompt) => {
    return !!prompt;
 };
 
+export const editPromptUrl = (
+   prompt: DPrompt,
+   collection?: DCollection | null
+) => {
+   const editUrl = `/templates/${prompt.id}/edit`;
+   if (collection) {
+      return `${editUrl}?collectionId=${collection.id}`;
+   }
+   return editUrl;
+};
+
 export const navigateBackUrl = (
    prompt?: DPrompt,
    collection?: DCollection | null
