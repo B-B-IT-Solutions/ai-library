@@ -15,7 +15,7 @@ const assertRendered = () => {
 };
 
 describe("TemplateItemsGrid rendering tests", () => {
-   it("descriptors - empty - test", async () => {
+   it("prompts - empty - test", async () => {
       const collections = dtestData.dCollections();
 
       const { container } = renderWithReactQuery(
@@ -29,7 +29,7 @@ describe("TemplateItemsGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptors - with items - test", async () => {
+   it("prompt - with items - collectionId undefined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();
 
@@ -37,6 +37,26 @@ describe("TemplateItemsGrid rendering tests", () => {
          <TemplateItemsGrid
             descriptors={descriptors}
             collections={collections}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("prompt - with items - collectionId defined - test", async () => {
+      const collections = dtestData.dCollections();
+      const descriptors = dtestData.dPrompts();
+      const collection = dtestData.dCollection();
+
+      const { container } = renderWithReactQuery(
+         <TemplateItemsGrid
+            descriptors={descriptors}
+            collections={collections}
+            collectionId={collection.id}
          />
       );
 
