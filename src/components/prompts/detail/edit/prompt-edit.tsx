@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 
@@ -16,6 +16,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
+import { navigateBackUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
 
@@ -30,11 +31,10 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
 
    const isEdit = !!prompt;
 
-   const cancelHref = isEdit
-      ? `/templates/${prompt!.id}`
-      : collection
-        ? `/collections/${collection.id}`
-        : "/templates";
+   const cancelHref = useMemo(
+      () => navigateBackUrl(prompt, collection),
+      [prompt, collection]
+   );
 
    const collectionRoot: BreadcrumbLinkProps | undefined = collection
       ? {
