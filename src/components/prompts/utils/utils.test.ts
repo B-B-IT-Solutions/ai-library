@@ -4,6 +4,7 @@ import {
    editPromptUrl,
    isEditMode,
    navigateBackPromptUrl,
+   rootBreadcrumbUrl,
    viewPromptUrl,
 } from "./utils";
 
@@ -83,5 +84,18 @@ describe("navigateBackPromptUrl - tests", () => {
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
       );
+   });
+});
+
+describe("rootBreadcrumbUrl - tests", () => {
+   it("collection undefined - test", () => {
+      const result = rootBreadcrumbUrl();
+      expect(result).toBe("/templates");
+   });
+
+   it("collection defined - test", () => {
+      const collection = dtestData.dCollection();
+      const result = rootBreadcrumbUrl(collection);
+      expect(result).toBe(`/collections/${collection.id}`);
    });
 });

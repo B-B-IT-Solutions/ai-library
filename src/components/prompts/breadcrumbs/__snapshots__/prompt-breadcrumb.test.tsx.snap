@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryEntryBreadcrumb rendering test variant edit - root defined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant edit - root defined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -67,7 +67,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant edit - root defined - tes
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant edit - root undefined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant edit - root undefined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -134,7 +134,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant edit - root undefined - t
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant new - root defined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant new - root defined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -201,7 +201,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant new - root defined - test
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant new - root undefined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant new - root undefined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -268,7 +268,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant new - root undefined - te
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant view - root defined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant view - root defined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -336,7 +336,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant view - root defined - tes
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant view - root undefined - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant view - root undefined - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"

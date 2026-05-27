@@ -8,7 +8,7 @@ import { PromptSidebar } from "./sidebar";
 
 type Props = {
    prompt: DPromptWithContent;
-   collection?: DCollection | null;
+   collection?: DCollection;
 };
 
 export const PromptView = ({ prompt, collection }: Props) => {

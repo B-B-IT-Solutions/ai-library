@@ -43,3 +43,10 @@ export const navigateBackPromptUrl = (
 
    return "/templates";
 };
+
+export const rootBreadcrumbUrl = (collection?: DCollection) => {
+   if (collection) {
+      return `/collections/${collection.id}`;
+   }
+   return "/templates";
+};

@@ -22,7 +22,7 @@ import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollection | null;
+   collection?: DCollection;
    globalFields: DGlobalPromptField[];
 };
 
@@ -36,13 +36,6 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
       [prompt, collection]
    );
 
-   const collectionRoot: BreadcrumbLinkProps | undefined = collection
-      ? {
-           label: collection.name,
-           href: `/collections/${collection.id}`,
-        }
-      : undefined;
-
    const breadcrumbs = () => {
       if (prompt) {
          return (
@@ -50,11 +43,11 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
                variant="edit"
                label={prompt.title}
                entryId={prompt.id}
-               root={collectionRoot}
+               collection={collection}
             />
          );
       }
-      return <PromptBreadcrumb variant="new" root={collectionRoot} />;
+      return <PromptBreadcrumb variant="new" collection={collection} />;
    };
 
    const cancelBtn = () => {

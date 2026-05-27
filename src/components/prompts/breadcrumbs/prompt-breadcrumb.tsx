@@ -2,28 +2,33 @@ import {
    BreadcrumbLinkProps,
    ItemDetailsBreadcrumb,
 } from "@/components/shared/breadcrumbs";
+import { DCollection } from "@/data/types/domain/collection";
+import { rootBreadcrumbUrl } from "../utils/utils";
 
 type Props =
    | {
         variant: "view";
         label: string;
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "edit";
         label: string;
         entryId: string;
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "new";
+        collection?: DCollection;
         root?: BreadcrumbLinkProps;
      };
 
 export const PromptBreadcrumb = (props: Props) => {
    const defaultRoot: BreadcrumbLinkProps = {
-      label: "Prompts",
-      href: "/templates",
+      label: props.collection?.name || "Prompts",
+      href: rootBreadcrumbUrl(props.collection),
    };
 
    if (props.variant === "new") {
