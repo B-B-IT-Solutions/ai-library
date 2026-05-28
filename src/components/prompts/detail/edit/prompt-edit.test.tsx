@@ -217,7 +217,42 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.asPath).toEqual(`/templates/${newPrompt.id}`);
+      });
+   });
+
+   it("new entry - collection - save btn clicked - success - test", async () => {
+      const newPrompt = dtestData.dPrompt();
+      const createResult: ActionResult<DPrompt> = {
+         success: true,
+         message: "Prompt erfolgreich erstellt",
+         data: newPrompt,
+      };
+      createPromptMock.mockResolvedValue(createResult);
+
+      const collection = dtestData.dCollection();
+      const fields = dtestData.dGlobalPromptFields();
+
+      render(<PromptEdit globalFields={fields} collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      await waitFor(() => {
+         expect(createPromptMock).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
          expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
+         expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
 
@@ -267,7 +302,65 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.asPath).toEqual(`/templates/${prompt.id}`);
+      });
+   });
+
+   it("existing entry - collection - save btn clicked - success - test", async () => {
+      const result: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+      updatePromptMock.mockResolvedValue(result);
+
+      const prompt = dtestData.dPromptWithContent();
+      const collection = dtestData.dCollection();
+      const fields = dtestData.dGlobalPromptFields();
+
+      render(
+         <PromptEdit
+            prompt={prompt}
+            collection={collection}
+            globalFields={fields}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+
+      // Fill in required fields
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+
+      await userEvent.click(saveBtn);
+
+      const initValue = initPromptTemplate(prompt);
+      const expectedPayload: DPromptUpdate = {
+         title: initValue.title + "Test Template",
+         description: initValue.description + "Test Description",
+         content: initValue.content + "Template Content {{task}}",
+         categories: initValue.categories,
+         fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
+         recommendedModel: initValue.recommendedModel,
+      };
+
+      await waitFor(() => {
+         expect(updatePromptMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptMock).toHaveBeenCalledWith(
+            prompt.id,
+            expectedPayload
+         );
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
 
@@ -326,7 +419,7 @@ describe("PromptEdit functionality tests", () => {
             result.message,
             expectedToastPayload
          );
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const toastCall = toastMock.error.mock.calls[0];
@@ -388,7 +481,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
    });
 
@@ -437,41 +530,7 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/");
-      });
-   });
-
-   it("new entry - collectionId - save btn clicked - success - test", async () => {
-      const newPrompt = dtestData.dPrompt();
-      const createResult: ActionResult<DPrompt> = {
-         success: true,
-         message: "Prompt erfolgreich erstellt",
-         data: newPrompt,
-      };
-      createPromptMock.mockResolvedValue(createResult);
-
-      const collection = dtestData.dCollection();
-
-      const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} collection={collection} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      await typeIntoInput("title", "Test Template");
-      await typeIntoTextArea("description", "Test Description");
-      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-
-      const headerActions = screen.getByTestId("header-actions");
-      const saveBtn = getByTestId(headerActions, "save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(createPromptMock).toHaveBeenCalledTimes(1);
-         expect(toastMock.success).toHaveBeenCalledTimes(1);
-         expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
-         expect(mockRouter.pathname).toEqual(`/collections/${collection.id}`);
+         expect(mockRouter.asPath).toEqual("/");
       });
    });
 });

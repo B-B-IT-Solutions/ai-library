@@ -108,7 +108,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
             <ItemDetailsEditBody>
                <PromptEditForm
                   prompt={prompt}
-                  collectionId={collection?.id}
+                  collection={collection}
                   globalFields={globalFields}
                   onSubmit={setIsSubmitting}
                />
