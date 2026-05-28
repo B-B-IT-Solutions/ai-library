@@ -193,6 +193,7 @@ export const PromptEditForm = ({
                            <TabsTrigger
                               value="variables"
                               data-testid="variables-tab-trigger"
+                              className={hasFieldErrors ? "border border-red-400 text-red-600" : ""}
                            >
                               Platzhalter
                               {hasFieldErrors ? (
