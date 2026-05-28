@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { viewPromptUrl } from "@/components/prompts/utils";
 import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@/components/shadcn/tabs";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
+import { DCollection } from "@/data/types/domain/collection";
 import {
    DPromptUpdate,
    DPromptUpdateCrate,
@@ -41,14 +43,14 @@ import {
 
 type Props = {
    prompt?: DPromptWithContent;
-   collectionId?: string;
+   collection?: DCollection;
    globalFields: DGlobalPromptField[];
    onSubmit: (isSubmiting: boolean) => void;
 };
 
 export const PromptEditForm = ({
    prompt,
-   collectionId,
+   collection,
    globalFields,
    onSubmit: onSubmittingChange,
 }: Props) => {
@@ -137,23 +139,21 @@ export const PromptEditForm = ({
          const result = await updatePrompt(prompt.id, data);
          if (result.success) {
             toast.success(result.message);
-            router.push(`/templates/${prompt.id}`);
+            const viewUrl = viewPromptUrl(prompt, collection?.id);
+            router.push(viewUrl);
          } else {
             toast.error(result.message);
          }
       } else {
          const crate: DPromptUpdateCrate = {
             data,
-            collectionId,
+            collectionId: collection?.id,
          };
          const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            if (collectionId) {
-               router.push(`/collections/${collectionId}`);
-            } else {
-               router.push(`/templates/${result.data!.id}`);
-            }
+            const viewUrl = viewPromptUrl(result.data!, collection?.id);
+            router.push(viewUrl);
          } else if (result.upgradeRequired) {
             toast.error(result.message, {
                action: {
