@@ -107,14 +107,14 @@ export const PromptVariable = ({
                      </Badge>
                   )}
                </div>
-               <div className="flex items-center gap-2">
+               <div className="flex items-center justify-center">
                   {hasErrors && (
                      <Badge variant="destructive" className="gap-1 text-xs">
                         <AlertCircle className="h-3 w-3" />
                         Fehler
                      </Badge>
                   )}
-                  {statusBadge()}
+                  {!hasErrors && statusBadge()}
                </div>
             </div>
             <div className="flex items-center">
