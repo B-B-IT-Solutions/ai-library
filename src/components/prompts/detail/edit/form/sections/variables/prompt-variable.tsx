@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, CheckCircle2, Pencil, Trash2, X } from "lucide-react";
+import {
+   AlertCircle,
+   CheckCircle2,
+   ChevronUp,
+   Pencil,
+   Trash2,
+} from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -146,7 +152,7 @@ export const PromptVariable = ({
                   className="shrink-0 cursor-pointer p-1"
                   data-testid="toggle-btn"
                >
-                  <X className="h-3.5 w-3.5 text-slate-500" />
+                  <ChevronUp className="h-3.5 w-3.5 text-slate-500" />
                </Button>
                <Button
                   type="button"
