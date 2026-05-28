@@ -1,11 +1,13 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { getPromptVariableTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
+
+import { StatusBadge } from "./status-badge";
 
 type Props = {
    field: DGlobalPromptField;
@@ -48,17 +50,7 @@ export const PromptGlobalVariable = ({
                )}
             </div>
             <div className="mx-auto">
-               {isUsed ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
-                     <CheckCircle2 className="h-3 w-3" />
-                     Im Prompt verwendet
-                  </span>
-               ) : (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
-                     <AlertCircle className="h-3 w-3" />
-                     Nicht verwendet
-                  </span>
-               )}
+               <StatusBadge hasName={true} isUsed={isUsed} />
             </div>
          </div>
          <Button

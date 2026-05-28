@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-   AlertCircle,
-   CheckCircle2,
-   ChevronUp,
-   Pencil,
-   Trash2,
-} from "lucide-react";
+import { AlertCircle, ChevronUp, Pencil, Trash2 } from "lucide-react";
 import { Control, useFormState, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -24,6 +18,8 @@ import {
 } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
+
+import { StatusBadge } from "./status-badge";
 
 type Props = {
    index: number;
@@ -61,25 +57,6 @@ export const PromptVariable = ({
           ? "border-green-200 bg-green-50"
           : "border-slate-200 bg-slate-50";
 
-   const statusBadge = () => {
-      if (hasName) {
-         if (isUsed) {
-            return (
-               <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
-                  <CheckCircle2 className="h-3 w-3" />
-                  Im Prompt verwendet
-               </span>
-            );
-         }
-         return (
-            <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
-               <AlertCircle className="h-3 w-3" />
-               Nicht verwendet
-            </span>
-         );
-      }
-   };
-
    const collapsedView = () => {
       return (
          <div
@@ -114,7 +91,9 @@ export const PromptVariable = ({
                         Fehler
                      </Badge>
                   )}
-                  {!hasErrors && statusBadge()}
+                  {!hasErrors && (
+                     <StatusBadge hasName={hasName} isUsed={isUsed} />
+                  )}
                </div>
             </div>
             <div className="flex items-center">
@@ -162,7 +141,7 @@ export const PromptVariable = ({
                         {`{{${fieldName}}}`}
                      </code>
                   )}
-                  {statusBadge()}
+                  <StatusBadge hasName={hasName} isUsed={isUsed} />
                </div>
                <div className="flex items-center">
                   <Button
