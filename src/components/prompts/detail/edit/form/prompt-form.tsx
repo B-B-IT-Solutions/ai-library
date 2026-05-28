@@ -151,11 +151,8 @@ export const PromptEditForm = ({
          const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            if (collection) {
-               router.push(`/collections/${collection.id}`);
-            } else {
-               router.push(`/templates/${result.data!.id}`);
-            }
+            const viewUrl = viewPromptUrl(result.data!, collection?.id);
+            router.push(viewUrl);
          } else if (result.upgradeRequired) {
             toast.error(result.message, {
                action: {

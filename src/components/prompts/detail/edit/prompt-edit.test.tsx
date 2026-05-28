@@ -217,7 +217,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/templates/${newPrompt.id}`);
       });
    });
 
@@ -231,8 +231,8 @@ describe("PromptEdit functionality tests", () => {
       createPromptMock.mockResolvedValue(createResult);
 
       const collection = dtestData.dCollection();
-
       const fields = dtestData.dGlobalPromptFields();
+
       render(<PromptEdit globalFields={fields} collection={collection} />);
 
       await waitFor(() => {
@@ -251,7 +251,8 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
-         expect(mockRouter.pathname).toEqual(`/collections/${collection.id}`);
+         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
+         expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
 
@@ -301,7 +302,7 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/templates/${prompt.id}`);
       });
    });
 
@@ -418,7 +419,7 @@ describe("PromptEdit functionality tests", () => {
             result.message,
             expectedToastPayload
          );
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const toastCall = toastMock.error.mock.calls[0];
@@ -427,7 +428,7 @@ describe("PromptEdit functionality tests", () => {
       const event = null as unknown as MouseEvent<HTMLButtonElement>;
       action.onClick(event);
 
-      expect(mockRouter.pathname).toEqual("/subscription/pricing");
+      expect(mockRouter.asPath).toEqual("/subscription/pricing");
    });
 
    it("new entry - save btn clicked - failed - test", async () => {
@@ -480,7 +481,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
    });
 
@@ -529,7 +530,7 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
    });
 });
