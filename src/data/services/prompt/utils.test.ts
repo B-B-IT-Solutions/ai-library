@@ -54,7 +54,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("returns only template fields when all variables have matching fields - test", () => {
-      const fields = dtestData.dPromptFields(2);
+      const fields = dtestData.dPromptVariables(2);
       const field1 = fields[0];
       const field2 = fields[1];
 
@@ -84,7 +84,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("adds dummy fields only for variables without a matching template field - test", () => {
-      const fields = dtestData.dPromptFields(1);
+      const fields = dtestData.dPromptVariables(1);
       const template = dtestData.dPromptWithContent();
       template.fields = fields;
 
@@ -129,7 +129,7 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("merges template fields, global fields, and dummy fields in correct order - test", () => {
-      const templateField = dtestData.dPromptField(1);
+      const templateField = dtestData.dPromptVariable(1);
       const globalField = dtestData.dGlobalPromptField(2);
       globalField.name = "global_field";
 

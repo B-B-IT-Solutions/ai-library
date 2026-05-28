@@ -18,7 +18,7 @@ const assertRendered = () => {
 describe("PromptPreview rendering tests", () => {
    it("render test", async () => {
       const template = dtestData.dPromptWithContent();
-      const values = dtestData.dPromptFieldValues();
+      const values = dtestData.dPromptVariableValues();
       const { container } = render(
          <PromptPreview
             template={template}

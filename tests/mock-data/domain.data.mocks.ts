@@ -520,7 +520,7 @@ export const dPromptsUsage = (index = 1): DPromptsUsage => {
 export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
    return {
       template: dPromptWithContent(index),
-      allFields: dPromptFields(),
+      allFields: dPromptVariables(),
    };
 };
 
@@ -546,7 +546,7 @@ export const dPrompt = (index = 1): DPrompt => {
       title: `title ${index}`,
       description: `description ${index}`,
       categories: dPromptCategories(),
-      fields: dPromptFields(),
+      fields: dPromptVariables(),
       globalFieldIds: dGlobalPromptFieldIds(),
       recommendedModel: `model ${index}`,
       isFavorite: index % 2 == 0,
@@ -576,16 +576,16 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      fields: dPromptFieldUpdates(),
+      fields: dPromptVariableUpdates(),
       globalFieldIds: dGlobalPromptFieldIds(),
    };
 };
 
-export const dPromptFields = (count = 3): DPromptVariable[] => {
-   return range(0, count).map((i) => dPromptField(i));
+export const dPromptVariables = (count = 3): DPromptVariable[] => {
+   return range(0, count).map((i) => dPromptVariable(i));
 };
 
-export const dPromptField = (index = 1): DPromptVariable => {
+export const dPromptVariable = (index = 1): DPromptVariable => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
       promptId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
@@ -600,11 +600,11 @@ export const dPromptField = (index = 1): DPromptVariable => {
    };
 };
 
-export const dPromptFieldUpdates = (count = 3): DPromptVariableUpdate[] => {
-   return range(0, count).map((i) => dPromptFieldUpdate(i));
+export const dPromptVariableUpdates = (count = 3): DPromptVariableUpdate[] => {
+   return range(0, count).map((i) => dPromptVariableUpdate(i));
 };
 
-export const dPromptFieldUpdate = (index = 1): DPromptVariableUpdate => {
+export const dPromptVariableUpdate = (index = 1): DPromptVariableUpdate => {
    return {
       name: `field ${index}`,
       label: `label ${index}`,
@@ -617,7 +617,7 @@ export const dPromptFieldUpdate = (index = 1): DPromptVariableUpdate => {
    };
 };
 
-export const dPromptFieldValues = (index = 1): DPromptVariableValues => {
+export const dPromptVariableValues = (index = 1): DPromptVariableValues => {
    return {
       field_1: `value 1 - ${index}`,
       field_2: `value 2 - ${index}`,

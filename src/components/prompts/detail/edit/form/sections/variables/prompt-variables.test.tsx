@@ -122,7 +122,7 @@ describe("PromptVariables rendering tests", () => {
    });
 
    it("variables - test", () => {
-      const fields = dtestData.dPromptFields();
+      const fields = dtestData.dPromptVariables();
       fields[0].name = " ";
       const globalFields = dtestData.dGlobalPromptFields();
       const globalFieldIds = dtestData.dGlobalPromptFieldIds();
@@ -150,7 +150,7 @@ describe("PromptVariables rendering tests", () => {
 
 describe("PromptVariables functionality tests", () => {
    it("add global variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const fields = dtestData.dPromptVariables();
       const globalFields = dtestData.dGlobalPromptFields();
       const addGlobalFieldFn = jest.fn();
 
@@ -188,7 +188,7 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("remove global variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const fields = dtestData.dPromptVariables();
       const globalFields = dtestData.dGlobalPromptFields();
       const globalField = globalFields[0];
       const globalFieldIds = [globalField.id];
@@ -220,7 +220,7 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("add prompt variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const fields = dtestData.dPromptVariables();
       const detectedVariables = [fields[0].name];
       const addFieldFn = jest.fn();
 
@@ -246,7 +246,7 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("remove prompt variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const fields = dtestData.dPromptVariables();
       const detectedVariables = [fields[0].name];
       const removeFieldFn = jest.fn();
 

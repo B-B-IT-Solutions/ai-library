@@ -1,7 +1,6 @@
-﻿import { FC } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+﻿import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
@@ -16,7 +15,8 @@ type Props = {
    onRemove: CallbackFn;
 };
 
-const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
+const TestWrapper = ({ index, isUsed, hasName, onRemove }: Props) => {
+   const variables = dtestData.dPromptVariableUpdates(index + 1);
    const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
@@ -24,7 +24,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
          content: "",
          recommendedModel: "Claude",
          categories: [],
-         fields: [],
+         fields: variables,
       },
    });
 
@@ -175,6 +175,38 @@ describe("PromptVariable rendering tests", () => {
 });
 
 describe("PromptVariable functionality tests", () => {
+   it("expand/collapse btn clicked - test", async () => {
+      const index = 0;
+      render(
+         <TestWrapper
+            index={index}
+            isUsed={false}
+            hasName={false}
+            onRemove={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCollapsed();
+      });
+
+      const expandBtn = screen.getByTestId("expand-btn");
+      userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertExpanded();
+         assertVariablesRendered(index);
+      });
+
+      const collapseBtn = screen.getByTestId("collapse-btn");
+      userEvent.click(collapseBtn);
+
+      await waitFor(() => {
+         assertCollapsed();
+      });
+   });
+
    it("remove btn clicked - test", async () => {
       const removeFn = jest.fn();
 
