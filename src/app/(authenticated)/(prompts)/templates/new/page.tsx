@@ -29,7 +29,10 @@ export const NewPromptPage = async ({ searchParams }: PageProps) => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-prompt-page"
       >
-         <PromptEdit collection={collection} globalFields={globalFields} />
+         <PromptEdit
+            collection={collection || undefined}
+            globalFields={globalFields}
+         />
       </div>
    );
 };
