@@ -1,5 +1,5 @@
 ﻿import { FC } from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
@@ -43,12 +43,29 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
 };
 
 const assertRendered = () => {
-   const field = screen.getByTestId("prompt-variable");
-   const header = screen.getByTestId("header");
+   const variable = screen.getByTestId("prompt-variable");
+   assertInDocument(variable);
+};
+
+const assertCollapsed = () => {
+   const expanded = screen.getByTestId("variable-collapsed");
+   const expandBtn = screen.getByTestId("expand-btn");
    const removeBtn = screen.getByTestId("remove-btn");
 
-   assertInDocument(field);
+   assertInDocument(expanded);
+   assertInDocument(expandBtn);
+   assertInDocument(removeBtn);
+};
+
+const assertExpanded = () => {
+   const expanded = screen.getByTestId("variable-expanded");
+   const header = screen.getByTestId("header");
+   const collapseBtn = screen.getByTestId("collapse-btn");
+   const removeBtn = screen.getByTestId("remove-btn");
+
+   assertInDocument(expanded);
    assertInDocument(header);
+   assertInDocument(collapseBtn);
    assertInDocument(removeBtn);
 };
 
@@ -69,7 +86,7 @@ const assertVariablesRendered = (index: number) => {
 };
 
 describe("PromptVariable rendering tests", () => {
-   it("hasName false - isUsed false - test", () => {
+   it("hasName false - isUsed false - test", async () => {
       const index = 0;
       const { container } = render(
          <TestWrapper
@@ -80,13 +97,25 @@ describe("PromptVariable rendering tests", () => {
          />
       );
 
-      assertRendered();
-      assertVariablesRendered(index);
+      await waitFor(() => {
+         assertRendered();
+         assertCollapsed();
+      });
+
+      expect(container).toMatchSnapshot();
+
+      const expandBtn = screen.getByTestId("expand-btn");
+      userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertExpanded();
+         assertVariablesRendered(index);
+      });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("hasName true - isUsed false - test", () => {
+   it("hasName true - isUsed false - test", async () => {
       const index = 1;
       const { container } = render(
          <TestWrapper
@@ -97,13 +126,25 @@ describe("PromptVariable rendering tests", () => {
          />
       );
 
-      assertRendered();
-      assertVariablesRendered(index);
+      await waitFor(() => {
+         assertRendered();
+         assertCollapsed();
+      });
+
+      expect(container).toMatchSnapshot();
+
+      const expandBtn = screen.getByTestId("expand-btn");
+      userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertExpanded();
+         assertVariablesRendered(index);
+      });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("hasName true - isUsed true - test", () => {
+   it("hasName true - isUsed true - test", async () => {
       const index = 5;
       const { container } = render(
          <TestWrapper
@@ -114,8 +155,20 @@ describe("PromptVariable rendering tests", () => {
          />
       );
 
-      assertRendered();
-      assertVariablesRendered(index);
+      await waitFor(() => {
+         assertRendered();
+         assertCollapsed();
+      });
+
+      expect(container).toMatchSnapshot();
+
+      const expandBtn = screen.getByTestId("expand-btn");
+      userEvent.click(expandBtn);
+
+      await waitFor(() => {
+         assertExpanded();
+         assertVariablesRendered(index);
+      });
 
       expect(container).toMatchSnapshot();
    });

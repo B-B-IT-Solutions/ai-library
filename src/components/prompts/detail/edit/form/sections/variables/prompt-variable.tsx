@@ -103,7 +103,7 @@ export const PromptVariable = ({
                   size="sm"
                   onClick={() => setIsExpanded(true)}
                   className="shrink-0 cursor-pointer p-1"
-                  data-testid="toggle-btn"
+                  data-testid="expand-btn"
                >
                   <Pencil className="h-3.5 w-3.5 text-slate-500" />
                </Button>
@@ -150,7 +150,7 @@ export const PromptVariable = ({
                      size="sm"
                      onClick={() => setIsExpanded(false)}
                      className="shrink-0 cursor-pointer p-1"
-                     data-testid="expand-btn"
+                     data-testid="collapse-btn"
                   >
                      <ChevronUp className="h-3.5 w-3.5 text-slate-500" />
                   </Button>
