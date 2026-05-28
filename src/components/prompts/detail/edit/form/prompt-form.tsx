@@ -18,6 +18,7 @@ import {
 } from "@/components/shadcn/tabs";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
+import { DCollection } from "@/data/types/domain/collection";
 import {
    DPromptUpdate,
    DPromptUpdateCrate,
@@ -41,14 +42,14 @@ import {
 
 type Props = {
    prompt?: DPromptWithContent;
-   collectionId?: string;
+   collection?: DCollection;
    globalFields: DGlobalPromptField[];
    onSubmit: (isSubmiting: boolean) => void;
 };
 
 export const PromptEditForm = ({
    prompt,
-   collectionId,
+   collection,
    globalFields,
    onSubmit: onSubmittingChange,
 }: Props) => {
@@ -143,13 +144,13 @@ export const PromptEditForm = ({
       } else {
          const crate: DPromptUpdateCrate = {
             data,
-            collectionId,
+            collectionId: collection?.id,
          };
          const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            if (collectionId) {
-               router.push(`/collections/${collectionId}`);
+            if (collection) {
+               router.push(`/collections/${collection.id}`);
             } else {
                router.push(`/templates/${result.data!.id}`);
             }
