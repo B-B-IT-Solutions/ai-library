@@ -76,8 +76,8 @@ export const PromptVariable = ({
             className={`flex items-center justify-between rounded-lg border px-4 py-3 ${borderClass}`}
             data-testid="prompt-variable"
          >
-            <div className="flex items-center gap-3">
-               <div>
+            <div className="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3">
+               <div className="min-w-0 truncate">
                   <span className="text-sm font-medium text-slate-900">
                      {fieldLabel || `Platzhalter ${index + 1}`}
                   </span>
@@ -90,12 +90,14 @@ export const PromptVariable = ({
                <Badge variant="secondary" className="text-xs">
                   {getPromptVariableTypeLabel(type)}
                </Badge>
-               {fieldRequired && (
-                  <Badge variant="outline" className="text-xs">
-                     Pflicht
-                  </Badge>
-               )}
-               {statusBadge}
+               <div>
+                  {fieldRequired && (
+                     <Badge variant="outline" className="text-xs">
+                        Pflicht
+                     </Badge>
+                  )}
+               </div>
+               <div>{statusBadge}</div>
             </div>
             <div className="flex items-center">
                <Button
