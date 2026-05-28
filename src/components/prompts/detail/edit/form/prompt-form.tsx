@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { viewPromptUrl } from "@/components/prompts/utils";
 import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
 import {
@@ -137,7 +138,8 @@ export const PromptEditForm = ({
          const result = await updatePrompt(prompt.id, data);
          if (result.success) {
             toast.success(result.message);
-            router.push(`/templates/${prompt.id}`);
+            const viewUrl = viewPromptUrl(prompt, collection?.id);
+            router.push(viewUrl);
          } else {
             toast.error(result.message);
          }
