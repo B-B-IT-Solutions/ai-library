@@ -47,7 +47,7 @@ export const PromptGlobalVariable = ({
                   </Badge>
                )}
             </div>
-            <div>
+            <div className="mx-auto">
                {isUsed ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
                      <CheckCircle2 className="h-3 w-3" />

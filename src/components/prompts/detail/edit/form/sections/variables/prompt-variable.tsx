@@ -107,7 +107,7 @@ export const PromptVariable = ({
                      </Badge>
                   )}
                </div>
-               <div className="flex items-center justify-center">
+               <div className="mx-auto">
                   {hasErrors && (
                      <Badge variant="destructive" className="gap-1 text-xs">
                         <AlertCircle className="h-3 w-3" />
