@@ -8,7 +8,7 @@ import {
    Pencil,
    Trash2,
 } from "lucide-react";
-import { Control, UseFormWatch } from "react-hook-form";
+import { Control, useFormState, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -49,12 +49,17 @@ export const PromptVariable = ({
    const fieldRequired = watch(`fields.${index}.required`);
    const [isOpen, setIsOpen] = useState(true);
 
-   const borderClass =
-      hasName && !isUsed
-         ? "border-orange-200 bg-orange-50"
-         : hasName && isUsed
-           ? "border-green-200 bg-green-50"
-           : "border-slate-200 bg-slate-50";
+   const { errors } = useFormState({ control });
+   const fieldErrors = errors.fields?.[index];
+   const hasErrors = !!fieldErrors && Object.keys(fieldErrors).length > 0;
+
+   const borderClass = hasErrors
+      ? "border-2 border-red-400 bg-red-50"
+      : hasName && !isUsed
+        ? "border-orange-200 bg-orange-50"
+        : hasName && isUsed
+          ? "border-green-200 bg-green-50"
+          : "border-slate-200 bg-slate-50";
 
    const statusBadge =
       hasName &&
@@ -97,7 +102,15 @@ export const PromptVariable = ({
                      </Badge>
                   )}
                </div>
-               <div>{statusBadge}</div>
+               <div className="flex items-center gap-2">
+                  {hasErrors && (
+                     <Badge variant="destructive" className="gap-1 text-xs">
+                        <AlertCircle className="h-3 w-3" />
+                        Fehler
+                     </Badge>
+                  )}
+                  {statusBadge}
+               </div>
             </div>
             <div className="flex items-center">
                <Button
