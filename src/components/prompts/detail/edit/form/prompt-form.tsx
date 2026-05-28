@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, includes, upperFirst } from "es-toolkit/compat";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { AlertCircle, Maximize2, Minimize2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -70,7 +70,8 @@ export const PromptEditForm = ({
       name: "fields",
    });
 
-   const { isSubmitting } = form.formState;
+   const { isSubmitting, errors } = form.formState;
+   const hasFieldErrors = !!errors.fields?.some(Boolean);
    const [isEditorExpanded, setIsEditorExpanded] = useState(false);
 
    useEffect(() => {
@@ -194,7 +195,9 @@ export const PromptEditForm = ({
                               data-testid="variables-tab-trigger"
                            >
                               Platzhalter
-                              {fields.length > 0 && (
+                              {hasFieldErrors ? (
+                                 <AlertCircle className="ml-1.5 h-3.5 w-3.5 text-red-500" />
+                              ) : fields.length > 0 && (
                                  <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
                                     {fields.length}
                                  </span>
