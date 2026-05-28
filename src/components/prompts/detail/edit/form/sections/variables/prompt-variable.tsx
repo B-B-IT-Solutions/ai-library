@@ -59,12 +59,12 @@ export const PromptVariable = ({
    const statusBadge =
       hasName &&
       (isUsed ? (
-         <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
+         <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
             <CheckCircle2 className="h-3 w-3" />
             Im Prompt verwendet
          </span>
       ) : (
-         <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
+         <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
             <AlertCircle className="h-3 w-3" />
             Nicht verwendet
          </span>

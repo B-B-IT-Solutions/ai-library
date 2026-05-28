@@ -28,8 +28,8 @@ export const PromptGlobalVariable = ({
          }`}
          data-testid="prompt-global-variable"
       >
-         <div className="flex items-center gap-3">
-            <div>
+         <div className="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3">
+            <div className="min-w-0 truncate">
                <span className="text-sm font-medium text-slate-900">
                   {field.label}
                </span>
@@ -40,22 +40,26 @@ export const PromptGlobalVariable = ({
             <Badge variant="secondary" className="text-xs">
                {getPromptVariableTypeLabel(field.type)}
             </Badge>
-            {field.required && (
-               <Badge variant="outline" className="text-xs">
-                  Pflicht
-               </Badge>
-            )}
-            {isUsed ? (
-               <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
-                  <CheckCircle2 className="h-3 w-3" />
-                  Im Content verwendet
-               </span>
-            ) : (
-               <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
-                  <AlertCircle className="h-3 w-3" />
-                  Nicht verwendet
-               </span>
-            )}
+            <div>
+               {field.required && (
+                  <Badge variant="outline" className="text-xs">
+                     Pflicht
+                  </Badge>
+               )}
+            </div>
+            <div>
+               {isUsed ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
+                     <CheckCircle2 className="h-3 w-3" />
+                     Im Prompt verwendet
+                  </span>
+               ) : (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
+                     <AlertCircle className="h-3 w-3" />
+                     Nicht verwendet
+                  </span>
+               )}
+            </div>
          </div>
          <Button
             type="button"
