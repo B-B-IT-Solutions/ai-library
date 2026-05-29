@@ -25,7 +25,7 @@ import { borderCss } from "./utils";
 type Props = {
    index: number;
    isUsed: boolean;
-   hasName: boolean;
+   hasName?: boolean;
    onRemove: CallbackFn;
    control: Control<DPromptUpdate>;
    watch: UseFormWatch<DPromptUpdate>;
@@ -34,7 +34,6 @@ type Props = {
 export const PromptVariable = ({
    index,
    isUsed,
-   hasName,
    onRemove,
    control,
    watch,
@@ -49,6 +48,8 @@ export const PromptVariable = ({
    const { errors } = useFormState({ control });
    const fieldErrors = errors.fields?.[index];
    const hasErrors = !!fieldErrors && Object.keys(fieldErrors).length > 0;
+
+   const hasName = !!fieldName;
 
    const borderClass = borderCss(hasErrors, hasName, isUsed);
 

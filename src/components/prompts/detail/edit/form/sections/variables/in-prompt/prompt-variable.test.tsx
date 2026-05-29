@@ -4,19 +4,21 @@ import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPromptUpdate,
+   DPromptVariableUpdate,
+} from "@/data/types/domain/prompt";
 
 import { PromptVariable } from "./prompt-variable";
 
 type Props = {
    index: number;
    isUsed: boolean;
-   hasName: boolean;
    onRemove: CallbackFn;
+   variables: DPromptVariableUpdate[];
 };
 
-const TestWrapper = ({ index, isUsed, hasName, onRemove }: Props) => {
-   const variables = dtestData.dPromptVariableUpdates(index + 1);
+const TestWrapper = ({ index, isUsed, onRemove, variables }: Props) => {
    const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
@@ -33,7 +35,6 @@ const TestWrapper = ({ index, isUsed, hasName, onRemove }: Props) => {
          <PromptVariable
             index={index}
             isUsed={isUsed}
-            hasName={hasName}
             onRemove={onRemove}
             control={form.control}
             watch={form.watch}
@@ -88,12 +89,17 @@ const assertVariablesRendered = (index: number) => {
 describe("PromptVariable rendering tests", () => {
    it("hasName false - isUsed false - test", async () => {
       const index = 0;
+      const variable = dtestData.dPromptVariableUpdate();
+      variable.name = "";
+      variable.label = "";
+      variable.options = undefined;
+
       const { container } = render(
          <TestWrapper
             index={index}
             isUsed={false}
-            hasName={false}
             onRemove={jest.fn()}
+            variables={[variable]}
          />
       );
 
@@ -117,12 +123,13 @@ describe("PromptVariable rendering tests", () => {
 
    it("hasName true - isUsed false - test", async () => {
       const index = 1;
+      const variables = dtestData.dPromptVariableUpdates(3);
       const { container } = render(
          <TestWrapper
             index={index}
             isUsed={false}
-            hasName={true}
             onRemove={jest.fn()}
+            variables={variables}
          />
       );
 
@@ -146,12 +153,14 @@ describe("PromptVariable rendering tests", () => {
 
    it("hasName true - isUsed true - test", async () => {
       const index = 5;
+      const variables = dtestData.dPromptVariableUpdates(7);
+
       const { container } = render(
          <TestWrapper
             index={index}
             isUsed={true}
-            hasName={true}
             onRemove={jest.fn()}
+            variables={variables}
          />
       );
 
@@ -177,12 +186,14 @@ describe("PromptVariable rendering tests", () => {
 describe("PromptVariable functionality tests", () => {
    it("expand/collapse btn clicked - test", async () => {
       const index = 0;
+      const variables = dtestData.dPromptVariableUpdates(3);
+
       render(
          <TestWrapper
             index={index}
             isUsed={false}
-            hasName={false}
             onRemove={jest.fn()}
+            variables={variables}
          />
       );
 
@@ -209,13 +220,14 @@ describe("PromptVariable functionality tests", () => {
 
    it("remove btn clicked - test", async () => {
       const removeFn = jest.fn();
+      const variables = dtestData.dPromptVariableUpdates(3);
 
       render(
          <TestWrapper
             index={0}
             isUsed={false}
-            hasName={false}
             onRemove={removeFn}
+            variables={variables}
          />
       );
 
