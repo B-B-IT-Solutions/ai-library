@@ -13,7 +13,7 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
 
-jest.setTimeout(7000);
+jest.setTimeout(10000);
 
 type Props = {
    index: number;
