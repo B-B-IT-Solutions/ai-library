@@ -7,11 +7,11 @@ import { PromptForm } from "./prompt-form";
 const assertRendered = () => {
    const form = screen.getByTestId("template-view-form");
    const description = screen.getByTestId("description");
-   const content = screen.getByTestId("prompt-text");
+   const text = screen.getByTestId("prompt-text");
 
    assertInDocument(form);
    assertInDocument(description);
-   assertInDocument(content);
+   assertInDocument(text);
 };
 
 const assertCategoriesRendered = () => {

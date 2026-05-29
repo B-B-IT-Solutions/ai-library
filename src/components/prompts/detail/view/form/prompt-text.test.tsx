@@ -10,10 +10,10 @@ const { writeText } = navigator.clipboard;
 const writeTextMock = writeText as jest.MockedFunction<typeof writeText>;
 
 const assertRendered = () => {
-   const content = screen.getByTestId("prompt-text");
+   const text = screen.getByTestId("prompt-text");
    const copyBtn = screen.getByTestId("copy-btn");
 
-   assertInDocument(content);
+   assertInDocument(text);
    assertInDocument(copyBtn);
 };
 
