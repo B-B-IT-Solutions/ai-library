@@ -1,4 +1,5 @@
-﻿import { render, screen, waitFor } from "@testing-library/react";
+﻿import { zodResolver } from "@hookform/resolvers/zod";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
@@ -8,6 +9,7 @@ import {
    DPromptUpdate,
    DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
+import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
 
@@ -20,12 +22,15 @@ type Props = {
 
 const TestWrapper = ({ index, isUsed, onRemove, variables }: Props) => {
    const form = useForm<DPromptUpdate>({
+      resolver: zodResolver(updateTemplateSchema),
+      mode: "onBlur",
       defaultValues: {
          title: "",
          description: "",
          content: "",
          recommendedModel: "Claude",
          categories: [],
+         globalFieldIds: [],
          fields: variables,
       },
    });
@@ -262,8 +267,8 @@ describe("PromptVariable functionality tests", () => {
          assertCollapsed();
       });
 
-      const expandBtn1 = screen.getByTestId("expand-btn");
-      await userEvent.click(expandBtn1);
+      const expandBtn = screen.getByTestId("expand-btn");
+      await userEvent.click(expandBtn);
 
       await waitFor(() => {
          assertExpanded();
@@ -271,18 +276,21 @@ describe("PromptVariable functionality tests", () => {
 
       await typeIntoInput(`fields.${index}.name`, "n".repeat(75));
 
-      const collapseBtn = screen.getByTestId(`fields.${index}.name`);
-      userEvent.click(collapseBtn);
+      // Blur triggern damit onBlur-Validierung läuft
+      await userEvent.tab();
 
       await waitFor(() => {
-         assertExpanded();
+         const errorMessage = screen.getByText(
+            "Too big: expected string to have <=50 characters"
+         );
+         assertInDocument(errorMessage);
       });
 
-      // const expandBtn2 = screen.getByTestId("expand-btn");
-      // await userEvent.click(expandBtn2);
+      const collapseBtn = screen.getByTestId("collapse-btn");
+      await userEvent.click(collapseBtn);
 
-      // await waitFor(() => {
-      //    assertExpanded();
-      // });
+      await waitFor(() => {
+         assertCollapsed();
+      });
    });
 });
