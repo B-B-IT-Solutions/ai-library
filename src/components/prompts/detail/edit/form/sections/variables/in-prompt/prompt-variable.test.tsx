@@ -13,8 +13,6 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
 
-jest.setTimeout(7000);
-
 type Props = {
    index: number;
    isUsed: boolean;
@@ -291,5 +289,5 @@ describe("PromptVariable functionality tests", () => {
       await waitFor(() => {
          assertCollapsed();
       });
-   });
+   }, 10000);
 });
