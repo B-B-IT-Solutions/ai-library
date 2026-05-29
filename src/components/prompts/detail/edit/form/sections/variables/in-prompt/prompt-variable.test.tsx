@@ -281,7 +281,7 @@ describe("PromptVariable functionality tests", () => {
 
       await waitFor(() => {
          const errorMessage = screen.getByText(
-            "Too big: expected string to have <=50 characters"
+            "Name zu lang (maximal 50 Zeichen)"
          );
          assertInDocument(errorMessage);
       });

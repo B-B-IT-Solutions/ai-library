@@ -48,8 +48,6 @@ export const PromptVariable = ({
    const fieldErrors = errors.fields?.[index];
    const hasErrors = !!fieldErrors && Object.keys(fieldErrors).length > 0;
 
-   console.log(fieldErrors);
-
    const hasName = !!fieldName;
 
    const borderClass = borderCss(hasErrors, hasName, isUsed);
