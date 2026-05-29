@@ -1,6 +1,6 @@
 ﻿import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
@@ -203,7 +203,7 @@ describe("PromptVariable functionality tests", () => {
       });
 
       const expandBtn = screen.getByTestId("expand-btn");
-      userEvent.click(expandBtn);
+      await userEvent.click(expandBtn);
 
       await waitFor(() => {
          assertExpanded();
@@ -211,7 +211,7 @@ describe("PromptVariable functionality tests", () => {
       });
 
       const collapseBtn = screen.getByTestId("collapse-btn");
-      userEvent.click(collapseBtn);
+      await userEvent.click(collapseBtn);
 
       await waitFor(() => {
          assertCollapsed();
@@ -231,11 +231,58 @@ describe("PromptVariable functionality tests", () => {
          />
       );
 
-      assertRendered();
-      expect(removeFn).not.toHaveBeenCalled();
+      await waitFor(() => {
+         assertRendered();
+         expect(removeFn).not.toHaveBeenCalled();
+      });
 
       const removeBtn = screen.getByTestId("remove-btn");
       await userEvent.click(removeBtn);
-      expect(removeFn).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+         expect(removeFn).toHaveBeenCalledTimes(1);
+      });
+   });
+
+   it("name too long error - test", async () => {
+      const index = 0;
+      const variable = dtestData.dPromptVariableUpdate();
+
+      render(
+         <TestWrapper
+            index={index}
+            isUsed={false}
+            onRemove={jest.fn()}
+            variables={[variable]}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCollapsed();
+      });
+
+      const expandBtn1 = screen.getByTestId("expand-btn");
+      await userEvent.click(expandBtn1);
+
+      await waitFor(() => {
+         assertExpanded();
+      });
+
+      await typeIntoInput(`fields.${index}.name`, "n".repeat(75));
+
+      const collapseBtn = screen.getByTestId(`fields.${index}.name`);
+      userEvent.click(collapseBtn);
+
+      await waitFor(() => {
+         assertExpanded();
+      });
+
+      // const expandBtn2 = screen.getByTestId("expand-btn");
+      // await userEvent.click(expandBtn2);
+
+      // await waitFor(() => {
+      //    assertExpanded();
+      // });
    });
 });
