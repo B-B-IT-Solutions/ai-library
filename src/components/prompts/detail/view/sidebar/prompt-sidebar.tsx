@@ -9,7 +9,7 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollection | null;
+   collection?: DCollection;
 };
 
 export const PromptSidebar = ({ prompt, collection }: Props) => {

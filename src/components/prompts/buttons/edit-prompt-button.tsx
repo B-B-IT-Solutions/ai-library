@@ -8,7 +8,7 @@ import { editPromptUrl } from "../utils";
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollection | null;
+   collection?: DCollection;
 };
 
 export const EditButton = ({ prompt, collection }: Props) => {
