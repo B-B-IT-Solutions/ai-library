@@ -520,7 +520,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - collectionId defined 
                   >
                     <section
                       class="space-y-4"
-                      data-testid="promt-content"
+                      data-testid="prompt-text"
                     >
                       <p
                         class="text-sm text-slate-500"
@@ -1617,7 +1617,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - collectionId undefine
                   >
                     <section
                       class="space-y-4"
-                      data-testid="promt-content"
+                      data-testid="prompt-text"
                     >
                       <p
                         class="text-sm text-slate-500"

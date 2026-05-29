@@ -417,6 +417,6 @@ Kein separates Felder-Panel mehr. Feld-Definitionen entstehen **direkt im Editor
 **Dateien betroffen:**
 
 - Neue Tiptap-Extension: `src/components/shared/md/extensions/template-variable-extension.ts`
-- `promt-content.tsx` — Extension registrieren
+- `prompt-text.tsx` — Extension registrieren
 - `prompt-edit-form.tsx` — Felder-Panel kann stark vereinfacht oder entfernt werden
 - `prompt-variables.tsx` — wird zur reinen Übersicht/Verwaltungsliste (kein primäres Eingabe-Interface mehr)

@@ -514,7 +514,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                 >
                   <section
                     class="space-y-4"
-                    data-testid="promt-content"
+                    data-testid="prompt-text"
                   >
                     <p
                       class="text-sm text-slate-500"
@@ -1096,7 +1096,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                 >
                   <section
                     class="space-y-4"
-                    data-testid="promt-content"
+                    data-testid="prompt-text"
                   >
                     <p
                       class="text-sm text-slate-500"
@@ -1564,7 +1564,7 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                 >
                   <section
                     class="space-y-4"
-                    data-testid="promt-content"
+                    data-testid="prompt-text"
                   >
                     <p
                       class="text-sm text-slate-500"
@@ -2032,7 +2032,7 @@ exports[`PromptEdit rendering tests new entry - collection undefined - test 1`] 
                 >
                   <section
                     class="space-y-4"
-                    data-testid="promt-content"
+                    data-testid="prompt-text"
                   >
                     <p
                       class="text-sm text-slate-500"

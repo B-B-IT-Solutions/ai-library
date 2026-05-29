@@ -9,9 +9,9 @@ type Props = {
    control: Control<DPromptUpdate>;
 };
 
-export const PromptContent = ({ control }: Props) => {
+export const PromptText = ({ control }: Props) => {
    return (
-      <section className="space-y-4" data-testid="promt-content">
+      <section className="space-y-4" data-testid="prompt-text">
          <p className="text-sm text-slate-500">
             Verwenden Sie{" "}
             <code className="rounded bg-slate-100 px-1 py-0.5">
