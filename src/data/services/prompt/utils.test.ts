@@ -54,26 +54,26 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("returns only template fields when all variables have matching fields - test", () => {
-      const fields = dtestData.dPromptVariables(2);
-      const field1 = fields[0];
-      const field2 = fields[1];
+      const variables = dtestData.dPromptVariables(2);
+      const variable1 = variables[0];
+      const variable2 = variables[1];
 
-      const template = dtestData.dPromptWithContent();
-      template.fields = fields;
+      const prompt = dtestData.dPromptWithContent();
+      prompt.fields = variables;
 
-      sExtractVariablesMock.mockReturnValue([field1.name, field2.name]);
+      sExtractVariablesMock.mockReturnValue([variable1.name, variable2.name]);
 
-      const result = resolveAllTemplateFields(template, []);
+      const result = resolveAllTemplateFields(prompt, []);
 
-      expect(result).toEqual(fields);
+      expect(result).toEqual(variables);
    });
 
    it("returns dummy TEXT fields for all variables when no template fields are defined - test", () => {
-      const template = dtestData.dPromptWithContent();
-      template.fields = [];
+      const promt = dtestData.dPromptWithContent();
+      promt.fields = [];
       sExtractVariablesMock.mockReturnValue(["var_a", "var_b"]);
 
-      const result = resolveAllTemplateFields(template, []);
+      const result = resolveAllTemplateFields(promt, []);
 
       const expectedResult = [
          missingVariableToTemplateFieldInternal("var_a", 0),
@@ -84,16 +84,16 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("adds dummy fields only for variables without a matching template field - test", () => {
-      const fields = dtestData.dPromptVariables(1);
-      const template = dtestData.dPromptWithContent();
-      template.fields = fields;
+      const variables = dtestData.dPromptVariables(1);
+      const prompt = dtestData.dPromptWithContent();
+      prompt.fields = variables;
 
-      sExtractVariablesMock.mockReturnValue([fields[0].name, "missing_var"]);
+      sExtractVariablesMock.mockReturnValue([variables[0].name, "missing_var"]);
 
-      const result = resolveAllTemplateFields(template, []);
+      const result = resolveAllTemplateFields(prompt, []);
 
       const expectedResult = [
-         ...fields,
+         ...variables,
          missingVariableToTemplateFieldInternal("missing_var", 0),
       ];
 
@@ -105,12 +105,12 @@ describe("resolveAllTemplateFields tests", () => {
          ...dtestData.dGlobalPromptField(1),
          name: "global_var",
       };
-      const template = dtestData.dPromptWithContent();
-      template.fields = [];
+      const prompt = dtestData.dPromptWithContent();
+      prompt.fields = [];
 
       sExtractVariablesMock.mockReturnValue(["global_var"]);
 
-      const result = resolveAllTemplateFields(template, [globalField]);
+      const result = resolveAllTemplateFields(prompt, [globalField]);
 
       const expectedResult = [globalFieldToTemplateFieldInternal(globalField)];
 
@@ -118,34 +118,34 @@ describe("resolveAllTemplateFields tests", () => {
    });
 
    it("returns empty array when content has no variables and no fields exist - test", () => {
-      const template = dtestData.dPromptWithContent();
-      template.fields = [];
+      const prompt = dtestData.dPromptWithContent();
+      prompt.fields = [];
 
       sExtractVariablesMock.mockReturnValue([]);
 
-      const result = resolveAllTemplateFields(template, []);
+      const result = resolveAllTemplateFields(prompt, []);
 
       expect(result).toEqual([]);
    });
 
    it("merges template fields, global fields, and dummy fields in correct order - test", () => {
-      const templateField = dtestData.dPromptVariable(1);
+      const variable = dtestData.dPromptVariable(1);
       const globalField = dtestData.dGlobalPromptField(2);
       globalField.name = "global_field";
 
-      const template = dtestData.dPromptWithContent();
-      template.fields = [templateField];
+      const prompt = dtestData.dPromptWithContent();
+      prompt.fields = [variable];
 
       sExtractVariablesMock.mockReturnValue([
-         templateField.name,
+         variable.name,
          "global_field",
          "extra_var",
       ]);
 
-      const result = resolveAllTemplateFields(template, [globalField]);
+      const result = resolveAllTemplateFields(prompt, [globalField]);
 
       const expectedResult = [
-         templateField,
+         variable,
          globalFieldToTemplateFieldInternal(globalField),
          missingVariableToTemplateFieldInternal("extra_var", 0),
       ];
