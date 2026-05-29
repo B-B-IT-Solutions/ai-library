@@ -64,7 +64,7 @@ export const DetectedVariables = ({
 
    return (
       <section className="space-y-2" data-testid="detected-variables">
-         <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+         <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
             Erkannte Platzhalter
          </p>
          <p className="text-sm text-slate-500">
