@@ -49,7 +49,9 @@ export const PromptForm = ({ prompt }: Props) => {
                   Beschreibung
                </span>
             </div>
-            <MDRenderer>{prompt.description}</MDRenderer>
+            <MDRenderer className="text-sm leading-relaxed text-slate-900">
+               {prompt.description}
+            </MDRenderer>
          </div>
 
          {/* Prompt text */}

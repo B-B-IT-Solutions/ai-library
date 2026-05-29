@@ -46,7 +46,7 @@ export const PromptVariables = ({
       return (
          <div className="mb-1 space-y-3">
             <div>
-               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+               <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                   Platzhalter konfigurieren
                </p>
                <p className="mt-1 text-sm text-slate-500">
@@ -92,7 +92,7 @@ export const PromptVariables = ({
       if (!isEmpty(resolvedGlobalFields)) {
          return (
             <div className="space-y-2" data-testid="prompt-global-variables">
-               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+               <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                   Globale Platzhalter
                </p>
                {map(resolvedGlobalFields, renderGlobalField)}
@@ -151,7 +151,7 @@ export const PromptVariables = ({
       }
       return (
          <div className="space-y-2" data-testid="fields">
-            <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+            <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                Prompt Platzhalter
             </p>
             <div className="space-y-4">

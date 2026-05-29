@@ -11,7 +11,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
     >
       <div>
         <p
-          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+          class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
         >
           Platzhalter konfigurieren
         </p>
@@ -95,7 +95,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
       data-testid="prompt-global-variables"
     >
       <p
-        class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+        class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
       >
         Globale Platzhalter
       </p>
@@ -219,7 +219,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
       data-testid="fields"
     >
       <p
-        class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+        class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
       >
         Prompt Platzhalter
       </p>
@@ -690,7 +690,7 @@ exports[`PromptVariables rendering tests variables empty - test 1`] = `
     >
       <div>
         <p
-          class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+          class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
         >
           Platzhalter konfigurieren
         </p>

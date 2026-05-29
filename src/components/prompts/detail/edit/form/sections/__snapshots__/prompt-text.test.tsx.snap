@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptTemplateContent rendering tests PromptTemplateContent rendered test 1`] = `
+exports[`PromptText rendering tests rendered - test 1`] = `
 <div>
   <section
     class="space-y-4"
-    data-testid="promt-content"
+    data-testid="prompt-text"
   >
     <p
       class="text-sm text-slate-500"

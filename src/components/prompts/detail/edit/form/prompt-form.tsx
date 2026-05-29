@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils";
 import {
    BasicInfo,
    DetectedVariables,
-   PromptContent,
+   PromptText,
    PromptVariables,
 } from "./sections";
 import {
@@ -231,7 +231,7 @@ export const PromptEditForm = ({
                         </Button>
                      </div>
                      <TabsContent value="editor">
-                        <PromptContent control={form.control} />
+                        <PromptText control={form.control} />
                      </TabsContent>
                      <TabsContent value="variables" className="space-y-8">
                         <DetectedVariables

@@ -6,6 +6,7 @@ import {
 } from "@tests";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
 import { Editor, useEditor, UseEditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
@@ -31,6 +32,7 @@ const createEditorConfig = (
             },
          }),
          Markdown,
+         Underline,
          Placeholder.configure({
             placeholder,
          }),
@@ -85,7 +87,7 @@ describe("TiptapEditor rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("TiptapEditor - editor null - test", async () => {
+   it("editor null - test", async () => {
       mockUseEditor.mockReturnValue(null as unknown as Editor);
 
       const onChangeFn = jest.fn();
@@ -102,7 +104,7 @@ describe("TiptapEditor rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("TiptapEditor - renders with default props - test", async () => {
+   it("renders with default props - test", async () => {
       const editor = new Editor();
       mockUseEditor.mockReturnValue(editor);
 
@@ -124,7 +126,7 @@ describe("TiptapEditor rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("TiptapEditor - renders with custom props - test", async () => {
+   it("renders with custom props - test", async () => {
       const editor = new Editor();
       mockUseEditor.mockReturnValue(editor);
 
@@ -168,7 +170,7 @@ describe("TiptapEditor functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("TiptapEditor - onChange called when editor updates - test", async () => {
+   it("onChange called when editor updates - test", async () => {
       const editor = new Editor({ content: "Updated content" });
       mockUseEditor.mockReturnValue(editor);
 
