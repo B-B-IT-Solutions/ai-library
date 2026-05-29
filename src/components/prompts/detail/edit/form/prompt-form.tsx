@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { filter, includes, upperFirst } from "es-toolkit/compat";
+import { filter, includes, isEmpty, upperFirst } from "es-toolkit/compat";
 import { AlertCircle, Maximize2, Minimize2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -74,7 +74,7 @@ export const PromptEditForm = ({
    });
 
    const { isSubmitting, errors } = form.formState;
-   const hasFieldErrors = !!errors.fields?.some(Boolean);
+   const hasFieldErrors = !isEmpty(errors?.fields);
    const [isEditorExpanded, setIsEditorExpanded] = useState(false);
 
    useEffect(() => {

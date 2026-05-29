@@ -33,11 +33,6 @@ const assertListRendered = () => {
    assertInDocument(entries);
 };
 
-const assertGroupsendered = () => {
-   const entries = screen.getByTestId("library-entries-groups");
-   assertInDocument(entries);
-};
-
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
@@ -45,7 +40,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("LibraryDashboard rendering tests", () => {
+describe("TemplateItems rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
 
@@ -57,7 +52,7 @@ describe("LibraryDashboard rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("LibraryEntries - view grid - test", async () => {
+   it("view grid - test", async () => {
       const filters = dtestData.dPromptsFilter();
       const collection = dtestData.dCollection();
 
@@ -88,7 +83,7 @@ describe("LibraryDashboard rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntries - view list - test", async () => {
+   it("view list - test", async () => {
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
@@ -111,33 +106,6 @@ describe("LibraryDashboard rendering tests", () => {
 
       await waitFor(() => {
          assertListRendered();
-         assertGetLibraryEntriesPageCalled(expectedPayload);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("LibraryEntries - groups - test", async () => {
-      const { container } = renderWithRouter(
-         <TemplateItems
-            viewMode={DListViewMode.LIST}
-            groupBy={DListGroupByMode.MODEL}
-            sortBy={DListSortByMode.TITLE_ASC}
-            filters={{}}
-         />
-      );
-
-      const expectedPayload: DPromptsPageQuery = {
-         pagination: {
-            pageNumber: 0,
-            pageSize: 10,
-         },
-         filter: {},
-         sort: { field: "title", order: "asc" },
-      };
-
-      await waitFor(() => {
-         assertGroupsendered();
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

@@ -15,7 +15,6 @@ import {
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { TemplateItemsGrid } from "./template-items-grid";
-import { TemplateItemsGrouped } from "./template-items-grouped";
 import { TemplateItemsList } from "./template-items-list";
 
 type Props = {
@@ -28,7 +27,7 @@ type Props = {
 
 export const TemplateItems = ({
    viewMode,
-   groupBy,
+
    sortBy,
    filters,
    collectionId,
@@ -53,17 +52,6 @@ export const TemplateItems = ({
                <p className="mt-4 text-sm text-slate-600">Lädt Vorlagen...</p>
             </div>
          </div>
-      );
-   }
-
-   if (groupBy !== DListGroupByMode.NONE) {
-      return (
-         <TemplateItemsGrouped
-            descriptors={entries}
-            groupBy={groupBy}
-            collections={collections}
-            collectionId={collectionId}
-         />
       );
    }
 

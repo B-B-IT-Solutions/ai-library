@@ -9,18 +9,16 @@ const assertRendered = () => {
    const toolbar = screen.getByTestId("templates-toolbar");
    const filters = screen.getByTestId("library-entry-filters-trigger");
    const viewToggle = screen.getByTestId("view-toggle");
-   const groupBy = screen.getByTestId("group-by-select");
    const sortBy = screen.getByTestId("sort-by-select");
 
    assertInDocument(toolbar);
    assertInDocument(filters);
    assertInDocument(viewToggle);
-   assertInDocument(groupBy);
    assertInDocument(sortBy);
 };
 
-describe("LibraryToolbar rendering tests", () => {
-   it("LibraryToolbar - totalEntries 1 - test", async () => {
+describe("TemplatesToolbar rendering tests", () => {
+   it("totalEntries 1 - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
       const filters = dtestData.dPromptsFilter();
@@ -41,7 +39,7 @@ describe("LibraryToolbar rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryToolbar - totalEntries 5 - test", async () => {
+   it("totalEntries 5 - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
       const filters = dtestData.dPromptsFilter();
