@@ -5,7 +5,7 @@ import { AlertCircle, CheckCircle2, Plus, PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
-import { VariableStatus } from "../../utils/variables";
+import { VariableStatus } from "../../../utils/variables";
 
 type Props = {
    detectedVariables: string[];
