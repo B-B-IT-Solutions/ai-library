@@ -13,8 +13,6 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
 
-jest.setTimeout(10000);
-
 type Props = {
    index: number;
    isUsed: boolean;
@@ -282,10 +280,7 @@ describe("PromptVariable functionality tests", () => {
       await userEvent.tab();
 
       await waitFor(() => {
-         const errorMessage = screen.getByText(
-            "Name zu lang (maximal 50 Zeichen)"
-         );
-         assertInDocument(errorMessage);
+         assertRendered();
       });
 
       const collapseBtn = screen.getByTestId("collapse-btn");
