@@ -127,7 +127,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - collectionId defined 
                   data-testid="basic-info"
                 >
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Basisinformationen
                   </p>
@@ -1224,7 +1224,7 @@ exports[`EditPromptPage rendering tests prompt retrieved - collectionId undefine
                   data-testid="basic-info"
                 >
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Basisinformationen
                   </p>

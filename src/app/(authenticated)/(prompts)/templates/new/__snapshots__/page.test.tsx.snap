@@ -125,7 +125,7 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
                   data-testid="basic-info"
                 >
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Basisinformationen
                   </p>
@@ -1108,7 +1108,7 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
                   data-testid="basic-info"
                 >
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Basisinformationen
                   </p>
