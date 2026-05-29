@@ -1,5 +1,6 @@
 ﻿import { map } from "es-toolkit/compat";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 
 import { DPromptVariableValues } from "@/data/types/domain/prompt";
@@ -32,7 +33,7 @@ export const ReactMd = ({
          <ReactMarkdown
             components={components}
             remarkPlugins={[remarkGfm]}
-            rehypePlugins={rehypePlugins}
+            rehypePlugins={[rehypeRaw, ...rehypePlugins]}
          >
             {children}
          </ReactMarkdown>

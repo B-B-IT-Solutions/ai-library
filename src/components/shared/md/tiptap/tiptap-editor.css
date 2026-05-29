@@ -113,6 +113,15 @@
   font-style: italic;
 }
 
+/* Underline & Strikethrough */
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.ProseMirror s {
+  text-decoration: line-through;
+}
+
 /* Links */
 .ProseMirror a {
   color: #2563eb;
