@@ -20,6 +20,7 @@ import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { StatusBadge } from "./status-badge";
+import { borderCss } from "./utils";
 
 type Props = {
    index: number;
@@ -49,13 +50,7 @@ export const PromptVariable = ({
    const fieldErrors = errors.fields?.[index];
    const hasErrors = !!fieldErrors && Object.keys(fieldErrors).length > 0;
 
-   const borderClass = hasErrors
-      ? "border-2 border-red-400 bg-red-50"
-      : hasName && !isUsed
-        ? "border-orange-200 bg-orange-50"
-        : hasName && isUsed
-          ? "border-green-200 bg-green-50"
-          : "border-slate-200 bg-slate-50";
+   const borderClass = borderCss(hasErrors, hasName, isUsed);
 
    const collapsedView = () => {
       return (
