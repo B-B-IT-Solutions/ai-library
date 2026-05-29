@@ -5,7 +5,6 @@ import { DListViewMode } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { LibraryFilters } from "./filters";
-import { GroupBySelect } from "./group-by";
 import { SortBySelect } from "./sort-by";
 
 type Props = {
@@ -41,7 +40,6 @@ export const TemplatesToolbar: FC<Props> = ({
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
             <LibraryFilters categories={categories} models={models} />
-            <GroupBySelect />
             <SortBySelect />
          </div>
 
