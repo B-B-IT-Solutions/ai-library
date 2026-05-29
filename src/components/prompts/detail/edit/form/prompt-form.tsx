@@ -28,6 +28,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updateTemplateSchema } from "@/data/types/validators/template";
+import { cn } from "@/lib/utils";
 
 import {
    BasicInfo,
@@ -193,15 +194,21 @@ export const PromptEditForm = ({
                            <TabsTrigger
                               value="variables"
                               data-testid="variables-tab-trigger"
-                              className={hasFieldErrors ? "border border-red-400 text-red-600" : ""}
+                              className={cn(
+                                 hasFieldErrors
+                                    ? "text-red-600 hover:text-red-600"
+                                    : ""
+                              )}
                            >
                               Platzhalter
                               {hasFieldErrors ? (
                                  <AlertCircle className="ml-1.5 h-3.5 w-3.5 text-red-500" />
-                              ) : fields.length > 0 && (
-                                 <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
-                                    {fields.length}
-                                 </span>
+                              ) : (
+                                 fields.length > 0 && (
+                                    <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                                       {fields.length}
+                                    </span>
+                                 )
                               )}
                            </TabsTrigger>
                         </TabsList>
