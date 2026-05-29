@@ -25,7 +25,6 @@ import { borderCss } from "./utils";
 type Props = {
    index: number;
    isUsed: boolean;
-   hasName?: boolean;
    onRemove: CallbackFn;
    control: Control<DPromptUpdate>;
    watch: UseFormWatch<DPromptUpdate>;
