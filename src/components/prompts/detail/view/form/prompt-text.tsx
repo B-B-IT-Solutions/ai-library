@@ -52,7 +52,7 @@ export const PromptText = ({ prompt: template }: Props) => {
             </Button>
          </div>
          <div className="rounded-lg bg-slate-100 p-5">
-            <MDRenderer className="text-sm leading-relaxed text-slate-900">
+            <MDRenderer className="font-mono text-sm leading-relaxed text-slate-900">
                {template.content}
             </MDRenderer>
          </div>
