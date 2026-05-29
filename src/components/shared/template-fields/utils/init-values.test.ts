@@ -91,17 +91,19 @@ describe("existingTemplateFieldInitValues tests", () => {
    });
 
    it("existingTemplateFieldInitValues - prompt  template field - test", () => {
-      const field1 = dtestData.dPromptField();
-      const result1 = existingTemplateFieldInitValues(field1);
-      const expectedResult1 = expectedExistingTemplateFieldInitValues(field1);
+      const variable1 = dtestData.dPromptVariable();
+      const result1 = existingTemplateFieldInitValues(variable1);
+      const expectedResult1 =
+         expectedExistingTemplateFieldInitValues(variable1);
       expect(result1).toEqual(expectedResult1);
 
-      const field2 = dtestData.dGlobalPromptField();
-      field2.description = null;
-      field2.defaultValue = null;
-      field2.options = undefined;
-      const result2 = existingTemplateFieldInitValues(field1);
-      const expectedResult2 = expectedExistingTemplateFieldInitValues(field1);
+      const variable2 = dtestData.dGlobalPromptField();
+      variable2.description = null;
+      variable2.defaultValue = null;
+      variable2.options = undefined;
+      const result2 = existingTemplateFieldInitValues(variable1);
+      const expectedResult2 =
+         expectedExistingTemplateFieldInitValues(variable1);
       expect(result2).toEqual(expectedResult2);
    });
 });

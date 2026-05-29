@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 
-import { VariableStatus } from "../../utils/variables";
+import { VariableStatus } from "../../../utils/variables";
 
 import { DetectedVariables } from "./detected-variables";
 

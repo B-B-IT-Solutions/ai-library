@@ -37,7 +37,7 @@ describe("ReactMd rendering tests", () => {
 
 describe("ReactMd funcitonality tests", () => {
    it("toRehypePlugins - valid plugins - test", () => {
-      const values = dtestData.dPromptFieldValues();
+      const values = dtestData.dPromptVariableValues();
       const plugins = [
          {
             type: "rehype-placeholders" as const,
@@ -56,7 +56,7 @@ describe("ReactMd funcitonality tests", () => {
    });
 
    it("toRehypePlugins - invalid plugins - test", () => {
-      const values = dtestData.dPromptFieldValues();
+      const values = dtestData.dPromptVariableValues();
       const plugins = [
          {
             type: "invalid" as const,

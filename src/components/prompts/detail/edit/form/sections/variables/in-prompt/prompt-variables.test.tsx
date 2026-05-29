@@ -63,27 +63,27 @@ const TestWrapper = ({
 };
 
 const assertRendered = () => {
-   const templateFields = screen.getByTestId("prompt-variables");
+   const variables = screen.getByTestId("prompt-variables");
    const addBtn = screen.getByTestId("add-btn");
 
-   assertInDocument(templateFields);
+   assertInDocument(variables);
    assertInDocument(addBtn);
 };
 
 const assertTemplateFieldsRendered = () => {
    const fields = screen.getByTestId("fields");
-   const fieldItems = screen.getAllByTestId("prompt-variable");
+   const variables = screen.getAllByTestId("prompt-variable");
 
    assertInDocument(fields);
-   expect(fieldItems).toHaveLength(3);
+   expect(variables).toHaveLength(3);
 };
 
 const assertTemplateFieldsEmpty = () => {
    const empty = screen.getByTestId("fields-empty");
-   const fieldItems = screen.queryAllByTestId("prompt-variable");
+   const variables = screen.queryAllByTestId("prompt-variable");
 
    assertInDocument(empty);
-   expect(fieldItems).toHaveLength(0);
+   expect(variables).toHaveLength(0);
 };
 
 const assertGlobalFieldsRendered = () => {
@@ -122,14 +122,14 @@ describe("PromptVariables rendering tests", () => {
    });
 
    it("variables - test", () => {
-      const fields = dtestData.dPromptFields();
-      fields[0].name = " ";
+      const variables = dtestData.dPromptVariables();
+      variables[0].name = " ";
       const globalFields = dtestData.dGlobalPromptFields();
       const globalFieldIds = dtestData.dGlobalPromptFieldIds();
 
       const { container } = render(
          <TestWrapper
-            fields={fields}
+            fields={variables}
             globalFields={globalFields}
             globalFieldIds={globalFieldIds}
             detectedVariables={[]}
@@ -150,13 +150,13 @@ describe("PromptVariables rendering tests", () => {
 
 describe("PromptVariables functionality tests", () => {
    it("add global variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const variables = dtestData.dPromptVariables();
       const globalFields = dtestData.dGlobalPromptFields();
       const addGlobalFieldFn = jest.fn();
 
       render(
          <TestWrapper
-            fields={fields}
+            fields={variables}
             globalFields={globalFields}
             globalFieldIds={[]}
             detectedVariables={[]}
@@ -188,7 +188,7 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("remove global variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
+      const variables = dtestData.dPromptVariables();
       const globalFields = dtestData.dGlobalPromptFields();
       const globalField = globalFields[0];
       const globalFieldIds = [globalField.id];
@@ -196,7 +196,7 @@ describe("PromptVariables functionality tests", () => {
 
       render(
          <TestWrapper
-            fields={fields}
+            fields={variables}
             globalFields={globalFields}
             globalFieldIds={globalFieldIds}
             detectedVariables={[]}
@@ -220,13 +220,13 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("add prompt variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
-      const detectedVariables = [fields[0].name];
+      const variables = dtestData.dPromptVariables();
+      const detectedVariables = [variables[0].name];
       const addFieldFn = jest.fn();
 
       render(
          <TestWrapper
-            fields={fields}
+            fields={variables}
             globalFields={[]}
             globalFieldIds={[]}
             detectedVariables={detectedVariables}
@@ -246,13 +246,13 @@ describe("PromptVariables functionality tests", () => {
    });
 
    it("remove prompt variable btn clicked - test", async () => {
-      const fields = dtestData.dPromptFields();
-      const detectedVariables = [fields[0].name];
+      const variables = dtestData.dPromptVariables();
+      const detectedVariables = [variables[0].name];
       const removeFieldFn = jest.fn();
 
       render(
          <TestWrapper
-            fields={fields}
+            fields={variables}
             globalFields={[]}
             globalFieldIds={[]}
             detectedVariables={detectedVariables}

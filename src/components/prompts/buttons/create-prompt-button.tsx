@@ -6,16 +6,18 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { UpgradePlanDialog } from "@/components/subscription";
+import { DCollection } from "@/data/types/domain/collection";
+import { newPromptUrl } from "../utils";
 
 type Props = {
    size?: "default" | "sm";
-   collectionId?: string;
+   collection?: DCollection;
    requirePlanUpgrade?: boolean;
 };
 
 export const CreatePromptButton = ({
    size = "default",
-   collectionId,
+   collection,
    requirePlanUpgrade,
 }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
@@ -41,9 +43,7 @@ export const CreatePromptButton = ({
       );
    }
 
-   const href = collectionId
-      ? `/templates/new?collectionId=${collectionId}`
-      : "/templates/new";
+   const href = newPromptUrl(collection);
 
    return (
       <Button

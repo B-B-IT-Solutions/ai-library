@@ -104,14 +104,12 @@ export const PromptVariables = ({
    const renderTemplateField = (field: DPromptVariable, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
-      const hasName = !isEmpty(fieldName);
 
       return (
          <PromptVariable
             key={field.id}
             index={idx}
             isUsed={isUsed}
-            hasName={hasName}
             onRemove={() => onRemoveField(idx)}
             control={control}
             watch={watch}
@@ -124,7 +122,7 @@ export const PromptVariables = ({
          const hasDetectedVariables = !isEmpty(detectedVariables);
          return (
             <div
-               className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
+               className="mt-3 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
                data-testid="fields-empty"
             >
                {hasDetectedVariables ? (

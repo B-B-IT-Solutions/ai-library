@@ -46,7 +46,7 @@ export const CollectionHeader = ({ collection }: Props) => {
             className="flex shrink-0 items-center gap-2"
             data-testid="actions"
          >
-            <CreatePromptButton collectionId={collection.id} />
+            <CreatePromptButton collection={collection} />
             <MoreOptionsButton collection={collection} />
          </div>
       </div>
