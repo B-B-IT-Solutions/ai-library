@@ -42,7 +42,8 @@ export const PromptVariable = ({
    const fieldName = watch(`fields.${index}.name`);
    const fieldLabel = watch(`fields.${index}.label`);
    const fieldRequired = watch(`fields.${index}.required`);
-   const [isExpanded, setIsExpanded] = useState(false);
+
+   const [isExpanded, setIsExpanded] = useState(!fieldName);
 
    const { errors } = useFormState({ control });
    const fieldErrors = errors.fields?.[index];

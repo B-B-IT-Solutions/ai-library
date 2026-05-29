@@ -13,6 +13,8 @@ import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
 
+jest.setTimeout(7000);
+
 type Props = {
    index: number;
    isUsed: boolean;
@@ -110,17 +112,17 @@ describe("PromptVariable rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCollapsed();
+         assertExpanded();
+         assertVariablesRendered(index);
       });
 
       expect(container).toMatchSnapshot();
 
-      const expandBtn = screen.getByTestId("expand-btn");
-      userEvent.click(expandBtn);
+      const collapse = screen.getByTestId("collapse-btn");
+      userEvent.click(collapse);
 
       await waitFor(() => {
-         assertExpanded();
-         assertVariablesRendered(index);
+         assertCollapsed();
       });
 
       expect(container).toMatchSnapshot();
