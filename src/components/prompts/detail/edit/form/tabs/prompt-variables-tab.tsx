@@ -55,7 +55,7 @@ export const PromptVariablesTab = ({ form, globalFields }: Props) => {
       const order = fields.length;
       const label = upperFirst(variableName);
       addField(newTemplateFieldInitValues(order, variableName, label));
-      toast.success(`Feld "${variableName}" hinzugefügt`);
+      toast.success(`Platzhalter "${variableName}" hinzugefügt`);
    };
 
    const handleSyncAllVariables = () => {
@@ -64,13 +64,13 @@ export const PromptVariablesTab = ({ form, globalFields }: Props) => {
          handleAddVariableAsField(varName);
          addedCount++;
       });
-      toast.success(`${addedCount} Feld(er) synchronisiert`);
+      toast.success(`${addedCount} Platzhalter synchronisiert`);
    };
 
    const handleAddGlobalFieldIds = (newIds: string[]) => {
       const current = form.getValues("globalFieldIds");
       form.setValue("globalFieldIds", [...current, ...newIds]);
-      toast.success(`${newIds.length} globale Feld(er) hinzugefügt`);
+      toast.success(`${newIds.length} globale Platzhalter hinzugefügt`);
    };
 
    const handleRemoveGlobalFieldId = (id: string) => {

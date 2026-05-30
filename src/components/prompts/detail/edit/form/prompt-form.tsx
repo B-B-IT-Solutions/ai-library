@@ -44,7 +44,7 @@ export const PromptEditForm = ({
       mode: "onBlur",
    });
 
-   const { isSubmitting, errors } = form.formState;
+   const { isSubmitting } = form.formState;
    const [isEditorExpanded, setIsEditorExpanded] = useState(false);
 
    useEffect(() => {
@@ -99,9 +99,10 @@ export const PromptEditForm = ({
                )}
                <div className="rounded-xl bg-white p-6 shadow-sm">
                   <PromptFormTabs
-                     prompt={prompt}
+                     form={form}
                      globalFields={globalFields}
-                     onSubmit={onSubmittingChange}
+                     isEditorExpanded={isEditorExpanded}
+                     onToggleExpand={() => setIsEditorExpanded((v) => !v)}
                   />
                </div>
             </form>
