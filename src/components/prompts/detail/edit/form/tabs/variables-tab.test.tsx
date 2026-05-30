@@ -1,12 +1,12 @@
 jest.mock("sonner");
 
-import { Tabs, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { initPromptTemplate } from "../utils";
@@ -48,16 +48,6 @@ const assertRendered = () => {
    const tab = screen.getByTestId("prompt-variables-tab");
 
    assertInDocument(tab);
-};
-
-const assertEditorExpanded = () => {
-   const promptContent = screen.getByTestId("prompt-text");
-   const expandBtn = screen.getByTestId("expand-editor-btn");
-   const basicInfo = screen.queryByTestId("basic-info");
-
-   assertInDocument(promptContent);
-   assertInDocument(expandBtn);
-   assertNotInDocument(basicInfo);
 };
 
 const assertPromptVariablesRendered = () => {
@@ -113,7 +103,7 @@ const assertGlobalVariablesNotRendered = () => {
    assertNotInDocument(globalFields);
 };
 
-describe("TestWrapper rendering tests", () => {
+describe("PromptVariablesTab rendering tests", () => {
    it("new prompt - test", async () => {
       const { container } = render(<TestWrapper globalFields={[]} />);
 
