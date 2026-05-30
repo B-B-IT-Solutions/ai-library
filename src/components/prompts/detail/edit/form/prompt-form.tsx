@@ -84,6 +84,10 @@ export const PromptEditForm = ({
       }
    };
 
+   const toggleExpanded = () => {
+      setIsEditorExpanded((value) => !value);
+   };
+
    return (
       <div data-testid="prompt-edit-form" className="space-y-4">
          <Form {...form}>
@@ -102,7 +106,7 @@ export const PromptEditForm = ({
                      form={form}
                      globalFields={globalFields}
                      isEditorExpanded={isEditorExpanded}
-                     onToggleExpand={() => setIsEditorExpanded((v) => !v)}
+                     onToggleExpand={toggleExpanded}
                   />
                </div>
             </form>
