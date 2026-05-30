@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { isEmpty } from "es-toolkit/compat";
 import { AlertCircle, Maximize2, Minimize2 } from "lucide-react";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
@@ -9,8 +10,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
+import { extractVariablesFromContent } from "../utils";
 
 import { PromptEditorTab } from "./editor-tab";
+import { resolveVariableStatus } from "./utils";
 import { PromptVariablesTab } from "./variables-tab";
 
 type Props = {
@@ -33,6 +36,26 @@ export const PromptFormTabs = ({
 
    const { errors } = form.formState;
    const hasFieldErrors = !isEmpty(errors?.fields);
+
+   const content = form.watch("content");
+   const globalFieldIds = form.watch("globalFieldIds");
+   const watchedFields = form.watch("fields");
+
+   const detectedVariables = useMemo(
+      () => extractVariablesFromContent(content || ""),
+      [content]
+   );
+
+   const variableStatus = useMemo(() => {
+      return resolveVariableStatus(
+         detectedVariables,
+         watchedFields,
+         globalFields,
+         globalFieldIds
+      );
+   }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
+
+   const hasNewVariables = variableStatus.undefined.length > 0;
 
    const editorTabId = "editor-tab";
    const variablesTabId = "variables-tab";
@@ -60,6 +83,13 @@ export const PromptFormTabs = ({
                         className="ml-1.5 h-3.5 w-3.5 text-red-500"
                         data-testid="error-alert"
                      />
+                  ) : hasNewVariables ? (
+                     <span
+                        className="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700"
+                        data-testid="new-variables-badge"
+                     >
+                        {variableStatus.undefined.length}
+                     </span>
                   ) : (
                      fields.length > 0 && (
                         <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
