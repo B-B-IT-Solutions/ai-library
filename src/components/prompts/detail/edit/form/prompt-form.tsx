@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -51,6 +51,10 @@ export const PromptEditForm = ({
       onSubmittingChange?.(isSubmitting);
    }, [isSubmitting, onSubmittingChange]);
 
+   const toggleExpanded = useCallback(() => {
+      setIsEditorExpanded((value) => !value);
+   }, []);
+
    const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
       if (isEdit) {
          const result = await updatePrompt(prompt.id, data);
@@ -82,10 +86,6 @@ export const PromptEditForm = ({
             toast.error(result.message);
          }
       }
-   };
-
-   const toggleExpanded = () => {
-      setIsEditorExpanded((value) => !value);
    };
 
    return (
