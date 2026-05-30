@@ -32,6 +32,8 @@ const TestWrapper = ({
       mode: "all",
    });
 
+   form.trigger();
+
    return (
       <FormProvider {...form}>
          <PromptFormTabs
@@ -65,6 +67,16 @@ const assertVariablesTabRendered = () => {
 const assertVariablesTabNotRendered = () => {
    const tab = screen.queryByTestId("prompt-variables-tab");
    assertNotInDocument(tab);
+};
+
+const assertErrorAlertRendered = () => {
+   const alert = screen.getByTestId("error-alert");
+   assertInDocument(alert);
+};
+
+const assertErrorAlertNotRendered = () => {
+   const alert = screen.queryByTestId("error-alert");
+   assertNotInDocument(alert);
 };
 
 describe("PromptFormTabs rendering tests", () => {
@@ -105,6 +117,7 @@ describe("PromptFormTabs rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertVariablesTabNotRendered();
+         assertErrorAlertNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -114,6 +127,7 @@ describe("PromptFormTabs rendering tests", () => {
 
       await waitFor(() => {
          assertVariablesTabRendered();
+         assertErrorAlertNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -129,6 +143,7 @@ describe("PromptFormTabs rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertVariablesTabNotRendered();
+         assertErrorAlertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -138,13 +153,14 @@ describe("PromptFormTabs rendering tests", () => {
 
       await waitFor(() => {
          assertVariablesTabRendered();
+         assertErrorAlertRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("PromptEditForm functionality tests", () => {
+describe("PromptFormTabs functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

@@ -56,7 +56,10 @@ export const PromptFormTabs = ({
                >
                   Platzhalter
                   {hasFieldErrors ? (
-                     <AlertCircle className="ml-1.5 h-3.5 w-3.5 text-red-500" />
+                     <AlertCircle
+                        className="ml-1.5 h-3.5 w-3.5 text-red-500"
+                        data-testid="error-alert"
+                     />
                   ) : (
                      fields.length > 0 && (
                         <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
