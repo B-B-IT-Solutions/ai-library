@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
-import { PromptEditorTab } from "./prompt-editor-tab";
+import { PromptEditorTab } from "./editor-tab";
 
 const TestWrapper = () => {
    const form = useForm<DPromptUpdate>({

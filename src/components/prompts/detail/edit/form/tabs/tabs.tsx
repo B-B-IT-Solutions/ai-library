@@ -10,8 +10,8 @@ import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
 
-import { PromptEditorTab } from "./prompt-editor-tab";
-import { PromptVariablesTab } from "./prompt-variables-tab";
+import { PromptEditorTab } from "./editor-tab";
+import { PromptVariablesTab } from "./variables-tab";
 
 type Props = {
    form: UseFormReturn<DPromptUpdate>;
