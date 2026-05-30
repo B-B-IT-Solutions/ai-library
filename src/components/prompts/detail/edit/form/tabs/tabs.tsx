@@ -1,0 +1,96 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { isEmpty } from "es-toolkit/compat";
+import { AlertCircle, Maximize2, Minimize2 } from "lucide-react";
+import { useFieldArray, useForm } from "react-hook-form";
+
+import { Button } from "@/components/shadcn/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
+import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
+import { updateTemplateSchema } from "@/data/types/validators/template";
+import { cn } from "@/lib/utils";
+import { initPromptTemplate } from "../utils";
+
+import { PromptEditorTab } from "./prompt-editor-tab";
+import { PromptVariablesTab } from "./prompt-variables-tab";
+
+type Props = {
+   prompt?: DPromptWithContent;
+   globalFields: DGlobalPromptField[];
+   onSubmit: (isSubmiting: boolean) => void;
+};
+
+export const PromptFormTabs = ({
+   prompt,
+   globalFields,
+   onSubmit: onSubmittingChange,
+}: Props) => {
+   const form = useForm<DPromptUpdate>({
+      resolver: zodResolver(updateTemplateSchema),
+      defaultValues: initPromptTemplate(prompt),
+      mode: "onBlur",
+   });
+
+   const { fields } = useFieldArray({
+      control: form.control,
+      name: "fields",
+   });
+
+   const { isSubmitting, errors } = form.formState;
+   const hasFieldErrors = !isEmpty(errors?.fields);
+   const [isEditorExpanded, setIsEditorExpanded] = useState(false);
+
+   useEffect(() => {
+      onSubmittingChange?.(isSubmitting);
+   }, [isSubmitting, onSubmittingChange]);
+
+   return (
+      <Tabs defaultValue="editor" data-testid="prompt-form-tabs">
+         <div className="mb-2 flex items-center justify-between">
+            <TabsList>
+               <TabsTrigger value="editor" data-testid="editor-tab-trigger">
+                  Prompt
+               </TabsTrigger>
+               <TabsTrigger
+                  value="variables"
+                  data-testid="variables-tab-trigger"
+                  className={cn(
+                     hasFieldErrors ? "text-red-600 hover:text-red-600" : ""
+                  )}
+               >
+                  Platzhalter
+                  {hasFieldErrors ? (
+                     <AlertCircle className="ml-1.5 h-3.5 w-3.5 text-red-500" />
+                  ) : (
+                     fields.length > 0 && (
+                        <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                           {fields.length}
+                        </span>
+                     )
+                  )}
+               </TabsTrigger>
+            </TabsList>
+            <Button
+               type="button"
+               variant="ghost"
+               size="sm"
+               onClick={() => setIsEditorExpanded((v) => !v)}
+               className="cursor-pointer text-slate-500 hover:text-slate-900"
+               title={isEditorExpanded ? "Verkleinern" : "Vergrößern"}
+               data-testid="expand-editor-btn"
+            >
+               {isEditorExpanded ? (
+                  <Minimize2 className="h-4 w-4" />
+               ) : (
+                  <Maximize2 className="h-4 w-4" />
+               )}
+            </Button>
+         </div>
+         <PromptEditorTab control={form.control} />
+         <PromptVariablesTab form={form} globalFields={globalFields} />
+      </Tabs>
+   );
+};
