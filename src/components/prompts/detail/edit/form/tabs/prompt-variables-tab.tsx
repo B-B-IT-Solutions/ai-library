@@ -13,11 +13,12 @@ import { DetectedVariables, PromptVariables } from "../sections";
 import { extractVariablesFromContent, getVariableStatus } from "../utils";
 
 type Props = {
+   tabId: string;
    form: UseFormReturn<DPromptUpdate>;
    globalFields: DGlobalPromptField[];
 };
 
-export const PromptVariablesTab = ({ form, globalFields }: Props) => {
+export const PromptVariablesTab = ({ tabId, form, globalFields }: Props) => {
    const {
       fields,
       append: addField,
@@ -83,7 +84,7 @@ export const PromptVariablesTab = ({ form, globalFields }: Props) => {
 
    return (
       <TabsContent
-         value="variables"
+         value={tabId}
          className="space-y-8"
          data-testid="prompt-variables-tab"
       >

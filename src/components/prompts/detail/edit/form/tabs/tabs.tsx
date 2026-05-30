@@ -34,15 +34,21 @@ export const PromptFormTabs = ({
    const { errors } = form.formState;
    const hasFieldErrors = !isEmpty(errors?.fields);
 
+   const editorTabId = "editor";
+   const variablesTabId = "variables";
+
    return (
-      <Tabs defaultValue="editor" data-testid="prompt-form-tabs">
+      <Tabs defaultValue={editorTabId} data-testid="prompt-form-tabs">
          <div className="mb-2 flex items-center justify-between">
             <TabsList>
-               <TabsTrigger value="editor" data-testid="editor-tab-trigger">
+               <TabsTrigger
+                  value={editorTabId}
+                  data-testid="editor-tab-trigger"
+               >
                   Prompt
                </TabsTrigger>
                <TabsTrigger
-                  value="variables"
+                  value={variablesTabId}
                   data-testid="variables-tab-trigger"
                   className={cn(
                      hasFieldErrors ? "text-red-600 hover:text-red-600" : ""
@@ -76,8 +82,12 @@ export const PromptFormTabs = ({
                )}
             </Button>
          </div>
-         <PromptEditorTab control={form.control} />
-         <PromptVariablesTab form={form} globalFields={globalFields} />
+         <PromptEditorTab control={form.control} tabId={editorTabId} />
+         <PromptVariablesTab
+            form={form}
+            globalFields={globalFields}
+            tabId={variablesTabId}
+         />
       </Tabs>
    );
 };
