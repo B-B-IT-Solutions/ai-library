@@ -49,10 +49,10 @@ export const PromptFormTabs = ({
                </TabsTrigger>
                <TabsTrigger
                   value={variablesTabId}
-                  data-testid="variables-tab-trigger"
                   className={cn(
                      hasFieldErrors ? "text-red-600 hover:text-red-600" : ""
                   )}
+                  data-testid="variables-tab-trigger"
                >
                   Platzhalter
                   {hasFieldErrors ? (
@@ -82,7 +82,7 @@ export const PromptFormTabs = ({
                )}
             </Button>
          </div>
-         <PromptEditorTab tabId={editorTabId} control={form.control} />
+         <PromptEditorTab tabId={editorTabId} form={form} />
          <PromptVariablesTab
             tabId={variablesTabId}
             form={form}

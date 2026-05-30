@@ -27,7 +27,7 @@ const TestWrapper = () => {
             <TabsList>
                <TabsTrigger value={tabid}>Prompt</TabsTrigger>
             </TabsList>
-            <PromptEditorTab tabId={tabid} control={form.control} />
+            <PromptEditorTab tabId={tabid} form={form} />
          </Tabs>
       </FormProvider>
    );
