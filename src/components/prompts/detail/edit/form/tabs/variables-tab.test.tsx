@@ -46,7 +46,6 @@ const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
    const tab = screen.getByTestId("prompt-variables-tab");
-
    assertInDocument(tab);
 };
 
@@ -72,7 +71,7 @@ const assertPromptVariablesEmptyRendered = () => {
    assertNotInDocument(variable);
 };
 
-const assertTemplateFieldsRendered = (count: number) => {
+const assertPromptVariableItemsRendered = (count: number) => {
    const variables = screen.getAllByTestId("prompt-variable");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
 
@@ -128,7 +127,7 @@ describe("PromptVariablesTab rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("existing entry - variables detected in content - test", async () => {
+   it("existing prompt - variables detected in content - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
 
@@ -153,7 +152,7 @@ describe("PromptEditForm functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("add global variable btn clicked - test", async () => {
+   it("add global variable - btn clicked - test", async () => {
       const globalVariables = dtestData.dGlobalPromptFields();
       render(<TestWrapper globalFields={globalVariables} />);
 
@@ -183,7 +182,7 @@ describe("PromptEditForm functionality tests", () => {
       );
    });
 
-   it("remove global variable btn clicked - test", async () => {
+   it("remove global variable - btn clicked - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       const globalVariables = dtestData.dGlobalPromptFields();
 
@@ -205,7 +204,7 @@ describe("PromptEditForm functionality tests", () => {
       });
    });
 
-   it("add new prompt variable btn clicked - test", async () => {
+   it("add prompt variable - btn clicked - test", async () => {
       const globalVariables = dtestData.dGlobalPromptFields();
       render(<TestWrapper globalFields={globalVariables} />);
 
@@ -226,7 +225,7 @@ describe("PromptEditForm functionality tests", () => {
       });
    });
 
-   it("remove prompt variable btn clicked - test", async () => {
+   it("remove prompt variable - btn clicked - test", async () => {
       const globalVariables = dtestData.dGlobalPromptFields();
       render(<TestWrapper globalFields={globalVariables} />);
 
@@ -251,7 +250,7 @@ describe("PromptEditForm functionality tests", () => {
       });
    });
 
-   it("add detected variable as prompt variable - test", async () => {
+   it("add detected variable as prompt variable - btn clicked - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       prompt.content = "Hello {{{{name}}";
       prompt.fields = [];
@@ -283,7 +282,7 @@ describe("PromptEditForm functionality tests", () => {
       });
    });
 
-   it("sync all variables - test", async () => {
+   it("sync all variables - btn clicked - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       prompt.content =
          "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}";
@@ -308,7 +307,7 @@ describe("PromptEditForm functionality tests", () => {
       await userEvent.click(syncAllBtn);
 
       await waitFor(() => {
-         assertTemplateFieldsRendered(3);
+         assertPromptVariableItemsRendered(3);
          expect(toastMock.success).toHaveBeenCalledTimes(4);
       });
    });
