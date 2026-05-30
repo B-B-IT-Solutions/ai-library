@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
-import { filter, includes, upperFirst } from "es-toolkit/compat";
+import { filter, upperFirst } from "es-toolkit/compat";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -10,15 +9,23 @@ import { newTemplateFieldInitValues } from "@/components/shared/template-fields"
 import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { DetectedVariables, PromptVariables } from "../sections";
-import { extractVariablesFromContent, getVariableStatus } from "../utils";
+import { VariableStatus } from "../utils/variables";
 
 type Props = {
    tabId: string;
    form: UseFormReturn<DPromptUpdate>;
    globalFields: DGlobalPromptField[];
+   detectedVariables: string[];
+   variableStatus: VariableStatus;
 };
 
-export const PromptVariablesTab = ({ tabId, form, globalFields }: Props) => {
+export const PromptVariablesTab = ({
+   tabId,
+   form,
+   globalFields,
+   detectedVariables,
+   variableStatus,
+}: Props) => {
    const {
       fields,
       append: addField,
@@ -28,27 +35,27 @@ export const PromptVariablesTab = ({ tabId, form, globalFields }: Props) => {
       name: "fields",
    });
 
-   const content = form.watch("content");
-   const globalFieldIds = form.watch("globalFieldIds");
-   const watchedFields = form.watch("fields");
+   // const content = form.watch("content");
+   // const globalFieldIds = form.watch("globalFieldIds");
+   // const watchedFields = form.watch("fields");
 
-   const detectedVariables = useMemo(
-      () => extractVariablesFromContent(content || ""),
-      [content]
-   );
+   // const detectedVariables = useMemo(
+   //    () => extractVariablesFromContent(content || ""),
+   //    [content]
+   // );
 
-   const variableStatus = useMemo(() => {
-      const promptVariableNames = watchedFields.map((f) => f.name);
-      const globalVariabledNames = globalFields
-         .filter((gf) => includes(globalFieldIds, gf.id))
-         .map((gf) => gf.name);
+   // const variableStatus = useMemo(() => {
+   //    const promptVariableNames = watchedFields.map((f) => f.name);
+   //    const globalVariabledNames = globalFields
+   //       .filter((gf) => includes(globalFieldIds, gf.id))
+   //       .map((gf) => gf.name);
 
-      const allVariableNames = [
-         ...promptVariableNames,
-         ...globalVariabledNames,
-      ];
-      return getVariableStatus(detectedVariables, allVariableNames);
-   }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
+   //    const allVariableNames = [
+   //       ...promptVariableNames,
+   //       ...globalVariabledNames,
+   //    ];
+   //    return getVariableStatus(detectedVariables, allVariableNames);
+   // }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
 
    const handleAddField = () => {
       const order = fields.length;

@@ -120,6 +120,8 @@ export const PromptFormTabs = ({
             tabId={variablesTabId}
             form={form}
             globalFields={globalFields}
+            detectedVariables={detectedVariables}
+            variableStatus={variableStatus}
          />
       </Tabs>
    );
