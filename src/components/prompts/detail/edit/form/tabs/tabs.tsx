@@ -34,8 +34,8 @@ export const PromptFormTabs = ({
    const { errors } = form.formState;
    const hasFieldErrors = !isEmpty(errors?.fields);
 
-   const editorTabId = "editor";
-   const variablesTabId = "variables";
+   const editorTabId = "editor-tab";
+   const variablesTabId = "variables-tab";
 
    return (
       <Tabs defaultValue={editorTabId} data-testid="prompt-form-tabs">
@@ -82,11 +82,11 @@ export const PromptFormTabs = ({
                )}
             </Button>
          </div>
-         <PromptEditorTab control={form.control} tabId={editorTabId} />
+         <PromptEditorTab tabId={editorTabId} control={form.control} />
          <PromptVariablesTab
+            tabId={variablesTabId}
             form={form}
             globalFields={globalFields}
-            tabId={variablesTabId}
          />
       </Tabs>
    );
