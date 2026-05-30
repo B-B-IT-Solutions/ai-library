@@ -37,7 +37,7 @@ exports[`LibraryEntryViewForm rendering tests categories empty - rendered test 1
         </span>
       </div>
       <div
-        class="text-slate-700 leading-relaxed"
+        class="text-sm leading-relaxed text-slate-900"
         data-testid="react-md"
       >
         <div
@@ -176,7 +176,7 @@ exports[`LibraryEntryViewForm rendering tests with categories - rendered test 1`
         </span>
       </div>
       <div
-        class="text-slate-700 leading-relaxed"
+        class="text-sm leading-relaxed text-slate-900"
         data-testid="react-md"
       >
         <div

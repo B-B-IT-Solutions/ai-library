@@ -20,27 +20,28 @@
 
 /* Typography */
 .ProseMirror h1 {
-  font-size: 2em;
+  font-size: 1.375rem;
   font-weight: bold;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
 .ProseMirror h2 {
-  font-size: 1.5em;
+  font-size: 1.125rem;
   font-weight: bold;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
 .ProseMirror h3 {
-  font-size: 1.25em;
+  font-size: 1rem;
   font-weight: bold;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
 .ProseMirror p {
+  font-size: 0.875rem;
   margin-top: 0.75em;
   margin-bottom: 0.75em;
 }
@@ -110,6 +111,15 @@
   margin-bottom: 0.75em;
   color: #64748b;
   font-style: italic;
+}
+
+/* Underline & Strikethrough */
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.ProseMirror s {
+  text-decoration: line-through;
 }
 
 /* Links */

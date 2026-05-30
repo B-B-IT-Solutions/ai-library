@@ -140,7 +140,7 @@ exports[`PromptView rendering tests collection defined - test 1`] = `
                   </span>
                 </div>
                 <div
-                  class="text-slate-700 leading-relaxed"
+                  class="text-sm leading-relaxed text-slate-900"
                   data-testid="react-md"
                 >
                   <div
@@ -525,7 +525,7 @@ exports[`PromptView rendering tests collection undefined - test 1`] = `
                   </span>
                 </div>
                 <div
-                  class="text-slate-700 leading-relaxed"
+                  class="text-sm leading-relaxed text-slate-900"
                   data-testid="react-md"
                 >
                   <div

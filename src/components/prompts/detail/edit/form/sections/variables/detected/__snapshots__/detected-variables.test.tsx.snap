@@ -7,7 +7,7 @@ exports[`DetectedVariables rendering tests DetectedVariables - detectedVariables
     data-testid="detected-variables"
   >
     <p
-      class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+      class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
     >
       Erkannte Platzhalter
     </p>
@@ -213,7 +213,7 @@ exports[`DetectedVariables rendering tests DetectedVariables - detectedVariables
     data-testid="detected-variables"
   >
     <p
-      class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+      class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
     >
       Erkannte Platzhalter
     </p>

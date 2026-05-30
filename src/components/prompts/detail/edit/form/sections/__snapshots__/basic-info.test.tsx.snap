@@ -7,7 +7,7 @@ exports[`BasicInfo rendering tests rendered - test 1`] = `
     data-testid="basic-info"
   >
     <p
-      class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+      class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
     >
       Basisinformationen
     </p>

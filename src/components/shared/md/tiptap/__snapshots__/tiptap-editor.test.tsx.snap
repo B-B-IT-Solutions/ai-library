@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TiptapEditor rendering tests TiptapEditor - editor null - test 1`] = `<div />`;
+exports[`TiptapEditor rendering tests editor null - test 1`] = `<div />`;
 
-exports[`TiptapEditor rendering tests TiptapEditor - renders with custom props - test 1`] = `
+exports[`TiptapEditor rendering tests renders with custom props - test 1`] = `
 <div>
   <div
     class="border border-slate-200 rounded-lg overflow-hidden bg-white"
@@ -525,7 +525,7 @@ exports[`TiptapEditor rendering tests TiptapEditor - renders with custom props -
 </div>
 `;
 
-exports[`TiptapEditor rendering tests TiptapEditor - renders with default props - test 1`] = `
+exports[`TiptapEditor rendering tests renders with default props - test 1`] = `
 <div>
   <div
     class="border border-slate-200 rounded-lg overflow-hidden bg-white"

@@ -10,10 +10,10 @@ module.exports = {
    ],
    coverageThreshold: {
       global: {
-         lines: 99,
-         statements: 99.15,
-         branches: 98.5,
-         functions: 99.1,
+         lines: 99.8,
+         statements: 99.8,
+         branches: 99.4,
+         functions: 99.4,
       },
    },
    setupFilesAfterEnv: [
@@ -44,6 +44,7 @@ module.exports = {
       "^react-markdown$": "<rootDir>/__mocks__/react-markdown.tsx",
       "^remark$": "<rootDir>/__mocks__/remark.ts",
       "^strip-markdown$": "<rootDir>/__mocks__/strip-markdown.ts",
+      "^rehype-raw$": "<rootDir>/__mocks__/rehype-raw.ts",
       "^remark-gfm$": "<rootDir>/__mocks__/remark-gfm.ts",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@radix-ui/react-alert-dialog$":

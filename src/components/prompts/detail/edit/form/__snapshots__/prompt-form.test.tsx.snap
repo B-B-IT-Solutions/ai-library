@@ -18,7 +18,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -411,7 +411,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
           >
             <section
               class="space-y-4"
-              data-testid="promt-content"
+              data-testid="prompt-text"
             >
               <p
                 class="text-sm text-slate-500"
@@ -467,7 +467,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -867,7 +867,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
               >
                 <div>
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Platzhalter konfigurieren
                   </p>
@@ -951,7 +951,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 data-testid="prompt-global-variables"
               >
                 <p
-                  class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                  class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                 >
                   Globale Platzhalter
                 </p>
@@ -1075,7 +1075,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 data-testid="fields"
               >
                 <p
-                  class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                  class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                 >
                   Prompt Platzhalter
                 </p>
@@ -1558,7 +1558,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -1951,7 +1951,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
           >
             <section
               class="space-y-4"
-              data-testid="promt-content"
+              data-testid="prompt-text"
             >
               <p
                 class="text-sm text-slate-500"
@@ -2007,7 +2007,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -2403,7 +2403,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               data-testid="detected-variables"
             >
               <p
-                class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
               >
                 Erkannte Platzhalter
               </p>
@@ -2645,7 +2645,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               >
                 <div>
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Platzhalter konfigurieren
                   </p>
@@ -2729,7 +2729,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 data-testid="prompt-global-variables"
               >
                 <p
-                  class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                  class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                 >
                   Globale Platzhalter
                 </p>
@@ -2853,7 +2853,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 data-testid="fields"
               >
                 <p
-                  class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                  class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                 >
                   Prompt Platzhalter
                 </p>
@@ -3336,7 +3336,7 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 1`] = `
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -3615,7 +3615,7 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 1`] = `
           >
             <section
               class="space-y-4"
-              data-testid="promt-content"
+              data-testid="prompt-text"
             >
               <p
                 class="text-sm text-slate-500"
@@ -3671,7 +3671,7 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 2`] = `
           data-testid="basic-info"
         >
           <p
-            class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+            class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
           >
             Basisinformationen
           </p>
@@ -3957,7 +3957,7 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 2`] = `
               >
                 <div>
                   <p
-                    class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+                    class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
                   >
                     Platzhalter konfigurieren
                   </p>

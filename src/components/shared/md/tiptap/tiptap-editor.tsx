@@ -5,6 +5,7 @@ import "./tiptap-editor.css";
 import { FC, useEffect } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
@@ -39,6 +40,7 @@ export const TiptapEditor: FC<TiptapEditorProps> = ({
             },
          }),
          Markdown,
+         Underline,
          Placeholder.configure({
             placeholder,
          }),

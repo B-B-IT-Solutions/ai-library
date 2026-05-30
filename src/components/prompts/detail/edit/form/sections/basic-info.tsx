@@ -25,7 +25,7 @@ type Props = {
 export const BasicInfo = ({ control }: Props) => {
    return (
       <section className="space-y-4" data-testid="basic-info">
-         <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+         <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
             Basisinformationen
          </p>
          <FormInput<DPromptUpdate>
