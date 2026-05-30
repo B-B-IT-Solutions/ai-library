@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TestWrapper rendering tests existing entry - variables detected in content - test 1`] = `
+exports[`PromptVariablesTab rendering tests existing entry - variables detected in content - test 1`] = `
 <div>
   <div
     class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
@@ -947,7 +947,7 @@ exports[`TestWrapper rendering tests existing entry - variables detected in cont
 </div>
 `;
 
-exports[`TestWrapper rendering tests existing prompt - test 1`] = `
+exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
 <div>
   <div
     class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
@@ -1656,7 +1656,7 @@ exports[`TestWrapper rendering tests existing prompt - test 1`] = `
 </div>
 `;
 
-exports[`TestWrapper rendering tests new prompt - test 1`] = `
+exports[`PromptVariablesTab rendering tests new prompt - test 1`] = `
 <div>
   <div
     class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"

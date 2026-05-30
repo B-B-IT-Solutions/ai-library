@@ -71,7 +71,7 @@ export const PromptVariablesTab = ({ tabId, form, globalFields }: Props) => {
    const handleAddGlobalFieldIds = (newIds: string[]) => {
       const current = form.getValues("globalFieldIds");
       form.setValue("globalFieldIds", [...current, ...newIds]);
-      toast.success(`${newIds.length} globale Platzhalter hinzugefügt`);
+      toast.success(`${newIds.length} globaler Platzhalter hinzugefügt`);
    };
 
    const handleRemoveGlobalFieldId = (id: string) => {
