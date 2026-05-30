@@ -38,13 +38,16 @@ export const PromptVariablesTab = ({ tabId, form, globalFields }: Props) => {
    );
 
    const variableStatus = useMemo(() => {
-      const templateFieldNames = watchedFields.map((f) => f.name);
-      const globalFieldNames = globalFields
+      const promptVariableNames = watchedFields.map((f) => f.name);
+      const globalVariabledNames = globalFields
          .filter((gf) => includes(globalFieldIds, gf.id))
          .map((gf) => gf.name);
 
-      const allFieldNames = [...templateFieldNames, ...globalFieldNames];
-      return getVariableStatus(detectedVariables, allFieldNames);
+      const allVariableNames = [
+         ...promptVariableNames,
+         ...globalVariabledNames,
+      ];
+      return getVariableStatus(detectedVariables, allVariableNames);
    }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
 
    const handleAddField = () => {
