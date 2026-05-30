@@ -331,7 +331,7 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
                   class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
                   data-orientation="horizontal"
                   data-slot="tabs"
-                  data-testid="tabs"
+                  data-testid="prompt-form-tabs"
                   orientation="horizontal"
                 >
                   <div
@@ -400,7 +400,7 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
                   <div
                     class="flex-1 outline-none"
                     data-slot="tabs-content"
-                    data-testid="mock-react-tabs-content-editor"
+                    data-testid="prompt-editor-tab"
                   >
                     <section
                       class="space-y-4"
@@ -1314,7 +1314,7 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
                   class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
                   data-orientation="horizontal"
                   data-slot="tabs"
-                  data-testid="tabs"
+                  data-testid="prompt-form-tabs"
                   orientation="horizontal"
                 >
                   <div
@@ -1383,7 +1383,7 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
                   <div
                     class="flex-1 outline-none"
                     data-slot="tabs-content"
-                    data-testid="mock-react-tabs-content-editor"
+                    data-testid="prompt-editor-tab"
                   >
                     <section
                       class="space-y-4"

@@ -2,10 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { DPromptUpdate } from "@/data/types/domain/prompt";
+
 import { PromptText } from "./prompt-text";
 
 const TestWrapper = () => {
-   const form = useForm({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          description: "",
