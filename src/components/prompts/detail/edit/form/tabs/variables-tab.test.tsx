@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { initPromptTemplate } from "../utils";
+import { VariableStatus } from "../utils/variables";
 
 import { PromptVariablesTab } from "./variables-tab";
 
@@ -18,14 +19,21 @@ jest.setTimeout(10000);
 type TestWrapperProps = {
    prompt?: DPromptWithContent;
    globalFields: DGlobalPromptField[];
+   detectedVariables?: string[];
+   variableStatus?: VariableStatus;
 };
 
-const TestWrapper = ({ prompt, globalFields }: TestWrapperProps) => {
+const TestWrapper = ({
+   prompt,
+   globalFields,
+   detectedVariables = [],
+   variableStatus = dtestData.dVariableStatus(),
+}: TestWrapperProps) => {
    const form = useForm<DPromptUpdate>({
       defaultValues: initPromptTemplate(prompt),
    });
 
-   const tabid = "prompt-editor";
+   const tabid = "variables-tab";
    return (
       <FormProvider {...form}>
          <Tabs defaultValue={tabid}>
@@ -36,6 +44,8 @@ const TestWrapper = ({ prompt, globalFields }: TestWrapperProps) => {
                tabId={tabid}
                form={form}
                globalFields={globalFields}
+               detectedVariables={detectedVariables}
+               variableStatus={variableStatus}
             />
          </Tabs>
       </FormProvider>
@@ -129,12 +139,22 @@ describe("PromptVariablesTab rendering tests", () => {
 
    it("existing prompt - variables detected in content - test", async () => {
       const prompt = dtestData.dPromptWithContent();
-      prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
-
       const globalVariables = dtestData.dGlobalPromptFields();
 
+      const detectedVariables = ["name", "role", "task"];
+      const variableStatus: VariableStatus = {
+         undefined: [...detectedVariables],
+         used: [],
+         unused: [],
+      };
+
       const { container } = render(
-         <TestWrapper prompt={prompt} globalFields={globalVariables} />
+         <TestWrapper
+            prompt={prompt}
+            globalFields={globalVariables}
+            detectedVariables={detectedVariables}
+            variableStatus={variableStatus}
+         />
       );
 
       await waitFor(() => {
@@ -252,12 +272,25 @@ describe("PromptEditForm functionality tests", () => {
 
    it("add detected variable as prompt variable - btn clicked - test", async () => {
       const prompt = dtestData.dPromptWithContent();
-      prompt.content = "Hello {{{{name}}";
       prompt.fields = [];
+
+      const detectedVariables = ["name"];
+      const variableStatus: VariableStatus = {
+         undefined: [...detectedVariables],
+         used: [],
+         unused: [],
+      };
 
       const globalVariables = dtestData.dGlobalPromptFields();
 
-      render(<TestWrapper prompt={prompt} globalFields={globalVariables} />);
+      render(
+         <TestWrapper
+            prompt={prompt}
+            globalFields={globalVariables}
+            detectedVariables={detectedVariables}
+            variableStatus={variableStatus}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -284,13 +317,25 @@ describe("PromptEditForm functionality tests", () => {
 
    it("sync all variables - btn clicked - test", async () => {
       const prompt = dtestData.dPromptWithContent();
-      prompt.content =
-         "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}";
       prompt.fields = [];
 
       const globalVariables = dtestData.dGlobalPromptFields();
 
-      render(<TestWrapper prompt={prompt} globalFields={globalVariables} />);
+      const detectedVariables = ["name", "role", "title"];
+      const variableStatus: VariableStatus = {
+         undefined: [...detectedVariables],
+         used: [],
+         unused: [],
+      };
+
+      render(
+         <TestWrapper
+            prompt={prompt}
+            globalFields={globalVariables}
+            detectedVariables={detectedVariables}
+            variableStatus={variableStatus}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();

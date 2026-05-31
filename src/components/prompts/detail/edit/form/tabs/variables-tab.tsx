@@ -35,28 +35,6 @@ export const PromptVariablesTab = ({
       name: "fields",
    });
 
-   // const content = form.watch("content");
-   // const globalFieldIds = form.watch("globalFieldIds");
-   // const watchedFields = form.watch("fields");
-
-   // const detectedVariables = useMemo(
-   //    () => extractVariablesFromContent(content || ""),
-   //    [content]
-   // );
-
-   // const variableStatus = useMemo(() => {
-   //    const promptVariableNames = watchedFields.map((f) => f.name);
-   //    const globalVariabledNames = globalFields
-   //       .filter((gf) => includes(globalFieldIds, gf.id))
-   //       .map((gf) => gf.name);
-
-   //    const allVariableNames = [
-   //       ...promptVariableNames,
-   //       ...globalVariabledNames,
-   //    ];
-   //    return getVariableStatus(detectedVariables, allVariableNames);
-   // }, [detectedVariables, watchedFields, globalFields, globalFieldIds]);
-
    const handleAddField = () => {
       const order = fields.length;
       addField(newTemplateFieldInitValues(order));
