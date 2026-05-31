@@ -1903,9 +1903,10 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               >
                 Platzhalter
                 <span
-                  class="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700"
+                  class="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700"
+                  data-testid="new-variables-badge"
                 >
-                  3
+                  2
                 </span>
               </button>
             </div>
@@ -2352,9 +2353,10 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               >
                 Platzhalter
                 <span
-                  class="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700"
+                  class="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700"
+                  data-testid="new-variables-badge"
                 >
-                  3
+                  2
                 </span>
               </button>
             </div>
