@@ -64,6 +64,9 @@ module.exports = {
       "^@radix-ui/react-tabs$": "<rootDir>/__mocks__/@radix-ui/react-tabs.tsx",
       "^@radix-ui/react-tooltip$":
          "<rootDir>/__mocks__/@radix-ui/react-tooltip.tsx",
+      "^@dnd-kit/core$": "<rootDir>/__mocks__/@dnd-kit/core.tsx",
+      "^@dnd-kit/sortable$": "<rootDir>/__mocks__/@dnd-kit/sortable.tsx",
+      "^@dnd-kit/utilities$": "<rootDir>/__mocks__/@dnd-kit/utilities.ts",
       "^@tiptap/react$": "<rootDir>/__mocks__/@tiptap/react.tsx",
       "@/(.*)$": ["<rootDir>/src/$1"],
       "^@tests(.*)$": "<rootDir>/tests/index$1",

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, ChevronUp, Pencil, Trash2 } from "lucide-react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { AlertCircle, ChevronUp, GripVertical, Pencil, Trash2 } from "lucide-react";
 import { Control, useFormState, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -23,6 +25,7 @@ import { StatusBadge } from "./status-badge";
 import { borderCss } from "./utils";
 
 type Props = {
+   id: string;
    index: number;
    isUsed: boolean;
    onRemove: CallbackFn;
@@ -31,12 +34,21 @@ type Props = {
 };
 
 export const PromptVariable = ({
+   id,
    index,
    isUsed,
    onRemove,
    control,
    watch,
 }: Props) => {
+   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+      useSortable({ id });
+
+   const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      opacity: isDragging ? 0.5 : 1,
+   };
    const type = watch(`fields.${index}.type`);
    const options = watch(`fields.${index}.options`) ?? [];
    const fieldName = watch(`fields.${index}.name`);
@@ -59,6 +71,14 @@ export const PromptVariable = ({
             className={`flex items-center justify-between rounded-lg border px-4 py-3 ${borderClass}`}
             data-testid="variable-collapsed"
          >
+            <button
+               type="button"
+               className="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+               data-testid="drag-handle"
+               {...listeners}
+            >
+               <GripVertical className="h-4 w-4" />
+            </button>
             <div className="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3">
                <div className="min-w-0 truncate">
                   <span className="text-sm font-medium text-slate-900">
@@ -201,7 +221,7 @@ export const PromptVariable = ({
    };
 
    return (
-      <div data-testid="prompt-variable">
+      <div ref={setNodeRef} style={style} {...attributes} data-testid="prompt-variable">
          {isExpanded ? expandedView() : collapsedView()}
       </div>
    );

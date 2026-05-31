@@ -30,10 +30,19 @@ export const PromptVariablesTab = ({
       fields,
       append: addField,
       remove: removeField,
+      move: moveField,
    } = useFieldArray({
       control: form.control,
       name: "fields",
    });
+
+   const handleMoveField = (from: number, to: number) => {
+      moveField(from, to);
+      const updatedFields = form.getValues("fields");
+      updatedFields.forEach((_, index) => {
+         form.setValue(`fields.${index}.order`, index, { shouldDirty: true });
+      });
+   };
 
    const handleAddField = () => {
       const order = fields.length;
@@ -89,6 +98,7 @@ export const PromptVariablesTab = ({
             globalFieldIds={form.watch("globalFieldIds")}
             onAddField={handleAddField}
             onRemoveField={removeField}
+            onMoveField={handleMoveField}
             onAddGlobalFieldIds={handleAddGlobalFieldIds}
             onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
             control={form.control}

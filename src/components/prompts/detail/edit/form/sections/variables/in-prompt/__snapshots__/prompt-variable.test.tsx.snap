@@ -4,6 +4,7 @@ exports[`PromptVariable rendering tests hasName false - isUsed false - test 1`] 
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="rounded-lg border p-6 border-slate-200 bg-slate-50"
@@ -424,11 +425,62 @@ exports[`PromptVariable rendering tests hasName false - isUsed false - test 2`] 
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="flex items-center justify-between rounded-lg border px-4 py-3 border-slate-200 bg-slate-50"
       data-testid="variable-collapsed"
     >
+      <button
+        class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+        data-testid="drag-handle"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-grip-vertical h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="9"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="19"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="19"
+            r="1"
+          />
+        </svg>
+      </button>
       <div
         class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
       >
@@ -535,11 +587,62 @@ exports[`PromptVariable rendering tests hasName true - isUsed false - test 1`] =
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
       data-testid="variable-collapsed"
     >
+      <button
+        class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+        data-testid="drag-handle"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-grip-vertical h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="9"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="19"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="19"
+            r="1"
+          />
+        </svg>
+      </button>
       <div
         class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
       >
@@ -689,6 +792,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed false - test 2`] =
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="rounded-lg border p-6 border-orange-200 bg-orange-50"
@@ -1263,11 +1367,62 @@ exports[`PromptVariable rendering tests hasName true - isUsed true - test 1`] = 
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="flex items-center justify-between rounded-lg border px-4 py-3 border-green-200 bg-green-50"
       data-testid="variable-collapsed"
     >
+      <button
+        class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+        data-testid="drag-handle"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-grip-vertical h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="9"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="9"
+            cy="19"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="12"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="5"
+            r="1"
+          />
+          <circle
+            cx="15"
+            cy="19"
+            r="1"
+          />
+        </svg>
+      </button>
       <div
         class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
       >
@@ -1408,6 +1563,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed true - test 2`] = 
 <div>
   <div
     data-testid="prompt-variable"
+    style="opacity: 1;"
   >
     <div
       class="rounded-lg border p-6 border-green-200 bg-green-50"

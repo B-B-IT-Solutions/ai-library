@@ -18,6 +18,7 @@ type Props = {
    detectedVariables: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
+   onMoveField?: (from: number, to: number) => void;
    onAddGlobalFieldIds: (ids: string[]) => void;
    onRemoveGlobalFieldId: (id: string) => void;
 };
@@ -29,6 +30,7 @@ const TestWrapper = ({
    detectedVariables,
    onAddField,
    onRemoveField,
+   onMoveField = jest.fn(),
    onAddGlobalFieldIds,
    onRemoveGlobalFieldId,
 }: Props) => {
@@ -53,6 +55,7 @@ const TestWrapper = ({
             detectedVariables={detectedVariables}
             onAddField={onAddField}
             onRemoveField={onRemoveField}
+            onMoveField={onMoveField}
             onAddGlobalFieldIds={onAddGlobalFieldIds}
             onRemoveGlobalFieldId={onRemoveGlobalFieldId}
             control={form.control}
