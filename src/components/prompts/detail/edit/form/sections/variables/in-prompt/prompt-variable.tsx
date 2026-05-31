@@ -87,7 +87,7 @@ export const PromptVariable = ({
             <button
                type="button"
                className="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-               data-testid="drag-handle"
+               data-testid="drag-handle-btn"
                {...listeners}
             >
                <GripVertical className="h-4 w-4" />

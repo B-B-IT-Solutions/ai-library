@@ -56,10 +56,12 @@ const assertRendered = () => {
 
 const assertCollapsed = () => {
    const expanded = screen.getByTestId("variable-collapsed");
+   const dragHandleBtn = screen.getByTestId("drag-handle-btn");
    const expandBtn = screen.getByTestId("expand-btn");
    const removeBtn = screen.getByTestId("remove-btn");
 
    assertInDocument(expanded);
+   assertInDocument(dragHandleBtn);
    assertInDocument(expandBtn);
    assertInDocument(removeBtn);
 };
