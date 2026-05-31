@@ -118,7 +118,6 @@ describe("PromptEditForm rendering tests", () => {
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
       const prompt = dtestData.dPromptWithContent();
-
       prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(

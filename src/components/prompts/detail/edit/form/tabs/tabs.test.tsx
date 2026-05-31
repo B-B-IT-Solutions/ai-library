@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
@@ -45,17 +45,18 @@ const TestWrapper = ({
       </FormProvider>
    );
 };
+
 const assertRendered = () => {
    const tabs = screen.getByTestId("prompt-form-tabs");
    const editorTab = screen.getByTestId("editor-tab-trigger");
    const variablesTab = screen.getByTestId("variables-tab-trigger");
-   const promptText = screen.getByTestId("prompt-editor-tab");
+   const promptEditor = screen.getByTestId("prompt-editor-tab");
    const expandBtn = screen.getByTestId("expand-editor-btn");
 
    assertInDocument(tabs);
    assertInDocument(editorTab);
    assertInDocument(variablesTab);
-   assertInDocument(promptText);
+   assertInDocument(promptEditor);
    assertInDocument(expandBtn);
 };
 
@@ -77,6 +78,54 @@ const assertErrorAlertRendered = () => {
 const assertErrorAlertNotRendered = () => {
    const alert = screen.queryByTestId("error-alert");
    assertNotInDocument(alert);
+};
+
+const assertPromptVariablesRendered = () => {
+   const variables = screen.getByTestId("prompt-variables");
+   assertInDocument(variables);
+};
+
+const assertDetectedVariablesRendered = () => {
+   const variables = screen.getByTestId("detected-variables");
+   assertInDocument(variables);
+};
+
+const assertDetectedVariablesNotRendered = () => {
+   const variables = screen.queryByTestId("detected-variables");
+   assertNotInDocument(variables);
+};
+
+const assertPromptVariablesEmptyRendered = () => {
+   const fieldsEmpty = screen.getByTestId("fields-empty");
+   const variable = screen.queryByTestId("prompt-variable");
+   assertInDocument(fieldsEmpty);
+   assertNotInDocument(variable);
+};
+
+const assertPromptVariableItemsRendered = (count: number) => {
+   const variables = screen.getAllByTestId("prompt-variable");
+   const fieldsEmpty = screen.queryByTestId("fields-empty");
+
+   expect(variables).toHaveLength(count);
+   assertNotInDocument(fieldsEmpty);
+};
+
+const assertPromptVariableRendered = () => {
+   const variable = screen.getByTestId("prompt-variable");
+   const fieldsEmpty = screen.queryByTestId("fields-empty");
+
+   assertInDocument(variable);
+   assertNotInDocument(fieldsEmpty);
+};
+
+const assertGlobalVariablesRendered = () => {
+   const globalFields = screen.getByTestId("prompt-global-variables");
+   assertInDocument(globalFields);
+};
+
+const assertGlobalVariablesNotRendered = () => {
+   const globalFields = screen.queryByTestId("prompt-global-variables");
+   assertNotInDocument(globalFields);
 };
 
 describe("PromptFormTabs rendering tests", () => {
@@ -180,6 +229,91 @@ describe("PromptFormTabs functionality tests", () => {
 
       await waitFor(() => {
          expect(expandFn).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
+describe("PromptEditForm functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("add detected variable as prompt variable - btn clicked - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      prompt.content = "Hello {{{{name}}";
+      prompt.fields = [];
+
+      const globalVariables = dtestData.dGlobalPromptFields();
+
+      render(<TestWrapper prompt={prompt} globalFields={globalVariables} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertVariablesTabNotRendered();
+      });
+
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
+         assertVariablesTabRendered();
+      });
+
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+         assertPromptVariablesEmptyRendered();
+      });
+
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const addVariableBtn = within(detectedVariablesSection).getByTestId(
+         "add-btn"
+      );
+
+      await userEvent.click(addVariableBtn);
+
+      await waitFor(() => {
+         assertPromptVariableRendered();
+      });
+   });
+
+   it("sync all variables - btn clicked - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      prompt.content =
+         "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}";
+      prompt.fields = [];
+
+      const globalVariables = dtestData.dGlobalPromptFields();
+
+      render(<TestWrapper prompt={prompt} globalFields={globalVariables} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertVariablesTabNotRendered();
+      });
+
+      const variablesTab = screen.getByTestId("variables-tab-trigger");
+      await userEvent.click(variablesTab);
+
+      await waitFor(() => {
+         assertVariablesTabRendered();
+      });
+
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+         assertPromptVariablesRendered();
+         assertPromptVariablesEmptyRendered();
+      });
+
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const syncAllBtn = within(detectedVariablesSection).getByTestId(
+         "sync-all-btn"
+      );
+
+      await userEvent.click(syncAllBtn);
+
+      await waitFor(() => {
+         assertPromptVariableItemsRendered(3);
       });
    });
 });

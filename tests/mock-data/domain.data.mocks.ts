@@ -3,6 +3,7 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
+import { VariableStatus } from "@/components/prompts/detail/edit/form/utils/variables";
 import { Sort, SortOrder } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
@@ -622,6 +623,18 @@ export const dPromptVariableValues = (index = 1): DPromptVariableValues => {
       field_1: `value 1 - ${index}`,
       field_2: `value 2 - ${index}`,
       field_3: `value 3 - ${index}`,
+   };
+};
+
+export const dVariableStatus = (index = 1): VariableStatus => {
+   return {
+      undefined: [
+         `vara - ${index}`,
+         `vara - ${index + 1}`,
+         `vara - ${index + 2}`,
+      ],
+      used: [`varb - ${index}`, `varb - ${index + 1}`, `varb - ${index + 2}`],
+      unused: [`varc - ${index}`, `varc - ${index + 1}`, `varc - ${index + 2}`],
    };
 };
 
