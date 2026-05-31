@@ -121,134 +121,159 @@ describe("resolveVariableStatus tests", () => {
    });
 
    describe("global variables", () => {
-      it("includes global variable names when their IDs are in globalVariableIds", () => {
-         const globalFields = [
-            makeGlobalField("gf-1", "company"),
-            makeGlobalField("gf-2", "department"),
-         ];
+      it("detectedVariables - globalvariables - test", () => {
+         const gVariable1 = dtestData.dGlobalPromptField(1);
+         const gVariable2 = dtestData.dGlobalPromptField(2);
+         const globalVariables = [gVariable1, gVariable2];
+         const globalVariableIds = [gVariable1.id, gVariable2.id];
+
+         const detectedVariables = [gVariable1.name, gVariable2.name];
 
          const result = resolveVariableStatus(
-            ["company", "department"],
+            detectedVariables,
             [],
-            globalFields,
-            ["gf-1", "gf-2"]
+            globalVariables,
+            globalVariableIds
          );
 
-         expect(result.undefined).toEqual([]);
-         expect(result.used).toEqual(["company", "department"]);
-         expect(result.unused).toEqual([]);
+         const expectResult: VariableStatus = {
+            undefined: [],
+            used: [gVariable1.name, gVariable2.name],
+            unused: [],
+         };
+         expect(result).toEqual(expectResult);
       });
 
-      it("excludes global variables whose IDs are not in globalVariableIds", () => {
-         const globalFields = [
-            makeGlobalField("gf-1", "company"),
-            makeGlobalField("gf-2", "department"),
-         ];
+      it("detectedVariables - globalvariables - excludes is not in globalVariableIds - test", () => {
+         const gVariable1 = dtestData.dGlobalPromptField(1);
+         const gVariable2 = dtestData.dGlobalPromptField(2);
+         const globalVariables = [gVariable1, gVariable2];
+         const globalVariableIds = [gVariable1.id]; // only gv-1 selected
+
+         const detectedVariables = [gVariable1.name, gVariable2.name];
 
          const result = resolveVariableStatus(
-            ["company", "department"],
+            detectedVariables,
             [],
-            globalFields,
-            ["gf-1"] // only gf-1 selected
+            globalVariables,
+            globalVariableIds
          );
 
-         expect(result.undefined).toEqual(["department"]);
-         expect(result.used).toEqual(["company"]);
-         expect(result.unused).toEqual([]);
+         const expectResult: VariableStatus = {
+            undefined: [gVariable2.name],
+            used: [gVariable1.name],
+            unused: [],
+         };
+         expect(result).toEqual(expectResult);
       });
 
-      it("returns all detected variables as undefined when globalVariableIds is empty", () => {
-         const globalFields = [
-            makeGlobalField("gf-1", "company"),
-            makeGlobalField("gf-2", "department"),
-         ];
+      it("detectedVariables - globalvariables - globalVariableIds empty - test", () => {
+         const gVariable1 = dtestData.dGlobalPromptField(1);
+         const gVariable2 = dtestData.dGlobalPromptField(2);
+         const globalVariables = [gVariable1, gVariable2];
+         const detectedVariables = [gVariable1.name];
 
          const result = resolveVariableStatus(
-            ["company"],
+            detectedVariables,
             [],
-            globalFields,
+            globalVariables,
             []
          );
 
-         expect(result.undefined).toEqual(["company"]);
-         expect(result.used).toEqual([]);
-         expect(result.unused).toEqual([]);
-      });
-
-      it("uses the name field of global fields, not the label", () => {
-         const globalField: DGlobalPromptField = {
-            ...makeGlobalField("gf-1", "internalName"),
-            label: "Display Label",
+         const expectResult: VariableStatus = {
+            undefined: [gVariable1.name],
+            used: [],
+            unused: [],
          };
-
-         const result = resolveVariableStatus(
-            ["internalName"],
-            [],
-            [globalField],
-            ["gf-1"]
-         );
-
-         expect(result.undefined).toEqual([]);
-         expect(result.used).toEqual(["internalName"]);
+         expect(result).toEqual(expectResult);
       });
    });
 
    describe("combined prompt and global variables", () => {
       it("combines prompt and global variable names for status resolution", () => {
-         const promptVars = [makePromptVariable("name")];
-         const globalFields = [makeGlobalField("gf-1", "company")];
+         const variable1 = dtestData.dPromptVariableUpdate(1);
+         const variable2 = dtestData.dPromptVariableUpdate(2);
+         const gVariable = dtestData.dGlobalPromptField(1);
+         const globalVariableIds = [gVariable.id]; // only gv-1 selected
+
+         const promptVars = [variable1];
+         const globalVariables = [gVariable];
+         const detectedVariables = [
+            variable1.name,
+            gVariable.name,
+            variable2.name,
+         ];
 
          const result = resolveVariableStatus(
-            ["name", "company", "email"],
+            detectedVariables,
             promptVars,
-            globalFields,
-            ["gf-1"]
+            globalVariables,
+            globalVariableIds
          );
 
-         expect(result.undefined).toEqual(["email"]);
-         expect(result.used).toEqual(["name", "company"]);
-         expect(result.unused).toEqual([]);
+         const expectResult: VariableStatus = {
+            undefined: [variable2.name],
+            used: [variable1.name, gVariable.name],
+            unused: [],
+         };
+         expect(result).toEqual(expectResult);
       });
 
       it("prompt and global variables can both appear as unused", () => {
-         const promptVars = [makePromptVariable("phone")];
-         const globalFields = [makeGlobalField("gf-1", "department")];
+         const variable = dtestData.dPromptVariableUpdate(1);
+         const gVariable = dtestData.dGlobalPromptField(1);
+         const globalVariableIds = [gVariable.id]; // only gv-1 selected
 
-         const result = resolveVariableStatus([], promptVars, globalFields, [
-            "gf-1",
-         ]);
+         const promptVars = [variable];
+         const globalVariables = [gVariable];
 
-         expect(result.undefined).toEqual([]);
-         expect(result.used).toEqual([]);
-         expect(result.unused).toEqual(["phone", "department"]);
+         const result = resolveVariableStatus(
+            [],
+            promptVars,
+            globalVariables,
+            globalVariableIds
+         );
+
+         const expectResult: VariableStatus = {
+            undefined: [],
+            used: [],
+            unused: [variable.name, gVariable.name],
+         };
+         expect(result).toEqual(expectResult);
       });
 
-      it("handles complex real-world scenario with mixed variable sources", () => {
-         const promptVars = [
-            makePromptVariable("firstName", 0),
-            makePromptVariable("lastName", 1),
-            makePromptVariable("extraPromptVar", 2),
-         ];
-         const globalFields = [
-            makeGlobalField("gf-1", "company"),
-            makeGlobalField("gf-2", "department"),
-            makeGlobalField("gf-3", "notSelected"),
+      it("complex - real word scenario - test", () => {
+         const variable1 = dtestData.dPromptVariableUpdate(1);
+         const variable2 = dtestData.dPromptVariableUpdate(2);
+         const variable3 = dtestData.dPromptVariableUpdate(3);
+         const variable4 = dtestData.dPromptVariableUpdate(4);
+         const gVariable1 = dtestData.dGlobalPromptField(1);
+         const gVariable2 = dtestData.dGlobalPromptField(2);
+         const gVariable3 = dtestData.dGlobalPromptField(3);
+         const globalVariableIds = [gVariable1.id, gVariable2.id];
+
+         const promptVars = [variable1, variable2, variable3];
+         const globalVariables = [gVariable1, gVariable2, gVariable3];
+         const detectedVariables = [
+            variable1.name,
+            variable2.name,
+            gVariable1.name,
+            variable4.name,
          ];
 
          const result = resolveVariableStatus(
-            ["firstName", "lastName", "company", "newVar"],
+            detectedVariables,
             promptVars,
-            globalFields,
-            ["gf-1", "gf-2"] // gf-3 not selected
+            globalVariables,
+            globalVariableIds
          );
 
-         expect(result.undefined).toEqual(["newVar"]);
-         expect(result.used).toContain("firstName");
-         expect(result.used).toContain("lastName");
-         expect(result.used).toContain("company");
-         expect(result.unused).toContain("extraPromptVar");
-         expect(result.unused).toContain("department");
-         expect(result.unused).not.toContain("notSelected");
+         const expectResult: VariableStatus = {
+            undefined: [variable4.name],
+            used: [variable1.name, variable2.name, gVariable1.name],
+            unused: [variable3.name, gVariable2.name],
+         };
+         expect(result).toEqual(expectResult);
       });
    });
 });
