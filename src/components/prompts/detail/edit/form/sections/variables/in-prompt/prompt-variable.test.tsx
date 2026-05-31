@@ -38,7 +38,7 @@ const TestWrapper = ({ index, isUsed, onRemove, variables }: Props) => {
    return (
       <FormProvider {...form}>
          <PromptVariable
-            id="test-id"
+            id={`id-${index}`}
             index={index}
             isUsed={isUsed}
             onRemove={onRemove}
