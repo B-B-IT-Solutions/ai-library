@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AlertCircle, ChevronUp, GripVertical, Pencil, Trash2 } from "lucide-react";
+import {
+   AlertCircle,
+   ChevronUp,
+   GripVertical,
+   Pencil,
+   Trash2,
+} from "lucide-react";
 import { Control, useFormState, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -41,14 +47,21 @@ export const PromptVariable = ({
    control,
    watch,
 }: Props) => {
-   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-      useSortable({ id });
+   const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+   } = useSortable({ id });
 
    const style = {
       transform: CSS.Transform.toString(transform),
       transition,
       opacity: isDragging ? 0.5 : 1,
    };
+
    const type = watch(`fields.${index}.type`);
    const options = watch(`fields.${index}.options`) ?? [];
    const fieldName = watch(`fields.${index}.name`);
@@ -221,7 +234,12 @@ export const PromptVariable = ({
    };
 
    return (
-      <div ref={setNodeRef} style={style} {...attributes} data-testid="prompt-variable">
+      <div
+         ref={setNodeRef}
+         style={style}
+         {...attributes}
+         data-testid="prompt-variable"
+      >
          {isExpanded ? expandedView() : collapsedView()}
       </div>
    );
