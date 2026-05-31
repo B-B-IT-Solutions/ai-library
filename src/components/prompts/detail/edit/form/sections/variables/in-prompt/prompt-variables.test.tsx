@@ -1,4 +1,5 @@
-﻿import { render, screen } from "@testing-library/react";
+﻿import { triggerDragEnd } from "@dnd-kit/core";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -272,5 +273,127 @@ describe("PromptVariables functionality tests", () => {
       const removeBtn = screen.getAllByTestId("remove-btn")[0];
       await userEvent.click(removeBtn);
       expect(removeFieldFn).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("PromptVariables handleDragEnd tests", () => {
+   const renderWithFields = (
+      fields: DPromptVariable[],
+      onMoveField: jest.Mock
+   ) => {
+      render(
+         <TestWrapper
+            fields={fields}
+            globalFields={[]}
+            globalFieldIds={[]}
+            detectedVariables={[]}
+            onAddField={jest.fn()}
+            onRemoveField={jest.fn()}
+            onMoveField={onMoveField}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
+         />
+      );
+   };
+
+   it("drags from index 0 to index 1 - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({
+         active: { id: fields[0].id },
+         over: { id: fields[1].id },
+      });
+
+      expect(onMoveField).toHaveBeenCalledTimes(1);
+      expect(onMoveField).toHaveBeenCalledWith(0, 1);
+   });
+
+   it("drags from last to first index - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({
+         active: { id: fields[2].id },
+         over: { id: fields[0].id },
+      });
+
+      expect(onMoveField).toHaveBeenCalledTimes(1);
+      expect(onMoveField).toHaveBeenCalledWith(2, 0);
+   });
+
+   it("active and over are same id - does not call onMoveField - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({
+         active: { id: fields[0].id },
+         over: { id: fields[0].id },
+      });
+
+      expect(onMoveField).not.toHaveBeenCalled();
+   });
+
+   it("over is null - does not call onMoveField - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({ active: { id: fields[0].id }, over: null });
+
+      expect(onMoveField).not.toHaveBeenCalled();
+   });
+
+   it("active.id not found in fields - does not call onMoveField - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({
+         active: { id: "unknown-id" },
+         over: { id: fields[1].id },
+      });
+
+      expect(onMoveField).not.toHaveBeenCalled();
+   });
+
+   it("over.id not found in fields - does not call onMoveField - test", async () => {
+      const onMoveField = jest.fn();
+      const fields = dtestData.dPromptVariables();
+      renderWithFields(fields, onMoveField);
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      triggerDragEnd({
+         active: { id: fields[0].id },
+         over: { id: "unknown-id" },
+      });
+
+      expect(onMoveField).not.toHaveBeenCalled();
    });
 });
