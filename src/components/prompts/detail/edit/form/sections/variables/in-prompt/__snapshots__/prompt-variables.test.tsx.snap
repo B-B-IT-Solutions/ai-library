@@ -236,7 +236,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
           >
             <button
               class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-              data-testid="drag-handle"
+              data-testid="drag-handle-btn"
               type="button"
             >
               <svg
@@ -436,7 +436,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
           >
             <button
               class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-              data-testid="drag-handle"
+              data-testid="drag-handle-btn"
               type="button"
             >
               <svg
@@ -636,7 +636,7 @@ exports[`PromptVariables rendering tests variables - test 1`] = `
           >
             <button
               class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-              data-testid="drag-handle"
+              data-testid="drag-handle-btn"
               type="button"
             >
               <svg

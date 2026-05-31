@@ -433,7 +433,7 @@ exports[`PromptVariable rendering tests hasName false - isUsed false - test 2`] 
     >
       <button
         class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-        data-testid="drag-handle"
+        data-testid="drag-handle-btn"
         type="button"
       >
         <svg
@@ -595,7 +595,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed false - test 1`] =
     >
       <button
         class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-        data-testid="drag-handle"
+        data-testid="drag-handle-btn"
         type="button"
       >
         <svg
@@ -1375,7 +1375,7 @@ exports[`PromptVariable rendering tests hasName true - isUsed true - test 1`] = 
     >
       <button
         class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-        data-testid="drag-handle"
+        data-testid="drag-handle-btn"
         type="button"
       >
         <svg
