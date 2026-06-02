@@ -255,8 +255,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
             class="space-y-4"
           >
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -264,7 +269,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -455,8 +460,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -464,7 +474,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -655,8 +665,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -664,7 +679,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -855,6 +870,23 @@ exports[`PromptVariablesTab rendering tests existing prompt - test 1`] = `
               </div>
             </div>
           </div>
+          <div
+            id="DndDescribedBy-0"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-0"
+            role="status"
+            style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
         </div>
       </section>
     </div>
@@ -1424,8 +1456,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
             class="space-y-4"
           >
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -1433,7 +1470,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -1624,8 +1661,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -1633,7 +1675,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -1824,8 +1866,13 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
-              style="opacity: 1;"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
@@ -1833,7 +1880,7 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               >
                 <button
                   class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
-                  data-testid="drag-handle"
+                  data-testid="drag-handle-btn"
                   type="button"
                 >
                   <svg
@@ -2024,6 +2071,23 @@ exports[`PromptVariablesTab rendering tests existing prompt - variables detected
               </div>
             </div>
           </div>
+          <div
+            id="DndDescribedBy-1"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-1"
+            role="status"
+            style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
         </div>
       </section>
     </div>

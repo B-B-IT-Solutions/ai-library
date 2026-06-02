@@ -866,12 +866,68 @@ exports[`PromptFormTabs rendering tests existing prompt - tab errors - test 2`] 
             class="space-y-4"
           >
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-2 border-red-400 bg-red-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -1015,12 +1071,68 @@ exports[`PromptFormTabs rendering tests existing prompt - tab errors - test 2`] 
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -1164,12 +1276,68 @@ exports[`PromptFormTabs rendering tests existing prompt - tab errors - test 2`] 
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-1"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -1313,6 +1481,23 @@ exports[`PromptFormTabs rendering tests existing prompt - tab errors - test 2`] 
               </div>
             </div>
           </div>
+          <div
+            id="DndDescribedBy-1"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-1"
+            role="status"
+            style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
         </div>
       </section>
     </div>
@@ -2256,12 +2441,68 @@ exports[`PromptFormTabs rendering tests existing prompt - test 2`] = `
             class="space-y-4"
           >
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -2405,12 +2646,68 @@ exports[`PromptFormTabs rendering tests existing prompt - test 2`] = `
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -2554,12 +2851,68 @@ exports[`PromptFormTabs rendering tests existing prompt - test 2`] = `
               </div>
             </div>
             <div
+              aria-describedby="DndDescribedBy-0"
+              aria-disabled="false"
+              aria-roledescription="sortable"
               data-testid="prompt-variable"
+              role="button"
+              style="opacity: 1; transition: transform 0ms linear;"
+              tabindex="0"
             >
               <div
                 class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
                 data-testid="variable-collapsed"
               >
+                <button
+                  class="mr-2 shrink-0 cursor-grab touch-none text-slate-300 hover:text-slate-400"
+                  data-testid="drag-handle-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-grip-vertical h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="9"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="9"
+                      cy="19"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="15"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
                 <div
                   class="grid flex-1 grid-cols-[minmax(160px,1fr)_100px_60px_160px] items-center gap-3"
                 >
@@ -2703,6 +3056,23 @@ exports[`PromptFormTabs rendering tests existing prompt - test 2`] = `
               </div>
             </div>
           </div>
+          <div
+            id="DndDescribedBy-0"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-0"
+            role="status"
+            style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
         </div>
       </section>
     </div>
