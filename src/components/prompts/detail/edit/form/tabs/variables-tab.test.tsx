@@ -167,7 +167,7 @@ describe("PromptVariablesTab rendering tests", () => {
    });
 });
 
-describe("PromptEditForm functionality tests", () => {
+describe("PromptVariablesTab functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

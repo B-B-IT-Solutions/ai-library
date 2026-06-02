@@ -1,3 +1,24 @@
+import { DragEndEvent } from "@dnd-kit/core";
+
+import { DPromptVariable } from "@/data/types/domain/prompt";
+
+export const resolveDragEnd = (
+   event: DragEndEvent,
+   fields: DPromptVariable[],
+   onMoveField: (from: number, to: number) => void
+) => {
+   const activeId = event.active.id;
+   const overId = event.over?.id;
+   if (overId == null || activeId === overId) {
+      return;
+   }
+   const from = fields.findIndex((f) => f.id === activeId);
+   const to = fields.findIndex((f) => f.id === overId);
+   if (from !== -1 && to !== -1) {
+      onMoveField(from, to);
+   }
+};
+
 export const borderCss = (
    hasErrors: boolean,
    hasName: boolean,

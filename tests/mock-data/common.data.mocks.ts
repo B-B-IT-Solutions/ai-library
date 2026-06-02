@@ -1,3 +1,4 @@
+import { DragEndEvent } from "@dnd-kit/core";
 import { Brevo } from "@getbrevo/brevo";
 import {
    MutationObserverLoadingResult,
@@ -91,4 +92,18 @@ export const brevoSendTransacEmailResponse = (
    return {
       messageId: `message-id-${index}`,
    };
+};
+
+export const dndDragEndEvent = (
+   activeId: string,
+   overId?: string
+): DragEndEvent => {
+   return {
+      active: {
+         id: activeId,
+      },
+      over: {
+         id: overId,
+      },
+   } as DragEndEvent;
 };

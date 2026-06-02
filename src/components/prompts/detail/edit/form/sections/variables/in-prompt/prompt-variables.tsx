@@ -1,5 +1,17 @@
 ﻿"use client";
 
+import {
+   closestCenter,
+   DndContext,
+   DragEndEvent,
+   PointerSensor,
+   useSensor,
+   useSensors,
+} from "@dnd-kit/core";
+import {
+   SortableContext,
+   verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
@@ -12,6 +24,7 @@ import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptGlobalVariable } from "./prompt-global-variable";
 import { PromptVariable } from "./prompt-variable";
+import { resolveDragEnd } from "./utils";
 
 type Props = {
    fields: DPromptVariable[];
@@ -20,6 +33,7 @@ type Props = {
    globalFieldIds: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
+   onMoveField: (from: number, to: number) => void;
    onAddGlobalFieldIds: (ids: string[]) => void;
    onRemoveGlobalFieldId: (id: string) => void;
    control: Control<DPromptUpdate>;
@@ -33,11 +47,18 @@ export const PromptVariables = ({
    globalFieldIds,
    onAddField,
    onRemoveField,
+   onMoveField,
    onAddGlobalFieldIds,
    onRemoveGlobalFieldId,
    control,
    watch,
 }: Props) => {
+   const sensors = useSensors(useSensor(PointerSensor));
+
+   const handleDragEnd = (event: DragEndEvent) => {
+      resolveDragEnd(event, fields, onMoveField);
+   };
+
    const resolvedGlobalFields = filter(globalFields, (f) =>
       includes(globalFieldIds, f.id)
    );
@@ -108,6 +129,7 @@ export const PromptVariables = ({
       return (
          <PromptVariable
             key={field.id}
+            id={field.id}
             index={idx}
             isUsed={isUsed}
             onRemove={() => onRemoveField(idx)}
@@ -154,9 +176,22 @@ export const PromptVariables = ({
             <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                Prompt Platzhalter
             </p>
-            <div className="space-y-4">
-               {map(fields, (field, idx) => renderTemplateField(field, idx))}
-            </div>
+            <DndContext
+               sensors={sensors}
+               collisionDetection={closestCenter}
+               onDragEnd={handleDragEnd}
+            >
+               <SortableContext
+                  items={fields.map((f) => f.id)}
+                  strategy={verticalListSortingStrategy}
+               >
+                  <div className="space-y-4">
+                     {map(fields, (field, idx) =>
+                        renderTemplateField(field, idx)
+                     )}
+                  </div>
+               </SortableContext>
+            </DndContext>
          </div>
       );
    };
