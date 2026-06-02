@@ -21,7 +21,7 @@ jest.mock("./utils", () => ({
 }));
 
 import { DragEndEvent } from "@dnd-kit/core";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
