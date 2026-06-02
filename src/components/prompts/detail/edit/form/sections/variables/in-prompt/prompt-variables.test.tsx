@@ -311,7 +311,7 @@ describe("PromptVariables functionality tests", () => {
       expect(removeFieldFn).toHaveBeenCalledTimes(1);
    });
 
-   it("drag end calls resolveDragEnd - test", async () => {
+   it("handleDragEnd - test", async () => {
       const fields = dtestData.dPromptVariables();
 
       render(
@@ -327,9 +327,8 @@ describe("PromptVariables functionality tests", () => {
          />
       );
 
-      await waitFor(() =>
-         expect(screen.getByTestId("fields")).toBeInTheDocument()
-      );
+      assertRendered();
+      expect(resolveDragEndMock).not.toHaveBeenCalled();
 
       const activeId = fields[0].id;
       const overId = fields[1].id;
