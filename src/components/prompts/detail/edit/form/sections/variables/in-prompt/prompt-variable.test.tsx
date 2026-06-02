@@ -1,7 +1,15 @@
-﻿import { zodResolver } from "@hookform/resolvers/zod";
+﻿jest.mock("@dnd-kit/sortable");
+
+import { useSortable } from "@dnd-kit/sortable";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, typeIntoInput } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   dtestData,
+   typeIntoInput,
+} from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
@@ -12,6 +20,26 @@ import {
 import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import { PromptVariable } from "./prompt-variable";
+
+type UseSortableReturnType = ReturnType<typeof useSortable>;
+
+const useSortableMock = useSortable as jest.MockedFunction<typeof useSortable>;
+
+const mockSortable = {
+   attributes: {
+      role: "tab",
+      tabIndex: 1,
+      "aria-disabled": false,
+      "aria-pressed": false,
+      "aria-roledescription": "desc-1",
+      "aria-describedby": "desc-by-1",
+   },
+   listeners: {},
+   setNodeRef: jest.fn(),
+   transform: null,
+   transition: undefined,
+   isDragging: false,
+} as unknown as UseSortableReturnType;
 
 type Props = {
    index: number;
@@ -94,7 +122,17 @@ const assertVariablesRendered = (index: number) => {
    assertInDocument(required);
 };
 
+const assertOpacity = (opacity: number) => {
+   const variable = screen.getByTestId("prompt-variable");
+   assertHasAttributeWithValue(variable, "style", `opacity: ${opacity};`);
+};
+
 describe("PromptVariable rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      useSortableMock.mockReturnValue(mockSortable);
+   });
+
    it("hasName false - isUsed false - test", async () => {
       const index = 0;
       const variable = dtestData.dPromptVariableUpdate();
@@ -115,6 +153,7 @@ describe("PromptVariable rendering tests", () => {
          assertRendered();
          assertExpanded();
          assertVariablesRendered(index);
+         assertOpacity(1);
       });
 
       expect(container).toMatchSnapshot();
@@ -144,6 +183,7 @@ describe("PromptVariable rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCollapsed();
+         assertOpacity(1);
       });
 
       expect(container).toMatchSnapshot();
@@ -163,6 +203,12 @@ describe("PromptVariable rendering tests", () => {
       const index = 5;
       const variables = dtestData.dPromptVariableUpdates(7);
 
+      const sortable = {
+         ...mockSortable,
+         isDragging: true,
+      } as UseSortableReturnType;
+      useSortableMock.mockReturnValue(sortable);
+
       const { container } = render(
          <TestWrapper
             index={index}
@@ -175,6 +221,7 @@ describe("PromptVariable rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCollapsed();
+         assertOpacity(0.5);
       });
 
       expect(container).toMatchSnapshot();
@@ -192,6 +239,11 @@ describe("PromptVariable rendering tests", () => {
 });
 
 describe("PromptVariable functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      useSortableMock.mockReturnValue(mockSortable);
+   });
+
    it("expand/collapse btn clicked - test", async () => {
       const index = 0;
       const variables = dtestData.dPromptVariableUpdates(3);
