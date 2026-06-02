@@ -56,7 +56,7 @@ export const PromptVariables = ({
    const sensors = useSensors(useSensor(PointerSensor));
 
    const handleDragEnd = (event: DragEndEvent) => {
-      resolveDragEnd(event.active.id, event.over?.id, fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
    };
 
    const resolvedGlobalFields = filter(globalFields, (f) =>

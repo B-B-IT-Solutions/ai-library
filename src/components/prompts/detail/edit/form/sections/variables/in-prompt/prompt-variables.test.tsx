@@ -1,6 +1,6 @@
 ﻿let mockOnDragEndFn: DragEndFnType | undefined = undefined;
 
-type DragEndFnType = (event: DeepPartial<DragEndEvent>) => void;
+type DragEndFnType = (event: DragEndEvent) => void;
 
 type DndContextProps = {
    children: React.ReactNode;
@@ -23,9 +23,14 @@ jest.mock("./utils", () => ({
 import { DragEndEvent } from "@dnd-kit/core";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   ctestData,
+   dtestData,
+} from "@tests";
 import { map } from "es-toolkit/compat";
-import { DeepPartial, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
@@ -326,18 +331,16 @@ describe("PromptVariables functionality tests", () => {
          expect(screen.getByTestId("fields")).toBeInTheDocument()
       );
 
-      const payload: DeepPartial<DragEndEvent> = {
-         active: { id: fields[0].id },
-         over: { id: fields[1].id },
-      };
+      const activeId = fields[0].id;
+      const overId = fields[1].id;
+      const event: DragEndEvent = ctestData.dndDragEndEvent(activeId, overId);
 
-      mockOnDragEndFn!(payload);
+      mockOnDragEndFn!(event);
 
       expect(resolveDragEndMock).toHaveBeenCalledTimes(1);
       expect(resolveDragEndMock).toHaveBeenCalledWith(
-         fields[0].id,
-         fields[1].id,
-         expect.any(Array),
+         event,
+         fields,
          expect.any(Function)
       );
    });

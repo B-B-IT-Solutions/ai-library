@@ -1,10 +1,15 @@
+import { DragEndEvent } from "@dnd-kit/core";
+
 export const resolveDragEnd = (
-   activeId: string | number,
-   overId: string | number | undefined,
+   event: DragEndEvent,
    fields: { id: string }[],
    onMoveField: (from: number, to: number) => void
 ) => {
-   if (overId == null || activeId === overId) return;
+   const activeId = event.active.id;
+   const overId = event.over?.id;
+   if (overId == null || activeId === overId) {
+      return;
+   }
    const from = fields.findIndex((f) => f.id === activeId);
    const to = fields.findIndex((f) => f.id === overId);
    if (from !== -1 && to !== -1) {

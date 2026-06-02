@@ -1,41 +1,55 @@
+import { ctestData } from "@tests";
+
 import { borderCss, resolveDragEnd } from "./utils";
 
 describe("resolveDragEnd tests", () => {
    const fields = [{ id: "a" }, { id: "b" }, { id: "c" }];
 
    it("moves from index 0 to index 1 - test", () => {
+      const event = ctestData.dndDragEndEvent("a", "b");
       const onMoveField = jest.fn();
-      resolveDragEnd("a", "b", fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).toHaveBeenCalledWith(0, 1);
    });
 
    it("moves from last to first index - test", () => {
+      const event = ctestData.dndDragEndEvent("c", "a");
       const onMoveField = jest.fn();
-      resolveDragEnd("c", "a", fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).toHaveBeenCalledWith(2, 0);
    });
 
    it("same active and over id - does not call onMoveField - test", () => {
+      const event = ctestData.dndDragEndEvent("a", "a");
       const onMoveField = jest.fn();
-      resolveDragEnd("a", "a", fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).not.toHaveBeenCalled();
    });
 
    it("overId undefined - does not call onMoveField - test", () => {
+      const event = ctestData.dndDragEndEvent("a", undefined);
       const onMoveField = jest.fn();
-      resolveDragEnd("a", undefined, fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).not.toHaveBeenCalled();
    });
 
    it("activeId not in fields - does not call onMoveField - test", () => {
+      const event = ctestData.dndDragEndEvent("unknown", "b");
       const onMoveField = jest.fn();
-      resolveDragEnd("unknown", "b", fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).not.toHaveBeenCalled();
    });
 
    it("overId not in fields - does not call onMoveField - test", () => {
+      const event = ctestData.dndDragEndEvent("a", "unknown");
       const onMoveField = jest.fn();
-      resolveDragEnd("a", "unknown", fields, onMoveField);
+      resolveDragEnd(event, fields, onMoveField);
+
       expect(onMoveField).not.toHaveBeenCalled();
    });
 });
