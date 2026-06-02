@@ -27,7 +27,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate text-base leading-tight font-semibold"
+              class="truncate pb-1 text-base leading-tight font-semibold"
               data-slot="dialog-title"
               data-testid="mock-react-dialog-title"
             >
@@ -36,7 +36,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
             <p
               class="text-xs text-muted-foreground"
             >
-              Felder ausfüllen, dann in einem KI-Tool verwenden
+              Platzhlater ausfüllen, dann in KI-Tool verwenden
             </p>
           </div>
           <div
@@ -274,9 +274,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
                     data-testid="open-in-ai-btn"
                     type="button"
                   >
-                    In 
-                    KI-Tool
-                     öffnen
+                    In KI öffnen
                     <svg
                       aria-hidden="true"
                       class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-70"
@@ -336,7 +334,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate text-base leading-tight font-semibold"
+              class="truncate pb-1 text-base leading-tight font-semibold"
               data-slot="dialog-title"
               data-testid="mock-react-dialog-title"
             >
@@ -345,7 +343,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
             <p
               class="text-xs text-muted-foreground"
             >
-              Felder ausfüllen, dann in einem KI-Tool verwenden
+              Platzhlater ausfüllen, dann in KI-Tool verwenden
             </p>
           </div>
           <div
@@ -432,7 +430,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
                 <p
                   class="text-xs font-medium text-muted-foreground"
                 >
-                  ① Platzhalter ausfüllen
+                  Platzhalter ausfüllen
                 </p>
                 <div
                   class="min-h-0 flex-1 overflow-y-auto rounded-md border p-4"
@@ -735,7 +733,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
                 <p
                   class="text-xs font-medium text-muted-foreground"
                 >
-                  ② Vorschau
+                  Vorschau
                 </p>
                 <div
                   class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
@@ -899,9 +897,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
                     data-testid="open-in-ai-btn"
                     type="button"
                   >
-                    In 
-                    KI-Tool
-                     öffnen
+                    In KI öffnen
                     <svg
                       aria-hidden="true"
                       class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-70"
