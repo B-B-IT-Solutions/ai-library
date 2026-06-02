@@ -1,5 +1,6 @@
-﻿"use client";
+"use client";
 
+import { useCallback, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reduce } from "es-toolkit/compat";
 import { ChevronDown, ExternalLink } from "lucide-react";
@@ -25,10 +26,7 @@ import { PromptPreview } from "../variables/prompt-preview";
 import { PromptVariablesForm } from "../variables/prompt-variables-form";
 import { buildFieldsSchema } from "../variables/variables.schema";
 
-import {
-   getOtherAiTools,
-   getRecommendedAiTool as getRecommendedAiTool,
-} from "./ai-services";
+import { getOtherAiTools, getRecommendedAiTool } from "./ai-services";
 import { AiTool } from "./type";
 
 type Props = {
@@ -38,6 +36,7 @@ type Props = {
 
 export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
    const { template, allFields: fields } = templateData;
+   const hasFields = fields.length > 0;
 
    const fieldsSchema = buildFieldsSchema(fields);
 
@@ -67,63 +66,102 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
 
    const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
 
-   const openInService = (ai: AiTool) => {
-      const { url, queryParam } = ai;
-      const targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
-      openExternalUrlInNewTab(targetUrl);
-   };
-
    const recommended = getRecommendedAiTool(recommendedModel);
    const otherServices = getOtherAiTools(recommended);
 
-   const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {};
+   const openInService = useCallback(
+      (ai: AiTool) => {
+         const targetUrl = `${ai.url}?${ai.queryParam}=${encodeURIComponent(plainContent)}`;
+         openExternalUrlInNewTab(targetUrl);
+      },
+      [plainContent]
+   );
+
+   useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+         if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+            e.preventDefault();
+            if (recommended) openInService(recommended);
+         }
+      };
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+   }, [recommended, openInService]);
+
+   const requiredFields = fields.filter((f) => f.required);
+   const filledRequiredCount = requiredFields.filter((f) => {
+      const val = currentValues[f.name];
+      if (f.type === "CHECKBOX") return val === true;
+      return val !== undefined && val !== null && val !== "";
+   }).length;
+   const totalRequiredCount = requiredFields.length;
+   const showProgress = totalRequiredCount > 0;
+
+   const onSubmitInternal: SubmitHandler<DFieldsType> = () => {};
 
    const footer = () => (
-      <div className="flex shrink-0 items-center justify-end gap-2 bg-background px-6 py-4">
-         <DropdownMenu>
-            <DropdownMenuTrigger asChild={true}>
-               <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="cursor-pointer gap-1.5"
-                  data-testid="open-in-ai-btn"
-               >
-                  Öffnen In
-                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
-               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-               {recommended && (
-                  <DropdownMenuItem
-                     onClick={() => openInService(recommended)}
-                     className="cursor-pointer gap-2 font-medium"
-                     data-testid={`open-in-${recommended.id}-btn`}
-                  >
-                     <ExternalLink className="h-3.5 w-3.5" />
-                     {recommended.name}
-                  </DropdownMenuItem>
-               )}
-               {otherServices.map((aiService) => (
-                  <DropdownMenuItem
-                     key={aiService.name}
-                     onClick={() => openInService(aiService)}
-                     className="cursor-pointer gap-2"
-                     data-testid={`open-in-${aiService.id}-btn`}
-                  >
-                     <ExternalLink className="h-3.5 w-3.5" />
-                     {aiService.name}
-                  </DropdownMenuItem>
-               ))}
-            </DropdownMenuContent>
-         </DropdownMenu>
-         <CopyButton
-            content={resolvedContent}
-            type="submit"
-            size="sm"
-            showLabel={true}
-            data-testid="copy-prompt-btn"
+      <div className="relative flex shrink-0 items-center justify-between gap-2 bg-background px-6 py-4">
+         <div
+            className="pointer-events-none absolute inset-x-0 -top-8 h-8"
+            style={{
+               background:
+                  "linear-gradient(to bottom, transparent, hsl(var(--background)))",
+            }}
          />
+         {showProgress ? (
+            <p className="text-xs text-muted-foreground">
+               {filledRequiredCount} von {totalRequiredCount} Pflichtfeld
+               {totalRequiredCount !== 1 ? "ern" : ""} ausgefüllt
+            </p>
+         ) : (
+            <span />
+         )}
+         <div className="flex items-center gap-2">
+            <CopyButton
+               content={resolvedContent}
+               variant="outline"
+               size="sm"
+               showLabel={true}
+               data-testid="copy-prompt-btn"
+            />
+            <DropdownMenu>
+               <DropdownMenuTrigger asChild={true}>
+                  <Button
+                     type="button"
+                     variant="default"
+                     size="sm"
+                     className="cursor-pointer gap-1.5"
+                     data-testid="open-in-ai-btn"
+                  >
+                     In {recommended?.name ?? "KI-Tool"} öffnen
+                     <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+                  </Button>
+               </DropdownMenuTrigger>
+               <DropdownMenuContent align="end">
+                  {recommended && (
+                     <DropdownMenuItem
+                        onClick={() => openInService(recommended)}
+                        className="cursor-pointer gap-2 font-medium"
+                        data-testid={`open-in-${recommended.id}-btn`}
+                     >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {recommended.name}
+                     </DropdownMenuItem>
+                  )}
+                  {otherServices.map((aiService) => (
+                     <DropdownMenuItem
+                        key={aiService.name}
+                        onClick={() => openInService(aiService)}
+                        className="cursor-pointer gap-2"
+                        data-testid={`open-in-${aiService.id}-btn`}
+                     >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {aiService.name}
+                     </DropdownMenuItem>
+                  ))}
+               </DropdownMenuContent>
+            </DropdownMenu>
+         </div>
       </div>
    );
 
@@ -134,8 +172,32 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             className="flex min-h-0 flex-1 flex-col"
             data-testid="use-template-form"
          >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
-               <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
+            {hasFields ? (
+               <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
+                  <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
+                     <p className="text-xs font-medium text-muted-foreground">
+                        ① Platzhalter ausfüllen
+                     </p>
+                     <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
+                        <PromptVariablesForm
+                           templateData={templateData}
+                           control={form.control}
+                        />
+                     </div>
+                  </div>
+                  <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
+                     <p className="text-xs font-medium text-muted-foreground">
+                        ② Vorschau
+                     </p>
+                     <PromptPreview
+                        template={template}
+                        values={currentValues}
+                        resolvedContent={resolvedContent}
+                     />
+                  </div>
+               </div>
+            ) : (
+               <div className="flex min-h-0 flex-1 flex-col gap-2 px-6 lg:min-h-[40vh]">
                   <p className="text-xs font-medium text-muted-foreground">
                      Vorschau
                   </p>
@@ -145,18 +207,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                      resolvedContent={resolvedContent}
                   />
                </div>
-               <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
-                  <p className="text-xs font-medium text-muted-foreground">
-                     Platzhalter ausfüllen
-                  </p>
-                  <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
-                     <PromptVariablesForm
-                        templateData={templateData}
-                        control={form.control}
-                     />
-                  </div>
-               </div>
-            </div>
+            )}
             {footer()}
          </form>
       </Form>
