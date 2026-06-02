@@ -133,7 +133,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                      className="cursor-pointer gap-1.5"
                      data-testid="open-in-ai-btn"
                   >
-                     In {recommended?.name ?? "KI-Tool"} öffnen
+                     In KI öffnen
                      <ChevronDown className="h-3.5 w-3.5 opacity-70" />
                   </Button>
                </DropdownMenuTrigger>
@@ -176,7 +176,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
                   <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
                      <p className="text-xs font-medium text-muted-foreground">
-                        ① Platzhalter ausfüllen
+                        Platzhalter ausfüllen
                      </p>
                      <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
                         <PromptVariablesForm
@@ -187,7 +187,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   </div>
                   <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
                      <p className="text-xs font-medium text-muted-foreground">
-                        ② Vorschau
+                        Vorschau
                      </p>
                      <PromptPreview
                         template={template}

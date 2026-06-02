@@ -43,11 +43,11 @@ export const UsePromptDialog = ({
          >
             <div className="flex shrink-0 items-center gap-4 px-6 py-4">
                <div className="min-w-0 flex-1">
-                  <DialogTitle className="truncate text-base leading-tight font-semibold">
+                  <DialogTitle className="truncate pb-1 text-base leading-tight font-semibold">
                      {prompt.title}
                   </DialogTitle>
                   <p className="text-xs text-muted-foreground">
-                     Felder ausfüllen, dann in einem KI-Tool verwenden
+                     Platzhlater ausfüllen, dann in KI-Tool verwenden
                   </p>
                </div>
                <div className="flex shrink-0 items-center gap-1">

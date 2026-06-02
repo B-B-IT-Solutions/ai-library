@@ -593,9 +593,7 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
             data-testid="open-in-ai-btn"
             type="button"
           >
-            In 
-            KI-Tool
-             öffnen
+            In KI öffnen
             <svg
               aria-hidden="true"
               class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-70"
