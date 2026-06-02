@@ -58,6 +58,7 @@ export const PromptVariables = ({
    const handleDragEnd = (event: DragEndEvent) => {
       resolveDragEnd(event.active.id, event.over?.id, fields, onMoveField);
    };
+
    const resolvedGlobalFields = filter(globalFields, (f) =>
       includes(globalFieldIds, f.id)
    );

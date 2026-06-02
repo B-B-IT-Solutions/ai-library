@@ -1,8 +1,31 @@
-﻿import { render, screen } from "@testing-library/react";
+﻿let mockOnDragEndFn: DragEndFnType | undefined = undefined;
+
+type DragEndFnType = (event: DeepPartial<DragEndEvent>) => void;
+
+type DndContextProps = {
+   children: React.ReactNode;
+   onDragEnd: DragEndFnType;
+};
+
+jest.mock("@dnd-kit/core", () => ({
+   ...jest.requireActual("@dnd-kit/core"),
+   DndContext: ({ children, onDragEnd }: DndContextProps) => {
+      mockOnDragEndFn = onDragEnd;
+      return <div data-testid="mock-dnd-context">{children}</div>;
+   },
+}));
+
+jest.mock("./utils", () => ({
+   ...jest.requireActual("./utils"),
+   resolveDragEnd: jest.fn(),
+}));
+
+import { DragEndEvent } from "@dnd-kit/core";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
-import { FormProvider, useForm } from "react-hook-form";
+import { DeepPartial, FormProvider, useForm } from "react-hook-form";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
@@ -10,6 +33,11 @@ import { DPromptUpdate, DPromptVariable } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptVariables } from "./prompt-variables";
+import { resolveDragEnd } from "./utils";
+
+const resolveDragEndMock = resolveDragEnd as jest.MockedFunction<
+   typeof resolveDragEnd
+>;
 
 type Props = {
    fields: DPromptVariable[];
@@ -152,6 +180,10 @@ describe("PromptVariables rendering tests", () => {
 });
 
 describe("PromptVariables functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
    it("add global variable btn clicked - test", async () => {
       const variables = dtestData.dPromptVariables();
       const globalFields = dtestData.dGlobalPromptFields();
@@ -273,5 +305,40 @@ describe("PromptVariables functionality tests", () => {
       await userEvent.click(removeBtn);
       expect(removeFieldFn).toHaveBeenCalledTimes(1);
    });
-});
 
+   it("drag end calls resolveDragEnd - test", async () => {
+      const fields = dtestData.dPromptVariables();
+
+      render(
+         <TestWrapper
+            fields={fields}
+            globalFields={[]}
+            globalFieldIds={[]}
+            detectedVariables={[]}
+            onAddField={jest.fn()}
+            onRemoveField={jest.fn()}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
+         />
+      );
+
+      await waitFor(() =>
+         expect(screen.getByTestId("fields")).toBeInTheDocument()
+      );
+
+      const payload: DeepPartial<DragEndEvent> = {
+         active: { id: fields[0].id },
+         over: { id: fields[1].id },
+      };
+
+      mockOnDragEndFn!(payload);
+
+      expect(resolveDragEndMock).toHaveBeenCalledTimes(1);
+      expect(resolveDragEndMock).toHaveBeenCalledWith(
+         fields[0].id,
+         fields[1].id,
+         expect.any(Array),
+         expect.any(Function)
+      );
+   });
+});
