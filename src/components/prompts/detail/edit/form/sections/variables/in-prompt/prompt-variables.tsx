@@ -24,6 +24,7 @@ import { DGlobalPromptField } from "@/data/types/domain/settings";
 
 import { PromptGlobalVariable } from "./prompt-global-variable";
 import { PromptVariable } from "./prompt-variable";
+import { resolveDragEnd } from "./utils";
 
 type Props = {
    fields: DPromptVariable[];
@@ -55,14 +56,7 @@ export const PromptVariables = ({
    const sensors = useSensors(useSensor(PointerSensor));
 
    const handleDragEnd = (event: DragEndEvent) => {
-      const { active, over } = event;
-      if (over && active.id !== over.id) {
-         const from = fields.findIndex((f) => f.id === active.id);
-         const to = fields.findIndex((f) => f.id === over.id);
-         if (from !== -1 && to !== -1) {
-            onMoveField(from, to);
-         }
-      }
+      resolveDragEnd(event.active.id, event.over?.id, fields, onMoveField);
    };
    const resolvedGlobalFields = filter(globalFields, (f) =>
       includes(globalFieldIds, f.id)
