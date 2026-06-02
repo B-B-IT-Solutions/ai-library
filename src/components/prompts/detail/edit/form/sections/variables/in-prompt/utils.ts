@@ -1,8 +1,10 @@
 import { DragEndEvent } from "@dnd-kit/core";
 
+import { DPromptVariable } from "@/data/types/domain/prompt";
+
 export const resolveDragEnd = (
    event: DragEndEvent,
-   fields: { id: string }[],
+   fields: DPromptVariable[],
    onMoveField: (from: number, to: number) => void
 ) => {
    const activeId = event.active.id;

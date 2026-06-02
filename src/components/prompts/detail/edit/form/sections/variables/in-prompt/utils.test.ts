@@ -1,9 +1,12 @@
-import { ctestData } from "@tests";
+import { ctestData, dtestData } from "@tests";
 
 import { borderCss, resolveDragEnd } from "./utils";
 
 describe("resolveDragEnd tests", () => {
-   const fields = [{ id: "a" }, { id: "b" }, { id: "c" }];
+   const fields = dtestData.dPromptVariables(3);
+   fields[0].id = "a";
+   fields[1].id = "b";
+   fields[2].id = "c";
 
    it("moves from index 0 to index 1 - test", () => {
       const event = ctestData.dndDragEndEvent("a", "b");
