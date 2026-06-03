@@ -136,7 +136,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - active - 
           Nächstes Abrechnungsdatum
         </div>
         <div>
-          27. Sept. 2025, 02:00 AM
+          27.09.2025, 02:00
         </div>
       </div>
       <div
@@ -306,7 +306,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - canceled 
           Läuft ab am
         </div>
         <div>
-          27. Sept. 2025, 02:00 AM
+          27.09.2025, 02:00
         </div>
       </div>
       <div
@@ -358,7 +358,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - canceled 
             >
               Dein Abonnement endet am
                
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
               . Du behältst bis dahin deinen Zugang.
             </div>
           </div>
@@ -714,7 +714,7 @@ exports[`SubscriptionStatus rendering tests Subscription - paid plan - past due 
           Nächstes Abrechnungsdatum
         </div>
         <div>
-          27. Sept. 2025, 02:00 AM
+          27.09.2025, 02:00
         </div>
       </div>
       <div

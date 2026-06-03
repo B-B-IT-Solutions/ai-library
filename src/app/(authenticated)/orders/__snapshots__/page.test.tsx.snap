@@ -47,7 +47,7 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
               <p
                 class="text-xs text-slate-500"
               >
-                27. Sept. 2025, 02:00 AM
+                27.09.2025, 02:00
               </p>
             </div>
             <span
@@ -110,7 +110,7 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
               <p
                 class="text-xs text-slate-500"
               >
-                27. Sept. 2025, 02:00 AM
+                27.09.2025, 02:00
               </p>
             </div>
             <span
@@ -173,7 +173,7 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
               <p
                 class="text-xs text-slate-500"
               >
-                27. Sept. 2025, 02:00 AM
+                27.09.2025, 02:00
               </p>
             </div>
             <span
