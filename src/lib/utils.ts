@@ -59,25 +59,21 @@ export const resolveIpAddresse = (headers: Headers): string | undefined => {
 };
 
 export const formatDateTime = (dateString: string) => {
-   const dateTimeOptions: Intl.DateTimeFormatOptions = {
-      month: "short", // abbreviated month name (e.g., 'Oct')
-      year: "numeric", // abbreviated month name (e.g., 'Oct')
-      day: "numeric", // numeric day of the month (e.g., '25')
-      hour: "2-digit", // numeric hour (e.g., '8')
-      minute: "2-digit", // numeric minute (e.g., '30')
-      hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
-   };
    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: "short", // abbreviated weekday name (e.g., 'Mon')
-      month: "short", // abbreviated month name (e.g., 'Oct')
+      month: "2-digit", // abbreviated month name (e.g., '05')
       year: "numeric", // numeric year (e.g., '2023')
-      day: "numeric", // numeric day of the month (e.g., '25')
+      day: "2-digit", // numeric day of the month (e.g., '25')
    };
    const timeOptions: Intl.DateTimeFormatOptions = {
       hour: "2-digit", // numeric hour (e.g., '8')
       minute: "2-digit", // numeric minute (e.g., '30')
-      hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
+      hour12: false, // use 12-hour clock (true) or 24-hour clock (false)
    };
+   const dateTimeOptions: Intl.DateTimeFormatOptions = {
+      ...dateOptions,
+      ...timeOptions,
+   };
+
    const formattedDateTime: string = new Date(dateString).toLocaleString(
       "de-DE",
       dateTimeOptions

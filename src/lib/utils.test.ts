@@ -89,9 +89,9 @@ describe("utils tests", () => {
       const result = formatDateTime(ds);
 
       const expectedResult = {
-         dateTime: "30. Nov. 2025, 03:08 PM",
-         dateOnly: "So., 30. Nov. 2025",
-         timeOnly: "03:08 PM",
+         dateTime: "30.11.2025, 15:08",
+         dateOnly: "30.11.2025",
+         timeOnly: "15:08",
       };
       expect(result).toEqual(expectedResult);
    });
