@@ -36,7 +36,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
             <p
               class="text-xs text-muted-foreground"
             >
-              Platzhlater ausfüllen, dann in KI-Tool verwenden
+              Platzhlater ausfüllen und direkt in KI anwenden
             </p>
           </div>
           <div
@@ -343,7 +343,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
             <p
               class="text-xs text-muted-foreground"
             >
-              Platzhlater ausfüllen, dann in KI-Tool verwenden
+              Platzhlater ausfüllen und direkt in KI anwenden
             </p>
           </div>
           <div

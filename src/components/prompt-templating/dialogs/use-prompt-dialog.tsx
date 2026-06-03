@@ -47,7 +47,7 @@ export const UsePromptDialog = ({
                      {prompt.title}
                   </DialogTitle>
                   <p className="text-xs text-muted-foreground">
-                     Platzhlater ausfüllen, dann in KI-Tool verwenden
+                     Platzhlater ausfüllen und direkt in KI anwenden
                   </p>
                </div>
                <div className="flex shrink-0 items-center gap-1">
