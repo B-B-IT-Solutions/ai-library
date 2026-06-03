@@ -84,7 +84,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
       if (f.type === "CHECKBOX") {
          return val === true;
       }
-      return !isEmpty(val);
+      return val !== undefined && val !== null && val !== "";
    }).length;
 
    const totalRequiredCount = requiredFields.length;
@@ -114,7 +114,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             <CopyButton
                content={resolvedContent}
                variant="outline"
-               size="sm"
+               size="default"
                showLabel={true}
                data-testid="copy-prompt-btn"
             />
@@ -123,7 +123,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   <Button
                      type="button"
                      variant="default"
-                     size="sm"
+                     size="default"
                      className="cursor-pointer gap-1.5"
                      data-testid="open-in-ai-btn"
                   >
