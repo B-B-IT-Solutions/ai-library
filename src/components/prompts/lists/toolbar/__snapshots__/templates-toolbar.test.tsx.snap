@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplatesToolbar rendering tests totalEntries 1 - test 1`] = `
+exports[`TemplatesToolbar rendering tests renders with totalElements from query - test 1`] = `
 <div>
   <div
     class="flex items-center justify-between border-b bg-white px-6 py-3"
@@ -184,15 +184,15 @@ exports[`TemplatesToolbar rendering tests totalEntries 1 - test 1`] = `
     <span
       class="text-sm text-slate-600"
     >
-      1
+      15
        
-      Vorlage
+      Vorlagen
     </span>
   </div>
 </div>
 `;
 
-exports[`TemplatesToolbar rendering tests totalEntries 5 - test 1`] = `
+exports[`TemplatesToolbar rendering tests renders without sortBy - falls back to default - test 1`] = `
 <div>
   <div
     class="flex items-center justify-between border-b bg-white px-6 py-3"
@@ -376,9 +376,9 @@ exports[`TemplatesToolbar rendering tests totalEntries 5 - test 1`] = `
     <span
       class="text-sm text-slate-600"
     >
-      1
+      0
        
-      Vorlage
+      Vorlagen
     </span>
   </div>
 </div>

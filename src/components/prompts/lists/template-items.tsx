@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { flatMap } from "es-toolkit/compat";
+import { flatMap, isEmpty } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useLoadCollections } from "@/data/ts-queries/library";
@@ -44,6 +44,14 @@ export const TemplateItems = ({
       [data]
    );
 
+   const hasActiveFilters = useMemo(
+      () =>
+         !isEmpty(filters.search) ||
+         !isEmpty(filters.categories) ||
+         !isEmpty(filters.models),
+      [filters]
+   );
+
    if (isLoading) {
       return (
          <div className="flex items-center justify-center py-16">
@@ -67,6 +75,7 @@ export const TemplateItems = ({
                descriptors={entries}
                collections={collections}
                collectionId={collectionId}
+               hasActiveFilters={hasActiveFilters}
             />
          </InfiniteScroll>
       );
@@ -83,6 +92,7 @@ export const TemplateItems = ({
             descriptors={entries}
             collections={collections}
             collectionId={collectionId}
+            hasActiveFilters={hasActiveFilters}
          />
       </InfiniteScroll>
    );

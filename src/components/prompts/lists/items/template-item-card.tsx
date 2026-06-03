@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Eye, FolderPlus, MoreVertical } from "lucide-react";
+import { Edit2, Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { AddToLibraryCollectionDialog } from "@/components/collections";
@@ -22,7 +22,7 @@ import {
    DownloadPromptButton,
    UseTemplateButton,
 } from "../../buttons";
-import { viewPromptUrl } from "../../utils";
+import { editPromptUrl, viewPromptUrl } from "../../utils";
 
 type Props = {
    prompt: DPrompt;
@@ -132,6 +132,17 @@ export const TemplateItemCard = ({
 
             <div className="flex gap-2 pt-2">
                <UseTemplateButton descriptor={prompt} className="flex-1" />
+               <Button
+                  asChild={true}
+                  variant="ghost"
+                  size="sm"
+                  className="cursor-pointer"
+                  data-testid="edit-prompt-btn"
+               >
+                  <Link href={editPromptUrl(prompt)}>
+                     <Edit2 className="h-4 w-4" />
+                  </Link>
+               </Button>
                {dropdownMenu()}
             </div>
          </CardContent>

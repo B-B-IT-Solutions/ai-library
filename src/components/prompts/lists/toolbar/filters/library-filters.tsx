@@ -5,6 +5,7 @@ import { isEmpty } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
    Popover,
@@ -45,12 +46,25 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
       setShowFilters(false);
    };
 
+   const resetFilters = () => {
+      setFilters({ f_search: "", f_categories: [], f_models: [] });
+      setShowFilters(false);
+   };
+
    const hasActiveFilters = useMemo(() => {
       return (
          !isEmpty(filters.f_search) ||
          !isEmpty(filters.f_categories) ||
          !isEmpty(filters.f_models)
       );
+   }, [filters]);
+
+   const activeFilterCount = useMemo(() => {
+      let count = 0;
+      if (!isEmpty(filters.f_search)) count++;
+      if (!isEmpty(filters.f_categories)) count++;
+      if (!isEmpty(filters.f_models)) count++;
+      return count;
    }, [filters]);
 
    const renderFilters = () => {
@@ -61,7 +75,7 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
                   <Button
                      variant="ghost"
                      size="sm"
-                     // onClick={resetFilters}
+                     onClick={resetFilters}
                      className="h-8 px-2 text-xs"
                   >
                      <X className="mr-1 h-3 w-3" />
@@ -109,6 +123,11 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
             >
                <Filter className="h-4 w-4" />
                Filter
+               {activeFilterCount > 0 && (
+                  <Badge variant="secondary" className="ml-1 h-5 px-1.5">
+                     {activeFilterCount}
+                  </Badge>
+               )}
                {triggerBtnIcon()}
             </Button>
          </PopoverTrigger>

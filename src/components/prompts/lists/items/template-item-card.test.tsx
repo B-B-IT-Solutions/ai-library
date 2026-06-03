@@ -25,12 +25,14 @@ const assertRendered = () => {
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("use-prompt-btn");
+   const editPromptBtn = screen.getByTestId("edit-prompt-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
    assertInDocument(entryCard);
    assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
    assertInDocument(usePromptBtn);
+   assertInDocument(editPromptBtn);
    assertInDocument(dropdownMenuBtn);
 };
 

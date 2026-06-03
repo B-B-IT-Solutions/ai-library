@@ -1,7 +1,14 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useMemo } from "react";
 
 import { ListViewToggle } from "@/components/shared/buttons";
-import { DListViewMode } from "@/data/types/domain/common";
+import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/prompt";
+import { resolveSort } from "@/data/ts-queries/utils";
+import {
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { LibraryFilters } from "./filters";
@@ -9,6 +16,7 @@ import { SortBySelect } from "./sort-by";
 
 type Props = {
    viewMode: DListViewMode;
+   sortBy?: DListSortByMode;
    filters: DPromptsFilter;
    categories: string[];
    models: string[];
@@ -16,21 +24,19 @@ type Props = {
 
 export const TemplatesToolbar: FC<Props> = ({
    viewMode,
+   sortBy,
    filters,
    categories,
    models,
 }) => {
-   // const { data } = useInfiniteLoadLibraryEntries({
-   //    filters,
-   // });
+   const { data } = useInfiniteLoadTemplateDescriptors({
+      filters,
+      sort: resolveSort(sortBy),
+   });
 
-   // const totalEntries = useMemo(() => {
-   //    if (!data?.pages) return 0;
-   //    const firstPage = data.pages[0];
-   //    return firstPage?.totalEntries || 0;
-   // }, [data]);
-
-   const totalEntries = 1;
+   const totalEntries = useMemo(() => {
+      return data?.pages?.[0]?.totalElements ?? 0;
+   }, [data]);
 
    return (
       <div
