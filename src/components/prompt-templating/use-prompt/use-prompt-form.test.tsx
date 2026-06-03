@@ -65,6 +65,16 @@ const assertFormNotRendered = () => {
    assertNotInDocument(form);
 };
 
+const assertRequiredFieldProgressRendered = () => {
+   const progress = screen.getByTestId("required-fields-progress");
+   assertInDocument(progress);
+};
+
+const assertRequiredFieldProgressNotRendered = () => {
+   const progress = screen.queryByTestId("required-fields-progress");
+   assertNotInDocument(progress);
+};
+
 describe("UsePromptForm rendering tests", () => {
    it("fields empty - test", async () => {
       const templateData = dtestData.dPromptGenerationData();
@@ -77,12 +87,54 @@ describe("UsePromptForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFormNotRendered();
+         assertRequiredFieldProgressNotRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("with fields - test", async () => {
+   it("one field - required false - test", async () => {
+      const name = createField("TEXT", "name", "Name");
+
+      const fields = [name];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("one field - required true - test", async () => {
+      const name = createField("TEXT", "name", "Name", true);
+      const fields = [name];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("multiple fields - required false - test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
       const age = createField("NUMBER", "age", "Age");
@@ -119,6 +171,50 @@ describe("UsePromptForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFormRendered();
+         assertRequiredFieldProgressNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("multiple fields - required true - test", async () => {
+      const name = createField("TEXT", "name", "Name", true);
+      const email = createField("EMAIL", "email", "Email Address", true);
+      const age = createField("NUMBER", "age", "Age");
+      const birthdate = createField("DATE", "birthdate", "Birth Date");
+      const bio = createField("TEXTAREA", "bio", "Biography");
+      const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
+      const gender: DPromptVariable = {
+         ...createField("RADIO", "gender", "Gender", true),
+         options: ["Male", "Female"],
+      };
+      const country: DPromptVariable = {
+         ...createField("SELECT", "country", "Country"),
+         options: ["CZ", "RU", "Germany"],
+      };
+
+      const fields = [
+         name,
+         email,
+         age,
+         birthdate,
+         bio,
+         newsletter,
+         gender,
+         country,
+      ];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressRendered();
       });
 
       expect(container).toMatchSnapshot();

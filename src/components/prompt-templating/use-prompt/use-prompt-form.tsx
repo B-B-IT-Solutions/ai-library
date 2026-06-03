@@ -79,7 +79,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
    );
 
    const requiredFields = requiredVariables(fields);
-   const totalRequiredCount = requiredFields.length;
+   const requiredFieldsCount = requiredFields.length;
 
    const requiredFieldWithValue = requiredVariablesWithValue(
       requiredFields,
@@ -87,7 +87,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
    );
    const requiredFieldWithValueCount = requiredFieldWithValue.length;
 
-   const showProgress = totalRequiredCount > 0;
+   const showRequiredFieldsProgress = requiredFieldsCount > 0;
 
    const onSubmitInternal: SubmitHandler<DFieldsType> = () => {};
 
@@ -100,11 +100,14 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
                   "linear-gradient(to bottom, transparent, hsl(var(--background)))",
             }}
          />
-         {showProgress ? (
-            <p className="text-xs text-muted-foreground">
-               {requiredFieldWithValueCount} von {totalRequiredCount}{" "}
+         {showRequiredFieldsProgress ? (
+            <p
+               className="text-xs text-muted-foreground"
+               data-testid="required-fields-progress"
+            >
+               {requiredFieldWithValueCount} von {requiredFieldsCount}{" "}
                Pflichtfeld
-               {totalRequiredCount !== 1 ? "n" : ""} ausgefüllt
+               {requiredFieldsCount !== 1 ? "n" : ""} ausgefüllt
             </p>
          ) : (
             <span />
