@@ -1,6 +1,203 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`UseTemplateForm rendering tests renders test 1`] = `
+exports[`UseTemplateForm rendering tests fields empty - test 1`] = `
+<div>
+  <form
+    class="flex min-h-0 flex-1 flex-col"
+    data-testid="use-template-form"
+  >
+    <div
+      class="flex min-h-0 flex-1 flex-col gap-3 px-6 lg:min-h-[40vh]"
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        <span
+          class="text-sm font-medium"
+        >
+          Vorschau
+        </span>
+        <div
+          class="h-px flex-1 bg-border"
+        />
+      </div>
+      <div
+        class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
+        data-testid="prompt-preview"
+      >
+        <button
+          data-slot="tooltip-trigger"
+          data-testid="copy-preview-btn"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-copy"
+            data-testid="copy-icon"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="14"
+              rx="2"
+              ry="2"
+              width="14"
+              x="8"
+              y="8"
+            />
+            <path
+              d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+            />
+          </svg>
+        </button>
+        <div
+          data-slot="tooltip-content"
+          data-testid="mock-tooltip-content"
+          sideoffset="0"
+        >
+          In Zwischenablage kopieren
+        </div>
+        <div
+          class="flex-1 overflow-y-auto p-4"
+        >
+          <div
+            class="leading-relaxed text-foreground/85"
+            data-testid="preview"
+          >
+            <div
+              class="text-slate-700 leading-relaxed"
+              data-testid="react-md"
+            >
+              <div
+                data-testid="react-markdown-mock"
+              >
+                content 1
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="shrink-0 border-t px-4 py-2.5"
+        >
+          <p
+            class="text-xs text-muted-foreground"
+          >
+            <span
+              class="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic"
+            >
+              {{platzhalter}}
+            </span>
+            noch nicht ausgefüllt ·
+             
+            <span
+              class="mr-1 inline-block rounded bg-green-100 px-1 font-medium text-green-800"
+            >
+              wert
+            </span>
+            ausgefüllt
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="relative flex shrink-0 items-center justify-between gap-2 bg-background px-6 py-4"
+    >
+      <div
+        class="pointer-events-none absolute inset-x-0 -top-8 h-8"
+        style="background: linear-gradient(to bottom, transparent, hsl(var(--background)));"
+      />
+      <span />
+      <div
+        class="flex items-center gap-2"
+      >
+        <button
+          data-slot="tooltip-trigger"
+          data-testid="copy-prompt-btn"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-copy"
+            data-testid="copy-icon"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="14"
+              rx="2"
+              ry="2"
+              width="14"
+              x="8"
+              y="8"
+            />
+            <path
+              d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+            />
+          </svg>
+          <span>
+            Kopieren
+          </span>
+        </button>
+        <div
+          data-slot="tooltip-content"
+          data-testid="mock-tooltip-content"
+          sideoffset="0"
+        >
+          In Zwischenablage kopieren
+        </div>
+        <div
+          data-slot="dropdown-menu"
+          data-testid="mock-react-dropdown-menu-root"
+        >
+          <button
+            data-slot="dropdown-menu-trigger"
+            data-testid="open-in-ai-btn"
+            type="button"
+          >
+            In KI öffnen
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-70"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m6 9 6 6 6-6"
+              />
+            </svg>
+          </button>
+          <div
+            data-testid="mock-react-dropdown-menu-portal"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`UseTemplateForm rendering tests with fields - test 1`] = `
 <div>
   <form
     class="flex min-h-0 flex-1 flex-col"
@@ -10,13 +207,13 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
       class="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2"
     >
       <div
-        class="flex min-h-0 flex-col gap-2 lg:pr-2"
+        class="flex min-h-0 flex-col gap-3 lg:pr-2"
       >
-        <p
-          class="text-xs font-medium text-muted-foreground"
+        <span
+          class="text-sm font-medium"
         >
           Platzhalter ausfüllen
-        </p>
+        </span>
         <div
           class="min-h-0 flex-1 overflow-y-auto rounded-md border p-4"
         >
@@ -438,13 +635,13 @@ exports[`UseTemplateForm rendering tests renders test 1`] = `
         </div>
       </div>
       <div
-        class="flex min-h-0 flex-col gap-2 lg:pl-2"
+        class="flex min-h-0 flex-col gap-3 lg:pl-2"
       >
-        <p
-          class="text-xs font-medium text-muted-foreground"
+        <span
+          class="text-sm font-medium"
         >
           Vorschau
-        </p>
+        </span>
         <div
           class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
           data-testid="prompt-preview"

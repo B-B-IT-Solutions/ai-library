@@ -104,7 +104,7 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
             <p className="text-xs text-muted-foreground">
                {requiredFieldWithValueCount} von {totalRequiredCount}{" "}
                Pflichtfeld
-               {totalRequiredCount !== 1 ? "ern" : ""} ausgefüllt
+               {totalRequiredCount !== 1 ? "n" : ""} ausgefüllt
             </p>
          ) : (
             <span />

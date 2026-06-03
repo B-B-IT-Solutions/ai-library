@@ -3,7 +3,12 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, typeIntoInput } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   typeIntoInput,
+} from "@tests";
 
 import {
    DPromptVariable,
@@ -40,20 +45,44 @@ const createField = (
 const assertRendered = () => {
    const promptFromTemplate = screen.getByTestId("use-template-form");
    const preview = screen.getByTestId("prompt-preview");
-   const form = screen.getByTestId("prompt-variables-form");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");
    const openInAiBtn = screen.getByTestId("open-in-ai-btn");
 
    assertInDocument(promptFromTemplate);
-   assertInDocument(form);
    assertInDocument(preview);
    assertInDocument(copyBtn);
    assertInDocument(openInAiBtn);
 };
 
+const assertFormRendered = () => {
+   const form = screen.getByTestId("prompt-variables-form");
+   assertInDocument(form);
+};
+
+const assertFormNotRendered = () => {
+   const form = screen.queryByTestId("prompt-variables-form");
+   assertNotInDocument(form);
+};
+
 describe("UseTemplateForm rendering tests", () => {
-   it("renders test", async () => {
+   it("fields empty - test", async () => {
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = [];
+
+      const { container } = render(
+         <UseTemplateForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("with fields - test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
       const age = createField("NUMBER", "age", "Age");
@@ -89,6 +118,7 @@ describe("UseTemplateForm rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertFormRendered();
       });
 
       expect(container).toMatchSnapshot();
