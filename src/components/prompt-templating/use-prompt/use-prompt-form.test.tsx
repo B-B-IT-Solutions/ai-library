@@ -16,7 +16,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { UseTemplateForm } from "./use-prompt-form";
+import { UsePromptForm } from "./use-prompt-form";
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
@@ -65,13 +65,13 @@ const assertFormNotRendered = () => {
    assertNotInDocument(form);
 };
 
-describe("UseTemplateForm rendering tests", () => {
+describe("UsePromptForm rendering tests", () => {
    it("fields empty - test", async () => {
       const templateData = dtestData.dPromptGenerationData();
       templateData.allFields = [];
 
       const { container } = render(
-         <UseTemplateForm templateData={templateData} />
+         <UsePromptForm templateData={templateData} />
       );
 
       await waitFor(() => {
@@ -113,7 +113,7 @@ describe("UseTemplateForm rendering tests", () => {
       templateData.allFields = fields;
 
       const { container } = render(
-         <UseTemplateForm templateData={templateData} />
+         <UsePromptForm templateData={templateData} />
       );
 
       await waitFor(() => {
@@ -125,7 +125,7 @@ describe("UseTemplateForm rendering tests", () => {
    });
 });
 
-describe("UseTemplateForm functionality tests", () => {
+describe("UsePromptForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -137,7 +137,7 @@ describe("UseTemplateForm functionality tests", () => {
       templateData.allFields.push(field);
 
       render(
-         <UseTemplateForm
+         <UsePromptForm
             templateData={templateData}
             recommendedModel="chatgpt"
          />
@@ -174,7 +174,7 @@ describe("UseTemplateForm functionality tests", () => {
       templateData.allFields.push(field);
 
       render(
-         <UseTemplateForm templateData={templateData} recommendedModel="gpt" />
+         <UsePromptForm templateData={templateData} recommendedModel="gpt" />
       );
 
       await waitFor(() => {

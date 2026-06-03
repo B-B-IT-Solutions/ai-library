@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`UseTemplateForm rendering tests fields empty - test 1`] = `
+exports[`UsePromptForm rendering tests fields empty - test 1`] = `
 <div>
   <form
     class="flex min-h-0 flex-1 flex-col"
@@ -197,7 +197,7 @@ exports[`UseTemplateForm rendering tests fields empty - test 1`] = `
 </div>
 `;
 
-exports[`UseTemplateForm rendering tests with fields - test 1`] = `
+exports[`UsePromptForm rendering tests with fields - test 1`] = `
 <div>
   <form
     class="flex min-h-0 flex-1 flex-col"

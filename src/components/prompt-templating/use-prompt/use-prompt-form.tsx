@@ -35,7 +35,7 @@ type Props = {
    recommendedModel?: string;
 };
 
-export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
+export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
    const { template, allFields: fields } = templateData;
    const hasFields = fields.length > 0;
 
