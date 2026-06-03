@@ -3,7 +3,12 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, typeIntoInput } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   typeIntoInput,
+} from "@tests";
 
 import {
    DPromptVariable,
@@ -11,14 +16,17 @@ import {
 } from "@/data/types/domain/prompt";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { UseTemplateForm } from "./use-prompt-form";
+import { UsePromptForm } from "./use-prompt-form";
+const { writeText } = navigator.clipboard;
+
+const writeTextMock = writeText as jest.MockedFunction<typeof writeText>;
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
       typeof openExternalUrlInNewTab
    >;
 
-const createField = (
+const createVariable = (
    type: DPromptVariableType,
    name: string,
    label: string,
@@ -38,34 +46,110 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const promptFromTemplate = screen.getByTestId("use-template-form");
+   const usePromptForm = screen.getByTestId("use-prompt-form");
    const preview = screen.getByTestId("prompt-preview");
-   const form = screen.getByTestId("prompt-variables-form");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");
    const openInAiBtn = screen.getByTestId("open-in-ai-btn");
 
-   assertInDocument(promptFromTemplate);
-   assertInDocument(form);
+   assertInDocument(usePromptForm);
    assertInDocument(preview);
    assertInDocument(copyBtn);
    assertInDocument(openInAiBtn);
 };
 
-describe("UseTemplateForm rendering tests", () => {
-   it("renders test", async () => {
-      const name = createField("TEXT", "name", "Name");
-      const email = createField("EMAIL", "email", "Email Address");
-      const age = createField("NUMBER", "age", "Age");
-      const birthdate = createField("DATE", "birthdate", "Birth Date");
-      const bio = createField("TEXTAREA", "bio", "Biography");
-      const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
+const assertFormRendered = () => {
+   const form = screen.getByTestId("prompt-variables-form");
+   assertInDocument(form);
+};
+
+const assertFormNotRendered = () => {
+   const form = screen.queryByTestId("prompt-variables-form");
+   assertNotInDocument(form);
+};
+
+const assertRequiredFieldProgressRendered = () => {
+   const progress = screen.getByTestId("required-fields-progress");
+   assertInDocument(progress);
+};
+
+const assertRequiredFieldProgressNotRendered = () => {
+   const progress = screen.queryByTestId("required-fields-progress");
+   assertNotInDocument(progress);
+};
+
+describe("UsePromptForm rendering tests", () => {
+   it("fields empty - test", async () => {
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = [];
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormNotRendered();
+         assertRequiredFieldProgressNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("one field - required false - test", async () => {
+      const name = createVariable("TEXT", "name", "Name");
+
+      const fields = [name];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("one field - required true - test", async () => {
+      const name = createVariable("TEXT", "name", "Name", true);
+      const fields = [name];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("multiple fields - required false - test", async () => {
+      const name = createVariable("TEXT", "name", "Name");
+      const email = createVariable("EMAIL", "email", "Email Address");
+      const age = createVariable("NUMBER", "age", "Age");
+      const birthdate = createVariable("DATE", "birthdate", "Birth Date");
+      const bio = createVariable("TEXTAREA", "bio", "Biography");
+      const newsletter = createVariable("CHECKBOX", "newsletter", "Newsletter");
       const gender: DPromptVariable = {
-         ...createField("RADIO", "gender", "Gender"),
+         ...createVariable("RADIO", "gender", "Gender"),
          options: ["Male", "Female"],
       };
       const country: DPromptVariable = {
-         ...createField("SELECT", "country", "Country"),
+         ...createVariable("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };
 
@@ -84,30 +168,75 @@ describe("UseTemplateForm rendering tests", () => {
       templateData.allFields = fields;
 
       const { container } = render(
-         <UseTemplateForm templateData={templateData} />
+         <UsePromptForm templateData={templateData} />
       );
 
       await waitFor(() => {
          assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("multiple fields - required true - test", async () => {
+      const name = createVariable("TEXT", "name", "Name", true);
+      const email = createVariable("EMAIL", "email", "Email Address", true);
+      const age = createVariable("NUMBER", "age", "Age");
+      const birthdate = createVariable("DATE", "birthdate", "Birth Date");
+      const bio = createVariable("TEXTAREA", "bio", "Biography");
+      const newsletter = createVariable("CHECKBOX", "newsletter", "Newsletter");
+      const gender: DPromptVariable = {
+         ...createVariable("RADIO", "gender", "Gender", true),
+         options: ["Male", "Female"],
+      };
+      const country: DPromptVariable = {
+         ...createVariable("SELECT", "country", "Country"),
+         options: ["CZ", "RU", "Germany"],
+      };
+
+      const fields = [
+         name,
+         email,
+         age,
+         birthdate,
+         bio,
+         newsletter,
+         gender,
+         country,
+      ];
+
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.allFields = fields;
+
+      const { container } = render(
+         <UsePromptForm templateData={templateData} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertFormRendered();
+         assertRequiredFieldProgressRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("UseTemplateForm functionality tests", () => {
+describe("UsePromptForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("open-in-ai btn clicked - aiModel gpt - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
+      const field = createVariable("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 
       render(
-         <UseTemplateForm
+         <UsePromptForm
             templateData={templateData}
             recommendedModel="chatgpt"
          />
@@ -138,13 +267,13 @@ describe("UseTemplateForm functionality tests", () => {
    });
 
    it("open-in-ai btn clicked - aiModel claude - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
+      const field = createVariable("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 
       render(
-         <UseTemplateForm templateData={templateData} recommendedModel="gpt" />
+         <UsePromptForm templateData={templateData} recommendedModel="gpt" />
       );
 
       await waitFor(() => {
@@ -168,6 +297,33 @@ describe("UseTemplateForm functionality tests", () => {
       await waitFor(() => {
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledTimes(1);
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledWith(expectedUrl);
+      });
+   });
+
+   it("copy btn clicked - test", async () => {
+      const field = createVariable("TEXT", "name", "Name", true);
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.template.content = "Hello {{name}}";
+      templateData.allFields.push(field);
+
+      render(
+         <UsePromptForm templateData={templateData} recommendedModel="gpt" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "John Doe");
+
+      const copyBtn = screen.getByTestId("copy-prompt-btn");
+      await userEvent.click(copyBtn);
+
+      const expectedContent = "Hello John Doe";
+      await waitFor(() => {
+         expect(writeTextMock).toHaveBeenCalledTimes(1);
+         expect(writeTextMock).toHaveBeenCalledWith(expectedContent);
       });
    });
 });

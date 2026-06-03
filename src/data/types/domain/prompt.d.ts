@@ -62,7 +62,12 @@ export type DPromptVariableType =
    | "DATE"
    | "EMAIL";
 
-export type DPromptVariableValueType = string | number | null | undefined;
+export type DPromptVariableValueType =
+   | string
+   | number
+   | boolean
+   | null
+   | undefined;
 
 export type DPromptVariable = {
    id: string;
