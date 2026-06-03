@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { filter, isEmpty, reduce } from "es-toolkit/compat";
+import { reduce } from "es-toolkit/compat";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
@@ -28,6 +28,7 @@ import { buildFieldsSchema } from "../variables/variables.schema";
 
 import { getOtherAiTools, getRecommendedAiTool } from "./ai-services";
 import { AiTool } from "./type";
+import { requiredVariables, requiredVariablesWithValue } from "./utils";
 
 type Props = {
    templateData: DPromptGenerationData;
@@ -77,17 +78,14 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
       [plainContent]
    );
 
-   const requiredFields = filter(fields, (f) => f.required);
-
-   const filledRequiredCount = filter(requiredFields, (f) => {
-      const val = currentValues[f.name];
-      if (f.type === "CHECKBOX") {
-         return val === true;
-      }
-      return val !== undefined && val !== null && val !== "";
-   }).length;
-
+   const requiredFields = requiredVariables(fields);
    const totalRequiredCount = requiredFields.length;
+
+   const requiredFieldWithValue = requiredVariablesWithValue(
+      requiredFields,
+      currentValues
+   );
+   const requiredFieldWithValueCount = requiredFieldWithValue.length;
 
    const showProgress = totalRequiredCount > 0;
 
@@ -104,7 +102,8 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
          />
          {showProgress ? (
             <p className="text-xs text-muted-foreground">
-               {filledRequiredCount} von {totalRequiredCount} Pflichtfeld
+               {requiredFieldWithValueCount} von {totalRequiredCount}{" "}
+               Pflichtfeld
                {totalRequiredCount !== 1 ? "ern" : ""} ausgefüllt
             </p>
          ) : (
