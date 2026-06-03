@@ -120,7 +120,7 @@ exports[`UsePromptForm rendering tests fields empty - test 1`] = `
         <button
           data-slot="tooltip-trigger"
           data-testid="copy-prompt-btn"
-          type="button"
+          type="submit"
         >
           <svg
             aria-hidden="true"
@@ -742,7 +742,7 @@ exports[`UsePromptForm rendering tests multiple fields - required false - test 1
         <button
           data-slot="tooltip-trigger"
           data-testid="copy-prompt-btn"
-          type="button"
+          type="submit"
         >
           <svg
             aria-hidden="true"
@@ -1380,7 +1380,7 @@ exports[`UsePromptForm rendering tests multiple fields - required true - test 1`
          von 
         3
          
-        Pflichtfeld
+        Pflichtplatzhalter
         n
          ausgefüllt
       </p>
@@ -1390,7 +1390,7 @@ exports[`UsePromptForm rendering tests multiple fields - required true - test 1`
         <button
           data-slot="tooltip-trigger"
           data-testid="copy-prompt-btn"
-          type="button"
+          type="submit"
         >
           <svg
             aria-hidden="true"
@@ -1626,7 +1626,7 @@ exports[`UsePromptForm rendering tests one field - required false - test 1`] = `
         <button
           data-slot="tooltip-trigger"
           data-testid="copy-prompt-btn"
-          type="button"
+          type="submit"
         >
           <svg
             aria-hidden="true"
@@ -1868,7 +1868,7 @@ exports[`UsePromptForm rendering tests one field - required true - test 1`] = `
          von 
         1
          
-        Pflichtfeld
+        Pflichtplatzhalter
          ausgefüllt
       </p>
       <div
@@ -1877,7 +1877,7 @@ exports[`UsePromptForm rendering tests one field - required true - test 1`] = `
         <button
           data-slot="tooltip-trigger"
           data-testid="copy-prompt-btn"
-          type="button"
+          type="submit"
         >
           <svg
             aria-hidden="true"
