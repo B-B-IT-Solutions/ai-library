@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { reduce } from "es-toolkit/compat";
+import { filter, isEmpty, reduce } from "es-toolkit/compat";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
@@ -77,24 +77,18 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
       [plainContent]
    );
 
-   useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-         if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-            e.preventDefault();
-            if (recommended) openInService(recommended);
-         }
-      };
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
-   }, [recommended, openInService]);
+   const requiredFields = filter(fields, (f) => f.required);
 
-   const requiredFields = fields.filter((f) => f.required);
-   const filledRequiredCount = requiredFields.filter((f) => {
+   const filledRequiredCount = filter(requiredFields, (f) => {
       const val = currentValues[f.name];
-      if (f.type === "CHECKBOX") return val === true;
-      return val !== undefined && val !== null && val !== "";
+      if (f.type === "CHECKBOX") {
+         return val === true;
+      }
+      return !isEmpty(val);
    }).length;
+
    const totalRequiredCount = requiredFields.length;
+
    const showProgress = totalRequiredCount > 0;
 
    const onSubmitInternal: SubmitHandler<DFieldsType> = () => {};
