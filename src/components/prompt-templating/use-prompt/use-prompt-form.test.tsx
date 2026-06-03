@@ -26,7 +26,7 @@ const openExternalUrlInNewTabMock =
       typeof openExternalUrlInNewTab
    >;
 
-const createField = (
+const createVariable = (
    type: DPromptVariableType,
    name: string,
    label: string,
@@ -97,7 +97,7 @@ describe("UsePromptForm rendering tests", () => {
    });
 
    it("one field - required false - test", async () => {
-      const name = createField("TEXT", "name", "Name");
+      const name = createVariable("TEXT", "name", "Name");
 
       const fields = [name];
 
@@ -118,7 +118,7 @@ describe("UsePromptForm rendering tests", () => {
    });
 
    it("one field - required true - test", async () => {
-      const name = createField("TEXT", "name", "Name", true);
+      const name = createVariable("TEXT", "name", "Name", true);
       const fields = [name];
 
       const templateData = dtestData.dPromptGenerationData();
@@ -138,18 +138,18 @@ describe("UsePromptForm rendering tests", () => {
    });
 
    it("multiple fields - required false - test", async () => {
-      const name = createField("TEXT", "name", "Name");
-      const email = createField("EMAIL", "email", "Email Address");
-      const age = createField("NUMBER", "age", "Age");
-      const birthdate = createField("DATE", "birthdate", "Birth Date");
-      const bio = createField("TEXTAREA", "bio", "Biography");
-      const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
+      const name = createVariable("TEXT", "name", "Name");
+      const email = createVariable("EMAIL", "email", "Email Address");
+      const age = createVariable("NUMBER", "age", "Age");
+      const birthdate = createVariable("DATE", "birthdate", "Birth Date");
+      const bio = createVariable("TEXTAREA", "bio", "Biography");
+      const newsletter = createVariable("CHECKBOX", "newsletter", "Newsletter");
       const gender: DPromptVariable = {
-         ...createField("RADIO", "gender", "Gender"),
+         ...createVariable("RADIO", "gender", "Gender"),
          options: ["Male", "Female"],
       };
       const country: DPromptVariable = {
-         ...createField("SELECT", "country", "Country"),
+         ...createVariable("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };
 
@@ -181,18 +181,18 @@ describe("UsePromptForm rendering tests", () => {
    });
 
    it("multiple fields - required true - test", async () => {
-      const name = createField("TEXT", "name", "Name", true);
-      const email = createField("EMAIL", "email", "Email Address", true);
-      const age = createField("NUMBER", "age", "Age");
-      const birthdate = createField("DATE", "birthdate", "Birth Date");
-      const bio = createField("TEXTAREA", "bio", "Biography");
-      const newsletter = createField("CHECKBOX", "newsletter", "Newsletter");
+      const name = createVariable("TEXT", "name", "Name", true);
+      const email = createVariable("EMAIL", "email", "Email Address", true);
+      const age = createVariable("NUMBER", "age", "Age");
+      const birthdate = createVariable("DATE", "birthdate", "Birth Date");
+      const bio = createVariable("TEXTAREA", "bio", "Biography");
+      const newsletter = createVariable("CHECKBOX", "newsletter", "Newsletter");
       const gender: DPromptVariable = {
-         ...createField("RADIO", "gender", "Gender", true),
+         ...createVariable("RADIO", "gender", "Gender", true),
          options: ["Male", "Female"],
       };
       const country: DPromptVariable = {
-         ...createField("SELECT", "country", "Country"),
+         ...createVariable("SELECT", "country", "Country"),
          options: ["CZ", "RU", "Germany"],
       };
 
@@ -230,7 +230,7 @@ describe("UsePromptForm functionality tests", () => {
    });
 
    it("open-in-ai btn clicked - aiModel gpt - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
+      const field = createVariable("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
@@ -267,7 +267,7 @@ describe("UsePromptForm functionality tests", () => {
    });
 
    it("open-in-ai btn clicked - aiModel claude - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
+      const field = createVariable("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
@@ -301,7 +301,7 @@ describe("UsePromptForm functionality tests", () => {
    });
 
    it("copy btn clicked - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
+      const field = createVariable("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptGenerationData();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
