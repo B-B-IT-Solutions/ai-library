@@ -17,6 +17,9 @@ import {
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
 import { UsePromptForm } from "./use-prompt-form";
+const { writeText } = navigator.clipboard;
+
+const writeTextMock = writeText as jest.MockedFunction<typeof writeText>;
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
@@ -294,6 +297,33 @@ describe("UsePromptForm functionality tests", () => {
       await waitFor(() => {
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledTimes(1);
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledWith(expectedUrl);
+      });
+   });
+
+   it("copy btn clicked - test", async () => {
+      const field = createField("TEXT", "name", "Name", true);
+      const templateData = dtestData.dPromptGenerationData();
+      templateData.template.content = "Hello {{name}}";
+      templateData.allFields.push(field);
+
+      render(
+         <UsePromptForm templateData={templateData} recommendedModel="gpt" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "John Doe");
+
+      const copyBtn = screen.getByTestId("copy-prompt-btn");
+      await userEvent.click(copyBtn);
+
+      const expectedContent = "Hello John Doe";
+      await waitFor(() => {
+         expect(writeTextMock).toHaveBeenCalledTimes(1);
+         expect(writeTextMock).toHaveBeenCalledWith(expectedContent);
       });
    });
 });
