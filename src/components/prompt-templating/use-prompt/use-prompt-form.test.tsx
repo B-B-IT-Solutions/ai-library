@@ -46,13 +46,13 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const promptFromTemplate = screen.getByTestId("use-template-form");
+   const usePromptForm = screen.getByTestId("use-prompt-form");
    const preview = screen.getByTestId("prompt-preview");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");
    const openInAiBtn = screen.getByTestId("open-in-ai-btn");
 
-   assertInDocument(promptFromTemplate);
+   assertInDocument(usePromptForm);
    assertInDocument(preview);
    assertInDocument(copyBtn);
    assertInDocument(openInAiBtn);

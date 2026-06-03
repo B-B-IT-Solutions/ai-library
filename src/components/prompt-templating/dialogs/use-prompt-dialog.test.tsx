@@ -7,12 +7,12 @@ import { UsePromptDialog } from "./use-prompt-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("use-prompt-dialog");
-   const promptFromTemplate = screen.getByTestId("use-template-form");
+   const promptForm = screen.getByTestId("use-prompt-form");
    const expandBtn = screen.getByTestId("expand-btn");
    const closeBtn = screen.getByTestId("close-btn");
 
    assertInDocument(dialog);
-   assertInDocument(promptFromTemplate);
+   assertInDocument(promptForm);
    assertInDocument(expandBtn);
    assertInDocument(closeBtn);
 };

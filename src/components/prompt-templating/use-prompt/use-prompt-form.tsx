@@ -54,6 +54,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
          }),
          {}
       ),
+      mode: "all",
    });
 
    const currentValues = useWatch<DFieldsType>({
@@ -106,7 +107,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
                data-testid="required-fields-progress"
             >
                {requiredFieldWithValueCount} von {requiredFieldsCount}{" "}
-               Pflichtfeld
+               Pflichtplatzhalter
                {requiredFieldsCount !== 1 ? "n" : ""} ausgefüllt
             </p>
          ) : (
@@ -117,6 +118,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
                content={resolvedContent}
                variant="outline"
                size="default"
+               type="submit"
                showLabel={true}
                data-testid="copy-prompt-btn"
             />
@@ -166,7 +168,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
             className="flex min-h-0 flex-1 flex-col"
-            data-testid="use-template-form"
+            data-testid="use-prompt-form"
          >
             {hasFields ? (
                <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">

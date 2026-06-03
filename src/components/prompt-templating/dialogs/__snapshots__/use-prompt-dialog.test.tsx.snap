@@ -27,17 +27,12 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate pb-1 text-base leading-tight font-semibold"
+              class="truncate text-base leading-tight font-semibold"
               data-slot="dialog-title"
               data-testid="mock-react-dialog-title"
             >
               title 1
             </div>
-            <p
-              class="text-xs text-muted-foreground"
-            >
-              Platzhlater ausfüllen und direkt in KI anwenden
-            </p>
           </div>
           <div
             class="flex shrink-0 items-center gap-1"
@@ -112,16 +107,23 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
         >
           <form
             class="flex min-h-0 flex-1 flex-col"
-            data-testid="use-template-form"
+            data-testid="use-prompt-form"
           >
             <div
-              class="flex min-h-0 flex-1 flex-col gap-2 px-6 lg:min-h-[40vh]"
+              class="flex min-h-0 flex-1 flex-col gap-3 px-6 lg:min-h-[40vh]"
             >
-              <p
-                class="text-xs font-medium text-muted-foreground"
+              <div
+                class="flex items-center gap-2"
               >
-                Vorschau
-              </p>
+                <span
+                  class="text-sm font-medium"
+                >
+                  Vorschau
+                </span>
+                <div
+                  class="h-px flex-1 bg-border"
+                />
+              </div>
               <div
                 class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
                 data-testid="prompt-preview"
@@ -221,7 +223,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
                 class="flex items-center gap-2"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                   data-slot="tooltip-trigger"
                   data-testid="copy-prompt-btn"
                   type="button"
@@ -269,7 +271,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds false - te
                   data-testid="mock-react-dropdown-menu-root"
                 >
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-1.5"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-1.5"
                     data-slot="dropdown-menu-trigger"
                     data-testid="open-in-ai-btn"
                     type="button"
@@ -334,17 +336,12 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate pb-1 text-base leading-tight font-semibold"
+              class="truncate text-base leading-tight font-semibold"
               data-slot="dialog-title"
               data-testid="mock-react-dialog-title"
             >
               title 1
             </div>
-            <p
-              class="text-xs text-muted-foreground"
-            >
-              Platzhlater ausfüllen und direkt in KI anwenden
-            </p>
           </div>
           <div
             class="flex shrink-0 items-center gap-1"
@@ -419,19 +416,19 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
         >
           <form
             class="flex min-h-0 flex-1 flex-col"
-            data-testid="use-template-form"
+            data-testid="use-prompt-form"
           >
             <div
               class="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2"
             >
               <div
-                class="flex min-h-0 flex-col gap-2 lg:pr-2"
+                class="flex min-h-0 flex-col gap-3 lg:pr-2"
               >
-                <p
-                  class="text-xs font-medium text-muted-foreground"
+                <span
+                  class="text-sm font-medium"
                 >
                   Platzhalter ausfüllen
-                </p>
+                </span>
                 <div
                   class="min-h-0 flex-1 overflow-y-auto rounded-md border p-4"
                 >
@@ -728,13 +725,13 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
                 </div>
               </div>
               <div
-                class="flex min-h-0 flex-col gap-2 lg:pl-2"
+                class="flex min-h-0 flex-col gap-3 lg:pl-2"
               >
-                <p
-                  class="text-xs font-medium text-muted-foreground"
+                <span
+                  class="text-sm font-medium"
                 >
                   Vorschau
-                </p>
+                </span>
                 <div
                   class="group relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border bg-muted/50"
                   data-testid="prompt-preview"
@@ -832,19 +829,21 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
               />
               <p
                 class="text-xs text-muted-foreground"
+                data-testid="required-fields-progress"
               >
                 3
                  von 
                 3
-                 Pflichtfeld
-                ern
+                 
+                Pflichtfeld
+                n
                  ausgefüllt
               </p>
               <div
                 class="flex items-center gap-2"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                   data-slot="tooltip-trigger"
                   data-testid="copy-prompt-btn"
                   type="button"
@@ -892,7 +891,7 @@ exports[`UsePromptDialog rendering tests mode fields-form - hasFeilds true - tes
                   data-testid="mock-react-dropdown-menu-root"
                 >
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-1.5"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-1.5"
                     data-slot="dropdown-menu-trigger"
                     data-testid="open-in-ai-btn"
                     type="button"
