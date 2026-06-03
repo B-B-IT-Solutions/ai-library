@@ -168,10 +168,10 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
          >
             {hasFields ? (
                <div className="grid min-h-0 flex-1 grid-cols-1 gap-y-5 px-6 lg:min-h-[40vh] lg:grid-cols-2">
-                  <div className="flex min-h-0 flex-col gap-2 lg:pr-2">
-                     <p className="text-xs font-medium text-muted-foreground">
+                  <div className="flex min-h-0 flex-col gap-3 lg:pr-2">
+                     <span className="text-sm font-medium">
                         Platzhalter ausfüllen
-                     </p>
+                     </span>
                      <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
                         <PromptVariablesForm
                            templateData={templateData}
@@ -179,10 +179,8 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                         />
                      </div>
                   </div>
-                  <div className="flex min-h-0 flex-col gap-2 lg:pl-2">
-                     <p className="text-xs font-medium text-muted-foreground">
-                        Vorschau
-                     </p>
+                  <div className="flex min-h-0 flex-col gap-3 lg:pl-2">
+                     <span className="text-sm font-medium">Vorschau</span>
                      <PromptPreview
                         template={template}
                         values={currentValues}
@@ -191,10 +189,11 @@ export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
                   </div>
                </div>
             ) : (
-               <div className="flex min-h-0 flex-1 flex-col gap-2 px-6 lg:min-h-[40vh]">
-                  <p className="text-xs font-medium text-muted-foreground">
-                     Vorschau
-                  </p>
+               <div className="flex min-h-0 flex-1 flex-col gap-3 px-6 lg:min-h-[40vh]">
+                  <div className="flex items-center gap-2">
+                     <span className="text-sm font-medium">Vorschau</span>
+                     <div className="h-px flex-1 bg-border" />
+                  </div>
                   <PromptPreview
                      template={template}
                      values={currentValues}

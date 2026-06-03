@@ -46,7 +46,7 @@ export const UsePromptDialog = ({
                   <DialogTitle className="truncate pb-1 text-base leading-tight font-semibold">
                      {prompt.title}
                   </DialogTitle>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                      Platzhlater ausfüllen und direkt in KI anwenden
                   </p>
                </div>
