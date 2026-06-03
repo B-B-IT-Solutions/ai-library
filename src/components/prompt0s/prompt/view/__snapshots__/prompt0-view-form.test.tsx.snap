@@ -160,7 +160,7 @@ exports[`Prompt0ViewForm rendering tests followUpPrompts empty - rendered test 1
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
           <div
@@ -189,7 +189,7 @@ exports[`Prompt0ViewForm rendering tests followUpPrompts empty - rendered test 1
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
         </div>
@@ -686,7 +686,7 @@ exports[`Prompt0ViewForm rendering tests rendered - test 1`] = `
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
           <div
@@ -715,7 +715,7 @@ exports[`Prompt0ViewForm rendering tests rendered - test 1`] = `
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
         </div>
@@ -1283,7 +1283,7 @@ exports[`Prompt0ViewForm rendering tests versions empty - rendered test 1`] = `
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
           <div
@@ -1312,7 +1312,7 @@ exports[`Prompt0ViewForm rendering tests versions empty - rendered test 1`] = `
               />
             </svg>
             <span>
-              27. Sept. 2025, 02:00 AM
+              27.09.2025, 02:00
             </span>
           </div>
         </div>
