@@ -120,7 +120,7 @@ exports[`PromptView rendering tests collection defined - test 1`] = `
                   class="text-sm text-slate-500"
                 >
                   Erstellt 
-                  Sa., 27. Sept. 2025
+                  27.09.2025
                    ·
                    
                   model 1
@@ -505,7 +505,7 @@ exports[`PromptView rendering tests collection undefined - test 1`] = `
                   class="text-sm text-slate-500"
                 >
                   Erstellt 
-                  Sa., 27. Sept. 2025
+                  27.09.2025
                    ·
                    
                   model 1

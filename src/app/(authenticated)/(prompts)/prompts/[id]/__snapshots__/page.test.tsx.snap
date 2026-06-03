@@ -272,7 +272,7 @@ exports[`PromptPage rendering tests prompt found - test 1`] = `
                       />
                     </svg>
                     <span>
-                      27. Sept. 2025, 02:00 AM
+                      27.09.2025, 02:00
                     </span>
                   </div>
                   <div
@@ -301,7 +301,7 @@ exports[`PromptPage rendering tests prompt found - test 1`] = `
                       />
                     </svg>
                     <span>
-                      27. Sept. 2025, 02:00 AM
+                      27.09.2025, 02:00
                     </span>
                   </div>
                 </div>

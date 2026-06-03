@@ -24,7 +24,7 @@ const assertCategoriesNotRendered = () => {
    assertNotInDocument(categories);
 };
 
-describe("LibraryEntryViewForm rendering tests", () => {
+describe("PromptForm rendering tests", () => {
    it("categories empty - rendered test", async () => {
       const prompt = dtestData.dPromptWithContent();
       prompt.categories = [];

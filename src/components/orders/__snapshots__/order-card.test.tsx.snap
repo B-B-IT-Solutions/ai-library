@@ -25,7 +25,7 @@ exports[`OrderCard rendering tests OrderCard - status COMPLETED - test 1`] = `
           <p
             class="text-xs text-slate-500"
           >
-            27. Sept. 2025, 02:00 AM
+            27.09.2025, 02:00
           </p>
         </div>
         <span
@@ -92,7 +92,7 @@ exports[`OrderCard rendering tests OrderCard - status FAILED - test 1`] = `
           <p
             class="text-xs text-slate-500"
           >
-            27. Sept. 2025, 02:00 AM
+            27.09.2025, 02:00
           </p>
         </div>
         <span
@@ -160,7 +160,7 @@ exports[`OrderCard rendering tests OrderCard - status PENDING - test 1`] = `
           <p
             class="text-xs text-slate-500"
           >
-            27. Sept. 2025, 02:00 AM
+            27.09.2025, 02:00
           </p>
         </div>
         <span
@@ -228,7 +228,7 @@ exports[`OrderCard rendering tests OrderCard - status REFUNDED - test 1`] = `
           <p
             class="text-xs text-slate-500"
           >
-            27. Sept. 2025, 02:00 AM
+            27.09.2025, 02:00
           </p>
         </div>
         <span
