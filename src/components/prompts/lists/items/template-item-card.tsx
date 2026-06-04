@@ -2,27 +2,18 @@
 
 import { useMemo, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Edit2, Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { AddToLibraryCollectionDialog } from "@/components/collections";
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
-   DownloadPromptButton,
+   MoreOptionsButton,
    UseTemplateButton,
 } from "../../buttons";
-import { editPromptUrl, viewPromptUrl } from "../../utils";
+import { viewPromptUrl } from "../../utils";
 
 type Props = {
    prompt: DPrompt;
@@ -60,45 +51,6 @@ export const TemplateItemCard = ({
       );
    };
 
-   const dropdownMenu = () => {
-      return (
-         <DropdownMenu>
-            <DropdownMenuTrigger asChild={true}>
-               <Button
-                  variant="outline"
-                  size="sm"
-                  className="cursor-pointer"
-                  data-testid="dropdown-menu-btn"
-               >
-                  <MoreVertical className="h-4 w-4" />
-               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-               <DropdownMenuItem asChild={true}>
-                  <Link
-                     href={viewUrl}
-                     className="cursor-pointer"
-                     data-testid="view-details-link"
-                  >
-                     <Eye className="mr-2 h-4 w-4" />
-                     Details anzeigen
-                  </Link>
-               </DropdownMenuItem>
-               <DropdownMenuItem
-                  onClick={() => setShowAddToCollectionDialog(true)}
-                  className="cursor-pointer"
-                  data-testid="show-add-to-collection-dialog"
-               >
-                  <FolderPlus className="mr-2 h-4 w-4" />
-                  Zu Sammlung hinzufügen
-               </DropdownMenuItem>
-               <DropdownMenuSeparator />
-               <DownloadPromptButton prompt={prompt} asMenuItem={true} />
-            </DropdownMenuContent>
-         </DropdownMenu>
-      );
-   };
-
    return (
       <Card
          ref={ref}
@@ -132,18 +84,7 @@ export const TemplateItemCard = ({
 
             <div className="flex gap-2 pt-2">
                <UseTemplateButton descriptor={prompt} className="flex-1" />
-               <Button
-                  asChild={true}
-                  variant="ghost"
-                  size="sm"
-                  className="cursor-pointer"
-                  data-testid="edit-prompt-btn"
-               >
-                  <Link href={editPromptUrl(prompt)}>
-                     <Edit2 className="h-4 w-4" />
-                  </Link>
-               </Button>
-               {dropdownMenu()}
+               <MoreOptionsButton prompt={prompt} collections={collections} />
             </div>
          </CardContent>
 

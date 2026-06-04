@@ -123,7 +123,7 @@ const Item = ({ children, onSelect, asChild, ...props }: ItemProps) => {
 
    const handleClick = () => {
       onSelect?.();
-      ctx.setOpen(false);
+      ctx?.setOpen(false);
    };
 
    if (asChild && React.isValidElement(children)) {

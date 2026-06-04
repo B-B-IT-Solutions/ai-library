@@ -3,43 +3,83 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { EditButton } from "./edit-prompt-button";
+import { EditPromptButton } from "./edit-prompt-button";
 
-const assertRendered = () => {
+const assertBtnRendered = () => {
    const editBtn = screen.getByTestId("edit-prompt-btn");
    assertInDocument(editBtn);
 };
 
-describe("EditButton rendering tests", () => {
-   it("collection undefined - test", async () => {
+const assertMenuItemRendered = () => {
+   const menuItem = screen.getByTestId("edit-prompt-menu-item");
+   assertInDocument(menuItem);
+};
+
+describe("EditPromptButton rendering tests", () => {
+   it("asMenuItem false - collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
 
-      const { container } = renderWithRouter(<EditButton prompt={prompt} />);
+      const { container } = renderWithRouter(
+         <EditPromptButton prompt={prompt} />
+      );
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("collection defined - test", async () => {
+   it("asMenuItem true - collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
 
       const { container } = renderWithRouter(
-         <EditButton prompt={prompt} collection={collection} />
+         <EditPromptButton prompt={prompt} collection={collection} />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("asMenuItem true - collection undefined - test", async () => {
+      const prompt = dtestData.dPrompt();
+
+      const { container } = renderWithRouter(
+         <EditPromptButton prompt={prompt} asMenuItem={true} />
+      );
+
+      await waitFor(() => {
+         assertMenuItemRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("asMenuItem true - collection defined - test", async () => {
+      const prompt = dtestData.dPrompt();
+      const collection = dtestData.dCollection();
+
+      const { container } = renderWithRouter(
+         <EditPromptButton
+            prompt={prompt}
+            collection={collection}
+            asMenuItem={true}
+         />
+      );
+
+      await waitFor(() => {
+         assertMenuItemRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("EditButton functionality tests", () => {
+describe("EditPromptButton functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
@@ -47,10 +87,10 @@ describe("EditButton functionality tests", () => {
 
    it("edit btn clicked - collection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
-      renderWithRouter(<EditButton prompt={prompt} />);
+      renderWithRouter(<EditPromptButton prompt={prompt} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
@@ -65,10 +105,12 @@ describe("EditButton functionality tests", () => {
    it("edit btn clicked - collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollection();
-      renderWithRouter(<EditButton prompt={prompt} collection={collection} />);
+      renderWithRouter(
+         <EditPromptButton prompt={prompt} collection={collection} />
+      );
 
       await waitFor(() => {
-         assertRendered();
+         assertBtnRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
