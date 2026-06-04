@@ -1,7 +1,7 @@
 import React from "react";
 import { renderHook } from "@testing-library/react";
 
-import { DLibrarySearchParamsFiltersType } from "../search-params";
+import { DTemplatesSearchParamsFiltersType } from "../../../search-params";
 
 import {
    LibraryEntryFilterContext,
@@ -67,6 +67,152 @@ describe("LibraryEntryFiltersHelper tests", () => {
       helper.setModels(["x", "y"]);
       expect(helper.getModels()).toEqual(["x", "y"]);
    });
+
+   describe("hasActiveFilters", () => {
+      it("returns false when no filters are set", () => {
+         const helper = new LibraryEntryFiltersHelper({});
+         expect(helper.hasActiveFilters()).toBe(false);
+      });
+
+      it("returns true when search is set", () => {
+         const helper = new LibraryEntryFiltersHelper({ f_search: "hello" });
+         expect(helper.hasActiveFilters()).toBe(true);
+      });
+
+      it("returns true when categories are set", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_categories: ["cat1"],
+         });
+         expect(helper.hasActiveFilters()).toBe(true);
+      });
+
+      it("returns true when models are set", () => {
+         const helper = new LibraryEntryFiltersHelper({ f_models: ["model1"] });
+         expect(helper.hasActiveFilters()).toBe(true);
+      });
+
+      it("returns true when all filters are set", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+            f_models: ["model1"],
+         });
+         expect(helper.hasActiveFilters()).toBe(true);
+      });
+
+      it("returns false when search is empty string", () => {
+         const helper = new LibraryEntryFiltersHelper({ f_search: "" });
+         expect(helper.hasActiveFilters()).toBe(false);
+      });
+
+      it("returns false when arrays are empty", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_categories: [],
+            f_models: [],
+         });
+         expect(helper.hasActiveFilters()).toBe(false);
+      });
+   });
+
+   describe("getActiveFiltersCount", () => {
+      it("returns 0 when no filters are set", () => {
+         const helper = new LibraryEntryFiltersHelper({});
+         expect(helper.getActiveFiltersCount()).toBe(0);
+      });
+
+      it("returns 1 when only search is set", () => {
+         const helper = new LibraryEntryFiltersHelper({ f_search: "hello" });
+         expect(helper.getActiveFiltersCount()).toBe(1);
+      });
+
+      it("returns 1 when only categories are set", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_categories: ["cat1"],
+         });
+         expect(helper.getActiveFiltersCount()).toBe(1);
+      });
+
+      it("returns 1 when only models are set", () => {
+         const helper = new LibraryEntryFiltersHelper({ f_models: ["model1"] });
+         expect(helper.getActiveFiltersCount()).toBe(1);
+      });
+
+      it("returns 2 when search and categories are set", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+         });
+         expect(helper.getActiveFiltersCount()).toBe(2);
+      });
+
+      it("returns 3 when all filters are set", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+            f_models: ["model1"],
+         });
+         expect(helper.getActiveFiltersCount()).toBe(3);
+      });
+
+      it("returns 0 when filters are empty values", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "",
+            f_categories: [],
+            f_models: [],
+         });
+         expect(helper.getActiveFiltersCount()).toBe(0);
+      });
+   });
+
+   describe("resetFilters", () => {
+      it("clears all filters", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+            f_models: ["model1"],
+         });
+
+         helper.resetFilters();
+
+         expect(helper.getSearch()).toBe("");
+         expect(helper.getCategories()).toEqual([]);
+         expect(helper.getModels()).toEqual([]);
+      });
+
+      it("leaves hasActiveFilters as false after reset", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+            f_models: ["model1"],
+         });
+
+         helper.resetFilters();
+
+         expect(helper.hasActiveFilters()).toBe(false);
+      });
+
+      it("leaves getActiveFiltersCount as 0 after reset", () => {
+         const helper = new LibraryEntryFiltersHelper({
+            f_search: "hello",
+            f_categories: ["cat1"],
+            f_models: ["model1"],
+         });
+
+         helper.resetFilters();
+
+         expect(helper.getActiveFiltersCount()).toBe(0);
+      });
+
+      it("is a no-op on already empty filters", () => {
+         const helper = new LibraryEntryFiltersHelper({});
+
+         helper.resetFilters();
+
+         expect(helper.getSearch()).toBe("");
+         expect(helper.getCategories()).toEqual([]);
+         expect(helper.getModels()).toEqual([]);
+      });
+   });
 });
 
 describe("useLibraryEntryFiltersContex tests", () => {
@@ -80,7 +226,7 @@ describe("useLibraryEntryFiltersContex tests", () => {
    });
 
    it("useLibraryEntryFiltersContex - within a Provider - the provided context value - test", () => {
-      const filters: DLibrarySearchParamsFiltersType = {
+      const filters: DTemplatesSearchParamsFiltersType = {
          f_search: "test",
          f_categories: ["cat1"],
          f_models: ["model1"],
