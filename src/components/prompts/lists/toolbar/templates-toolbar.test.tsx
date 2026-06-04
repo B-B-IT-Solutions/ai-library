@@ -18,10 +18,6 @@ const assertRendered = () => {
 };
 
 describe("TemplatesToolbar rendering tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
    it("rendered - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
