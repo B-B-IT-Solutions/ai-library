@@ -29,9 +29,7 @@ const assertRendered = () => {
 const assertContextMenuRendered = () => {
    const viewBtn = screen.getByTestId("view-prompt-menu-item");
    const editBtn = screen.getByTestId("edit-prompt-menu-item");
-   const addToCollectionBtn = screen.getByTestId(
-      "show-add-to-collection-dialog"
-   );
+   const addToCollectionBtn = screen.getByTestId("add-to-collection-menu-item");
    const downloadBtn = screen.getByTestId("download-prompt-menu-item");
    const deleteBtn = screen.getByTestId("delete-prompt-menu-item");
 
@@ -46,7 +44,7 @@ const assertContextMenuNotRendered = () => {
    const viewBtn = screen.queryByTestId("view-prompt-menu-item");
    const editBtn = screen.queryByTestId("edit-prompt-menu-item");
    const addToCollectionBtn = screen.queryByTestId(
-      "show-add-to-collection-dialog"
+      "add-to-collection-menu-item"
    );
    const downloadBtn = screen.queryByTestId("download-prompt-menu-item");
    const deleteBtn = screen.queryByTestId("delete-prompt-menu-item");
@@ -135,10 +133,10 @@ describe("MoreOptionsButton functionality tests", () => {
          assertAddToCollectionDialogNotRendered();
       });
 
-      const addToCollectionDialogMenuItem = screen.getByTestId(
-         "show-add-to-collection-dialog"
+      const addToCollecitonBtn = screen.getByTestId(
+         "add-to-collection-menu-item"
       );
-      userEvent.click(addToCollectionDialogMenuItem);
+      userEvent.click(addToCollecitonBtn);
 
       await waitFor(() => {
          assertAddToCollectionDialogRendered();

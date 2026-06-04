@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { FolderPlus, MoreVertical } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 
 import { AddToLibraryCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
    DropdownMenuContent,
-   DropdownMenuItem,
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
+import { AddPromptToCollectionButton } from "./add-prompt-to-collection-button";
 import { DeletePromptButton } from "./delete-prompt-button";
 import { DownloadPromptButton } from "./download-prompt-button";
 import { EditPromptButton } from "./edit-prompt-button";
@@ -45,14 +45,9 @@ export const MoreOptionsButton = ({ prompt, collections }: Props) => {
             <DropdownMenuContent align="end">
                <ViewPromptButton prompt={prompt} />
                <EditPromptButton prompt={prompt} asMenuItem={true} />
-               <DropdownMenuItem
+               <AddPromptToCollectionButton
                   onClick={() => setShowAddToCollectionDialog(true)}
-                  className="cursor-pointer hover:bg-accent"
-                  data-testid="show-add-to-collection-dialog"
-               >
-                  <FolderPlus className="mr-2 h-4 w-4" />
-                  Sammlungen
-               </DropdownMenuItem>
+               />
                <DownloadPromptButton prompt={prompt} asMenuItem={true} />
                <DropdownMenuSeparator />
                <DeletePromptButton prompt={prompt} asMenuItem={true} />
