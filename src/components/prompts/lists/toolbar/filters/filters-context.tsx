@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { isEmpty } from "es-toolkit/compat";
 
 import { DTemplatesSearchParamsFiltersType } from "../../../search-params";
 
@@ -35,6 +36,34 @@ export class LibraryEntryFiltersHelper {
 
    getModels(): string[] {
       return this.filters.f_models || [];
+   }
+
+   hasActiveFilters(): boolean {
+      return (
+         !isEmpty(this.getSearch()) ||
+         !isEmpty(this.getCategories()) ||
+         !isEmpty(this.getModels())
+      );
+   }
+
+   getActiveFiltersCount(): number {
+      let count = 0;
+      if (!isEmpty(this.getSearch())) {
+         count++;
+      }
+      if (!isEmpty(this.getCategories())) {
+         count++;
+      }
+      if (!isEmpty(this.getModels())) {
+         count++;
+      }
+      return count;
+   }
+
+   resetFilters(): void {
+      this.setSearch("");
+      this.setCategories([]);
+      this.setModels([]);
    }
 }
 

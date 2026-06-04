@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -8,7 +8,7 @@ import { Input } from "@/components/shadcn/input";
 
 import { useLibraryEntryFiltersContext } from "./filters-context";
 
-export const SearchFilter: FC = () => {
+export const SearchFilter = () => {
    const filtersContext = useLibraryEntryFiltersContext();
    const [search, setSearch] = useState(filtersContext.getSearch());
 

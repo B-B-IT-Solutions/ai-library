@@ -1,7 +1,6 @@
 "use client";
 
-import { FC, useMemo, useState } from "react";
-import { isEmpty } from "es-toolkit/compat";
+import { useState } from "react";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
@@ -28,7 +27,7 @@ type Props = {
    models: string[];
 };
 
-export const LibraryFilters: FC<Props> = ({ categories, models }) => {
+export const LibraryFilters = ({ categories, models }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
@@ -47,25 +46,12 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
    };
 
    const resetFilters = () => {
-      setFilters({ f_search: "", f_categories: [], f_models: [] });
-      setShowFilters(false);
+      filtersContext.resetFilters();
+      applyFilters();
    };
 
-   const hasActiveFilters = useMemo(() => {
-      return (
-         !isEmpty(filters.f_search) ||
-         !isEmpty(filters.f_categories) ||
-         !isEmpty(filters.f_models)
-      );
-   }, [filters]);
-
-   const activeFilterCount = useMemo(() => {
-      let count = 0;
-      if (!isEmpty(filters.f_search)) count++;
-      if (!isEmpty(filters.f_categories)) count++;
-      if (!isEmpty(filters.f_models)) count++;
-      return count;
-   }, [filters]);
+   const hasActiveFilters = filtersContext.hasActiveFilters();
+   const activeFilterCount = filtersContext.getActiveFiltersCount();
 
    const renderFilters = () => {
       return (
