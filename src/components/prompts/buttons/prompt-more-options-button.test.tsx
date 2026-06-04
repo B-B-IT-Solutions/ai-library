@@ -19,7 +19,7 @@ const getTemplateCollectionIdsMock =
    >;
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("more-options-btn");
+   const btn = screen.getByTestId("prompt-more-options-btn");
    const triggerBtn = screen.getByTestId("more-options-trigger-btn");
 
    assertInDocument(btn);

@@ -13,7 +13,7 @@ const assertRendered = () => {
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("use-prompt-btn");
-   const moreOptionsBtn = screen.getByTestId("more-options-btn");
+   const moreOptionsBtn = screen.getByTestId("prompt-more-options-btn");
 
    assertInDocument(entryCard);
    assertInDocument(viewDetailsTitle);

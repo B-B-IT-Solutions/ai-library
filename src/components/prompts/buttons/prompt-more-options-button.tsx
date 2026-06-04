@@ -31,7 +31,7 @@ export const PromptMoreOptionsButton = ({ prompt, collections }: Props) => {
 
    return (
       <>
-         <DropdownMenu data-testid="more-options-btn">
+         <DropdownMenu data-testid="prompt-more-options-btn">
             <DropdownMenuTrigger asChild={true}>
                <Button
                   variant="outline"

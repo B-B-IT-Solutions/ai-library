@@ -10,7 +10,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
-   MoreOptionsButton,
+   PromptMoreOptionsButton,
    UseTemplateButton,
 } from "../../buttons";
 import { viewPromptUrl } from "../../utils";
@@ -84,7 +84,10 @@ export const TemplateItemCard = ({
 
             <div className="flex gap-2 pt-2">
                <UseTemplateButton descriptor={prompt} className="flex-1" />
-               <MoreOptionsButton prompt={prompt} collections={collections} />
+               <PromptMoreOptionsButton
+                  prompt={prompt}
+                  collections={collections}
+               />
             </div>
          </CardContent>
 
