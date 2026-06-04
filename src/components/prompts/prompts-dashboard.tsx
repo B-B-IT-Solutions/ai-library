@@ -79,7 +79,6 @@ export const PromptsDashboard = async () => {
             <TemplatesToolbar
                viewMode={viewMode}
                sortBy={sortBy}
-               filters={filters}
                categories={categories}
                models={models}
             />
