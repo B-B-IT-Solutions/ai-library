@@ -56,8 +56,7 @@ describe("TemplateItems rendering tests", () => {
    });
 
    it("prompts - empty - test", async () => {
-      const page = dtestData.dPromptsPage();
-      page.content = [];
+      const page = dtestData.dPromptsPage(0);
       getPromptsPageMock.mockResolvedValue(page);
       getCollectionsMock.mockResolvedValue([]);
 
@@ -78,8 +77,7 @@ describe("TemplateItems rendering tests", () => {
    });
 
    it("prompts - filter empty - test", async () => {
-      const page = dtestData.dPromptsPage();
-      page.content = [];
+      const page = dtestData.dPromptsPage(0);
       getPromptsPageMock.mockResolvedValue(page);
       getCollectionsMock.mockResolvedValue([]);
 
