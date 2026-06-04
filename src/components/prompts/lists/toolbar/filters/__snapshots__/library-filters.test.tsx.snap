@@ -330,7 +330,7 @@ exports[`LibraryFilters rendering tests LibraryFilters - filters defined - test 
                 </label>
               </div>
               <div
-                class="max-h-[200px] space-y-2 overflow-y-auto"
+                class="max-h-50 space-y-2 overflow-y-auto"
               >
                 <div
                   class="flex items-center space-x-2"

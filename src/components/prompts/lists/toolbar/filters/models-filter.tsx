@@ -76,7 +76,7 @@ export const ModelsFilter = ({ models }: Props) => {
             <Label className="text-sm font-medium">Modelle</Label>
             {badge()}
          </div>
-         <div className="max-h-[200px] space-y-2 overflow-y-auto">
+         <div className="max-h-50 space-y-2 overflow-y-auto">
             {map(models, renderModel)}
          </div>
       </div>
