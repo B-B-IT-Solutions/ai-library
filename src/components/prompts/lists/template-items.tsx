@@ -27,7 +27,6 @@ type Props = {
 
 export const TemplateItems = ({
    viewMode,
-
    sortBy,
    filters,
    collectionId,
@@ -39,7 +38,7 @@ export const TemplateItems = ({
          sort: resolveSort(sortBy),
       });
 
-   const entries = useMemo(
+   const prompts = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
       [data]
    );
@@ -63,6 +62,38 @@ export const TemplateItems = ({
       );
    }
 
+   if (isEmpty(prompts)) {
+      if (hasActiveFilters) {
+         return (
+            <div
+               className="flex flex-col items-center justify-center py-16 text-center"
+               data-testid="prompt-items-filter-empty"
+            >
+               <p className="text-lg font-medium text-slate-700">
+                  Keine Ergebnisse für diese Filter
+               </p>
+               <p className="mt-2 text-sm text-slate-500">
+                  Passe deine Filterkriterien an oder setze sie zurück.
+               </p>
+            </div>
+         );
+      }
+      return (
+         <div
+            className="flex flex-col items-center justify-center py-16 text-center"
+            data-testid="prompt-items-empty"
+         >
+            <p className="text-lg font-medium text-slate-700">
+               Noch keine Prompts
+            </p>
+            <p className="mt-2 text-sm text-slate-500">
+               Erstelle deinen ersten Prompt und baue deine persönliche
+               Bibliothek auf.
+            </p>
+         </div>
+      );
+   }
+
    if (viewMode === DListViewMode.LIST) {
       return (
          <InfiniteScroll
@@ -72,10 +103,9 @@ export const TemplateItems = ({
             threshold={0.1}
          >
             <TemplateItemsList
-               descriptors={entries}
+               descriptors={prompts}
                collections={collections}
                collectionId={collectionId}
-               hasActiveFilters={hasActiveFilters}
             />
          </InfiniteScroll>
       );
@@ -89,10 +119,9 @@ export const TemplateItems = ({
          threshold={0.1}
       >
          <TemplateItemsGrid
-            descriptors={entries}
+            descriptors={prompts}
             collections={collections}
             collectionId={collectionId}
-            hasActiveFilters={hasActiveFilters}
          />
       </InfiniteScroll>
    );

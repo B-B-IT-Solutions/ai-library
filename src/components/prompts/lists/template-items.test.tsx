@@ -33,6 +33,16 @@ const assertListRendered = () => {
    assertInDocument(entries);
 };
 
+const assertPromptsEmptyRendered = () => {
+   const empty = screen.getByTestId("prompt-items-empty");
+   assertInDocument(empty);
+};
+
+const assertPromptsFilterEmptyRendered = () => {
+   const empty = screen.getByTestId("prompt-items-filter-empty");
+   assertInDocument(empty);
+};
+
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DPromptsPageQuery
 ) => {
@@ -41,18 +51,61 @@ const assertGetLibraryEntriesPageCalled = (
 };
 
 describe("TemplateItems rendering tests", () => {
-   beforeAll(() => {
-      const page = dtestData.dPromptsPage();
-
-      getCollectionsMock.mockResolvedValue([]);
-      getPromptsPageMock.mockResolvedValue(page);
-   });
-
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
+   it("prompts - empty - test", async () => {
+      const page = dtestData.dPromptsPage();
+      page.content = [];
+      getPromptsPageMock.mockResolvedValue(page);
+      getCollectionsMock.mockResolvedValue([]);
+
+      const { container } = renderWithRouter(
+         <TemplateItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={{}}
+         />
+      );
+
+      await waitFor(() => {
+         assertPromptsEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("prompts - filter empty - test", async () => {
+      const page = dtestData.dPromptsPage();
+      page.content = [];
+      getPromptsPageMock.mockResolvedValue(page);
+      getCollectionsMock.mockResolvedValue([]);
+
+      const filters = dtestData.dPromptsFilter();
+
+      const { container } = renderWithRouter(
+         <TemplateItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={filters}
+         />
+      );
+
+      await waitFor(() => {
+         assertPromptsFilterEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("view grid - test", async () => {
+      const page = dtestData.dPromptsPage();
+      getPromptsPageMock.mockResolvedValue(page);
+      getCollectionsMock.mockResolvedValue([]);
+
       const filters = dtestData.dPromptsFilter();
       const collection = dtestData.dCollection();
 
@@ -84,6 +137,10 @@ describe("TemplateItems rendering tests", () => {
    });
 
    it("view list - test", async () => {
+      const page = dtestData.dPromptsPage();
+      getPromptsPageMock.mockResolvedValue(page);
+      getCollectionsMock.mockResolvedValue([]);
+
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(

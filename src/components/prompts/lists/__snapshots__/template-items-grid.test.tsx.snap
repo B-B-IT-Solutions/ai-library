@@ -1297,23 +1297,3 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
   </div>
 </div>
 `;
-
-exports[`TemplateItemsGrid rendering tests prompts - empty - test 1`] = `
-<div>
-  <div
-    class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="template-items-empty"
-  >
-    <p
-      class="text-lg font-medium text-slate-700"
-    >
-      Noch keine Prompts
-    </p>
-    <p
-      class="mt-2 text-sm text-slate-500"
-    >
-      Erstelle deinen ersten Prompt und baue deine persönliche Bibliothek auf.
-    </p>
-  </div>
-</div>
-`;
