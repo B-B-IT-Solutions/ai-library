@@ -25,7 +25,7 @@ type Props = {
    collections: DCollection[];
 };
 
-export const MoreOptionsButton = ({ prompt, collections }: Props) => {
+export const PromptMoreOptionsButton = ({ prompt, collections }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 

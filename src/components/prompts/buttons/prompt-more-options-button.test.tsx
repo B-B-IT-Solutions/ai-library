@@ -11,7 +11,7 @@ import {
 
 import { getTemplateCollectionIds } from "@/data/actions/collection";
 
-import { MoreOptionsButton } from "./more-options-button";
+import { PromptMoreOptionsButton } from "./prompt-more-options-button";
 
 const getTemplateCollectionIdsMock =
    getTemplateCollectionIds as jest.MockedFunction<
@@ -66,13 +66,13 @@ const assertAddToCollectionDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("MoreOptionsButton rendering tests", () => {
+describe("PromptMoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
       const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       const { container } = renderWithReactQuery(
-         <MoreOptionsButton prompt={prompt} collections={collections} />
+         <PromptMoreOptionsButton prompt={prompt} collections={collections} />
       );
 
       await waitFor(() => {
@@ -84,7 +84,7 @@ describe("MoreOptionsButton rendering tests", () => {
    });
 });
 
-describe("MoreOptionsButton functionality tests", () => {
+describe("PromptMoreOptionsButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -92,7 +92,7 @@ describe("MoreOptionsButton functionality tests", () => {
    it("trigger clicked - test", async () => {
       const prompt = dtestData.dPrompt();
       renderWithReactQuery(
-         <MoreOptionsButton prompt={prompt} collections={[]} />
+         <PromptMoreOptionsButton prompt={prompt} collections={[]} />
       );
 
       await waitFor(() => {
@@ -116,7 +116,7 @@ describe("MoreOptionsButton functionality tests", () => {
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <MoreOptionsButton prompt={prompt} collections={collections} />
+         <PromptMoreOptionsButton prompt={prompt} collections={collections} />
       );
 
       await waitFor(() => {
