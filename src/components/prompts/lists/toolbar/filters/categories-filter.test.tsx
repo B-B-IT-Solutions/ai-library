@@ -22,12 +22,24 @@ const assertCategoriesEmptyRendered = () => {
    assertInDocument(empty);
 };
 
+const assertOptionChecked = (option: string) => {
+   const checkBox = screen.getByTestId(`category-${option}`);
+   assertInDocument(checkBox);
+   expect(checkBox).toBeChecked();
+};
+
+const assertOptionNotChecked = (option: string) => {
+   const checkBox = screen.getByTestId(`category-${option}`);
+   assertInDocument(checkBox);
+   expect(checkBox).not.toBeChecked();
+};
+
 describe("CategoriesFilter rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("CategoriesFilter - categories empty - test", async () => {
+   it("categories empty - test", async () => {
       const { container } = renderWithRouter(
          <CategoriesFilter categories={[]} />,
          "/",
@@ -41,7 +53,7 @@ describe("CategoriesFilter rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CategoriesFilter - f_categories cat-1 - test", async () => {
+   it("f_categories cat-1 - test", async () => {
       const categories = dtestData.dTemplateCategories();
 
       const { container } = renderWithRouter(
@@ -52,8 +64,7 @@ describe("CategoriesFilter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         const cat1Checkbox = screen.getByTestId("category-cat-1");
-         expect(cat1Checkbox).toBeChecked();
+         assertOptionChecked("cat-1");
       });
 
       expect(container).toMatchSnapshot();
@@ -65,7 +76,7 @@ describe("CategoriesFilter functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("CategoriesFilter - category selected - test", async () => {
+   it("category selected - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const onUrlUpdateFn = jest.fn();
 
@@ -78,6 +89,7 @@ describe("CategoriesFilter functinality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertOptionNotChecked("cat-1");
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
@@ -85,14 +97,15 @@ describe("CategoriesFilter functinality tests", () => {
       await userEvent.click(cat1);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         assertOptionChecked("cat-1");
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
       expect(lastCall.queryString).toContain("f_categories=cat-1");
    });
 
-   it("CategoriesFilter - category unselected - test", async () => {
+   it("category unselected - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const onUrlUpdateFn = jest.fn();
 
@@ -105,6 +118,7 @@ describe("CategoriesFilter functinality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertOptionChecked("cat-1");
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
@@ -112,7 +126,8 @@ describe("CategoriesFilter functinality tests", () => {
       await userEvent.click(cat1);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         assertOptionNotChecked("cat-1");
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;

@@ -25,7 +25,7 @@ describe("SearchFilter rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("SearchFilter - search test-1 - test", async () => {
+   it("search test-1 - test", async () => {
       const { container } = renderWithRouter(
          <SearchFilter />,
          "/",
