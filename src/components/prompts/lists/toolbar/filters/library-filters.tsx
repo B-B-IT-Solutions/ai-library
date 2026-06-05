@@ -79,7 +79,6 @@ export const LibraryFilters = ({ categories, models }: Props) => {
             <Button
                variant="outline"
                size="sm"
-               onClick={() => setShowFilters(!showFilters)}
                className="gap-2"
                data-testid="filters-trigger-btn"
             >
