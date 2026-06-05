@@ -183,88 +183,6 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
         class="flex items-center gap-4"
       >
         <div
-          class="flex items-center rounded-md border"
-          data-testid="view-toggle"
-        >
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
-            data-slot="button"
-            data-testid="grid-view-btn"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="18"
-                rx="2"
-                width="18"
-                x="3"
-                y="3"
-              />
-              <path
-                d="M3 9h18"
-              />
-              <path
-                d="M3 15h18"
-              />
-              <path
-                d="M9 3v18"
-              />
-              <path
-                d="M15 3v18"
-              />
-            </svg>
-          </button>
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
-            data-slot="button"
-            data-testid="list-view-btn"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-list h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 5h.01"
-              />
-              <path
-                d="M3 12h.01"
-              />
-              <path
-                d="M3 19h.01"
-              />
-              <path
-                d="M8 5h13"
-              />
-              <path
-                d="M8 12h13"
-              />
-              <path
-                d="M8 19h13"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
           data-slot="popover"
           data-testid="mock-react-popover-root"
         >
@@ -354,13 +272,88 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
           data-testid="mock-react-portal"
         />
       </div>
-      <span
-        class="text-sm text-slate-600"
+      <div
+        class="flex items-center rounded-md border"
+        data-testid="view-toggle"
       >
-        1
-         
-        Vorlage
-      </span>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
+          data-slot="button"
+          data-testid="grid-view-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="18"
+              rx="2"
+              width="18"
+              x="3"
+              y="3"
+            />
+            <path
+              d="M3 9h18"
+            />
+            <path
+              d="M3 15h18"
+            />
+            <path
+              d="M9 3v18"
+            />
+            <path
+              d="M15 3v18"
+            />
+          </svg>
+        </button>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
+          data-slot="button"
+          data-testid="list-view-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-list h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 5h.01"
+            />
+            <path
+              d="M3 12h.01"
+            />
+            <path
+              d="M3 19h.01"
+            />
+            <path
+              d="M8 5h13"
+            />
+            <path
+              d="M8 12h13"
+            />
+            <path
+              d="M8 19h13"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
     <div
       class="flex-1 overflow-y-auto px-8 py-6"
@@ -484,12 +477,12 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
               </button>
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="prompt-more-options-btn"
               >
                 <button
                   class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="dropdown-menu-btn"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
@@ -524,6 +517,36 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                 <div
                   data-testid="mock-react-dropdown-menu-portal"
                 />
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -673,12 +696,12 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
               </button>
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="prompt-more-options-btn"
               >
                 <button
                   class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="dropdown-menu-btn"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
@@ -713,6 +736,36 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                 <div
                   data-testid="mock-react-dropdown-menu-portal"
                 />
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -862,12 +915,12 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
               </button>
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="prompt-more-options-btn"
               >
                 <button
                   class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                   data-slot="dropdown-menu-trigger"
-                  data-testid="dropdown-menu-btn"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
@@ -902,6 +955,36 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                 <div
                   data-testid="mock-react-dropdown-menu-portal"
                 />
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
+              </div>
+              <div
+                data-slot="dialog"
+                data-testid="mock-react-dialog-root"
+              >
+                <div
+                  data-slot="dialog-portal"
+                  data-testid="mock-react-dialog-portal"
+                >
+                  <div
+                    class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                    data-slot="dialog-overlay"
+                    data-testid="mock-react-dialog-overlay"
+                  />
+                </div>
               </div>
             </div>
           </div>

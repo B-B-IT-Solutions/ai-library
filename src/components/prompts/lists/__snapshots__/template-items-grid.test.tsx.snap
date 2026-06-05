@@ -121,12 +121,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -161,6 +161,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
             <div
               data-testid="mock-react-dropdown-menu-portal"
             />
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -310,12 +340,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -350,6 +380,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
             <div
               data-testid="mock-react-dropdown-menu-portal"
             />
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -499,12 +559,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -539,6 +599,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId defined - test 
             <div
               data-testid="mock-react-dropdown-menu-portal"
             />
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -698,12 +788,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -738,6 +828,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
             <div
               data-testid="mock-react-dropdown-menu-portal"
             />
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -887,12 +1007,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -927,6 +1047,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
             <div
               data-testid="mock-react-dropdown-menu-portal"
             />
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -1076,12 +1226,12 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
           </button>
           <div
             data-slot="dropdown-menu"
-            data-testid="mock-react-dropdown-menu-root"
+            data-testid="prompt-more-options-btn"
           >
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="dropdown-menu-trigger"
-              data-testid="dropdown-menu-btn"
+              data-testid="more-options-trigger-btn"
             >
               <svg
                 aria-hidden="true"
@@ -1117,6 +1267,36 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
               data-testid="mock-react-dropdown-menu-portal"
             />
           </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+          <div
+            data-slot="dialog"
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -1150,26 +1330,6 @@ exports[`TemplateItemsGrid rendering tests prompt - collectionId undefined - tes
         </div>
       </div>
     </div>
-  </div>
-</div>
-`;
-
-exports[`TemplateItemsGrid rendering tests prompts - empty - test 1`] = `
-<div>
-  <div
-    class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="template-items-empty"
-  >
-    <p
-      class="text-lg font-medium text-slate-600"
-    >
-      Keine Vorlagen gefunden
-    </p>
-    <p
-      class="mt-2 text-sm text-slate-500"
-    >
-      Versuchen Sie, Ihre Filterkriterien anzupassen
-    </p>
   </div>
 </div>
 `;

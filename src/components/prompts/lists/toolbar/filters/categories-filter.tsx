@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -14,7 +14,7 @@ type Props = {
    categories: string[];
 };
 
-export const CategoriesFilter: FC<Props> = ({ categories }) => {
+export const CategoriesFilter = ({ categories }: Props) => {
    const filtersContext = useLibraryEntryFiltersContext();
    const [f_categories, setCategories] = useState(
       filtersContext.getCategories()

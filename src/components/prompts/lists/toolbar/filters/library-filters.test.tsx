@@ -27,11 +27,13 @@ const assertFiltersRendered = () => {
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
    const applyBtn = screen.getByTestId("apply-filters-btn");
+   const resetBtn = screen.getByTestId("reset-btn");
 
    assertInDocument(search);
    assertInDocument(categories);
    assertInDocument(models);
    assertInDocument(applyBtn);
+   assertInDocument(resetBtn);
 };
 
 const assertFiltersNotRendered = () => {
@@ -56,7 +58,7 @@ describe("LibraryFilters rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("LibraryFilters - filters empty - test", async () => {
+   it("filters empty - test", async () => {
       const url = "/templates";
       const searchParams = "";
       const { container } = renderWithRouter(
@@ -80,7 +82,7 @@ describe("LibraryFilters rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryFilters - filters defined - test", async () => {
+   it("filters defined - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
@@ -113,7 +115,7 @@ describe("LibraryFilters functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("LibraryFilters - search filter input - test", async () => {
+   it("search filter input - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
@@ -163,7 +165,7 @@ describe("LibraryFilters functinality tests", () => {
       expect(event.options).toEqual(expectedEvent.options);
    });
 
-   it("LibraryFilters - category filters - test", async () => {
+   it("category filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
@@ -211,7 +213,7 @@ describe("LibraryFilters functinality tests", () => {
       expect(event.options).toEqual(expectedEvent.options);
    });
 
-   it("LibraryFilters - model filters - test", async () => {
+   it("model filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 

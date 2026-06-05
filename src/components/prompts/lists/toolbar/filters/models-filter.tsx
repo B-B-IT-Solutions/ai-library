@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -14,7 +14,7 @@ type Props = {
    models: string[];
 };
 
-export const ModelsFilter: FC<Props> = ({ models }) => {
+export const ModelsFilter = ({ models }: Props) => {
    const filtersContext = useLibraryEntryFiltersContext();
    const [f_models, setModels] = useState(filtersContext.getModels());
 
@@ -76,7 +76,7 @@ export const ModelsFilter: FC<Props> = ({ models }) => {
             <Label className="text-sm font-medium">Modelle</Label>
             {badge()}
          </div>
-         <div className="max-h-[200px] space-y-2 overflow-y-auto">
+         <div className="max-h-50 space-y-2 overflow-y-auto">
             {map(models, renderModel)}
          </div>
       </div>

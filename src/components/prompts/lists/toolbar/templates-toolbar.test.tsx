@@ -1,53 +1,31 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { DListViewMode } from "@/data/types/domain/common";
+import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
 import { TemplatesToolbar } from "./templates-toolbar";
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("templates-toolbar");
    const filters = screen.getByTestId("library-entry-filters-trigger");
-   const viewToggle = screen.getByTestId("view-toggle");
    const sortBy = screen.getByTestId("sort-by-select");
+   const viewToggle = screen.getByTestId("view-toggle");
 
    assertInDocument(toolbar);
    assertInDocument(filters);
-   assertInDocument(viewToggle);
    assertInDocument(sortBy);
+   assertInDocument(viewToggle);
 };
 
 describe("TemplatesToolbar rendering tests", () => {
-   it("totalEntries 1 - test", async () => {
+   it("rendered - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
          <TemplatesToolbar
             viewMode={DListViewMode.GRID}
-            filters={filters}
-            categories={categories}
-            models={models}
-         />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("totalEntries 5 - test", async () => {
-      const categories = dtestData.dTemplateCategories();
-      const models = dtestData.dTemplateModels();
-      const filters = dtestData.dPromptsFilter();
-
-      const { container } = renderWithRouter(
-         <TemplatesToolbar
-            viewMode={DListViewMode.GRID}
-            filters={filters}
+            sortBy={DListSortByMode.DATE_DESC}
             categories={categories}
             models={models}
          />

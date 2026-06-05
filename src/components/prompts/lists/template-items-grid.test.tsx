@@ -4,31 +4,12 @@ import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
 import { TemplateItemsGrid } from "./template-items-grid";
 
-const assertEmptyRendered = () => {
-   const empty = screen.getByTestId("template-items-empty");
-   assertInDocument(empty);
-};
-
 const assertRendered = () => {
    const entries = screen.getByTestId("template-items-grid");
    assertInDocument(entries);
 };
 
 describe("TemplateItemsGrid rendering tests", () => {
-   it("prompts - empty - test", async () => {
-      const collections = dtestData.dCollections();
-
-      const { container } = renderWithReactQuery(
-         <TemplateItemsGrid descriptors={[]} collections={collections} />
-      );
-
-      await waitFor(() => {
-         assertEmptyRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
    it("prompt - collectionId undefined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();

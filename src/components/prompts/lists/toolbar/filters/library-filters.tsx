@@ -1,10 +1,10 @@
 "use client";
 
-import { FC, useMemo, useState } from "react";
-import { isEmpty } from "es-toolkit/compat";
+import { useState } from "react";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
    Popover,
@@ -27,7 +27,7 @@ type Props = {
    models: string[];
 };
 
-export const LibraryFilters: FC<Props> = ({ categories, models }) => {
+export const LibraryFilters = ({ categories, models }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
@@ -45,13 +45,13 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
       setShowFilters(false);
    };
 
-   const hasActiveFilters = useMemo(() => {
-      return (
-         !isEmpty(filters.f_search) ||
-         !isEmpty(filters.f_categories) ||
-         !isEmpty(filters.f_models)
-      );
-   }, [filters]);
+   const resetFilters = () => {
+      filtersContext.resetFilters();
+      applyFilters();
+   };
+
+   const hasActiveFilters = filtersContext.hasActiveFilters();
+   const activeFilterCount = filtersContext.getActiveFiltersCount();
 
    const renderFilters = () => {
       return (
@@ -61,8 +61,9 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
                   <Button
                      variant="ghost"
                      size="sm"
-                     // onClick={resetFilters}
+                     onClick={resetFilters}
                      className="h-8 px-2 text-xs"
+                     data-testid="reset-btn"
                   >
                      <X className="mr-1 h-3 w-3" />
                      Zurücksetzen
@@ -109,6 +110,11 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
             >
                <Filter className="h-4 w-4" />
                Filter
+               {activeFilterCount > 0 && (
+                  <Badge variant="secondary" className="ml-1 h-5 px-1.5">
+                     {activeFilterCount}
+                  </Badge>
+               )}
                {triggerBtnIcon()}
             </Button>
          </PopoverTrigger>
