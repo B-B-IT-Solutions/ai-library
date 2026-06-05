@@ -224,4 +224,38 @@ describe("LibraryFilters functinality tests", () => {
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
       expect(lastCall.queryString).toContain("f_models=mod-2,mod-3");
    });
+
+   it("reset btn clicked - test", async () => {
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+
+      const url = "/templates";
+      const searchParams =
+         "f_categories=cat-1&f_models=mod-1&f_search=test-123";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(
+         <LibraryFilters categories={categories} models={models} />,
+         url,
+         searchParams,
+         onUrlUpdateFn
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+      });
+
+      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(triggerBtn);
+
+      const resetBtn = screen.getByTestId("reset-btn");
+      await userEvent.click(resetBtn);
+
+      await waitFor(() => {
+         expect(onUrlUpdateFn).toHaveBeenCalled();
+      });
+
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).toContain("");
+   });
 });
