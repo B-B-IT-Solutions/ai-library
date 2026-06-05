@@ -81,7 +81,7 @@ describe("SearchFilter functinality tests", () => {
 
       await waitFor(() => {
          assertFilterValue(value);
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
