@@ -63,6 +63,7 @@ export const LibraryFilters = ({ categories, models }: Props) => {
                      size="sm"
                      onClick={resetFilters}
                      className="h-8 px-2 text-xs"
+                     data-testid="reset-btn"
                   >
                      <X className="mr-1 h-3 w-3" />
                      Zurücksetzen
