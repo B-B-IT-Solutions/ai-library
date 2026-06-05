@@ -75,23 +75,30 @@ export const LibraryFilters = ({ categories, models }: Props) => {
 
    return (
       <Popover open={showFilters} onOpenChange={setShowFilters}>
-         <PopoverTrigger asChild={true}>
-            <Button
-               variant="outline"
-               size="sm"
-               className="gap-2"
-               data-testid="filters-trigger-btn"
-            >
-               <Filter className="h-4 w-4" />
-               Filter
-               {filtersCount > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-4 w-4">
-                     {filtersCount}
-                  </Badge>
-               )}
-               {triggerBtnIcon()}
-            </Button>
-         </PopoverTrigger>
+         <div className="relative inline-flex">
+            <PopoverTrigger asChild={true}>
+               <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  data-testid="filters-trigger-btn"
+               >
+                  <Filter className="h-4 w-4" />
+                  Filter
+                  {triggerBtnIcon()}
+               </Button>
+            </PopoverTrigger>
+
+            {filtersCount > 0 && (
+               <Badge
+                  variant="secondary"
+                  className="absolute -top-1 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full p-0 text-xs"
+                  data-testid="count-badge"
+               >
+                  {filtersCount}
+               </Badge>
+            )}
+         </div>
          <PopoverContent>{renderFilters()}</PopoverContent>
       </Popover>
    );

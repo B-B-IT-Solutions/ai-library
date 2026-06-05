@@ -44,6 +44,16 @@ const assertFiltersNotRendered = () => {
    assertNotInDocument(models);
 };
 
+const assertBadgeRendered = () => {
+   const badge = screen.getByTestId("count-badge");
+   assertInDocument(badge);
+};
+
+const assertBadgeNotRendered = () => {
+   const badge = screen.queryByTestId("count-badge");
+   assertNotInDocument(badge);
+};
+
 const assertCategoriesEmptyRendered = () => {
    const empty = screen.getByTestId("categories-empty");
    assertInDocument(empty);
@@ -66,6 +76,7 @@ describe("LibraryFilters rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFiltersNotRendered();
+         assertBadgeNotRendered();
       });
 
       const filtersBtn = screen.getByTestId("filters-trigger-btn");
@@ -93,6 +104,7 @@ describe("LibraryFilters rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFiltersNotRendered();
+         assertBadgeRendered();
       });
 
       const filtersBtn = screen.getByTestId("filters-trigger-btn");
@@ -100,6 +112,7 @@ describe("LibraryFilters rendering tests", () => {
 
       await waitFor(() => {
          assertFiltersRendered();
+         assertBadgeRendered();
       });
 
       expect(container).toMatchSnapshot();
