@@ -8,7 +8,13 @@ jest.mock("use-debounce", () => ({
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import {
+   assertChecked,
+   assertInDocument,
+   assertNotChecked,
+   dtestData,
+   renderWithRouter,
+} from "@tests";
 
 import { ModelsFilter } from "./models-filter";
 
@@ -22,12 +28,24 @@ const assertModelsEmptyRendered = () => {
    assertInDocument(empty);
 };
 
+const assertOptionChecked = (option: string) => {
+   const checkBox = screen.getByTestId(`model-${option}`);
+   assertInDocument(checkBox);
+   assertChecked(checkBox);
+};
+
+const assertOptionNotChecked = (option: string) => {
+   const checkBox = screen.getByTestId(`model-${option}`);
+   assertInDocument(checkBox);
+   assertNotChecked(checkBox);
+};
+
 describe("ModelsFilter rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("ModelsFilter - models empty - test", async () => {
+   it("models empty - test", async () => {
       const { container } = renderWithRouter(
          <ModelsFilter models={[]} />,
          "/",
@@ -41,7 +59,7 @@ describe("ModelsFilter rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("ModelsFilter - f_models mod-1 - test", async () => {
+   it("f_models mod-1 - test", async () => {
       const models = dtestData.dTemplateModels();
 
       const { container } = renderWithRouter(
@@ -52,8 +70,7 @@ describe("ModelsFilter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         const mod1Checkbox = screen.getByTestId("model-mod-1");
-         expect(mod1Checkbox).toBeChecked();
+         assertOptionChecked("mod-1");
       });
 
       expect(container).toMatchSnapshot();
@@ -65,7 +82,7 @@ describe("ModelsFilter functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("ModelsFilter - model selected - test", async () => {
+   it("model selected - test", async () => {
       const models = dtestData.dTemplateModels();
       const onUrlUpdateFn = jest.fn();
 
@@ -78,6 +95,7 @@ describe("ModelsFilter functinality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertOptionNotChecked("mod-1");
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
@@ -85,14 +103,15 @@ describe("ModelsFilter functinality tests", () => {
       await userEvent.click(mod1);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
+         assertOptionChecked("mod-1");
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
       expect(lastCall.queryString).toContain("f_models=mod-1");
    });
 
-   it("ModelsFilter - model unselected - test", async () => {
+   it("model unselected - test", async () => {
       const models = dtestData.dTemplateModels();
       const onUrlUpdateFn = jest.fn();
 
@@ -105,6 +124,7 @@ describe("ModelsFilter functinality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertOptionChecked("mod-1");
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
@@ -112,7 +132,8 @@ describe("ModelsFilter functinality tests", () => {
       await userEvent.click(mod1);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
+         assertOptionNotChecked("mod-1");
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
