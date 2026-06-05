@@ -1,25 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
+import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
-
-import { useLibraryEntryFiltersContext } from "./filters-context";
+import { templatesSearchParams } from "../../../search-params";
 
 type Props = {
    models: string[];
 };
 
 export const ModelsFilter = ({ models }: Props) => {
-   const filtersContext = useLibraryEntryFiltersContext();
-   const [f_models, setModels] = useState(filtersContext.getModels());
+   const [urlModels, setUrlModels] = useQueryState(
+      "f_models",
+      templatesSearchParams["f_models"]
+   );
+   const [f_models, setModels] = useState(urlModels);
 
-   const updateFiltersContext = useDebouncedCallback((values: string[]) => {
-      filtersContext.setModels(values);
+   useEffect(() => {
+      setModels(urlModels);
+   }, [urlModels]);
+
+   const updateUrl = useDebouncedCallback((values: string[]) => {
+      setUrlModels(values);
    }, 400);
 
    const toggleModel = (model: string) => {
@@ -29,7 +36,7 @@ export const ModelsFilter = ({ models }: Props) => {
          : [...f_models, model];
 
       setModels(newModels);
-      updateFiltersContext(newModels);
+      updateUrl(newModels);
    };
 
    const badge = () => {

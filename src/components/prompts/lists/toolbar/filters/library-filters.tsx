@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isEmpty } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
@@ -15,10 +16,6 @@ import { Separator } from "@/components/shadcn/separator";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
-import {
-   LibraryEntryFilterContext,
-   LibraryEntryFiltersHelper,
-} from "./filters-context";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
@@ -36,22 +33,17 @@ export const LibraryFilters = ({ categories, models }: Props) => {
       f_models: templatesSearchParams["f_models"],
    });
 
-   const [filtersContext] = useState<LibraryEntryFiltersHelper>(
-      new LibraryEntryFiltersHelper(filters)
-   );
-
-   const applyFilters = () => {
-      setFilters(filtersContext.getFilters());
-      setShowFilters(false);
-   };
-
    const resetFilters = () => {
-      filtersContext.resetFilters();
-      applyFilters();
+      setFilters({ f_search: "", f_categories: [], f_models: [] });
    };
 
-   const hasActiveFilters = filtersContext.hasActiveFilters();
-   const activeFilterCount = filtersContext.getActiveFiltersCount();
+   const activeFilterCount = [
+      !isEmpty(filters.f_search),
+      !isEmpty(filters.f_categories),
+      !isEmpty(filters.f_models),
+   ].filter(Boolean).length;
+
+   const hasActiveFilters = activeFilterCount > 0;
 
    const renderFilters = () => {
       return (
@@ -70,25 +62,13 @@ export const LibraryFilters = ({ categories, models }: Props) => {
                   </Button>
                )}
             </div>
-            <LibraryEntryFilterContext.Provider value={filtersContext}>
-               <div className="space-y-4">
-                  <SearchFilter />
-                  <Separator />
-                  <CategoriesFilter categories={categories} />
-                  <Separator />
-                  <ModelsFilter models={models} />
-               </div>
-               <div className="mt-3 flex justify-end">
-                  <Button
-                     variant="default"
-                     size="sm"
-                     onClick={applyFilters}
-                     data-testid="apply-filters-btn"
-                  >
-                     OK
-                  </Button>
-               </div>
-            </LibraryEntryFilterContext.Provider>
+            <div className="space-y-4">
+               <SearchFilter />
+               <Separator />
+               <CategoriesFilter categories={categories} />
+               <Separator />
+               <ModelsFilter models={models} />
+            </div>
          </div>
       );
    };

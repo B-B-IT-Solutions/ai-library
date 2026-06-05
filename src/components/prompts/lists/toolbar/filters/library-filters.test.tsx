@@ -26,13 +26,11 @@ const assertFiltersRendered = () => {
    const search = screen.getByTestId("search-filter");
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
-   const applyBtn = screen.getByTestId("apply-filters-btn");
    const resetBtn = screen.getByTestId("reset-btn");
 
    assertInDocument(search);
    assertInDocument(categories);
    assertInDocument(models);
-   assertInDocument(applyBtn);
    assertInDocument(resetBtn);
 };
 
@@ -40,12 +38,10 @@ const assertFiltersNotRendered = () => {
    const search = screen.queryByTestId("search-filter");
    const categories = screen.queryByTestId("categories-filter");
    const models = screen.queryByTestId("models-filter");
-   const applyBtn = screen.queryByTestId("apply-filters-btn");
 
    assertNotInDocument(search);
    assertNotInDocument(categories);
    assertNotInDocument(models);
-   assertNotInDocument(applyBtn);
 };
 
 const assertCategoriesEmptyRendered = () => {
@@ -144,25 +140,11 @@ describe("LibraryFilters functinality tests", () => {
       await userEvent.type(input, value);
 
       await waitFor(() => {
-         const inputValue = screen.getByDisplayValue(value);
-         assertInDocument(inputValue);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
 
-      const applyBtn = screen.getByTestId("apply-filters-btn");
-      await userEvent.click(applyBtn);
-
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?f_search=test-123",
-      };
-
-      await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
-      });
-
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).toContain("f_search=test-123");
    });
 
    it("category filters - test", async () => {
@@ -196,21 +178,12 @@ describe("LibraryFilters functinality tests", () => {
       const cat3 = screen.getByTestId("category-cat-3");
       await userEvent.click(cat3);
 
-      const applyBtn = screen.getByTestId("apply-filters-btn");
-      await userEvent.click(applyBtn);
-
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?f_categories=cat-2,cat-3",
-      };
-
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
 
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).toContain("f_categories=cat-2,cat-3");
    });
 
    it("model filters - test", async () => {
@@ -235,29 +208,20 @@ describe("LibraryFilters functinality tests", () => {
       const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
       await userEvent.click(triggerBtn);
 
-      const cat1 = screen.getByTestId("model-mod-1");
-      await userEvent.click(cat1);
+      const mod1 = screen.getByTestId("model-mod-1");
+      await userEvent.click(mod1);
 
-      const cat2 = screen.getByTestId("model-mod-2");
-      await userEvent.click(cat2);
+      const mod2 = screen.getByTestId("model-mod-2");
+      await userEvent.click(mod2);
 
-      const cat3 = screen.getByTestId("model-mod-3");
-      await userEvent.click(cat3);
-
-      const applyBtn = screen.getByTestId("apply-filters-btn");
-      await userEvent.click(applyBtn);
-
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?f_models=mod-2,mod-3",
-      };
+      const mod3 = screen.getByTestId("model-mod-3");
+      await userEvent.click(mod3);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
 
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).toContain("f_models=mod-2,mod-3");
    });
 });

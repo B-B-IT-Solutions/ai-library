@@ -1,57 +1,41 @@
-import { FC } from "react";
+jest.mock("use-debounce", () => ({
+   useDebouncedCallback: <T extends (...args: unknown[]) => unknown>(
+      callback: T
+   ) => {
+      return (...args: Parameters<T>) => callback(...args);
+   },
+}));
+
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import {
-   LibraryEntryFilterContext,
-   LibraryEntryFiltersHelper,
-} from "./filters-context";
 import { ModelsFilter } from "./models-filter";
-
-const filtersHelper = new LibraryEntryFiltersHelper({});
-
-type WrapperProps = {
-   models: string[];
-};
-
-const TestWrapper: FC<WrapperProps> = ({ models }) => {
-   return (
-      <LibraryEntryFilterContext.Provider value={filtersHelper}>
-         <ModelsFilter models={models} />
-      </LibraryEntryFilterContext.Provider>
-   );
-};
-
-const mockGetModels = (values: string[]) => {
-   return jest
-      .spyOn(LibraryEntryFiltersHelper.prototype, "getModels")
-      .mockImplementation(() => values);
-};
-
-const mockSetModels = () => {
-   return jest.spyOn(LibraryEntryFiltersHelper.prototype, "setModels");
-};
 
 const assertRendered = () => {
    const filter = screen.getByTestId("models-filter");
    assertInDocument(filter);
 };
 
-const assertCategoriesEmptyRendered = () => {
+const assertModelsEmptyRendered = () => {
    const empty = screen.getByTestId("models-empty");
    assertInDocument(empty);
 };
 
 describe("ModelsFilter rendering tests", () => {
-   it("ModelsFilter - models empty - test", async () => {
-      const getModelsFn = mockGetModels([]);
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
 
-      const { container } = renderWithRouter(<TestWrapper models={[]} />);
+   it("ModelsFilter - models empty - test", async () => {
+      const { container } = renderWithRouter(
+         <ModelsFilter models={[]} />,
+         "/",
+         ""
+      );
 
       await waitFor(() => {
-         assertCategoriesEmptyRendered();
-         expect(getModelsFn).toHaveBeenCalled();
+         assertModelsEmptyRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -59,13 +43,17 @@ describe("ModelsFilter rendering tests", () => {
 
    it("ModelsFilter - f_models mod-1 - test", async () => {
       const models = dtestData.dTemplateModels();
-      const getModelsFn = mockGetModels(["mod-1"]);
 
-      const { container } = renderWithRouter(<TestWrapper models={models} />);
+      const { container } = renderWithRouter(
+         <ModelsFilter models={models} />,
+         "/",
+         "f_models=mod-1"
+      );
 
       await waitFor(() => {
          assertRendered();
-         expect(getModelsFn).toHaveBeenCalled();
+         const mod1Checkbox = screen.getByTestId("model-mod-1");
+         expect(mod1Checkbox).toBeChecked();
       });
 
       expect(container).toMatchSnapshot();
@@ -79,45 +67,55 @@ describe("ModelsFilter functinality tests", () => {
 
    it("ModelsFilter - model selected - test", async () => {
       const models = dtestData.dTemplateModels();
-      const getModelsFn = mockGetModels([]);
-      const setModelsFn = mockSetModels();
+      const onUrlUpdateFn = jest.fn();
 
-      renderWithRouter(<TestWrapper models={models} />);
+      renderWithRouter(
+         <ModelsFilter models={models} />,
+         "/",
+         "",
+         onUrlUpdateFn
+      );
 
       await waitFor(() => {
          assertRendered();
-         expect(getModelsFn).toHaveBeenCalled();
-         expect(setModelsFn).not.toHaveBeenCalled();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const cat1 = screen.getByTestId("model-mod-1");
-      await userEvent.click(cat1);
+      const mod1 = screen.getByTestId("model-mod-1");
+      await userEvent.click(mod1);
 
       await waitFor(() => {
-         expect(setModelsFn).toHaveBeenCalledTimes(1);
-         expect(setModelsFn).toHaveBeenCalledWith(["mod-1"]);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
+
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).toContain("f_models=mod-1");
    });
 
    it("ModelsFilter - model unselected - test", async () => {
       const models = dtestData.dTemplateModels();
-      const getModelsFn = mockGetModels(["mod-1"]);
-      const setModelsFn = mockSetModels();
+      const onUrlUpdateFn = jest.fn();
 
-      renderWithRouter(<ModelsFilter models={models} />);
+      renderWithRouter(
+         <ModelsFilter models={models} />,
+         "/",
+         "f_models=mod-1",
+         onUrlUpdateFn
+      );
 
       await waitFor(() => {
          assertRendered();
-         expect(getModelsFn).toHaveBeenCalled();
-         expect(setModelsFn).not.toHaveBeenCalled();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const cat1 = screen.getByTestId("model-mod-1");
-      await userEvent.click(cat1);
+      const mod1 = screen.getByTestId("model-mod-1");
+      await userEvent.click(mod1);
 
       await waitFor(() => {
-         expect(setModelsFn).toHaveBeenCalledTimes(1);
-         expect(setModelsFn).toHaveBeenCalledWith([]);
+         expect(onUrlUpdateFn).toHaveBeenCalled();
       });
+
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).not.toContain("mod-1");
    });
 });
