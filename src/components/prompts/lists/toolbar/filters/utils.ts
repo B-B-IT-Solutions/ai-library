@@ -9,5 +9,6 @@ export const activeFiltersCount = (
       !isEmpty(filters.f_search),
       !isEmpty(filters.f_categories),
       !isEmpty(filters.f_models),
+      !isEmpty(filters.f_collectionIds),
    ].filter(Boolean).length;
 };

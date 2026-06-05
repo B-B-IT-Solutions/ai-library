@@ -47,7 +47,8 @@ export const TemplateItems = ({
       () =>
          !isEmpty(filters.search) ||
          !isEmpty(filters.categories) ||
-         !isEmpty(filters.models),
+         !isEmpty(filters.models) ||
+         !isEmpty(filters.collectionIds),
       [filters]
    );
 

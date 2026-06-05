@@ -6,6 +6,10 @@ jest.mock("use-debounce", () => ({
    },
 }));
 
+jest.mock("@/data/ts-queries/library", () => ({
+   useLoadCollections: jest.fn().mockReturnValue({ data: [] }),
+}));
+
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -24,11 +28,13 @@ const assertRendered = () => {
 
 const assertFiltersRendered = () => {
    const search = screen.getByTestId("search-filter");
+   const collectionsEmpty = screen.getByTestId("collections-empty");
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
    const resetBtn = screen.getByTestId("reset-btn");
 
    assertInDocument(search);
+   assertInDocument(collectionsEmpty);
    assertInDocument(categories);
    assertInDocument(models);
    assertInDocument(resetBtn);

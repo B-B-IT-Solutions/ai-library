@@ -24,19 +24,10 @@ export const SortBySelect: FC = () => {
          value={group}
          onValueChange={(value: DListSortByMode) => setGroup(value)}
       >
-         <SelectTrigger className="h-8 w-[180px]" data-testid="sort-by-select">
+         <SelectTrigger className="h-8 w-45" data-testid="sort-by-select">
             <SelectValue placeholder="Sortierung" />
          </SelectTrigger>
          <SelectContent>
-            <SelectItem
-               value={DListSortByMode.DATE_DESC}
-               data-testid="desc-date"
-            >
-               Neueste zuerst
-            </SelectItem>
-            <SelectItem value={DListSortByMode.DATE_ASC} data-testid="asc-date">
-               Älteste zuerst
-            </SelectItem>
             <SelectItem
                value={DListSortByMode.TITLE_ASC}
                data-testid="asc-title"
@@ -48,6 +39,15 @@ export const SortBySelect: FC = () => {
                data-testid="desc-title"
             >
                Title Z-A
+            </SelectItem>
+            <SelectItem
+               value={DListSortByMode.DATE_DESC}
+               data-testid="desc-date"
+            >
+               Neueste zuerst
+            </SelectItem>
+            <SelectItem value={DListSortByMode.DATE_ASC} data-testid="asc-date">
+               Älteste zuerst
             </SelectItem>
          </SelectContent>
       </Select>

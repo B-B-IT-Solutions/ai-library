@@ -20,6 +20,7 @@ import {
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
+import { CollectionsFilter } from "./collections-filter";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 import { activeFiltersCount } from "./utils";
@@ -36,10 +37,16 @@ export const LibraryFilters = ({ categories, models }: Props) => {
       f_search: templatesSearchParams["f_search"],
       f_categories: templatesSearchParams["f_categories"],
       f_models: templatesSearchParams["f_models"],
+      f_collectionIds: templatesSearchParams["f_collectionIds"],
    });
 
    const resetFilters = () => {
-      setFilters({ f_search: "", f_categories: [], f_models: [] });
+      setFilters({
+         f_search: "",
+         f_categories: [],
+         f_models: [],
+         f_collectionIds: [],
+      });
    };
 
    const filtersCount = activeFiltersCount(filters);
@@ -68,6 +75,8 @@ export const LibraryFilters = ({ categories, models }: Props) => {
             </div>
             <div className="space-y-4">
                <SearchFilter />
+               <Separator />
+               <CollectionsFilter />
                <Separator />
                <CategoriesFilter categories={categories} />
                <Separator />

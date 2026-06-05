@@ -1,99 +1,99 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { filter, includes, isEmpty } from "es-toolkit/compat";
 import { Folder } from "lucide-react";
-import { debounce, useQueryState } from "nuqs";
+import { useQueryState } from "nuqs";
+import { useDebouncedCallback } from "use-debounce";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
+import { Checkbox } from "@/components/shadcn/checkbox";
+import { Label } from "@/components/shadcn/label";
 import { useLoadCollections } from "@/data/ts-queries/library";
-import { cn } from "@/lib/utils";
+import { DCollection } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
 export const CollectionsFilter = () => {
-   const [f_collectionIds, setCollectionIds] = useQueryState(
+   const [urlCollections, setUrlCollections] = useQueryState(
       "f_collectionIds",
       templatesSearchParams["f_collectionIds"]
    );
+   const [f_collectionIds, setCollectionIds] = useState(urlCollections);
 
-   const { data: collections = [] } = useLoadCollections();
+   useEffect(() => {
+      setCollectionIds(urlCollections);
+   }, [urlCollections]);
+
+   const updateUrl = useDebouncedCallback((values: string[]) => {
+      setUrlCollections(values);
+   }, 400);
 
    const toggleCollection = (collectionId: string) => {
-      const isActive = includes(f_collectionIds, collectionId);
-      const newCollectionIds = isActive
+      const isSelected = includes(f_collectionIds, collectionId);
+      const newCollectionIds = isSelected
          ? filter(f_collectionIds, (id) => id !== collectionId)
          : [...f_collectionIds, collectionId];
 
-      setCollectionIds(newCollectionIds, {
-         limitUrlUpdates: debounce(400),
-      });
+      setCollectionIds(newCollectionIds);
+      updateUrl(newCollectionIds);
    };
 
-   return (
-      <>
-         <div className="flex flex-wrap items-center gap-2">
-            <DropdownMenu>
-               <DropdownMenuTrigger asChild>
-                  <Button
-                     variant={!isEmpty(f_collectionIds) ? "default" : "outline"}
-                     size="sm"
-                     className="gap-2"
-                  >
-                     <Folder className="h-4 w-4" />
-                     Sammlungen
-                     {!isEmpty(f_collectionIds) && (
-                        <Badge variant="secondary" className="ml-1 h-5 px-1.5">
-                           {f_collectionIds.length}
-                        </Badge>
-                     )}
-                  </Button>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent align="start" className="w-56">
-                  {collections.length === 0 ? (
-                     <div className="px-2 py-6 text-center text-sm text-slate-500">
-                        Keine Sammlungen vorhanden
-                     </div>
-                  ) : (
-                     collections.map((collection) => {
-                        const isActive = includes(
-                           f_collectionIds,
-                           collection.id
-                        );
-                        return (
-                           <DropdownMenuItem
-                              key={collection.id}
-                              onClick={() => toggleCollection(collection.id)}
-                              className={cn(
-                                 "cursor-pointer",
-                                 isActive && "bg-slate-100"
-                              )}
-                           >
-                              <div className="flex w-full items-center justify-between">
-                                 <div className="flex min-w-0 items-center gap-2">
-                                    <Folder
-                                       className="h-4 w-4 shrink-0"
-                                       style={{
-                                          color: collection.color,
-                                       }}
-                                    />
-                                    <span className="truncate">
-                                       {collection.name}
-                                    </span>
-                                 </div>
-                              </div>
-                           </DropdownMenuItem>
-                        );
-                     })
-                  )}
-               </DropdownMenuContent>
-            </DropdownMenu>
+   const { data: collections = [] } = useLoadCollections();
+
+   const badge = () => {
+      if (!isEmpty(f_collectionIds)) {
+         return (
+            <Badge variant="secondary" className="h-5 px-2 text-xs">
+               {f_collectionIds.length}
+            </Badge>
+         );
+      }
+   };
+
+   const renderCollection = (collection: DCollection) => {
+      const isSelected = includes(f_collectionIds, collection.id);
+      return (
+         <div key={collection.id} className="flex items-center space-x-2">
+            <Checkbox
+               id={`collection-${collection.id}`}
+               checked={isSelected}
+               onCheckedChange={() => toggleCollection(collection.id)}
+               data-testid={`collection-${collection.id}`}
+            />
+            <Label
+               htmlFor={`collection-${collection.id}`}
+               className="flex cursor-pointer items-center gap-1.5 text-sm font-normal"
+            >
+               <Folder
+                  className="h-3.5 w-3.5 shrink-0"
+                  style={{ color: collection.color }}
+               />
+               {collection.name}
+            </Label>
          </div>
-      </>
+      );
+   };
+
+   if (isEmpty(collections)) {
+      return (
+         <div
+            className="text-sm text-slate-500"
+            data-testid="collections-empty"
+         >
+            Keine Sammlungen vorhanden
+         </div>
+      );
+   }
+
+   return (
+      <div className="space-y-3" data-testid="collections-filter">
+         <div className="flex items-center justify-between">
+            <Label className="text-sm font-medium">Sammlungen</Label>
+            {badge()}
+         </div>
+         <div className="max-h-50 space-y-2 overflow-y-auto">
+            {collections.map(renderCollection)}
+         </div>
+      </div>
    );
 };
