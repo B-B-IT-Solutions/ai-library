@@ -18,7 +18,7 @@ import {
 import { LibraryFilters } from "./library-filters";
 
 const assertRendered = () => {
-   const filters = screen.getByTestId("library-entry-filters-trigger");
+   const filters = screen.getByTestId("filters-trigger-btn");
    assertInDocument(filters);
 };
 
@@ -68,7 +68,7 @@ describe("LibraryFilters rendering tests", () => {
          assertFiltersNotRendered();
       });
 
-      const filtersBtn = screen.getByTestId("library-entry-filters-trigger");
+      const filtersBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(filtersBtn);
 
       await waitFor(() => {
@@ -95,7 +95,7 @@ describe("LibraryFilters rendering tests", () => {
          assertFiltersNotRendered();
       });
 
-      const filtersBtn = screen.getByTestId("library-entry-filters-trigger");
+      const filtersBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(filtersBtn);
 
       await waitFor(() => {
@@ -130,7 +130,7 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      const triggerBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(triggerBtn);
 
       const searchFilter = screen.getByTestId("search-filter");
@@ -166,7 +166,7 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      const triggerBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(triggerBtn);
 
       const cat1 = screen.getByTestId("category-cat-1");
@@ -205,7 +205,7 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      const triggerBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(triggerBtn);
 
       const mod1 = screen.getByTestId("model-mod-1");
@@ -245,7 +245,7 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      const triggerBtn = screen.getByTestId("filters-trigger-btn");
       await userEvent.click(triggerBtn);
 
       const resetBtn = screen.getByTestId("reset-btn");

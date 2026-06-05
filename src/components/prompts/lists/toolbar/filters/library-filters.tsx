@@ -81,7 +81,7 @@ export const LibraryFilters = ({ categories, models }: Props) => {
                size="sm"
                onClick={() => setShowFilters(!showFilters)}
                className="gap-2"
-               data-testid="library-entry-filters-trigger"
+               data-testid="filters-trigger-btn"
             >
                <Filter className="h-4 w-4" />
                Filter
