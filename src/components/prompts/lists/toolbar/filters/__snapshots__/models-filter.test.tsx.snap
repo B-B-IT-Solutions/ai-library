@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ModelsFilter rendering tests ModelsFilter - f_models mod-1 - test 1`] = `
+exports[`ModelsFilter rendering tests f_models mod-1 - test 1`] = `
 <div>
   <div
     class="space-y-3"
@@ -183,7 +183,7 @@ exports[`ModelsFilter rendering tests ModelsFilter - f_models mod-1 - test 1`] =
 </div>
 `;
 
-exports[`ModelsFilter rendering tests ModelsFilter - models empty - test 1`] = `
+exports[`ModelsFilter rendering tests models empty - test 1`] = `
 <div>
   <div
     class="text-sm text-slate-500"

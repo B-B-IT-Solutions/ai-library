@@ -7,7 +7,7 @@ import { TemplatesToolbar } from "./templates-toolbar";
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("templates-toolbar");
-   const filters = screen.getByTestId("library-entry-filters-trigger");
+   const filters = screen.getByTestId("filters-trigger-btn");
    const sortBy = screen.getByTestId("sort-by-select");
    const viewToggle = screen.getByTestId("view-toggle");
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Filter, RotateCcw } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -12,15 +12,17 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
-import {
-   LibraryEntryFilterContext,
-   LibraryEntryFiltersHelper,
-} from "./filters-context";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
+import { activeFiltersCount } from "./utils";
 
 type Props = {
    categories: string[];
@@ -36,59 +38,41 @@ export const LibraryFilters = ({ categories, models }: Props) => {
       f_models: templatesSearchParams["f_models"],
    });
 
-   const [filtersContext] = useState<LibraryEntryFiltersHelper>(
-      new LibraryEntryFiltersHelper(filters)
-   );
-
-   const applyFilters = () => {
-      setFilters(filtersContext.getFilters());
-      setShowFilters(false);
-   };
-
    const resetFilters = () => {
-      filtersContext.resetFilters();
-      applyFilters();
+      setFilters({ f_search: "", f_categories: [], f_models: [] });
    };
 
-   const hasActiveFilters = filtersContext.hasActiveFilters();
-   const activeFilterCount = filtersContext.getActiveFiltersCount();
+   const filtersCount = activeFiltersCount(filters);
+   const hasActiveFilters = filtersCount > 0;
 
    const renderFilters = () => {
       return (
          <div>
-            <div className="flex items-center justify-end">
+            <div className="mb-1 flex items-center justify-end">
                {hasActiveFilters && (
-                  <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={resetFilters}
-                     className="h-8 px-2 text-xs"
-                     data-testid="reset-btn"
-                  >
-                     <X className="mr-1 h-3 w-3" />
-                     Zurücksetzen
-                  </Button>
+                  <Tooltip>
+                     <TooltipTrigger asChild={true}>
+                        <Button
+                           variant="ghost"
+                           size="icon"
+                           onClick={resetFilters}
+                           className="h-6 w-6 text-slate-500 hover:text-slate-900"
+                           data-testid="reset-btn"
+                        >
+                           <RotateCcw className="h-3.5 w-3.5" />
+                        </Button>
+                     </TooltipTrigger>
+                     <TooltipContent>Filter zurücksetzen</TooltipContent>
+                  </Tooltip>
                )}
             </div>
-            <LibraryEntryFilterContext.Provider value={filtersContext}>
-               <div className="space-y-4">
-                  <SearchFilter />
-                  <Separator />
-                  <CategoriesFilter categories={categories} />
-                  <Separator />
-                  <ModelsFilter models={models} />
-               </div>
-               <div className="mt-3 flex justify-end">
-                  <Button
-                     variant="default"
-                     size="sm"
-                     onClick={applyFilters}
-                     data-testid="apply-filters-btn"
-                  >
-                     OK
-                  </Button>
-               </div>
-            </LibraryEntryFilterContext.Provider>
+            <div className="space-y-4">
+               <SearchFilter />
+               <Separator />
+               <CategoriesFilter categories={categories} />
+               <Separator />
+               <ModelsFilter models={models} />
+            </div>
          </div>
       );
    };
@@ -100,24 +84,30 @@ export const LibraryFilters = ({ categories, models }: Props) => {
 
    return (
       <Popover open={showFilters} onOpenChange={setShowFilters}>
-         <PopoverTrigger asChild={true}>
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={() => setShowFilters(!showFilters)}
-               className="gap-2"
-               data-testid="library-entry-filters-trigger"
-            >
-               <Filter className="h-4 w-4" />
-               Filter
-               {activeFilterCount > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-5 px-1.5">
-                     {activeFilterCount}
-                  </Badge>
-               )}
-               {triggerBtnIcon()}
-            </Button>
-         </PopoverTrigger>
+         <div className="relative inline-flex">
+            <PopoverTrigger asChild={true}>
+               <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  data-testid="filters-trigger-btn"
+               >
+                  <Filter className="h-4 w-4" />
+                  Filter
+                  {triggerBtnIcon()}
+               </Button>
+            </PopoverTrigger>
+
+            {filtersCount > 0 && (
+               <Badge
+                  variant="secondary"
+                  className="absolute -top-1 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full p-0 text-xs"
+                  data-testid="count-badge"
+               >
+                  {filtersCount}
+               </Badge>
+            )}
+         </div>
          <PopoverContent>{renderFilters()}</PopoverContent>
       </Popover>
    );

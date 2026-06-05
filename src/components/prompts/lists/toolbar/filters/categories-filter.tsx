@@ -1,27 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
+import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
-
-import { useLibraryEntryFiltersContext } from "./filters-context";
+import { templatesSearchParams } from "../../../search-params";
 
 type Props = {
    categories: string[];
 };
 
 export const CategoriesFilter = ({ categories }: Props) => {
-   const filtersContext = useLibraryEntryFiltersContext();
-   const [f_categories, setCategories] = useState(
-      filtersContext.getCategories()
+   const [urlCategories, setUrlCategories] = useQueryState(
+      "f_categories",
+      templatesSearchParams["f_categories"]
    );
+   const [f_categories, setCategories] = useState(urlCategories);
 
-   const updateFiltersContext = useDebouncedCallback((values: string[]) => {
-      filtersContext.setCategories(values);
+   useEffect(() => {
+      setCategories(urlCategories);
+   }, [urlCategories]);
+
+   const updateUrl = useDebouncedCallback((values: string[]) => {
+      setUrlCategories(values);
    }, 400);
 
    const toggleCategory = (category: string) => {
@@ -31,7 +36,7 @@ export const CategoriesFilter = ({ categories }: Props) => {
          : [...f_categories, category];
 
       setCategories(newCategories);
-      updateFiltersContext(newCategories);
+      updateUrl(newCategories);
    };
 
    const badge = () => {
@@ -78,7 +83,7 @@ export const CategoriesFilter = ({ categories }: Props) => {
             <Label className="text-sm font-medium">Kategorien</Label>
             {badge()}
          </div>
-         <div className="max-h-[200px] space-y-2 overflow-y-auto">
+         <div className="max-h-50 space-y-2 overflow-y-auto">
             {map(categories, renderCategory)}
          </div>
       </div>

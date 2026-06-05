@@ -1,6 +1,8 @@
 export {
    assertInDocument,
    assertNotInDocument,
+   assertChecked,
+   assertNotChecked,
    assertVisbile,
    assertNotVisible,
    assertHasClass,
