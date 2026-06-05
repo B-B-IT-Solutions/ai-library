@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Filter, RotateCcw } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -12,6 +12,11 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
@@ -43,18 +48,22 @@ export const LibraryFilters = ({ categories, models }: Props) => {
    const renderFilters = () => {
       return (
          <div>
-            <div className="flex items-center justify-end">
+            <div className="mb-1 flex items-center justify-end">
                {hasActiveFilters && (
-                  <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={resetFilters}
-                     className="h-8 px-2 text-xs"
-                     data-testid="reset-btn"
-                  >
-                     <X className="mr-1 h-3 w-3" />
-                     Zurücksetzen
-                  </Button>
+                  <Tooltip>
+                     <TooltipTrigger asChild={true}>
+                        <Button
+                           variant="ghost"
+                           size="icon"
+                           onClick={resetFilters}
+                           className="h-6 w-6 text-slate-500 hover:text-slate-900"
+                           data-testid="reset-btn"
+                        >
+                           <RotateCcw className="h-3.5 w-3.5" />
+                        </Button>
+                     </TooltipTrigger>
+                     <TooltipContent>Filter zurücksetzen</TooltipContent>
+                  </Tooltip>
                )}
             </div>
             <div className="space-y-4">
