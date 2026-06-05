@@ -1,37 +1,28 @@
 "use client";
 
-import { FC, useState } from "react";
 import { filter, includes, isEmpty } from "es-toolkit/compat";
-import { Folder, Plus } from "lucide-react";
+import { Folder } from "lucide-react";
 import { debounce, useQueryState } from "nuqs";
 
-import { LibraryCollectionCreateDialog } from "@/components/collections";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
-   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { useLoadCollections } from "@/data/ts-queries/library";
-import { DPromptsFilter } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 import { templatesSearchParams } from "../../../search-params";
 
-type Props = {
-   filters: DPromptsFilter;
-};
-
-export const CollectionsFilter: FC<Props> = () => {
+export const CollectionsFilter = () => {
    const [f_collectionIds, setCollectionIds] = useQueryState(
       "f_collectionIds",
       templatesSearchParams["f_collectionIds"]
    );
 
    const { data: collections = [] } = useLoadCollections();
-   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
    const toggleCollection = (collectionId: string) => {
       const isActive = includes(f_collectionIds, collectionId);
@@ -86,7 +77,7 @@ export const CollectionsFilter: FC<Props> = () => {
                               <div className="flex w-full items-center justify-between">
                                  <div className="flex min-w-0 items-center gap-2">
                                     <Folder
-                                       className="h-4 w-4 flex-shrink-0"
+                                       className="h-4 w-4 shrink-0"
                                        style={{
                                           color: collection.color,
                                        }}
@@ -100,22 +91,9 @@ export const CollectionsFilter: FC<Props> = () => {
                         );
                      })
                   )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                     onClick={() => setShowCreateDialog(true)}
-                     className="cursor-pointer text-blue-600"
-                  >
-                     <Plus className="mr-2 h-4 w-4" />
-                     Neue Sammlung
-                  </DropdownMenuItem>
                </DropdownMenuContent>
             </DropdownMenu>
          </div>
-
-         <LibraryCollectionCreateDialog
-            open={showCreateDialog}
-            onOpenChange={setShowCreateDialog}
-         />
       </>
    );
 };
