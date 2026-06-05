@@ -20,6 +20,11 @@ const assertRendered = () => {
    assertInDocument(input);
 };
 
+const assertFilterValue = (value: string) => {
+   const filter = screen.getByDisplayValue(value);
+   assertInDocument(filter);
+};
+
 describe("SearchFilter rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -34,13 +39,13 @@ describe("SearchFilter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(screen.getByDisplayValue("test-1")).toBeInTheDocument();
+         assertFilterValue("test-1");
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("SearchFilter - search test-2 - test", async () => {
+   it("search test-2 - test", async () => {
       const { container } = renderWithRouter(
          <SearchFilter />,
          "/",
@@ -49,7 +54,7 @@ describe("SearchFilter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(screen.getByDisplayValue("test-2")).toBeInTheDocument();
+         assertFilterValue("test-2");
       });
 
       expect(container).toMatchSnapshot();
@@ -61,7 +66,7 @@ describe("SearchFilter functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("SearchFilter - search input typed - test", async () => {
+   it("search input typed - test", async () => {
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SearchFilter />, "/", "", onUrlUpdateFn);
 
@@ -75,7 +80,8 @@ describe("SearchFilter functinality tests", () => {
       await userEvent.type(input, value);
 
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
+         assertFilterValue(value);
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
