@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { isEmpty } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 
@@ -18,6 +17,7 @@ import { templatesSearchParams } from "../../../search-params";
 import { CategoriesFilter } from "./categories-filter";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
+import { activeFiltersCount } from "./utils";
 
 type Props = {
    categories: string[];
@@ -37,13 +37,8 @@ export const LibraryFilters = ({ categories, models }: Props) => {
       setFilters({ f_search: "", f_categories: [], f_models: [] });
    };
 
-   const activeFilterCount = [
-      !isEmpty(filters.f_search),
-      !isEmpty(filters.f_categories),
-      !isEmpty(filters.f_models),
-   ].filter(Boolean).length;
-
-   const hasActiveFilters = activeFilterCount > 0;
+   const filtersCount = activeFiltersCount(filters);
+   const hasActiveFilters = filtersCount > 0;
 
    const renderFilters = () => {
       return (
@@ -90,9 +85,9 @@ export const LibraryFilters = ({ categories, models }: Props) => {
             >
                <Filter className="h-4 w-4" />
                Filter
-               {activeFilterCount > 0 && (
-                  <Badge variant="secondary" className="ml-1 h-5 px-1.5">
-                     {activeFilterCount}
+               {filtersCount > 0 && (
+                  <Badge variant="secondary" className="ml-1 h-4 w-4">
+                     {filtersCount}
                   </Badge>
                )}
                {triggerBtnIcon()}
