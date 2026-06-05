@@ -27,6 +27,13 @@ describe("activeFiltersCount", () => {
       expect(activeFiltersCount(filters)).toBe(1);
    });
 
+   it("returns 1 when only collecitonIds are set", () => {
+      const filters: DTemplatesSearchParamsFiltersType = {
+         f_collectionIds: ["col1"],
+      };
+      expect(activeFiltersCount(filters)).toBe(1);
+   });
+
    it("returns 2 when search and categories are set", () => {
       const filters: DTemplatesSearchParamsFiltersType = {
          f_search: "hello",
@@ -35,13 +42,14 @@ describe("activeFiltersCount", () => {
       expect(activeFiltersCount(filters)).toBe(2);
    });
 
-   it("returns 3 when all filters are set", () => {
+   it("returns 4 when all filters are set", () => {
       const filters: DTemplatesSearchParamsFiltersType = {
          f_search: "hello",
          f_categories: ["cat1"],
          f_models: ["model1"],
+         f_collectionIds: ["col1"],
       };
-      expect(activeFiltersCount(filters)).toBe(3);
+      expect(activeFiltersCount(filters)).toBe(4);
    });
 
    it("returns 0 when filters are empty values", () => {
@@ -49,6 +57,7 @@ describe("activeFiltersCount", () => {
          f_search: "",
          f_categories: [],
          f_models: [],
+         f_collectionIds: [],
       };
       expect(activeFiltersCount(filters)).toBe(0);
    });
