@@ -10,6 +10,14 @@ export const assertNotInDocument = (
    expect(component).not.toBeInTheDocument();
 };
 
+export const assertChecked = (component: HTMLElement | SVGSVGElement) => {
+   expect(component).toBeChecked();
+};
+
+export const assertNotChecked = (component: HTMLElement | SVGSVGElement) => {
+   expect(component).not.toBeChecked();
+};
+
 export const assertVisbile = (component: HTMLElement) => {
    expect(component).toBeVisible();
 };

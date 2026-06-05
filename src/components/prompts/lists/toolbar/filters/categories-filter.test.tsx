@@ -8,7 +8,13 @@ jest.mock("use-debounce", () => ({
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import {
+   assertChecked,
+   assertInDocument,
+   assertNotChecked,
+   dtestData,
+   renderWithRouter,
+} from "@tests";
 
 import { CategoriesFilter } from "./categories-filter";
 
@@ -25,13 +31,13 @@ const assertCategoriesEmptyRendered = () => {
 const assertOptionChecked = (option: string) => {
    const checkBox = screen.getByTestId(`category-${option}`);
    assertInDocument(checkBox);
-   expect(checkBox).toBeChecked();
+   assertChecked(checkBox);
 };
 
 const assertOptionNotChecked = (option: string) => {
    const checkBox = screen.getByTestId(`category-${option}`);
    assertInDocument(checkBox);
-   expect(checkBox).not.toBeChecked();
+   assertNotChecked(checkBox);
 };
 
 describe("CategoriesFilter rendering tests", () => {
