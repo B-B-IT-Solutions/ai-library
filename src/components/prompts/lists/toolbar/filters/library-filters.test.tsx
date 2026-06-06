@@ -6,10 +6,6 @@ jest.mock("use-debounce", () => ({
    },
 }));
 
-jest.mock("@/data/ts-queries/library", () => ({
-   useLoadCollections: jest.fn().mockReturnValue({ data: [] }),
-}));
-
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
