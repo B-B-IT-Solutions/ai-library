@@ -151,10 +151,227 @@ exports[`LibraryFilters rendering tests filters defined - test 1`] = `
               role="none"
             />
             <div
-              class="text-sm text-slate-500"
-              data-testid="collections-empty"
+              class="space-y-3"
+              data-testid="collections-filter"
             >
-              Keine Sammlungen vorhanden
+              <div
+                class="flex items-center justify-between"
+              >
+                <label
+                  class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 text-sm font-medium"
+                  data-slot="label"
+                >
+                  Sammlungen
+                </label>
+              </div>
+              <div
+                class="max-h-50 space-y-2 overflow-y-auto"
+              >
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <button
+                    aria-checked="false"
+                    class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+                    data-slot="checkbox"
+                    data-state="unchecked"
+                    data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+                    id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+                    role="checkbox"
+                    type="button"
+                    value="on"
+                  >
+                    <div
+                      data-testid="mock-react-presence"
+                    >
+                      <span
+                        class="grid place-content-center text-current transition-none"
+                        data-slot="checkbox-indicator"
+                        data-state="unchecked"
+                        style="pointer-events: none;"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-check size-3.5"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 6 9 17l-5-5"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                  <label
+                    class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex cursor-pointer items-center gap-1.5 text-sm font-normal"
+                    data-slot="label"
+                    for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-folder h-3.5 w-3.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                      />
+                    </svg>
+                    name 0
+                  </label>
+                </div>
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <button
+                    aria-checked="false"
+                    class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+                    data-slot="checkbox"
+                    data-state="unchecked"
+                    data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                    id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                    role="checkbox"
+                    type="button"
+                    value="on"
+                  >
+                    <div
+                      data-testid="mock-react-presence"
+                    >
+                      <span
+                        class="grid place-content-center text-current transition-none"
+                        data-slot="checkbox-indicator"
+                        data-state="unchecked"
+                        style="pointer-events: none;"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-check size-3.5"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 6 9 17l-5-5"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                  <label
+                    class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex cursor-pointer items-center gap-1.5 text-sm font-normal"
+                    data-slot="label"
+                    for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-folder h-3.5 w-3.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                      />
+                    </svg>
+                    name 1
+                  </label>
+                </div>
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <button
+                    aria-checked="false"
+                    class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+                    data-slot="checkbox"
+                    data-state="unchecked"
+                    data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+                    id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+                    role="checkbox"
+                    type="button"
+                    value="on"
+                  >
+                    <div
+                      data-testid="mock-react-presence"
+                    >
+                      <span
+                        class="grid place-content-center text-current transition-none"
+                        data-slot="checkbox-indicator"
+                        data-state="unchecked"
+                        style="pointer-events: none;"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-check size-3.5"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 6 9 17l-5-5"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                  <label
+                    class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex cursor-pointer items-center gap-1.5 text-sm font-normal"
+                    data-slot="label"
+                    for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-folder h-3.5 w-3.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                      />
+                    </svg>
+                    name 2
+                  </label>
+                </div>
+              </div>
             </div>
             <div
               class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
