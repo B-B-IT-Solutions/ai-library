@@ -129,6 +129,7 @@ describe("PromptsDashboard rendering tests", () => {
             categories: mockSearchParams("f_categories"),
             models: mockSearchParams("f_models"),
             search: mockSearchParams("f_search"),
+            collectionIds: ["col-id-1"],
          },
          sort: {
             field: "createdAt",

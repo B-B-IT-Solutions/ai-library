@@ -57,21 +57,17 @@ export const PromptsDashboard = async () => {
             className="flex h-full flex-col bg-slate-50"
             data-testid="prompts-dashboard"
          >
-            <div className="border-b bg-white px-6 py-4">
-               <div className="flex items-center justify-between">
-                  <div>
-                     <h1 className="text-2xl font-bold text-slate-900">
-                        Meine Prompts
-                     </h1>
-                     <p className="mt-1 text-sm text-slate-600">
-                        Verwalten Sie Ihre gespeicherten Prompts
-                     </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                     <CreatePromptButton
-                        requirePlanUpgrade={isUpgradeRequired}
-                     />
-                  </div>
+            <div className="flex items-center justify-between border-b bg-white px-6 py-4">
+               <div>
+                  <h1 className="text-2xl font-bold text-slate-900">
+                     Meine Prompts
+                  </h1>
+                  <p className="mt-1 text-sm text-slate-600">
+                     Verwalten Sie Ihre gespeicherten Prompts
+                  </p>
+               </div>
+               <div className="flex items-center gap-3">
+                  <CreatePromptButton requirePlanUpgrade={isUpgradeRequired} />
                </div>
             </div>
 
