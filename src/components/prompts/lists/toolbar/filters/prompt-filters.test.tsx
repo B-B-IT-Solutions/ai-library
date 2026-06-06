@@ -15,7 +15,7 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { LibraryFilters } from "./library-filters";
+import { PromptFilters } from "./prompt-filters";
 
 const assertRendered = () => {
    const filters = screen.getByTestId("filters-trigger-btn");
@@ -61,7 +61,7 @@ const assertCategoriesEmptyRendered = () => {
    assertInDocument(empty);
 };
 
-describe("LibraryFilters rendering tests", () => {
+describe("PromptFilters rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -70,7 +70,7 @@ describe("LibraryFilters rendering tests", () => {
       const url = "/templates";
       const searchParams = "";
       const { container } = renderWithRouter(
-         <LibraryFilters categories={[]} models={[]} collections={[]} />,
+         <PromptFilters categories={[]} models={[]} collections={[]} />,
          url,
          searchParams
       );
@@ -99,7 +99,7 @@ describe("LibraryFilters rendering tests", () => {
       const url = "/templates";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
-         <LibraryFilters
+         <PromptFilters
             categories={categories}
             models={models}
             collections={collections}
@@ -126,7 +126,7 @@ describe("LibraryFilters rendering tests", () => {
    });
 });
 
-describe("LibraryFilters functinality tests", () => {
+describe("PromptFilters functinality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -140,7 +140,7 @@ describe("LibraryFilters functinality tests", () => {
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters
+         <PromptFilters
             categories={categories}
             models={models}
             collections={collections}
@@ -181,7 +181,7 @@ describe("LibraryFilters functinality tests", () => {
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters
+         <PromptFilters
             categories={categories}
             models={models}
             collections={collections}
@@ -225,7 +225,7 @@ describe("LibraryFilters functinality tests", () => {
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters
+         <PromptFilters
             categories={categories}
             models={models}
             collections={collections}
@@ -270,7 +270,7 @@ describe("LibraryFilters functinality tests", () => {
          "f_categories=cat-1&f_models=mod-1&f_search=test-123";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters
+         <PromptFilters
             categories={categories}
             models={models}
             collections={collections}

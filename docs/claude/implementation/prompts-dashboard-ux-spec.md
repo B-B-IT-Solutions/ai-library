@@ -11,7 +11,7 @@ Bezieht sich auf: `src/components/prompts/prompts-dashboard.tsx` und zugehörige
 |                |                                                                                                                    |
 | -------------- | ------------------------------------------------------------------------------------------------------------------ |
 | **Ist**        | `totalEntries` ist hardcoded auf `1` – die Toolbar zeigt immer "1 Vorlage" an, unabhängig vom tatsächlichen Inhalt |
-| **Soll**       | Echter Wert aus `data.pages[0].totalEntries` (Code bereits auskommentiert in `templates-toolbar.tsx` vorhanden)    |
+| **Soll**       | Echter Wert aus `data.pages[0].totalEntries` (Code bereits auskommentiert in `prompts-toolbar.tsx` vorhanden)      |
 | **Begründung** | Irreführendes UI-Feedback – User können nicht einschätzen, wie viele Ergebnisse ihre Filterkriterien liefern       |
 
 ---

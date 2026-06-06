@@ -3,10 +3,10 @@ import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
-import { TemplatesToolbar } from "./templates-toolbar";
+import { PromptsToolbar } from "./prompts-toolbar";
 
 const assertRendered = () => {
-   const toolbar = screen.getByTestId("templates-toolbar");
+   const toolbar = screen.getByTestId("prompts-toolbar");
    const filters = screen.getByTestId("filters-trigger-btn");
    const sortBy = screen.getByTestId("sort-by-select");
    const viewToggle = screen.getByTestId("view-toggle");
@@ -17,14 +17,14 @@ const assertRendered = () => {
    assertInDocument(viewToggle);
 };
 
-describe("TemplatesToolbar rendering tests", () => {
+describe("PromptsToolbar rendering tests", () => {
    it("rendered - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollections();
 
       const { container } = renderWithRouter(
-         <TemplatesToolbar
+         <PromptsToolbar
             viewMode={DListViewMode.GRID}
             sortBy={DListSortByMode.DATE_DESC}
             categories={categories}

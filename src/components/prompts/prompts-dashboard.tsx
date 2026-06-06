@@ -16,7 +16,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { CreatePromptButton } from "./buttons";
-import { TemplateItems, TemplatesToolbar } from "./lists";
+import { PromptsToolbar, TemplateItems } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
 export const PromptsDashboard = async () => {
@@ -72,7 +72,7 @@ export const PromptsDashboard = async () => {
                </div>
             </div>
 
-            <TemplatesToolbar
+            <PromptsToolbar
                viewMode={viewMode}
                sortBy={sortBy}
                categories={categories}

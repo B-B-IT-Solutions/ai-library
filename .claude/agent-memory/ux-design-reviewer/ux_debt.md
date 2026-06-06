@@ -9,7 +9,7 @@ Issues confirmed by code review (initial audit, 2026-05-23):
 
 1. **Mixed-language UI** — Subscription settings (`src/components/settings/user/subscription/active-plan.tsx`) and orders (`src/app/(authenticated)/orders/[id]/page.tsx`, cart page `src/app/(authenticated)/cart/page.tsx`) contain English text ("Subscription", "Current Plan", "Order Details", "Items", "Shopping Cart", "Browse Marketplace") while the rest of the app is German.
 
-2. **Hardcoded totalEntries = 1** — `src/components/prompts/lists/toolbar/templates-toolbar.tsx` line 34 hardcodes `const totalEntries = 1`, so the toolbar always shows "1 Vorlage" regardless of actual count. Commented-out code above shows the intent was a real query.
+2. **Hardcoded totalEntries = 1** — `src/components/prompts/lists/toolbar/prompts-toolbar.tsx` line 34 hardcodes `const totalEntries = 1`, so the toolbar always shows "1 Vorlage" regardless of actual count. Commented-out code above shows the intent was a real query.
 
 3. **`totalElements={1}` passed as prop** — `src/components/explore/catalog-entries-dashboard.tsx` passes `totalElements={1}` to both `CatalogSidebar` and `CatalogEntriesToolbar` — same stub issue.
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryFilters rendering tests filters defined - test 1`] = `
+exports[`PromptFilters rendering tests filters defined - test 1`] = `
 <div>
   <div
     data-slot="popover"
@@ -737,7 +737,7 @@ exports[`LibraryFilters rendering tests filters defined - test 1`] = `
 </div>
 `;
 
-exports[`LibraryFilters rendering tests filters empty - test 1`] = `
+exports[`PromptFilters rendering tests filters empty - test 1`] = `
 <div>
   <div
     data-slot="popover"

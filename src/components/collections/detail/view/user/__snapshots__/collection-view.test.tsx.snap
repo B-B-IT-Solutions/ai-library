@@ -177,7 +177,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
     </div>
     <div
       class="flex items-center justify-between border-b bg-white px-6 py-3"
-      data-testid="templates-toolbar"
+      data-testid="prompts-toolbar"
     >
       <div
         class="flex items-center gap-4"

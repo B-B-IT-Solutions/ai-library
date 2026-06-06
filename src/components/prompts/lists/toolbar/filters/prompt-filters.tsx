@@ -32,7 +32,7 @@ type Props = {
    collections: DCollection[];
 };
 
-export const LibraryFilters = ({ categories, models, collections }: Props) => {
+export const PromptFilters = ({ categories, models, collections }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({

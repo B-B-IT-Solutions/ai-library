@@ -1,1 +1,1 @@
-export { TemplatesToolbar } from "./templates-toolbar";
+export { PromptsToolbar } from "./prompts-toolbar";
