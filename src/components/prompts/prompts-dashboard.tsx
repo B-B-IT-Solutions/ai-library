@@ -4,6 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
+import { getCollections } from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
@@ -42,14 +43,14 @@ export const PromptsDashboard = async () => {
       queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
-   const [categories, models, usage] = await Promise.all([
+   const [categories, models, collections, usage] = await Promise.all([
       getPromptCategories(),
       getPromptModels(),
+      getCollections(),
       getPromptsUsage(),
    ]);
 
    const isUpgradeRequired = usage.limit !== -1 && usage.current >= usage.limit;
-   // const isAtLimit = true;
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -76,6 +77,7 @@ export const PromptsDashboard = async () => {
                sortBy={sortBy}
                categories={categories}
                models={models}
+               collections={collections}
             />
 
             <div className="flex-1 overflow-y-auto p-6">

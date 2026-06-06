@@ -21,6 +21,7 @@ describe("TemplatesToolbar rendering tests", () => {
    it("rendered - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const { container } = renderWithRouter(
          <TemplatesToolbar
@@ -28,6 +29,7 @@ describe("TemplatesToolbar rendering tests", () => {
             sortBy={DListSortByMode.DATE_DESC}
             categories={categories}
             models={models}
+            collections={collections}
          />
       );
 

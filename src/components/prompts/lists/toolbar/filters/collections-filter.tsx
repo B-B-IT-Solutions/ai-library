@@ -9,11 +9,14 @@ import { useDebouncedCallback } from "use-debounce";
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
-import { useLoadCollections } from "@/data/ts-queries/library";
 import { DCollection } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
-export const CollectionsFilter = () => {
+type Props = {
+   collections: DCollection[];
+};
+
+export const CollectionsFilter = ({ collections }: Props) => {
    const [urlCollections, setUrlCollections] = useQueryState(
       "f_collectionIds",
       templatesSearchParams["f_collectionIds"]
@@ -37,8 +40,6 @@ export const CollectionsFilter = () => {
       setCollectionIds(newCollectionIds);
       updateUrl(newCollectionIds);
    };
-
-   const { data: collections = [] } = useLoadCollections();
 
    const badge = () => {
       if (!isEmpty(f_collectionIds)) {

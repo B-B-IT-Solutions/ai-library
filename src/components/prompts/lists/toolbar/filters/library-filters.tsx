@@ -17,6 +17,7 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
+import { DCollection } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
@@ -28,9 +29,10 @@ import { activeFiltersCount } from "./utils";
 type Props = {
    categories: string[];
    models: string[];
+   collections: DCollection[];
 };
 
-export const LibraryFilters = ({ categories, models }: Props) => {
+export const LibraryFilters = ({ categories, models, collections }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
@@ -76,7 +78,7 @@ export const LibraryFilters = ({ categories, models }: Props) => {
             <div className="space-y-4">
                <SearchFilter />
                <Separator />
-               <CollectionsFilter />
+               <CollectionsFilter collections={collections} />
                <Separator />
                <CategoriesFilter categories={categories} />
                <Separator />

@@ -95,8 +95,6 @@ const assertGetLibraryEntriesPageCalled = (
 describe("PromptsDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
-
-      getCollectionsMock.mockResolvedValue([]);
       getPromptsPageMock.mockResolvedValue(page);
    });
 
@@ -109,8 +107,10 @@ describe("PromptsDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
       getPromptCategoriesMock.mockResolvedValue(categories);
       getPromptModelsMock.mockResolvedValue(models);
+      getCollectionsMock.mockResolvedValue(collections);
 
       const usage: DPromptsUsage = {
          current: 3,
@@ -141,6 +141,7 @@ describe("PromptsDashboard rendering tests", () => {
          assertRendered();
          expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsMock).toHaveBeenCalledTimes(2);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });

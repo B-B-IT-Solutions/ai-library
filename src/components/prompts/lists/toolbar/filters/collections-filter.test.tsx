@@ -6,8 +6,6 @@ jest.mock("use-debounce", () => ({
    },
 }));
 
-jest.mock("@/data/ts-queries/library");
-
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -18,13 +16,7 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { useLoadCollections } from "@/data/ts-queries/library";
-
 import { CollectionsFilter } from "./collections-filter";
-
-const useLoadCollectionsMock = useLoadCollections as jest.MockedFunction<
-   typeof useLoadCollections
->;
 
 const assertRendered = () => {
    const filter = screen.getByTestId("collections-filter");
@@ -54,11 +46,11 @@ describe("CollectionsFilter rendering tests", () => {
    });
 
    it("collections empty - test", async () => {
-      useLoadCollectionsMock.mockReturnValue({ data: [] } as ReturnType<
-         typeof useLoadCollections
-      >);
-
-      const { container } = renderWithRouter(<CollectionsFilter />, "/", "");
+      const { container } = renderWithRouter(
+         <CollectionsFilter collections={[]} />,
+         "/",
+         ""
+      );
 
       await waitFor(() => {
          assertEmptyRendered();
@@ -69,13 +61,10 @@ describe("CollectionsFilter rendering tests", () => {
 
    it("collections with selection - test", async () => {
       const collections = dtestData.dCollections(3);
-      useLoadCollectionsMock.mockReturnValue({
-         data: collections,
-      } as ReturnType<typeof useLoadCollections>);
-
       const col0 = collections[0];
+
       const { container } = renderWithRouter(
-         <CollectionsFilter />,
+         <CollectionsFilter collections={collections} />,
          "/",
          `f_collectionIds=${col0.id}`
       );
@@ -96,12 +85,14 @@ describe("CollectionsFilter functionality tests", () => {
 
    it("collection selected - test", async () => {
       const collections = dtestData.dCollections(3);
-      useLoadCollectionsMock.mockReturnValue({
-         data: collections,
-      } as ReturnType<typeof useLoadCollections>);
-
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<CollectionsFilter />, "/", "", onUrlUpdateFn);
+
+      renderWithRouter(
+         <CollectionsFilter collections={collections} />,
+         "/",
+         "",
+         onUrlUpdateFn
+      );
 
       const col0 = collections[0];
       await waitFor(() => {
@@ -123,14 +114,11 @@ describe("CollectionsFilter functionality tests", () => {
 
    it("collection unselected - test", async () => {
       const collections = dtestData.dCollections(3);
-      useLoadCollectionsMock.mockReturnValue({
-         data: collections,
-      } as ReturnType<typeof useLoadCollections>);
-
       const col0 = collections[0];
+
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <CollectionsFilter />,
+         <CollectionsFilter collections={collections} />,
          "/",
          `f_collectionIds=${col0.id}`,
          onUrlUpdateFn
