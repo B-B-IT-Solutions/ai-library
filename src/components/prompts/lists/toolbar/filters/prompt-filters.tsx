@@ -17,9 +17,11 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
+import { DCollection } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
+import { CollectionsFilter } from "./collections-filter";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 import { activeFiltersCount } from "./utils";
@@ -27,19 +29,26 @@ import { activeFiltersCount } from "./utils";
 type Props = {
    categories: string[];
    models: string[];
+   collections: DCollection[];
 };
 
-export const LibraryFilters = ({ categories, models }: Props) => {
+export const PromptFilters = ({ categories, models, collections }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
       f_search: templatesSearchParams["f_search"],
       f_categories: templatesSearchParams["f_categories"],
       f_models: templatesSearchParams["f_models"],
+      f_collectionIds: templatesSearchParams["f_collectionIds"],
    });
 
    const resetFilters = () => {
-      setFilters({ f_search: "", f_categories: [], f_models: [] });
+      setFilters({
+         f_search: "",
+         f_categories: [],
+         f_models: [],
+         f_collectionIds: [],
+      });
    };
 
    const filtersCount = activeFiltersCount(filters);
@@ -68,6 +77,8 @@ export const LibraryFilters = ({ categories, models }: Props) => {
             </div>
             <div className="space-y-4">
                <SearchFilter />
+               <Separator />
+               <CollectionsFilter collections={collections} />
                <Separator />
                <CategoriesFilter categories={categories} />
                <Separator />

@@ -23,7 +23,7 @@ export const groupByParam = parseAsStringEnum<DListGroupByMode>(
 
 export const sortByParam = parseAsStringEnum<DListSortByMode>(
    Object.values(DListSortByMode)
-).withDefault(DListSortByMode.DATE_DESC);
+).withDefault(DListSortByMode.TITLE_ASC);
 
 export const f_searchParam = parseAsString.withDefault("");
 

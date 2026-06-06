@@ -1,7 +1,8 @@
 import { ListViewToggle } from "@/components/shared/buttons";
+import { DCollection } from "@/data/types/domain/collection";
 import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
-import { LibraryFilters } from "./filters";
+import { PromptFilters } from "./filters";
 import { SortBySelect } from "./sort-by";
 
 type Props = {
@@ -9,16 +10,26 @@ type Props = {
    sortBy?: DListSortByMode;
    categories: string[];
    models: string[];
+   collections: DCollection[];
 };
 
-export const TemplatesToolbar = ({ viewMode, categories, models }: Props) => {
+export const PromptsToolbar = ({
+   viewMode,
+   categories,
+   models,
+   collections,
+}: Props) => {
    return (
       <div
          className="flex items-center justify-between border-b bg-white px-6 py-3"
-         data-testid="templates-toolbar"
+         data-testid="prompts-toolbar"
       >
          <div className="flex items-center gap-4">
-            <LibraryFilters categories={categories} models={models} />
+            <PromptFilters
+               categories={categories}
+               models={models}
+               collections={collections}
+            />
             <SortBySelect />
          </div>
          <ListViewToggle currentView={viewMode} />

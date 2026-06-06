@@ -76,7 +76,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 const assertRendered = () => {
    const dashboard = screen.getByTestId("prompts-dashboard");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
-   const toolbar = screen.getByTestId("templates-toolbar");
+   const toolbar = screen.getByTestId("prompts-toolbar");
    const entries = screen.getByTestId("template-items-grid");
 
    assertInDocument(dashboard);
@@ -95,8 +95,6 @@ const assertGetLibraryEntriesPageCalled = (
 describe("PromptsDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
-
-      getCollectionsMock.mockResolvedValue([]);
       getPromptsPageMock.mockResolvedValue(page);
    });
 
@@ -109,8 +107,10 @@ describe("PromptsDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
       getPromptCategoriesMock.mockResolvedValue(categories);
       getPromptModelsMock.mockResolvedValue(models);
+      getCollectionsMock.mockResolvedValue(collections);
 
       const usage: DPromptsUsage = {
          current: 3,
@@ -129,6 +129,7 @@ describe("PromptsDashboard rendering tests", () => {
             categories: mockSearchParams("f_categories"),
             models: mockSearchParams("f_models"),
             search: mockSearchParams("f_search"),
+            collectionIds: ["col-id-1"],
          },
          sort: {
             field: "createdAt",
@@ -140,6 +141,7 @@ describe("PromptsDashboard rendering tests", () => {
          assertRendered();
          expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsMock).toHaveBeenCalledTimes(2);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });

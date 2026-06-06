@@ -15,7 +15,7 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { LibraryFilters } from "./library-filters";
+import { PromptFilters } from "./prompt-filters";
 
 const assertRendered = () => {
    const filters = screen.getByTestId("filters-trigger-btn");
@@ -24,11 +24,13 @@ const assertRendered = () => {
 
 const assertFiltersRendered = () => {
    const search = screen.getByTestId("search-filter");
+   const collections = screen.getByTestId("collections-filter");
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
    const resetBtn = screen.getByTestId("reset-btn");
 
    assertInDocument(search);
+   assertInDocument(collections);
    assertInDocument(categories);
    assertInDocument(models);
    assertInDocument(resetBtn);
@@ -59,7 +61,7 @@ const assertCategoriesEmptyRendered = () => {
    assertInDocument(empty);
 };
 
-describe("LibraryFilters rendering tests", () => {
+describe("PromptFilters rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -68,7 +70,7 @@ describe("LibraryFilters rendering tests", () => {
       const url = "/templates";
       const searchParams = "";
       const { container } = renderWithRouter(
-         <LibraryFilters categories={[]} models={[]} />,
+         <PromptFilters categories={[]} models={[]} collections={[]} />,
          url,
          searchParams
       );
@@ -92,11 +94,16 @@ describe("LibraryFilters rendering tests", () => {
    it("filters defined - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const url = "/templates";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
-         <LibraryFilters categories={categories} models={models} />,
+         <PromptFilters
+            categories={categories}
+            models={models}
+            collections={collections}
+         />,
          url,
          searchParams
       );
@@ -119,7 +126,7 @@ describe("LibraryFilters rendering tests", () => {
    });
 });
 
-describe("LibraryFilters functinality tests", () => {
+describe("PromptFilters functinality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -127,12 +134,17 @@ describe("LibraryFilters functinality tests", () => {
    it("search filter input - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const url = "/templates";
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} models={models} />,
+         <PromptFilters
+            categories={categories}
+            models={models}
+            collections={collections}
+         />,
          url,
          searchParams,
          onUrlUpdateFn
@@ -163,12 +175,17 @@ describe("LibraryFilters functinality tests", () => {
    it("category filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const url = "/templates";
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} models={models} />,
+         <PromptFilters
+            categories={categories}
+            models={models}
+            collections={collections}
+         />,
          url,
          searchParams,
          onUrlUpdateFn
@@ -202,12 +219,17 @@ describe("LibraryFilters functinality tests", () => {
    it("model filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const url = "/templates";
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} models={models} />,
+         <PromptFilters
+            categories={categories}
+            models={models}
+            collections={collections}
+         />,
          url,
          searchParams,
          onUrlUpdateFn
@@ -241,13 +263,18 @@ describe("LibraryFilters functinality tests", () => {
    it("reset btn clicked - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
+      const collections = dtestData.dCollections();
 
       const url = "/templates";
       const searchParams =
          "f_categories=cat-1&f_models=mod-1&f_search=test-123";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} models={models} />,
+         <PromptFilters
+            categories={categories}
+            models={models}
+            collections={collections}
+         />,
          url,
          searchParams,
          onUrlUpdateFn
