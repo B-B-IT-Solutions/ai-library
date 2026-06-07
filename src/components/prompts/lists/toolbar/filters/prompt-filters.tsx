@@ -94,7 +94,6 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
             <PopoverTrigger asChild={true}>
                <Button
                   variant="outline"
-                  size="sm"
                   className="gap-2"
                   data-testid="filters-trigger-btn"
                >
