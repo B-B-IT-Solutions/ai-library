@@ -13,6 +13,8 @@ import {
    createCollection,
    deleteCollection,
    getCollectionById,
+   getCollectionPreviewById,
+   getCollectionPreviews,
    getCollectionPromptIds,
    getCollections,
    getPromptCollectionIds,
@@ -25,7 +27,11 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetCollections = CollectionService.prototype.getCollections;
+const sGetCollectionPreviews =
+   CollectionService.prototype.getCollectionPreviews;
 const sGetCollectionById = CollectionService.prototype.getCollectionById;
+const sGetCollectionPreviewById =
+   CollectionService.prototype.getCollectionPreviewById;
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
@@ -44,9 +50,15 @@ const sUpdatePromptCollections =
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
 >;
+const sGetCollectionPreviewsMock =
+   sGetCollectionPreviews as jest.MockedFunction<typeof sGetCollectionPreviews>;
 const sGetCollectionByIdMock = sGetCollectionById as jest.MockedFunction<
    typeof sGetCollectionById
 >;
+const sGetCollectionPreviewByIdMock =
+   sGetCollectionPreviewById as jest.MockedFunction<
+      typeof sGetCollectionPreviewById
+   >;
 const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
    typeof sCreateCollection
 >;
@@ -101,7 +113,7 @@ describe("getCollections tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("entries retrieved - test", async () => {
+   it("collecitons retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -114,6 +126,45 @@ describe("getCollections tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionsMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionsMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getCollectionPreviews tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getCollectionPreviews();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("collecitons retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collections = dtestData.dCollectionPreviews();
+      sGetCollectionPreviewsMock.mockResolvedValue(collections);
+
+      const result = await getCollectionPreviews();
+
+      expect(result).toEqual(collections);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewsMock).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -167,6 +218,62 @@ describe("getCollectionById tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionByIdMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionByIdMock).toHaveBeenCalledWith(
+         user.id,
+         collection.id
+      );
+   });
+});
+
+describe("getCollectionPreviewById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getCollectionPreviewById(invalidId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetCollectionPreviewByIdMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid collection ID.");
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getCollectionPreviewById(collectionId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewByIdMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("collection retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collection = dtestData.dCollectionPreview();
+      sGetCollectionPreviewByIdMock.mockResolvedValue(collection);
+
+      const result = await getCollectionPreviewById(collection.id);
+
+      expect(result).toEqual(collection);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewByIdMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPreviewByIdMock).toHaveBeenCalledWith(
          user.id,
          collection.id
       );

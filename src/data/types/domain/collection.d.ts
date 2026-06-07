@@ -18,6 +18,11 @@ export type DCollection = {
    updatedAt: string;
 };
 
+export type DCollectionPreview = {
+   id: string;
+   name: string;
+};
+
 export type DCollectionEntry = {
    collectionId: string;
    promptId: string;

@@ -7,7 +7,11 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 export const getCollections = async (): Promise<DCollection[]> => {
@@ -15,6 +19,19 @@ export const getCollections = async (): Promise<DCollection[]> => {
       const user = await requireUser();
       const service = getService();
       return await service.getCollections(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const getCollectionPreviews = async (): Promise<
+   DCollectionPreview[]
+> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionPreviews(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
@@ -31,6 +48,22 @@ export const getCollectionById = async (
       const user = await requireUser();
       const service = getService();
       return await service.getCollectionById(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const getCollectionPreviewById = async (
+   collectionId: string
+): Promise<DCollection | null> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionPreviewById(user.id, collectionId);
    } catch (error) {
       console.error(formatError(error));
       return null;

@@ -1,7 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { CollectionRepository } from "@/data/repositories/collection";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 
 export class CollectionService {
    private collectionRepository: CollectionRepository;
@@ -14,10 +18,24 @@ export class CollectionService {
       return await this.collectionRepository.pGetCollections(userId);
    }
 
+   async getCollectionPreviews(userId: string): Promise<DCollectionPreview[]> {
+      return await this.collectionRepository.pGetCollections(userId);
+   }
+
    async getCollectionById(
       userId: string,
       collectionId: string
    ): Promise<DCollection | null> {
+      return await this.collectionRepository.pGetCollectionById(
+         userId,
+         collectionId
+      );
+   }
+
+   async getCollectionPreviewById(
+      userId: string,
+      collectionId: string
+   ): Promise<DCollectionPreview | null> {
       return await this.collectionRepository.pGetCollectionById(
          userId,
          collectionId
