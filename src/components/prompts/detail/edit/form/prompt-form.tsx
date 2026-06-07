@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { viewPromptUrl } from "@/components/prompts/utils";
 import { Form } from "@/components/shadcn/form";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import {
    DPromptUpdate,
    DPromptUpdateCrate,
@@ -24,7 +24,7 @@ import { initPromptTemplate } from "./utils";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollection;
+   collection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
    onSubmit: (isSubmiting: boolean) => void;
 };

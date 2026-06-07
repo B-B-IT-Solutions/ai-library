@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PromptEdit } from "@/components/prompts";
-import { getCollectionById } from "@/data/actions/collection";
+import { getCollectionPreviewById } from "@/data/actions/collection";
 import { getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
@@ -30,7 +30,9 @@ export const EditPromptPage = async ({ params, searchParams }: PageProps) => {
    const [prompt, globalFields, collection] = await Promise.all([
       getPromptWithContent(promptId),
       getGlobalPromptFields(),
-      collectionId ? getCollectionById(collectionId) : Promise.resolve(null),
+      collectionId
+         ? getCollectionPreviewById(collectionId)
+         : Promise.resolve(null),
    ]);
 
    if (!prompt) {

@@ -11,7 +11,7 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { PromptBreadcrumb } from "../../breadcrumbs";
@@ -21,7 +21,7 @@ import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollection;
+   collection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
 };
 

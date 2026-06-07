@@ -1,7 +1,4 @@
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 export const isEditMode = (prompt?: DPrompt) => {
@@ -27,7 +24,7 @@ export const editPromptUrl = (
    return editUrl;
 };
 
-export const newPromptUrl = (collection?: DCollection) => {
+export const newPromptUrl = (collection?: DCollectionPreview) => {
    if (collection) {
       return `/templates/new?collectionId=${collection.id}`;
    }
@@ -36,7 +33,7 @@ export const newPromptUrl = (collection?: DCollection) => {
 
 export const promptEditNavigateBackUrl = (
    prompt?: DPrompt,
-   collection?: DCollection
+   collection?: DCollectionPreview
 ) => {
    const isEdit = isEditMode(prompt);
 
