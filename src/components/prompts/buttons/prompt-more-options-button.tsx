@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MoreVertical } from "lucide-react";
 
-import { AddToLibraryCollectionDialog } from "@/components/collections";
+import { AddToCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
@@ -65,7 +65,7 @@ export const PromptMoreOptionsButton = ({
                <DeletePromptButton prompt={prompt} asMenuItem={true} />
             </DropdownMenuContent>
          </DropdownMenu>
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}
