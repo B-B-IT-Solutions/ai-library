@@ -10,14 +10,12 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { getTemplateCollectionIds } from "@/data/actions/collection";
+import { getPromptCollectionIds } from "@/data/actions/collection";
 
 import { PublicTemplateItemCard } from "./template-item-card-public";
 
-const getTemplateCollectionIdsMock =
-   getTemplateCollectionIds as jest.MockedFunction<
-      typeof getTemplateCollectionIds
-   >;
+const getPromptCollectionIdsMock =
+   getPromptCollectionIds as jest.MockedFunction<typeof getPromptCollectionIds>;
 
 const assertRendered = () => {
    const itemCard = screen.getByTestId("public-template-item-card");
@@ -160,7 +158,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
    it("dropdown - show add to collection dialog - test", async () => {
       const collectionIds = dtestData.dCollectionIds();
-      getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
+      getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const descriptor = dtestData.dPrompt();
       const collections = dtestData.dCollections();

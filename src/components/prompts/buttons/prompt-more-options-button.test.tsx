@@ -9,14 +9,12 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getTemplateCollectionIds } from "@/data/actions/collection";
+import { getPromptCollectionIds } from "@/data/actions/collection";
 
 import { PromptMoreOptionsButton } from "./prompt-more-options-button";
 
-const getTemplateCollectionIdsMock =
-   getTemplateCollectionIds as jest.MockedFunction<
-      typeof getTemplateCollectionIds
-   >;
+const getPromptCollectionIdsMock =
+   getPromptCollectionIds as jest.MockedFunction<typeof getPromptCollectionIds>;
 
 const assertRendered = () => {
    const btn = screen.getByTestId("prompt-more-options-btn");
@@ -110,7 +108,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
 
    it("add to collection btn clicked - test", async () => {
       const collectionIds = dtestData.dCollectionIds();
-      getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
+      getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
