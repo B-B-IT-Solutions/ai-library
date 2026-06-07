@@ -24,19 +24,19 @@ import {
 } from "../../buttons";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    collections: DCollection[];
    collectionToken?: string | null;
 };
 
 export const PublicTemplateItemCard = ({
-   descriptor,
+   prompt,
    collections,
    collectionToken,
 }: Props) => {
    const templateDetailsUrl = collectionToken
-      ? `/preview/templates/${descriptor.id}?col=${collectionToken}`
-      : `/preview/templates/${descriptor.id}`;
+      ? `/preview/templates/${prompt.id}?col=${collectionToken}`
+      : `/preview/templates/${prompt.id}`;
 
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
@@ -44,7 +44,7 @@ export const PublicTemplateItemCard = ({
    const categories = () => {
       return (
          <div className="mb-2 flex flex-wrap gap-1" data-testid="categories">
-            {map(descriptor.categories, (cat) => (
+            {map(prompt.categories, (cat) => (
                <span
                   key={cat.name}
                   className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-700"
@@ -89,7 +89,7 @@ export const PublicTemplateItemCard = ({
                   Zu Sammlung hinzufügen
                </DropdownMenuItem>
                <DropdownMenuSeparator />
-               <DownloadPromptButton prompt={descriptor} asMenuItem={true} />
+               <DownloadPromptButton prompt={prompt} asMenuItem={true} />
             </DropdownMenuContent>
          </DropdownMenu>
       );
@@ -100,7 +100,7 @@ export const PublicTemplateItemCard = ({
          className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
          data-testid="public-template-item-card"
       >
-         <AddToFavoriteButton descriptor={descriptor} />
+         <AddToFavoriteButton descriptor={prompt} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
                href={templateDetailsUrl}
@@ -108,12 +108,12 @@ export const PublicTemplateItemCard = ({
                data-testid="view-details-link-title"
             >
                <h4 className="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
-                  {descriptor.title}
+                  {prompt.title}
                </h4>
             </Link>
             <div>
                <span className="self-start rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
-                  {descriptor.recommendedModel}
+                  {prompt.recommendedModel}
                </span>
             </div>
          </CardHeader>
@@ -122,12 +122,12 @@ export const PublicTemplateItemCard = ({
             {categories()}
 
             <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
-               {descriptor.description}
+               {prompt.description}
             </p>
 
             <div className="flex gap-2 pt-2">
                <PublicUseTemplateButton
-                  descriptor={descriptor}
+                  descriptor={prompt}
                   className="flex-1"
                />
                {dropdownMenu()}
@@ -135,7 +135,7 @@ export const PublicTemplateItemCard = ({
          </CardContent>
 
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}

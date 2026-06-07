@@ -27,18 +27,18 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    collections: DCollection[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
-export const AddToLibraryCollectionDialog: FC<Props> = ({
-   descriptor,
+export const AddToLibraryCollectionDialog = ({
+   prompt,
    collections,
    open,
    onOpenChange,
-}) => {
+}: Props) => {
    const { mutate: updateCollections, isPending: isSaving } =
       useUpdatePromptCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -47,7 +47,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
    const { data: promptCollectionIds, isLoading } = useLoadPromptCollectionIds({
-      entryId: descriptor.id,
+      entryId: prompt.id,
       enabled: open,
    });
 
@@ -69,7 +69,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
 
    const handleConfirm = async () => {
       const params: UpdateCollectionIdsParams = {
-         entryId: descriptor.id,
+         entryId: prompt.id,
          collectionIds: selectedColIds,
       };
 
