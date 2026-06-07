@@ -1,0 +1,3139 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AddToCollectionDialog rendering tests isSaving true - save button disabled - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 0
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 1
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 2
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 3
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 4
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 5
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+            disabled=""
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-loader mr-1.5 h-4 w-4 animate-spin"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2v4"
+              />
+              <path
+                d="m16.2 7.8 2.9-2.9"
+              />
+              <path
+                d="M18 12h4"
+              />
+              <path
+                d="m16.2 16.2 2.9 2.9"
+              />
+              <path
+                d="M12 18v4"
+              />
+              <path
+                d="m4.9 19.1 2.9-2.9"
+              />
+              <path
+                d="M2 12h4"
+              />
+              <path
+                d="m4.9 4.9 2.9 2.9"
+              />
+            </svg>
+            <span>
+              Speichern...
+            </span>
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToCollectionDialog rendering tests open false - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToCollectionDialog rendering tests open true - empty library collections - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="py-8 text-center"
+            data-testid="collections-empty"
+          >
+            <p
+              class="mb-4 text-sm text-slate-500"
+            >
+              Keine Sammlungen vorhanden
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+              data-slot="button"
+              data-testid="create-first-collection-btn"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Erste Sammlung erstellen
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToCollectionDialog rendering tests open true - isLoading true - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center justify-center py-8"
+            data-testid="collections-loading"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-loader h-5 w-5 animate-spin text-slate-400"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2v4"
+              />
+              <path
+                d="m16.2 7.8 2.9-2.9"
+              />
+              <path
+                d="M18 12h4"
+              />
+              <path
+                d="m16.2 16.2 2.9 2.9"
+              />
+              <path
+                d="M12 18v4"
+              />
+              <path
+                d="m4.9 19.1 2.9-2.9"
+              />
+              <path
+                d="M2 12h4"
+              />
+              <path
+                d="m4.9 4.9 2.9 2.9"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+            disabled=""
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToCollectionDialog rendering tests open true - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 0
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 1
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 2
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 3
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 4
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 5
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save button disabled - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 0
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 1
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 2
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 3
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 4
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 5
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+            disabled=""
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-loader mr-1.5 h-4 w-4 animate-spin"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2v4"
+              />
+              <path
+                d="m16.2 7.8 2.9-2.9"
+              />
+              <path
+                d="M18 12h4"
+              />
+              <path
+                d="m16.2 16.2 2.9 2.9"
+              />
+              <path
+                d="M12 18v4"
+              />
+              <path
+                d="m4.9 19.1 2.9-2.9"
+              />
+              <path
+                d="M2 12h4"
+              />
+              <path
+                d="m4.9 4.9 2.9 2.9"
+              />
+            </svg>
+            <span>
+              Speichern...
+            </span>
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToLibraryCollectionDialog rendering tests open false - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToLibraryCollectionDialog rendering tests open true - empty library collections - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="py-8 text-center"
+            data-testid="collections-empty"
+          >
+            <p
+              class="mb-4 text-sm text-slate-500"
+            >
+              Keine Sammlungen vorhanden
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+              data-slot="button"
+              data-testid="create-first-collection-btn"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Erste Sammlung erstellen
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToLibraryCollectionDialog rendering tests open true - isLoading true - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center justify-center py-8"
+            data-testid="collections-loading"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-loader h-5 w-5 animate-spin text-slate-400"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2v4"
+              />
+              <path
+                d="m16.2 7.8 2.9-2.9"
+              />
+              <path
+                d="M18 12h4"
+              />
+              <path
+                d="m16.2 16.2 2.9 2.9"
+              />
+              <path
+                d="M12 18v4"
+              />
+              <path
+                d="m4.9 19.1 2.9-2.9"
+              />
+              <path
+                d="M2 12h4"
+              />
+              <path
+                d="m4.9 4.9 2.9 2.9"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+            disabled=""
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
+<div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+      <div
+        class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg max-w-md"
+        data-slot="dialog-content"
+        data-testid="add-to-collection-dialog"
+      >
+        <div
+          class="flex flex-col gap-2 text-center sm:text-left"
+          data-slot="dialog-header"
+        >
+          <div
+            class="text-lg leading-none font-semibold"
+            data-slot="dialog-title"
+            data-testid="mock-react-dialog-title"
+          >
+            Zu Sammlung hinzufügen
+          </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Wählen Sie die Sammlungen aus, zu denen diese Vorlage hinzugefügt werden soll.
+          </div>
+        </div>
+        <div
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
+        >
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 0
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 1
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 2
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8173"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 3
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8174"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 4
+              </span>
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
+          >
+            <button
+              aria-checked="false"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="unchecked"
+              data-testid="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              id="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="unchecked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <label
+              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex flex-1 cursor-pointer items-center gap-2"
+              data-slot="label"
+              for="collection-457bf695-6f74-44aa-9b3a-e179ea9e8175"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-folder h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                />
+              </svg>
+              <span
+                class="font-medium"
+              >
+                name 5
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="flex-col-reverse gap-2 sm:flex-row flex justify-between border-t pt-4 sm:justify-between"
+          data-slot="dialog-footer"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            data-slot="button"
+            data-testid="create-new-collection-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Neue Sammlung
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+            data-slot="button"
+            data-testid="save-btn"
+          >
+            OK
+          </button>
+        </div>
+        <button
+          class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          data-slot="dialog-close"
+          data-testid="dialog-close-btn"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Close
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-slot="dialog"
+    data-testid="mock-react-dialog-root"
+  >
+    <div
+      data-slot="dialog-portal"
+      data-testid="mock-react-dialog-portal"
+    >
+      <div
+        class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+        data-slot="dialog-overlay"
+        data-testid="mock-react-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;

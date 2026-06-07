@@ -24,7 +24,7 @@ import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { LibraryCollectionCreateDialog } from "./create-collection-dialog";
+import { CollectionCreateDialog } from "./create-collection-dialog";
 
 type Props = {
    prompt: DPrompt;
@@ -33,7 +33,7 @@ type Props = {
    onOpenChange: (open: boolean) => void;
 };
 
-export const AddToLibraryCollectionDialog = ({
+export const AddToCollectionDialog = ({
    prompt,
    collections,
    open,
@@ -212,7 +212,7 @@ export const AddToLibraryCollectionDialog = ({
             </DialogContent>
          </Dialog>
 
-         <LibraryCollectionCreateDialog
+         <CollectionCreateDialog
             open={showCreateDialog}
             onOpenChange={setShowCreateDialog}
          />
