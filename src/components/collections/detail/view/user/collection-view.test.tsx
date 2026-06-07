@@ -7,7 +7,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { templatesSearchParamsCache } from "@/components/prompts/search-params";
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionPreviews } from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
@@ -25,8 +25,8 @@ import { CollectionView } from "./collection-view";
 type CacheKey = Parameters<typeof templatesSearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof templatesSearchParamsCache.get>;
 
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
 >;
 
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
@@ -90,7 +90,7 @@ describe("CollectionView rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(page);
-      getCollectionsMock.mockResolvedValue([]);
+      getCollectionPreviewsMock.mockResolvedValue([]);
    });
 
    beforeEach(() => {

@@ -67,7 +67,7 @@ export const CollectionsFilter = ({ collections }: Props) => {
             >
                <Folder
                   className="h-3.5 w-3.5 shrink-0"
-                  // style={{ color: collection.color }}
+                  style={{ color: collection.color }}
                />
                {collection.name}
             </Label>
