@@ -15,11 +15,16 @@ import { filter } from "es-toolkit/compat";
 import {
    createCollection,
    deleteCollection,
+   getCollectionPreviews,
    getCollections,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import type {
@@ -36,6 +41,17 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
    return {
       queryKey: libraryKeys.collections(),
       queryFn: getCollections,
+   };
+};
+
+export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: libraryKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
    };
 };
 

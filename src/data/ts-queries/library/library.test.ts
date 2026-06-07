@@ -17,11 +17,16 @@ import { mockDeep } from "jest-mock-extended";
 import {
    createCollection,
    deleteCollection,
+   getCollectionPreviews,
    getCollections,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -29,6 +34,7 @@ import {
    deleteCollectionOptions,
    loadCollectionsOptions,
    loadPromptCollectionIdsOptions,
+   preloadCollectionPreviewsOptions,
    preloadCollectionsOptions,
    updatePromptCollectionsOptions,
    useCreateCollection,
@@ -48,6 +54,10 @@ const mutationContextMock: MutationFunctionContext = {
 
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
+>;
+
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
 >;
 
 const createCollectionMock = createCollection as jest.MockedFunction<
@@ -91,6 +101,29 @@ describe("prefetch options tests", () => {
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(fnResult).toEqual(collections);
+   });
+
+   test("preloadCollectionPreviewsOptions  - test", async () => {
+      const collections = dtestData.dCollectionPreviews();
+      getCollectionPreviewsMock.mockResolvedValue(collections);
+
+      const options = preloadCollectionPreviewsOptions();
+      const queryFn = options.queryFn as QueryFunction<DCollectionPreview[]>;
+      const context = {} as QueryFunctionContext;
+      const fnResult = await queryFn(context);
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DCollectionPreview[],
+         Error,
+         DCollectionPreview[]
+      > = {
+         queryKey: ["library", "collection-previews"],
+         queryFn: jest.fn(),
+      };
+
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
    });
 });

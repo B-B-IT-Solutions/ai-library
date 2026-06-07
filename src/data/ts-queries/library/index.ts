@@ -1,5 +1,6 @@
 export {
    preloadCollectionsOptions,
+   preloadCollectionPreviewsOptions,
    useLoadCollections,
    useCreateCollection,
    useDeleteCollection,
