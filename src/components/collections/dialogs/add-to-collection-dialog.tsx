@@ -24,7 +24,7 @@ import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
+import { LibraryCollectionCreateDialog } from "./create-collection-dialog";
 
 type Props = {
    prompt: DPrompt;

@@ -24,7 +24,7 @@ import {
 } from "@/data/ts-queries/library/types";
 import { ActionResult } from "@/data/types/utils";
 
-import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
+import { AddToLibraryCollectionDialog } from "./add-to-collection-dialog";
 
 type UseUpdatePromptCollectionsResult = ReturnType<
    typeof useUpdatePromptCollections

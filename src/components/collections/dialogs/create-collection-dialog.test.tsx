@@ -17,7 +17,7 @@ import { useCreateCollection } from "@/data/ts-queries/library";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
-import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
+import { LibraryCollectionCreateDialog } from "./create-collection-dialog";
 
 type UseCreateCollectionResult = ReturnType<typeof useCreateCollection>;
 
