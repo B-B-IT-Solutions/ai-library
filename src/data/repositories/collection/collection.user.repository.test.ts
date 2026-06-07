@@ -89,6 +89,7 @@ describe("pGetCollectionPreviews tests", () => {
          select: {
             id: true,
             name: true,
+            color: true,
          },
       };
 
@@ -194,6 +195,7 @@ describe("pGetCollectionPreviewById tests", () => {
          select: {
             id: true,
             name: true,
+            color: true,
          },
       };
 
@@ -225,6 +227,7 @@ describe("pGetCollectionPreviewById tests", () => {
          select: {
             id: true,
             name: true,
+            color: true,
          },
       };
 

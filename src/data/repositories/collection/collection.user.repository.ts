@@ -67,6 +67,7 @@ export class CollectionRepository {
          select: {
             id: true,
             name: true,
+            color: true,
          },
       } satisfies LibraryCollectionFindManyArgs;
 
@@ -112,6 +113,7 @@ export class CollectionRepository {
          select: {
             id: true,
             name: true,
+            color: true,
          },
       } satisfies LibraryCollectionFindUniqueArgs;
 

@@ -11,10 +11,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { AddPromptToCollectionButton } from "./add-prompt-to-collection-button";
@@ -25,7 +22,7 @@ import { ViewPromptButton } from "./view-prompt-button";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    currentCollection?: DCollectionPreview;
 };
 

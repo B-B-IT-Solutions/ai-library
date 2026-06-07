@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Folder, Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -21,14 +21,14 @@ import {
    useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
@@ -88,7 +88,10 @@ export const AddToLibraryCollectionDialog = ({
       });
    };
 
-   const renderCollectin = (collection: DCollection, isSelected: boolean) => {
+   const renderCollectin = (
+      collection: DCollectionPreview,
+      isSelected: boolean
+   ) => {
       return (
          <div
             key={collection.id}
@@ -112,11 +115,6 @@ export const AddToLibraryCollectionDialog = ({
                   }}
                />
                <span className="font-medium">{collection.name}</span>
-               {collection.description && (
-                  <span className="truncate text-xs text-slate-500">
-                     {collection.description}
-                  </span>
-               )}
             </Label>
          </div>
       );

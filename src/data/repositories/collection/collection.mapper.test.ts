@@ -54,6 +54,7 @@ const toDCollectionPreviewInternal = (
    return {
       id: c.id,
       name: c.name,
+      color: c.color ?? DEFAULT_COLOR,
    };
 };
 
