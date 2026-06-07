@@ -27,16 +27,16 @@ describe("isEditMode - tests", () => {
 });
 
 describe("viewPromptUrl - tests", () => {
-   it("collectionId undefined - test", () => {
+   it("collection undefined - test", () => {
       const prompt = dtestData.dPrompt();
       const result = viewPromptUrl(prompt);
       expect(result).toBe(`/templates/${prompt.id}`);
    });
 
-   it("collectionId defined - test", () => {
+   it("collection defined - test", () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollectionPreview();
-      const result = viewPromptUrl(prompt, collection.id);
+      const result = viewPromptUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
       );

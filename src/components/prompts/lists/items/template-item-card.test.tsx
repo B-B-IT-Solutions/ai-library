@@ -23,7 +23,7 @@ const assertRendered = () => {
 };
 
 describe("TemplateItemCard rendering tests", () => {
-   it("collectionId undefined - test", async () => {
+   it("currentCollection undefined - test", async () => {
       const collections = dtestData.dCollections();
       const prompt = dtestData.dPrompt();
 
@@ -38,16 +38,16 @@ describe("TemplateItemCard rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("collectionId defined - test", async () => {
+   it("currentCollection defined - test", async () => {
       const collections = dtestData.dCollections();
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
          <TemplateItemCard
             prompt={prompt}
             collections={collections}
-            collectionId={collection.id}
+            currentCollection={collection}
          />
       );
 
@@ -87,7 +87,7 @@ describe("TemplateItemCard functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("title - view detail link clicked - collectionId undefined - test", async () => {
+   it("title - view detail link clicked - currentCollection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
@@ -108,16 +108,16 @@ describe("TemplateItemCard functionality tests", () => {
       });
    });
 
-   it("title - view detail link clicked - collectionId defined - test", async () => {
+   it("title - view detail link clicked - currentCollection defined - test", async () => {
       const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       renderWithReactQuery(
          <TemplateItemCard
             prompt={prompt}
             collections={collections}
-            collectionId={collection.id}
+            currentCollection={collection}
          />
       );
 

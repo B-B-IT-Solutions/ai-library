@@ -1,6 +1,9 @@
 import { map } from "es-toolkit/compat";
 
-import { DCollection } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+} from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { TemplateItemCard } from "./items";
@@ -8,14 +11,14 @@ import { TemplateItemCard } from "./items";
 type Props = {
    descriptors: DPrompt[];
    collections: DCollection[];
-   collectionId?: string;
+   currentColleciton?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };
 
 export const TemplateItemsGrid = ({
    descriptors,
    collections,
-   collectionId,
+   currentColleciton,
    ref,
 }: Props) => {
    const item = (descriptor: DPrompt, index: number) => {
@@ -25,7 +28,7 @@ export const TemplateItemsGrid = ({
             key={descriptor.id}
             prompt={descriptor}
             collections={collections}
-            collectionId={collectionId}
+            currentCollection={currentColleciton}
             ref={isLast ? ref : undefined}
          />
       );

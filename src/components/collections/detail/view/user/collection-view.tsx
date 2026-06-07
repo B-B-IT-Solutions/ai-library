@@ -67,7 +67,7 @@ export const CollectionView = async ({ collection }: Props) => {
                   groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
-                  collectionId={collection.id}
+                  currentCollection={collection}
                />
             </div>
          </div>

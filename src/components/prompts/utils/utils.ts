@@ -5,10 +5,13 @@ export const isEditMode = (prompt?: DPrompt) => {
    return !!prompt;
 };
 
-export const viewPromptUrl = (prompt: DPrompt, collectionId?: string) => {
+export const viewPromptUrl = (
+   prompt: DPrompt,
+   collection?: DCollectionPreview
+) => {
    const viewUrl = `/templates/${prompt.id}`;
-   if (collectionId) {
-      return `${viewUrl}?collectionId=${collectionId}`;
+   if (collection) {
+      return `${viewUrl}?collectionId=${collection.id}`;
    }
    return viewUrl;
 };

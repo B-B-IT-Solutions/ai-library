@@ -6,7 +6,10 @@ import Link from "next/link";
 
 import { AddToLibraryCollectionDialog } from "@/components/collections";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { DCollection } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+} from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -18,22 +21,22 @@ import { viewPromptUrl } from "../../utils";
 type Props = {
    prompt: DPrompt;
    collections: DCollection[];
-   collectionId?: string;
+   currentCollection?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };
 
 export const TemplateItemCard = ({
    prompt,
    collections,
-   collectionId,
+   currentCollection,
    ref,
 }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
    const viewUrl = useMemo(
-      () => viewPromptUrl(prompt, collectionId),
-      [prompt, collectionId]
+      () => viewPromptUrl(prompt, currentCollection),
+      [prompt, currentCollection]
    );
 
    const categories = () => {
@@ -87,6 +90,7 @@ export const TemplateItemCard = ({
                <PromptMoreOptionsButton
                   prompt={prompt}
                   collections={collections}
+                  currentCollection={currentCollection}
                />
             </div>
          </CardContent>

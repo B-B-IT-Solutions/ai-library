@@ -9,12 +9,16 @@ import { editPromptUrl } from "../utils";
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollectionPreview;
+   currentColleciton?: DCollectionPreview;
    asMenuItem?: boolean;
 };
 
-export const EditPromptButton = ({ prompt, collection, asMenuItem }: Props) => {
-   const href = editPromptUrl(prompt, collection);
+export const EditPromptButton = ({
+   prompt,
+   currentColleciton,
+   asMenuItem,
+}: Props) => {
+   const href = editPromptUrl(prompt, currentColleciton);
 
    const label = () => {
       return (

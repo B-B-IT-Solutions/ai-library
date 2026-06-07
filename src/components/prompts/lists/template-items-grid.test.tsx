@@ -31,13 +31,13 @@ describe("TemplateItemsGrid rendering tests", () => {
    it("prompt - collectionId defined - test", async () => {
       const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsGrid
             descriptors={descriptors}
             collections={collections}
-            collectionId={collection.id}
+            currentColleciton={collection}
          />
       );
 

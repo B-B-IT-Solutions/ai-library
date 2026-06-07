@@ -23,7 +23,7 @@ export const PromptSidebar = ({ prompt, collection }: Props) => {
             className="w-full justify-center py-5 text-sm"
          />
          <div className="space-y-1 pt-1">
-            <EditPromptButton prompt={prompt} collection={collection} />
+            <EditPromptButton prompt={prompt} currentColleciton={collection} />
             <DownloadPromptButton prompt={prompt} />
             <DeletePromptButton prompt={prompt} />
          </div>

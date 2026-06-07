@@ -105,7 +105,7 @@ describe("TemplateItems rendering tests", () => {
       getCollectionsMock.mockResolvedValue([]);
 
       const filters = dtestData.dPromptsFilter();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithRouter(
          <TemplateItems
@@ -113,7 +113,7 @@ describe("TemplateItems rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
             filters={filters}
-            collectionId={collection.id}
+            currentCollection={collection}
          />
       );
 
