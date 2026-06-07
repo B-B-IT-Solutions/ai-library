@@ -1,8 +1,8 @@
 export {
    createCollection,
    deleteCollection,
-   getTemplateCollectionIds,
-   updateTemplateCollections,
+   getPromptCollectionIds as getTemplateCollectionIds,
+   updatePromptCollections as updateTemplateCollections,
    getCollections,
    getCollectionById,
    setCollectionPublic,

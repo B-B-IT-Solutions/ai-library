@@ -432,17 +432,17 @@ describe("pGetCollectionPromptIds tests", () => {
    });
 });
 
-describe("pAddTemplateToCollection tests", () => {
+describe("pAddPromptToCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("template added to collection - test", async () => {
+   it("prompt added to collection - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const collectionId = "collection-id-1";
 
-      await collectionRepository.pAddTemplateToCollection(
+      await collectionRepository.pAddPromptToCollection(
          userId,
          collectionId,
          promptId
@@ -473,17 +473,17 @@ describe("pAddTemplateToCollection tests", () => {
    });
 });
 
-describe("pRemoveTemplateFromCollection tests", () => {
+describe("pRemovePromptFromCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("template removed from collection - test", async () => {
+   it("prompt removed from collection - test", async () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const collectionId = "collection-id-1";
 
-      await collectionRepository.pRemoveTemplateFromCollection(
+      await collectionRepository.pRemovePromptFromCollection(
          userId,
          collectionId,
          promptId
@@ -508,7 +508,7 @@ describe("pRemoveTemplateFromCollection tests", () => {
    });
 });
 
-describe("pGetTemplateCollectionIds tests", () => {
+describe("pGetPromptCollectionIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -519,7 +519,7 @@ describe("pGetTemplateCollectionIds tests", () => {
 
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue([]);
 
-      const result = await collectionRepository.pGetTemplateCollectionIds(
+      const result = await collectionRepository.pGetPromptCollectionIds(
          userId,
          promptId
       );
@@ -548,7 +548,7 @@ describe("pGetTemplateCollectionIds tests", () => {
       const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
-      const result = await collectionRepository.pGetTemplateCollectionIds(
+      const result = await collectionRepository.pGetPromptCollectionIds(
          userId,
          promptId
       );
@@ -573,7 +573,7 @@ describe("pGetTemplateCollectionIds tests", () => {
    });
 });
 
-describe("pUpdateTemplateCollections tests", () => {
+describe("pUpdatePromptCollections tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -582,11 +582,7 @@ describe("pUpdateTemplateCollections tests", () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
 
-      await collectionRepository.pUpdateTemplateCollections(
-         userId,
-         promptId,
-         []
-      );
+      await collectionRepository.pUpdatePromptCollections(userId, promptId, []);
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
@@ -618,7 +614,7 @@ describe("pUpdateTemplateCollections tests", () => {
       const promptId = "prompt-id-1";
       const collectionIds = ["collection-id-1", "collection-id-2"];
 
-      await collectionRepository.pUpdateTemplateCollections(
+      await collectionRepository.pUpdatePromptCollections(
          userId,
          promptId,
          collectionIds

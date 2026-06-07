@@ -197,7 +197,7 @@ export class CollectionRepository {
       return map(entries, (e) => e.promptId);
    }
 
-   async pAddTemplateToCollection(
+   async pAddPromptToCollection(
       userId: string,
       collectionId: string,
       promptId: string
@@ -223,7 +223,7 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.upsert(args);
    }
 
-   async pRemoveTemplateFromCollection(
+   async pRemovePromptFromCollection(
       userId: string,
       collectionId: string,
       promptId: string
@@ -241,7 +241,7 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
-   async pGetTemplateCollectionIds(
+   async pGetPromptCollectionIds(
       userId: string,
       promptId: string
    ): Promise<string[]> {
@@ -259,7 +259,7 @@ export class CollectionRepository {
       return map(collectionEntries, (ce) => ce.collectionId);
    }
 
-   async pUpdateTemplateCollections(
+   async pUpdatePromptCollections(
       userId: string,
       promptId: string,
       collectionIds: string[]

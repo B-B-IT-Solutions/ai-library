@@ -15,11 +15,11 @@ import {
    getCollectionById,
    getCollectionPromptIds,
    getCollections,
-   getTemplateCollectionIds,
+   getPromptCollectionIds,
    removePromptFromCollection,
    setCollectionPublic,
    updateCollection,
-   updateTemplateCollections,
+   updatePromptCollections,
 } from "./collection.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -36,10 +36,10 @@ const sRemovePromptFromCollection =
 const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
 const sGetCollectionPromptIds =
    CollectionService.prototype.getCollectionPromptIds;
-const sGetEntryCollectionIds =
-   CollectionService.prototype.getTemplateCollectionIds;
-const sUpdateEntryCollections =
-   CollectionService.prototype.updateTemplateCollections;
+const sGetPromptCollectionIds =
+   CollectionService.prototype.getPromptCollectionIds;
+const sUpdatePromptCollections =
+   CollectionService.prototype.updatePromptCollections;
 
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
@@ -66,15 +66,17 @@ const sSetCollectionPublicMock = sSetCollectionPublic as jest.MockedFunction<
    typeof sSetCollectionPublic
 >;
 const sUpdateEntryCollectionsMock =
-   sUpdateEntryCollections as jest.MockedFunction<
-      typeof sUpdateEntryCollections
+   sUpdatePromptCollections as jest.MockedFunction<
+      typeof sUpdatePromptCollections
    >;
 const sGetCollectionPromptIdsMock =
    sGetCollectionPromptIds as jest.MockedFunction<
       typeof sGetCollectionPromptIds
    >;
-const sGetEntryCollectionIdsMock =
-   sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
+const sGetPromptCollectionIdsMock =
+   sGetPromptCollectionIds as jest.MockedFunction<
+      typeof sGetPromptCollectionIds
+   >;
 
 describe("getCollections tests", () => {
    beforeEach(() => {
@@ -866,7 +868,7 @@ describe("setCollectionPublic tests", () => {
    });
 });
 
-describe("getTemplateCollectionIds tests", () => {
+describe("getPromptCollectionIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -879,11 +881,11 @@ describe("getTemplateCollectionIds tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getTemplateCollectionIds(invalidId);
+      const result = await getPromptCollectionIds(invalidId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sGetEntryCollectionIdsMock).not.toHaveBeenCalled();
+      expect(sGetPromptCollectionIdsMock).not.toHaveBeenCalled();
    });
 
    it("user undefined - test", async () => {
@@ -892,11 +894,11 @@ describe("getTemplateCollectionIds tests", () => {
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getTemplateCollectionIds(entryId);
+      const result = await getPromptCollectionIds(entryId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetEntryCollectionIdsMock).not.toHaveBeenCalled();
+      expect(sGetPromptCollectionIdsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -906,20 +908,23 @@ describe("getTemplateCollectionIds tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const collectionIds = dtestData.dCollectionIds();
-      sGetEntryCollectionIdsMock.mockResolvedValue(collectionIds);
+      sGetPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getTemplateCollectionIds(entryId);
+      const result = await getPromptCollectionIds(entryId);
 
       expect(result).toEqual(collectionIds);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetEntryCollectionIdsMock).toHaveBeenCalledTimes(1);
-      expect(sGetEntryCollectionIdsMock).toHaveBeenCalledWith(user.id, entryId);
+      expect(sGetPromptCollectionIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCollectionIdsMock).toHaveBeenCalledWith(
+         user.id,
+         entryId
+      );
    });
 });
 
-describe("updateTemplateCollections tests", () => {
+describe("updatePromptCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -933,7 +938,7 @@ describe("updateTemplateCollections tests", () => {
       const invalidId = "invalid-uuid-1";
 
       const collectionsId = dtestData.dCollectionIds();
-      const result = await updateTemplateCollections(invalidId, collectionsId);
+      const result = await updatePromptCollections(invalidId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -952,7 +957,7 @@ describe("updateTemplateCollections tests", () => {
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateTemplateCollections(entryId, collectionsId);
+      const result = await updatePromptCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -973,7 +978,7 @@ describe("updateTemplateCollections tests", () => {
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateTemplateCollections(entryId, collectionsId);
+      const result = await updatePromptCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -1000,7 +1005,7 @@ describe("updateTemplateCollections tests", () => {
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateTemplateCollections(entryId, collectionsId);
+      const result = await updatePromptCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,
