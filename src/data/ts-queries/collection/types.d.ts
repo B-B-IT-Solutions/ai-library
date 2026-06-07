@@ -1,9 +1,9 @@
-export type AddTemplateToCollectionParams = {
+export type AddPromptToCollectionParams = {
    collectionId: string;
    promptId: string;
 };
 
-export type RemoveTemplateFromCollectionParams = {
+export type RemovePromptFromCollectionParams = {
    collectionId: string;
    promptId: string;
 };
