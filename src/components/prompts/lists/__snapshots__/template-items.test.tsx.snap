@@ -135,26 +135,6 @@ exports[`TemplateItems rendering tests view grid - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
@@ -324,26 +304,6 @@ exports[`TemplateItems rendering tests view grid - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
@@ -513,26 +473,6 @@ exports[`TemplateItems rendering tests view grid - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
@@ -712,26 +652,6 @@ exports[`TemplateItems rendering tests view list - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
@@ -901,26 +821,6 @@ exports[`TemplateItems rendering tests view list - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
@@ -1090,26 +990,6 @@ exports[`TemplateItems rendering tests view list - test 1`] = `
             data-slot="button"
             data-testid="use-prompt-btn"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-plus mr-1.5 h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
             <span>
               Prompt anwenden
             </span>
