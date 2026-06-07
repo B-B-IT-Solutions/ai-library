@@ -7,11 +7,13 @@ import { PromptsToolbar } from "./prompts-toolbar";
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("prompts-toolbar");
+   const search = screen.getByTestId("search-filter");
    const filters = screen.getByTestId("filters-trigger-btn");
    const sortBy = screen.getByTestId("sort-by-select");
    const viewToggle = screen.getByTestId("view-toggle");
 
    assertInDocument(toolbar);
+   assertInDocument(search);
    assertInDocument(filters);
    assertInDocument(sortBy);
    assertInDocument(viewToggle);

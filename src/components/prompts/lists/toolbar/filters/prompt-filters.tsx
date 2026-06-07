@@ -23,7 +23,6 @@ import { templatesSearchParams } from "../../../search-params";
 import { CategoriesFilter } from "./categories-filter";
 import { CollectionsFilter } from "./collections-filter";
 import { ModelsFilter } from "./models-filter";
-import { SearchFilter } from "./search-filter";
 import { activeFiltersCount } from "./utils";
 
 type Props = {
@@ -36,7 +35,6 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
-      f_search: templatesSearchParams["f_search"],
       f_categories: templatesSearchParams["f_categories"],
       f_models: templatesSearchParams["f_models"],
       f_collectionIds: templatesSearchParams["f_collectionIds"],
@@ -44,7 +42,6 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
 
    const resetFilters = () => {
       setFilters({
-         f_search: "",
          f_categories: [],
          f_models: [],
          f_collectionIds: [],
@@ -76,8 +73,6 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
                )}
             </div>
             <div className="space-y-4">
-               <SearchFilter />
-               <Separator />
                <CollectionsFilter collections={collections} />
                <Separator />
                <CategoriesFilter categories={categories} />
@@ -99,7 +94,6 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
             <PopoverTrigger asChild={true}>
                <Button
                   variant="outline"
-                  size="sm"
                   className="gap-2"
                   data-testid="filters-trigger-btn"
                >

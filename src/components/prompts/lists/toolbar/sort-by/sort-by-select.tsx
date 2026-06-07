@@ -24,7 +24,7 @@ export const SortBySelect: FC = () => {
          value={group}
          onValueChange={(value: DListSortByMode) => setGroup(value)}
       >
-         <SelectTrigger className="h-8 w-45" data-testid="sort-by-select">
+         <SelectTrigger className="h-8 w-40" data-testid="sort-by-select">
             <SelectValue placeholder="Sortierung" />
          </SelectTrigger>
          <SelectContent>
