@@ -18,8 +18,8 @@ export type DCollection = {
    updatedAt: string;
 };
 
-export type DTemplateCollectionEntry = {
+export type DCollectionEntry = {
    collectionId: string;
-   templateDescriptorId: string;
+   promptId: string;
    addedAt: string;
 };
