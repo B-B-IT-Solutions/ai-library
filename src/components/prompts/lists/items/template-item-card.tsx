@@ -13,14 +13,12 @@ import { viewPromptUrl } from "../../utils";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollectionPreview[];
    currentCollection?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };
 
 export const TemplateItemCard = ({
    prompt,
-   collections,
    currentCollection,
    ref,
 }: Props) => {
@@ -76,7 +74,6 @@ export const TemplateItemCard = ({
                <UseTemplateButton descriptor={prompt} className="flex-1" />
                <PromptMoreOptionsButton
                   prompt={prompt}
-                  collections={collections}
                   currentCollection={currentCollection}
                />
             </div>

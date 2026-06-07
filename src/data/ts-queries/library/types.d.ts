@@ -1,5 +1,9 @@
 import { DCollectionUpdate } from "@/data/types/domain/collection";
 
+export type LoadCollectionPreviewsParams = {
+   enabled: boolean;
+};
+
 export type UpdateCollectionParams = {
    collectionId: string;
    data: DCollectionUpdate;

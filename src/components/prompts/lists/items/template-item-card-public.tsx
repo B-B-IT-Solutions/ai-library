@@ -1,11 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Eye, FolderPlus, MoreVertical } from "lucide-react";
+import { Eye, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
-import { AddToCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -15,7 +11,6 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -25,21 +20,13 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollectionPreview[];
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemCard = ({
-   prompt,
-   collections,
-   collectionToken,
-}: Props) => {
+export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
-
-   const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
-      useState(false);
 
    const categories = () => {
       return (
@@ -79,14 +66,6 @@ export const PublicTemplateItemCard = ({
                      <Eye className="mr-2 h-4 w-4" />
                      Details anzeigen
                   </Link>
-               </DropdownMenuItem>
-               <DropdownMenuItem
-                  onClick={() => setShowAddToCollectionDialog(true)}
-                  className="cursor-pointer"
-                  data-testid="show-add-to-collection-dialog"
-               >
-                  <FolderPlus className="mr-2 h-4 w-4" />
-                  Zu Sammlung hinzufügen
                </DropdownMenuItem>
                <DropdownMenuSeparator />
                <DownloadPromptButton prompt={prompt} asMenuItem={true} />
@@ -133,13 +112,6 @@ export const PublicTemplateItemCard = ({
                {dropdownMenu()}
             </div>
          </CardContent>
-
-         <AddToCollectionDialog
-            prompt={prompt}
-            collections={collections}
-            open={showAddToCollectionDialog}
-            onOpenChange={setShowAddToCollectionDialog}
-         />
       </Card>
    );
 };

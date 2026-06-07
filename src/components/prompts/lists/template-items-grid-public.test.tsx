@@ -18,10 +18,8 @@ const assertRendered = () => {
 
 describe("PublicTemplateItemsGrid rendering tests", () => {
    it("descriptors - empty - test", async () => {
-      const collections = dtestData.dCollections();
-
       const { container } = renderWithReactQuery(
-         <PublicTemplateItemsGrid descriptors={[]} collections={collections} />
+         <PublicTemplateItemsGrid descriptors={[]} />
       );
 
       await waitFor(() => {
@@ -32,13 +30,11 @@ describe("PublicTemplateItemsGrid rendering tests", () => {
    });
 
    it("descriptors - with items - test", async () => {
-      const collections = dtestData.dCollections();
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
          <PublicTemplateItemsGrid
             descriptors={descriptors}
-            collections={collections}
             collectionToken="public-token-1"
          />
       );

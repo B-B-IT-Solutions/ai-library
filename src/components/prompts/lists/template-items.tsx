@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { flatMap, isEmpty } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useLoadCollectionPreviews } from "@/data/ts-queries/library";
 import { useInfiniteLoadPromptsPage } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollectionPreview } from "@/data/types/domain/collection";
@@ -32,7 +31,6 @@ export const TemplateItems = ({
    filters,
    currentCollection,
 }: Props) => {
-   const { data: collections = [] } = useLoadCollectionPreviews();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadPromptsPage({
          filters,
@@ -106,7 +104,6 @@ export const TemplateItems = ({
          >
             <TemplateItemsList
                descriptors={prompts}
-               collections={collections}
                currentColleciton={currentCollection}
             />
          </InfiniteScroll>
@@ -122,7 +119,6 @@ export const TemplateItems = ({
       >
          <TemplateItemsGrid
             descriptors={prompts}
-            collections={collections}
             currentColleciton={currentCollection}
          />
       </InfiniteScroll>

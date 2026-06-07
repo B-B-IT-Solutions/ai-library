@@ -10,7 +10,6 @@ import {
    getPromptModels,
    getPromptsUsage,
 } from "@/data/actions/prompt";
-import { preloadCollectionPreviewsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadPromptsPageOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
@@ -40,7 +39,6 @@ export const PromptsDashboard = async () => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadCollectionPreviewsOptions()),
    ]);
 
    const [categories, models, collections, usage] = await Promise.all([

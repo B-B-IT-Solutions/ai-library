@@ -45,7 +45,11 @@ import {
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "./library";
-import { LoadCollectionIdsParams, UpdateCollectionIdsParams } from "./types";
+import {
+   LoadCollectionIdsParams,
+   LoadCollectionPreviewsParams,
+   UpdateCollectionIdsParams,
+} from "./types";
 
 const queryClientMock = mockDeep<QueryClient>();
 
@@ -170,6 +174,8 @@ describe("loadCollectionPreviews hooks tests", () => {
    });
 
    test("loadCollectionPreviewsOptions - test", async () => {
+      const enabled = true;
+
       const expectedOptions: UndefinedInitialDataOptions<
          DCollectionPreview[],
          Error,
@@ -178,19 +184,30 @@ describe("loadCollectionPreviews hooks tests", () => {
          queryKey: ["library", "collection-previews"],
          queryFn: jest.fn(),
          placeholderData: keepPreviousData,
+         enabled,
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = loadCollectionPreviewsOptions();
+      const params: LoadCollectionPreviewsParams = {
+         enabled,
+      };
+
+      const options = loadCollectionPreviewsOptions(params);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
    test("useLoadCollectionPreviews test", async () => {
+      const enabled = true;
+
       const collections = dtestData.dCollectionPreviews();
       getCollectionPreviewsMock.mockResolvedValue(collections);
 
+      const params: LoadCollectionPreviewsParams = {
+         enabled,
+      };
+
       const { result } = renderHookWithReactQuery(() =>
-         useLoadCollectionPreviews()
+         useLoadCollectionPreviews(params)
       );
 
       await waitFor(() => {
