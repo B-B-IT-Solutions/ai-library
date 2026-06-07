@@ -1,11 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Eye, FolderPlus, MoreVertical } from "lucide-react";
+import { Eye, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
-import { AddToCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -27,16 +23,10 @@ type Props = {
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemCard = ({
-   prompt,
-   collectionToken,
-}: Props) => {
+export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
-
-   const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
-      useState(false);
 
    const categories = () => {
       return (
@@ -76,14 +66,6 @@ export const PublicTemplateItemCard = ({
                      <Eye className="mr-2 h-4 w-4" />
                      Details anzeigen
                   </Link>
-               </DropdownMenuItem>
-               <DropdownMenuItem
-                  onClick={() => setShowAddToCollectionDialog(true)}
-                  className="cursor-pointer"
-                  data-testid="show-add-to-collection-dialog"
-               >
-                  <FolderPlus className="mr-2 h-4 w-4" />
-                  Zu Sammlung hinzufügen
                </DropdownMenuItem>
                <DropdownMenuSeparator />
                <DownloadPromptButton prompt={prompt} asMenuItem={true} />
@@ -130,12 +112,6 @@ export const PublicTemplateItemCard = ({
                {dropdownMenu()}
             </div>
          </CardContent>
-
-         <AddToCollectionDialog
-            prompt={prompt}
-            open={showAddToCollectionDialog}
-            onOpenChange={setShowAddToCollectionDialog}
-         />
       </Card>
    );
 };

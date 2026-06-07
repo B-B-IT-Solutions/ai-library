@@ -160,7 +160,6 @@ describe("AddToCollectionDialog rendering tests", () => {
 
       const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollectionPreviews(6);
-      allCollections[0].color = null;
       useLoadCollectionPreviewsMock.mockReturnValue(
          collectionPreviewsResultMock(allCollections)
       );
@@ -552,7 +551,6 @@ describe("AddToCollectionDialog functionality tests", () => {
 
       const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollectionPreviews(3);
-      allCollections[0].color = null;
       useLoadCollectionPreviewsMock.mockReturnValue(
          collectionPreviewsResultMock(allCollections)
       );

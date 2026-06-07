@@ -1,5 +1,3 @@
-jest.mock("@/data/actions/collection");
-
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
@@ -10,12 +8,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { getPromptCollectionIds } from "@/data/actions/collection";
-
 import { PublicTemplateItemCard } from "./template-item-card-public";
-
-const getPromptCollectionIdsMock =
-   getPromptCollectionIds as jest.MockedFunction<typeof getPromptCollectionIds>;
 
 const assertRendered = () => {
    const itemCard = screen.getByTestId("public-template-item-card");
@@ -33,36 +26,18 @@ const assertRendered = () => {
 
 const assertDropdownMenuItemsRendered = () => {
    const viewDetailsLink = screen.getByTestId("view-details-link");
-   const addToCollectionDialogMenuItem = screen.getByTestId(
-      "show-add-to-collection-dialog"
-   );
    const downloadMenuItem = screen.getByTestId("download-prompt-menu-item");
 
    assertInDocument(viewDetailsLink);
-   assertInDocument(addToCollectionDialogMenuItem);
    assertInDocument(downloadMenuItem);
 };
 
 const assertDropdownMenuItemsNotRendered = () => {
    const viewDetailsLink = screen.queryByTestId("view-details-link");
-   const addToCollectionDialog = screen.queryByTestId(
-      "show-add-to-collection-dialog"
-   );
    const downloadMenuItem = screen.queryByTestId("download-prompt-menu-item");
 
    assertNotInDocument(viewDetailsLink);
-   assertNotInDocument(addToCollectionDialog);
    assertNotInDocument(downloadMenuItem);
-};
-
-const assertAddToCollectionDialogRendered = () => {
-   const dialog = screen.getByTestId("add-to-collection-dialog");
-   assertInDocument(dialog);
-};
-
-const assertAddToCollectionDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("add-to-collection-dialog");
-   assertNotInDocument(dialog);
 };
 
 describe("PublicTemplateItemCard rendering tests", () => {
@@ -120,9 +95,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
    it("dropdown - view detail link clicked - test", async () => {
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(
-         <PublicTemplateItemCard prompt={prompt} />
-      );
+      renderWithReactQuery(<PublicTemplateItemCard prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -143,40 +116,6 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);
-      });
-   });
-
-   it("dropdown - show add to collection dialog - test", async () => {
-      const collectionIds = dtestData.dCollectionIds();
-      getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
-
-      const prompt = dtestData.dPrompt();
-
-      renderWithReactQuery(
-         <PublicTemplateItemCard prompt={prompt} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertDropdownMenuItemsNotRendered();
-         assertAddToCollectionDialogNotRendered();
-      });
-
-      const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
-      userEvent.click(dropdownMenuBtn);
-
-      await waitFor(() => {
-         assertDropdownMenuItemsRendered();
-         assertAddToCollectionDialogNotRendered();
-      });
-
-      const addToCollectionDialogMenuItem = screen.getByTestId(
-         "show-add-to-collection-dialog"
-      );
-      userEvent.click(addToCollectionDialogMenuItem);
-
-      await waitFor(() => {
-         assertAddToCollectionDialogRendered();
       });
    });
 });
