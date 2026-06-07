@@ -44,7 +44,7 @@ export const EditPromptPage = async ({ params, searchParams }: PageProps) => {
          <PromptEdit
             prompt={prompt}
             globalFields={globalFields}
-            collection={collection || undefined}
+            currentCollection={collection || undefined}
          />
       </div>
    );

@@ -30,7 +30,7 @@ export const NewPromptPage = async ({ searchParams }: PageProps) => {
          data-testid="new-prompt-page"
       >
          <PromptEdit
-            collection={collection || undefined}
+            currentCollection={collection || undefined}
             globalFields={globalFields}
          />
       </div>

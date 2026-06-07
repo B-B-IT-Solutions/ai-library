@@ -51,7 +51,7 @@ export const PromptBreadcrumb = (props: Props) => {
             root={root || defaultRoot}
             variant={variant}
             link={{
-               href: viewPromptUrl(prompt, collection?.id),
+               href: viewPromptUrl(prompt, collection),
                label: prompt.title,
                tooltip: prompt.title,
             }}

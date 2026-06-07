@@ -21,18 +21,22 @@ import { PromptEditForm } from "./form/prompt-form";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollectionPreview;
+   currentCollection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
 };
 
-export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
+export const PromptEdit = ({
+   prompt,
+   currentCollection,
+   globalFields,
+}: Props) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
    const isEdit = useMemo(() => isEditMode(prompt), [prompt]);
 
    const backUrl = useMemo(
-      () => promptEditNavigateBackUrl(prompt, collection),
-      [prompt, collection]
+      () => promptEditNavigateBackUrl(prompt, currentCollection),
+      [prompt, currentCollection]
    );
 
    const breadcrumbs = () => {
@@ -41,11 +45,11 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
             <PromptBreadcrumb
                variant="edit"
                prompt={prompt}
-               collection={collection}
+               collection={currentCollection}
             />
          );
       }
-      return <PromptBreadcrumb variant="new" collection={collection} />;
+      return <PromptBreadcrumb variant="new" collection={currentCollection} />;
    };
 
    const cancelBtn = () => {
@@ -108,7 +112,7 @@ export const PromptEdit = ({ prompt, collection, globalFields }: Props) => {
             <ItemDetailsEditBody>
                <PromptEditForm
                   prompt={prompt}
-                  collection={collection}
+                  currentCollection={currentCollection}
                   globalFields={globalFields}
                   onSubmit={setIsSubmitting}
                />

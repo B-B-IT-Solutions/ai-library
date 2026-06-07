@@ -35,7 +35,7 @@ describe("EditPromptButton rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithRouter(
-         <EditPromptButton prompt={prompt} currentColleciton={collection} />
+         <EditPromptButton prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {
@@ -66,7 +66,7 @@ describe("EditPromptButton rendering tests", () => {
       const { container } = renderWithRouter(
          <EditPromptButton
             prompt={prompt}
-            currentColleciton={collection}
+            currentCollection={collection}
             asMenuItem={true}
          />
       );
@@ -106,7 +106,7 @@ describe("EditPromptButton functionality tests", () => {
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollectionPreview();
       renderWithRouter(
-         <EditPromptButton prompt={prompt} currentColleciton={collection} />
+         <EditPromptButton prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {

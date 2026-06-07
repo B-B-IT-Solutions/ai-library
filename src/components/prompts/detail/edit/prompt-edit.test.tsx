@@ -112,7 +112,7 @@ describe("PromptEdit rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
-         <PromptEdit globalFields={[]} collection={collection} />
+         <PromptEdit globalFields={[]} currentCollection={collection} />
       );
 
       await waitFor(() => {
@@ -148,7 +148,7 @@ describe("PromptEdit rendering tests", () => {
          <PromptEdit
             prompt={prompt}
             globalFields={fields}
-            collection={collection}
+            currentCollection={collection}
          />
       );
 
@@ -233,7 +233,9 @@ describe("PromptEdit functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -320,7 +322,7 @@ describe("PromptEdit functionality tests", () => {
       render(
          <PromptEdit
             prompt={prompt}
-            collection={collection}
+            currentCollection={collection}
             globalFields={fields}
          />
       );
@@ -375,7 +377,9 @@ describe("PromptEdit functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -441,7 +445,9 @@ describe("PromptEdit functionality tests", () => {
       const fields = dtestData.dGlobalPromptFields();
       const collection = dtestData.dCollectionPreview();
 
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();

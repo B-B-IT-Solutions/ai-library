@@ -179,7 +179,7 @@ describe("PromptEditForm functionality tests", () => {
       render(
          <PromptEditForm
             globalFields={[]}
-            collection={collection}
+            currentCollection={collection}
             onSubmit={jest.fn()}
          />
       );
