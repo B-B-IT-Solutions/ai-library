@@ -648,7 +648,7 @@ exports[`AddToCollectionDialog rendering tests open false - test 1`] = `
 </div>
 `;
 
-exports[`AddToCollectionDialog rendering tests open true - empty library collections - test 1`] = `
+exports[`AddToCollectionDialog rendering tests open true - empty collections - test 1`] = `
 <div>
   <div
     data-slot="dialog"
