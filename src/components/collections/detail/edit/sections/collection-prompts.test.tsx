@@ -26,7 +26,7 @@ import {
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
-import { CollectionTemplates } from "./collection-templates";
+import { CollectionPrompts } from "./collection-prompts";
 
 type UseAddPromptResult = ReturnType<typeof useAddPromptToCollection>;
 type UseRemovePromptResult = ReturnType<typeof useRemovePromptFromCollection>;
@@ -98,7 +98,7 @@ const setupDefaultMocks = () => {
 };
 
 const assertRendered = () => {
-   const collectionTemplates = screen.getByTestId("collection-templates");
+   const collectionTemplates = screen.getByTestId("collection-prompts");
    const search = screen.getByTestId("templates-search");
 
    assertInDocument(collectionTemplates);
@@ -141,7 +141,7 @@ const assertLoaderIcon = () => {
    assertInDocument(icon);
 };
 
-describe("CollectionTemplates rendering tests", () => {
+describe("CollectionPrompts rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       setupDefaultMocks();
@@ -152,7 +152,7 @@ describe("CollectionTemplates rendering tests", () => {
       useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const { container } = renderWithReactQuery(
-         <CollectionTemplates collectionId={collectionId} />
+         <CollectionPrompts collectionId={collectionId} />
       );
 
       await waitFor(() => {
@@ -174,7 +174,7 @@ describe("CollectionTemplates rendering tests", () => {
       );
 
       const { container } = renderWithReactQuery(
-         <CollectionTemplates collectionId={collectionId} />
+         <CollectionPrompts collectionId={collectionId} />
       );
 
       await waitFor(() => {
@@ -200,7 +200,7 @@ describe("CollectionTemplates rendering tests", () => {
       );
 
       const { container } = renderWithReactQuery(
-         <CollectionTemplates collectionId={collectionId} />
+         <CollectionPrompts collectionId={collectionId} />
       );
 
       await waitFor(() => {
@@ -214,7 +214,7 @@ describe("CollectionTemplates rendering tests", () => {
    });
 });
 
-describe("CollectionTemplates functionality tests", () => {
+describe("CollectionPrompts functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       setupDefaultMocks();
@@ -242,7 +242,7 @@ describe("CollectionTemplates functionality tests", () => {
       const addResultMock = addMutationResultMock(mutateFn);
       useAddPromptToCollectionMock.mockReturnValue(addResultMock);
 
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
+      renderWithReactQuery(<CollectionPrompts collectionId={collectionId} />);
 
       await waitFor(() => {
          assertRendered();
@@ -309,7 +309,7 @@ describe("CollectionTemplates functionality tests", () => {
       const addResultMock = addMutationResultMock(mutateFn);
       useAddPromptToCollectionMock.mockReturnValue(addResultMock);
 
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
+      renderWithReactQuery(<CollectionPrompts collectionId={collectionId} />);
 
       await waitFor(() => {
          assertRendered();
@@ -376,7 +376,7 @@ describe("CollectionTemplates functionality tests", () => {
       const removeResultMock = removeMutationResultMock(mutateFn);
       useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
 
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
+      renderWithReactQuery(<CollectionPrompts collectionId={collectionId} />);
 
       const removeBtn = screen.getAllByTestId("remove-template-btn");
       await userEvent.click(removeBtn[0]);
@@ -436,7 +436,7 @@ describe("CollectionTemplates functionality tests", () => {
       const removeResultMock = removeMutationResultMock(mutateFn);
       useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
 
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
+      renderWithReactQuery(<CollectionPrompts collectionId={collectionId} />);
 
       const removeBtn = screen.getAllByTestId("remove-template-btn");
       await userEvent.click(removeBtn[0]);
@@ -473,7 +473,7 @@ describe("CollectionTemplates functionality tests", () => {
    });
 
    it("search input test", async () => {
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
+      renderWithReactQuery(<CollectionPrompts collectionId={collectionId} />);
 
       const value = "test 1";
       const input = screen.getByTestId("search-input");

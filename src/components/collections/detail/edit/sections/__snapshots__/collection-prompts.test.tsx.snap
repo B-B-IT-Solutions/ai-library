@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CollectionTemplates rendering tests idsLoading true - test 1`] = `
+exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="collection-templates"
+    data-testid="collection-prompts"
   >
     <div
       class="px-6"
@@ -97,12 +97,12 @@ exports[`CollectionTemplates rendering tests idsLoading true - test 1`] = `
 </div>
 `;
 
-exports[`CollectionTemplates rendering tests in collection/not in collection - empty - test 1`] = `
+exports[`CollectionPrompts rendering tests in collection/not in collection - empty - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="collection-templates"
+    data-testid="collection-prompts"
   >
     <div
       class="px-6"
@@ -184,12 +184,12 @@ exports[`CollectionTemplates rendering tests in collection/not in collection - e
 </div>
 `;
 
-exports[`CollectionTemplates rendering tests in collection/not in collection - with items - test 1`] = `
+exports[`CollectionPrompts rendering tests in collection/not in collection - with items - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="collection-templates"
+    data-testid="collection-prompts"
   >
     <div
       class="px-6"

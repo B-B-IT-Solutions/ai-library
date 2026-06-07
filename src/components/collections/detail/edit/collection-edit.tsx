@@ -19,7 +19,7 @@ import { CollectionBreadcrumb } from "../../breadcrumbs";
 import {
    CollectionEditForm,
    CollectionOther,
-   CollectionTemplates,
+   CollectionPrompts,
 } from "./sections";
 
 type Props = {
@@ -87,7 +87,7 @@ export const CollectionEdit = ({ collection }: Props) => {
                   <CollectionEditForm collection={collection} />
                </TabsContent>
                <TabsContent value="templates">
-                  <CollectionTemplates collectionId={collection.id} />
+                  <CollectionPrompts collectionId={collection.id} />
                </TabsContent>
                <TabsContent value="other">
                   <CollectionOther collection={collection} />

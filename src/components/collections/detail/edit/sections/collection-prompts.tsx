@@ -24,7 +24,7 @@ type Props = {
    collectionId: string;
 };
 
-export const CollectionTemplates = ({ collectionId }: Props) => {
+export const CollectionPrompts = ({ collectionId }: Props) => {
    const [search, setSearch] = useState("");
    const [pendingId, setPendingId] = useState<string | null>(null);
 
@@ -216,7 +216,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    };
 
    return (
-      <Card data-testid="collection-templates">
+      <Card data-testid="collection-prompts">
          <CardContent>
             <div className="flex flex-col gap-4">
                <div className="relative" data-testid="templates-search">

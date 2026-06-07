@@ -52,20 +52,20 @@ const assertEditModeRendered = () => {
 
 const assertGeneralTabRendered = () => {
    const editForm = screen.getByTestId("collection-edit-form");
-   const templates = screen.queryByTestId("collection-templates");
+   const prompts = screen.queryByTestId("collection-prompts");
    const other = screen.queryByTestId("collection-other");
 
    assertInDocument(editForm);
-   assertNotInDocument(templates);
+   assertNotInDocument(prompts);
    assertNotInDocument(other);
 };
 
 const assertTemplatesTabRendered = () => {
-   const templates = screen.getByTestId("collection-templates");
+   const prompts = screen.getByTestId("collection-prompts");
    const editForm = screen.queryByTestId("collection-edit-form");
    const other = screen.queryByTestId("collection-other");
 
-   assertInDocument(templates);
+   assertInDocument(prompts);
    assertNotInDocument(editForm);
    assertNotInDocument(other);
 };
@@ -73,11 +73,11 @@ const assertTemplatesTabRendered = () => {
 const assertOtherTabRendered = () => {
    const other = screen.getByTestId("collection-other");
    const editForm = screen.queryByTestId("collection-edit-form");
-   const templates = screen.queryByTestId("collection-templates");
+   const prompts = screen.queryByTestId("collection-prompts");
 
    assertInDocument(other);
    assertNotInDocument(editForm);
-   assertNotInDocument(templates);
+   assertNotInDocument(prompts);
 };
 
 describe("CollectionEdit rendering tests", () => {
