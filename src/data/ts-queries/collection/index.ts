@@ -1,10 +1,10 @@
 export {
-   useLoadCollectionPromptIds as useLoadCollectionTemplateIds,
-   useAddPromptToCollection as useAddTemplateToCollection,
-   useRemovePromptFromCollection as useRemoveTemplateFromCollection,
+   useLoadCollectionPromptIds,
+   useAddPromptToCollection,
+   useRemovePromptFromCollection,
 } from "./collection";
 
 export type {
-   AddPromptToCollectionParams as AddTemplateToCollectionParams,
-   RemovePromptFromCollectionParams as RemoveTemplateFromCollectionParams,
+   AddPromptToCollectionParams,
+   RemovePromptFromCollectionParams,
 } from "./types";

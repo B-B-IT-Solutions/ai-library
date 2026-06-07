@@ -11,11 +11,11 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { Input } from "@/components/shadcn/input";
 import {
-   AddTemplateToCollectionParams,
-   RemoveTemplateFromCollectionParams,
-   useAddTemplateToCollection,
-   useLoadCollectionTemplateIds,
-   useRemoveTemplateFromCollection,
+   AddPromptToCollectionParams,
+   RemovePromptFromCollectionParams,
+   useAddPromptToCollection,
+   useLoadCollectionPromptIds,
+   useRemovePromptFromCollection,
 } from "@/data/ts-queries/collection";
 import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
@@ -28,37 +28,35 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const [search, setSearch] = useState("");
    const [pendingId, setPendingId] = useState<string | null>(null);
 
-   const { mutate: addTemplate } = useAddTemplateToCollection();
-   const { mutate: removeTemplate } = useRemoveTemplateFromCollection();
+   const { mutate: addPrompt } = useAddPromptToCollection();
+   const { mutate: removePrompt } = useRemovePromptFromCollection();
 
-   const { data: templateIds = [], isLoading: idsLoading } =
-      useLoadCollectionTemplateIds(collectionId);
+   const { data: promptIds = [], isLoading: idsLoading } =
+      useLoadCollectionPromptIds(collectionId);
 
    const { data, fetchNextPage, hasNextPage, isFetching } =
       useInfiniteLoadTemplateDescriptors({
          filters: { search: search || undefined },
       });
 
-   const allTemplates = useMemo(
+   const allPrompts = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
       [data]
    );
 
-   const inCollection = filter(allTemplates, (t) =>
-      includes(templateIds, t.id)
-   );
+   const inCollection = filter(allPrompts, (t) => includes(promptIds, t.id));
 
    const notInCollection = filter(
-      allTemplates,
-      (t) => !includes(templateIds, t.id)
+      allPrompts,
+      (t) => !includes(promptIds, t.id)
    );
 
-   const addTemplateToCollection = (prompt: DPrompt) => {
-      const params: AddTemplateToCollectionParams = {
+   const addPromptToCollection = (prompt: DPrompt) => {
+      const params: AddPromptToCollectionParams = {
          collectionId,
          promptId: prompt.id,
       };
-      addTemplate(params, {
+      addPrompt(params, {
          onSuccess: (result) => {
             if (!result.success) {
                toast.error(result.message);
@@ -68,12 +66,12 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       });
    };
 
-   const removeTemplateFromCollection = (prompt: DPrompt) => {
-      const params: RemoveTemplateFromCollectionParams = {
+   const removePromptFromCollection = (prompt: DPrompt) => {
+      const params: RemovePromptFromCollectionParams = {
          collectionId,
          promptId: prompt.id,
       };
-      removeTemplate(params, {
+      removePrompt(params, {
          onSuccess: (result) => {
             if (!result.success) {
                toast.error(result.message);
@@ -87,9 +85,9 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       setPendingId(descriptor.id);
 
       if (isIn) {
-         removeTemplateFromCollection(descriptor);
+         removePromptFromCollection(descriptor);
       } else {
-         addTemplateToCollection(descriptor);
+         addPromptToCollection(descriptor);
       }
    };
 
@@ -143,7 +141,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       );
    };
 
-   const templatesInCollection = () => {
+   const promptsInCollection = () => {
       if (isEmpty(inCollection)) {
          return (
             <div
@@ -157,9 +155,9 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       return map(inCollection, (t) => renderRow(t, true));
    };
 
-   const templatesNotInCollection = () => {
+   const promptsNotInCollection = () => {
       if (isEmpty(notInCollection)) {
-         const text = isEmpty(allTemplates)
+         const text = isEmpty(allPrompts)
             ? "Keine Vorlagen gefunden"
             : "Keine weiteren Vorlagen gefunden";
 
@@ -184,7 +182,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       );
    };
 
-   const templatesList = () => {
+   const promptsList = () => {
       if (idsLoading) {
          return (
             <div
@@ -202,16 +200,16 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
          >
             <div>
                <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
-                  In dieser Sammlung ({templateIds.length})
+                  In dieser Sammlung ({promptIds.length})
                </div>
-               {templatesInCollection()}
+               {promptsInCollection()}
             </div>
 
             <div>
                <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                   Weitere Vorlagen
                </div>
-               {templatesNotInCollection()}
+               {promptsNotInCollection()}
             </div>
          </div>
       );
@@ -231,7 +229,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                      data-testid="search-input"
                   />
                </div>
-               {templatesList()}
+               {promptsList()}
             </div>
          </CardContent>
       </Card>

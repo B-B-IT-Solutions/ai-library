@@ -14,10 +14,10 @@ import {
 import { toast } from "sonner";
 
 import {
-   AddTemplateToCollectionParams,
-   useAddTemplateToCollection,
-   useLoadCollectionTemplateIds,
-   useRemoveTemplateFromCollection,
+   AddPromptToCollectionParams,
+   useAddPromptToCollection,
+   useLoadCollectionPromptIds,
+   useRemovePromptFromCollection,
 } from "@/data/ts-queries/collection";
 import {
    type LoadTemplateDescriptorsParams,
@@ -28,74 +28,70 @@ import { ActionResult } from "@/data/types/utils";
 
 import { CollectionTemplates } from "./collection-templates";
 
-type UseAddTemplateResult = ReturnType<typeof useAddTemplateToCollection>;
-type UseRemoveTemplateResult = ReturnType<
-   typeof useRemoveTemplateFromCollection
->;
-type UseLoadTemplateIdsResult = ReturnType<typeof useLoadCollectionTemplateIds>;
-type UseInfiniteTemplatesResult = ReturnType<
+type UseAddPromptResult = ReturnType<typeof useAddPromptToCollection>;
+type UseRemovePromptResult = ReturnType<typeof useRemovePromptFromCollection>;
+type UseLoadPromptIdsResult = ReturnType<typeof useLoadCollectionPromptIds>;
+type UseInfinitePromptsResult = ReturnType<
    typeof useInfiniteLoadTemplateDescriptors
 >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const useAddTemplateToCollectionMock =
-   useAddTemplateToCollection as jest.MockedFunction<
-      typeof useAddTemplateToCollection
+const useAddPromptToCollectionMock =
+   useAddPromptToCollection as jest.MockedFunction<
+      typeof useAddPromptToCollection
    >;
-const useRemoveTemplateFromCollectionMock =
-   useRemoveTemplateFromCollection as jest.MockedFunction<
-      typeof useRemoveTemplateFromCollection
+const useRemovePromptFromCollectionMock =
+   useRemovePromptFromCollection as jest.MockedFunction<
+      typeof useRemovePromptFromCollection
    >;
-const useLoadCollectionTemplateIdsMock =
-   useLoadCollectionTemplateIds as jest.MockedFunction<
-      typeof useLoadCollectionTemplateIds
+const useLoadCollectionPromptIdsMock =
+   useLoadCollectionPromptIds as jest.MockedFunction<
+      typeof useLoadCollectionPromptIds
    >;
 const useInfiniteLoadTemplateDescriptorsMock =
    useInfiniteLoadTemplateDescriptors as jest.MockedFunction<
       typeof useInfiniteLoadTemplateDescriptors
    >;
 
-const addMutationResultMock = (mutateFn = jest.fn()): UseAddTemplateResult => {
-   return ctestData.useMutationResultMock(mutateFn) as UseAddTemplateResult;
+const addMutationResultMock = (mutateFn = jest.fn()): UseAddPromptResult => {
+   return ctestData.useMutationResultMock(mutateFn) as UseAddPromptResult;
 };
 
 const removeMutationResultMock = (
    mutateFn = jest.fn()
-): UseRemoveTemplateResult => {
-   return ctestData.useMutationResultMock(mutateFn) as UseRemoveTemplateResult;
+): UseRemovePromptResult => {
+   return ctestData.useMutationResultMock(mutateFn) as UseRemovePromptResult;
 };
 
-const templateIdsQueryResultMock = (
+const promptIdsQueryResultMock = (
    data: string[] | undefined,
    isLoading = false
-): UseLoadTemplateIdsResult => {
-   return { data, isLoading } as UseLoadTemplateIdsResult;
+): UseLoadPromptIdsResult => {
+   return { data, isLoading } as UseLoadPromptIdsResult;
 };
 
 const infiniteQueryResultMock = (
    pages: DPromptsPage[] = [],
    hasNextPage = false,
    isFetching = false
-): UseInfiniteTemplatesResult => {
+): UseInfinitePromptsResult => {
    return {
       data: { pages, pageParams: [] },
       fetchNextPage: jest.fn(),
       hasNextPage,
       isFetching,
-   } as unknown as UseInfiniteTemplatesResult;
+   } as unknown as UseInfinitePromptsResult;
 };
 
 const collectionId = "collection-1";
 
 const setupDefaultMocks = () => {
-   useAddTemplateToCollectionMock.mockReturnValue(addMutationResultMock());
-   useRemoveTemplateFromCollectionMock.mockReturnValue(
+   useAddPromptToCollectionMock.mockReturnValue(addMutationResultMock());
+   useRemovePromptFromCollectionMock.mockReturnValue(
       removeMutationResultMock()
    );
-   useLoadCollectionTemplateIdsMock.mockReturnValue(
-      templateIdsQueryResultMock([])
-   );
+   useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResultMock([]));
    useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
       infiniteQueryResultMock()
    );
@@ -152,11 +148,8 @@ describe("CollectionTemplates rendering tests", () => {
    });
 
    it("idsLoading true - test", async () => {
-      const templateIdsQueryResult = templateIdsQueryResultMock(
-         undefined,
-         true
-      );
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock(undefined, true);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
@@ -171,13 +164,13 @@ describe("CollectionTemplates rendering tests", () => {
    });
 
    it("in collection/not in collection - empty - test", async () => {
-      const templateIdsQueryResult = templateIdsQueryResultMock([]);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock([]);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const page = dtestData.dPromptsPage(0);
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const { container } = renderWithReactQuery(
@@ -196,14 +189,14 @@ describe("CollectionTemplates rendering tests", () => {
 
    it("in collection/not in collection - with items - test", async () => {
       const page = dtestData.dPromptsPage(6);
-      const templateIds = [page.content[0].id];
+      const promptIds = [page.content[0].id];
 
-      const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock(promptIds);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const { container } = renderWithReactQuery(
@@ -237,17 +230,17 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSuccess(actionResult);
       });
 
-      const templateIdsQueryResult = templateIdsQueryResultMock([]);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock([]);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const page = dtestData.dPromptsPage(2);
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const addResultMock = addMutationResultMock(mutateFn);
-      useAddTemplateToCollectionMock.mockReturnValue(addResultMock);
+      useAddPromptToCollectionMock.mockReturnValue(addResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -264,7 +257,7 @@ describe("CollectionTemplates functionality tests", () => {
          assertLoaderIcon();
       });
 
-      const expectedParams: AddTemplateToCollectionParams = {
+      const expectedParams: AddPromptToCollectionParams = {
          collectionId,
          promptId: page.content[0].id,
       };
@@ -288,7 +281,7 @@ describe("CollectionTemplates functionality tests", () => {
          expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
-         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
             collectionId
          );
       });
@@ -304,17 +297,17 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      const templateIdsQueryResult = templateIdsQueryResultMock([]);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock([]);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const page = dtestData.dPromptsPage(3);
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const addResultMock = addMutationResultMock(mutateFn);
-      useAddTemplateToCollectionMock.mockReturnValue(addResultMock);
+      useAddPromptToCollectionMock.mockReturnValue(addResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -327,7 +320,7 @@ describe("CollectionTemplates functionality tests", () => {
       const addBtn = screen.getAllByTestId("add-template-btn");
       await userEvent.click(addBtn[0]);
 
-      const expectedParams: AddTemplateToCollectionParams = {
+      const expectedParams: AddPromptToCollectionParams = {
          collectionId,
          promptId: page.content[0].id,
       };
@@ -352,7 +345,7 @@ describe("CollectionTemplates functionality tests", () => {
          expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
-         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
             collectionId
          );
       });
@@ -370,25 +363,25 @@ describe("CollectionTemplates functionality tests", () => {
       });
 
       const page = dtestData.dPromptsPage(6);
-      const templateIds = [page.content[0].id];
+      const promptIds = [page.content[0].id];
 
-      const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock(promptIds);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const removeResultMock = removeMutationResultMock(mutateFn);
-      useRemoveTemplateFromCollectionMock.mockReturnValue(removeResultMock);
+      useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
       const removeBtn = screen.getAllByTestId("remove-template-btn");
       await userEvent.click(removeBtn[0]);
 
-      const expectedParams: AddTemplateToCollectionParams = {
+      const expectedParams: AddPromptToCollectionParams = {
          collectionId,
          promptId: page.content[0].id,
       };
@@ -412,7 +405,7 @@ describe("CollectionTemplates functionality tests", () => {
          expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
-         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
             collectionId
          );
       });
@@ -430,25 +423,25 @@ describe("CollectionTemplates functionality tests", () => {
       });
 
       const page = dtestData.dPromptsPage(1);
-      const templateIds = [page.content[0].id];
+      const promptIds = [page.content[0].id];
 
-      const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
-      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+      const promptIdsQueryResult = promptIdsQueryResultMock(promptIds);
+      useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
-      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
+      const loadPromptsQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadTemplatesQueryResult
+         loadPromptsQueryResult
       );
 
       const removeResultMock = removeMutationResultMock(mutateFn);
-      useRemoveTemplateFromCollectionMock.mockReturnValue(removeResultMock);
+      useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
       const removeBtn = screen.getAllByTestId("remove-template-btn");
       await userEvent.click(removeBtn[0]);
 
-      const expectedParams: AddTemplateToCollectionParams = {
+      const expectedParams: AddPromptToCollectionParams = {
          collectionId,
          promptId: page.content[0].id,
       };
@@ -473,7 +466,7 @@ describe("CollectionTemplates functionality tests", () => {
          expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
-         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
             collectionId
          );
       });
