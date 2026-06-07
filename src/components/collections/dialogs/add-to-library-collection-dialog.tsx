@@ -17,8 +17,8 @@ import {
 } from "@/components/shadcn/dialog";
 import { Label } from "@/components/shadcn/label";
 import {
-   useLoadTemplateCollectionIds,
-   useUpdateTemplateCollections,
+   useLoadPromptCollectionIds,
+   useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DCollection } from "@/data/types/domain/collection";
@@ -40,25 +40,23 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    onOpenChange,
 }) => {
    const { mutate: updateCollections, isPending: isSaving } =
-      useUpdateTemplateCollections();
+      useUpdatePromptCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
    const initializedRef = useRef(false);
 
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
-   const { data: entryCollectionIds, isLoading } = useLoadTemplateCollectionIds(
-      {
-         entryId: descriptor.id,
-         enabled: open,
-      }
-   );
+   const { data: promptCollectionIds, isLoading } = useLoadPromptCollectionIds({
+      entryId: descriptor.id,
+      enabled: open,
+   });
 
    useEffect(() => {
-      if (entryCollectionIds && !initializedRef.current) {
-         setSelectedColdIds(entryCollectionIds);
+      if (promptCollectionIds && !initializedRef.current) {
+         setSelectedColdIds(promptCollectionIds);
          initializedRef.current = true;
       }
-   }, [entryCollectionIds]);
+   }, [promptCollectionIds]);
 
    const handleToggle = (colId: string) => {
       const isSelected = includes(selectedColIds, colId);
@@ -189,7 +187,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                   </DialogDescription>
                </DialogHeader>
 
-               <div className="max-h-[400px] space-y-2 overflow-y-auto py-4">
+               <div className="max-h-100 space-y-2 overflow-y-auto py-4">
                   {renderCollections()}
                </div>
 
