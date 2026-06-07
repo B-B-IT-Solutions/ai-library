@@ -115,8 +115,8 @@ describe("CollectionEdit rendering tests", () => {
 
 describe("CollectionEdit functionality tests", () => {
    beforeAll(() => {
-      const templateIds = dtestData.dCollectionPromptIds();
-      getCollectionPromptIdsMock.mockResolvedValue(templateIds);
+      const promptIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(promptIds);
 
       const page = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(page);

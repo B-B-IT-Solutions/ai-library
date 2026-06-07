@@ -76,15 +76,15 @@ describe("loadCollectionPromptIds hooks tests", () => {
    test("useLoadCollectionPromptIds test", async () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
 
-      const templateIds = dtestData.dCollectionPromptIds();
-      getCollectionPromptIdsMock.mockResolvedValue(templateIds);
+      const promptIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(promptIds);
 
       const { result } = renderHookWithReactQuery(() =>
          useLoadCollectionPromptIds(collectionId)
       );
 
       await waitFor(() => {
-         expect(result.current.data).toEqual(templateIds);
+         expect(result.current.data).toEqual(promptIds);
          expect(getCollectionPromptIdsMock).toHaveBeenCalledTimes(1);
          expect(getCollectionPromptIdsMock).toHaveBeenCalledWith(collectionId);
       });
