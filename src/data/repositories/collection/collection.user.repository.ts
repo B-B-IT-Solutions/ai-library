@@ -189,32 +189,32 @@ export class CollectionRepository {
             },
          },
          select: {
-            templateDescriptorId: true,
+            promptId: true,
          },
       } satisfies LibraryCollectionEntryFindManyArgs;
 
       const entries = await this.prisma.libraryCollectionEntry.findMany(args);
-      return map(entries, (e) => e.templateDescriptorId);
+      return map(entries, (e) => e.promptId);
    }
 
    async pAddTemplateToCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const args = {
          where: {
             collection: {
                userId,
             },
-            collectionId_templateDescriptorId: {
+            collectionId_promptId: {
                collectionId,
-               templateDescriptorId,
+               promptId,
             },
          },
          create: {
             collectionId,
-            templateDescriptorId,
+            promptId,
             userId,
          },
          update: {},
@@ -226,7 +226,7 @@ export class CollectionRepository {
    async pRemoveTemplateFromCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const args = {
          where: {
@@ -234,7 +234,7 @@ export class CollectionRepository {
                userId,
             },
             collectionId,
-            templateDescriptorId,
+            promptId,
          },
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
@@ -243,12 +243,12 @@ export class CollectionRepository {
 
    async pGetTemplateCollectionIds(
       userId: string,
-      descriptorId: string
+      promptId: string
    ): Promise<string[]> {
       const args = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       } satisfies LibraryCollectionEntryFindManyArgs;
@@ -261,13 +261,13 @@ export class CollectionRepository {
 
    async pUpdateTemplateCollections(
       userId: string,
-      descriptorId: string,
+      promptId: string,
       collectionIds: string[]
    ): Promise<void> {
       const deleteArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
@@ -277,7 +277,7 @@ export class CollectionRepository {
          collectionIds,
          (collectionId) => {
             return {
-               templateDescriptorId: descriptorId,
+               promptId,
                collectionId,
                userId,
             };

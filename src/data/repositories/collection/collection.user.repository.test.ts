@@ -408,7 +408,7 @@ describe("pGetCollectionPromptIds tests", () => {
          collectionId
       );
 
-      const expectedResult = map(entries, (e) => e.templateDescriptorId);
+      const expectedResult = map(entries, (e) => e.promptId);
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
@@ -418,7 +418,7 @@ describe("pGetCollectionPromptIds tests", () => {
             },
          },
          select: {
-            templateDescriptorId: true,
+            promptId: true,
          },
       };
 
@@ -439,13 +439,13 @@ describe("pAddTemplateToCollection tests", () => {
 
    it("template added to collection - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "descriptor-id";
-      const collectionId = "collection-id";
+      const promptId = "prompt-id-1";
+      const collectionId = "collection-id-1";
 
       await collectionRepository.pAddTemplateToCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryUpsertArgs = {
@@ -453,14 +453,14 @@ describe("pAddTemplateToCollection tests", () => {
             collection: {
                userId,
             },
-            collectionId_templateDescriptorId: {
+            collectionId_promptId: {
                collectionId,
-               templateDescriptorId,
+               promptId,
             },
          },
          create: {
             collectionId,
-            templateDescriptorId,
+            promptId,
             userId,
          },
          update: {},
@@ -480,13 +480,13 @@ describe("pRemoveTemplateFromCollection tests", () => {
 
    it("template removed from collection - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "descriptor-id";
-      const collectionId = "collection-id";
+      const promptId = "prompt-id-1";
+      const collectionId = "collection-id-1";
 
       await collectionRepository.pRemoveTemplateFromCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryDeleteManyArgs = {
@@ -495,7 +495,7 @@ describe("pRemoveTemplateFromCollection tests", () => {
                userId,
             },
             collectionId,
-            templateDescriptorId,
+            promptId,
          },
       };
 
@@ -515,19 +515,19 @@ describe("pGetTemplateCollectionIds tests", () => {
 
    it("no entries - returns empty array - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue([]);
 
       const result = await collectionRepository.pGetTemplateCollectionIds(
          userId,
-         descriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       };
@@ -543,14 +543,14 @@ describe("pGetTemplateCollectionIds tests", () => {
 
    it("collectionIds retrieved - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
       const result = await collectionRepository.pGetTemplateCollectionIds(
          userId,
-         descriptorId
+         promptId
       );
 
       const expectedResult = map(entries, (e) => e.collectionId);
@@ -558,7 +558,7 @@ describe("pGetTemplateCollectionIds tests", () => {
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       };
@@ -580,18 +580,18 @@ describe("pUpdateTemplateCollections tests", () => {
 
    it("empty collectionIds - only deletes - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       await collectionRepository.pUpdateTemplateCollections(
          userId,
-         descriptorId,
+         promptId,
          []
       );
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       };
 
@@ -615,31 +615,31 @@ describe("pUpdateTemplateCollections tests", () => {
 
    it("collections updated - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
       const collectionIds = ["collection-id-1", "collection-id-2"];
 
       await collectionRepository.pUpdateTemplateCollections(
          userId,
-         descriptorId,
+         promptId,
          collectionIds
       );
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       };
 
       const expectedCreateInputs: LibraryCollectionEntryCreateManyInput[] = [
          {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
             collectionId: "collection-id-1",
          },
          {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
             collectionId: "collection-id-2",
          },
       ];
