@@ -8,9 +8,9 @@ describe("activeFiltersCount", () => {
       expect(activeFiltersCount(filters)).toBe(0);
    });
 
-   it("returns 1 when only search is set", () => {
+   it("returns 0 when only search is set", () => {
       const filters: DTemplatesSearchParamsFiltersType = { f_search: "hello" };
-      expect(activeFiltersCount(filters)).toBe(1);
+      expect(activeFiltersCount(filters)).toBe(0);
    });
 
    it("returns 1 when only categories are set", () => {
@@ -27,29 +27,29 @@ describe("activeFiltersCount", () => {
       expect(activeFiltersCount(filters)).toBe(1);
    });
 
-   it("returns 1 when only collecitonIds are set", () => {
+   it("returns 1 when only collectionIds are set", () => {
       const filters: DTemplatesSearchParamsFiltersType = {
          f_collectionIds: ["col1"],
       };
       expect(activeFiltersCount(filters)).toBe(1);
    });
 
-   it("returns 2 when search and categories are set", () => {
+   it("returns 1 when search and categories are set", () => {
       const filters: DTemplatesSearchParamsFiltersType = {
          f_search: "hello",
          f_categories: ["cat1"],
       };
-      expect(activeFiltersCount(filters)).toBe(2);
+      expect(activeFiltersCount(filters)).toBe(1);
    });
 
-   it("returns 4 when all filters are set", () => {
+   it("returns 3 when all popover filters are set", () => {
       const filters: DTemplatesSearchParamsFiltersType = {
          f_search: "hello",
          f_categories: ["cat1"],
          f_models: ["model1"],
          f_collectionIds: ["col1"],
       };
-      expect(activeFiltersCount(filters)).toBe(4);
+      expect(activeFiltersCount(filters)).toBe(3);
    });
 
    it("returns 0 when filters are empty values", () => {

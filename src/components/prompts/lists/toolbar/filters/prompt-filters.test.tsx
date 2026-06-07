@@ -6,7 +6,7 @@ jest.mock("use-debounce", () => ({
    },
 }));
 
-import { screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
@@ -23,13 +23,11 @@ const assertRendered = () => {
 };
 
 const assertFiltersRendered = () => {
-   const search = screen.getByTestId("search-filter");
    const collections = screen.getByTestId("collections-filter");
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
    const resetBtn = screen.getByTestId("reset-btn");
 
-   assertInDocument(search);
    assertInDocument(collections);
    assertInDocument(categories);
    assertInDocument(models);
@@ -37,11 +35,9 @@ const assertFiltersRendered = () => {
 };
 
 const assertFiltersNotRendered = () => {
-   const search = screen.queryByTestId("search-filter");
    const categories = screen.queryByTestId("categories-filter");
    const models = screen.queryByTestId("models-filter");
 
-   assertNotInDocument(search);
    assertNotInDocument(categories);
    assertNotInDocument(models);
 };
@@ -97,7 +93,7 @@ describe("PromptFilters rendering tests", () => {
       const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
-      const searchParams = "f_search=test-1";
+      const searchParams = "f_categories=cat-1";
       const { container } = renderWithRouter(
          <PromptFilters
             categories={categories}
@@ -129,47 +125,6 @@ describe("PromptFilters rendering tests", () => {
 describe("PromptFilters functinality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-   });
-
-   it("search filter input - test", async () => {
-      const categories = dtestData.dTemplateCategories();
-      const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollectionPreviews();
-
-      const url = "/templates";
-      const searchParams = "";
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <PromptFilters
-            categories={categories}
-            models={models}
-            collections={collections}
-         />,
-         url,
-         searchParams,
-         onUrlUpdateFn
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         expect(onUrlUpdateFn).not.toHaveBeenCalled();
-      });
-
-      const triggerBtn = screen.getByTestId("filters-trigger-btn");
-      await userEvent.click(triggerBtn);
-
-      const searchFilter = screen.getByTestId("search-filter");
-      const input = within(searchFilter).getByTestId("input");
-
-      const value = "test-123";
-      await userEvent.type(input, value);
-
-      await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalled();
-      });
-
-      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
-      expect(lastCall.queryString).toContain("f_search=test-123");
    });
 
    it("category filters - test", async () => {
@@ -266,8 +221,7 @@ describe("PromptFilters functinality tests", () => {
       const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
-      const searchParams =
-         "f_categories=cat-1&f_models=mod-1&f_search=test-123";
+      const searchParams = "f_categories=cat-1&f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
          <PromptFilters
