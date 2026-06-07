@@ -130,20 +130,20 @@ describe("deleteCollection tests", () => {
    });
 });
 
-describe("getCollectionTemplateIds tests", () => {
+describe("getCollectionPromptIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("templateIds retrieved - test", async () => {
+   it("promptIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
+      const templateIds = dtestData.dCollectionPromptIds();
       collectionRepoMock.pGetCollectionTemplateIds.mockResolvedValue(
          templateIds
       );
 
-      const result = await collectionService.getCollectionTemplateIds(
+      const result = await collectionService.getCollectionPromptIds(
          userId,
          collectionId
       );

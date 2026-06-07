@@ -14,17 +14,17 @@ import { mockDeep } from "jest-mock-extended";
 
 import {
    addPromptToCollection,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
    addTemplateToCollectionOptions,
-   loadCollectionTemplateIdsOptions,
+   loadCollectionPromptIdsOptions,
    removeTemplateFromCollectionOptions,
    useAddTemplateToCollection,
-   useLoadCollectionTemplateIds,
+   useLoadCollectionPromptIds,
    useRemoveTemplateFromCollection,
 } from "./collection";
 import {
@@ -39,10 +39,8 @@ const mutationContextMock: MutationFunctionContext = {
    meta: {},
 };
 
-const getCollectionTemplateIdsMock =
-   getCollectionTemplateIds as jest.MockedFunction<
-      typeof getCollectionTemplateIds
-   >;
+const getCollectionPromptIdsMock =
+   getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
 const addPromptToCollectionMock = addPromptToCollection as jest.MockedFunction<
    typeof addPromptToCollection
@@ -53,12 +51,12 @@ const removePromptFromCollectionMock =
       typeof removePromptFromCollection
    >;
 
-describe("loadCollectionTemplateIds hooks tests", () => {
+describe("loadCollectionPromptIds hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("loadCollectionTemplateIdsOptions - test", async () => {
+   test("loadCollectionPromptIdsOptions - test", async () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
       const expectedOptions: UndefinedInitialDataOptions<
          string[],
@@ -71,26 +69,24 @@ describe("loadCollectionTemplateIds hooks tests", () => {
          staleTime: 2 * 60 * 1000,
       };
 
-      const options = loadCollectionTemplateIdsOptions(collectionId);
+      const options = loadCollectionPromptIdsOptions(collectionId);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useLoadCollectionTemplateIds test", async () => {
+   test("useLoadCollectionPromptIds test", async () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
 
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      const templateIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(templateIds);
 
       const { result } = renderHookWithReactQuery(() =>
-         useLoadCollectionTemplateIds(collectionId)
+         useLoadCollectionPromptIds(collectionId)
       );
 
       await waitFor(() => {
          expect(result.current.data).toEqual(templateIds);
-         expect(getCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionTemplateIdsMock).toHaveBeenCalledWith(
-            collectionId
-         );
+         expect(getCollectionPromptIdsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionPromptIdsMock).toHaveBeenCalledWith(collectionId);
       });
    });
 });

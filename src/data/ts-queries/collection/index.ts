@@ -1,5 +1,5 @@
 export {
-   useLoadCollectionTemplateIds,
+   useLoadCollectionPromptIds as useLoadCollectionTemplateIds,
    useAddTemplateToCollection,
    useRemoveTemplateFromCollection,
 } from "./collection";

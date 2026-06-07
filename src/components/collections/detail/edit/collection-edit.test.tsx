@@ -10,15 +10,13 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getCollectionTemplateIds } from "@/data/actions/collection";
+import { getCollectionPromptIds } from "@/data/actions/collection";
 import { getPromptsPage } from "@/data/actions/prompt";
 
 import { CollectionEdit } from "./collection-edit";
 
-const getCollectionTemplateIdsMock =
-   getCollectionTemplateIds as jest.MockedFunction<
-      typeof getCollectionTemplateIds
-   >;
+const getCollectionPromptIdsMock =
+   getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
    typeof getPromptsPage
@@ -117,11 +115,11 @@ describe("CollectionEdit rendering tests", () => {
 
 describe("CollectionEdit functionality tests", () => {
    beforeAll(() => {
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      const templateIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(templateIds);
 
-      const templateDescriptors = dtestData.dPromptsPage();
-      getPromptsPageMock.mockResolvedValue(templateDescriptors);
+      const page = dtestData.dPromptsPage();
+      getPromptsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

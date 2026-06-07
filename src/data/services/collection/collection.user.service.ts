@@ -47,7 +47,7 @@ export class CollectionService {
       await this.collectionRepository.pDeleteCollection(userId, collectionId);
    }
 
-   async getCollectionTemplateIds(
+   async getCollectionPromptIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {

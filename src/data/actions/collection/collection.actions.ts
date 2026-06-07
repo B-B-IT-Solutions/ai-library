@@ -115,7 +115,7 @@ export const deleteCollection = async (
    }
 };
 
-export const getCollectionTemplateIds = async (
+export const getCollectionPromptIds = async (
    collectionId: string
 ): Promise<string[]> => {
    try {
@@ -124,7 +124,7 @@ export const getCollectionTemplateIds = async (
       }
       const user = await requireUser();
       const service = getService();
-      return await service.getCollectionTemplateIds(user.id, collectionId);
+      return await service.getCollectionPromptIds(user.id, collectionId);
    } catch (error) {
       console.error(formatError(error));
       return [];

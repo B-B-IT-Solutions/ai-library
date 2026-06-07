@@ -304,7 +304,7 @@ export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
    };
 };
 
-export const dTemplateCollectionEntryTemplateIds = (count = 3): string[] => {
+export const dCollectionPromptIds = (count = 3): string[] => {
    const collections = dTemplateCollectionEntries(count);
    return map(collections, (c) => c.templateDescriptorId);
 };

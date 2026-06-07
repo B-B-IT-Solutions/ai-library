@@ -13,8 +13,8 @@ import {
    createCollection,
    deleteCollection,
    getCollectionById,
+   getCollectionPromptIds,
    getCollections,
-   getCollectionTemplateIds,
    getTemplateCollectionIds,
    removePromptFromCollection,
    setCollectionPublic,
@@ -34,8 +34,8 @@ const sAddPromptToCollection =
 const sRemovePromptFromCollection =
    CollectionService.prototype.removePromptFromCollection;
 const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
-const sGetCollectionTemplateIds =
-   CollectionService.prototype.getCollectionTemplateIds;
+const sGetCollectionPromptIds =
+   CollectionService.prototype.getCollectionPromptIds;
 const sGetEntryCollectionIds =
    CollectionService.prototype.getTemplateCollectionIds;
 const sUpdateEntryCollections =
@@ -69,9 +69,9 @@ const sUpdateEntryCollectionsMock =
    sUpdateEntryCollections as jest.MockedFunction<
       typeof sUpdateEntryCollections
    >;
-const sGetCollectionTemplateIdsMock =
-   sGetCollectionTemplateIds as jest.MockedFunction<
-      typeof sGetCollectionTemplateIds
+const sGetCollectionPromptIdsMock =
+   sGetCollectionPromptIds as jest.MockedFunction<
+      typeof sGetCollectionPromptIds
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
@@ -427,7 +427,7 @@ describe("deleteCollection tests", () => {
    });
 });
 
-describe("getCollectionTemplateIds tests", () => {
+describe("getCollectionPromptIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -440,11 +440,11 @@ describe("getCollectionTemplateIds tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getCollectionTemplateIds(invalidId);
+      const result = await getCollectionPromptIds(invalidId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sGetCollectionTemplateIdsMock).not.toHaveBeenCalled();
+      expect(sGetCollectionPromptIdsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid collection ID.");
    });
@@ -455,11 +455,11 @@ describe("getCollectionTemplateIds tests", () => {
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getCollectionTemplateIds(collectionId);
+      const result = await getCollectionPromptIds(collectionId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionTemplateIdsMock).not.toHaveBeenCalled();
+      expect(sGetCollectionPromptIdsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -469,16 +469,16 @@ describe("getCollectionTemplateIds tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("DB Error");
-      sGetCollectionTemplateIdsMock.mockRejectedValue(error);
+      sGetCollectionPromptIdsMock.mockRejectedValue(error);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getCollectionTemplateIds(collectionId);
+      const result = await getCollectionPromptIds(collectionId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledWith(
+      expect(sGetCollectionPromptIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPromptIdsMock).toHaveBeenCalledWith(
          user.id,
          collectionId
       );
@@ -486,21 +486,21 @@ describe("getCollectionTemplateIds tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("templateIds retrieved - test", async () => {
+   it("promptIds retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const templateIds = dtestData.dCollectionIds();
-      sGetCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      sGetCollectionPromptIdsMock.mockResolvedValue(templateIds);
 
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getCollectionTemplateIds(collectionId);
+      const result = await getCollectionPromptIds(collectionId);
 
       expect(result).toEqual(templateIds);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledWith(
+      expect(sGetCollectionPromptIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionPromptIdsMock).toHaveBeenCalledWith(
          user.id,
          collectionId
       );

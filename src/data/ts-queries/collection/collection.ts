@@ -13,7 +13,7 @@ import { filter, isEmpty } from "es-toolkit/compat";
 
 import {
    addPromptToCollection,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
@@ -24,21 +24,21 @@ import {
 } from "./types";
 import { collectionKeys } from "./utils";
 
-export const loadCollectionTemplateIdsOptions = (
+export const loadCollectionPromptIdsOptions = (
    collectionId: string
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    return {
       queryKey: collectionKeys.collectionTemplateIds(collectionId),
-      queryFn: () => getCollectionTemplateIds(collectionId),
+      queryFn: () => getCollectionPromptIds(collectionId),
       placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
    };
 };
 
-export const useLoadCollectionTemplateIds = (
+export const useLoadCollectionPromptIds = (
    collectionId: string
 ): UseQueryResult<string[]> => {
-   const options = loadCollectionTemplateIdsOptions(collectionId);
+   const options = loadCollectionPromptIdsOptions(collectionId);
    return useQuery(options);
 };
 
