@@ -94,7 +94,7 @@ describe("PromptFilters rendering tests", () => {
    it("filters defined - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
       const searchParams = "f_search=test-1";
@@ -134,7 +134,7 @@ describe("PromptFilters functinality tests", () => {
    it("search filter input - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
       const searchParams = "";
@@ -175,7 +175,7 @@ describe("PromptFilters functinality tests", () => {
    it("category filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
       const searchParams = "f_categories=cat-1";
@@ -219,7 +219,7 @@ describe("PromptFilters functinality tests", () => {
    it("model filters - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
       const searchParams = "f_models=mod-1";
@@ -263,7 +263,7 @@ describe("PromptFilters functinality tests", () => {
    it("reset btn clicked - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const url = "/templates";
       const searchParams =

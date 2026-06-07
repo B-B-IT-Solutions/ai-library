@@ -9,11 +9,11 @@ import { useDebouncedCallback } from "use-debounce";
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
 type Props = {
-   collections: DCollection[];
+   collections: DCollectionPreview[];
 };
 
 export const CollectionsFilter = ({ collections }: Props) => {
@@ -51,7 +51,7 @@ export const CollectionsFilter = ({ collections }: Props) => {
       }
    };
 
-   const renderCollection = (collection: DCollection) => {
+   const renderCollection = (collection: DCollectionPreview) => {
       const isSelected = includes(f_collectionIds, collection.id);
       return (
          <div key={collection.id} className="flex items-center space-x-2">
@@ -67,7 +67,7 @@ export const CollectionsFilter = ({ collections }: Props) => {
             >
                <Folder
                   className="h-3.5 w-3.5 shrink-0"
-                  style={{ color: collection.color }}
+                  // style={{ color: collection.color }}
                />
                {collection.name}
             </Label>

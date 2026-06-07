@@ -6,7 +6,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionPreviews } from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
@@ -35,8 +35,8 @@ const getPromptModelsMock = getPromptModels as jest.MockedFunction<
    typeof getPromptModels
 >;
 
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
 >;
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
@@ -110,7 +110,7 @@ describe("PromptsDashboard rendering tests", () => {
       const collections = dtestData.dCollections();
       getPromptCategoriesMock.mockResolvedValue(categories);
       getPromptModelsMock.mockResolvedValue(models);
-      getCollectionsMock.mockResolvedValue(collections);
+      getCollectionPreviewsMock.mockResolvedValue(collections);
 
       const usage: DPromptsUsage = {
          current: 3,
@@ -141,7 +141,7 @@ describe("PromptsDashboard rendering tests", () => {
          assertRendered();
          expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionsMock).toHaveBeenCalledTimes(2);
+         expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });

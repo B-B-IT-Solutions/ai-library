@@ -17,7 +17,7 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
@@ -29,7 +29,7 @@ import { activeFiltersCount } from "./utils";
 type Props = {
    categories: string[];
    models: string[];
-   collections: DCollection[];
+   collections: DCollectionPreview[];
 };
 
 export const PromptFilters = ({ categories, models, collections }: Props) => {

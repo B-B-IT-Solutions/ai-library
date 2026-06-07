@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionPreviews } from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
@@ -46,7 +46,7 @@ export const PromptsDashboard = async () => {
    const [categories, models, collections, usage] = await Promise.all([
       getPromptCategories(),
       getPromptModels(),
-      getCollections(),
+      getCollectionPreviews(),
       getPromptsUsage(),
    ]);
 

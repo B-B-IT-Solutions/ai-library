@@ -60,7 +60,7 @@ describe("CollectionsFilter rendering tests", () => {
    });
 
    it("collections with selection - test", async () => {
-      const collections = dtestData.dCollections(3);
+      const collections = dtestData.dCollectionPreviews(3);
       const col0 = collections[0];
 
       const { container } = renderWithRouter(
@@ -84,7 +84,7 @@ describe("CollectionsFilter functionality tests", () => {
    });
 
    it("collection selected - test", async () => {
-      const collections = dtestData.dCollections(3);
+      const collections = dtestData.dCollectionPreviews(3);
       const onUrlUpdateFn = jest.fn();
 
       renderWithRouter(
@@ -113,7 +113,7 @@ describe("CollectionsFilter functionality tests", () => {
    });
 
    it("collection unselected - test", async () => {
-      const collections = dtestData.dCollections(3);
+      const collections = dtestData.dCollectionPreviews(3);
       const col0 = collections[0];
 
       const onUrlUpdateFn = jest.fn();
