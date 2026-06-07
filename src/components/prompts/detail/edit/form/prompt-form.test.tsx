@@ -174,12 +174,12 @@ describe("PromptEditForm functionality tests", () => {
    });
 
    it("new entry - variables detected in content - test", async () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       render(
          <PromptEditForm
             globalFields={[]}
-            collection={collection}
+            currentCollection={collection}
             onSubmit={jest.fn()}
          />
       );

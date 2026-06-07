@@ -7,7 +7,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionById } from "@/data/actions/collection";
+import { getCollectionPreviewById } from "@/data/actions/collection";
 import { getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
@@ -27,9 +27,10 @@ const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
    typeof getGlobalPromptFields
 >;
 
-const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
-   typeof getCollectionById
->;
+const getCollectionPreviewByIdMock =
+   getCollectionPreviewById as jest.MockedFunction<
+      typeof getCollectionPreviewById
+   >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
@@ -66,7 +67,7 @@ describe("EditPromptPage rendering tests", () => {
       await waitFor(() => {
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).not.toHaveBeenCalled();
+         expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -93,7 +94,7 @@ describe("EditPromptPage rendering tests", () => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).not.toHaveBeenCalled();
+         expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).not.toHaveBeenCalled();
       });
 
@@ -107,8 +108,8 @@ describe("EditPromptPage rendering tests", () => {
       const templateFields = dtestData.dGlobalPromptFields();
       getGlobalPromptFieldsMock.mockResolvedValue(templateFields);
 
-      const collection = dtestData.dCollection();
-      getCollectionByIdMock.mockResolvedValue(collection);
+      const collection = dtestData.dCollectionPreview();
+      getCollectionPreviewByIdMock.mockResolvedValue(collection);
 
       const pageParams: PageParams = { id: "descriptor-id-1" };
       const searchParams: PageSearchParams = { collectionId: collection.id };
@@ -123,8 +124,8 @@ describe("EditPromptPage rendering tests", () => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByIdMock).toHaveBeenCalledWith(
+         expect(getCollectionPreviewByIdMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionPreviewByIdMock).toHaveBeenCalledWith(
             searchParams.collectionId
          );
          expect(notFoundMock).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
@@ -7,10 +7,10 @@ import { PromptSidebar } from "./sidebar";
 
 type Props = {
    prompt: DPromptWithContent;
-   collection?: DCollection;
+   currentCollection?: DCollectionPreview;
 };
 
-export const PromptView = ({ prompt, collection }: Props) => {
+export const PromptView = ({ prompt, currentCollection }: Props) => {
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
@@ -21,7 +21,7 @@ export const PromptView = ({ prompt, collection }: Props) => {
             <PromptBreadcrumb
                variant="view"
                label={prompt.title}
-               collection={collection}
+               currentCollection={currentCollection}
             />
          </div>
 
@@ -35,7 +35,10 @@ export const PromptView = ({ prompt, collection }: Props) => {
                   </div>
 
                   {/* Sidebar */}
-                  <PromptSidebar prompt={prompt} collection={collection} />
+                  <PromptSidebar
+                     prompt={prompt}
+                     currentCollection={currentCollection}
+                  />
                </div>
             </div>
          </div>

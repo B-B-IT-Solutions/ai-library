@@ -2,17 +2,17 @@ import { Eye } from "lucide-react";
 import Link from "next/link";
 
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { viewPromptUrl } from "../utils";
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollection;
+   currentCollection?: DCollectionPreview;
 };
 
-export const ViewPromptButton = ({ prompt, collection }: Props) => {
-   const href = viewPromptUrl(prompt, collection?.id);
+export const ViewPromptButton = ({ prompt, currentCollection }: Props) => {
+   const href = viewPromptUrl(prompt, currentCollection);
 
    return (
       <DropdownMenuItem

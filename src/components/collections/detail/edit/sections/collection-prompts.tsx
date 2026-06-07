@@ -17,7 +17,7 @@ import {
    useLoadCollectionPromptIds,
    useRemovePromptFromCollection,
 } from "@/data/ts-queries/collection";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/prompt";
+import { useInfiniteLoadPromptsPage } from "@/data/ts-queries/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 type Props = {
@@ -35,7 +35,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       useLoadCollectionPromptIds(collectionId);
 
    const { data, fetchNextPage, hasNextPage, isFetching } =
-      useInfiniteLoadTemplateDescriptors({
+      useInfiniteLoadPromptsPage({
          filters: { search: search || undefined },
       });
 

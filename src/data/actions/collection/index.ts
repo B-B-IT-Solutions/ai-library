@@ -5,6 +5,8 @@ export {
    updatePromptCollections,
    getCollections,
    getCollectionById,
+   getCollectionPreviewById,
+   getCollectionPreviews,
    setCollectionPublic,
    updateCollection,
    getCollectionPromptIds,

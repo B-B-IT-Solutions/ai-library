@@ -1,7 +1,13 @@
 import { map } from "es-toolkit/compat";
 
-import { PLibraryCollection } from "@/data/types/db/collection";
-import { DCollection } from "@/data/types/domain/collection";
+import {
+   PLibraryCollection,
+   PLibraryCollectionPreview,
+} from "@/data/types/db/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+} from "@/data/types/domain/collection";
 
 export const DEFAULT_COLOR = "#64748b";
 
@@ -9,6 +15,12 @@ export const toDCollections = (
    collections: PLibraryCollection[]
 ): DCollection[] => {
    return map(collections, (c) => toDCollection(c));
+};
+
+export const toDCollectionPreviews = (
+   collections: PLibraryCollectionPreview[]
+): DCollectionPreview[] => {
+   return map(collections, (c) => toDCollectionPreivew(c));
 };
 
 export const toDCollection = (c: PLibraryCollection): DCollection => {
@@ -24,5 +36,14 @@ export const toDCollection = (c: PLibraryCollection): DCollection => {
       templateCount: c._count.entries,
       createdAt: c.createdAt.toISOString(),
       updatedAt: c.updatedAt.toISOString(),
+   };
+};
+
+export const toDCollectionPreivew = (
+   c: PLibraryCollectionPreview
+): DCollectionPreview => {
+   return {
+      id: c.id,
+      name: c.name,
    };
 };

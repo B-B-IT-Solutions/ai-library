@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { viewPromptUrl } from "@/components/prompts/utils";
 import { Form } from "@/components/shadcn/form";
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import {
    DPromptUpdate,
    DPromptUpdateCrate,
@@ -24,14 +24,14 @@ import { initPromptTemplate } from "./utils";
 
 type Props = {
    prompt?: DPromptWithContent;
-   collection?: DCollection;
+   currentCollection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
    onSubmit: (isSubmiting: boolean) => void;
 };
 
 export const PromptEditForm = ({
    prompt,
-   collection,
+   currentCollection,
    globalFields,
    onSubmit: onSubmittingChange,
 }: Props) => {
@@ -60,7 +60,7 @@ export const PromptEditForm = ({
          const result = await updatePrompt(prompt.id, data);
          if (result.success) {
             toast.success(result.message);
-            const viewUrl = viewPromptUrl(prompt, collection?.id);
+            const viewUrl = viewPromptUrl(prompt, currentCollection);
             router.push(viewUrl);
          } else {
             toast.error(result.message);
@@ -68,12 +68,12 @@ export const PromptEditForm = ({
       } else {
          const crate: DPromptUpdateCrate = {
             data,
-            collectionId: collection?.id,
+            collectionId: currentCollection?.id,
          };
          const result = await createPrompt(crate);
          if (result.success) {
             toast.success(result.message);
-            const viewUrl = viewPromptUrl(result.data!, collection?.id);
+            const viewUrl = viewPromptUrl(result.data!, currentCollection);
             router.push(viewUrl);
          } else if (result.upgradeRequired) {
             toast.error(result.message, {

@@ -18,6 +18,7 @@ import {
 import {
    DCollection,
    DCollectionEntry,
+   DCollectionPreview,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
@@ -292,6 +293,17 @@ export const dCollection = (index = 1): DCollection => {
       templateCount: index * 10,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dCollectionPreviews = (count = 3): DCollectionPreview[] => {
+   return range(0, count).map((i) => dCollection(i));
+};
+
+export const dCollectionPreview = (index = 1): DCollectionPreview => {
+   return {
+      id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      name: `name ${index}`,
    };
 };
 

@@ -27,16 +27,16 @@ describe("isEditMode - tests", () => {
 });
 
 describe("viewPromptUrl - tests", () => {
-   it("collectionId undefined - test", () => {
+   it("collection undefined - test", () => {
       const prompt = dtestData.dPrompt();
       const result = viewPromptUrl(prompt);
       expect(result).toBe(`/templates/${prompt.id}`);
    });
 
-   it("collectionId defined - test", () => {
+   it("collection defined - test", () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
-      const result = viewPromptUrl(prompt, collection.id);
+      const collection = dtestData.dCollectionPreview();
+      const result = viewPromptUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
       );
@@ -52,7 +52,7 @@ describe("editPromptUrl - tests", () => {
 
    it("collection defined - test", () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = editPromptUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}/edit?collectionId=${collection.id}`
@@ -67,7 +67,7 @@ describe("newPromptUrl - tests", () => {
    });
 
    it("collection defined - test", () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = newPromptUrl(collection);
       expect(result).toBe(`/templates/new?collectionId=${collection.id}`);
    });
@@ -80,7 +80,7 @@ describe("promptEditNavigateBackUrl - tests", () => {
    });
 
    it("prompt undefined - collection defined - test", () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = promptEditNavigateBackUrl(undefined, collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });
@@ -93,7 +93,7 @@ describe("promptEditNavigateBackUrl - tests", () => {
 
    it("prompt defined - collection defined - test", () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = promptEditNavigateBackUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}?collectionId=${collection.id}`
@@ -108,7 +108,7 @@ describe("breadcrumbRootUrl - tests", () => {
    });
 
    it("collection defined - test", () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = breadcrumbRootUrl(collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });

@@ -28,13 +28,13 @@ describe("TemplateItemsList rendering tests", () => {
    it("prompts - collecitonId defined - test", async () => {
       const collections = dtestData.dCollections();
       const prompts = dtestData.dPrompts();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsList
             descriptors={prompts}
             collections={collections}
-            collectionId={collection.id}
+            currentColleciton={collection}
          />
       );
 

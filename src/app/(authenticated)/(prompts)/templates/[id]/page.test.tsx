@@ -6,7 +6,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionById } from "@/data/actions/collection";
+import { getCollectionPreviewById } from "@/data/actions/collection";
 import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 import {
@@ -23,9 +23,10 @@ const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
    typeof getPromptWithContent
 >;
 
-const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
-   typeof getCollectionById
->;
+const getCollectionPreviewByIdMock =
+   getCollectionPreviewById as jest.MockedFunction<
+      typeof getCollectionPreviewById
+   >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
@@ -57,7 +58,7 @@ describe("PromptPage rendering tests", () => {
       await waitFor(() => {
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).not.toHaveBeenCalled();
+         expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
          expect(getPromptMock).not.toHaveBeenCalled();
       });
@@ -82,7 +83,7 @@ describe("PromptPage rendering tests", () => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).not.toHaveBeenCalled();
+         expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
          expect(notFoundMock).not.toHaveBeenCalled();
          expect(getPromptMock).not.toHaveBeenCalled();
       });
@@ -94,8 +95,8 @@ describe("PromptPage rendering tests", () => {
       const prompt = dtestData.dPromptWithContent();
       getPromptWithContentMock.mockResolvedValue(prompt);
 
-      const collection = dtestData.dCollection();
-      getCollectionByIdMock.mockResolvedValue(collection);
+      const collection = dtestData.dCollectionPreview();
+      getCollectionPreviewByIdMock.mockResolvedValue(collection);
 
       const pageParams: PageParams = { id: "prompt-id-1" };
       const searchParams: PageSearchParams = { collectionId: collection.id };
@@ -110,8 +111,8 @@ describe("PromptPage rendering tests", () => {
          assertRendered();
          expect(getPromptWithContentMock).toHaveBeenCalledTimes(1);
          expect(getPromptWithContentMock).toHaveBeenCalledWith(pageParams.id);
-         expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByIdMock).toHaveBeenCalledWith(
+         expect(getCollectionPreviewByIdMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionPreviewByIdMock).toHaveBeenCalledWith(
             searchParams.collectionId
          );
          expect(notFoundMock).not.toHaveBeenCalled();
@@ -148,7 +149,7 @@ describe("PromptPage functionality tests", () => {
       expect(getPromptMock).toHaveBeenCalledTimes(1);
       expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
       expect(getPromptWithContentMock).not.toHaveBeenCalled();
-      expect(getCollectionByIdMock).not.toHaveBeenCalled();
+      expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
    });
 
    it("generateMetadata - prompt retrieved - test", async () => {
@@ -173,6 +174,6 @@ describe("PromptPage functionality tests", () => {
       expect(getPromptMock).toHaveBeenCalledTimes(1);
       expect(getPromptMock).toHaveBeenCalledWith(pageParams.id);
       expect(getPromptWithContentMock).not.toHaveBeenCalled();
-      expect(getCollectionByIdMock).not.toHaveBeenCalled();
+      expect(getCollectionPreviewByIdMock).not.toHaveBeenCalled();
    });
 });

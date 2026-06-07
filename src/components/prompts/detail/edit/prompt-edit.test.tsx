@@ -109,10 +109,10 @@ describe("PromptEdit rendering tests", () => {
    });
 
    it("new entry - collection defined - test", async () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
-         <PromptEdit globalFields={[]} collection={collection} />
+         <PromptEdit globalFields={[]} currentCollection={collection} />
       );
 
       await waitFor(() => {
@@ -142,13 +142,13 @@ describe("PromptEdit rendering tests", () => {
    it("edit existing entry - collection defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
          <PromptEdit
             prompt={prompt}
             globalFields={fields}
-            collection={collection}
+            currentCollection={collection}
          />
       );
 
@@ -230,10 +230,12 @@ describe("PromptEdit functionality tests", () => {
       };
       createPromptMock.mockResolvedValue(createResult);
 
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -314,13 +316,13 @@ describe("PromptEdit functionality tests", () => {
       updatePromptMock.mockResolvedValue(result);
 
       const prompt = dtestData.dPromptWithContent();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const fields = dtestData.dGlobalPromptFields();
 
       render(
          <PromptEdit
             prompt={prompt}
-            collection={collection}
+            currentCollection={collection}
             globalFields={fields}
          />
       );
@@ -372,10 +374,12 @@ describe("PromptEdit functionality tests", () => {
       };
       createPromptMock.mockResolvedValue(result);
 
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -439,9 +443,11 @@ describe("PromptEdit functionality tests", () => {
       createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
-      render(<PromptEdit globalFields={fields} collection={collection} />);
+      render(
+         <PromptEdit globalFields={fields} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();

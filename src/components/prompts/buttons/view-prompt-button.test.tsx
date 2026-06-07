@@ -28,10 +28,10 @@ describe("ViewPromptButton rendering tests", () => {
 
    it("collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithRouter(
-         <ViewPromptButton prompt={prompt} collection={collection} />
+         <ViewPromptButton prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {
@@ -67,8 +67,10 @@ describe("ViewPromptButton functionality tests", () => {
 
    it("view btn clicked - collection defined - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
-      render(<ViewPromptButton prompt={prompt} collection={collection} />);
+      const collection = dtestData.dCollectionPreview();
+      render(
+         <ViewPromptButton prompt={prompt} currentCollection={collection} />
+      );
 
       await waitFor(() => {
          assertRendered();

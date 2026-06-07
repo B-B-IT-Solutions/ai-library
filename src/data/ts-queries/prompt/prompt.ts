@@ -43,7 +43,7 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    };
 };
 
-export const infiniteLoadTemplateDescriptorsOptions = (
+export const infiniteLoadPromptsPageOptions = (
    params: LoadTemplateDescriptorsParams
 ): UndefinedInitialDataInfiniteOptions<
    DPromptsPage,
@@ -71,10 +71,10 @@ export const infiniteLoadTemplateDescriptorsOptions = (
    };
 };
 
-export const useInfiniteLoadTemplateDescriptors = (
+export const useInfiniteLoadPromptsPage = (
    props: LoadTemplateDescriptorsParams
 ): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
-   const options = infiniteLoadTemplateDescriptorsOptions(props);
+   const options = infiniteLoadPromptsPageOptions(props);
    return useInfiniteQuery(options);
 };
 

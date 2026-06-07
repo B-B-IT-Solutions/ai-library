@@ -3,18 +3,22 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { editPromptUrl } from "../utils";
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollection;
+   currentCollection?: DCollectionPreview;
    asMenuItem?: boolean;
 };
 
-export const EditPromptButton = ({ prompt, collection, asMenuItem }: Props) => {
-   const href = editPromptUrl(prompt, collection);
+export const EditPromptButton = ({
+   prompt,
+   currentCollection,
+   asMenuItem,
+}: Props) => {
+   const href = editPromptUrl(prompt, currentCollection);
 
    const label = () => {
       return (

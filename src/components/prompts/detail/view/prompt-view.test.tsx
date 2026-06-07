@@ -31,10 +31,10 @@ describe("PromptView rendering tests", () => {
 
    it("collection defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
-         <PromptView prompt={prompt} collection={collection} />
+         <PromptView prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {

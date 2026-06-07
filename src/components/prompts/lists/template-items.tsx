@@ -5,8 +5,9 @@ import { flatMap, isEmpty } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useLoadCollections } from "@/data/ts-queries/library";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/prompt";
+import { useInfiniteLoadPromptsPage } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -22,18 +23,18 @@ type Props = {
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DPromptsFilter;
-   collectionId?: string;
+   currentCollection?: DCollectionPreview;
 };
 
 export const TemplateItems = ({
    viewMode,
    sortBy,
    filters,
-   collectionId,
+   currentCollection,
 }: Props) => {
    const { data: collections = [] } = useLoadCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-      useInfiniteLoadTemplateDescriptors({
+      useInfiniteLoadPromptsPage({
          filters,
          sort: resolveSort(sortBy),
       });
@@ -106,7 +107,7 @@ export const TemplateItems = ({
             <TemplateItemsList
                descriptors={prompts}
                collections={collections}
-               collectionId={collectionId}
+               currentColleciton={currentCollection}
             />
          </InfiniteScroll>
       );
@@ -122,7 +123,7 @@ export const TemplateItems = ({
          <TemplateItemsGrid
             descriptors={prompts}
             collections={collections}
-            collectionId={collectionId}
+            currentColleciton={currentCollection}
          />
       </InfiniteScroll>
    );

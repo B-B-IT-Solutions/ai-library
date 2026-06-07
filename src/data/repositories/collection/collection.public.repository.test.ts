@@ -49,7 +49,7 @@ describe("pGetPublicCollectionByToken tests", () => {
 
    it("collection - retrieved - test", async () => {
       const publicToken = "token-1";
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result =
