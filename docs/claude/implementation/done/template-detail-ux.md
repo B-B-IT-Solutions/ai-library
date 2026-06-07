@@ -39,18 +39,18 @@ Page (h-screen bg-slate-50)
 
 ## 3. Identifizierte UX-Probleme
 
-| # | Problem | Auswirkung |
-|---|---|---|
-| 1 | Titel erscheint in Topbar **und** implizit im Card-Kontext | Redundanz, schlechte Hierarchie |
-| 2 | `Prompt anwenden` im Card-Header neben Edit und Dots-Menü | Primäre Aktion schwer auffindbar |
-| 3 | Beschreibung und Prompt-Text haben gleiche visuelle Gewichtung | Kein inhaltlicher Fokus |
-| 4 | Model-Badge steht isoliert links im Card-Header | Semantisch falsch platziert |
-| 5 | Kategorien erscheinen unter den Buttons | Fühlen sich wie Afterthought an |
-| 6 | Collapsible für Prompt-Text (Default: expanded) | Unnötige Interaktion ohne Nutzen |
-| 7 | Copy-Button im Collapsible-Header braucht `stopPropagation` | Architektonisch fragil |
-| 8 | `max-w-5xl` single column verschenkt Bildschirmfläche | Suboptimale Raumnutzung |
-| 9 | Keine Metadaten (Datum, Modell) als kontextueller Block | Fehlende Orientierung |
-| 10 | Browser-Tab-Titel statisch: `"Vorlage"` | SEO- und UX-Problem |
+| #   | Problem                                                        | Auswirkung                       |
+| --- | -------------------------------------------------------------- | -------------------------------- |
+| 1   | Titel erscheint in Topbar **und** implizit im Card-Kontext     | Redundanz, schlechte Hierarchie  |
+| 2   | `Prompt anwenden` im Card-Header neben Edit und Dots-Menü      | Primäre Aktion schwer auffindbar |
+| 3   | Beschreibung und Prompt-Text haben gleiche visuelle Gewichtung | Kein inhaltlicher Fokus          |
+| 4   | Model-Badge steht isoliert links im Card-Header                | Semantisch falsch platziert      |
+| 5   | Kategorien erscheinen unter den Buttons                        | Fühlen sich wie Afterthought an  |
+| 6   | Collapsible für Prompt-Text (Default: expanded)                | Unnötige Interaktion ohne Nutzen |
+| 7   | Copy-Button im Collapsible-Header braucht `stopPropagation`    | Architektonisch fragil           |
+| 8   | `max-w-5xl` single column verschenkt Bildschirmfläche          | Suboptimale Raumnutzung          |
+| 9   | Keine Metadaten (Datum, Modell) als kontextueller Block        | Fehlende Orientierung            |
+| 10  | Browser-Tab-Titel statisch: `"Vorlage"`                        | SEO- und UX-Problem              |
 
 ---
 
@@ -139,9 +139,9 @@ Erstellt 12. Mai 2025 · Claude 3.5 Sonnet   ← Metadaten-Zeile
 - **Section-Label:** identisch mit Beschreibungs-Label-System
 - **Copy-Button:** Positioniert rechts neben dem Section-Label (`flex justify-between items-center`) — vollständig getrennt vom Content-Block, kein `stopPropagation` mehr nötig
 - **Content-Block:**
-  - `bg-slate-950 text-slate-100 rounded-lg p-5 font-mono text-sm leading-relaxed`
-  - Kommuniziert visuell: "maschinenlesbare Instruktion", nicht Prosa
-  - Schafft starken Kontrast zur hellen Beschreibung darüber
+   - `bg-slate-950 text-slate-100 rounded-lg p-5 font-mono text-sm leading-relaxed`
+   - Kommuniziert visuell: "maschinenlesbare Instruktion", nicht Prosa
+   - Schafft starken Kontrast zur hellen Beschreibung darüber
 
 **Copy-Button States:**
 | State | Darstellung |
@@ -152,12 +152,12 @@ Erstellt 12. Mai 2025 · Claude 3.5 Sonnet   ← Metadaten-Zeile
 
 ### 5.5 Aktions-Sidebar (rechte Spalte)
 
-**Ziel:** Primäre Aktion prominent, destruktive Aktion sichtbar aber klar markiert**
+**Ziel:** Primäre Aktion prominent, destruktive Aktion sichtbar aber klar markiert\*\*
 
 ```
 ┌─────────────────────────────────┐
 │  ╔═══════════════════════════╗  │
-│  ║   Prompt anwenden    →    ║  │  ← w-full, size="lg", bg-blue-600
+│  ║   Prompt anwenden    →    ║  │  ← w-full, size="lg", bg-blue-700
 │  ╚═══════════════════════════╝  │
 │                                 │
 │  [⬇ Herunterladen]             │  ← ghost, w-full, justify-start
@@ -173,16 +173,19 @@ Erstellt 12. Mai 2025 · Claude 3.5 Sonnet   ← Metadaten-Zeile
 ```
 
 **CTA `Prompt anwenden`:**
-- `w-full size="lg" bg-blue-600 hover:bg-blue-700 text-white font-semibold`
+
+- `w-full size="lg" bg-blue-700 hover:bg-blue-800 text-white font-semibold`
 - `sticky top-[calc(3.5rem+1rem)]` — unterhalb der Topbar, immer sichtbar beim Scrollen
 - Einziger primärer Button auf der gesamten Seite
 
 **Löschen — aus Dots-Menü herausholen:**
+
 - `variant="ghost" w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50`
 - Sicherheit durch Farbe kommuniziert, nicht durch Verstecken
 - `MoreOptionsButton` (Dots-Menü) entfällt — Aktionen sind jetzt alle direkt sichtbar
 
 **Modell-Info-Block:**
+
 - Separator `border-t border-slate-200 my-4`
 - Label: `text-xs font-medium text-slate-400 mb-2`
 - Badge: `bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-sm text-slate-700 flex items-center gap-2`
@@ -228,26 +231,26 @@ Erstellt 12. Mai 2025 · Claude 3.5 Sonnet   ← Metadaten-Zeile
 
 ## 7. Visuelle Hierarchie
 
-| Ebene | Element | Behandlung |
-|---|---|---|
-| **1 (dominant)** | Template-Titel | `text-3xl font-bold`, freistehend |
-| **2 (primär)** | Prompt anwenden | Volle Breite, `size="lg"`, sticky |
-| **3 (inhalt)** | Prompt-Text | Dunkler Block `bg-slate-950`, `font-mono` |
-| **4 (inhalt)** | Beschreibung | Prose, helle Seite |
-| **5 (kontext)** | Kategorien, Modell, Datum | Klein, `text-slate-400/500` |
-| **6 (sekundär)** | Bearbeiten | Topbar, outline |
-| **7 (destruktiv)** | Löschen | Sichtbar, `text-red-600`, klar markiert |
-| **8 (utility)** | Kopieren, Herunterladen | Ghost, inline |
+| Ebene              | Element                   | Behandlung                                |
+| ------------------ | ------------------------- | ----------------------------------------- |
+| **1 (dominant)**   | Template-Titel            | `text-3xl font-bold`, freistehend         |
+| **2 (primär)**     | Prompt anwenden           | Volle Breite, `size="lg"`, sticky         |
+| **3 (inhalt)**     | Prompt-Text               | Dunkler Block `bg-slate-950`, `font-mono` |
+| **4 (inhalt)**     | Beschreibung              | Prose, helle Seite                        |
+| **5 (kontext)**    | Kategorien, Modell, Datum | Klein, `text-slate-400/500`               |
+| **6 (sekundär)**   | Bearbeiten                | Topbar, outline                           |
+| **7 (destruktiv)** | Löschen                   | Sichtbar, `text-red-600`, klar markiert   |
+| **8 (utility)**    | Kopieren, Herunterladen   | Ghost, inline                             |
 
 ---
 
 ## 8. Layout-Breakpoints
 
-| Breakpoint | Layout |
-|---|---|
-| `< 768px` | Single Column, CTA als fixed Bottom Bar |
+| Breakpoint       | Layout                                        |
+| ---------------- | --------------------------------------------- |
+| `< 768px`        | Single Column, CTA als fixed Bottom Bar       |
 | `768px – 1023px` | Single Column, Sidebar-Inhalt nach Hero-Block |
-| `≥ 1024px` | Two-Column: `grid-cols-[2fr_1fr]`, max-w-6xl |
+| `≥ 1024px`       | Two-Column: `grid-cols-[2fr_1fr]`, max-w-6xl  |
 
 **`max-w` Anpassung:** `max-w-5xl` → `max-w-6xl` (1152px) um dem Two-Column Grid Raum zu geben.
 
@@ -276,25 +279,25 @@ Ergebnis: `"Vorlage für Jahresgespräche | AI Library"` (sofern `title.template
 
 ## 10. Was NICHT geändert wird
 
-| Was | Warum |
-|---|---|
-| `UsePromptDialog` Logik | Funktioniert korrekt, kein UX-Problem |
-| `MDRenderer` für Beschreibung | Rendering-Qualität ist gut |
-| `TemplateBreadcrumb` Komponente | Funktional korrekt |
-| `DeleteTemplateButton` Confirmation-Dialog | Sicherheitsmuster ist richtig — nur die Sichtbarkeit ändert sich |
-| Jest-Tests für Buttons | Stabil; neue Layout-Tests separat schreiben |
-| `ItemDetailsView` Wrapper-Komponente | Wird von anderen Seiten genutzt; Page-Komponente befüllt Wrapper anders, statt Wrapper zu ändern |
+| Was                                        | Warum                                                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `UsePromptDialog` Logik                    | Funktioniert korrekt, kein UX-Problem                                                            |
+| `MDRenderer` für Beschreibung              | Rendering-Qualität ist gut                                                                       |
+| `TemplateBreadcrumb` Komponente            | Funktional korrekt                                                                               |
+| `DeleteTemplateButton` Confirmation-Dialog | Sicherheitsmuster ist richtig — nur die Sichtbarkeit ändert sich                                 |
+| Jest-Tests für Buttons                     | Stabil; neue Layout-Tests separat schreiben                                                      |
+| `ItemDetailsView` Wrapper-Komponente       | Wird von anderen Seiten genutzt; Page-Komponente befüllt Wrapper anders, statt Wrapper zu ändern |
 
 ---
 
 ## 11. Implementierungs-Reihenfolge
 
-| Prio | Schritt | Aufwand |
-|---|---|---|
-| 1 | `generateMetadata` → dynamischer Browser-Tab-Titel | ~5 min |
-| 2 | Sidebar mit sticky CTA + Löschen sichtbar (ohne Dots-Menü) | S |
-| 3 | Prompt-Text: dunkler Block + Copy-Button-Position | S |
-| 4 | Hero-Block: Kategorien über Titel, Metadaten-Zeile | S |
-| 5 | Two-Column Grid (`max-w-6xl`, `grid-cols-[2fr_1fr]`) | M |
-| 6 | Bearbeiten in Topbar, Topbar-Höhe auf `h-14` | S |
-| 7 | Mobile Bottom Bar für CTA | M |
+| Prio | Schritt                                                    | Aufwand |
+| ---- | ---------------------------------------------------------- | ------- |
+| 1    | `generateMetadata` → dynamischer Browser-Tab-Titel         | ~5 min  |
+| 2    | Sidebar mit sticky CTA + Löschen sichtbar (ohne Dots-Menü) | S       |
+| 3    | Prompt-Text: dunkler Block + Copy-Button-Position          | S       |
+| 4    | Hero-Block: Kategorien über Titel, Metadaten-Zeile         | S       |
+| 5    | Two-Column Grid (`max-w-6xl`, `grid-cols-[2fr_1fr]`)       | M       |
+| 6    | Bearbeiten in Topbar, Topbar-Höhe auf `h-14`               | S       |
+| 7    | Mobile Bottom Bar für CTA                                  | M       |

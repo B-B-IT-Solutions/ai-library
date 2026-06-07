@@ -61,7 +61,7 @@ export const CategoriesFilter: FC = () => {
          <Badge
             key={cat}
             variant="secondary"
-            className="flex items-center gap-1.5 border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
+            className="flex items-center gap-1.5 border border-blue-200 bg-linear-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
             data-testid={`selected-category-${toTestId(cat)}`}
          >
             <span className="font-medium">{cat}</span>
@@ -77,7 +77,7 @@ export const CategoriesFilter: FC = () => {
       return (
          <div
             className={cn(
-               "min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white",
+               "min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white",
                "flex flex-wrap items-center gap-2 shadow-sm transition-all"
             )}
          >

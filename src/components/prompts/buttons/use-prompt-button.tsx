@@ -69,7 +69,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
             onClick={handleUseTemplate}
             disabled={isPending}
             className={cn(
-               "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
+               "cursor-pointer bg-blue-700 text-white hover:bg-blue-800",
                className
             )}
             data-testid="use-prompt-btn"

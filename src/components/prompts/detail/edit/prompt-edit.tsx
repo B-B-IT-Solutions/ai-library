@@ -78,7 +78,7 @@ export const PromptEdit = ({
             type="submit"
             form="prompt-edit-form"
             disabled={isSubmitting}
-            className="cursor-pointer bg-blue-600 hover:bg-blue-700"
+            className="cursor-pointer bg-blue-700 hover:bg-blue-800"
             data-testid="save-btn"
          >
             {isSubmitting ? (
