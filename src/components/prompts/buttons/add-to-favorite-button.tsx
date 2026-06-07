@@ -14,9 +14,10 @@ import { cn } from "@/lib/utils";
 
 type Props = {
    descriptor: DPrompt;
+   variant?: "card" | "inline";
 };
 
-export const AddToFavoriteButton = ({ descriptor }: Props) => {
+export const AddToFavoriteButton = ({ descriptor, variant = "card" }: Props) => {
    const [isFavorite, setFavorite] = useState<boolean>(descriptor.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
@@ -60,10 +61,15 @@ export const AddToFavoriteButton = ({ descriptor }: Props) => {
       );
    };
 
+   const buttonClass =
+      variant === "inline"
+         ? "rounded-full p-1.5 transition-all hover:bg-slate-100"
+         : "absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white";
+
    return (
       <button
          onClick={handleToggleFavorite}
-         className="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+         className={buttonClass}
          aria-label={
             isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
