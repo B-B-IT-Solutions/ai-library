@@ -29,6 +29,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import type {
    LoadCollectionIdsParams,
+   LoadCollectionPreviewsParams,
    UpdateCollectionIdsParams,
 } from "./types";
 import { libraryKeys } from "./utils";
@@ -73,23 +74,27 @@ export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
    return useQuery<DCollection[]>(options);
 };
 
-export const loadCollectionPreviewsOptions = (): UndefinedInitialDataOptions<
+export const loadCollectionPreviewsOptions = (
+   params: LoadCollectionPreviewsParams
+): UndefinedInitialDataOptions<
    DCollectionPreview[],
    Error,
    DCollectionPreview[]
 > => {
+   const { enabled } = params;
    return {
       queryKey: libraryKeys.collectionPreviews(),
       queryFn: getCollectionPreviews,
       placeholderData: keepPreviousData,
+      enabled,
       staleTime: 5 * 60 * 1000,
    };
 };
 
-export const useLoadCollectionPreviews = (): UseQueryResult<
-   DCollectionPreview[]
-> => {
-   const options = loadCollectionPreviewsOptions();
+export const useLoadCollectionPreviews = (
+   params: LoadCollectionPreviewsParams
+): UseQueryResult<DCollectionPreview[]> => {
+   const options = loadCollectionPreviewsOptions(params);
    return useQuery<DCollectionPreview[]>(options);
 };
 
