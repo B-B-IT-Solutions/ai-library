@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MoreVertical } from "lucide-react";
 
-import { AddToLibraryCollectionDialog } from "@/components/collections";
+import { AddToCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
@@ -11,10 +11,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { AddPromptToCollectionButton } from "./add-prompt-to-collection-button";
@@ -25,7 +22,7 @@ import { ViewPromptButton } from "./view-prompt-button";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    currentCollection?: DCollectionPreview;
 };
 
@@ -68,7 +65,7 @@ export const PromptMoreOptionsButton = ({
                <DeletePromptButton prompt={prompt} asMenuItem={true} />
             </DropdownMenuContent>
          </DropdownMenu>
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}

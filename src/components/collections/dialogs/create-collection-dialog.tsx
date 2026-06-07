@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -27,10 +26,7 @@ type Props = {
    onOpenChange: (open: boolean) => void;
 };
 
-export const LibraryCollectionCreateDialog: FC<Props> = ({
-   open,
-   onOpenChange,
-}) => {
+export const CollectionCreateDialog = ({ open, onOpenChange }: Props) => {
    const { mutate: createCollection, isPending } = useCreateCollection();
 
    const form = useForm<DCollectionUpdate>({

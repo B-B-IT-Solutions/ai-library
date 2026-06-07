@@ -24,7 +24,7 @@ const assertRendered = () => {
 
 describe("TemplateItemCard rendering tests", () => {
    it("currentCollection undefined - test", async () => {
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
@@ -63,7 +63,7 @@ describe("TemplateItemCard ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = React.createRef<HTMLDivElement>();
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
          <TemplateItemCard
@@ -89,7 +89,7 @@ describe("TemplateItemCard functionality tests", () => {
 
    it("title - view detail link clicked - currentCollection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
          <TemplateItemCard prompt={prompt} collections={collections} />

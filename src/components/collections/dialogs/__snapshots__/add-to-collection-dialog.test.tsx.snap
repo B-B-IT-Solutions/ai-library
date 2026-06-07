@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save button disabled - test 1`] = `
+exports[`AddToCollectionDialog rendering tests isSaving true - save button disabled - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -113,11 +113,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
               >
                 name 0
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 0
-              </span>
             </label>
           </div>
           <div
@@ -190,11 +185,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
                 class="font-medium"
               >
                 name 1
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 1
               </span>
             </label>
           </div>
@@ -269,11 +259,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
               >
                 name 2
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 2
-              </span>
             </label>
           </div>
           <div
@@ -346,11 +331,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
                 class="font-medium"
               >
                 name 3
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 3
               </span>
             </label>
           </div>
@@ -425,11 +405,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
               >
                 name 4
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 4
-              </span>
             </label>
           </div>
           <div
@@ -502,11 +477,6 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
                 class="font-medium"
               >
                 name 5
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 5
               </span>
             </label>
           </div>
@@ -643,7 +613,7 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests open false - test 1`] = `
+exports[`AddToCollectionDialog rendering tests open false - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -678,7 +648,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open false - test 1`] = `
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests open true - empty library collections - test 1`] = `
+exports[`AddToCollectionDialog rendering tests open true - empty library collections - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -849,7 +819,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - empty library 
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests open true - isLoading true - test 1`] = `
+exports[`AddToCollectionDialog rendering tests open true - isLoading true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -1027,7 +997,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - isLoading true
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
+exports[`AddToCollectionDialog rendering tests open true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -1140,11 +1110,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
               >
                 name 0
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 0
-              </span>
             </label>
           </div>
           <div
@@ -1217,11 +1182,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
                 class="font-medium"
               >
                 name 1
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 1
               </span>
             </label>
           </div>
@@ -1296,11 +1256,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
               >
                 name 2
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 2
-              </span>
             </label>
           </div>
           <div
@@ -1373,11 +1328,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
                 class="font-medium"
               >
                 name 3
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 3
               </span>
             </label>
           </div>
@@ -1452,11 +1402,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
               >
                 name 4
               </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 4
-              </span>
             </label>
           </div>
           <div
@@ -1529,11 +1474,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
                 class="font-medium"
               >
                 name 5
-              </span>
-              <span
-                class="truncate text-xs text-slate-500"
-              >
-                description 5
               </span>
             </label>
           </div>

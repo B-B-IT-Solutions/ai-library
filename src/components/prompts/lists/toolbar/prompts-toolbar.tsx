@@ -1,5 +1,5 @@
 import { ListViewToggle } from "@/components/shared/buttons";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
 import { PromptFilters } from "./filters";
@@ -10,7 +10,7 @@ type Props = {
    sortBy?: DListSortByMode;
    categories: string[];
    models: string[];
-   collections: DCollection[];
+   collections: DCollectionPreview[];
 };
 
 export const PromptsToolbar = ({

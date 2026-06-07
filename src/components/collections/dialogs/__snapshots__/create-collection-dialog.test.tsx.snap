@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryCollectionCreateDialog rendering tests LibraryCollectionCreateDialog - open false - does not render dialog - test 1`] = `
+exports[`CollectionCreateDialog rendering tests open false - does not render dialog - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -20,7 +20,7 @@ exports[`LibraryCollectionCreateDialog rendering tests LibraryCollectionCreateDi
 </div>
 `;
 
-exports[`LibraryCollectionCreateDialog rendering tests LibraryCollectionCreateDialog - open true - renders dialog - test 1`] = `
+exports[`CollectionCreateDialog rendering tests open true - renders dialog - test 1`] = `
 <div>
   <div
     data-slot="dialog"

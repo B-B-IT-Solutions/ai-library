@@ -6,4 +6,7 @@ export type PLibraryCollection = LibraryCollection & {
    };
 };
 
-export type PLibraryCollectionPreview = Pick<LibraryCollection, "id" | "name">;
+export type PLibraryCollectionPreview = Pick<
+   LibraryCollection,
+   "id" | "name" | "color"
+>;

@@ -1,2 +1,2 @@
-export { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
-export { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
+export { CollectionCreateDialog } from "./create-collection-dialog";
+export { AddToCollectionDialog } from "./add-to-collection-dialog";

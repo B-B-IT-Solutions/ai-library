@@ -5,7 +5,7 @@ import { map } from "es-toolkit/compat";
 import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
-import { AddToLibraryCollectionDialog } from "@/components/collections";
+import { AddToCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -15,7 +15,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -25,7 +25,7 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    collectionToken?: string | null;
 };
 
@@ -134,7 +134,7 @@ export const PublicTemplateItemCard = ({
             </div>
          </CardContent>
 
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}

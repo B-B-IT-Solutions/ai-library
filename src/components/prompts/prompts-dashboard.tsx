@@ -4,13 +4,13 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionPreviews } from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
    getPromptsUsage,
 } from "@/data/actions/prompt";
-import { preloadCollectionsOptions } from "@/data/ts-queries/library";
+import { preloadCollectionPreviewsOptions } from "@/data/ts-queries/library";
 import { infiniteLoadPromptsPageOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
@@ -40,13 +40,13 @@ export const PromptsDashboard = async () => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadCollectionsOptions()),
+      queryClient.prefetchQuery(preloadCollectionPreviewsOptions()),
    ]);
 
    const [categories, models, collections, usage] = await Promise.all([
       getPromptCategories(),
       getPromptModels(),
-      getCollections(),
+      getCollectionPreviews(),
       getPromptsUsage(),
    ]);
 

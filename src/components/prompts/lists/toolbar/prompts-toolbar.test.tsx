@@ -21,7 +21,7 @@ describe("PromptsToolbar rendering tests", () => {
    it("rendered - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
 
       const { container } = renderWithRouter(
          <PromptsToolbar

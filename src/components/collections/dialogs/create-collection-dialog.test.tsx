@@ -17,7 +17,7 @@ import { useCreateCollection } from "@/data/ts-queries/library";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
-import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
+import { CollectionCreateDialog } from "./create-collection-dialog";
 
 type UseCreateCollectionResult = ReturnType<typeof useCreateCollection>;
 
@@ -64,17 +64,17 @@ const assertFieldsRendered = () => {
    assertInDocument(color);
 };
 
-describe("LibraryCollectionCreateDialog rendering tests", () => {
+describe("CollectionCreateDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("LibraryCollectionCreateDialog - open true - renders dialog - test", async () => {
+   it("open true - renders dialog - test", async () => {
       const result = mutationResultMock();
       useCreateCollectionMock.mockReturnValue(result);
 
       const { container } = renderWithReactQuery(
-         <LibraryCollectionCreateDialog open={true} onOpenChange={jest.fn()} />
+         <CollectionCreateDialog open={true} onOpenChange={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -85,12 +85,12 @@ describe("LibraryCollectionCreateDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryCollectionCreateDialog - open false - does not render dialog - test", async () => {
+   it("open false - does not render dialog - test", async () => {
       const result = mutationResultMock();
       useCreateCollectionMock.mockReturnValue(result);
 
       const { container } = renderWithReactQuery(
-         <LibraryCollectionCreateDialog open={false} onOpenChange={jest.fn()} />
+         <CollectionCreateDialog open={false} onOpenChange={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -100,12 +100,12 @@ describe("LibraryCollectionCreateDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryCollectionCreateDialog - isPending true - test", async () => {
+   it("isPending true - test", async () => {
       const result = mutationObserverLoadingResultMock();
       useCreateCollectionMock.mockReturnValue(result);
 
       renderWithReactQuery(
-         <LibraryCollectionCreateDialog open={true} onOpenChange={jest.fn()} />
+         <CollectionCreateDialog open={true} onOpenChange={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -115,12 +115,12 @@ describe("LibraryCollectionCreateDialog rendering tests", () => {
    });
 });
 
-describe("LibraryCollectionCreateDialog functionality tests", () => {
+describe("CollectionCreateDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("LibraryCollectionCreateDialog - submit btn clicked - success true - test", async () => {
+   it("submit btn clicked - success true - test", async () => {
       const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection Created",
@@ -136,10 +136,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       useCreateCollectionMock.mockReturnValue(result);
 
       renderWithReactQuery(
-         <LibraryCollectionCreateDialog
-            open={true}
-            onOpenChange={onOpenChange}
-         />
+         <CollectionCreateDialog open={true} onOpenChange={onOpenChange} />
       );
 
       await waitFor(() => {
@@ -186,7 +183,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       });
    });
 
-   it("LibraryCollectionCreateDialog - submit btn clicked - success false - test", async () => {
+   it("submit btn clicked - success false - test", async () => {
       const actionResult: ActionResult = {
          success: false,
          message: "Fehler beim Erstellen",
@@ -201,10 +198,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       useCreateCollectionMock.mockReturnValue(result);
 
       renderWithReactQuery(
-         <LibraryCollectionCreateDialog
-            open={true}
-            onOpenChange={onOpenChange}
-         />
+         <CollectionCreateDialog open={true} onOpenChange={onOpenChange} />
       );
 
       await waitFor(() => {
@@ -250,7 +244,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       });
    });
 
-   it("LibraryCollectionCreateDialog - submit btn clicked - error - test", async () => {
+   it("submit btn clicked - error - test", async () => {
       const onOpenChange = jest.fn();
       const mutateFn = jest.fn((_data: unknown, callbacks) => {
          callbacks.onError();
@@ -260,10 +254,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       useCreateCollectionMock.mockReturnValue(result);
 
       renderWithReactQuery(
-         <LibraryCollectionCreateDialog
-            open={true}
-            onOpenChange={onOpenChange}
-         />
+         <CollectionCreateDialog open={true} onOpenChange={onOpenChange} />
       );
 
       await waitFor(() => {
@@ -289,16 +280,13 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       });
    });
 
-   it("LibraryCollectionCreateDialog - cancel button closes dialog - test", async () => {
+   it("cancel button closes dialog - test", async () => {
       const onOpenChange = jest.fn();
       const result = mutationResultMock();
       useCreateCollectionMock.mockReturnValue(result);
 
       renderWithReactQuery(
-         <LibraryCollectionCreateDialog
-            open={true}
-            onOpenChange={onOpenChange}
-         />
+         <CollectionCreateDialog open={true} onOpenChange={onOpenChange} />
       );
 
       await waitFor(() => {

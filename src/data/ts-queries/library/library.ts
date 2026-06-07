@@ -15,11 +15,16 @@ import { filter } from "es-toolkit/compat";
 import {
    createCollection,
    deleteCollection,
+   getCollectionPreviews,
    getCollections,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import type {
@@ -39,6 +44,17 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
    };
 };
 
+export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: libraryKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+   };
+};
+
 export const loadCollectionsOptions = (): UndefinedInitialDataOptions<
    DCollection[],
    Error,
@@ -55,6 +71,26 @@ export const loadCollectionsOptions = (): UndefinedInitialDataOptions<
 export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
    const options = loadCollectionsOptions();
    return useQuery<DCollection[]>(options);
+};
+
+export const loadCollectionPreviewsOptions = (): UndefinedInitialDataOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: libraryKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+      placeholderData: keepPreviousData,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadCollectionPreviews = (): UseQueryResult<
+   DCollectionPreview[]
+> => {
+   const options = loadCollectionPreviewsOptions();
+   return useQuery<DCollectionPreview[]>(options);
 };
 
 export const createCollectionOptions = (

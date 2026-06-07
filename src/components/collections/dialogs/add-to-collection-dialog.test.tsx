@@ -24,7 +24,7 @@ import {
 } from "@/data/ts-queries/library/types";
 import { ActionResult } from "@/data/types/utils";
 
-import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
+import { AddToCollectionDialog } from "./add-to-collection-dialog";
 
 type UseUpdatePromptCollectionsResult = ReturnType<
    typeof useUpdatePromptCollections
@@ -123,7 +123,7 @@ const assertEntryCollectionIdsLoaded = (entryId: string, enabled: boolean) => {
    expect(useLoadPromptCollectionIdsMock).toHaveBeenCalledWith(expectedParams);
 };
 
-describe("AddToLibraryCollectionDialog rendering tests", () => {
+describe("AddToCollectionDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
 
@@ -143,7 +143,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -171,7 +171,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -198,7 +198,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={[]}
             open={true}
@@ -226,7 +226,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -253,7 +253,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={false}
@@ -270,7 +270,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
    });
 });
 
-describe("AddToLibraryCollectionDialog functionality tests", () => {
+describe("AddToCollectionDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
 
@@ -304,7 +304,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -375,7 +375,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -438,7 +438,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}
@@ -487,7 +487,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={[]}
             open={true}
@@ -520,7 +520,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       allCollections[0].color = null;
 
       renderWithReactQuery(
-         <AddToLibraryCollectionDialog
+         <AddToCollectionDialog
             prompt={prompt}
             collections={allCollections}
             open={true}

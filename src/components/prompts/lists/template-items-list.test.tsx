@@ -11,7 +11,7 @@ const assertRendered = () => {
 
 describe("TemplateItemsList rendering tests", () => {
    it("prompts - collecitonId undefined - test", async () => {
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
       const prompts = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
@@ -26,7 +26,7 @@ describe("TemplateItemsList rendering tests", () => {
    });
 
    it("prompts - collecitonId defined - test", async () => {
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
       const prompts = dtestData.dPrompts();
       const collection = dtestData.dCollectionPreview();
 
@@ -49,7 +49,7 @@ describe("TemplateItemsList rendering tests", () => {
 describe("TemplateItemsList ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
-      const collections = dtestData.dCollections();
+      const collections = dtestData.dCollectionPreviews();
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(

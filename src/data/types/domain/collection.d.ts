@@ -21,6 +21,7 @@ export type DCollection = {
 export type DCollectionPreview = {
    id: string;
    name: string;
+   color: string;
 };
 
 export type DCollectionEntry = {
