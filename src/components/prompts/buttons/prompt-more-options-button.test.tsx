@@ -9,9 +9,16 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getPromptCollectionIds } from "@/data/actions/collection";
+import {
+   getCollectionPreviews,
+   getPromptCollectionIds,
+} from "@/data/actions/collection";
 
 import { PromptMoreOptionsButton } from "./prompt-more-options-button";
+
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
+>;
 
 const getPromptCollectionIdsMock =
    getPromptCollectionIds as jest.MockedFunction<typeof getPromptCollectionIds>;
@@ -88,9 +95,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
 
    it("trigger clicked - test", async () => {
       const prompt = dtestData.dPrompt();
-      renderWithReactQuery(
-         <PromptMoreOptionsButton prompt={prompt} />
-      );
+      renderWithReactQuery(<PromptMoreOptionsButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -106,14 +111,15 @@ describe("PromptMoreOptionsButton functionality tests", () => {
    });
 
    it("add to collection btn clicked - test", async () => {
+      const collections = dtestData.dCollectionPreviews();
+      getCollectionPreviewsMock.mockResolvedValue(collections);
+
       const collectionIds = dtestData.dCollectionIds();
       getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(
-         <PromptMoreOptionsButton prompt={prompt} />
-      );
+      renderWithReactQuery(<PromptMoreOptionsButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
