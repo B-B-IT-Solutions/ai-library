@@ -141,7 +141,7 @@ describe("PromptsDashboard rendering tests", () => {
          assertRendered();
          expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(2);
+         expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
