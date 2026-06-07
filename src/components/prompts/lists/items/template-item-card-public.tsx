@@ -15,7 +15,6 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -25,13 +24,11 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollectionPreview[];
    collectionToken?: string | null;
 };
 
 export const PublicTemplateItemCard = ({
    prompt,
-   collections,
    collectionToken,
 }: Props) => {
    const templateDetailsUrl = collectionToken
@@ -136,7 +133,6 @@ export const PublicTemplateItemCard = ({
 
          <AddToCollectionDialog
             prompt={prompt}
-            collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}
          />

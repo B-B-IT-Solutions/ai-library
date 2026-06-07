@@ -15,6 +15,7 @@ import { toast } from "sonner";
 
 import {
    useCreateCollection,
+   useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
@@ -22,6 +23,7 @@ import {
    LoadCollectionIdsParams,
    UpdateCollectionIdsParams,
 } from "@/data/ts-queries/library/types";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import { AddToCollectionDialog } from "./add-to-collection-dialog";
@@ -36,11 +38,20 @@ type UseLoadPromptCollectionIdsResult = ReturnType<
    typeof useLoadPromptCollectionIds
 >;
 
+type UseLoadCollectionPreviewsResult = ReturnType<
+   typeof useLoadCollectionPreviews
+>;
+
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const useLoadPromptCollectionIdsMock =
    useLoadPromptCollectionIds as jest.MockedFunction<
       typeof useLoadPromptCollectionIds
+   >;
+
+const useLoadCollectionPreviewsMock =
+   useLoadCollectionPreviews as jest.MockedFunction<
+      typeof useLoadCollectionPreviews
    >;
 
 const useCreateCollectionMock = useCreateCollection as jest.MockedFunction<
@@ -75,6 +86,12 @@ const queryResultMock = (
    isLoading = false
 ): UseLoadPromptCollectionIdsResult => {
    return { data, isLoading } as UseLoadPromptCollectionIdsResult;
+};
+
+const collectionPreviewsResultMock = (
+   data: DCollectionPreview[] = []
+): UseLoadCollectionPreviewsResult => {
+   return { data } as UseLoadCollectionPreviewsResult;
 };
 
 const assertDialogRendered = () => {
@@ -129,6 +146,9 @@ describe("AddToCollectionDialog rendering tests", () => {
 
       const mutationResult = createMutationResultMock();
       useCreateCollectionMock.mockReturnValue(mutationResult);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock()
+      );
    });
 
    it("open true - test", async () => {
@@ -139,13 +159,15 @@ describe("AddToCollectionDialog rendering tests", () => {
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
       const prompt = dtestData.dPrompt();
-      const allCollections = dtestData.dCollections(6);
+      const allCollections = dtestData.dCollectionPreviews(6);
       allCollections[0].color = null;
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const { container } = renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
          />
@@ -168,12 +190,14 @@ describe("AddToCollectionDialog rendering tests", () => {
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
       const prompt = dtestData.dPrompt();
-      const allCollections = dtestData.dCollections(6);
+      const allCollections = dtestData.dCollectionPreviews(6);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const { container } = renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
          />
@@ -200,7 +224,6 @@ describe("AddToCollectionDialog rendering tests", () => {
       const { container } = renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={[]}
             open={true}
             onOpenChange={jest.fn()}
          />
@@ -223,12 +246,14 @@ describe("AddToCollectionDialog rendering tests", () => {
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
       const prompt = dtestData.dPrompt();
-      const allCollections = dtestData.dCollections(6);
+      const allCollections = dtestData.dCollectionPreviews(6);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const { container } = renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
          />
@@ -250,12 +275,14 @@ describe("AddToCollectionDialog rendering tests", () => {
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
       const prompt = dtestData.dPrompt();
-      const allCollections = dtestData.dCollections(6);
+      const allCollections = dtestData.dCollectionPreviews(6);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const { container } = renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={false}
             onOpenChange={jest.fn()}
          />
@@ -276,6 +303,9 @@ describe("AddToCollectionDialog functionality tests", () => {
 
       const mutationResult = createMutationResultMock();
       useCreateCollectionMock.mockReturnValue(mutationResult);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock()
+      );
    });
 
    it("save btn clicked - success true - test", async () => {
@@ -284,7 +314,7 @@ describe("AddToCollectionDialog functionality tests", () => {
          message: "Sammlungen aktualisiert",
       };
 
-      const allCollections = dtestData.dCollections(3);
+      const allCollections = dtestData.dCollectionPreviews(3);
       const collection1 = allCollections[0];
       const collection2 = allCollections[1];
       const collection3 = allCollections[2];
@@ -300,13 +330,15 @@ describe("AddToCollectionDialog functionality tests", () => {
 
       useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
          />
@@ -355,7 +387,7 @@ describe("AddToCollectionDialog functionality tests", () => {
          message: "Fehler beim Speichern",
       };
 
-      const allCollections = dtestData.dCollections(3);
+      const allCollections = dtestData.dCollectionPreviews(3);
       const collection1 = allCollections[0];
       const collection2 = allCollections[1];
       const collection3 = allCollections[2];
@@ -371,13 +403,15 @@ describe("AddToCollectionDialog functionality tests", () => {
 
       useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
          />
@@ -420,7 +454,7 @@ describe("AddToCollectionDialog functionality tests", () => {
    });
 
    it("save btn clicked - onError - test", async () => {
-      const allCollections = dtestData.dCollections(3);
+      const allCollections = dtestData.dCollectionPreviews(3);
       const collection1 = allCollections[0];
       const selectedIds = [collection1.id];
 
@@ -434,13 +468,15 @@ describe("AddToCollectionDialog functionality tests", () => {
 
       useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
          />
@@ -489,7 +525,6 @@ describe("AddToCollectionDialog functionality tests", () => {
       renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={[]}
             open={true}
             onOpenChange={jest.fn()}
          />
@@ -516,13 +551,15 @@ describe("AddToCollectionDialog functionality tests", () => {
       useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
       const prompt = dtestData.dPrompt();
-      const allCollections = dtestData.dCollections(3);
+      const allCollections = dtestData.dCollectionPreviews(3);
       allCollections[0].color = null;
+      useLoadCollectionPreviewsMock.mockReturnValue(
+         collectionPreviewsResultMock(allCollections)
+      );
 
       renderWithReactQuery(
          <AddToCollectionDialog
             prompt={prompt}
-            collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
          />

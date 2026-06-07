@@ -17,6 +17,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { Label } from "@/components/shadcn/label";
 import {
+   useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
@@ -28,17 +29,16 @@ import { CollectionCreateDialog } from "./create-collection-dialog";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollectionPreview[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
 export const AddToCollectionDialog = ({
    prompt,
-   collections,
    open,
    onOpenChange,
 }: Props) => {
+   const { data: collections = [] } = useLoadCollectionPreviews();
    const { mutate: updateCollections, isPending: isSaving } =
       useUpdatePromptCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);

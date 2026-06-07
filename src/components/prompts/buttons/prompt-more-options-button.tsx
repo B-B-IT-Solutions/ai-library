@@ -22,13 +22,11 @@ import { ViewPromptButton } from "./view-prompt-button";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollectionPreview[];
    currentCollection?: DCollectionPreview;
 };
 
 export const PromptMoreOptionsButton = ({
    prompt,
-   collections,
    currentCollection,
 }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
@@ -67,7 +65,6 @@ export const PromptMoreOptionsButton = ({
          </DropdownMenu>
          <AddToCollectionDialog
             prompt={prompt}
-            collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}
          />

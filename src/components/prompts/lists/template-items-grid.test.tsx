@@ -11,13 +11,11 @@ const assertRendered = () => {
 
 describe("TemplateItemsGrid rendering tests", () => {
    it("prompt - collectionId undefined - test", async () => {
-      const collections = dtestData.dCollectionPreviews();
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsGrid
             descriptors={descriptors}
-            collections={collections}
          />
       );
 
@@ -29,14 +27,12 @@ describe("TemplateItemsGrid rendering tests", () => {
    });
 
    it("prompt - collectionId defined - test", async () => {
-      const collections = dtestData.dCollectionPreviews();
       const descriptors = dtestData.dPrompts();
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsGrid
             descriptors={descriptors}
-            collections={collections}
             currentColleciton={collection}
          />
       );
@@ -52,13 +48,11 @@ describe("TemplateItemsGrid rendering tests", () => {
 describe("TemplateItemsGrid ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
-      const collections = dtestData.dCollectionPreviews();
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
          <TemplateItemsGrid
             descriptors={descriptors}
-            collections={collections}
             ref={ref}
          />
       );

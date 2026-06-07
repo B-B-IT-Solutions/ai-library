@@ -67,13 +67,11 @@ const assertAddToCollectionDialogNotRendered = () => {
 
 describe("PublicTemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
-      const collections = dtestData.dCollectionPreviews();
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <PublicTemplateItemCard
             prompt={prompt}
-            collections={collections}
             collectionToken="public-token-1"
          />
       );
@@ -94,13 +92,11 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
    it("title - view detail link clicked - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollectionPreviews();
       const collectionToken = "public-token-1";
 
       renderWithReactQuery(
          <PublicTemplateItemCard
             prompt={prompt}
-            collections={collections}
             collectionToken={collectionToken}
          />
       );
@@ -123,10 +119,9 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
    it("dropdown - view detail link clicked - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
-         <PublicTemplateItemCard prompt={prompt} collections={collections} />
+         <PublicTemplateItemCard prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -156,10 +151,9 @@ describe("PublicTemplateItemCard functionality tests", () => {
       getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
-         <PublicTemplateItemCard prompt={prompt} collections={collections} />
+         <PublicTemplateItemCard prompt={prompt} />
       );
 
       await waitFor(() => {

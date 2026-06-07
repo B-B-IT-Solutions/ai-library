@@ -24,11 +24,10 @@ const assertRendered = () => {
 
 describe("TemplateItemCard rendering tests", () => {
    it("currentCollection undefined - test", async () => {
-      const collections = dtestData.dCollectionPreviews();
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemCard prompt={prompt} collections={collections} />
+         <TemplateItemCard prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -39,14 +38,12 @@ describe("TemplateItemCard rendering tests", () => {
    });
 
    it("currentCollection defined - test", async () => {
-      const collections = dtestData.dCollections();
       const prompt = dtestData.dPrompt();
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
          <TemplateItemCard
             prompt={prompt}
-            collections={collections}
             currentCollection={collection}
          />
       );
@@ -63,12 +60,10 @@ describe("TemplateItemCard ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = React.createRef<HTMLDivElement>();
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
          <TemplateItemCard
             prompt={prompt}
-            collections={collections}
             ref={ref}
          />
       );
@@ -89,10 +84,9 @@ describe("TemplateItemCard functionality tests", () => {
 
    it("title - view detail link clicked - currentCollection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollectionPreviews();
 
       renderWithReactQuery(
-         <TemplateItemCard prompt={prompt} collections={collections} />
+         <TemplateItemCard prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -110,13 +104,11 @@ describe("TemplateItemCard functionality tests", () => {
 
    it("title - view detail link clicked - currentCollection defined - test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollections();
       const collection = dtestData.dCollectionPreview();
 
       renderWithReactQuery(
          <TemplateItemCard
             prompt={prompt}
-            collections={collections}
             currentCollection={collection}
          />
       );

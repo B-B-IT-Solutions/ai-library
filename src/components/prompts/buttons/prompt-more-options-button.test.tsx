@@ -67,10 +67,9 @@ const assertAddToCollectionDialogNotRendered = () => {
 describe("PromptMoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollections();
 
       const { container } = renderWithReactQuery(
-         <PromptMoreOptionsButton prompt={prompt} collections={collections} />
+         <PromptMoreOptionsButton prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -90,7 +89,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
    it("trigger clicked - test", async () => {
       const prompt = dtestData.dPrompt();
       renderWithReactQuery(
-         <PromptMoreOptionsButton prompt={prompt} collections={[]} />
+         <PromptMoreOptionsButton prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -111,10 +110,9 @@ describe("PromptMoreOptionsButton functionality tests", () => {
       getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const prompt = dtestData.dPrompt();
-      const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <PromptMoreOptionsButton prompt={prompt} collections={collections} />
+         <PromptMoreOptionsButton prompt={prompt} />
       );
 
       await waitFor(() => {

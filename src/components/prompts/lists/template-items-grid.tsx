@@ -7,14 +7,12 @@ import { TemplateItemCard } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
-   collections: DCollectionPreview[];
    currentColleciton?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };
 
 export const TemplateItemsGrid = ({
    descriptors,
-   collections,
    currentColleciton,
    ref,
 }: Props) => {
@@ -24,7 +22,6 @@ export const TemplateItemsGrid = ({
          <TemplateItemCard
             key={descriptor.id}
             prompt={descriptor}
-            collections={collections}
             currentCollection={currentColleciton}
             ref={isLast ? ref : undefined}
          />

@@ -61,7 +61,6 @@ export const PublicTemplateItems = ({
       >
          <PublicTemplateItemsGrid
             descriptors={entries}
-            collections={[]}
             collectionToken={collectionToken}
          />
       </InfiniteScroll>

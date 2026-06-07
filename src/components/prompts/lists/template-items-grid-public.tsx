@@ -1,19 +1,16 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DCollection } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { PublicTemplateItemCard } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
-   collections: DCollection[];
    collectionToken?: string | null;
 };
 
 export const PublicTemplateItemsGrid = ({
    descriptors,
-   collections,
    collectionToken,
 }: Props) => {
    if (isEmpty(descriptors)) {
@@ -41,7 +38,6 @@ export const PublicTemplateItemsGrid = ({
             <PublicTemplateItemCard
                key={prompt.id}
                prompt={prompt}
-               collections={collections}
                collectionToken={collectionToken}
             />
          ))}
