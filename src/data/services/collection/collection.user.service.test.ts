@@ -36,6 +36,28 @@ describe("getCollections tests", () => {
    });
 });
 
+describe("getCollectionPreviews tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collections retrieved - test", async () => {
+      const userId = "user-id-1";
+      const collections = dtestData.dCollectionPreviews();
+      collectionRepoMock.pGetCollectionPreviews.mockResolvedValue(collections);
+
+      const result = await collectionService.getCollectionPreviews(userId);
+
+      expect(result).toEqual(collections);
+      expect(collectionRepoMock.pGetCollectionPreviews).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pGetCollectionPreviews).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
 describe("getCollectionById tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -54,6 +76,34 @@ describe("getCollectionById tests", () => {
       expect(result).toEqual(collection);
       expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledTimes(1);
       expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledWith(
+         userId,
+         collection.id
+      );
+   });
+});
+
+describe("getCollectionPreviewById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collection retrieved - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollectionPreview();
+      collectionRepoMock.pGetCollectionPreviewById.mockResolvedValue(
+         collection
+      );
+
+      const result = await collectionService.getCollectionPreviewById(
+         userId,
+         collection.id
+      );
+
+      expect(result).toEqual(collection);
+      expect(
+         collectionRepoMock.pGetCollectionPreviewById
+      ).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetCollectionPreviewById).toHaveBeenCalledWith(
          userId,
          collection.id
       );

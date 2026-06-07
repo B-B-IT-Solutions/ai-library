@@ -19,7 +19,7 @@ export class CollectionService {
    }
 
    async getCollectionPreviews(userId: string): Promise<DCollectionPreview[]> {
-      return await this.collectionRepository.pGetCollections(userId);
+      return await this.collectionRepository.pGetCollectionPreviews(userId);
    }
 
    async getCollectionById(
@@ -36,7 +36,7 @@ export class CollectionService {
       userId: string,
       collectionId: string
    ): Promise<DCollectionPreview | null> {
-      return await this.collectionRepository.pGetCollectionById(
+      return await this.collectionRepository.pGetCollectionPreviewById(
          userId,
          collectionId
       );
