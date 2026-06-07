@@ -286,19 +286,19 @@ model LibraryCollection {
 }
 
 model LibraryCollectionEntry {
-  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  collectionId         String   @map("collection_id") @db.Uuid
-  templateDescriptorId String   @map("template_descriptor_id") @db.Uuid
-  userId               String   @map("user_id") @db.Uuid
-  addedAt              DateTime @default(now()) @map("added_at") @db.Timestamp(6)
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  collectionId String   @map("collection_id") @db.Uuid
+  promptId     String   @map("prompt_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  addedAt      DateTime @default(now()) @map("added_at") @db.Timestamp(6)
 
-  collection         LibraryCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  templateDescriptor Prompt            @relation(fields: [templateDescriptorId], references: [id], onDelete: Cascade)
-  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collection LibraryCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  prompt     Prompt            @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([collectionId, templateDescriptorId])
+  @@unique([collectionId, promptId])
   @@index([collectionId])
-  @@index([templateDescriptorId])
+  @@index([promptId])
   @@map("library_collection_entry")
 }
 

@@ -391,24 +391,24 @@ describe("pSetCollectionPublicToken tests", () => {
    });
 });
 
-describe("pGetCollectionTemplateIds tests", () => {
+describe("pGetCollectionPromptIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("templateIds retrieved - test", async () => {
+   it("promptIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id";
 
       const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
-      const result = await collectionRepository.pGetCollectionTemplateIds(
+      const result = await collectionRepository.pGetCollectionPromptIds(
          userId,
          collectionId
       );
 
-      const expectedResult = map(entries, (e) => e.templateDescriptorId);
+      const expectedResult = map(entries, (e) => e.promptId);
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
@@ -418,7 +418,7 @@ describe("pGetCollectionTemplateIds tests", () => {
             },
          },
          select: {
-            templateDescriptorId: true,
+            promptId: true,
          },
       };
 
@@ -432,20 +432,20 @@ describe("pGetCollectionTemplateIds tests", () => {
    });
 });
 
-describe("pAddTemplateToCollection tests", () => {
+describe("pAddPromptToCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("template added to collection - test", async () => {
+   it("prompt added to collection - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "descriptor-id";
-      const collectionId = "collection-id";
+      const promptId = "prompt-id-1";
+      const collectionId = "collection-id-1";
 
-      await collectionRepository.pAddTemplateToCollection(
+      await collectionRepository.pAddPromptToCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryUpsertArgs = {
@@ -453,14 +453,14 @@ describe("pAddTemplateToCollection tests", () => {
             collection: {
                userId,
             },
-            collectionId_templateDescriptorId: {
+            collectionId_promptId: {
                collectionId,
-               templateDescriptorId,
+               promptId,
             },
          },
          create: {
             collectionId,
-            templateDescriptorId,
+            promptId,
             userId,
          },
          update: {},
@@ -473,20 +473,20 @@ describe("pAddTemplateToCollection tests", () => {
    });
 });
 
-describe("pRemoveTemplateFromCollection tests", () => {
+describe("pRemovePromptFromCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("template removed from collection - test", async () => {
+   it("prompt removed from collection - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "descriptor-id";
-      const collectionId = "collection-id";
+      const promptId = "prompt-id-1";
+      const collectionId = "collection-id-1";
 
-      await collectionRepository.pRemoveTemplateFromCollection(
+      await collectionRepository.pRemovePromptFromCollection(
          userId,
          collectionId,
-         templateDescriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryDeleteManyArgs = {
@@ -495,7 +495,7 @@ describe("pRemoveTemplateFromCollection tests", () => {
                userId,
             },
             collectionId,
-            templateDescriptorId,
+            promptId,
          },
       };
 
@@ -508,26 +508,26 @@ describe("pRemoveTemplateFromCollection tests", () => {
    });
 });
 
-describe("pGetTemplateCollectionIds tests", () => {
+describe("pGetPromptCollectionIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("no entries - returns empty array - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue([]);
 
-      const result = await collectionRepository.pGetTemplateCollectionIds(
+      const result = await collectionRepository.pGetPromptCollectionIds(
          userId,
-         descriptorId
+         promptId
       );
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       };
@@ -543,14 +543,14 @@ describe("pGetTemplateCollectionIds tests", () => {
 
    it("collectionIds retrieved - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
       const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
-      const result = await collectionRepository.pGetTemplateCollectionIds(
+      const result = await collectionRepository.pGetPromptCollectionIds(
          userId,
-         descriptorId
+         promptId
       );
 
       const expectedResult = map(entries, (e) => e.collectionId);
@@ -558,7 +558,7 @@ describe("pGetTemplateCollectionIds tests", () => {
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       };
@@ -573,25 +573,21 @@ describe("pGetTemplateCollectionIds tests", () => {
    });
 });
 
-describe("pUpdateTemplateCollections tests", () => {
+describe("pUpdatePromptCollections tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("empty collectionIds - only deletes - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
 
-      await collectionRepository.pUpdateTemplateCollections(
-         userId,
-         descriptorId,
-         []
-      );
+      await collectionRepository.pUpdatePromptCollections(userId, promptId, []);
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       };
 
@@ -615,31 +611,31 @@ describe("pUpdateTemplateCollections tests", () => {
 
    it("collections updated - test", async () => {
       const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
+      const promptId = "prompt-id-1";
       const collectionIds = ["collection-id-1", "collection-id-2"];
 
-      await collectionRepository.pUpdateTemplateCollections(
+      await collectionRepository.pUpdatePromptCollections(
          userId,
-         descriptorId,
+         promptId,
          collectionIds
       );
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       };
 
       const expectedCreateInputs: LibraryCollectionEntryCreateManyInput[] = [
          {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
             collectionId: "collection-id-1",
          },
          {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
             collectionId: "collection-id-2",
          },
       ];

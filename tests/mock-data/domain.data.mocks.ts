@@ -17,8 +17,8 @@ import {
 } from "@/data/types/domain/catalog";
 import {
    DCollection,
+   DCollectionEntry,
    DCollectionUpdate,
-   DTemplateCollectionEntry,
 } from "@/data/types/domain/collection";
 import {
    DOrder,
@@ -304,23 +304,19 @@ export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
    };
 };
 
-export const dTemplateCollectionEntryTemplateIds = (count = 3): string[] => {
-   const collections = dTemplateCollectionEntries(count);
-   return map(collections, (c) => c.templateDescriptorId);
+export const dCollectionPromptIds = (count = 3): string[] => {
+   const collections = dCollectionEntries(count);
+   return map(collections, (c) => c.promptId);
 };
 
-export const dTemplateCollectionEntries = (
-   count = 3
-): DTemplateCollectionEntry[] => {
-   return range(0, count).map((i) => dTemplateCollectionEntry(i));
+export const dCollectionEntries = (count = 3): DCollectionEntry[] => {
+   return range(0, count).map((i) => dCollectionEntry(i));
 };
 
-export const dTemplateCollectionEntry = (
-   index = 1
-): DTemplateCollectionEntry => {
+export const dCollectionEntry = (index = 1): DCollectionEntry => {
    return {
       collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
-      templateDescriptorId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       addedAt: new Date("2025-09-27").toISOString(),
    };
 };

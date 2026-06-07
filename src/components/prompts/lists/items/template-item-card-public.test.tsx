@@ -10,14 +10,12 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { getTemplateCollectionIds } from "@/data/actions/collection";
+import { getPromptCollectionIds } from "@/data/actions/collection";
 
 import { PublicTemplateItemCard } from "./template-item-card-public";
 
-const getTemplateCollectionIdsMock =
-   getTemplateCollectionIds as jest.MockedFunction<
-      typeof getTemplateCollectionIds
-   >;
+const getPromptCollectionIdsMock =
+   getPromptCollectionIds as jest.MockedFunction<typeof getPromptCollectionIds>;
 
 const assertRendered = () => {
    const itemCard = screen.getByTestId("public-template-item-card");
@@ -70,11 +68,11 @@ const assertAddToCollectionDialogNotRendered = () => {
 describe("PublicTemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
       const collections = dtestData.dCollections();
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <PublicTemplateItemCard
-            descriptor={descriptor}
+            prompt={prompt}
             collections={collections}
             collectionToken="public-token-1"
          />
@@ -95,13 +93,13 @@ describe("PublicTemplateItemCard functionality tests", () => {
    });
 
    it("title - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
       const collectionToken = "public-token-1";
 
       renderWithReactQuery(
          <PublicTemplateItemCard
-            descriptor={descriptor}
+            prompt={prompt}
             collections={collections}
             collectionToken={collectionToken}
          />
@@ -118,20 +116,17 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(
-            `/preview/templates/${descriptor.id}?col=${collectionToken}`
+            `/preview/templates/${prompt.id}?col=${collectionToken}`
          );
       });
    });
 
    it("dropdown - view detail link clicked - test", async () => {
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <PublicTemplateItemCard
-            descriptor={descriptor}
-            collections={collections}
-         />
+         <PublicTemplateItemCard prompt={prompt} collections={collections} />
       );
 
       await waitFor(() => {
@@ -152,24 +147,19 @@ describe("PublicTemplateItemCard functionality tests", () => {
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(
-            `/preview/templates/${descriptor.id}`
-         );
+         expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);
       });
    });
 
    it("dropdown - show add to collection dialog - test", async () => {
       const collectionIds = dtestData.dCollectionIds();
-      getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
+      getPromptCollectionIdsMock.mockResolvedValue(collectionIds);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <PublicTemplateItemCard
-            descriptor={descriptor}
-            collections={collections}
-         />
+         <PublicTemplateItemCard prompt={prompt} collections={collections} />
       );
 
       await waitFor(() => {

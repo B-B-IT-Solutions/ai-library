@@ -1,13 +1,13 @@
 export {
    createCollection,
    deleteCollection,
-   getTemplateCollectionIds,
-   updateTemplateCollections,
+   getPromptCollectionIds,
+   updatePromptCollections,
    getCollections,
    getCollectionById,
    setCollectionPublic,
    updateCollection,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
    addPromptToCollection,
    removePromptFromCollection,
 } from "./collection.actions";

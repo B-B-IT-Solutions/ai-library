@@ -10,15 +10,13 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getCollectionTemplateIds } from "@/data/actions/collection";
+import { getCollectionPromptIds } from "@/data/actions/collection";
 import { getPromptsPage } from "@/data/actions/prompt";
 
 import { CollectionEdit } from "./collection-edit";
 
-const getCollectionTemplateIdsMock =
-   getCollectionTemplateIds as jest.MockedFunction<
-      typeof getCollectionTemplateIds
-   >;
+const getCollectionPromptIdsMock =
+   getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
    typeof getPromptsPage
@@ -54,20 +52,20 @@ const assertEditModeRendered = () => {
 
 const assertGeneralTabRendered = () => {
    const editForm = screen.getByTestId("collection-edit-form");
-   const templates = screen.queryByTestId("collection-templates");
+   const prompts = screen.queryByTestId("collection-prompts");
    const other = screen.queryByTestId("collection-other");
 
    assertInDocument(editForm);
-   assertNotInDocument(templates);
+   assertNotInDocument(prompts);
    assertNotInDocument(other);
 };
 
 const assertTemplatesTabRendered = () => {
-   const templates = screen.getByTestId("collection-templates");
+   const prompts = screen.getByTestId("collection-prompts");
    const editForm = screen.queryByTestId("collection-edit-form");
    const other = screen.queryByTestId("collection-other");
 
-   assertInDocument(templates);
+   assertInDocument(prompts);
    assertNotInDocument(editForm);
    assertNotInDocument(other);
 };
@@ -75,11 +73,11 @@ const assertTemplatesTabRendered = () => {
 const assertOtherTabRendered = () => {
    const other = screen.getByTestId("collection-other");
    const editForm = screen.queryByTestId("collection-edit-form");
-   const templates = screen.queryByTestId("collection-templates");
+   const prompts = screen.queryByTestId("collection-prompts");
 
    assertInDocument(other);
    assertNotInDocument(editForm);
-   assertNotInDocument(templates);
+   assertNotInDocument(prompts);
 };
 
 describe("CollectionEdit rendering tests", () => {
@@ -117,11 +115,11 @@ describe("CollectionEdit rendering tests", () => {
 
 describe("CollectionEdit functionality tests", () => {
    beforeAll(() => {
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      const promptIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(promptIds);
 
-      const templateDescriptors = dtestData.dPromptsPage();
-      getPromptsPageMock.mockResolvedValue(templateDescriptors);
+      const page = dtestData.dPromptsPage();
+      getPromptsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

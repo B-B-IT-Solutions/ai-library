@@ -40,7 +40,7 @@ exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save butto
           </div>
         </div>
         <div
-          class="max-h-[400px] space-y-2 overflow-y-auto py-4"
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
         >
           <div
             class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
@@ -718,7 +718,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - empty library 
           </div>
         </div>
         <div
-          class="max-h-[400px] space-y-2 overflow-y-auto py-4"
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
         >
           <div
             class="py-8 text-center"
@@ -889,7 +889,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - isLoading true
           </div>
         </div>
         <div
-          class="max-h-[400px] space-y-2 overflow-y-auto py-4"
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
         >
           <div
             class="flex items-center justify-center py-8"
@@ -1067,7 +1067,7 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
           </div>
         </div>
         <div
-          class="max-h-[400px] space-y-2 overflow-y-auto py-4"
+          class="max-h-100 space-y-2 overflow-y-auto py-4"
         >
           <div
             class="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"

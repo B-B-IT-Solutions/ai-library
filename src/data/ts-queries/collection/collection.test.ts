@@ -14,22 +14,22 @@ import { mockDeep } from "jest-mock-extended";
 
 import {
    addPromptToCollection,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   addTemplateToCollectionOptions,
-   loadCollectionTemplateIdsOptions,
-   removeTemplateFromCollectionOptions,
-   useAddTemplateToCollection,
-   useLoadCollectionTemplateIds,
-   useRemoveTemplateFromCollection,
+   addPromptToCollectionOptions,
+   loadCollectionPromptIdsOptions,
+   removePromptFromCollectionOptions,
+   useAddPromptToCollection,
+   useLoadCollectionPromptIds,
+   useRemovePromptFromCollection,
 } from "./collection";
 import {
-   AddTemplateToCollectionParams,
-   RemoveTemplateFromCollectionParams,
+   AddPromptToCollectionParams,
+   RemovePromptFromCollectionParams,
 } from "./types";
 
 const queryClientMock = mockDeep<QueryClient>();
@@ -39,10 +39,8 @@ const mutationContextMock: MutationFunctionContext = {
    meta: {},
 };
 
-const getCollectionTemplateIdsMock =
-   getCollectionTemplateIds as jest.MockedFunction<
-      typeof getCollectionTemplateIds
-   >;
+const getCollectionPromptIdsMock =
+   getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
 const addPromptToCollectionMock = addPromptToCollection as jest.MockedFunction<
    typeof addPromptToCollection
@@ -53,12 +51,12 @@ const removePromptFromCollectionMock =
       typeof removePromptFromCollection
    >;
 
-describe("loadCollectionTemplateIds hooks tests", () => {
+describe("loadCollectionPromptIds hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("loadCollectionTemplateIdsOptions - test", async () => {
+   test("loadCollectionPromptIdsOptions - test", async () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
       const expectedOptions: UndefinedInitialDataOptions<
          string[],
@@ -71,46 +69,44 @@ describe("loadCollectionTemplateIds hooks tests", () => {
          staleTime: 2 * 60 * 1000,
       };
 
-      const options = loadCollectionTemplateIdsOptions(collectionId);
+      const options = loadCollectionPromptIdsOptions(collectionId);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useLoadCollectionTemplateIds test", async () => {
+   test("useLoadCollectionPromptIds test", async () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
 
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      const promptIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(promptIds);
 
       const { result } = renderHookWithReactQuery(() =>
-         useLoadCollectionTemplateIds(collectionId)
+         useLoadCollectionPromptIds(collectionId)
       );
 
       await waitFor(() => {
-         expect(result.current.data).toEqual(templateIds);
-         expect(getCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionTemplateIdsMock).toHaveBeenCalledWith(
-            collectionId
-         );
+         expect(result.current.data).toEqual(promptIds);
+         expect(getCollectionPromptIdsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionPromptIdsMock).toHaveBeenCalledWith(collectionId);
       });
    });
 });
 
-describe("addTemplateToCollection hooks tests", () => {
+describe("addPromptToCollection hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("addTemplateToCollectionOptions test", async () => {
+   test("addPromptToCollectionOptions test", async () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         AddTemplateToCollectionParams
+         AddPromptToCollectionParams
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
       };
 
-      const options = addTemplateToCollectionOptions(queryClientMock);
+      const options = addPromptToCollectionOptions(queryClientMock);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
@@ -122,7 +118,7 @@ describe("addTemplateToCollection hooks tests", () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
       const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
-      const params: AddTemplateToCollectionParams = {
+      const params: AddPromptToCollectionParams = {
          collectionId,
          promptId,
       };
@@ -158,7 +154,7 @@ describe("addTemplateToCollection hooks tests", () => {
       expect(updaterResult2).toEqual(expectedUpdaterResult2);
    });
 
-   test("useAddTemplateToCollection test", async () => {
+   test("addPromptToCollection test", async () => {
       const actionResult: ActionResult = {
          success: true,
          message: "Template added to collection",
@@ -170,10 +166,10 @@ describe("addTemplateToCollection hooks tests", () => {
       const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const { result } = renderHookWithReactQuery(() =>
-         useAddTemplateToCollection()
+         useAddPromptToCollection()
       );
 
-      const params: AddTemplateToCollectionParams = {
+      const params: AddPromptToCollectionParams = {
          collectionId,
          promptId,
       };
@@ -190,22 +186,22 @@ describe("addTemplateToCollection hooks tests", () => {
    });
 });
 
-describe("removeTemplateFromCollection hooks tests", () => {
+describe("removePromptFromCollection hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("removeTemplateFromCollectionOptions test", async () => {
+   test("removePromptFromCollectionOptions test", async () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         RemoveTemplateFromCollectionParams
+         RemovePromptFromCollectionParams
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
       };
 
-      const options = removeTemplateFromCollectionOptions(queryClientMock);
+      const options = removePromptFromCollectionOptions(queryClientMock);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
@@ -217,7 +213,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
       const collectionId = "a7884b9f-3a28-4b5a-bea1-3c889106152e";
       const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
-      const params: RemoveTemplateFromCollectionParams = {
+      const params: RemovePromptFromCollectionParams = {
          collectionId,
          promptId,
       };
@@ -253,7 +249,7 @@ describe("removeTemplateFromCollection hooks tests", () => {
       expect(updaterResult2).toEqual(expectedUpdaterResult2);
    });
 
-   test("useRemoveTemplateFromCollection test", async () => {
+   test("removePromptFromCollection test", async () => {
       const actionResult: ActionResult = {
          success: true,
          message: "Template removed from collection",
@@ -265,10 +261,10 @@ describe("removeTemplateFromCollection hooks tests", () => {
       const promptId = "1a19aee2-8d22-4057-894c-9a3dd513568c";
 
       const { result } = renderHookWithReactQuery(() =>
-         useRemoveTemplateFromCollection()
+         useRemovePromptFromCollection()
       );
 
-      const params: RemoveTemplateFromCollectionParams = {
+      const params: RemovePromptFromCollectionParams = {
          collectionId,
          promptId,
       };

@@ -13,38 +13,38 @@ import { filter, isEmpty } from "es-toolkit/compat";
 
 import {
    addPromptToCollection,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   AddTemplateToCollectionParams,
-   RemoveTemplateFromCollectionParams,
+   AddPromptToCollectionParams,
+   RemovePromptFromCollectionParams,
 } from "./types";
 import { collectionKeys } from "./utils";
 
-export const loadCollectionTemplateIdsOptions = (
+export const loadCollectionPromptIdsOptions = (
    collectionId: string
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    return {
       queryKey: collectionKeys.collectionTemplateIds(collectionId),
-      queryFn: () => getCollectionTemplateIds(collectionId),
+      queryFn: () => getCollectionPromptIds(collectionId),
       placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
    };
 };
 
-export const useLoadCollectionTemplateIds = (
+export const useLoadCollectionPromptIds = (
    collectionId: string
 ): UseQueryResult<string[]> => {
-   const options = loadCollectionTemplateIdsOptions(collectionId);
+   const options = loadCollectionPromptIdsOptions(collectionId);
    return useQuery(options);
 };
 
-export const addTemplateToCollectionOptions = (
+export const addPromptToCollectionOptions = (
    queryClient: QueryClient
-): UseMutationOptions<ActionResult, Error, AddTemplateToCollectionParams> => {
+): UseMutationOptions<ActionResult, Error, AddPromptToCollectionParams> => {
    return {
       mutationFn: (params) => {
          const { collectionId, promptId } = params;
@@ -65,22 +65,22 @@ export const addTemplateToCollectionOptions = (
    };
 };
 
-export const useAddTemplateToCollection = (): UseMutationResult<
+export const useAddPromptToCollection = (): UseMutationResult<
    ActionResult,
    Error,
-   AddTemplateToCollectionParams
+   AddPromptToCollectionParams
 > => {
    const queryClient = useQueryClient();
-   const options = addTemplateToCollectionOptions(queryClient);
+   const options = addPromptToCollectionOptions(queryClient);
    return useMutation(options);
 };
 
-export const removeTemplateFromCollectionOptions = (
+export const removePromptFromCollectionOptions = (
    queryClient: QueryClient
 ): UseMutationOptions<
    ActionResult,
    Error,
-   RemoveTemplateFromCollectionParams
+   RemovePromptFromCollectionParams
 > => {
    return {
       mutationFn: (params) => {
@@ -99,12 +99,12 @@ export const removeTemplateFromCollectionOptions = (
    };
 };
 
-export const useRemoveTemplateFromCollection = (): UseMutationResult<
+export const useRemovePromptFromCollection = (): UseMutationResult<
    ActionResult,
    Error,
-   RemoveTemplateFromCollectionParams
+   RemovePromptFromCollectionParams
 > => {
    const queryClient = useQueryClient();
-   const options = removeTemplateFromCollectionOptions(queryClient);
+   const options = removePromptFromCollectionOptions(queryClient);
    return useMutation(options);
 };

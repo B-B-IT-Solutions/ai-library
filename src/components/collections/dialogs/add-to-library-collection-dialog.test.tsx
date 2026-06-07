@@ -15,8 +15,8 @@ import { toast } from "sonner";
 
 import {
    useCreateCollection,
-   useLoadTemplateCollectionIds,
-   useUpdateTemplateCollections,
+   useLoadPromptCollectionIds,
+   useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
 import {
    LoadCollectionIdsParams,
@@ -26,37 +26,37 @@ import { ActionResult } from "@/data/types/utils";
 
 import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
 
-type UseUpdateEntryCollectionsResult = ReturnType<
-   typeof useUpdateTemplateCollections
+type UseUpdatePromptCollectionsResult = ReturnType<
+   typeof useUpdatePromptCollections
 >;
 
 type UseCreateCollectionResult = ReturnType<typeof useCreateCollection>;
 
-type UseLoadEntryCollectionIdsResult = ReturnType<
-   typeof useLoadTemplateCollectionIds
+type UseLoadPromptCollectionIdsResult = ReturnType<
+   typeof useLoadPromptCollectionIds
 >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const useLoadTemplateCollectionIdsMock =
-   useLoadTemplateCollectionIds as jest.MockedFunction<
-      typeof useLoadTemplateCollectionIds
+const useLoadPromptCollectionIdsMock =
+   useLoadPromptCollectionIds as jest.MockedFunction<
+      typeof useLoadPromptCollectionIds
    >;
 
 const useCreateCollectionMock = useCreateCollection as jest.MockedFunction<
    typeof useCreateCollection
 >;
 
-const useUpdateTemplateCollectionsMock =
-   useUpdateTemplateCollections as jest.MockedFunction<
-      typeof useUpdateTemplateCollections
+const useUpdatePromptCollectionsMock =
+   useUpdatePromptCollections as jest.MockedFunction<
+      typeof useUpdatePromptCollections
    >;
 
 const updateMutationResultMock = (
    mutateFn = jest.fn()
-): UseUpdateEntryCollectionsResult => {
+): UseUpdatePromptCollectionsResult => {
    const result = ctestData.useMutationResultMock(mutateFn);
-   return result as UseUpdateEntryCollectionsResult;
+   return result as UseUpdatePromptCollectionsResult;
 };
 
 const createMutationResultMock = (): UseCreateCollectionResult => {
@@ -65,16 +65,16 @@ const createMutationResultMock = (): UseCreateCollectionResult => {
 };
 
 const mutationObserverLoadingResultMock =
-   (): UseUpdateEntryCollectionsResult => {
+   (): UseUpdatePromptCollectionsResult => {
       const result = ctestData.useMutationObserverLoadingResult();
-      return result as unknown as UseUpdateEntryCollectionsResult;
+      return result as unknown as UseUpdatePromptCollectionsResult;
    };
 
 const queryResultMock = (
    data: string[] | undefined = undefined,
    isLoading = false
-): UseLoadEntryCollectionIdsResult => {
-   return { data, isLoading } as UseLoadEntryCollectionIdsResult;
+): UseLoadPromptCollectionIdsResult => {
+   return { data, isLoading } as UseLoadPromptCollectionIdsResult;
 };
 
 const assertDialogRendered = () => {
@@ -119,10 +119,8 @@ const assertEntryCollectionIdsLoaded = (entryId: string, enabled: boolean) => {
       entryId,
       enabled,
    };
-   expect(useLoadTemplateCollectionIdsMock).toHaveBeenCalledTimes(1);
-   expect(useLoadTemplateCollectionIdsMock).toHaveBeenCalledWith(
-      expectedParams
-   );
+   expect(useLoadPromptCollectionIdsMock).toHaveBeenCalledTimes(1);
+   expect(useLoadPromptCollectionIdsMock).toHaveBeenCalledWith(expectedParams);
 };
 
 describe("AddToLibraryCollectionDialog rendering tests", () => {
@@ -137,16 +135,16 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
       allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -155,7 +153,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         assertEntryCollectionIdsLoaded(descriptor.id, true);
+         assertEntryCollectionIdsLoaded(prompt.id, true);
       });
 
       expect(container).toMatchSnapshot();
@@ -166,15 +164,15 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock(entryCollectionIds, true);
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -194,14 +192,14 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={[]}
             open={true}
             onOpenChange={jest.fn()}
@@ -211,7 +209,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       await waitFor(() => {
          assertDialogRendered();
          assertCollectionsEmptyRendered();
-         assertEntryCollectionIdsLoaded(descriptor.id, true);
+         assertEntryCollectionIdsLoaded(prompt.id, true);
       });
 
       expect(container).toMatchSnapshot();
@@ -221,15 +219,15 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const mutationResult = mutationObserverLoadingResultMock();
       const queryResult = queryResultMock([]);
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -248,15 +246,15 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={false}
             onOpenChange={jest.fn()}
@@ -265,7 +263,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogNotRendered();
-         assertEntryCollectionIdsLoaded(descriptor.id, false);
+         assertEntryCollectionIdsLoaded(prompt.id, false);
       });
 
       expect(container).toMatchSnapshot();
@@ -300,14 +298,14 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const mutationResult = updateMutationResultMock(mutateFn);
       const queryResult = queryResultMock(selectedIds);
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -371,14 +369,14 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const mutationResult = updateMutationResultMock(mutateFn);
       const queryResult = queryResultMock(selectedIds);
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -400,7 +398,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: descriptor.id,
+         entryId: prompt.id,
          collectionIds: [collection1.id, collection2.id, collection3.id],
       };
 
@@ -434,14 +432,14 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const mutationResult = updateMutationResultMock(mutateFn);
       const queryResult = queryResultMock(selectedIds);
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -456,7 +454,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: descriptor.id,
+         entryId: prompt.id,
          collectionIds: selectedIds,
       };
 
@@ -483,14 +481,14 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={[]}
             open={true}
             onOpenChange={jest.fn()}
@@ -514,16 +512,16 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
-      useUpdateTemplateCollectionsMock.mockReturnValue(mutationResult);
-      useLoadTemplateCollectionIdsMock.mockReturnValue(queryResult);
+      useUpdatePromptCollectionsMock.mockReturnValue(mutationResult);
+      useLoadPromptCollectionIdsMock.mockReturnValue(queryResult);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const allCollections = dtestData.dCollections(3);
       allCollections[0].color = null;
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            descriptor={descriptor}
+            prompt={prompt}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}

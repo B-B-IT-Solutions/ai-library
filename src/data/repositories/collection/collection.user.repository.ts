@@ -177,7 +177,7 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pGetCollectionTemplateIds(
+   async pGetCollectionPromptIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {
@@ -189,32 +189,32 @@ export class CollectionRepository {
             },
          },
          select: {
-            templateDescriptorId: true,
+            promptId: true,
          },
       } satisfies LibraryCollectionEntryFindManyArgs;
 
       const entries = await this.prisma.libraryCollectionEntry.findMany(args);
-      return map(entries, (e) => e.templateDescriptorId);
+      return map(entries, (e) => e.promptId);
    }
 
-   async pAddTemplateToCollection(
+   async pAddPromptToCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const args = {
          where: {
             collection: {
                userId,
             },
-            collectionId_templateDescriptorId: {
+            collectionId_promptId: {
                collectionId,
-               templateDescriptorId,
+               promptId,
             },
          },
          create: {
             collectionId,
-            templateDescriptorId,
+            promptId,
             userId,
          },
          update: {},
@@ -223,10 +223,10 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.upsert(args);
    }
 
-   async pRemoveTemplateFromCollection(
+   async pRemovePromptFromCollection(
       userId: string,
       collectionId: string,
-      templateDescriptorId: string
+      promptId: string
    ): Promise<void> {
       const args = {
          where: {
@@ -234,21 +234,21 @@ export class CollectionRepository {
                userId,
             },
             collectionId,
-            templateDescriptorId,
+            promptId,
          },
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
-   async pGetTemplateCollectionIds(
+   async pGetPromptCollectionIds(
       userId: string,
-      descriptorId: string
+      promptId: string
    ): Promise<string[]> {
       const args = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
          select: { collectionId: true },
       } satisfies LibraryCollectionEntryFindManyArgs;
@@ -259,15 +259,15 @@ export class CollectionRepository {
       return map(collectionEntries, (ce) => ce.collectionId);
    }
 
-   async pUpdateTemplateCollections(
+   async pUpdatePromptCollections(
       userId: string,
-      descriptorId: string,
+      promptId: string,
       collectionIds: string[]
    ): Promise<void> {
       const deleteArgs = {
          where: {
             userId,
-            templateDescriptorId: descriptorId,
+            promptId,
          },
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
@@ -277,7 +277,7 @@ export class CollectionRepository {
          collectionIds,
          (collectionId) => {
             return {
-               templateDescriptorId: descriptorId,
+               promptId,
                collectionId,
                userId,
             };

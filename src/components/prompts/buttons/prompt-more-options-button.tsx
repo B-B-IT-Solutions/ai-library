@@ -54,7 +54,7 @@ export const PromptMoreOptionsButton = ({ prompt, collections }: Props) => {
             </DropdownMenuContent>
          </DropdownMenu>
          <AddToLibraryCollectionDialog
-            descriptor={prompt}
+            prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}

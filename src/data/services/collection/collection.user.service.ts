@@ -47,11 +47,11 @@ export class CollectionService {
       await this.collectionRepository.pDeleteCollection(userId, collectionId);
    }
 
-   async getCollectionTemplateIds(
+   async getCollectionPromptIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {
-      return await this.collectionRepository.pGetCollectionTemplateIds(
+      return await this.collectionRepository.pGetCollectionPromptIds(
          userId,
          collectionId
       );
@@ -67,7 +67,7 @@ export class CollectionService {
          throw new Error("Collection not found.");
       }
 
-      await this.collectionRepository.pAddTemplateToCollection(
+      await this.collectionRepository.pAddPromptToCollection(
          userId,
          collectionId,
          promptId
@@ -84,7 +84,7 @@ export class CollectionService {
          throw new Error("Collection not found.");
       }
 
-      await this.collectionRepository.pRemoveTemplateFromCollection(
+      await this.collectionRepository.pRemovePromptFromCollection(
          userId,
          collectionId,
          promptId
@@ -106,24 +106,24 @@ export class CollectionService {
       );
    }
 
-   async getTemplateCollectionIds(
+   async getPromptCollectionIds(
       userId: string,
       entryId: string
    ): Promise<string[]> {
-      return await this.collectionRepository.pGetTemplateCollectionIds(
+      return await this.collectionRepository.pGetPromptCollectionIds(
          userId,
          entryId
       );
    }
 
-   async updateTemplateCollections(
+   async updatePromptCollections(
       userId: string,
-      entryId: string,
+      promptId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.collectionRepository.pUpdateTemplateCollections(
+      await this.collectionRepository.pUpdatePromptCollections(
          userId,
-         entryId,
+         promptId,
          collectionIds
       );
    }

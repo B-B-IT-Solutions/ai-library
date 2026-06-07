@@ -92,7 +92,7 @@ export const TemplateItemCard = ({
          </CardContent>
 
          <AddToLibraryCollectionDialog
-            descriptor={prompt}
+            prompt={prompt}
             collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}

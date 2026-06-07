@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 
 import {
    getCollectionById,
-   getCollectionTemplateIds,
+   getCollectionPromptIds,
 } from "@/data/actions/collection";
 import { getPromptsPage } from "@/data/actions/prompt";
 
@@ -18,10 +18,8 @@ const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
    typeof getCollectionById
 >;
 
-const getCollectionTemplateIdsMock =
-   getCollectionTemplateIds as jest.MockedFunction<
-      typeof getCollectionTemplateIds
-   >;
+const getCollectionPromptIdsMock =
+   getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
    typeof getPromptsPage
@@ -43,8 +41,8 @@ const assertRendered = () => {
 
 describe("CollectionEditPage rendering tests", () => {
    beforeAll(() => {
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+      const promptIds = dtestData.dCollectionPromptIds();
+      getCollectionPromptIdsMock.mockResolvedValue(promptIds);
 
       const templateDescriptors = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(templateDescriptors);

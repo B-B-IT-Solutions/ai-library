@@ -37,10 +37,10 @@ export const PublicTemplateItemsGrid = ({
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="public-template-items-grid"
       >
-         {map(descriptors, (entry) => (
+         {map(descriptors, (prompt) => (
             <PublicTemplateItemCard
-               key={entry.id}
-               descriptor={entry}
+               key={prompt.id}
+               prompt={prompt}
                collections={collections}
                collectionToken={collectionToken}
             />

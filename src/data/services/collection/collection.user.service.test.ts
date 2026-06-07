@@ -130,29 +130,27 @@ describe("deleteCollection tests", () => {
    });
 });
 
-describe("getCollectionTemplateIds tests", () => {
+describe("getCollectionPromptIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("templateIds retrieved - test", async () => {
+   it("promptIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
-      collectionRepoMock.pGetCollectionTemplateIds.mockResolvedValue(
-         templateIds
-      );
+      const promptIds = dtestData.dCollectionPromptIds();
+      collectionRepoMock.pGetCollectionPromptIds.mockResolvedValue(promptIds);
 
-      const result = await collectionService.getCollectionTemplateIds(
+      const result = await collectionService.getCollectionPromptIds(
          userId,
          collectionId
       );
 
-      expect(result).toEqual(templateIds);
-      expect(
-         collectionRepoMock.pGetCollectionTemplateIds
-      ).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pGetCollectionTemplateIds).toHaveBeenCalledWith(
+      expect(result).toEqual(promptIds);
+      expect(collectionRepoMock.pGetCollectionPromptIds).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pGetCollectionPromptIds).toHaveBeenCalledWith(
          userId,
          collectionId
       );
@@ -184,9 +182,7 @@ describe("addPromptToCollection tests", () => {
          userId,
          collectionId
       );
-      expect(
-         collectionRepoMock.pAddTemplateToCollection
-      ).not.toHaveBeenCalled();
+      expect(collectionRepoMock.pAddPromptToCollection).not.toHaveBeenCalled();
    });
 
    it("prompt added - test", async () => {
@@ -207,10 +203,10 @@ describe("addPromptToCollection tests", () => {
          userId,
          collection.id
       );
-      expect(collectionRepoMock.pAddTemplateToCollection).toHaveBeenCalledTimes(
+      expect(collectionRepoMock.pAddPromptToCollection).toHaveBeenCalledTimes(
          1
       );
-      expect(collectionRepoMock.pAddTemplateToCollection).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pAddPromptToCollection).toHaveBeenCalledWith(
          userId,
          collection.id,
          promptId
@@ -244,7 +240,7 @@ describe("removePromptFromCollection tests", () => {
          collectionId
       );
       expect(
-         collectionRepoMock.pRemoveTemplateFromCollection
+         collectionRepoMock.pRemovePromptFromCollection
       ).not.toHaveBeenCalled();
    });
 
@@ -267,10 +263,10 @@ describe("removePromptFromCollection tests", () => {
          collection.id
       );
       expect(
-         collectionRepoMock.pRemoveTemplateFromCollection
+         collectionRepoMock.pRemovePromptFromCollection
       ).toHaveBeenCalledTimes(1);
       expect(
-         collectionRepoMock.pRemoveTemplateFromCollection
+         collectionRepoMock.pRemovePromptFromCollection
       ).toHaveBeenCalledWith(userId, collection.id, promptId);
    });
 });
@@ -337,57 +333,59 @@ describe("setCollectionPublic tests", () => {
    });
 });
 
-describe("getTemplateCollectionIds tests", () => {
+describe("getPromptCollectionIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("collectionId retrieved - test", async () => {
+   it("collectionIds retrieved - test", async () => {
       const userId = "user-id-1";
       const entryId = "entry-id-1";
       const collectionIds = dtestData.dCollectionIds();
 
-      collectionRepoMock.pGetTemplateCollectionIds.mockResolvedValue(
+      collectionRepoMock.pGetPromptCollectionIds.mockResolvedValue(
          collectionIds
       );
 
-      const result = await collectionService.getTemplateCollectionIds(
+      const result = await collectionService.getPromptCollectionIds(
          userId,
          entryId
       );
 
       expect(result).toEqual(collectionIds);
-      expect(
-         collectionRepoMock.pGetTemplateCollectionIds
-      ).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pGetTemplateCollectionIds).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pGetPromptCollectionIds).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pGetPromptCollectionIds).toHaveBeenCalledWith(
          userId,
          entryId
       );
    });
 });
 
-describe("updateTemplateCollections tests", () => {
+describe("updatePromptCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("collection updated - test", async () => {
+   it("collections updated - test", async () => {
       const userId = "user-id-1";
-      const entryId = "entry-id-1";
+      const promptId = "prompt-id-1";
       const collectionIds = dtestData.dCollectionIds();
 
-      await collectionService.updateTemplateCollections(
+      await collectionService.updatePromptCollections(
          userId,
-         entryId,
+         promptId,
          collectionIds
       );
 
-      expect(
-         collectionRepoMock.pUpdateTemplateCollections
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         collectionRepoMock.pUpdateTemplateCollections
-      ).toHaveBeenCalledWith(userId, entryId, collectionIds);
+      expect(collectionRepoMock.pUpdatePromptCollections).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pUpdatePromptCollections).toHaveBeenCalledWith(
+         userId,
+         promptId,
+         collectionIds
+      );
    });
 });

@@ -3,7 +3,7 @@ export {
    useLoadCollections,
    useCreateCollection,
    useDeleteCollection,
-   useLoadTemplateCollectionIds,
-   useUpdateTemplateCollections,
-   updateTemplateCollectionsOptions,
+   useLoadPromptCollectionIds,
+   useUpdatePromptCollections,
+   updatePromptCollectionsOptions,
 } from "./library";
