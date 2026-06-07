@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PromptView } from "@/components/prompts";
-import { getCollectionById } from "@/data/actions/collection";
+import { getCollectionPreviewById } from "@/data/actions/collection";
 import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
 
 export type PageParams = {
@@ -34,7 +34,9 @@ export const PromptPage = async ({ params, searchParams }: PageProps) => {
 
    const [prompt, collection] = await Promise.all([
       getPromptWithContent(promptId),
-      collectionId ? getCollectionById(collectionId) : Promise.resolve(null),
+      collectionId
+         ? getCollectionPreviewById(collectionId)
+         : Promise.resolve(null),
    ]);
 
    if (!prompt) {

@@ -1,4 +1,4 @@
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPromptWithContent } from "@/data/types/domain/prompt";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
@@ -7,7 +7,7 @@ import { PromptSidebar } from "./sidebar";
 
 type Props = {
    prompt: DPromptWithContent;
-   collection?: DCollection;
+   collection?: DCollectionPreview;
 };
 
 export const PromptView = ({ prompt, collection }: Props) => {

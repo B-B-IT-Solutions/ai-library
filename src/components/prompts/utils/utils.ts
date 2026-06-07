@@ -1,4 +1,7 @@
-import { DCollection } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+} from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 export const isEditMode = (prompt?: DPrompt) => {
@@ -13,7 +16,10 @@ export const viewPromptUrl = (prompt: DPrompt, collectionId?: string) => {
    return viewUrl;
 };
 
-export const editPromptUrl = (prompt: DPrompt, collection?: DCollection) => {
+export const editPromptUrl = (
+   prompt: DPrompt,
+   collection?: DCollectionPreview
+) => {
    const editUrl = `/templates/${prompt.id}/edit`;
    if (collection) {
       return `${editUrl}?collectionId=${collection.id}`;
@@ -48,7 +54,7 @@ export const promptEditNavigateBackUrl = (
    return "/templates";
 };
 
-export const breadcrumbRootUrl = (collection?: DCollection) => {
+export const breadcrumbRootUrl = (collection?: DCollectionPreview) => {
    if (collection) {
       return `/collections/${collection.id}`;
    }

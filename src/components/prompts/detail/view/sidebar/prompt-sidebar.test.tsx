@@ -33,7 +33,7 @@ describe("PromptSidebar rendering tests", () => {
 
    it("collection defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
          <PromptSidebar prompt={prompt} collection={collection} />

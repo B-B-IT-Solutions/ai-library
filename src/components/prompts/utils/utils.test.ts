@@ -52,7 +52,7 @@ describe("editPromptUrl - tests", () => {
 
    it("collection defined - test", () => {
       const prompt = dtestData.dPrompt();
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = editPromptUrl(prompt, collection);
       expect(result).toBe(
          `/templates/${prompt.id}/edit?collectionId=${collection.id}`
@@ -108,7 +108,7 @@ describe("breadcrumbRootUrl - tests", () => {
    });
 
    it("collection defined - test", () => {
-      const collection = dtestData.dCollection();
+      const collection = dtestData.dCollectionPreview();
       const result = breadcrumbRootUrl(collection);
       expect(result).toBe(`/collections/${collection.id}`);
    });

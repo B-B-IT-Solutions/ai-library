@@ -2,7 +2,7 @@ import {
    BreadcrumbLinkProps,
    ItemDetailsBreadcrumb,
 } from "@/components/shared/breadcrumbs";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { breadcrumbRootUrl, viewPromptUrl } from "../utils/utils";
 
@@ -10,18 +10,18 @@ type Props =
    | {
         variant: "view";
         label: string;
-        collection?: DCollection;
+        collection?: DCollectionPreview;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "edit";
         prompt: DPrompt;
-        collection?: DCollection;
+        collection?: DCollectionPreview;
         root?: BreadcrumbLinkProps;
      }
    | {
         variant: "new";
-        collection?: DCollection;
+        collection?: DCollectionPreview;
         root?: BreadcrumbLinkProps;
      };
 

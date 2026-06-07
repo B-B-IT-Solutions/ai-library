@@ -1,4 +1,4 @@
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    DeletePromptButton,
@@ -9,7 +9,7 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collection?: DCollection;
+   collection?: DCollectionPreview;
 };
 
 export const PromptSidebar = ({ prompt, collection }: Props) => {
