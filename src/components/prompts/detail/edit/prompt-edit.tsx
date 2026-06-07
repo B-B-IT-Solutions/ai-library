@@ -45,11 +45,16 @@ export const PromptEdit = ({
             <PromptBreadcrumb
                variant="edit"
                prompt={prompt}
-               collection={currentCollection}
+               currentCollection={currentCollection}
             />
          );
       }
-      return <PromptBreadcrumb variant="new" collection={currentCollection} />;
+      return (
+         <PromptBreadcrumb
+            variant="new"
+            currentCollection={currentCollection}
+         />
+      );
    };
 
    const cancelBtn = () => {

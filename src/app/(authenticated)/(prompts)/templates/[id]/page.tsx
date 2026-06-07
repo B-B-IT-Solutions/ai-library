@@ -45,7 +45,10 @@ export const PromptPage = async ({ params, searchParams }: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-view-page">
-         <PromptView prompt={prompt} collection={collection || undefined} />
+         <PromptView
+            prompt={prompt}
+            currentCollection={collection || undefined}
+         />
       </div>
    );
 };

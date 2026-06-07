@@ -36,7 +36,7 @@ describe("PromptSidebar rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = render(
-         <PromptSidebar prompt={prompt} collection={collection} />
+         <PromptSidebar prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {
