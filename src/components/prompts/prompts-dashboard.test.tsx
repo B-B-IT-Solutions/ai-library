@@ -6,7 +6,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { getCollectionPreviews } from "@/data/actions/collection";
+import {
+   getCollectionPreviews,
+   getCollections,
+} from "@/data/actions/collection";
 import {
    getPromptCategories,
    getPromptModels,
@@ -33,6 +36,10 @@ const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
 
 const getPromptModelsMock = getPromptModels as jest.MockedFunction<
    typeof getPromptModels
+>;
+
+const getCollectionsMock = getCollections as jest.MockedFunction<
+   typeof getCollections
 >;
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
@@ -108,9 +115,11 @@ describe("PromptsDashboard rendering tests", () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollections();
+      const collectionPreviews = dtestData.dCollectionPreviews();
       getPromptCategoriesMock.mockResolvedValue(categories);
       getPromptModelsMock.mockResolvedValue(models);
-      getCollectionPreviewsMock.mockResolvedValue(collections);
+      getCollectionsMock.mockResolvedValue(collections);
+      getCollectionPreviewsMock.mockResolvedValue(collectionPreviews);
 
       const usage: DPromptsUsage = {
          current: 3,
