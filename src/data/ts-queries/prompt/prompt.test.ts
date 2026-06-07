@@ -21,11 +21,11 @@ import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   infiniteLoadTemplateDescriptorsOptions,
+   infiniteLoadPromptsPageOptions,
    loadPromptTemplateCategoriesOptions,
    preloadPromptTemplateCategoriesOptions,
    toggleFavoriteOptions,
-   useInfiniteLoadTemplateDescriptors,
+   useInfiniteLoadPromptsPage,
    useLoadPromptTemplateCategories,
    useToggleFavorite,
 } from "./prompt";
@@ -73,12 +73,12 @@ describe("prefetch options tests", () => {
    });
 });
 
-describe("loadTemplateDescriptors hooks tests", () => {
+describe("loadPromptsPage hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("infiniteLoadTemplateDescriptorsOptions - test", async () => {
+   test("infiniteLoadPromptsPageOptions - test", async () => {
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
       const params: LoadTemplateDescriptorsParams = { filters, sort };
@@ -97,11 +97,11 @@ describe("loadTemplateDescriptors hooks tests", () => {
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = infiniteLoadTemplateDescriptorsOptions(params);
+      const options = infiniteLoadPromptsPageOptions(params);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useInfiniteLoadTemplateDescriptors test", async () => {
+   test("useInfiniteLoadPromptsPage test", async () => {
       const page = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(page);
 
@@ -110,7 +110,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
       const params: LoadTemplateDescriptorsParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
-         useInfiniteLoadTemplateDescriptors(params)
+         useInfiniteLoadPromptsPage(params)
       );
 
       const expectedQuery: DPromptsPageQuery = {

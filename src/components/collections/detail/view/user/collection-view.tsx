@@ -8,7 +8,7 @@ import { PromptsToolbar, TemplateItems } from "@/components/prompts/lists";
 import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getPromptCategories, getPromptModels } from "@/data/actions/prompt";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
-import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
+import { infiniteLoadPromptsPageOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
@@ -35,7 +35,7 @@ export const CollectionView = async ({ collection }: Props) => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadTemplateDescriptorsOptions({
+         infiniteLoadPromptsPageOptions({
             filters,
             sort: resolveSort(sortBy),
          })

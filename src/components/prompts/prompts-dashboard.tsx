@@ -11,7 +11,7 @@ import {
    getPromptsUsage,
 } from "@/data/actions/prompt";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
-import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
+import { infiniteLoadPromptsPageOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
@@ -35,7 +35,7 @@ export const PromptsDashboard = async () => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadTemplateDescriptorsOptions({
+         infiniteLoadPromptsPageOptions({
             filters,
             sort: resolveSort(sortBy),
          })

@@ -21,7 +21,7 @@ import {
 } from "@/data/ts-queries/collection";
 import {
    type LoadTemplateDescriptorsParams,
-   useInfiniteLoadTemplateDescriptors,
+   useInfiniteLoadPromptsPage,
 } from "@/data/ts-queries/prompt";
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -31,8 +31,8 @@ import { CollectionPrompts } from "./collection-prompts";
 type UseAddPromptResult = ReturnType<typeof useAddPromptToCollection>;
 type UseRemovePromptResult = ReturnType<typeof useRemovePromptFromCollection>;
 type UseLoadPromptIdsResult = ReturnType<typeof useLoadCollectionPromptIds>;
-type UseInfinitePromptsResult = ReturnType<
-   typeof useInfiniteLoadTemplateDescriptors
+type UseInfiniteLoadPromptsPageResult = ReturnType<
+   typeof useInfiniteLoadPromptsPage
 >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -49,9 +49,9 @@ const useLoadCollectionPromptIdsMock =
    useLoadCollectionPromptIds as jest.MockedFunction<
       typeof useLoadCollectionPromptIds
    >;
-const useInfiniteLoadTemplateDescriptorsMock =
-   useInfiniteLoadTemplateDescriptors as jest.MockedFunction<
-      typeof useInfiniteLoadTemplateDescriptors
+const useInfiniteLoadPromptsPageMock =
+   useInfiniteLoadPromptsPage as jest.MockedFunction<
+      typeof useInfiniteLoadPromptsPage
    >;
 
 const addMutationResultMock = (mutateFn = jest.fn()): UseAddPromptResult => {
@@ -75,13 +75,13 @@ const infiniteQueryResultMock = (
    pages: DPromptsPage[] = [],
    hasNextPage = false,
    isFetching = false
-): UseInfinitePromptsResult => {
+): UseInfiniteLoadPromptsPageResult => {
    return {
       data: { pages, pageParams: [] },
       fetchNextPage: jest.fn(),
       hasNextPage,
       isFetching,
-   } as unknown as UseInfinitePromptsResult;
+   } as unknown as UseInfiniteLoadPromptsPageResult;
 };
 
 const collectionId = "collection-1";
@@ -92,9 +92,7 @@ const setupDefaultMocks = () => {
       removeMutationResultMock()
    );
    useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResultMock([]));
-   useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-      infiniteQueryResultMock()
-   );
+   useInfiniteLoadPromptsPageMock.mockReturnValue(infiniteQueryResultMock());
 };
 
 const assertRendered = () => {
@@ -169,9 +167,7 @@ describe("CollectionPrompts rendering tests", () => {
 
       const page = dtestData.dPromptsPage(0);
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const { container } = renderWithReactQuery(
          <CollectionPrompts collectionId={collectionId} />
@@ -195,9 +191,7 @@ describe("CollectionPrompts rendering tests", () => {
       useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const { container } = renderWithReactQuery(
          <CollectionPrompts collectionId={collectionId} />
@@ -235,9 +229,7 @@ describe("CollectionPrompts functionality tests", () => {
 
       const page = dtestData.dPromptsPage(2);
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const addResultMock = addMutationResultMock(mutateFn);
       useAddPromptToCollectionMock.mockReturnValue(addResultMock);
@@ -278,7 +270,7 @@ describe("CollectionPrompts functionality tests", () => {
             expectedCallback
          );
          expect(toastMock.error).not.toHaveBeenCalled();
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadPromptsPageMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
          expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
@@ -302,9 +294,7 @@ describe("CollectionPrompts functionality tests", () => {
 
       const page = dtestData.dPromptsPage(3);
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const addResultMock = addMutationResultMock(mutateFn);
       useAddPromptToCollectionMock.mockReturnValue(addResultMock);
@@ -342,7 +332,7 @@ describe("CollectionPrompts functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadPromptsPageMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
          expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
@@ -369,9 +359,7 @@ describe("CollectionPrompts functionality tests", () => {
       useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const removeResultMock = removeMutationResultMock(mutateFn);
       useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
@@ -402,7 +390,7 @@ describe("CollectionPrompts functionality tests", () => {
             expectedCallback
          );
          expect(toastMock.error).not.toHaveBeenCalled();
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadPromptsPageMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
          expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
@@ -429,9 +417,7 @@ describe("CollectionPrompts functionality tests", () => {
       useLoadCollectionPromptIdsMock.mockReturnValue(promptIdsQueryResult);
 
       const loadPromptsQueryResult = infiniteQueryResultMock([page]);
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         loadPromptsQueryResult
-      );
+      useInfiniteLoadPromptsPageMock.mockReturnValue(loadPromptsQueryResult);
 
       const removeResultMock = removeMutationResultMock(mutateFn);
       useRemovePromptFromCollectionMock.mockReturnValue(removeResultMock);
@@ -463,7 +449,7 @@ describe("CollectionPrompts functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadPromptsPageMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
          expect(useLoadCollectionPromptIdsMock).toHaveBeenCalledWith(
@@ -484,7 +470,7 @@ describe("CollectionPrompts functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadPromptsPageMock).toHaveBeenCalledWith(
             expectedLoadDescriptorsParams
          );
       });
