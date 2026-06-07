@@ -22,9 +22,8 @@ export const TrialBanner = ({ daysLeft }: Props) => {
    const message =
       daysLeft === 0 ? (
          <>
-            Dein Trial endet{" "}
-            <strong className="font-semibold">heute</strong> – danach gelten
-            die Free-Tier Limits.
+            Dein Trial endet <strong className="font-semibold">heute</strong> –
+            danach gelten die Free-Tier Limits.
          </>
       ) : (
          <>
@@ -60,7 +59,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
                   "rounded-full px-4 py-1 text-xs font-semibold text-white transition-colors",
                   isUrgent
                      ? "bg-orange-600 hover:bg-orange-700"
-                     : "bg-blue-600 hover:bg-blue-700"
+                     : "bg-blue-700 hover:bg-blue-800"
                )}
                data-testid="subcription-link"
             >
@@ -70,7 +69,7 @@ export const TrialBanner = ({ daysLeft }: Props) => {
             <button
                onClick={() => setDismissed(true)}
                aria-label="Banner schließen"
-               className="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
+               className="rounded-full p-1 opacity-60 transition-all hover:bg-black/5 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                data-testid="dismiss-btn"
             >
                <X className="h-4 w-4" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader, Plus } from "lucide-react";
+import { Loader } from "lucide-react";
 import { toast } from "sonner";
 
 import { UsePromptDialog } from "@/components/prompt-templating";
@@ -58,12 +58,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
          );
       }
 
-      return (
-         <>
-            <Plus className="mr-1.5 h-4 w-4" />
-            <span>Prompt anwenden</span>
-         </>
-      );
+      return <span>Prompt anwenden</span>;
    };
 
    return (
@@ -74,7 +69,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
             onClick={handleUseTemplate}
             disabled={isPending}
             className={cn(
-               "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
+               "cursor-pointer bg-blue-700 text-white hover:bg-blue-800",
                className
             )}
             data-testid="use-prompt-btn"

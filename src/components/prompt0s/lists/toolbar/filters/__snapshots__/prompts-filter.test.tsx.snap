@@ -108,7 +108,7 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn disabled - rend
           data-testid="mock-react-popover-root"
         >
           <div
-            class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+            class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
             data-slot="popover-trigger"
             data-testid="popover-trigger"
           >
@@ -254,7 +254,7 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn enabled - rende
           data-testid="mock-react-popover-root"
         >
           <div
-            class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+            class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
             data-slot="popover-trigger"
             data-testid="popover-trigger"
           >

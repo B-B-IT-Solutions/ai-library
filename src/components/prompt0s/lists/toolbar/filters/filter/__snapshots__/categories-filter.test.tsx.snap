@@ -17,7 +17,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories not sele
       data-testid="mock-react-popover-root"
     >
       <div
-        class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+        class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
         data-slot="popover-trigger"
         data-testid="popover-trigger"
       >
@@ -73,12 +73,12 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
       data-testid="mock-react-popover-root"
     >
       <div
-        class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+        class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
         data-slot="popover-trigger"
         data-testid="popover-trigger"
       >
         <span
-          class="justify-center rounded-full text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-secondary/90 flex items-center gap-1.5 border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
+          class="justify-center rounded-full text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden bg-secondary [a&]:hover:bg-secondary/90 flex items-center gap-1.5 border border-blue-200 bg-linear-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
           data-slot="badge"
           data-testid="selected-category-category-1"
         >
@@ -109,7 +109,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
           </svg>
         </span>
         <span
-          class="justify-center rounded-full text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-secondary/90 flex items-center gap-1.5 border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
+          class="justify-center rounded-full text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden bg-secondary [a&]:hover:bg-secondary/90 flex items-center gap-1.5 border border-blue-200 bg-linear-to-r from-blue-50 to-blue-100 px-2.5 py-1 text-blue-700 hover:bg-blue-100"
           data-slot="badge"
           data-testid="selected-category-category-2"
         >
@@ -185,7 +185,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - category options em
       data-testid="mock-react-popover-root"
     >
       <div
-        class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+        class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
         data-slot="popover-trigger"
         data-testid="popover-trigger"
       >
@@ -299,7 +299,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - category options un
       data-testid="mock-react-popover-root"
     >
       <div
-        class="min-h-[42px] w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
+        class="min-h-10.5 w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2 hover:border-slate-300 hover:bg-white flex flex-wrap items-center gap-2 shadow-sm transition-all"
         data-slot="popover-trigger"
         data-testid="popover-trigger"
       >

@@ -181,11 +181,11 @@ Category-Tags: kleinere Schrift, schlichter, eher wie Labels
 
 ---
 
-### 3.4 Hardcoded `bg-blue-600` im CreatePromptButton
+### 3.4 Hardcoded `bg-blue-700` im CreatePromptButton
 
 |                |                                                                                                    |
 | -------------- | -------------------------------------------------------------------------------------------------- |
-| **Ist**        | `bg-blue-600 hover:bg-blue-700` direkt im Button – nicht über Design-System-Token steuerbar        |
+| **Ist**        | `bg-blue-700 hover:bg-blue-800` direkt im Button – nicht über Design-System-Token steuerbar        |
 | **Soll**       | Tailwind CSS Custom Property oder `variant="primary"` – konsistent mit dem Rest des Design-Systems |
 | **Begründung** | Wenn die Primärfarbe der App geändert wird, wird dieser Button nicht mitaktualisiert               |
 
@@ -217,4 +217,4 @@ Category-Tags: kleinere Schrift, schlichter, eher wie Labels
 | 3.5 | Skeleton Loading           | Mittel  | Klein   | **P3**    |
 | 3.1 | Badge/Tag-Hierarchie       | Niedrig | Klein   | **P3**    |
 | 3.2 | Favoriten-Feedback         | Niedrig | Klein   | **P3**    |
-| 3.4 | Hardcoded bg-blue-600      | Niedrig | Minimal | **P3**    |
+| 3.4 | Hardcoded bg-blue-700      | Niedrig | Minimal | **P3**    |
