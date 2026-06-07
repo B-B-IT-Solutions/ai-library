@@ -177,7 +177,7 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pGetCollectionTemplateIds(
+   async pGetCollectionPromptIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {

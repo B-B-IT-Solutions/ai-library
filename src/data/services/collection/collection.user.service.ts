@@ -51,7 +51,7 @@ export class CollectionService {
       userId: string,
       collectionId: string
    ): Promise<string[]> {
-      return await this.collectionRepository.pGetCollectionTemplateIds(
+      return await this.collectionRepository.pGetCollectionPromptIds(
          userId,
          collectionId
       );

@@ -138,21 +138,19 @@ describe("getCollectionPromptIds tests", () => {
    it("promptIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
-      const templateIds = dtestData.dCollectionPromptIds();
-      collectionRepoMock.pGetCollectionTemplateIds.mockResolvedValue(
-         templateIds
-      );
+      const promptIds = dtestData.dCollectionPromptIds();
+      collectionRepoMock.pGetCollectionPromptIds.mockResolvedValue(promptIds);
 
       const result = await collectionService.getCollectionPromptIds(
          userId,
          collectionId
       );
 
-      expect(result).toEqual(templateIds);
-      expect(
-         collectionRepoMock.pGetCollectionTemplateIds
-      ).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pGetCollectionTemplateIds).toHaveBeenCalledWith(
+      expect(result).toEqual(promptIds);
+      expect(collectionRepoMock.pGetCollectionPromptIds).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pGetCollectionPromptIds).toHaveBeenCalledWith(
          userId,
          collectionId
       );

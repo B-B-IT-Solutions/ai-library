@@ -391,19 +391,19 @@ describe("pSetCollectionPublicToken tests", () => {
    });
 });
 
-describe("pGetCollectionTemplateIds tests", () => {
+describe("pGetCollectionPromptIds tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("templateIds retrieved - test", async () => {
+   it("promptIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id";
 
       const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
-      const result = await collectionRepository.pGetCollectionTemplateIds(
+      const result = await collectionRepository.pGetCollectionPromptIds(
          userId,
          collectionId
       );
