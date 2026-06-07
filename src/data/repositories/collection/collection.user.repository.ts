@@ -1,7 +1,11 @@
 import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -17,7 +21,12 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDCollection, toDCollections } from "./collection.mapper";
+import {
+   toDCollection,
+   toDCollectionPreivew,
+   toDCollectionPreviews,
+   toDCollections,
+} from "./collection.mapper";
 
 export class CollectionRepository {
    private prisma: DbClient;
@@ -47,6 +56,24 @@ export class CollectionRepository {
       return toDCollections(collections);
    }
 
+   async pGetCollectionPreviews(userId: string): Promise<DCollectionPreview[]> {
+      const args = {
+         where: {
+            userId,
+         },
+         orderBy: {
+            order: "asc",
+         },
+         select: {
+            id: true,
+            name: true,
+         },
+      } satisfies LibraryCollectionFindManyArgs;
+
+      const collections = await this.prisma.libraryCollection.findMany(args);
+      return toDCollectionPreviews(collections);
+   }
+
    async pGetCollectionById(
       userId: string,
       collectionId: string
@@ -71,6 +98,29 @@ export class CollectionRepository {
          return null;
       }
       return toDCollection(collection);
+   }
+
+   async pGetCollectionPreviewById(
+      userId: string,
+      collectionId: string
+   ): Promise<DCollectionPreview | null> {
+      const args = {
+         where: {
+            id: collectionId,
+            userId,
+         },
+         select: {
+            id: true,
+            name: true,
+         },
+      } satisfies LibraryCollectionFindUniqueArgs;
+
+      const collection = await this.prisma.libraryCollection.findUnique(args);
+
+      if (!collection) {
+         return null;
+      }
+      return toDCollectionPreivew(collection);
    }
 
    async pCreateCollection(

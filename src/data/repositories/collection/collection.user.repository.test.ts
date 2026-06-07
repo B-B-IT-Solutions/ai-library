@@ -20,7 +20,12 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDCollection, toDCollections } from "./collection.mapper";
+import {
+   toDCollection,
+   toDCollectionPreivew,
+   toDCollectionPreviews,
+   toDCollections,
+} from "./collection.mapper";
 import { CollectionRepository } from "./collection.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -31,9 +36,9 @@ describe("pGetCollections tests", () => {
       mockReset(prismaMock);
    });
 
-   it("colelctions retrieved test", async () => {
+   it("collections retrieved test", async () => {
       const userId = "user-id-1";
-      const collections = ptestData.pTemplateCollections();
+      const collections = ptestData.pLibraryCollections();
       prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
 
       const result = await collectionRepository.pGetCollections(userId);
@@ -51,6 +56,39 @@ describe("pGetCollections tests", () => {
                   entries: true,
                },
             },
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetCollectionPreviews tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("collections retrieved test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollectionPreviews();
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+
+      const result = await collectionRepository.pGetCollectionPreviews(userId);
+
+      const expectedResult = toDCollectionPreviews(collections);
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: { userId },
+         orderBy: {
+            order: "asc",
+         },
+         select: {
+            id: true,
+            name: true,
          },
       };
 
@@ -101,7 +139,7 @@ describe("pGetCollectionById tests", () => {
    it("collection - retrieved - test", async () => {
       const userId = "user-id-1";
 
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result = await collectionRepository.pGetCollectionById(
@@ -133,13 +171,78 @@ describe("pGetCollectionById tests", () => {
    });
 });
 
+describe("pGetCollectionPreviewById tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("collection - null - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "non-existent-id";
+      prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
+
+      const result = await collectionRepository.pGetCollectionPreviewById(
+         userId,
+         collectionId
+      );
+
+      const expectedArgs: LibraryCollectionFindUniqueArgs = {
+         where: {
+            id: collectionId,
+            userId,
+         },
+         select: {
+            id: true,
+            name: true,
+         },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   it("collection - retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const collection = ptestData.pLibraryCollectionPreview();
+      prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
+
+      const result = await collectionRepository.pGetCollectionPreviewById(
+         userId,
+         collection.id
+      );
+
+      const expectedResult = toDCollectionPreivew(collection);
+
+      const expectedArgs: LibraryCollectionFindUniqueArgs = {
+         where: {
+            id: collection.id,
+            userId,
+         },
+         select: {
+            id: true,
+            name: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
 describe("pCreateCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("all fields defined - test", async () => {
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = collection.userId;
@@ -180,7 +283,7 @@ describe("pCreateCollection tests", () => {
    });
 
    it("optional fields undefined - test", async () => {
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = "user-id-1";
@@ -230,7 +333,7 @@ describe("pUpdateCollection tests", () => {
 
    it("all fields defined - test", async () => {
       const userId = "user-id-1";
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const data = dtestData.dCollectionUpdate();
@@ -274,7 +377,7 @@ describe("pUpdateCollection tests", () => {
 
    it("optional fields undefined - test", async () => {
       const userId = "user-id-123";
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const data: DCollectionUpdate = {
@@ -323,7 +426,7 @@ describe("pDeleteCollection tests", () => {
 
    it("collection - deleted - test", async () => {
       const userId = "user-id-1";
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.delete.mockResolvedValue(collection);
 
       await collectionRepository.pDeleteCollection(userId, collection.id);
@@ -351,7 +454,7 @@ describe("pSetCollectionPublicToken tests", () => {
       const userId = "user-id-1";
       const publicToken = "token-1";
       const isPublic = true;
-      const collection = ptestData.pTemplateCollection();
+      const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const result = await collectionRepository.pSetCollectionPublicToken(
@@ -400,7 +503,7 @@ describe("pGetCollectionPromptIds tests", () => {
       const userId = "user-id-1";
       const collectionId = "collection-id";
 
-      const entries = ptestData.pTemplateCollectionEntries();
+      const entries = ptestData.pLibraryCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
       const result = await collectionRepository.pGetCollectionPromptIds(
@@ -545,7 +648,7 @@ describe("pGetPromptCollectionIds tests", () => {
       const userId = "user-id-1";
       const promptId = "prompt-id-1";
 
-      const entries = ptestData.pTemplateCollectionEntries();
+      const entries = ptestData.pLibraryCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
       const result = await collectionRepository.pGetPromptCollectionIds(

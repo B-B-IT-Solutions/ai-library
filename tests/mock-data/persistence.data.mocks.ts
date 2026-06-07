@@ -8,7 +8,10 @@ import {
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
 } from "@/data/types/db/catalog";
-import { PLibraryCollection } from "@/data/types/db/collection";
+import {
+   PLibraryCollection,
+   PLibraryCollectionPreview,
+} from "@/data/types/db/collection";
 import {
    OrderItemProduct,
    OrderProducts,
@@ -388,11 +391,11 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pTemplateCollections = (count = 3): PLibraryCollection[] => {
-   return range(0, count).map((i) => pTemplateCollection(i));
+export const pLibraryCollections = (count = 3): PLibraryCollection[] => {
+   return range(0, count).map((i) => pLibraryCollection(i));
 };
 
-export const pTemplateCollection = (index = 1): PLibraryCollection => {
+export const pLibraryCollection = (index = 1): PLibraryCollection => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
@@ -410,17 +413,32 @@ export const pTemplateCollection = (index = 1): PLibraryCollection => {
    };
 };
 
-export const pTemplateCollectionEntries = (
+export const pLibraryCollectionPreviews = (
    count = 3
-): LibraryCollectionEntry[] => {
-   return range(0, count).map((i) => pTemplateCollectionEntry(i));
+): PLibraryCollectionPreview[] => {
+   return range(0, count).map((i) => pLibraryCollectionPreview(i));
 };
 
-export const pTemplateCollectionEntry = (index = 1): LibraryCollectionEntry => {
+export const pLibraryCollectionPreview = (
+   index = 1
+): PLibraryCollectionPreview => {
+   return {
+      id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      name: `name ${index}`,
+   };
+};
+
+export const pLibraryCollectionEntries = (
+   count = 3
+): LibraryCollectionEntry[] => {
+   return range(0, count).map((i) => pLibraryCollectionEntry(i));
+};
+
+export const pLibraryCollectionEntry = (index = 1): LibraryCollectionEntry => {
    return {
       id: `f25ed912-b2f0-4a40-876c-44dae253446${index}`,
       collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
-      templateDescriptorId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       userId: `a1b2c3d4-e5f6-7890-abcd-ef1234567890`,
       addedAt: new Date("2025-09-27"),
    };

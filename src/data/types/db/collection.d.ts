@@ -5,3 +5,5 @@ export type PLibraryCollection = LibraryCollection & {
       entries: number;
    };
 };
+
+export type PLibraryCollectionPreview = Pick<LibraryCollection, "id" | "name">;

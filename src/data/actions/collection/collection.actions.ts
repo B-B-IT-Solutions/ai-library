@@ -56,7 +56,7 @@ export const getCollectionById = async (
 
 export const getCollectionPreviewById = async (
    collectionId: string
-): Promise<DCollection | null> => {
+): Promise<DCollectionPreview | null> => {
    try {
       if (!isValidUuid(collectionId)) {
          throw new Error("Invalid collection ID.");
