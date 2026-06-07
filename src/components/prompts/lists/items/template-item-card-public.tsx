@@ -15,7 +15,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DCollection } from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -25,7 +25,7 @@ import {
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    collectionToken?: string | null;
 };
 

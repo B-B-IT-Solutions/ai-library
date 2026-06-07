@@ -32,6 +32,7 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createCollectionOptions,
    deleteCollectionOptions,
+   loadCollectionPreviewsOptions,
    loadCollectionsOptions,
    loadPromptCollectionIdsOptions,
    preloadCollectionPreviewsOptions,
@@ -39,6 +40,7 @@ import {
    updatePromptCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
+   useLoadCollectionPreviews,
    useLoadCollections,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
@@ -158,6 +160,42 @@ describe("loadCollections hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);
          expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
+describe("loadCollectionPreviews hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("loadCollectionPreviewsOptions - test", async () => {
+      const expectedOptions: UndefinedInitialDataOptions<
+         DCollectionPreview[],
+         Error,
+         DCollectionPreview[]
+      > = {
+         queryKey: ["library", "collection-previews"],
+         queryFn: jest.fn(),
+         placeholderData: keepPreviousData,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = loadCollectionPreviewsOptions();
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadCollectionPreviews test", async () => {
+      const collections = dtestData.dCollectionPreviews();
+      getCollectionPreviewsMock.mockResolvedValue(collections);
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadCollectionPreviews()
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(collections);
+         expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
       });
    });
 });

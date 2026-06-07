@@ -73,6 +73,26 @@ export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
    return useQuery<DCollection[]>(options);
 };
 
+export const loadCollectionPreviewsOptions = (): UndefinedInitialDataOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: libraryKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+      placeholderData: keepPreviousData,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadCollectionPreviews = (): UseQueryResult<
+   DCollectionPreview[]
+> => {
+   const options = loadCollectionPreviewsOptions();
+   return useQuery<DCollectionPreview[]>(options);
+};
+
 export const createCollectionOptions = (
    queryClient: QueryClient
 ): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {

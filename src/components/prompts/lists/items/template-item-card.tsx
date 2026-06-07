@@ -2,10 +2,7 @@ import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    AddToFavoriteButton,
@@ -16,7 +13,7 @@ import { viewPromptUrl } from "../../utils";
 
 type Props = {
    prompt: DPrompt;
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    currentCollection?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };

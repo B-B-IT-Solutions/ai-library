@@ -1,16 +1,13 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
 import { TemplateItemCard } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
-   collections: DCollection[];
+   collections: DCollectionPreview[];
    currentColleciton?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };

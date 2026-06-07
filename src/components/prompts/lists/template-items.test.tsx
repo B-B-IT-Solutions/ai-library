@@ -4,7 +4,7 @@ jest.mock("@/data/actions/prompt");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionPreviews } from "@/data/actions/collection";
 import { getPromptsPage } from "@/data/actions/prompt";
 import {
    DListGroupByMode,
@@ -15,8 +15,8 @@ import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { TemplateItems } from "./template-items";
 
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
 >;
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
@@ -58,7 +58,7 @@ describe("TemplateItems rendering tests", () => {
    it("prompts - empty - test", async () => {
       const page = dtestData.dPromptsPage(0);
       getPromptsPageMock.mockResolvedValue(page);
-      getCollectionsMock.mockResolvedValue([]);
+      getCollectionPreviewsMock.mockResolvedValue([]);
 
       const { container } = renderWithRouter(
          <TemplateItems
@@ -79,7 +79,7 @@ describe("TemplateItems rendering tests", () => {
    it("prompts - filter empty - test", async () => {
       const page = dtestData.dPromptsPage(0);
       getPromptsPageMock.mockResolvedValue(page);
-      getCollectionsMock.mockResolvedValue([]);
+      getCollectionPreviewsMock.mockResolvedValue([]);
 
       const filters = dtestData.dPromptsFilter();
 
@@ -102,7 +102,7 @@ describe("TemplateItems rendering tests", () => {
    it("view grid - test", async () => {
       const page = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(page);
-      getCollectionsMock.mockResolvedValue([]);
+      getCollectionPreviewsMock.mockResolvedValue([]);
 
       const filters = dtestData.dPromptsFilter();
       const collection = dtestData.dCollectionPreview();
@@ -137,7 +137,7 @@ describe("TemplateItems rendering tests", () => {
    it("view list - test", async () => {
       const page = dtestData.dPromptsPage();
       getPromptsPageMock.mockResolvedValue(page);
-      getCollectionsMock.mockResolvedValue([]);
+      getCollectionPreviewsMock.mockResolvedValue([]);
 
       const filters = dtestData.dPromptsFilter();
 
