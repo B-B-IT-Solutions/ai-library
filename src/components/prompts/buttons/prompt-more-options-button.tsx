@@ -40,6 +40,8 @@ export const PromptMoreOptionsButton = ({
                   variant="outline"
                   size="sm"
                   className="cursor-pointer"
+                  aria-label="Weitere Optionen"
+                  title="Weitere Optionen"
                   data-testid="more-options-trigger-btn"
                >
                   <MoreVertical className="h-4 w-4" />
