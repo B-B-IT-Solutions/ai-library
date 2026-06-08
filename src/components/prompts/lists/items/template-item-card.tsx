@@ -55,7 +55,7 @@ export const TemplateItemCard = ({
                className="group/title"
                data-testid="view-details-link-title"
             >
-               <h4 className="cursor-pointer text-lg font-semibold leading-tight text-slate-900 transition-colors hover:text-blue-700">
+               <h4 className="line-clamp-2 cursor-pointer text-lg font-semibold leading-tight text-slate-900 transition-colors hover:text-blue-700">
                   {prompt.title}
                </h4>
             </Link>
