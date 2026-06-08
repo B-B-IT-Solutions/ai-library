@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader } from "lucide-react";
+import { Loader, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 import { UsePromptDialog } from "@/components/prompt-templating";
@@ -52,13 +52,18 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
       if (isPending) {
          return (
             <>
-               <Loader className="mr-1.5 h-4 w-4 animate-spin" />
+               <Loader className="mr-1 h-4 w-4 animate-spin" />
                <span>Anwenden...</span>
             </>
          );
       }
 
-      return <span>Prompt anwenden</span>;
+      return (
+         <>
+            <Zap className="mr-1 h-4 w-4" />
+            <span>Anwenden</span>
+         </>
+      );
    };
 
    return (
