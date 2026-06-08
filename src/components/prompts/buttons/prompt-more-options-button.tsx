@@ -23,18 +23,20 @@ import { ViewPromptButton } from "./view-prompt-button";
 type Props = {
    prompt: DPrompt;
    currentCollection?: DCollectionPreview;
+   onOpenChange?: (open: boolean) => void;
 };
 
 export const PromptMoreOptionsButton = ({
    prompt,
    currentCollection,
+   onOpenChange,
 }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
    return (
       <>
-         <DropdownMenu data-testid="prompt-more-options-btn">
+         <DropdownMenu data-testid="prompt-more-options-btn" onOpenChange={onOpenChange}>
             <DropdownMenuTrigger asChild={true}>
                <Button
                   variant="outline"

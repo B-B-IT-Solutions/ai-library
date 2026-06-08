@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { map } from "es-toolkit/compat";
 import { Eye, MoreVertical } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +15,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DPrompt } from "@/data/types/domain/prompt";
+import { cn } from "@/lib/utils";
 import {
    AddToFavoriteButton,
    DownloadPromptButton,
@@ -27,6 +31,16 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
+
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+   const handleMenuOpenChange = (open: boolean) => {
+      if (open) {
+         setIsMenuOpen(true);
+      } else {
+         setTimeout(() => setIsMenuOpen(false), 200);
+      }
+   };
 
    const categories = () => {
       return (
@@ -45,7 +59,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
 
    const dropdownMenu = () => {
       return (
-         <DropdownMenu>
+         <DropdownMenu onOpenChange={handleMenuOpenChange}>
             <DropdownMenuTrigger asChild={true}>
                <Button
                   variant="outline"
@@ -112,7 +126,12 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
             >
                {prompt.recommendedModel}
             </span>
-            <div className="flex items-center gap-2 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100">
+            <div
+               className={cn(
+                  "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100",
+                  isMenuOpen && "opacity-100"
+               )}
+            >
                <PublicUseTemplateButton descriptor={prompt} />
                {dropdownMenu()}
             </div>
