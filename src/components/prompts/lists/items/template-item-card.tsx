@@ -17,11 +17,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemCard = ({
-   prompt,
-   currentCollection,
-   ref,
-}: Props) => {
+export const TemplateItemCard = ({ prompt, currentCollection, ref }: Props) => {
    const viewUrl = viewPromptUrl(prompt, currentCollection);
 
    const categories = () => {
@@ -48,20 +44,24 @@ export const TemplateItemCard = ({
          <CardHeader className="gap-2 p-5 pb-3">
             <div className="flex items-start justify-between gap-2">
                {categories()}
-               <AddToFavoriteButton descriptor={prompt} variant="inline" />
+               <AddToFavoriteButton
+                  descriptor={prompt}
+                  variant="inline"
+                  hideInactive={true}
+               />
             </div>
             <Link
                href={viewUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >
-               <h4 className="line-clamp-2 cursor-pointer text-lg font-semibold leading-tight text-slate-900 transition-colors hover:text-blue-700">
+               <h4 className="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
                   {prompt.title}
                </h4>
             </Link>
          </CardHeader>
 
-         <CardContent className="flex-1 px-5 pb-3 pt-0">
+         <CardContent className="flex-1 px-5 pt-0 pb-3">
             <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
                {prompt.description}
             </p>
@@ -74,7 +74,7 @@ export const TemplateItemCard = ({
             >
                {prompt.recommendedModel}
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100">
                <UseTemplateButton descriptor={prompt} />
                <PromptMoreOptionsButton
                   prompt={prompt}

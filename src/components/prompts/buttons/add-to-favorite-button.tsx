@@ -15,9 +15,14 @@ import { cn } from "@/lib/utils";
 type Props = {
    descriptor: DPrompt;
    variant?: "card" | "inline";
+   hideInactive?: boolean;
 };
 
-export const AddToFavoriteButton = ({ descriptor, variant = "card" }: Props) => {
+export const AddToFavoriteButton = ({
+   descriptor,
+   variant = "card",
+   hideInactive = false,
+}: Props) => {
    const [isFavorite, setFavorite] = useState<boolean>(descriptor.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
@@ -63,7 +68,12 @@ export const AddToFavoriteButton = ({ descriptor, variant = "card" }: Props) => 
 
    const buttonClass =
       variant === "inline"
-         ? "rounded-full p-1.5 transition-all hover:bg-slate-100"
+         ? cn(
+              "rounded-full p-1.5 transition-all hover:bg-slate-100",
+              hideInactive &&
+                 !isFavorite &&
+                 "opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+           )
          : "absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white";
 
    return (
