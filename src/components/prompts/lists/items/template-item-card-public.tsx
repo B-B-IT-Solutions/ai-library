@@ -112,7 +112,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
             >
                {prompt.recommendedModel}
             </span>
-            <div className="flex items-center gap-2 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100">
+            <div className="flex items-center gap-2 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100">
                <PublicUseTemplateButton descriptor={prompt} />
                {dropdownMenu()}
             </div>
