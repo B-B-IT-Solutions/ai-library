@@ -72,7 +72,7 @@ export const AddToFavoriteButton = ({
               "rounded-full p-1.5 transition-all hover:bg-slate-100",
               hideInactive &&
                  !isFavorite &&
-                 "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 group-focus-within:opacity-100  group-has-[button[data-state=open]]:opacity-100"
+                 "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 group-focus-within:opacity-100 [.group:has(button[data-state=open])_&]:opacity-100"
            )
          : "absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white";
 
