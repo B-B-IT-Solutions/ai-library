@@ -129,7 +129,11 @@ const Item = ({
    const ctx = React.useContext(DropdownContext)!;
 
    const handleClick = () => {
-      onClick?.({} as React.MouseEvent<HTMLElement>);
+      const event = {
+         preventDefault: jest.fn(),
+      } as unknown as React.MouseEvent<HTMLElement>;
+
+      onClick?.(event);
       onSelect?.();
       ctx?.setOpen(false);
    };

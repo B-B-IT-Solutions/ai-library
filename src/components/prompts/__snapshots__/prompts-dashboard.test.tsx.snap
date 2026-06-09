@@ -514,7 +514,7 @@ exports[`PromptsDashboard rendering tests rendered test 1`] = `
               <button
                 aria-label="Zu Favoriten hinzufügen"
                 aria-pressed="false"
-                class="rounded-full p-1.5 transition-all hover:bg-slate-100 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                class="rounded-full p-1.5 transition-all hover:bg-slate-100 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 group-focus-within:opacity-100 group-has-[button[data-state=open]]:opacity-100"
                 data-testid="toggle-favorite-btn"
               >
                 <svg
