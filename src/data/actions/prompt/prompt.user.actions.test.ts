@@ -843,10 +843,10 @@ describe("togglePromptFavorite tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
-      const result = await togglePromptFavorite(descriptorId, isFavorite);
+      const result = await togglePromptFavorite(promptId, isFavorite);
       const expectedResult: ActionResult = {
          success: false,
          message: "Die Anfrage konnte nicht bearbeitet werden",
@@ -863,12 +863,12 @@ describe("togglePromptFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
       sTogglePromptFavoriteMock.mockResolvedValue();
 
-      const result = await togglePromptFavorite(descriptorId, isFavorite);
+      const result = await togglePromptFavorite(promptId, isFavorite);
       const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
@@ -878,7 +878,7 @@ describe("togglePromptFavorite tests", () => {
       expect(sTogglePromptFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sTogglePromptFavoriteMock).toHaveBeenCalledWith(
          user.id,
-         descriptorId,
+         promptId,
          isFavorite
       );
    });
@@ -887,12 +887,12 @@ describe("togglePromptFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
       sTogglePromptFavoriteMock.mockResolvedValue();
 
-      const result = await togglePromptFavorite(descriptorId, isFavorite);
+      const result = await togglePromptFavorite(promptId, isFavorite);
       const expectedResult: ActionResult<DPrompt0Update> = {
          success: true,
          message: "Aus Favoriten entfernt",
@@ -902,7 +902,7 @@ describe("togglePromptFavorite tests", () => {
       expect(sTogglePromptFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sTogglePromptFavoriteMock).toHaveBeenCalledWith(
          user.id,
-         descriptorId,
+         promptId,
          isFavorite
       );
    });

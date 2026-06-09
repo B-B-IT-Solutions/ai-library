@@ -102,8 +102,8 @@ export const toggleFavoriteOptions = (): UseMutationOptions<
 > => {
    return {
       mutationFn: async (params: UpdateIsFavoriteParams) => {
-         const { descriptorId, isFavorite } = params;
-         return await togglePromptFavorite(descriptorId, isFavorite);
+         const { promptId, isFavorite } = params;
+         return await togglePromptFavorite(promptId, isFavorite);
       },
    };
 };

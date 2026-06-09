@@ -13,17 +13,23 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
+   variant?: "card" | "inline";
+   hideInactive?: boolean;
 };
 
-export const AddToFavoriteButton = ({ descriptor }: Props) => {
-   const [isFavorite, setFavorite] = useState<boolean>(descriptor.isFavorite);
+export const AddToFavoriteButton = ({
+   prompt,
+   variant = "card",
+   hideInactive = false,
+}: Props) => {
+   const [isFavorite, setFavorite] = useState<boolean>(prompt.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
 
    const handleToggleFavorite = () => {
       const params: UpdateIsFavoriteParams = {
-         descriptorId: descriptor.id,
+         promptId: prompt.id,
          isFavorite: !isFavorite,
       };
       startTransition(async () => {
@@ -60,14 +66,24 @@ export const AddToFavoriteButton = ({ descriptor }: Props) => {
       );
    };
 
+   const buttonClass =
+      variant === "inline"
+         ? cn(
+              "rounded-full p-1.5 transition-all hover:bg-slate-100",
+              hideInactive &&
+                 !isFavorite &&
+                 "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 group-focus-within:opacity-100 [.group:has(button[data-state=open])_&]:opacity-100"
+           )
+         : "absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white";
+
    return (
       <button
          onClick={handleToggleFavorite}
-         className="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+         className={buttonClass}
          aria-label={
             isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
-         aria-pressed={descriptor.isFavorite}
+         aria-pressed={prompt.isFavorite}
          data-testid="toggle-favorite-btn"
       >
          {icon()}

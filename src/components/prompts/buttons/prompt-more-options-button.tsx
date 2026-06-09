@@ -32,14 +32,30 @@ export const PromptMoreOptionsButton = ({
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+   const handleContextMenuOpen = (open: boolean) => {
+      if (open) {
+         setIsMenuOpen(true);
+      } else {
+         setTimeout(() => setIsMenuOpen(false), 200);
+      }
+   };
+
    return (
       <>
-         <DropdownMenu data-testid="prompt-more-options-btn">
+         <DropdownMenu
+            data-testid="prompt-more-options-btn"
+            onOpenChange={handleContextMenuOpen}
+         >
             <DropdownMenuTrigger asChild={true}>
                <Button
                   variant="outline"
                   size="sm"
                   className="cursor-pointer"
+                  aria-label="Weitere Optionen"
+                  title="Weitere Optionen"
+                  data-state={isMenuOpen && "open"}
                   data-testid="more-options-trigger-btn"
                >
                   <MoreVertical className="h-4 w-4" />

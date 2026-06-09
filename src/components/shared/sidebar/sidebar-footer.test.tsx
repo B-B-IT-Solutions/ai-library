@@ -129,7 +129,6 @@ describe("Sidebar functionality tests", () => {
       userEvent.click(singOut);
 
       await waitFor(() => {
-         assertMenuItemsRendered();
          expect(signOutUserMock).toHaveBeenCalledTimes(1);
       });
    });

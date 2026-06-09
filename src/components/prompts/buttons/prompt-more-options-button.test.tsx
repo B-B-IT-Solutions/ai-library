@@ -3,6 +3,7 @@ jest.mock("@/data/actions/collection");
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
    dtestData,
@@ -71,6 +72,16 @@ const assertAddToCollectionDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
+const assertDateStateOpen = () => {
+   const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+   assertHasAttributeWithValue(triggerBtn, "data-state", "open");
+};
+
+const assertDateStateClosed = () => {
+   const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+   assertHasAttributeWithValue(triggerBtn, "data-state", "false");
+};
+
 describe("PromptMoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
       const prompt = dtestData.dPrompt();
@@ -100,6 +111,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertContextMenuNotRendered();
+         assertDateStateClosed();
       });
 
       const triggerBtn = screen.getByTestId("more-options-trigger-btn");
@@ -107,6 +119,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertContextMenuRendered();
+         assertDateStateOpen();
       });
    });
 
@@ -125,6 +138,7 @@ describe("PromptMoreOptionsButton functionality tests", () => {
          assertRendered();
          assertContextMenuNotRendered();
          assertAddToCollectionDialogNotRendered();
+         assertDateStateClosed();
       });
 
       const triggerBtn = screen.getByTestId("more-options-trigger-btn");
@@ -133,15 +147,17 @@ describe("PromptMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertContextMenuRendered();
          assertAddToCollectionDialogNotRendered();
+         assertDateStateOpen();
       });
 
       const addToCollecitonBtn = screen.getByTestId(
          "add-to-collection-menu-item"
       );
-      userEvent.click(addToCollecitonBtn);
+      await userEvent.click(addToCollecitonBtn);
 
       await waitFor(() => {
          assertAddToCollectionDialogRendered();
+         assertDateStateClosed();
       });
    });
 });

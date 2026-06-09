@@ -304,6 +304,7 @@ export const dCollectionPreview = (index = 1): DCollectionPreview => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       name: `name ${index}`,
+      color: `color ${index}`,
    };
 };
 
