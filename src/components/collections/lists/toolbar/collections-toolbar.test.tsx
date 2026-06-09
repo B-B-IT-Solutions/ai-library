@@ -7,12 +7,13 @@ import { CollectionsToolbar } from "./collections-toolbar";
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("collections-toolbar");
-
    const searchFilter = screen.getByTestId("search-filter");
+   const sortBySelect = screen.getByTestId("sort-by-select");
    const viewToggle = screen.getByTestId("view-toggle");
 
    assertInDocument(toolbar);
    assertInDocument(searchFilter);
+   assertInDocument(sortBySelect);
    assertInDocument(viewToggle);
 };
 

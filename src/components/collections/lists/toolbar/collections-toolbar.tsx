@@ -2,6 +2,7 @@ import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
 
 import { SearchFilter } from "./filters/search-filter";
+import { SortBySelect } from "./sort-by";
 
 type Props = {
    viewMode: DListViewMode;
@@ -14,9 +15,10 @@ export const CollectionsToolbar = ({ viewMode }: Props) => {
          data-testid="collections-toolbar"
       >
          <div className="flex items-center gap-3">
-            <div className="w-67">
+            <div className="w-64">
                <SearchFilter />
             </div>
+            <SortBySelect />
          </div>
          <ListViewToggle currentView={viewMode} />
       </div>
