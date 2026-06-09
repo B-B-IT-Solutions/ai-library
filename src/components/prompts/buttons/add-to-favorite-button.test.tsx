@@ -40,12 +40,11 @@ describe("AddToFavoriteButton rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("AddToFavoriteButton - isFavorite true - test", async () => {
+   it("AddToFavoriteButton - variant card - test", async () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
       const descriptor = dtestData.dPrompt();
-      descriptor.isFavorite = true;
 
       const { container } = renderWithReactQuery(
          <AddToFavoriteButton descriptor={descriptor} />
@@ -58,7 +57,25 @@ describe("AddToFavoriteButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToFavoriteButton - isFavorite false - test", async () => {
+   it("AddToFavoriteButton - variant inline - isFavorite true - test", async () => {
+      const result = mutationResultMock();
+      useToggleFavoriteMock.mockReturnValue(result);
+
+      const descriptor = dtestData.dPrompt();
+      descriptor.isFavorite = true;
+
+      const { container } = renderWithReactQuery(
+         <AddToFavoriteButton descriptor={descriptor} variant="inline" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("AddToFavoriteButton - variant inline - isFavorite false - hideInactive true - test", async () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
@@ -66,7 +83,33 @@ describe("AddToFavoriteButton rendering tests", () => {
       descriptor.isFavorite = false;
 
       const { container } = renderWithReactQuery(
-         <AddToFavoriteButton descriptor={descriptor} />
+         <AddToFavoriteButton
+            descriptor={descriptor}
+            variant="inline"
+            hideInactive={true}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("AddToFavoriteButton - variant inline - isFavorite false - hideInactive false - test", async () => {
+      const result = mutationResultMock();
+      useToggleFavoriteMock.mockReturnValue(result);
+
+      const descriptor = dtestData.dPrompt();
+      descriptor.isFavorite = false;
+
+      const { container } = renderWithReactQuery(
+         <AddToFavoriteButton
+            descriptor={descriptor}
+            variant="inline"
+            hideInactive={false}
+         />
       );
 
       await waitFor(() => {
