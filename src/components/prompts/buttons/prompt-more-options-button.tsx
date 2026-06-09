@@ -23,20 +23,31 @@ import { ViewPromptButton } from "./view-prompt-button";
 type Props = {
    prompt: DPrompt;
    currentCollection?: DCollectionPreview;
-   onOpenChange?: (open: boolean) => void;
 };
 
 export const PromptMoreOptionsButton = ({
    prompt,
    currentCollection,
-   onOpenChange,
 }: Props) => {
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
+   const handleContextMenuOpen = (open: boolean) => {
+      if (open) {
+         setIsMenuOpen(true);
+      } else {
+         setTimeout(() => setIsMenuOpen(false), 200);
+      }
+   };
+
    return (
       <>
-         <DropdownMenu data-testid="prompt-more-options-btn" onOpenChange={onOpenChange}>
+         <DropdownMenu
+            data-testid="prompt-more-options-btn"
+            onOpenChange={handleContextMenuOpen}
+         >
             <DropdownMenuTrigger asChild={true}>
                <Button
                   variant="outline"
@@ -44,6 +55,7 @@ export const PromptMoreOptionsButton = ({
                   className="cursor-pointer"
                   aria-label="Weitere Optionen"
                   title="Weitere Optionen"
+                  data-state={isMenuOpen && "open"}
                   data-testid="more-options-trigger-btn"
                >
                   <MoreVertical className="h-4 w-4" />

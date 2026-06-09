@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
@@ -23,15 +20,6 @@ type Props = {
 
 export const TemplateItemCard = ({ prompt, currentCollection, ref }: Props) => {
    const viewUrl = viewPromptUrl(prompt, currentCollection);
-   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-   const handleMenuOpenChange = (open: boolean) => {
-      if (open) {
-         setIsMenuOpen(true);
-      } else {
-         setTimeout(() => setIsMenuOpen(false), 200);
-      }
-   };
 
    const categories = () => {
       return (
@@ -89,15 +77,13 @@ export const TemplateItemCard = ({ prompt, currentCollection, ref }: Props) => {
             </span>
             <div
                className={cn(
-                  "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100",
-                  isMenuOpen && "opacity-100"
+                  "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
                )}
             >
                <UseTemplateButton descriptor={prompt} />
                <PromptMoreOptionsButton
                   prompt={prompt}
                   currentCollection={currentCollection}
-                  onOpenChange={handleMenuOpenChange}
                />
             </div>
          </div>
