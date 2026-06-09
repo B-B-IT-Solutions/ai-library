@@ -18,19 +18,7 @@ const assertRendered = () => {
 };
 
 describe("CollectionsToolbar rendering tests", () => {
-   it("totalEntries 1 - test", async () => {
-      const { container } = renderWithRouter(
-         <CollectionsToolbar viewMode={DListViewMode.GRID} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("totalEntries 5 - test", async () => {
+   it("render test", async () => {
       const { container } = renderWithRouter(
          <CollectionsToolbar viewMode={DListViewMode.GRID} />
       );
