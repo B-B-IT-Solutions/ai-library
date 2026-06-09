@@ -10,7 +10,7 @@ exports[`CollectionsToolbar rendering tests totalEntries 1 - test 1`] = `
       class="flex items-center gap-3"
     >
       <div
-        class="w-64"
+        class="w-67"
       >
         <div
           class="relative w-full"
@@ -144,7 +144,7 @@ exports[`CollectionsToolbar rendering tests totalEntries 5 - test 1`] = `
       class="flex items-center gap-3"
     >
       <div
-        class="w-64"
+        class="w-67"
       >
         <div
           class="relative w-full"
