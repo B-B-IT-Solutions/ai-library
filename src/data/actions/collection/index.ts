@@ -4,6 +4,7 @@ export {
    getPromptCollectionIds,
    updatePromptCollections,
    getCollections,
+   getCollectionsPage,
    getCollectionById,
    getCollectionPreviewById,
    getCollectionPreviews,
