@@ -15,7 +15,7 @@ type Props = {
    className?: string;
 };
 
-export const UseTemplateButton = ({ descriptor, className }: Props) => {
+export const UsePromptButton = ({ descriptor, className }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const [templateData, setTemplateData] =

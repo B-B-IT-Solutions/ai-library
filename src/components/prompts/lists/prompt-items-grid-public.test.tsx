@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { PublicTemplateItemsGrid } from "./template-items-grid-public";
+import { PublicTemplateItemsGrid } from "./prompt-items-grid-public";
 
 const assertEmptyRendered = () => {
    const empty = screen.getByTestId("template-items-empty");

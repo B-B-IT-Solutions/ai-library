@@ -3,7 +3,7 @@ import { assertInDocument } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { TemplateItemsSkeleton } from "./template-items-skeleton";
+import { TemplateItemsSkeleton } from "./prompt-items-skeleton";
 
 const assertRendered = () => {
    const skeleton = screen.getByTestId("template-items-skeleton");

@@ -2,7 +2,7 @@ import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { TemplateItemsGrid } from "./template-items-grid";
+import { TemplateItemsGrid } from "./prompt-items-grid";
 
 const assertRendered = () => {
    const entries = screen.getByTestId("template-items-grid");
@@ -14,9 +14,7 @@ describe("TemplateItemsGrid rendering tests", () => {
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemsGrid
-            descriptors={descriptors}
-         />
+         <TemplateItemsGrid descriptors={descriptors} />
       );
 
       await waitFor(() => {
@@ -51,10 +49,7 @@ describe("TemplateItemsGrid ref tests", () => {
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
-         <TemplateItemsGrid
-            descriptors={descriptors}
-            ref={ref}
-         />
+         <TemplateItemsGrid descriptors={descriptors} ref={ref} />
       );
 
       await waitFor(() => {

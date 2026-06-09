@@ -11,7 +11,7 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { PublicTemplateItems } from "./template-items-public";
+import { PublicTemplateItems } from "./prompt-items-public";
 
 const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
    typeof getPublicPromptsPage

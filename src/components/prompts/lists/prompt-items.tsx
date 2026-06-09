@@ -14,9 +14,9 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { TemplateItemsGrid } from "./template-items-grid";
-import { TemplateItemsList } from "./template-items-list";
-import { TemplateItemsSkeleton } from "./template-items-skeleton";
+import { TemplateItemsGrid } from "./prompt-items-grid";
+import { TemplateItemsList } from "./prompt-items-list";
+import { TemplateItemsSkeleton } from "./prompt-items-skeleton";
 
 type Props = {
    viewMode: DListViewMode;

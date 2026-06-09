@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { TemplateItems } from "./template-items";
+import { TemplateItems } from "./prompt-items";
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
    typeof getCollectionPreviews

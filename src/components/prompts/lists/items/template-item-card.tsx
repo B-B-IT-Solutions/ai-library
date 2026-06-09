@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import {
    AddToFavoriteButton,
    PromptMoreOptionsButton,
-   UseTemplateButton,
+   UsePromptButton,
 } from "../../buttons";
 import { viewPromptUrl } from "../../utils";
 
@@ -80,7 +80,7 @@ export const TemplateItemCard = ({ prompt, currentCollection, ref }: Props) => {
                   "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
                )}
             >
-               <UseTemplateButton descriptor={prompt} />
+               <UsePromptButton descriptor={prompt} />
                <PromptMoreOptionsButton
                   prompt={prompt}
                   currentCollection={currentCollection}

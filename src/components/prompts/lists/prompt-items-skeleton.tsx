@@ -33,13 +33,8 @@ type Props = {
    count?: number;
 };
 
-export const TemplateItemsSkeleton = ({
-   viewMode,
-   count = 8,
-}: Props) => {
-   const cards = range(count).map((i) => (
-      <TemplateItemCardSkeleton key={i} />
-   ));
+export const TemplateItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
+   const cards = range(count).map((i) => <TemplateItemCardSkeleton key={i} />);
 
    if (viewMode === DListViewMode.LIST) {
       return (

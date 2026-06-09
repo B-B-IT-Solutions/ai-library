@@ -2,7 +2,7 @@ import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { TemplateItemsList } from "./template-items-list";
+import { TemplateItemsList } from "./prompt-items-list";
 
 const assertRendered = () => {
    const entries = screen.getByTestId("template-items-list");
@@ -49,10 +49,7 @@ describe("TemplateItemsList ref tests", () => {
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
-         <TemplateItemsList
-            descriptors={descriptors}
-            ref={ref}
-         />
+         <TemplateItemsList descriptors={descriptors} ref={ref} />
       );
 
       await waitFor(() => {

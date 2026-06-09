@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import {
    AddToFavoriteButton,
    DownloadPromptButton,
-   PublicUseTemplateButton,
+   PublicUsePromptButton,
 } from "../../buttons";
 
 type Props = {
@@ -118,7 +118,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
                   "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
                )}
             >
-               <PublicUseTemplateButton descriptor={prompt} />
+               <PublicUsePromptButton descriptor={prompt} />
                {dropdownMenu()}
             </div>
          </div>
