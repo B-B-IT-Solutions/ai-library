@@ -38,7 +38,7 @@ export const PromptItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
 
    if (viewMode === DListViewMode.LIST) {
       return (
-         <div className="space-y-4" data-testid="template-items-skeleton">
+         <div className="space-y-4" data-testid="prompt-items-skeleton">
             {cards}
          </div>
       );
@@ -47,7 +47,7 @@ export const PromptItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="template-items-skeleton"
+         data-testid="prompt-items-skeleton"
       >
          {cards}
       </div>

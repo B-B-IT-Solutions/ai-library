@@ -5,7 +5,7 @@ import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { PromptItemsGrid } from "./prompt-items-grid";
 
 const assertRendered = () => {
-   const entries = screen.getByTestId("template-items-grid");
+   const entries = screen.getByTestId("prompt-items-grid");
    assertInDocument(entries);
 };
 
@@ -53,7 +53,7 @@ describe("PromptItemsGrid ref tests", () => {
       );
 
       await waitFor(() => {
-         const items = screen.getAllByTestId("template-item-card");
+         const items = screen.getAllByTestId("prompt-item");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(items[items.length - 1]);
       });

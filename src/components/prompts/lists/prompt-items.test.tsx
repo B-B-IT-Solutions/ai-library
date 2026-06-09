@@ -24,12 +24,12 @@ const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
 >;
 
 const assertGridRendered = () => {
-   const entries = screen.getByTestId("template-items-grid");
+   const entries = screen.getByTestId("prompt-items-grid");
    assertInDocument(entries);
 };
 
 const assertListRendered = () => {
-   const entries = screen.getByTestId("template-items-list");
+   const entries = screen.getByTestId("prompt-items-list");
    assertInDocument(entries);
 };
 

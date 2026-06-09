@@ -4,12 +4,12 @@ exports[`PromptItemsList rendering tests prompts - collecitonId defined - test 1
 <div>
   <div
     class="space-y-4"
-    data-testid="template-items-list"
+    data-testid="prompt-items-list"
   >
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"
@@ -205,7 +205,7 @@ exports[`PromptItemsList rendering tests prompts - collecitonId defined - test 1
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"
@@ -401,7 +401,7 @@ exports[`PromptItemsList rendering tests prompts - collecitonId defined - test 1
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"
@@ -602,12 +602,12 @@ exports[`PromptItemsList rendering tests prompts - collecitonId undefined - test
 <div>
   <div
     class="space-y-4"
-    data-testid="template-items-list"
+    data-testid="prompt-items-list"
   >
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"
@@ -803,7 +803,7 @@ exports[`PromptItemsList rendering tests prompts - collecitonId undefined - test
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"
@@ -999,7 +999,7 @@ exports[`PromptItemsList rendering tests prompts - collecitonId undefined - test
     <div
       class="text-card-foreground shadow-sm group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
       data-slot="card"
-      data-testid="template-item-card"
+      data-testid="prompt-item"
     >
       <div
         class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 gap-2 p-5 pb-3"

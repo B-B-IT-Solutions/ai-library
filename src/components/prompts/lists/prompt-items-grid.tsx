@@ -31,7 +31,7 @@ export const PromptItemsGrid = ({
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="template-items-grid"
+         data-testid="prompt-items-grid"
       >
          {map(descriptors, (d, i) => item(d, i))}
       </div>

@@ -1,6 +1,6 @@
 # UX-Verbesserungsspezifikation: `TemplateItemCard`
 
-**Datei:** `src/components/prompts/lists/items/template-item-card.tsx`
+**Datei:** `src/components/prompts/lists/items/prompt-item.tsx`
 **Datum:** 2026-06-07
 
 ---
@@ -9,15 +9,15 @@
 
 ### Kritische Schwachstellen
 
-| Bereich | Problem |
-|---|---|
-| Visuelle Hierarchie | Titel und Model-Badge konkurrieren auf gleicher Ebene — kein klarer Scan-Pfad |
-| Favoriten-Button | Absolut positioniert, überlappt den Titel, kein definierter Interaktionsbereich |
-| Hover-State | Nur `border-color` + `shadow` — keine Feedback-Sprache für klickbare Elemente |
-| Kategorien | Vor der Beschreibung platziert, obwohl sie sekundäre Metadaten sind |
-| Accessibility | Kein sichtbarer Focus-Ring, keine ARIA-Labels auf Icon-Buttons, kein `title` auf Model-Badge |
-| CTA-Bereich | `UseTemplateButton` und `MoreOptions` haben kein visuelles Gewichtsgefälle |
-| Kartenatmosphäre | Vollständig generischer White/Slate-Look, null visuelle Persönlichkeit |
+| Bereich             | Problem                                                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------- |
+| Visuelle Hierarchie | Titel und Model-Badge konkurrieren auf gleicher Ebene — kein klarer Scan-Pfad                |
+| Favoriten-Button    | Absolut positioniert, überlappt den Titel, kein definierter Interaktionsbereich              |
+| Hover-State         | Nur `border-color` + `shadow` — keine Feedback-Sprache für klickbare Elemente                |
+| Kategorien          | Vor der Beschreibung platziert, obwohl sie sekundäre Metadaten sind                          |
+| Accessibility       | Kein sichtbarer Focus-Ring, keine ARIA-Labels auf Icon-Buttons, kein `title` auf Model-Badge |
+| CTA-Bereich         | `UseTemplateButton` und `MoreOptions` haben kein visuelles Gewichtsgefälle                   |
+| Kartenatmosphäre    | Vollständig generischer White/Slate-Look, null visuelle Persönlichkeit                       |
 
 ---
 
@@ -71,9 +71,10 @@
 
 **Problem:** Aktuell: Titel → Model-Badge → Kategorien → Beschreibung → Actions
 
-Der Nutzer scannt zuerst *Kontext* (Kategorie), dann *Inhalt* (Titel + Beschreibung), dann *Aktion*.
+Der Nutzer scannt zuerst _Kontext_ (Kategorie), dann _Inhalt_ (Titel + Beschreibung), dann _Aktion_.
 
 **Empfehlung:**
+
 ```
 Kategorien (was ist das?)
 → Titel (welches Template?)
@@ -159,6 +160,7 @@ Das Model-Badge gehört nicht in den Header. Es ist Metadatum, nicht Hauptinhalt
 ```
 
 Alternative: Tags als "dot + label":
+
 ```
 ● Writing  ● Marketing
 ```
@@ -167,13 +169,13 @@ Alternative: Tags als "dot + label":
 
 ### 6. Accessibility — Pflichtverbesserungen
 
-| Element | Fehlend | Fix |
-|---|---|---|
-| `AddToFavoriteButton` | `aria-label` | `aria-label="Zu Favoriten hinzufügen"` |
-| `PromptMoreOptionsButton` | `aria-label` | `aria-label="Weitere Optionen"` |
-| Model-Badge | kein `title` | `title="Empfohlenes KI-Modell"` |
-| Card-Link | deckt nur den Titel ab | Erwägen: ganze Card als Link mit `after:absolute after:inset-0` |
-| Focus-Ring | nicht spezifiziert | `focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none` auf Link |
+| Element                   | Fehlend                | Fix                                                                                    |
+| ------------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| `AddToFavoriteButton`     | `aria-label`           | `aria-label="Zu Favoriten hinzufügen"`                                                 |
+| `PromptMoreOptionsButton` | `aria-label`           | `aria-label="Weitere Optionen"`                                                        |
+| Model-Badge               | kein `title`           | `title="Empfohlenes KI-Modell"`                                                        |
+| Card-Link                 | deckt nur den Titel ab | Erwägen: ganze Card als Link mit `after:absolute after:inset-0`                        |
+| Focus-Ring                | nicht spezifiziert     | `focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none` auf Link |
 
 ---
 
@@ -194,15 +196,15 @@ Statt `line-clamp-3` ohne Indikator: Gradient-Fade am Ende signalisiert "es gibt
 
 ## Zusammenfassung der Prioritäten
 
-| Priorität | Maßnahme | Aufwand |
-|---|---|---|
-| 🔴 Hoch | Footer-Leiste (Model + Buttons) konsolidieren | Mittel |
-| 🔴 Hoch | `AddToFavoriteButton` aus absoluter Position lösen | Gering |
-| 🟡 Mittel | Kategorie-Tags vor den Titel verschieben | Gering |
-| 🟡 Mittel | Accessibility: ARIA-Labels + Focus-Rings | Gering |
-| 🟡 Mittel | Hover: `translateY` + bessere Shadow | Gering |
-| 🟢 Nice-to-have | Kategorie-Farbakzent links | Mittel |
-| 🟢 Nice-to-have | Beschreibungs-Fade statt hartem Clip | Gering |
+| Priorität       | Maßnahme                                           | Aufwand |
+| --------------- | -------------------------------------------------- | ------- |
+| 🔴 Hoch         | Footer-Leiste (Model + Buttons) konsolidieren      | Mittel  |
+| 🔴 Hoch         | `AddToFavoriteButton` aus absoluter Position lösen | Gering  |
+| 🟡 Mittel       | Kategorie-Tags vor den Titel verschieben           | Gering  |
+| 🟡 Mittel       | Accessibility: ARIA-Labels + Focus-Rings           | Gering  |
+| 🟡 Mittel       | Hover: `translateY` + bessere Shadow               | Gering  |
+| 🟢 Nice-to-have | Kategorie-Farbakzent links                         | Mittel  |
+| 🟢 Nice-to-have | Beschreibungs-Fade statt hartem Clip               | Gering  |
 
 ---
 

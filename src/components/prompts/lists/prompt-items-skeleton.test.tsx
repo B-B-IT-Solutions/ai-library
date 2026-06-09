@@ -6,7 +6,7 @@ import { DListViewMode } from "@/data/types/domain/common";
 import { PromptItemsSkeleton } from "./prompt-items-skeleton";
 
 const assertRendered = () => {
-   const skeleton = screen.getByTestId("template-items-skeleton");
+   const skeleton = screen.getByTestId("prompt-items-skeleton");
    assertInDocument(skeleton);
 };
 

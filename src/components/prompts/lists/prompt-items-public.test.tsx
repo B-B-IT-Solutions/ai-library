@@ -18,7 +18,7 @@ const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
 >;
 
 const assertGridRendered = () => {
-   const items = screen.getByTestId("public-template-items-grid");
+   const items = screen.getByTestId("public-prompt-items-grid");
    assertInDocument(items);
 };
 

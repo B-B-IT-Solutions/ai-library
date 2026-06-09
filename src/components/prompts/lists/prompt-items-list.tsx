@@ -29,7 +29,7 @@ export const PromptItemsList = ({
    };
 
    return (
-      <div className="space-y-4" data-testid="template-items-list">
+      <div className="space-y-4" data-testid="prompt-items-list">
          {map(descriptors, (d, i) => item(d, i))}
       </div>
    );

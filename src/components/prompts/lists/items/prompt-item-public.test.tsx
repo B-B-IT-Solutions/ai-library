@@ -11,7 +11,7 @@ import mockRouter from "next-router-mock";
 import { PublicPromptItem } from "./prompt-item-public";
 
 const assertRendered = () => {
-   const itemCard = screen.getByTestId("public-template-item-card");
+   const itemCard = screen.getByTestId("public-prompt-item");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("public-use-prompt-btn");

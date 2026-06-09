@@ -9,7 +9,7 @@ import mockRouter from "next-router-mock";
 import { PromptItem } from "./prompt-item";
 
 const assertRendered = () => {
-   const entryCard = screen.getByTestId("template-item-card");
+   const entryCard = screen.getByTestId("prompt-item");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("use-prompt-btn");
@@ -61,7 +61,7 @@ describe("PromptItem ref tests", () => {
       renderWithReactQuery(<PromptItem prompt={prompt} ref={ref} />);
 
       await waitFor(() => {
-         const item = screen.getByTestId("template-item-card");
+         const item = screen.getByTestId("prompt-item");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(item);
       });

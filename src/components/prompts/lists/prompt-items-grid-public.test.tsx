@@ -4,13 +4,13 @@ import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { PublicPromptItemsGrid } from "./prompt-items-grid-public";
 
 const assertEmptyRendered = () => {
-   const empty = screen.getByTestId("template-items-empty");
+   const empty = screen.getByTestId("prompt-items-empty");
    assertInDocument(empty);
 };
 
 const assertRendered = () => {
-   const items = screen.getByTestId("public-template-items-grid");
-   const cards = screen.getAllByTestId("public-template-item-card");
+   const items = screen.getByTestId("public-prompt-items-grid");
+   const cards = screen.getAllByTestId("public-prompt-item");
 
    assertInDocument(items);
    expect(cards.length).toBeGreaterThan(0);

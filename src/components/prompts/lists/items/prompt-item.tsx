@@ -40,7 +40,7 @@ export const PromptItem = ({ prompt, currentCollection, ref }: Props) => {
       <Card
          ref={ref}
          className="group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
-         data-testid="template-item-card"
+         data-testid="prompt-item"
       >
          <CardHeader className="gap-2 p-5 pb-3">
             <div className="flex items-start justify-between gap-2">
