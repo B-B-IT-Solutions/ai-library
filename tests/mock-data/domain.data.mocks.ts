@@ -19,6 +19,7 @@ import {
    DCollection,
    DCollectionEntry,
    DCollectionPreview,
+   DCollectionsFilter,
    DCollectionsPage,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
@@ -279,6 +280,12 @@ export const dCollectionIds = (count = 3): string[] => {
 
 export const dCollections = (count = 3): DCollection[] => {
    return range(0, count).map((i) => dCollection(i));
+};
+
+export const dCollectionsFilter = (index = 1): DCollectionsFilter => {
+   return {
+      search: `search ${index}`,
+   };
 };
 
 export const dCollectionsPage = (count = 3): DCollectionsPage => {
