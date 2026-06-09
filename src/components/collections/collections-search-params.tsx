@@ -1,8 +1,6 @@
 import {
    createSearchParamsCache,
    type inferParserType,
-   parseAsArrayOf,
-   parseAsBoolean,
    parseAsString,
    parseAsStringEnum,
 } from "nuqs/server";
@@ -27,25 +25,11 @@ export const sortByParam = parseAsStringEnum<DListSortByMode>(
 
 export const f_searchParam = parseAsString.withDefault("");
 
-export const f_categoriesParam = parseAsArrayOf(parseAsString).withDefault([]);
-
-export const f_modelsParam = parseAsArrayOf(parseAsString).withDefault([]);
-
-export const f_collectionIdsParam = parseAsArrayOf(parseAsString).withDefault(
-   []
-);
-
-export const f_isFavoriteParam = parseAsBoolean.withDefault(false);
-
 export const collectionsSearchParams = {
    view: viewParam,
    group: groupByParam,
    sort: sortByParam,
    f_search: f_searchParam,
-   f_categories: f_categoriesParam,
-   f_models: f_modelsParam,
-   f_collectionIds: f_collectionIdsParam,
-   f_isFavorite: f_isFavoriteParam,
 };
 
 export type DCollectionsSearchParamsType = Partial<

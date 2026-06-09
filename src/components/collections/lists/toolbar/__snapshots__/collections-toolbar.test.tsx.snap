@@ -92,13 +92,6 @@ exports[`CollectionsToolbar rendering tests totalEntries 1 - test 1`] = `
         </button>
       </div>
     </div>
-    <span
-      class="text-sm text-slate-600"
-    >
-      1
-       
-      Sammlung
-    </span>
   </div>
 </div>
 `;
@@ -195,13 +188,6 @@ exports[`CollectionsToolbar rendering tests totalEntries 5 - test 1`] = `
         </button>
       </div>
     </div>
-    <span
-      class="text-sm text-slate-600"
-    >
-      1
-       
-      Sammlung
-    </span>
   </div>
 </div>
 `;
