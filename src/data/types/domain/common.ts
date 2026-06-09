@@ -32,3 +32,10 @@ export enum DListSortByMode {
    TITLE_DESC = "desc(title)",
    TITLE_ASC = "asc(title)",
 }
+
+export enum DCollectionsSortByMode {
+   DATE_DESC = "desc(createdAt)",
+   DATE_ASC = "asc(createdAt)",
+   NAME_DESC = "desc(name)",
+   NAME_ASC = "asc(name)",
+}

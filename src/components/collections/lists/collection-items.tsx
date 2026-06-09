@@ -6,8 +6,8 @@ import { useQueryState } from "nuqs";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadCollectionsPage } from "@/data/ts-queries/library";
-import { DListViewMode } from "@/data/types/domain/common";
 import { resolveSort } from "@/data/ts-queries/utils";
+import { DListViewMode } from "@/data/types/domain/common";
 import { CreateCollectionButton } from "../buttons";
 import { collectionsSearchParams } from "../collections-search-params";
 
@@ -19,19 +19,17 @@ type Props = {
 };
 
 export const CollectionItems = ({ viewMode }: Props) => {
-   const [search] = useQueryState("f_search", collectionsSearchParams["f_search"]);
+   const [search] = useQueryState(
+      "f_search",
+      collectionsSearchParams["f_search"]
+   );
    const [sortBy] = useQueryState("sort", collectionsSearchParams["sort"]);
 
-   const {
-      data,
-      fetchNextPage,
-      hasNextPage,
-      isFetching,
-      isLoading,
-   } = useInfiniteLoadCollectionsPage({
-      filters: search ? { search } : undefined,
-      sort: resolveSort(sortBy),
-   });
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+      useInfiniteLoadCollectionsPage({
+         filters: search ? { search } : undefined,
+         sort: resolveSort(sortBy),
+      });
 
    const collections = data?.pages.flatMap((page) => page.content) ?? [];
 
