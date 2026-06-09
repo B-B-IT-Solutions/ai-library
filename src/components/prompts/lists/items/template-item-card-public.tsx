@@ -84,7 +84,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
             <div className="flex items-start justify-between gap-2">
                {categories()}
                <AddToFavoriteButton
-                  descriptor={prompt}
+                  prompt={prompt}
                   variant="inline"
                   hideInactive={true}
                />

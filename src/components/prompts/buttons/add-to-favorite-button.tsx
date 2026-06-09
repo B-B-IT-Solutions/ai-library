@@ -13,23 +13,23 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    variant?: "card" | "inline";
    hideInactive?: boolean;
 };
 
 export const AddToFavoriteButton = ({
-   descriptor,
+   prompt,
    variant = "card",
    hideInactive = false,
 }: Props) => {
-   const [isFavorite, setFavorite] = useState<boolean>(descriptor.isFavorite);
+   const [isFavorite, setFavorite] = useState<boolean>(prompt.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
 
    const handleToggleFavorite = () => {
       const params: UpdateIsFavoriteParams = {
-         descriptorId: descriptor.id,
+         descriptorId: prompt.id,
          isFavorite: !isFavorite,
       };
       startTransition(async () => {
@@ -83,7 +83,7 @@ export const AddToFavoriteButton = ({
          aria-label={
             isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
-         aria-pressed={descriptor.isFavorite}
+         aria-pressed={prompt.isFavorite}
          data-testid="toggle-favorite-btn"
       >
          {icon()}
