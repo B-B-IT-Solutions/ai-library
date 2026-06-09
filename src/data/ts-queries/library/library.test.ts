@@ -1,12 +1,14 @@
 jest.mock("@/data/actions/collection");
 
 import {
+   InfiniteData,
    keepPreviousData,
    MutationFunctionContext,
    QueryClient,
    QueryFunction,
    QueryFunctionContext,
    QueryKey,
+   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
    UseMutationOptions,
 } from "@tanstack/react-query";
@@ -19,12 +21,15 @@ import {
    deleteCollection,
    getCollectionPreviews,
    getCollections,
+   getCollectionsPage,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
 import {
    DCollection,
    DCollectionPreview,
+   DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
@@ -32,6 +37,7 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createCollectionOptions,
    deleteCollectionOptions,
+   infiniteLoadCollectionsPageOptions,
    loadCollectionPreviewsOptions,
    loadCollectionsOptions,
    loadPromptCollectionIdsOptions,
@@ -40,6 +46,7 @@ import {
    updatePromptCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
+   useInfiniteLoadCollectionsPage,
    useLoadCollectionPreviews,
    useLoadCollections,
    useLoadPromptCollectionIds,
@@ -48,6 +55,7 @@ import {
 import {
    LoadCollectionIdsParams,
    LoadCollectionPreviewsParams,
+   LoadCollectionsPageParams,
    UpdateCollectionIdsParams,
 } from "./types";
 
@@ -60,6 +68,10 @@ const mutationContextMock: MutationFunctionContext = {
 
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
+>;
+
+const getCollectionsPageMock = getCollectionsPage as jest.MockedFunction<
+   typeof getCollectionsPage
 >;
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
@@ -131,6 +143,65 @@ describe("prefetch options tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
+   });
+});
+
+describe("infiniteLoadCollectionsPage hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("infiniteLoadCollectionsPageOptions - test", async () => {
+      const filters = dtestData.dCollectionsFilter();
+      const sort = dtestData.sort();
+      const params: LoadCollectionsPageParams = { filters, sort };
+
+      const expectedOptions: UndefinedInitialDataInfiniteOptions<
+         DCollectionsPage,
+         Error,
+         InfiniteData<DCollectionsPage, unknown>,
+         QueryKey,
+         number
+      > = {
+         queryKey: ["library", "collections-page", params],
+         queryFn: jest.fn(),
+         initialPageParam: 0,
+         getNextPageParam: jest.fn(),
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = infiniteLoadCollectionsPageOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useInfiniteLoadCollectionsPage test", async () => {
+      const page = dtestData.dCollectionsPage();
+      getCollectionsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dCollectionsFilter();
+      const sort = dtestData.sort();
+      const params: LoadCollectionsPageParams = { filters, sort };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useInfiniteLoadCollectionsPage(params)
+      );
+
+      const expectedQuery: DCollectionsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: params.filters,
+         sort: params.sort,
+      };
+
+      await waitFor(() => {
+         expect(result.current.data?.pageParams).toEqual([0]);
+         expect(result.current.data?.pages).toHaveLength(1);
+         expect(result.current.data?.pages[0]).toEqual(page);
+         expect(getCollectionsPageMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsPageMock).toHaveBeenCalledWith(expectedQuery);
+      });
    });
 });
 
