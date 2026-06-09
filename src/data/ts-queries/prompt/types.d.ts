@@ -7,6 +7,6 @@ export type LoadTemplateDescriptorsParams = {
 };
 
 export type UpdateIsFavoriteParams = {
-   descriptorId: string;
+   promptId: string;
    isFavorite: boolean;
 };

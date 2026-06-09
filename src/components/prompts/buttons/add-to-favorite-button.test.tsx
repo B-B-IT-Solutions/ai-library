@@ -151,7 +151,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         descriptorId: prompt.id,
+         promptId: prompt.id,
          isFavorite: true,
       };
 
@@ -198,7 +198,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         descriptorId: prompt.id,
+         promptId: prompt.id,
          isFavorite: false,
       };
 
@@ -244,7 +244,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         descriptorId: prompt.id,
+         promptId: prompt.id,
          isFavorite: true,
       };
 
@@ -286,7 +286,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         descriptorId: prompt.id,
+         promptId: prompt.id,
          isFavorite: true,
       };
 

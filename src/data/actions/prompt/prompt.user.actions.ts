@@ -223,17 +223,17 @@ export const downloadPrompt = async (
 };
 
 export const togglePromptFavorite = async (
-   descriptorId: string,
+   promptId: string,
    isFavorite: boolean
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(descriptorId)) {
+      if (!isValidUuid(promptId)) {
          throw new Error("Invalid Descriptor ID.");
       }
 
       const user = await requireUser();
       const service = getService();
-      await service.togglePromptFavorite(user.id, descriptorId, isFavorite);
+      await service.togglePromptFavorite(user.id, promptId, isFavorite);
 
       return {
          success: true,
