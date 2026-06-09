@@ -38,6 +38,7 @@ export const PromptMoreOptionsButton = ({
       if (open) {
          setIsMenuOpen(true);
       } else {
+         console.log("data");
          setTimeout(() => setIsMenuOpen(false), 200);
       }
    };
