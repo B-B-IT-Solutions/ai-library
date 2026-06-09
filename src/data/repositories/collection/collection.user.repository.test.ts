@@ -4,8 +4,9 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate, DCollectionsPageQuery } from "@/data/types/domain/collection";
 import {
+   LibraryCollectionCountArgs,
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
@@ -761,6 +762,100 @@ describe("pUpdatePromptCollections tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollectionEntry.createMany).toHaveBeenCalledWith(
          expectedCreateArgs
+      );
+   });
+});
+
+describe("pGetCollectionsPage tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("no query - default pagination and sort - test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+      prismaMock.libraryCollection.count.mockResolvedValue(collections.length);
+
+      const result = await collectionRepository.pGetCollectionsPage(userId);
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: { userId },
+         include: { _count: { select: { entries: true } } },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: LibraryCollectionCountArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+      expect(result.content).toEqual(toDCollections(collections));
+      expect(result.pageNumber).toBe(0);
+      expect(result.pageSize).toBe(20);
+      expect(result.numberOfElements).toBe(collections.length);
+   });
+
+   it("query with search filter - test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+      prismaMock.libraryCollection.count.mockResolvedValue(collections.length);
+
+      const query: DCollectionsPageQuery = {
+         filter: { search: "test" },
+      };
+
+      await collectionRepository.pGetCollectionsPage(userId, query);
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: {
+            userId,
+            OR: [
+               { name: { contains: "test", mode: "insensitive" } },
+               { description: { contains: "test", mode: "insensitive" } },
+            ],
+         },
+         include: { _count: { select: { entries: true } } },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+
+   it("query with sort - test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+      prismaMock.libraryCollection.count.mockResolvedValue(collections.length);
+
+      const query: DCollectionsPageQuery = {
+         sort: { field: "name", order: "asc" },
+      };
+
+      await collectionRepository.pGetCollectionsPage(userId, query);
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: { userId },
+         include: { _count: { select: { entries: true } } },
+         orderBy: { name: "asc" },
+         skip: 0,
+         take: 20,
+      };
+
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
       );
    });
 });

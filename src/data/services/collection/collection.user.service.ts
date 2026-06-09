@@ -4,6 +4,8 @@ import { CollectionRepository } from "@/data/repositories/collection";
 import {
    DCollection,
    DCollectionPreview,
+   DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 
@@ -12,6 +14,13 @@ export class CollectionService {
 
    constructor(collectionRepository: CollectionRepository) {
       this.collectionRepository = collectionRepository;
+   }
+
+   async getCollectionsPage(
+      userId: string,
+      query?: DCollectionsPageQuery
+   ): Promise<DCollectionsPage> {
+      return await this.collectionRepository.pGetCollectionsPage(userId, query);
    }
 
    async getCollections(userId: string): Promise<DCollection[]> {

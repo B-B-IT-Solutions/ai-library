@@ -3,6 +3,7 @@ export {
    preloadCollectionPreviewsOptions,
    useLoadCollections,
    useLoadCollectionPreviews,
+   useInfiniteLoadCollectionsPage,
    useCreateCollection,
    useDeleteCollection,
    useLoadPromptCollectionIds,

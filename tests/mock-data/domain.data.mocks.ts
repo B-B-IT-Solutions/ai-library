@@ -19,6 +19,7 @@ import {
    DCollection,
    DCollectionEntry,
    DCollectionPreview,
+   DCollectionsPage,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
@@ -278,6 +279,18 @@ export const dCollectionIds = (count = 3): string[] => {
 
 export const dCollections = (count = 3): DCollection[] => {
    return range(0, count).map((i) => dCollection(i));
+};
+
+export const dCollectionsPage = (count = 3): DCollectionsPage => {
+   const collections = dCollections(count);
+   return {
+      content: collections,
+      numberOfElements: collections.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
 };
 
 export const dCollection = (index = 1): DCollection => {

@@ -3,16 +3,31 @@
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError } from "@/data/actions/utils";
+import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DCollection,
    DCollectionPreview,
+   DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
+
+export const getCollectionsPage = async (
+   query?: DCollectionsPageQuery
+): Promise<DCollectionsPage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionsPage(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
+};
 
 export const getCollections = async (): Promise<DCollection[]> => {
    try {
