@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateItemsSkeleton rendering tests grid view - custom count - test 1`] = `
+exports[`PromptItemsSkeleton rendering tests grid view - custom count - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
@@ -199,7 +199,7 @@ exports[`TemplateItemsSkeleton rendering tests grid view - custom count - test 1
 </div>
 `;
 
-exports[`TemplateItemsSkeleton rendering tests grid view - default count - test 1`] = `
+exports[`PromptItemsSkeleton rendering tests grid view - default count - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
@@ -713,7 +713,7 @@ exports[`TemplateItemsSkeleton rendering tests grid view - default count - test 
 </div>
 `;
 
-exports[`TemplateItemsSkeleton rendering tests list view - default count - test 1`] = `
+exports[`PromptItemsSkeleton rendering tests list view - default count - test 1`] = `
 <div>
   <div
     class="space-y-4"

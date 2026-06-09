@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateItemsPublic rendering tests view grid - test 1`] = `
+exports[`PublicPromptItems rendering tests view grid - test 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"

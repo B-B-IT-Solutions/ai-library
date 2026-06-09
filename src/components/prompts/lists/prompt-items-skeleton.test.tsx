@@ -3,17 +3,17 @@ import { assertInDocument } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { TemplateItemsSkeleton } from "./prompt-items-skeleton";
+import { PromptItemsSkeleton } from "./prompt-items-skeleton";
 
 const assertRendered = () => {
    const skeleton = screen.getByTestId("template-items-skeleton");
    assertInDocument(skeleton);
 };
 
-describe("TemplateItemsSkeleton rendering tests", () => {
+describe("PromptItemsSkeleton rendering tests", () => {
    it("grid view - default count - test", async () => {
       const { container } = render(
-         <TemplateItemsSkeleton viewMode={DListViewMode.GRID} />
+         <PromptItemsSkeleton viewMode={DListViewMode.GRID} />
       );
 
       assertRendered();
@@ -22,7 +22,7 @@ describe("TemplateItemsSkeleton rendering tests", () => {
 
    it("list view - default count - test", async () => {
       const { container } = render(
-         <TemplateItemsSkeleton viewMode={DListViewMode.LIST} />
+         <PromptItemsSkeleton viewMode={DListViewMode.LIST} />
       );
 
       assertRendered();
@@ -31,7 +31,7 @@ describe("TemplateItemsSkeleton rendering tests", () => {
 
    it("grid view - custom count - test", async () => {
       const { container } = render(
-         <TemplateItemsSkeleton viewMode={DListViewMode.GRID} count={3} />
+         <PromptItemsSkeleton viewMode={DListViewMode.GRID} count={3} />
       );
 
       assertRendered();

@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { PublicTemplateItems } from "@/components/prompts/lists";
+import { PublicPromptItems } from "@/components/prompts/lists";
 import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
@@ -51,7 +51,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
             </div>
 
             <div className="container mx-auto max-w-6xl px-4 py-8">
-               <PublicTemplateItems
+               <PublicPromptItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

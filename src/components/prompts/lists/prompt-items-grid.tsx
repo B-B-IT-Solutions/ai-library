@@ -11,7 +11,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsGrid = ({
+export const PromptItemsGrid = ({
    descriptors,
    currentColleciton,
    ref,

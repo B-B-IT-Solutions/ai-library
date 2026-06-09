@@ -9,7 +9,7 @@ type Props = {
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemsGrid = ({
+export const PublicPromptItemsGrid = ({
    descriptors,
    collectionToken,
 }: Props) => {

@@ -11,7 +11,7 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { PublicTemplateItems } from "./prompt-items-public";
+import { PublicPromptItems } from "./prompt-items-public";
 
 const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
    typeof getPublicPromptsPage
@@ -29,7 +29,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getPublicPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("TemplateItemsPublic rendering tests", () => {
+describe("PublicPromptItems rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dPromptsPage();
       getPublicPromptsPageMock.mockResolvedValue(page);
@@ -43,7 +43,7 @@ describe("TemplateItemsPublic rendering tests", () => {
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
-         <PublicTemplateItems
+         <PublicPromptItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}

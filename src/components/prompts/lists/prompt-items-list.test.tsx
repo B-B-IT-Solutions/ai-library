@@ -2,19 +2,19 @@ import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { TemplateItemsList } from "./prompt-items-list";
+import { PromptItemsList } from "./prompt-items-list";
 
 const assertRendered = () => {
    const entries = screen.getByTestId("template-items-list");
    assertInDocument(entries);
 };
 
-describe("TemplateItemsList rendering tests", () => {
+describe("PromptItemsList rendering tests", () => {
    it("prompts - collecitonId undefined - test", async () => {
       const prompts = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemsList descriptors={prompts} />
+         <PromptItemsList descriptors={prompts} />
       );
 
       await waitFor(() => {
@@ -29,7 +29,7 @@ describe("TemplateItemsList rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemsList
+         <PromptItemsList
             descriptors={prompts}
             currentColleciton={collection}
          />
@@ -43,13 +43,13 @@ describe("TemplateItemsList rendering tests", () => {
    });
 });
 
-describe("TemplateItemsList ref tests", () => {
+describe("PromptItemsList ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
-         <TemplateItemsList descriptors={descriptors} ref={ref} />
+         <PromptItemsList descriptors={descriptors} ref={ref} />
       );
 
       await waitFor(() => {

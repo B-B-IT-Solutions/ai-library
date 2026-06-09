@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { TemplateItems } from "./prompt-items";
+import { PromptItems } from "./prompt-items";
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
    typeof getCollectionPreviews
@@ -50,7 +50,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("TemplateItems rendering tests", () => {
+describe("PromptItems rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -61,7 +61,7 @@ describe("TemplateItems rendering tests", () => {
       getCollectionPreviewsMock.mockResolvedValue([]);
 
       const { container } = renderWithRouter(
-         <TemplateItems
+         <PromptItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
@@ -84,7 +84,7 @@ describe("TemplateItems rendering tests", () => {
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
-         <TemplateItems
+         <PromptItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
@@ -108,7 +108,7 @@ describe("TemplateItems rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithRouter(
-         <TemplateItems
+         <PromptItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
@@ -142,7 +142,7 @@ describe("TemplateItems rendering tests", () => {
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(
-         <TemplateItems
+         <PromptItems
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_ASC}
