@@ -4,7 +4,7 @@ import {
    DeletePromptButton,
    DownloadPromptButton,
    EditPromptButton,
-   UseTemplateButton,
+   UsePromptButton,
 } from "../../../buttons";
 
 type Props = {
@@ -18,7 +18,7 @@ export const PromptSidebar = ({ prompt, currentCollection }: Props) => {
          className="space-y-3 lg:sticky lg:top-8 lg:self-start"
          data-testid="prompt-sidebar"
       >
-         <UseTemplateButton
+         <UsePromptButton
             descriptor={prompt}
             className="w-full justify-start py-5 text-sm"
          />

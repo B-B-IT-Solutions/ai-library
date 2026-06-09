@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { PublicTemplateItemsGrid } from "./template-items-grid-public";
+import { PublicPromptItemsGrid } from "./prompt-items-grid-public";
 
 type Props = {
    viewMode: DListViewMode;
@@ -23,7 +23,7 @@ type Props = {
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItems = ({
+export const PublicPromptItems = ({
    viewMode,
    groupBy,
    sortBy,
@@ -59,7 +59,7 @@ export const PublicTemplateItems = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <PublicTemplateItemsGrid
+         <PublicPromptItemsGrid
             descriptors={entries}
             collectionToken={collectionToken}
          />

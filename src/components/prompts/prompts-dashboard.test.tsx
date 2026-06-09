@@ -77,7 +77,7 @@ const assertRendered = () => {
    const dashboard = screen.getByTestId("prompts-dashboard");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const toolbar = screen.getByTestId("prompts-toolbar");
-   const entries = screen.getByTestId("template-items-grid");
+   const entries = screen.getByTestId("prompt-items-grid");
 
    assertInDocument(dashboard);
    assertInDocument(createPromptBtn);

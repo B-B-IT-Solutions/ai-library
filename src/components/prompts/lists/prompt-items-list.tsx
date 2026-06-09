@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { TemplateItemCard } from "./items";
+import { PromptItem } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
@@ -11,7 +11,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemsGrid = ({
+export const PromptItemsList = ({
    descriptors,
    currentColleciton,
    ref,
@@ -19,7 +19,7 @@ export const TemplateItemsGrid = ({
    const item = (descriptor: DPrompt, index: number) => {
       const isLast = index === descriptors.length - 1;
       return (
-         <TemplateItemCard
+         <PromptItem
             key={descriptor.id}
             prompt={descriptor}
             currentCollection={currentColleciton}
@@ -29,10 +29,7 @@ export const TemplateItemsGrid = ({
    };
 
    return (
-      <div
-         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="template-items-grid"
-      >
+      <div className="space-y-4" data-testid="prompt-items-list">
          {map(descriptors, (d, i) => item(d, i))}
       </div>
    );

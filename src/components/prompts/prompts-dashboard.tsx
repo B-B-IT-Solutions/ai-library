@@ -15,7 +15,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { CreatePromptButton } from "./buttons";
-import { PromptsToolbar, TemplateItems } from "./lists";
+import { PromptItems, PromptsToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
 export const PromptsDashboard = async () => {
@@ -79,7 +79,7 @@ export const PromptsDashboard = async () => {
             />
 
             <div className="flex-1 overflow-y-auto p-6">
-               <TemplateItems
+               <PromptItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

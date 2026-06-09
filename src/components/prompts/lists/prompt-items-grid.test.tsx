@@ -2,21 +2,19 @@ import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { TemplateItemsGrid } from "./template-items-grid";
+import { PromptItemsGrid } from "./prompt-items-grid";
 
 const assertRendered = () => {
-   const entries = screen.getByTestId("template-items-grid");
+   const entries = screen.getByTestId("prompt-items-grid");
    assertInDocument(entries);
 };
 
-describe("TemplateItemsGrid rendering tests", () => {
+describe("PromptItemsGrid rendering tests", () => {
    it("prompt - collectionId undefined - test", async () => {
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemsGrid
-            descriptors={descriptors}
-         />
+         <PromptItemsGrid descriptors={descriptors} />
       );
 
       await waitFor(() => {
@@ -31,7 +29,7 @@ describe("TemplateItemsGrid rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemsGrid
+         <PromptItemsGrid
             descriptors={descriptors}
             currentColleciton={collection}
          />
@@ -45,20 +43,17 @@ describe("TemplateItemsGrid rendering tests", () => {
    });
 });
 
-describe("TemplateItemsGrid ref tests", () => {
+describe("PromptItemsGrid ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const descriptors = dtestData.dPrompts(); // 3 items
 
       renderWithReactQuery(
-         <TemplateItemsGrid
-            descriptors={descriptors}
-            ref={ref}
-         />
+         <PromptItemsGrid descriptors={descriptors} ref={ref} />
       );
 
       await waitFor(() => {
-         const items = screen.getAllByTestId("template-item-card");
+         const items = screen.getAllByTestId("prompt-item");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(items[items.length - 1]);
       });

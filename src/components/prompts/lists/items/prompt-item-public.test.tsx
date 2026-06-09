@@ -8,10 +8,10 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { PublicTemplateItemCard } from "./template-item-card-public";
+import { PublicPromptItem } from "./prompt-item-public";
 
 const assertRendered = () => {
-   const itemCard = screen.getByTestId("public-template-item-card");
+   const itemCard = screen.getByTestId("public-prompt-item");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("public-use-prompt-btn");
@@ -40,15 +40,12 @@ const assertDropdownMenuItemsNotRendered = () => {
    assertNotInDocument(downloadMenuItem);
 };
 
-describe("PublicTemplateItemCard rendering tests", () => {
+describe("PromptItem rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
-         <PublicTemplateItemCard
-            prompt={prompt}
-            collectionToken="public-token-1"
-         />
+         <PublicPromptItem prompt={prompt} collectionToken="public-token-1" />
       );
 
       await waitFor(() => {
@@ -59,7 +56,7 @@ describe("PublicTemplateItemCard rendering tests", () => {
    });
 });
 
-describe("PublicTemplateItemCard functionality tests", () => {
+describe("PromptItem functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
@@ -70,10 +67,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
       const collectionToken = "public-token-1";
 
       renderWithReactQuery(
-         <PublicTemplateItemCard
-            prompt={prompt}
-            collectionToken={collectionToken}
-         />
+         <PublicPromptItem prompt={prompt} collectionToken={collectionToken} />
       );
 
       await waitFor(() => {
@@ -95,7 +89,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
    it("dropdown - view detail link clicked - test", async () => {
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(<PublicTemplateItemCard prompt={prompt} />);
+      renderWithReactQuery(<PublicPromptItem prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

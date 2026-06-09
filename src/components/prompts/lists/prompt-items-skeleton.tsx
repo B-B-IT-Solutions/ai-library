@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { Skeleton } from "@/components/shadcn/skeleton";
 import { DListViewMode } from "@/data/types/domain/common";
 
-const TemplateItemCardSkeleton = () => (
+const PromptItemSkeleton = () => (
    <Card className="gap-0 rounded-lg border border-slate-300 bg-white p-0">
       <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
          <Skeleton className="h-6 w-3/4" />
@@ -33,17 +33,12 @@ type Props = {
    count?: number;
 };
 
-export const TemplateItemsSkeleton = ({
-   viewMode,
-   count = 8,
-}: Props) => {
-   const cards = range(count).map((i) => (
-      <TemplateItemCardSkeleton key={i} />
-   ));
+export const PromptItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
+   const cards = range(count).map((i) => <PromptItemSkeleton key={i} />);
 
    if (viewMode === DListViewMode.LIST) {
       return (
-         <div className="space-y-4" data-testid="template-items-skeleton">
+         <div className="space-y-4" data-testid="prompt-items-skeleton">
             {cards}
          </div>
       );
@@ -52,7 +47,7 @@ export const TemplateItemsSkeleton = ({
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="template-items-skeleton"
+         data-testid="prompt-items-skeleton"
       >
          {cards}
       </div>

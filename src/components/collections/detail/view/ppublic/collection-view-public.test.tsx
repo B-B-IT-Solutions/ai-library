@@ -15,7 +15,7 @@ const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
 const assertRendered = () => {
    const view = screen.getByTestId("collection-view-public");
    const header = screen.getByTestId("collection-header-public");
-   const items = screen.getByTestId("public-template-items-grid");
+   const items = screen.getByTestId("public-prompt-items-grid");
 
    assertInDocument(view);
    assertInDocument(header);

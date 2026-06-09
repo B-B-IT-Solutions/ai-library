@@ -1,25 +1,25 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { PublicTemplateItemsGrid } from "./template-items-grid-public";
+import { PublicPromptItemsGrid } from "./prompt-items-grid-public";
 
 const assertEmptyRendered = () => {
-   const empty = screen.getByTestId("template-items-empty");
+   const empty = screen.getByTestId("prompt-items-empty");
    assertInDocument(empty);
 };
 
 const assertRendered = () => {
-   const items = screen.getByTestId("public-template-items-grid");
-   const cards = screen.getAllByTestId("public-template-item-card");
+   const items = screen.getByTestId("public-prompt-items-grid");
+   const cards = screen.getAllByTestId("public-prompt-item");
 
    assertInDocument(items);
    expect(cards.length).toBeGreaterThan(0);
 };
 
-describe("PublicTemplateItemsGrid rendering tests", () => {
+describe("PublicPromptItemsGrid rendering tests", () => {
    it("descriptors - empty - test", async () => {
       const { container } = renderWithReactQuery(
-         <PublicTemplateItemsGrid descriptors={[]} />
+         <PublicPromptItemsGrid descriptors={[]} />
       );
 
       await waitFor(() => {
@@ -33,7 +33,7 @@ describe("PublicTemplateItemsGrid rendering tests", () => {
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <PublicTemplateItemsGrid
+         <PublicPromptItemsGrid
             descriptors={descriptors}
             collectionToken="public-token-1"
          />

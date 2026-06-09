@@ -2,14 +2,14 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { PublicTemplateItemCard } from "./items";
+import { PublicPromptItem } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemsGrid = ({
+export const PublicPromptItemsGrid = ({
    descriptors,
    collectionToken,
 }: Props) => {
@@ -17,7 +17,7 @@ export const PublicTemplateItemsGrid = ({
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="template-items-empty"
+            data-testid="prompt-items-empty"
          >
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
@@ -32,10 +32,10 @@ export const PublicTemplateItemsGrid = ({
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="public-template-items-grid"
+         data-testid="public-prompt-items-grid"
       >
          {map(descriptors, (prompt) => (
-            <PublicTemplateItemCard
+            <PublicPromptItem
                key={prompt.id}
                prompt={prompt}
                collectionToken={collectionToken}

@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { PromptsToolbar, TemplateItems } from "@/components/prompts/lists";
+import { PromptItems, PromptsToolbar } from "@/components/prompts/lists";
 import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getPromptCategories, getPromptModels } from "@/data/actions/prompt";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
@@ -62,7 +62,7 @@ export const CollectionView = async ({ collection }: Props) => {
             />
 
             <div className="flex-1 overflow-y-auto px-8 py-6">
-               <TemplateItems
+               <PromptItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

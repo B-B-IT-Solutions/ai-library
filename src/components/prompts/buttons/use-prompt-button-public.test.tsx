@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPublicPromptGenerationData } from "@/data/actions/prompt";
 
-import { PublicUseTemplateButton } from "./use-prompt-button-public";
+import { PublicUsePromptButton } from "./use-prompt-button-public";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -33,14 +33,14 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("PublicUseTemplateButton rendering tests", () => {
+describe("PublicUsePromptButton rendering tests", () => {
    it("with fields - rendered test", async () => {
       const data = dtestData.dPromptGenerationData();
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
-         <PublicUseTemplateButton descriptor={descriptor} />
+         <PublicUsePromptButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -57,7 +57,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
-         <PublicUseTemplateButton descriptor={descriptor} />
+         <PublicUsePromptButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -73,7 +73,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
 
       const descriptor = dtestData.dPrompt();
       const { container } = render(
-         <PublicUseTemplateButton
+         <PublicUsePromptButton
             descriptor={descriptor}
             className="custom-class"
          />
@@ -89,7 +89,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
    });
 });
 
-describe("PublicUseTemplateButton functionality - tests", () => {
+describe("PublicUsePromptButton functionality - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -99,7 +99,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPrompt();
 
-      render(<PublicUseTemplateButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -128,7 +128,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPrompt();
 
-      render(<PublicUseTemplateButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -148,7 +148,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPrompt();
 
-      render(<PublicUseTemplateButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();

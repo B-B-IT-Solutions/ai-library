@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import {
    AddToFavoriteButton,
    DownloadPromptButton,
-   PublicUseTemplateButton,
+   PublicUsePromptButton,
 } from "../../buttons";
 
 type Props = {
@@ -24,7 +24,7 @@ type Props = {
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
+export const PublicPromptItem = ({ prompt, collectionToken }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
@@ -78,7 +78,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
    return (
       <Card
          className="group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
-         data-testid="public-template-item-card"
+         data-testid="public-prompt-item"
       >
          <CardHeader className="gap-2 p-5 pb-3">
             <div className="flex items-start justify-between gap-2">
@@ -118,7 +118,7 @@ export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
                   "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
                )}
             >
-               <PublicUseTemplateButton descriptor={prompt} />
+               <PublicUsePromptButton descriptor={prompt} />
                {dropdownMenu()}
             </div>
          </div>

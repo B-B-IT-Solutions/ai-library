@@ -14,9 +14,9 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { TemplateItemsGrid } from "./template-items-grid";
-import { TemplateItemsList } from "./template-items-list";
-import { TemplateItemsSkeleton } from "./template-items-skeleton";
+import { PromptItemsGrid } from "./prompt-items-grid";
+import { PromptItemsList } from "./prompt-items-list";
+import { PromptItemsSkeleton } from "./prompt-items-skeleton";
 
 type Props = {
    viewMode: DListViewMode;
@@ -26,7 +26,7 @@ type Props = {
    currentCollection?: DCollectionPreview;
 };
 
-export const TemplateItems = ({
+export const PromptItems = ({
    viewMode,
    sortBy,
    filters,
@@ -53,7 +53,7 @@ export const TemplateItems = ({
    );
 
    if (isLoading) {
-      return <TemplateItemsSkeleton viewMode={viewMode} />;
+      return <PromptItemsSkeleton viewMode={viewMode} />;
    }
 
    if (isEmpty(prompts)) {
@@ -96,7 +96,7 @@ export const TemplateItems = ({
             next={fetchNextPage}
             threshold={0.1}
          >
-            <TemplateItemsList
+            <PromptItemsList
                descriptors={prompts}
                currentColleciton={currentCollection}
             />
@@ -111,7 +111,7 @@ export const TemplateItems = ({
          next={fetchNextPage}
          threshold={0.1}
       >
-         <TemplateItemsGrid
+         <PromptItemsGrid
             descriptors={prompts}
             currentColleciton={currentCollection}
          />
