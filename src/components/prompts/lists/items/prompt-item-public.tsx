@@ -24,7 +24,7 @@ type Props = {
    collectionToken?: string | null;
 };
 
-export const PublicTemplateItemCard = ({ prompt, collectionToken }: Props) => {
+export const PublicPromptItem = ({ prompt, collectionToken }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;

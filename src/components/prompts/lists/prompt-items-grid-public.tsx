@@ -2,7 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { PublicTemplateItemCard } from "./items";
+import { PublicPromptItem } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
@@ -35,7 +35,7 @@ export const PublicPromptItemsGrid = ({
          data-testid="public-template-items-grid"
       >
          {map(descriptors, (prompt) => (
-            <PublicTemplateItemCard
+            <PublicPromptItem
                key={prompt.id}
                prompt={prompt}
                collectionToken={collectionToken}

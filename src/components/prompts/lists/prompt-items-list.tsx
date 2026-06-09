@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { TemplateItemCard } from "./items";
+import { PromptItem } from "./items";
 
 type Props = {
    descriptors: DPrompt[];
@@ -19,7 +19,7 @@ export const PromptItemsList = ({
    const item = (descriptor: DPrompt, index: number) => {
       const isLast = index === descriptors.length - 1;
       return (
-         <TemplateItemCard
+         <PromptItem
             key={descriptor.id}
             prompt={descriptor}
             currentCollection={currentColleciton}

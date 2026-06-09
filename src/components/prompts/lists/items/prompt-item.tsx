@@ -18,7 +18,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const TemplateItemCard = ({ prompt, currentCollection, ref }: Props) => {
+export const PromptItem = ({ prompt, currentCollection, ref }: Props) => {
    const viewUrl = viewPromptUrl(prompt, currentCollection);
 
    const categories = () => {

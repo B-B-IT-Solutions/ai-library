@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { TemplateItemCard } from "./template-item-card";
+import { PromptItem } from "./prompt-item";
 
 const assertRendered = () => {
    const entryCard = screen.getByTestId("template-item-card");
@@ -22,12 +22,12 @@ const assertRendered = () => {
    assertInDocument(moreOptionsBtn);
 };
 
-describe("TemplateItemCard rendering tests", () => {
+describe("PromptItem rendering tests", () => {
    it("currentCollection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemCard prompt={prompt} />
+         <PromptItem prompt={prompt} />
       );
 
       await waitFor(() => {
@@ -42,10 +42,7 @@ describe("TemplateItemCard rendering tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemCard
-            prompt={prompt}
-            currentCollection={collection}
-         />
+         <PromptItem prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {
@@ -56,17 +53,12 @@ describe("TemplateItemCard rendering tests", () => {
    });
 });
 
-describe("TemplateItemCard ref tests", () => {
+describe("PromptItem ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = React.createRef<HTMLDivElement>();
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(
-         <TemplateItemCard
-            prompt={prompt}
-            ref={ref}
-         />
-      );
+      renderWithReactQuery(<PromptItem prompt={prompt} ref={ref} />);
 
       await waitFor(() => {
          const item = screen.getByTestId("template-item-card");
@@ -76,7 +68,7 @@ describe("TemplateItemCard ref tests", () => {
    });
 });
 
-describe("TemplateItemCard functionality tests", () => {
+describe("PromptItem functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
@@ -85,9 +77,7 @@ describe("TemplateItemCard functionality tests", () => {
    it("title - view detail link clicked - currentCollection undefined - test", async () => {
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(
-         <TemplateItemCard prompt={prompt} />
-      );
+      renderWithReactQuery(<PromptItem prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -107,10 +97,7 @@ describe("TemplateItemCard functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       renderWithReactQuery(
-         <TemplateItemCard
-            prompt={prompt}
-            currentCollection={collection}
-         />
+         <PromptItem prompt={prompt} currentCollection={collection} />
       );
 
       await waitFor(() => {

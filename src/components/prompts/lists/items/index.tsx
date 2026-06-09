@@ -1,2 +1,2 @@
-export { TemplateItemCard } from "./template-item-card";
-export { PublicTemplateItemCard } from "./template-item-card-public";
+export { PromptItem } from "./prompt-item";
+export { PublicPromptItem } from "./prompt-item-public";
