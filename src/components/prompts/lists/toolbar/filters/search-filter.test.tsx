@@ -8,7 +8,11 @@ jest.mock("use-debounce", () => ({
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderWithRouter } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   renderWithRouter,
+} from "@tests";
 
 import { SearchFilter } from "./search-filter";
 
@@ -18,6 +22,16 @@ const assertRendered = () => {
 
    assertInDocument(filter);
    assertInDocument(input);
+};
+
+const assertClearButtonRendered = () => {
+   const btn = screen.getByTestId("clear-btn");
+   assertInDocument(btn);
+};
+
+const assertClearButtonNotRendered = () => {
+   const btn = screen.queryByTestId("clear-btn");
+   assertNotInDocument(btn);
 };
 
 const assertFilterValue = (value: string) => {
@@ -30,7 +44,19 @@ describe("SearchFilter rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("search test-1 - test", async () => {
+   it("empty - test", async () => {
+      const { container } = renderWithRouter(<SearchFilter />, "/", "");
+
+      await waitFor(() => {
+         assertRendered();
+         assertClearButtonNotRendered();
+         assertFilterValue("");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("search with value - test", async () => {
       const { container } = renderWithRouter(
          <SearchFilter />,
          "/",
@@ -39,22 +65,8 @@ describe("SearchFilter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertClearButtonRendered();
          assertFilterValue("test-1");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("search test-2 - test", async () => {
-      const { container } = renderWithRouter(
-         <SearchFilter />,
-         "/",
-         "f_search=test-2"
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertFilterValue("test-2");
       });
 
       expect(container).toMatchSnapshot();
@@ -72,6 +84,7 @@ describe("SearchFilter functinality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertClearButtonNotRendered();
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
@@ -81,10 +94,33 @@ describe("SearchFilter functinality tests", () => {
 
       await waitFor(() => {
          assertFilterValue(value);
+         assertClearButtonRendered();
          expect(onUrlUpdateFn).toHaveBeenCalled();
       });
 
       const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
       expect(lastCall.queryString).toContain("f_search=test-789");
+   });
+
+   it("clear btn click - test", async () => {
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<SearchFilter />, "/", "f_search=test-2", onUrlUpdateFn);
+
+      await waitFor(() => {
+         assertRendered();
+         assertClearButtonRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+      });
+
+      const clearButton = screen.getByTestId("clear-btn");
+      await userEvent.click(clearButton);
+
+      await waitFor(() => {
+         assertClearButtonNotRendered();
+         expect(onUrlUpdateFn).toHaveBeenCalled();
+      });
+
+      const lastCall = onUrlUpdateFn.mock.calls.at(-1)![0]!;
+      expect(lastCall.queryString).not.toContain("f_search=");
    });
 });

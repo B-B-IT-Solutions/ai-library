@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -28,6 +28,12 @@ export const SearchFilter = () => {
       updateUrl(value);
    };
 
+   const handleClear = () => {
+      updateUrl.cancel();
+      setSearch("");
+      setUrlSearch("");
+   };
+
    return (
       <div className="relative w-full" data-testid="search-filter">
          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -35,9 +41,19 @@ export const SearchFilter = () => {
             placeholder="Vorlagen durchsuchen..."
             value={search}
             onChange={(e) => handleChange(e.target.value)}
-            className="pl-9"
+            className="pr-9 pl-9"
             data-testid="input"
          />
+         {search && (
+            <button
+               onClick={handleClear}
+               className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+               aria-label="Suche löschen"
+               data-testid="clear-btn"
+            >
+               <X className="h-4 w-4" />
+            </button>
+         )}
       </div>
    );
 };
