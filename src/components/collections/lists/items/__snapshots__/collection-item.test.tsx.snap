@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CollectionCard rendering tests description null - test 1`] = `
+exports[`CollectionItem rendering tests description null - test 1`] = `
 <div>
   <div
     class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-    data-testid="collection-item-card"
+    data-testid="collection-item"
   >
     <div
       class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -139,11 +139,11 @@ exports[`CollectionCard rendering tests description null - test 1`] = `
 </div>
 `;
 
-exports[`CollectionCard rendering tests isPublic false - test 1`] = `
+exports[`CollectionItem rendering tests isPublic false - test 1`] = `
 <div>
   <div
     class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-    data-testid="collection-item-card"
+    data-testid="collection-item"
   >
     <div
       class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -283,11 +283,11 @@ exports[`CollectionCard rendering tests isPublic false - test 1`] = `
 </div>
 `;
 
-exports[`CollectionCard rendering tests isPublic true - test 1`] = `
+exports[`CollectionItem rendering tests isPublic true - test 1`] = `
 <div>
   <div
     class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-    data-testid="collection-item-card"
+    data-testid="collection-item"
   >
     <div
       class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"

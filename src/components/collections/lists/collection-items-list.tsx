@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 
 import { DCollection } from "@/data/types/domain/collection";
 
-import { CollectionCard } from "./items";
+import { CollectionItem } from "./items";
 
 type Props = {
    collections: DCollection[];
@@ -13,7 +13,7 @@ export const CollectionItemsList = ({ collections, ref }: Props) => {
    const item = (collection: DCollection, index: number) => {
       const isLast = index === collections.length - 1;
       return (
-         <CollectionCard
+         <CollectionItem
             key={collection.id}
             collection={collection}
             ref={isLast ? ref : undefined}

@@ -6,7 +6,7 @@ import { CollectionItemsList } from "./collection-items-list";
 
 const assertRendered = () => {
    const items = screen.getByTestId("collection-items-list");
-   const cards = screen.getAllByTestId("collection-item-card");
+   const cards = screen.getAllByTestId("collection-item");
 
    assertInDocument(items);
    expect(cards.length).toBeGreaterThan(0);
@@ -38,7 +38,7 @@ describe("CollectionItemsList ref tests", () => {
       );
 
       await waitFor(() => {
-         const items = screen.getAllByTestId("collection-item-card");
+         const items = screen.getAllByTestId("collection-item");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(items[items.length - 1]);
       });

@@ -10,14 +10,14 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CollectionCard = ({ collection, ref }: Props) => {
+export const CollectionItem = ({ collection, ref }: Props) => {
    const iconColor = collection.color;
 
    return (
       <div
          ref={ref}
          className="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-         data-testid="collection-item-card"
+         data-testid="collection-item"
       >
          {/* Actions Menu – only on hover */}
          <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">

@@ -7,26 +7,18 @@ import { CollectionsToolbar } from "./collections-toolbar";
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("collections-toolbar");
+   const searchFilter = screen.getByTestId("search-filter");
+   const sortBySelect = screen.getByTestId("sort-by-select");
    const viewToggle = screen.getByTestId("view-toggle");
 
    assertInDocument(toolbar);
+   assertInDocument(searchFilter);
+   assertInDocument(sortBySelect);
    assertInDocument(viewToggle);
 };
 
 describe("CollectionsToolbar rendering tests", () => {
-   it("totalEntries 1 - test", async () => {
-      const { container } = renderWithRouter(
-         <CollectionsToolbar viewMode={DListViewMode.GRID} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("totalEntries 5 - test", async () => {
+   it("render test", async () => {
       const { container } = renderWithRouter(
          <CollectionsToolbar viewMode={DListViewMode.GRID} />
       );

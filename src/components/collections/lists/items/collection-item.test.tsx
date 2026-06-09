@@ -5,10 +5,10 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { CollectionCard } from "./collection-card";
+import { CollectionItem } from "./collection-item";
 
 const assertRendered = () => {
-   const card = screen.getByTestId("collection-item-card");
+   const card = screen.getByTestId("collection-item");
    const link = screen.getByTestId("collection-link");
    const name = screen.getByTestId("name");
    const moreOptionsBtn = screen.getByTestId("more-options-btn");
@@ -19,13 +19,13 @@ const assertRendered = () => {
    assertInDocument(moreOptionsBtn);
 };
 
-describe("CollectionCard rendering tests", () => {
+describe("CollectionItem rendering tests", () => {
    it("isPublic true - test", async () => {
       const collection = dtestData.dCollection(1);
       collection.isPublic = true;
       collection.templateCount = 1;
 
-      const { container } = render(<CollectionCard collection={collection} />);
+      const { container } = render(<CollectionItem collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -39,7 +39,7 @@ describe("CollectionCard rendering tests", () => {
       collection.isPublic = false;
       collection.templateCount = 5;
 
-      const { container } = render(<CollectionCard collection={collection} />);
+      const { container } = render(<CollectionItem collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -52,7 +52,7 @@ describe("CollectionCard rendering tests", () => {
       const collection = dtestData.dCollection(1);
       collection.description = null;
 
-      const { container } = render(<CollectionCard collection={collection} />);
+      const { container } = render(<CollectionItem collection={collection} />);
 
       await waitFor(() => {
          assertRendered();
@@ -62,22 +62,22 @@ describe("CollectionCard rendering tests", () => {
    });
 });
 
-describe("CollectionCard ref tests", () => {
+describe("CollectionItem ref tests", () => {
    it("ref is forwarded to the Item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const collection = dtestData.dCollection(1);
 
-      render(<CollectionCard collection={collection} ref={ref} />);
+      render(<CollectionItem collection={collection} ref={ref} />);
 
       await waitFor(() => {
-         const item = screen.getByTestId("collection-item-card");
+         const item = screen.getByTestId("collection-item");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(item);
       });
    });
 });
 
-describe("CollectionCard functionality tests", () => {
+describe("CollectionItem functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/collections");
@@ -85,7 +85,7 @@ describe("CollectionCard functionality tests", () => {
 
    it("card clicked - navigates to collection - test", async () => {
       const collection = dtestData.dCollection(1);
-      render(<CollectionCard collection={collection} />);
+      render(<CollectionItem collection={collection} />);
 
       await waitFor(() => {
          assertRendered();

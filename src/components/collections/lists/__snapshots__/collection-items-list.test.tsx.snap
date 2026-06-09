@@ -8,7 +8,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
   >
     <div
       class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-      data-testid="collection-item-card"
+      data-testid="collection-item"
     >
       <div
         class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -147,7 +147,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
     </div>
     <div
       class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-      data-testid="collection-item-card"
+      data-testid="collection-item"
     >
       <div
         class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -286,7 +286,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
     </div>
     <div
       class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-      data-testid="collection-item-card"
+      data-testid="collection-item"
     >
       <div
         class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
