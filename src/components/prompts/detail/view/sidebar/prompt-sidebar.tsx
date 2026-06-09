@@ -20,7 +20,7 @@ export const PromptSidebar = ({ prompt, currentCollection }: Props) => {
       >
          <UseTemplateButton
             descriptor={prompt}
-            className="w-full justify-center py-5 text-sm"
+            className="w-full justify-start py-5 text-sm"
          />
          <div className="space-y-1 pt-1">
             <EditPromptButton
