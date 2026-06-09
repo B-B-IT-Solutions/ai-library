@@ -30,15 +30,15 @@ export const SortBySelect: FC = () => {
          <SelectContent>
             <SelectItem
                value={DCollectionsSortByMode.NAME_ASC}
-               data-testid="asc-title"
+               data-testid="asc-name"
             >
-               Title A-Z
+               Name A-Z
             </SelectItem>
             <SelectItem
                value={DCollectionsSortByMode.NAME_DESC}
-               data-testid="desc-title"
+               data-testid="desc-name"
             >
-               Title Z-A
+               Name Z-A
             </SelectItem>
             <SelectItem
                value={DCollectionsSortByMode.DATE_DESC}

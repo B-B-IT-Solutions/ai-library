@@ -45,7 +45,7 @@ exports[`SortBySelect rendering tests sortBy asc(createdAt) - test 1`] = `
 </div>
 `;
 
-exports[`SortBySelect rendering tests sortBy asc(title) - test 1`] = `
+exports[`SortBySelect rendering tests sortBy asc(name) - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -64,7 +64,7 @@ exports[`SortBySelect rendering tests sortBy asc(title) - test 1`] = `
       data-slot="select-value"
       style="pointer-events: none;"
     >
-      Title A-Z
+      Name A-Z
     </span>
     <svg
       aria-hidden="true"
