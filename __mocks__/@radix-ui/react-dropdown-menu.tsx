@@ -115,13 +115,21 @@ type ItemProps = {
    children: React.ReactNode;
    asChild?: boolean;
    onSelect?: () => void;
+   onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
-const Item = ({ children, onSelect, asChild, ...props }: ItemProps) => {
+const Item = ({
+   children,
+   onSelect,
+   asChild,
+   onClick,
+   ...props
+}: ItemProps) => {
    clearProps(props);
    const ctx = React.useContext(DropdownContext)!;
 
    const handleClick = () => {
+      onClick?.({} as React.MouseEvent<HTMLElement>);
       onSelect?.();
       ctx?.setOpen(false);
    };

@@ -153,12 +153,11 @@ describe("PromptMoreOptionsButton functionality tests", () => {
       const addToCollecitonBtn = screen.getByTestId(
          "add-to-collection-menu-item"
       );
-      userEvent.click(addToCollecitonBtn);
+      await userEvent.click(addToCollecitonBtn);
 
-      const options = { timeout: 500 };
       await waitFor(() => {
          assertAddToCollectionDialogRendered();
          assertDateStateClosed();
-      }, options);
+      });
    });
 });
