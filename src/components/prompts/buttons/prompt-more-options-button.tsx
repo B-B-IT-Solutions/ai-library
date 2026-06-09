@@ -29,10 +29,10 @@ export const PromptMoreOptionsButton = ({
    prompt,
    currentCollection,
 }: Props) => {
-   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
+
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
    const handleContextMenuOpen = (open: boolean) => {
       if (open) {
