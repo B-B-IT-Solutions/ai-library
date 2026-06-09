@@ -104,7 +104,7 @@ describe("SortBySelect functinality tests", () => {
       expect(event.options).toEqual(expectedEvent.options);
    });
 
-   it("option asc(title) selected - test", async () => {
+   it("option desc(title) selected - test", async () => {
       const url = "/templates";
       const searchParams = "sort=asc(title)";
       const onUrlUpdateFn = jest.fn();
@@ -119,17 +119,17 @@ describe("SortBySelect functinality tests", () => {
       await userEvent.click(select);
 
       await waitFor(() => {
-         const option = screen.getByTestId("desc-date");
+         const option = screen.getByTestId("desc-title");
          assertInDocument(option);
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const option = screen.getByTestId("desc-date");
+      const option = screen.getByTestId("desc-title");
       await userEvent.click(option);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?sort=desc(createdAt)",
+         queryString: "?sort=desc(title)",
       };
 
       await waitFor(() => {
