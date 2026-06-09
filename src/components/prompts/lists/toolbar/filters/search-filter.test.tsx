@@ -2,7 +2,9 @@ jest.mock("use-debounce", () => ({
    useDebouncedCallback: <T extends (...args: unknown[]) => unknown>(
       callback: T
    ) => {
-      return (...args: Parameters<T>) => callback(...args);
+      const fn = (...args: Parameters<T>) => callback(...args);
+      fn.cancel = () => {};
+      return fn;
    },
 }));
 
