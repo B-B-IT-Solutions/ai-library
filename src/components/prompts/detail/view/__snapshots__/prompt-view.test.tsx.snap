@@ -225,7 +225,7 @@ exports[`PromptView rendering tests collection defined - test 1`] = `
             data-testid="prompt-sidebar"
           >
             <button
-              class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-700 text-white hover:bg-blue-800 w-full justify-center py-5 text-sm"
+              class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-700 text-white hover:bg-blue-800 w-full justify-start py-5 text-sm"
               data-slot="button"
               data-testid="use-prompt-btn"
             >
@@ -607,7 +607,7 @@ exports[`PromptView rendering tests collection undefined - test 1`] = `
             data-testid="prompt-sidebar"
           >
             <button
-              class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-700 text-white hover:bg-blue-800 w-full justify-center py-5 text-sm"
+              class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-700 text-white hover:bg-blue-800 w-full justify-start py-5 text-sm"
               data-slot="button"
               data-testid="use-prompt-btn"
             >
