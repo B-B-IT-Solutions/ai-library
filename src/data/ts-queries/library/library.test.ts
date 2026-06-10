@@ -18,7 +18,6 @@ import {
    createCollection,
    deleteCollection,
    getCollectionPreviews,
-   getCollections,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
@@ -33,15 +32,12 @@ import {
    createCollectionOptions,
    deleteCollectionOptions,
    loadCollectionPreviewsOptions,
-   loadCollectionsOptions,
    loadPromptCollectionIdsOptions,
    preloadCollectionPreviewsOptions,
-   preloadCollectionsOptions,
    updatePromptCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
    useLoadCollectionPreviews,
-   useLoadCollections,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "./library";
@@ -57,10 +53,6 @@ const mutationContextMock: MutationFunctionContext = {
    client: queryClientMock,
    meta: {},
 };
-
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
->;
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
    typeof getCollectionPreviews
@@ -87,29 +79,6 @@ describe("prefetch options tests", () => {
       jest.resetAllMocks();
    });
 
-   test("preloadLibraryCollectionsOptions  - test", async () => {
-      const collections = dtestData.dCollections();
-      getCollectionsMock.mockResolvedValue(collections);
-
-      const options = preloadCollectionsOptions();
-      const queryFn = options.queryFn as QueryFunction<DCollection[]>;
-      const context = {} as QueryFunctionContext;
-      const fnResult = await queryFn(context);
-
-      const expectedOptions: UndefinedInitialDataOptions<
-         DCollection[],
-         Error,
-         DCollection[]
-      > = {
-         queryKey: ["library", "collections"],
-         queryFn: jest.fn(),
-      };
-
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getCollectionsMock).toHaveBeenCalledTimes(1);
-      expect(fnResult).toEqual(collections);
-   });
-
    test("preloadCollectionPreviewsOptions  - test", async () => {
       const collections = dtestData.dCollectionPreviews();
       getCollectionPreviewsMock.mockResolvedValue(collections);
@@ -131,40 +100,6 @@ describe("prefetch options tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
-   });
-});
-
-describe("loadCollections hooks tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("loadCollectionsOptions - test", async () => {
-      const expectedOptions: UndefinedInitialDataOptions<
-         DCollection[],
-         Error,
-         DCollection[]
-      > = {
-         queryKey: ["library", "collections"],
-         queryFn: jest.fn(),
-         placeholderData: keepPreviousData,
-         staleTime: 5 * 60 * 1000,
-      };
-
-      const options = loadCollectionsOptions();
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-   });
-
-   test("useLoadCollections test", async () => {
-      const collections = dtestData.dCollections();
-      getCollectionsMock.mockResolvedValue(collections);
-
-      const { result } = renderHookWithReactQuery(() => useLoadCollections());
-
-      await waitFor(() => {
-         expect(result.current.data).toEqual(collections);
-         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
-      });
    });
 });
 

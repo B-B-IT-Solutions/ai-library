@@ -82,27 +82,6 @@ export class CollectionRepository {
       };
    }
 
-   async pGetCollections(userId: string): Promise<DCollection[]> {
-      const args = {
-         where: {
-            userId,
-         },
-         orderBy: {
-            order: "asc",
-         },
-         include: {
-            _count: {
-               select: {
-                  entries: true,
-               },
-            },
-         },
-      } satisfies LibraryCollectionFindManyArgs;
-
-      const collections = await this.prisma.libraryCollection.findMany(args);
-      return toDCollections(collections);
-   }
-
    async pGetCollectionPreviews(userId: string): Promise<DCollectionPreview[]> {
       const args = {
          where: {
