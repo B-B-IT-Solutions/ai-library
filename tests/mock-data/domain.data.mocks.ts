@@ -21,6 +21,7 @@ import {
    DCollectionPreview,
    DCollectionsFilter,
    DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
@@ -280,6 +281,16 @@ export const dCollectionIds = (count = 3): string[] => {
 
 export const dCollections = (count = 3): DCollection[] => {
    return range(0, count).map((i) => dCollection(i));
+};
+
+export const dCollectionsPageQuery = (index = 1): DCollectionsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dCollectionsFilter(index),
+   };
 };
 
 export const dCollectionsFilter = (index = 1): DCollectionsFilter => {
