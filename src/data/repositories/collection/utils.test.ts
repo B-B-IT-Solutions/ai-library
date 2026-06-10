@@ -22,12 +22,16 @@ describe("resolveWhereInput tests", () => {
 
    test("filter undefined - test", async () => {
       const result = resolveWhereInput(userId);
-      const expectedWhere: LibraryCollectionWhereInput = { userId };
+      const expectedWhere: LibraryCollectionWhereInput = {
+         userId,
+      };
       expect(result).toEqual(expectedWhere);
    });
 
    test("filter.search - test", async () => {
-      const filter: DCollectionsFilter = { search: "test search" };
+      const filter: DCollectionsFilter = {
+         search: "test search",
+      };
       const result = resolveWhereInput(userId, filter);
 
       const expectedWhere: LibraryCollectionWhereInput = {
@@ -45,7 +49,9 @@ describe("resolveWhereInput tests", () => {
       const filter: DCollectionsFilter = {};
       const result = resolveWhereInput(userId, filter);
 
-      const expectedWhere: LibraryCollectionWhereInput = { userId };
+      const expectedWhere: LibraryCollectionWhereInput = {
+         userId,
+      };
       expect(result).toEqual(expectedWhere);
    });
 });
@@ -64,7 +70,10 @@ describe("resolveOrderBy tests", () => {
    });
 
    test("sort defined - test", async () => {
-      const sort: Sort = { field: "name", order: "asc" };
+      const sort: Sort = {
+         field: "name",
+         order: "asc",
+      };
       const result = resolveOrderBy(sort);
       const expected: LibraryCollectionOrderByWithRelationInput = {
          name: "asc",
