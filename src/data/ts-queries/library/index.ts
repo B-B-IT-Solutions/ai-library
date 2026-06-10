@@ -1,7 +1,6 @@
 export {
    preloadCollectionPreviewsOptions,
    useLoadCollectionPreviews,
-   useDeleteCollection,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
    updatePromptCollectionsOptions,

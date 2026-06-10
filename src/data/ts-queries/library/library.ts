@@ -67,34 +67,6 @@ export const useLoadCollectionPreviews = (
    return useQuery<DCollectionPreview[]>(options);
 };
 
-export const deleteCollectionOptions = (
-   queryClient: QueryClient
-): UseMutationOptions<ActionResult, Error, string> => {
-   return {
-      mutationFn: async (collectionId: string) => {
-         return await deleteCollection(collectionId);
-      },
-      onSuccess: (_, collectionId) => {
-         const updater = (cols: DCollection[]) => {
-            return filter(cols, (col) => col.id !== collectionId);
-         };
-         queryClient.setQueryData(libraryKeys.collections(), updater);
-         queryClient.invalidateQueries({
-            queryKey: collectionKeys.collectionsPage({}),
-         });
-      },
-   };
-};
-
-export const useDeleteCollection = (): UseMutationResult<
-   ActionResult,
-   Error,
-   string
-> => {
-   const queryClient = useQueryClient();
-   return useMutation(deleteCollectionOptions(queryClient));
-};
-
 export const loadPromptCollectionIdsOptions = (
    params: LoadCollectionIdsParams
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {

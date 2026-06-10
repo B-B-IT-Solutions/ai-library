@@ -27,12 +27,10 @@ import {
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   deleteCollectionOptions,
    loadCollectionPreviewsOptions,
    loadPromptCollectionIdsOptions,
    preloadCollectionPreviewsOptions,
    updatePromptCollectionsOptions,
-   useDeleteCollection,
    useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
@@ -140,73 +138,6 @@ describe("loadCollectionPreviews hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);
          expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
-      });
-   });
-});
-
-describe("deleteCollection hooks tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("deleteCollectionOptions test", async () => {
-      const expectedOptions: UseMutationOptions<ActionResult, Error, string> = {
-         mutationFn: jest.fn(),
-         onSuccess: jest.fn(),
-      };
-
-      const options = deleteCollectionOptions(queryClientMock);
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
-
-      const result: ActionResult = {
-         success: true,
-         message: "Collection deleted",
-      };
-
-      const collection1 = dtestData.dCollection(1);
-      const collection2 = dtestData.dCollection(2);
-
-      options.onSuccess!(
-         result,
-         collection1.id,
-         undefined,
-         mutationContextMock
-      );
-
-      const expectedQueryKey: QueryKey = ["library", "collections"];
-      expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
-      expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
-         expectedQueryKey,
-         expect.any(Function)
-      );
-
-      const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         cols: DCollection[]
-      ) => DCollection[];
-
-      const updaterParams = [collection1, collection2];
-      const updaterResult = updaterFn(updaterParams);
-      const expectedUpdaterResult = [collection2];
-      expect(updaterResult).toEqual(expectedUpdaterResult);
-   });
-
-   test("useDeleteCollection test", async () => {
-      const actionResult: ActionResult = {
-         success: true,
-         message: "Collection deleted",
-      };
-      deleteCollectionMock.mockResolvedValue(actionResult);
-
-      const { result } = renderHookWithReactQuery(() => useDeleteCollection());
-
-      const collection = dtestData.dCollection(1);
-
-      await waitFor(() => {
-         result.current.mutate(collection.id);
-         expect(result.current.isSuccess).toBe(true);
-         expect(deleteCollectionMock).toHaveBeenCalledTimes(1);
-         expect(deleteCollectionMock).toHaveBeenCalledWith(collection.id);
       });
    });
 });
