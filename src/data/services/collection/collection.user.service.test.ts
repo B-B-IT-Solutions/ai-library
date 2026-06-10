@@ -40,24 +40,6 @@ describe("getCollectionsPage tests", () => {
    });
 });
 
-describe("getCollections tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("collections retrieved - test", async () => {
-      const userId = "user-id-1";
-      const collections = dtestData.dCollections();
-      collectionRepoMock.pGetCollections.mockResolvedValue(collections);
-
-      const result = await collectionService.getCollections(userId);
-
-      expect(result).toEqual(collections);
-      expect(collectionRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
-   });
-});
-
 describe("getCollectionPreviews tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

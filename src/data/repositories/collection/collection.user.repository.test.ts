@@ -6,7 +6,6 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    DCollectionsPage,
-   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
@@ -134,42 +133,6 @@ describe("pGetCollectionsPage tests", () => {
       expect(prismaMock.libraryCollection.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
          expectedCountArgs
-      );
-   });
-});
-
-describe("pGetCollections tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("collections retrieved test", async () => {
-      const userId = "user-id-1";
-      const collections = ptestData.pLibraryCollections();
-      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
-
-      const result = await collectionRepository.pGetCollections(userId);
-
-      const expectedResult = toDCollections(collections);
-
-      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
-         where: { userId },
-         orderBy: {
-            order: "asc",
-         },
-         include: {
-            _count: {
-               select: {
-                  entries: true,
-               },
-            },
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
-         expectedFindManyArgs
       );
    });
 });

@@ -16,7 +16,6 @@ import {
    getCollectionPreviewById,
    getCollectionPreviews,
    getCollectionPromptIds,
-   getCollections,
    getCollectionsPage,
    getPromptCollectionIds,
    removePromptFromCollection,
@@ -28,7 +27,6 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetCollectionsPage = CollectionService.prototype.getCollectionsPage;
-const sGetCollections = CollectionService.prototype.getCollections;
 const sGetCollectionPreviews =
    CollectionService.prototype.getCollectionPreviews;
 const sGetCollectionById = CollectionService.prototype.getCollectionById;
@@ -51,9 +49,6 @@ const sUpdatePromptCollections =
 
 const sGetCollectionsPageMock = sGetCollectionsPage as jest.MockedFunction<
    typeof sGetCollectionsPage
->;
-const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
-   typeof sGetCollections
 >;
 const sGetCollectionPreviewsMock =
    sGetCollectionPreviews as jest.MockedFunction<typeof sGetCollectionPreviews>;
@@ -143,45 +138,6 @@ describe("getCollectionsPage tests", () => {
       expect(result).toEqual(page);
       expect(sGetCollectionsPageMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionsPageMock).toHaveBeenCalledWith(user.id, query);
-   });
-});
-
-describe("getCollections tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getCollections();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionsMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("collecitons retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const collections = dtestData.dCollections();
-      sGetCollectionsMock.mockResolvedValue(collections);
-
-      const result = await getCollections();
-
-      expect(result).toEqual(collections);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionsMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionsMock).toHaveBeenCalledWith(user.id);
    });
 });
 

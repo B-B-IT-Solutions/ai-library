@@ -29,17 +29,6 @@ export const getCollectionsPage = async (
    }
 };
 
-export const getCollections = async (): Promise<DCollection[]> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.getCollections(user.id);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
 export const getCollectionPreviews = async (): Promise<
    DCollectionPreview[]
 > => {

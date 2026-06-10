@@ -3,7 +3,6 @@ export {
    deleteCollection,
    getPromptCollectionIds,
    updatePromptCollections,
-   getCollections,
    getCollectionsPage,
    getCollectionById,
    getCollectionPreviewById,

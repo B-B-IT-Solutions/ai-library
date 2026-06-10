@@ -23,10 +23,6 @@ export class CollectionService {
       return await this.collectionRepository.pGetCollectionsPage(userId, query);
    }
 
-   async getCollections(userId: string): Promise<DCollection[]> {
-      return await this.collectionRepository.pGetCollections(userId);
-   }
-
    async getCollectionPreviews(userId: string): Promise<DCollectionPreview[]> {
       return await this.collectionRepository.pGetCollectionPreviews(userId);
    }

@@ -16,7 +16,6 @@ import {
    createCollection,
    deleteCollection,
    getCollectionPreviews,
-   getCollections,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
@@ -35,17 +34,6 @@ import type {
 } from "./types";
 import { libraryKeys } from "./utils";
 
-export const preloadCollectionsOptions = (): FetchQueryOptions<
-   DCollection[],
-   Error,
-   DCollection[]
-> => {
-   return {
-      queryKey: libraryKeys.collections(),
-      queryFn: getCollections,
-   };
-};
-
 export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
    DCollectionPreview[],
    Error,
@@ -55,24 +43,6 @@ export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
       queryKey: libraryKeys.collectionPreviews(),
       queryFn: getCollectionPreviews,
    };
-};
-
-export const loadCollectionsOptions = (): UndefinedInitialDataOptions<
-   DCollection[],
-   Error,
-   DCollection[]
-> => {
-   return {
-      queryKey: libraryKeys.collections(),
-      queryFn: getCollections,
-      placeholderData: keepPreviousData,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
-   const options = loadCollectionsOptions();
-   return useQuery<DCollection[]>(options);
 };
 
 export const loadCollectionPreviewsOptions = (
