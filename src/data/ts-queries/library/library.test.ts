@@ -15,7 +15,6 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import { mockDeep } from "jest-mock-extended";
 
 import {
-   deleteCollection,
    getCollectionPreviews,
    getPromptCollectionIds,
    updatePromptCollections,
@@ -50,10 +49,6 @@ const mutationContextMock: MutationFunctionContext = {
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
    typeof getCollectionPreviews
->;
-
-const deleteCollectionMock = deleteCollection as jest.MockedFunction<
-   typeof deleteCollection
 >;
 
 const getPromptCollectionIdsMock =

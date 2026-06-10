@@ -10,20 +10,14 @@ import {
    useQueryClient,
    UseQueryResult,
 } from "@tanstack/react-query";
-import { filter } from "es-toolkit/compat";
 
 import {
-   deleteCollection,
    getCollectionPreviews,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
-import {
-   DCollection,
-   DCollectionPreview,
-} from "@/data/types/domain/collection";
+import { DCollectionPreview } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
-import { collectionKeys } from "../collection/utils";
 
 import type {
    LoadCollectionIdsParams,
