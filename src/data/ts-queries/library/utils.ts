@@ -4,6 +4,4 @@ export const libraryKeys = {
       [...libraryKeys.all, "entry", entryId, "collections"] as const,
    collections: () => [...libraryKeys.all, "collections"] as const,
    collection: (id: string) => [...libraryKeys.all, "collection", id] as const,
-   collectionPreviews: () =>
-      [...libraryKeys.all, "collection-previews"] as const,
 };

@@ -18,9 +18,5 @@ describe("libraryKeys tests", () => {
          "collection",
          collectionId,
       ]);
-      expect(libraryKeys.collectionPreviews()).toEqual([
-         "library",
-         "collection-previews",
-      ]);
    });
 });

@@ -20,6 +20,10 @@ describe("collectionKeys tests", () => {
          "collections",
          params,
       ]);
+      expect(collectionKeys.collectionPreviews()).toEqual([
+         "collections",
+         "previews",
+      ]);
       expect(collectionKeys.collection(collectionId)).toEqual([
          "collections",
          "collection",

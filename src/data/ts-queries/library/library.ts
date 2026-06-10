@@ -1,5 +1,4 @@
 import {
-   FetchQueryOptions,
    keepPreviousData,
    QueryClient,
    UndefinedInitialDataOptions,
@@ -12,54 +11,16 @@ import {
 } from "@tanstack/react-query";
 
 import {
-   getCollectionPreviews,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
-import { DCollectionPreview } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import type {
    LoadCollectionIdsParams,
-   LoadCollectionPreviewsParams,
    UpdateCollectionIdsParams,
 } from "./types";
 import { libraryKeys } from "./utils";
-
-export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
-   DCollectionPreview[],
-   Error,
-   DCollectionPreview[]
-> => {
-   return {
-      queryKey: libraryKeys.collectionPreviews(),
-      queryFn: getCollectionPreviews,
-   };
-};
-
-export const loadCollectionPreviewsOptions = (
-   params: LoadCollectionPreviewsParams
-): UndefinedInitialDataOptions<
-   DCollectionPreview[],
-   Error,
-   DCollectionPreview[]
-> => {
-   const { enabled } = params;
-   return {
-      queryKey: libraryKeys.collectionPreviews(),
-      queryFn: getCollectionPreviews,
-      placeholderData: keepPreviousData,
-      enabled,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useLoadCollectionPreviews = (
-   params: LoadCollectionPreviewsParams
-): UseQueryResult<DCollectionPreview[]> => {
-   const options = loadCollectionPreviewsOptions(params);
-   return useQuery<DCollectionPreview[]>(options);
-};
 
 export const loadPromptCollectionIdsOptions = (
    params: LoadCollectionIdsParams

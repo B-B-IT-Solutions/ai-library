@@ -1,4 +1,5 @@
 import {
+   FetchQueryOptions,
    InfiniteData,
    keepPreviousData,
    QueryClient,
@@ -19,17 +20,20 @@ import { filter, isEmpty } from "es-toolkit/compat";
 import {
    addPromptToCollection,
    createCollection,
+   getCollectionPreviews,
    getCollectionPromptIds,
    getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import {
    DCollection,
+   DCollectionPreview,
    DCollectionsPage,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
+import { LoadCollectionPreviewsParams } from "../library/types";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
@@ -38,6 +42,17 @@ import {
    RemovePromptFromCollectionParams,
 } from "./types";
 import { collectionKeys } from "./utils";
+
+export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: collectionKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+   };
+};
 
 export const infiniteLoadCollectionsPageOptions = (
    params: LoadCollectionsPageParams
@@ -72,6 +87,30 @@ export const useInfiniteLoadCollectionsPage = (
 ): UseInfiniteQueryResult<InfiniteData<DCollectionsPage>, Error> => {
    const options = infiniteLoadCollectionsPageOptions(params);
    return useInfiniteQuery(options);
+};
+
+export const loadCollectionPreviewsOptions = (
+   params: LoadCollectionPreviewsParams
+): UndefinedInitialDataOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   const { enabled } = params;
+   return {
+      queryKey: collectionKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+      placeholderData: keepPreviousData,
+      enabled,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadCollectionPreviews = (
+   params: LoadCollectionPreviewsParams
+): UseQueryResult<DCollectionPreview[]> => {
+   const options = loadCollectionPreviewsOptions(params);
+   return useQuery<DCollectionPreview[]>(options);
 };
 
 export const loadCollectionPromptIdsOptions = (
