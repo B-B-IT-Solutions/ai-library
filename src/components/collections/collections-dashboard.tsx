@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
+import { DCollectionsFilter } from "@/data/types/domain/collection";
 
 import { CreateCollectionButton } from "./buttons";
 import { collectionsSearchParamsCache } from "./collections-search-params";
@@ -15,6 +16,11 @@ export const CollectionsDashboard = async () => {
    await queryClient.prefetchQuery(preloadCollectionsOptions());
 
    const viewMode = collectionsSearchParamsCache.get("view");
+   const sortMode = collectionsSearchParamsCache.get("sort");
+
+   const filters: DCollectionsFilter = {
+      search: collectionsSearchParamsCache.get("f_search"),
+   };
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -41,7 +47,11 @@ export const CollectionsDashboard = async () => {
             <CollectionsToolbar viewMode={viewMode} />
 
             <div className="flex-1 overflow-y-auto p-6">
-               <CollectionItems viewMode={viewMode} />
+               <CollectionItems
+                  viewMode={viewMode}
+                  sortMode={sortMode}
+                  filters={filters}
+               />
             </div>
          </div>
       </HydrationBoundary>

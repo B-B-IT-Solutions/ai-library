@@ -7,8 +7,8 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { getCollections } from "@/data/actions/collection";
 import {
+   DCollectionsSortByMode,
    DListGroupByMode,
-   DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
 
@@ -46,17 +46,9 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
       case "group":
          return DListGroupByMode.NONE;
       case "sort":
-         return DListSortByMode.DATE_DESC;
+         return DCollectionsSortByMode.NAME_ASC;
       case "f_search":
          return "test-1";
-      case "f_categories":
-         return ["cat-1"];
-      case "f_models":
-         return ["mod-1"];
-      case "f_collectionIds":
-         return ["col-id-1"];
-      case "f_isFavorite":
-         return "false";
    }
 };
 
