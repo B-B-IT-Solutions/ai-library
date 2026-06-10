@@ -13,7 +13,6 @@ import {
 import { filter } from "es-toolkit/compat";
 
 import {
-   createCollection,
    deleteCollection,
    getCollectionPreviews,
    getPromptCollectionIds,
@@ -22,7 +21,6 @@ import {
 import {
    DCollection,
    DCollectionPreview,
-   DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 import { collectionKeys } from "../collection/utils";
@@ -67,40 +65,6 @@ export const useLoadCollectionPreviews = (
 ): UseQueryResult<DCollectionPreview[]> => {
    const options = loadCollectionPreviewsOptions(params);
    return useQuery<DCollectionPreview[]>(options);
-};
-
-export const createCollectionOptions = (
-   queryClient: QueryClient
-): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
-   return {
-      mutationFn: async (data: DCollectionUpdate) => {
-         return await createCollection(data);
-      },
-      onSuccess: (result) => {
-         const currentData =
-            queryClient.getQueryData<DCollection[]>(
-               libraryKeys.collections()
-            ) || [];
-
-         if (result.data) {
-            const newData = [...currentData, result.data];
-            queryClient.setQueryData(libraryKeys.collections(), newData);
-         }
-
-         queryClient.invalidateQueries({
-            queryKey: collectionKeys.collectionsPage({}),
-         });
-      },
-   };
-};
-
-export const useCreateCollection = (): UseMutationResult<
-   ActionResult<DCollection>,
-   Error,
-   DCollectionUpdate
-> => {
-   const queryClient = useQueryClient();
-   return useMutation(createCollectionOptions(queryClient));
 };
 
 export const deleteCollectionOptions = (

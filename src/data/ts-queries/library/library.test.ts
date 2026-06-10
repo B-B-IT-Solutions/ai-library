@@ -15,7 +15,6 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import { mockDeep } from "jest-mock-extended";
 
 import {
-   createCollection,
    deleteCollection,
    getCollectionPreviews,
    getPromptCollectionIds,
@@ -24,18 +23,15 @@ import {
 import {
    DCollection,
    DCollectionPreview,
-   DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   createCollectionOptions,
    deleteCollectionOptions,
    loadCollectionPreviewsOptions,
    loadPromptCollectionIdsOptions,
    preloadCollectionPreviewsOptions,
    updatePromptCollectionsOptions,
-   useCreateCollection,
    useDeleteCollection,
    useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
@@ -56,10 +52,6 @@ const mutationContextMock: MutationFunctionContext = {
 
 const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
    typeof getCollectionPreviews
->;
-
-const createCollectionMock = createCollection as jest.MockedFunction<
-   typeof createCollection
 >;
 
 const deleteCollectionMock = deleteCollection as jest.MockedFunction<
@@ -148,85 +140,6 @@ describe("loadCollectionPreviews hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);
          expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
-      });
-   });
-});
-
-describe("createCollection hooks tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("createCollectionOptions test", async () => {
-      const update = dtestData.dCollectionUpdate();
-
-      const expectedOptions: UseMutationOptions<
-         ActionResult<DCollection>,
-         Error,
-         DCollectionUpdate
-      > = {
-         mutationFn: jest.fn(),
-         onSuccess: jest.fn(),
-      };
-
-      const options = createCollectionOptions(queryClientMock);
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
-      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
-
-      const result1: ActionResult<DCollection> = {
-         success: true,
-         message: "Collection created",
-         data: undefined,
-      };
-
-      options.onSuccess!(result1, update, undefined, mutationContextMock);
-
-      const expectedQueryKey: QueryKey = ["library", "collections"];
-      expect(queryClientMock.getQueryData).toHaveBeenCalledTimes(1);
-      expect(queryClientMock.getQueryData).toHaveBeenCalledWith(
-         expectedQueryKey
-      );
-      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
-
-      const result2: ActionResult<DCollection> = {
-         success: true,
-         message: "Collection created",
-         data: dtestData.dCollection(),
-      };
-
-      options.onSuccess!(result2, update, undefined, mutationContextMock);
-
-      expect(queryClientMock.getQueryData).toHaveBeenCalledTimes(2);
-      expect(queryClientMock.getQueryData).toHaveBeenNthCalledWith(
-         2,
-         expectedQueryKey
-      );
-
-      expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
-      expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
-         expectedQueryKey,
-         [result2.data]
-      );
-   });
-
-   test("useCreateCollection test", async () => {
-      const actionResult: ActionResult<DCollection> = {
-         success: true,
-         message: "Collection created",
-         data: dtestData.dCollection(),
-      };
-      createCollectionMock.mockResolvedValue(actionResult);
-
-      const { result } = renderHookWithReactQuery(() => useCreateCollection());
-
-      const newCollection = dtestData.dCollectionUpdate();
-
-      await waitFor(() => {
-         result.current.mutate(newCollection);
-         expect(result.current.isSuccess).toBe(true);
-         expect(createCollectionMock).toHaveBeenCalledTimes(1);
-         expect(createCollectionMock).toHaveBeenCalledWith(newCollection);
       });
    });
 });

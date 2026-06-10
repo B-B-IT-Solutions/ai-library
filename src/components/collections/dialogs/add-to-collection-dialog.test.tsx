@@ -1,3 +1,4 @@
+jest.mock("@/data/ts-queries/collection");
 jest.mock("@/data/ts-queries/library");
 jest.mock("sonner");
 
@@ -13,8 +14,8 @@ import {
 } from "@tests";
 import { toast } from "sonner";
 
+import { useCreateCollection } from "@/data/ts-queries/collection";
 import {
-   useCreateCollection,
    useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,

@@ -16,22 +16,27 @@ import { mockDeep } from "jest-mock-extended";
 
 import {
    addPromptToCollection,
+   createCollection,
    getCollectionPromptIds,
    getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import {
+   DCollection,
    DCollectionsPage,
    DCollectionsPageQuery,
+   DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
    addPromptToCollectionOptions,
+   createCollectionOptions,
    infiniteLoadCollectionsPageOptions,
    loadCollectionPromptIdsOptions,
    removePromptFromCollectionOptions,
    useAddPromptToCollection,
+   useCreateCollection,
    useInfiniteLoadCollectionsPage,
    useLoadCollectionPromptIds,
    useRemovePromptFromCollection,
@@ -64,6 +69,10 @@ const removePromptFromCollectionMock =
    removePromptFromCollection as jest.MockedFunction<
       typeof removePromptFromCollection
    >;
+
+const createCollectionMock = createCollection as jest.MockedFunction<
+   typeof createCollection
+>;
 
 describe("infiniteLoadCollectionsPage hooks tests", () => {
    beforeEach(() => {
@@ -350,6 +359,64 @@ describe("removePromptFromCollection hooks tests", () => {
             params.collectionId,
             params.promptId
          );
+      });
+   });
+});
+
+describe("createCollection hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("createCollectionOptions test", async () => {
+      const update = dtestData.dCollectionUpdate();
+
+      const expectedOptions: UseMutationOptions<
+         ActionResult<DCollection>,
+         Error,
+         DCollectionUpdate
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = createCollectionOptions(queryClientMock);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
+
+      const result: ActionResult<DCollection> = {
+         success: true,
+         message: "Collection created",
+         data: undefined,
+      };
+
+      options.onSuccess!(result, update, undefined, mutationContextMock);
+
+      const expectedQueryKey: QueryKey = { queryKey: ["collections", {}] };
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledWith(
+         expectedQueryKey
+      );
+   });
+
+   test("useCreateCollection test", async () => {
+      const actionResult: ActionResult<DCollection> = {
+         success: true,
+         message: "Collection created",
+         data: dtestData.dCollection(),
+      };
+      createCollectionMock.mockResolvedValue(actionResult);
+
+      const { result } = renderHookWithReactQuery(() => useCreateCollection());
+
+      const newCollection = dtestData.dCollectionUpdate();
+
+      await waitFor(() => {
+         result.current.mutate(newCollection);
+         expect(result.current.isSuccess).toBe(true);
+         expect(createCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createCollectionMock).toHaveBeenCalledWith(newCollection);
       });
    });
 });

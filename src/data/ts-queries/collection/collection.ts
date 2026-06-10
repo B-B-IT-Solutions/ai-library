@@ -18,11 +18,16 @@ import { filter, isEmpty } from "es-toolkit/compat";
 
 import {
    addPromptToCollection,
+   createCollection,
    getCollectionPromptIds,
    getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
-import { DCollectionsPage } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionsPage,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
@@ -152,4 +157,28 @@ export const useRemovePromptFromCollection = (): UseMutationResult<
    const queryClient = useQueryClient();
    const options = removePromptFromCollectionOptions(queryClient);
    return useMutation(options);
+};
+
+export const createCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
+   return {
+      mutationFn: async (data: DCollectionUpdate) => {
+         return await createCollection(data);
+      },
+      onSuccess: () => {
+         queryClient.invalidateQueries({
+            queryKey: collectionKeys.collectionsPage({}),
+         });
+      },
+   };
+};
+
+export const useCreateCollection = (): UseMutationResult<
+   ActionResult<DCollection>,
+   Error,
+   DCollectionUpdate
+> => {
+   const queryClient = useQueryClient();
+   return useMutation(createCollectionOptions(queryClient));
 };

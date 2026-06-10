@@ -4,6 +4,7 @@ export {
    useLoadCollectionPromptIds,
    useAddPromptToCollection,
    useRemovePromptFromCollection,
+   useCreateCollection,
 } from "./collection";
 
 export type {
