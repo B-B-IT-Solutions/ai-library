@@ -3,13 +3,17 @@ jest.mock("@/data/actions/collection");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getCollections } from "@/data/actions/collection";
-import { DListViewMode } from "@/data/types/domain/common";
+import { getCollectionsPage } from "@/data/actions/collection";
+import { DCollectionsPageQuery } from "@/data/types/domain/collection";
+import {
+   DCollectionsSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 
 import { CollectionItems } from "./collection-items";
 
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
+const getCollectionsPageMock = getCollectionsPage as jest.MockedFunction<
+   typeof getCollectionsPage
 >;
 
 const assertItemsEmptyRendered = () => {
@@ -30,53 +34,93 @@ const assertListRendered = () => {
    assertInDocument(items);
 };
 
+const assertGetCollectionsPageCalled = (
+   expectedPayload: DCollectionsPageQuery
+) => {
+   expect(getCollectionsPageMock).toHaveBeenCalledTimes(1);
+   expect(getCollectionsPageMock).toHaveBeenCalledWith(expectedPayload);
+};
+
 describe("CollectionItems rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("collection empty - test", async () => {
-      getCollectionsMock.mockResolvedValue([]);
+      const page = dtestData.dCollectionsPage(0);
+      getCollectionsPageMock.mockResolvedValue(page);
 
       const { container } = renderWithRouter(
-         <CollectionItems viewMode={DListViewMode.GRID} />
+         <CollectionItems
+            viewMode={DListViewMode.GRID}
+            sortMode={DCollectionsSortByMode.NAME_ASC}
+            filters={{}}
+         />
       );
 
       await waitFor(() => {
          assertItemsEmptyRendered();
-         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsPageMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("view grid - test", async () => {
-      const collections = dtestData.dCollections();
-      getCollectionsMock.mockResolvedValue(collections);
+      const page = dtestData.dCollectionsPage();
+      getCollectionsPageMock.mockResolvedValue(page);
+      const filters = dtestData.dCollectionsFilter();
 
       const { container } = renderWithRouter(
-         <CollectionItems viewMode={DListViewMode.GRID} />
+         <CollectionItems
+            viewMode={DListViewMode.GRID}
+            sortMode={DCollectionsSortByMode.NAME_DESC}
+            filters={filters}
+         />
       );
+
+      const expectedPayload: DCollectionsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "name", order: "desc" },
+      };
 
       await waitFor(() => {
          assertGridRendered();
-         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+         assertGetCollectionsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("view list - test", async () => {
-      const collections = dtestData.dCollections();
-      getCollectionsMock.mockResolvedValue(collections);
+      const page = dtestData.dCollectionsPage();
+      getCollectionsPageMock.mockResolvedValue(page);
+      const filters = dtestData.dCollectionsFilter();
 
       const { container } = renderWithRouter(
-         <CollectionItems viewMode={DListViewMode.LIST} />
+         <CollectionItems
+            viewMode={DListViewMode.LIST}
+            sortMode={DCollectionsSortByMode.NAME_ASC}
+            filters={filters}
+         />
       );
+
+      const expectedPayload: DCollectionsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "name", order: "asc" },
+      };
 
       await waitFor(() => {
          assertListRendered();
-         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+         assertGetCollectionsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();

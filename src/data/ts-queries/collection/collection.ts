@@ -1,7 +1,12 @@
 import {
+   InfiniteData,
    keepPreviousData,
    QueryClient,
+   QueryKey,
+   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
+   useInfiniteQuery,
+   UseInfiniteQueryResult,
    useMutation,
    UseMutationOptions,
    UseMutationResult,
@@ -14,15 +19,55 @@ import { filter, isEmpty } from "es-toolkit/compat";
 import {
    addPromptToCollection,
    getCollectionPromptIds,
+   getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
+import { DCollectionsPage } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
+import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
+import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    AddPromptToCollectionParams,
+   LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";
 import { collectionKeys } from "./utils";
+
+export const infiniteLoadCollectionsPageOptions = (
+   params: LoadCollectionsPageParams
+): UndefinedInitialDataInfiniteOptions<
+   DCollectionsPage,
+   Error,
+   InfiniteData<DCollectionsPage>,
+   QueryKey,
+   number
+> => {
+   const { filters, sort } = params;
+   return {
+      queryKey: collectionKeys.collectionsPage(params),
+      queryFn: async ({ pageParam }) => {
+         const query = pageQuery(
+            pageParam,
+            PAGE_SIZE,
+            undefined,
+            filters,
+            sort
+         );
+         return await getCollectionsPage(query);
+      },
+      initialPageParam: INIT_PAGE_NUMBER,
+      getNextPageParam: getNextPageParam,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useInfiniteLoadCollectionsPage = (
+   params: LoadCollectionsPageParams
+): UseInfiniteQueryResult<InfiniteData<DCollectionsPage>, Error> => {
+   const options = infiniteLoadCollectionsPageOptions(params);
+   return useInfiniteQuery(options);
+};
 
 export const loadCollectionPromptIdsOptions = (
    collectionId: string

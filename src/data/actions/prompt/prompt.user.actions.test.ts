@@ -123,7 +123,7 @@ describe("getPromptsPage tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("descriptors retrieved - test", async () => {
+   it("prompts retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -182,7 +182,7 @@ describe("getPrompt tests", () => {
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
 
-   it("descriptor null - test", async () => {
+   it("prompt null - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -197,7 +197,7 @@ describe("getPrompt tests", () => {
       expect(sGetPromptMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
-   it("descriptor retrieved - test", async () => {
+   it("prompt retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 

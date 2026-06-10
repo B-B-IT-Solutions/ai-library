@@ -6,8 +6,8 @@ import {
 } from "nuqs/server";
 
 import {
+   DCollectionsSortByMode,
    DListGroupByMode,
-   DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
 
@@ -19,9 +19,9 @@ export const groupByParam = parseAsStringEnum<DListGroupByMode>(
    Object.values(DListGroupByMode)
 ).withDefault(DListGroupByMode.NONE);
 
-export const sortByParam = parseAsStringEnum<DListSortByMode>(
-   Object.values(DListSortByMode)
-).withDefault(DListSortByMode.TITLE_ASC);
+export const sortByParam = parseAsStringEnum<DCollectionsSortByMode>(
+   Object.values(DCollectionsSortByMode)
+).withDefault(DCollectionsSortByMode.NAME_ASC);
 
 export const f_searchParam = parseAsString.withDefault("");
 

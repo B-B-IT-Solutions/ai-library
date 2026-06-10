@@ -4,8 +4,13 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DCollectionUpdate } from "@/data/types/domain/collection";
 import {
+   DCollectionsPage,
+   DCollectionsPageQuery,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
+import {
+   LibraryCollectionCountArgs,
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
@@ -18,6 +23,7 @@ import {
    LibraryCollectionFindUniqueArgs,
    LibraryCollectionUpdateArgs,
    LibraryCollectionUpdateInput,
+   LibraryCollectionWhereInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -30,6 +36,107 @@ import { CollectionRepository } from "./collection.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const collectionRepository = new CollectionRepository(prismaMock);
+
+describe("pGetCollectionsPage tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("query undefined- test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      const totalEntries = 15;
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+      prismaMock.libraryCollection.count.mockResolvedValue(totalEntries);
+
+      const result = await collectionRepository.pGetCollectionsPage(userId);
+
+      const expectedResult: DCollectionsPage = {
+         content: toDCollections(collections),
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: collections.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: { userId },
+         include: { _count: { select: { entries: true } } },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: LibraryCollectionCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   it("query defined - test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      const totalEntries = 40;
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+      prismaMock.libraryCollection.count.mockResolvedValue(totalEntries);
+
+      const query = dtestData.dCollectionsPageQuery();
+
+      const result = await collectionRepository.pGetCollectionsPage(
+         userId,
+         query
+      );
+
+      const expectedResult: DCollectionsPage = {
+         content: toDCollections(collections),
+         pageNumber: 1,
+         pageSize: 10,
+         numberOfElements: collections.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere: LibraryCollectionWhereInput = {
+         userId,
+         OR: [
+            { name: { contains: "search 1", mode: "insensitive" } },
+            { description: { contains: "search 1", mode: "insensitive" } },
+         ],
+      };
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: expectedWhere,
+         include: { _count: { select: { entries: true } } },
+         orderBy: { name: "asc" },
+         skip: 10,
+         take: 10,
+      };
+
+      const expectedCountArgs: LibraryCollectionCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+});
 
 describe("pGetCollections tests", () => {
    beforeEach(() => {

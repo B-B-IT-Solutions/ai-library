@@ -64,7 +64,7 @@ exports[`CollectionsToolbar rendering tests render test 1`] = `
           data-slot="select-value"
           style="pointer-events: none;"
         >
-          Title A-Z
+          Name A-Z
         </span>
         <svg
           aria-hidden="true"

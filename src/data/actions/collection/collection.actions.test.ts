@@ -17,6 +17,7 @@ import {
    getCollectionPreviews,
    getCollectionPromptIds,
    getCollections,
+   getCollectionsPage,
    getPromptCollectionIds,
    removePromptFromCollection,
    setCollectionPublic,
@@ -26,6 +27,7 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
+const sGetCollectionsPage = CollectionService.prototype.getCollectionsPage;
 const sGetCollections = CollectionService.prototype.getCollections;
 const sGetCollectionPreviews =
    CollectionService.prototype.getCollectionPreviews;
@@ -47,6 +49,9 @@ const sGetPromptCollectionIds =
 const sUpdatePromptCollections =
    CollectionService.prototype.updatePromptCollections;
 
+const sGetCollectionsPageMock = sGetCollectionsPage as jest.MockedFunction<
+   typeof sGetCollectionsPage
+>;
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
 >;
@@ -89,6 +94,57 @@ const sGetPromptCollectionIdsMock =
    sGetPromptCollectionIds as jest.MockedFunction<
       typeof sGetPromptCollectionIds
    >;
+
+describe("getCollectionsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getCollectionsPage();
+
+      expect(result.content).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsPageMock).not.toHaveBeenCalled();
+   });
+
+   it("collections retrieved - query undefined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const page = dtestData.dCollectionsPage();
+      sGetCollectionsPageMock.mockResolvedValue(page);
+
+      const result = await getCollectionsPage();
+
+      expect(result).toEqual(page);
+      expect(sGetCollectionsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsPageMock).toHaveBeenCalledWith(user.id, undefined);
+   });
+
+   it("collections retrieved - query defined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const page = dtestData.dCollectionsPage();
+      sGetCollectionsPageMock.mockResolvedValue(page);
+
+      const query = dtestData.dCollectionsPageQuery();
+      const result = await getCollectionsPage(query);
+
+      expect(result).toEqual(page);
+      expect(sGetCollectionsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsPageMock).toHaveBeenCalledWith(user.id, query);
+   });
+});
 
 describe("getCollections tests", () => {
    beforeEach(() => {

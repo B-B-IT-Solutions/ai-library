@@ -5,18 +5,19 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { getCollections } from "@/data/actions/collection";
+import { getCollectionsPage } from "@/data/actions/collection";
+import { DCollectionsPageQuery } from "@/data/types/domain/collection";
 import {
+   DCollectionsSortByMode,
    DListGroupByMode,
-   DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
 
 import { CollectionsDashboard } from "./collections-dashboard";
 import { collectionsSearchParamsCache } from "./collections-search-params";
 
-const getCollectionsMock = getCollections as jest.MockedFunction<
-   typeof getCollections
+const getCollectionsPageMock = getCollectionsPage as jest.MockedFunction<
+   typeof getCollectionsPage
 >;
 
 const collectionsSearchParamsCacheMock =
@@ -46,18 +47,17 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
       case "group":
          return DListGroupByMode.NONE;
       case "sort":
-         return DListSortByMode.DATE_DESC;
+         return DCollectionsSortByMode.NAME_ASC;
       case "f_search":
          return "test-1";
-      case "f_categories":
-         return ["cat-1"];
-      case "f_models":
-         return ["mod-1"];
-      case "f_collectionIds":
-         return ["col-id-1"];
-      case "f_isFavorite":
-         return "false";
    }
+};
+
+const assertGetCollectionsPageCalled = (
+   expectedPayload: DCollectionsPageQuery
+) => {
+   expect(getCollectionsPageMock).toHaveBeenCalledTimes(1);
+   expect(getCollectionsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("CollectionsDashboard rendering tests", () => {
@@ -68,14 +68,28 @@ describe("CollectionsDashboard rendering tests", () => {
    it("rendered test", async () => {
       collectionsSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
-      const collections = dtestData.dCollections();
-      getCollectionsMock.mockResolvedValue(collections);
+      const page = dtestData.dCollectionsPage();
+      getCollectionsPageMock.mockResolvedValue(page);
 
       const { container } = await renderAsyncRSC(CollectionsDashboard, {});
 
+      const expectedQuery: DCollectionsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: {
+            search: mockSearchParams("f_search"),
+         },
+         sort: {
+            field: "name",
+            order: "asc",
+         },
+      };
+
       await waitFor(() => {
          assertRendered();
-         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+         assertGetCollectionsPageCalled(expectedQuery);
       });
 
       expect(container).toMatchSnapshot();

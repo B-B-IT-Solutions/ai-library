@@ -19,6 +19,9 @@ import {
    DCollection,
    DCollectionEntry,
    DCollectionPreview,
+   DCollectionsFilter,
+   DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
@@ -278,6 +281,38 @@ export const dCollectionIds = (count = 3): string[] => {
 
 export const dCollections = (count = 3): DCollection[] => {
    return range(0, count).map((i) => dCollection(i));
+};
+
+export const dCollectionsPageQuery = (index = 1): DCollectionsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dCollectionsFilter(index),
+      sort: {
+         field: "name",
+         order: "asc",
+      },
+   };
+};
+
+export const dCollectionsFilter = (index = 1): DCollectionsFilter => {
+   return {
+      search: `search ${index}`,
+   };
+};
+
+export const dCollectionsPage = (count = 3): DCollectionsPage => {
+   const collections = dCollections(count);
+   return {
+      content: collections,
+      numberOfElements: collections.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
 };
 
 export const dCollection = (index = 1): DCollection => {

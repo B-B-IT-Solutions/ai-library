@@ -44,9 +44,9 @@ describe("SortBySelect rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("sortBy asc(title) - test", async () => {
+   it("sortBy asc(name) - test", async () => {
       const url = "/collections";
-      const searchParams = "sort=asc(title)";
+      const searchParams = "sort=asc(name)";
 
       const { container } = renderWithRouter(
          <SortBySelect />,
@@ -69,7 +69,7 @@ describe("SortBySelect functinality tests", () => {
 
    it("option asc(date) selected - test", async () => {
       const url = "/collections";
-      const searchParams = "sort=asc(title)";
+      const searchParams = "sort=asc(name)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
 
@@ -104,9 +104,9 @@ describe("SortBySelect functinality tests", () => {
       expect(event.options).toEqual(expectedEvent.options);
    });
 
-   it("option desc(title) selected - test", async () => {
+   it("option desc(name) selected - test", async () => {
       const url = "/collections";
-      const searchParams = "sort=asc(title)";
+      const searchParams = "sort=asc(name)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
 
@@ -119,17 +119,17 @@ describe("SortBySelect functinality tests", () => {
       await userEvent.click(select);
 
       await waitFor(() => {
-         const option = screen.getByTestId("desc-title");
+         const option = screen.getByTestId("desc-name");
          assertInDocument(option);
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const option = screen.getByTestId("desc-title");
+      const option = screen.getByTestId("desc-name");
       await userEvent.click(option);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?sort=desc(title)",
+         queryString: "?sort=desc(name)",
       };
 
       await waitFor(() => {

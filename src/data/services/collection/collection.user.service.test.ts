@@ -18,6 +18,28 @@ const collectionRepoMock =
 
 const collectionService = new CollectionService(collectionRepoMock);
 
+describe("getCollectionsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collections retrieved - test", async () => {
+      const userId = "user-id-1";
+      const page = dtestData.dCollectionsPage();
+      collectionRepoMock.pGetCollectionsPage.mockResolvedValue(page);
+
+      const query = dtestData.dCollectionsPageQuery();
+      const result = await collectionService.getCollectionsPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(collectionRepoMock.pGetCollectionsPage).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetCollectionsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
+   });
+});
+
 describe("getCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

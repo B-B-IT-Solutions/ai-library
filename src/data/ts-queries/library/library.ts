@@ -26,6 +26,7 @@ import {
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
+import { collectionKeys } from "../collection/utils";
 
 import type {
    LoadCollectionIdsParams,
@@ -115,6 +116,10 @@ export const createCollectionOptions = (
             const newData = [...currentData, result.data];
             queryClient.setQueryData(libraryKeys.collections(), newData);
          }
+
+         queryClient.invalidateQueries({
+            queryKey: collectionKeys.collectionsPage({}),
+         });
       },
    };
 };
@@ -140,6 +145,9 @@ export const deleteCollectionOptions = (
             return filter(cols, (col) => col.id !== collectionId);
          };
          queryClient.setQueryData(libraryKeys.collections(), updater);
+         queryClient.invalidateQueries({
+            queryKey: collectionKeys.collectionsPage({}),
+         });
       },
    };
 };

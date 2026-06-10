@@ -4,9 +4,12 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DCollection,
    DCollectionPreview,
+   DCollectionsPage,
+   DCollectionsPageQuery,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import {
+   LibraryCollectionCountArgs,
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
@@ -27,12 +30,56 @@ import {
    toDCollectionPreviews,
    toDCollections,
 } from "./collection.mapper";
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class CollectionRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
+   }
+
+   async pGetCollectionsPage(
+      userId: string,
+      query?: DCollectionsPageQuery
+   ): Promise<DCollectionsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where = resolveWhereInput(userId, query?.filter);
+      const orderBy = resolveOrderBy(query?.sort);
+
+      const args = {
+         where,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+         orderBy,
+         skip,
+         take: pageSize,
+      } satisfies LibraryCollectionFindManyArgs;
+
+      const countArgs: LibraryCollectionCountArgs = { where };
+
+      const [collections, totalElements] = await Promise.all([
+         this.prisma.libraryCollection.findMany(args),
+         this.prisma.libraryCollection.count(countArgs),
+      ]);
+
+      return {
+         content: toDCollections(collections),
+         pageNumber,
+         pageSize,
+         numberOfElements: collections.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements,
+      };
    }
 
    async pGetCollections(userId: string): Promise<DCollection[]> {

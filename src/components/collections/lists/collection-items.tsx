@@ -4,8 +4,13 @@ import { isEmpty } from "es-toolkit/compat";
 import { Folder } from "lucide-react";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useLoadCollections } from "@/data/ts-queries/library";
-import { DListViewMode } from "@/data/types/domain/common";
+import { useInfiniteLoadCollectionsPage } from "@/data/ts-queries/collection";
+import { resolveSort } from "@/data/ts-queries/utils";
+import { DCollectionsFilter } from "@/data/types/domain/collection";
+import {
+   DCollectionsSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 import { CreateCollectionButton } from "../buttons";
 
 import { CollectionItemsGrid } from "./collection-items-grid";
@@ -13,19 +18,18 @@ import { CollectionItemsList } from "./collection-items-list";
 
 type Props = {
    viewMode: DListViewMode;
+   sortMode: DCollectionsSortByMode;
+   filters: DCollectionsFilter;
 };
 
-export const CollectionItems = ({ viewMode }: Props) => {
-   const hasNextPage = false;
-   const fetchNextPage = () => {};
+export const CollectionItems = ({ viewMode, sortMode, filters }: Props) => {
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+      useInfiniteLoadCollectionsPage({
+         filters,
+         sort: resolveSort(sortMode),
+      });
 
-   const {
-      data: collections = [],
-      // fetchNextPage,
-      // hasNextPage,
-      isFetching,
-      isLoading,
-   } = useLoadCollections();
+   const collections = data?.pages.flatMap((page) => page.content) ?? [];
 
    if (isLoading) {
       return (
