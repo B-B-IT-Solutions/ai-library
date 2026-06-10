@@ -35,7 +35,7 @@ describe("pGetPromptsPage tests", () => {
       jest.clearAllMocks();
    });
 
-   test("query udefined - test", async () => {
+   test("query undefined - test", async () => {
       const userId = "user-id-1";
       const descriptors = ptestData.pPromptsWithCategories();
       const totalEntries = 15;

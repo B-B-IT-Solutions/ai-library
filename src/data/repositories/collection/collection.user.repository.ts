@@ -51,7 +51,7 @@ export class CollectionRepository {
       const where = resolveWhereInput(userId, query?.filter);
       const orderBy = resolveOrderBy(query?.sort);
 
-      const args: LibraryCollectionFindManyArgs = {
+      const args = {
          where,
          include: {
             _count: {
@@ -63,7 +63,7 @@ export class CollectionRepository {
          orderBy,
          skip,
          take: pageSize,
-      };
+      } satisfies LibraryCollectionFindManyArgs;
 
       const countArgs: LibraryCollectionCountArgs = { where };
 

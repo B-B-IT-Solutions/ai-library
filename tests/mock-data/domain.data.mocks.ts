@@ -290,6 +290,10 @@ export const dCollectionsPageQuery = (index = 1): DCollectionsPageQuery => {
          pageNumber: 1,
       },
       filter: dCollectionsFilter(index),
+      sort: {
+         field: "name",
+         order: "asc",
+      },
    };
 };
 
