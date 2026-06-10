@@ -5,7 +5,7 @@ import { Folder } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useInfiniteLoadCollectionsPage } from "@/data/ts-queries/library";
+import { useInfiniteLoadCollectionsPage } from "@/data/ts-queries/collection";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DListViewMode } from "@/data/types/domain/common";
 import { CreateCollectionButton } from "../buttons";
