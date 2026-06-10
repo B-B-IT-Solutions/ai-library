@@ -1,10 +1,4 @@
-import { Sort } from "@/data/types/common";
-import { DCollectionUpdate, DCollectionsFilter } from "@/data/types/domain/collection";
-
-export type LoadCollectionsPageParams = {
-   filters?: DCollectionsFilter;
-   sort?: Sort;
-};
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 
 export type LoadCollectionPreviewsParams = {
    enabled: boolean;

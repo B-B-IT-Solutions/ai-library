@@ -1,10 +1,12 @@
 jest.mock("@/data/actions/collection");
 
 import {
+   InfiniteData,
    keepPreviousData,
    MutationFunctionContext,
    QueryClient,
    QueryKey,
+   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
    UseMutationOptions,
 } from "@tanstack/react-query";
@@ -15,20 +17,28 @@ import { mockDeep } from "jest-mock-extended";
 import {
    addPromptToCollection,
    getCollectionPromptIds,
+   getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
+import {
+   DCollectionsPage,
+   DCollectionsPageQuery,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
    addPromptToCollectionOptions,
+   infiniteLoadCollectionsPageOptions,
    loadCollectionPromptIdsOptions,
    removePromptFromCollectionOptions,
    useAddPromptToCollection,
+   useInfiniteLoadCollectionsPage,
    useLoadCollectionPromptIds,
    useRemovePromptFromCollection,
 } from "./collection";
 import {
    AddPromptToCollectionParams,
+   LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";
 
@@ -38,6 +48,10 @@ const mutationContextMock: MutationFunctionContext = {
    client: queryClientMock,
    meta: {},
 };
+
+const getCollectionsPageMock = getCollectionsPage as jest.MockedFunction<
+   typeof getCollectionsPage
+>;
 
 const getCollectionPromptIdsMock =
    getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
@@ -50,6 +64,65 @@ const removePromptFromCollectionMock =
    removePromptFromCollection as jest.MockedFunction<
       typeof removePromptFromCollection
    >;
+
+describe("infiniteLoadCollectionsPage hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("infiniteLoadCollectionsPageOptions - test", async () => {
+      const filters = dtestData.dCollectionsFilter();
+      const sort = dtestData.sort();
+      const params: LoadCollectionsPageParams = { filters, sort };
+
+      const expectedOptions: UndefinedInitialDataInfiniteOptions<
+         DCollectionsPage,
+         Error,
+         InfiniteData<DCollectionsPage, unknown>,
+         QueryKey,
+         number
+      > = {
+         queryKey: ["collections", params],
+         queryFn: jest.fn(),
+         initialPageParam: 0,
+         getNextPageParam: jest.fn(),
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = infiniteLoadCollectionsPageOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useInfiniteLoadCollectionsPage test", async () => {
+      const page = dtestData.dCollectionsPage();
+      getCollectionsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dCollectionsFilter();
+      const sort = dtestData.sort();
+      const params: LoadCollectionsPageParams = { filters, sort };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useInfiniteLoadCollectionsPage(params)
+      );
+
+      const expectedQuery: DCollectionsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: params.filters,
+         sort: params.sort,
+      };
+
+      await waitFor(() => {
+         expect(result.current.data?.pageParams).toEqual([0]);
+         expect(result.current.data?.pages).toHaveLength(1);
+         expect(result.current.data?.pages[0]).toEqual(page);
+         expect(getCollectionsPageMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsPageMock).toHaveBeenCalledWith(expectedQuery);
+      });
+   });
+});
 
 describe("loadCollectionPromptIds hooks tests", () => {
    beforeEach(() => {

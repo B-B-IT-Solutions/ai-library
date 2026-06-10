@@ -1,13 +1,8 @@
 import {
    FetchQueryOptions,
-   InfiniteData,
    keepPreviousData,
    QueryClient,
-   QueryKey,
-   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
-   useInfiniteQuery,
-   UseInfiniteQueryResult,
    useMutation,
    UseMutationOptions,
    UseMutationResult,
@@ -22,24 +17,20 @@ import {
    deleteCollection,
    getCollectionPreviews,
    getCollections,
-   getCollectionsPage,
    getPromptCollectionIds,
    updatePromptCollections,
 } from "@/data/actions/collection";
 import {
    DCollection,
    DCollectionPreview,
-   DCollectionsPage,
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
-import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
-import { getNextPageParam, pageQuery } from "../utils";
+import { collectionKeys } from "../collection/utils";
 
 import type {
    LoadCollectionIdsParams,
    LoadCollectionPreviewsParams,
-   LoadCollectionsPageParams,
    UpdateCollectionIdsParams,
 } from "./types";
 import { libraryKeys } from "./utils";
@@ -82,35 +73,6 @@ export const loadCollectionsOptions = (): UndefinedInitialDataOptions<
 export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
    const options = loadCollectionsOptions();
    return useQuery<DCollection[]>(options);
-};
-
-export const infiniteLoadCollectionsPageOptions = (
-   params: LoadCollectionsPageParams
-): UndefinedInitialDataInfiniteOptions<
-   DCollectionsPage,
-   Error,
-   InfiniteData<DCollectionsPage>,
-   QueryKey,
-   number
-> => {
-   const { filters, sort } = params;
-   return {
-      queryKey: libraryKeys.collectionsPage(params),
-      queryFn: async ({ pageParam }) => {
-         const query = pageQuery(pageParam, PAGE_SIZE, undefined, filters, sort);
-         return await getCollectionsPage(query);
-      },
-      initialPageParam: INIT_PAGE_NUMBER,
-      getNextPageParam: getNextPageParam,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useInfiniteLoadCollectionsPage = (
-   params: LoadCollectionsPageParams
-): UseInfiniteQueryResult<InfiniteData<DCollectionsPage>, Error> => {
-   const options = infiniteLoadCollectionsPageOptions(params);
-   return useInfiniteQuery(options);
 };
 
 export const loadCollectionPreviewsOptions = (
@@ -156,7 +118,7 @@ export const createCollectionOptions = (
          }
 
          queryClient.invalidateQueries({
-            queryKey: libraryKeys.collectionsPage(),
+            queryKey: collectionKeys.collectionsPage({}),
          });
       },
    };
@@ -184,7 +146,7 @@ export const deleteCollectionOptions = (
          };
          queryClient.setQueryData(libraryKeys.collections(), updater);
          queryClient.invalidateQueries({
-            queryKey: libraryKeys.collectionsPage(),
+            queryKey: collectionKeys.collectionsPage({}),
          });
       },
    };

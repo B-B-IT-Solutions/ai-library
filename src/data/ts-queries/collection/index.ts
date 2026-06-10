@@ -1,4 +1,5 @@
 export {
+   useInfiniteLoadCollectionsPage,
    useLoadCollectionPromptIds,
    useAddPromptToCollection,
    useRemovePromptFromCollection,

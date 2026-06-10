@@ -22,15 +22,5 @@ describe("libraryKeys tests", () => {
          "library",
          "collection-previews",
       ]);
-      expect(libraryKeys.collectionsPage()).toEqual([
-         "library",
-         "collections-page",
-      ]);
-      const params = { filters: { search: "test" } };
-      expect(libraryKeys.collectionsPage(params)).toEqual([
-         "library",
-         "collections-page",
-         params,
-      ]);
    });
 });
