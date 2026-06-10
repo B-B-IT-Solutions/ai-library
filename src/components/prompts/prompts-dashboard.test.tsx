@@ -85,9 +85,7 @@ const assertRendered = () => {
    assertInDocument(entries);
 };
 
-const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DPromptsPageQuery
-) => {
+const assertGetPromptsPageCalled = (expectedPayload: DPromptsPageQuery) => {
    expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
    expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
@@ -143,7 +141,7 @@ describe("PromptsDashboard rendering tests", () => {
          expect(getPromptModelsMock).toHaveBeenCalledTimes(1);
          expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsUsageMock).toHaveBeenCalledTimes(1);
-         assertGetLibraryEntriesPageCalled(expectedPayload);
+         assertGetPromptsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();

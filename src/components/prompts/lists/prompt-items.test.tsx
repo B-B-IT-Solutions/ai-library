@@ -43,9 +43,7 @@ const assertPromptsFilterEmptyRendered = () => {
    assertInDocument(empty);
 };
 
-const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DPromptsPageQuery
-) => {
+const assertGetPromptsPageCalled = (expectedPayload: DPromptsPageQuery) => {
    expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
    expect(getPromptsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
@@ -128,7 +126,7 @@ describe("PromptItems rendering tests", () => {
 
       await waitFor(() => {
          assertGridRendered();
-         assertGetLibraryEntriesPageCalled(expectedPayload);
+         assertGetPromptsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
@@ -161,7 +159,7 @@ describe("PromptItems rendering tests", () => {
 
       await waitFor(() => {
          assertListRendered();
-         assertGetLibraryEntriesPageCalled(expectedPayload);
+         assertGetPromptsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();

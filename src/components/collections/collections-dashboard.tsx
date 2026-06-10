@@ -4,7 +4,8 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { preloadCollectionsOptions } from "@/data/ts-queries/library";
+import { infiniteLoadCollectionsPageOptions } from "@/data/ts-queries/collection";
+import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollectionsFilter } from "@/data/types/domain/collection";
 
 import { CreateCollectionButton } from "./buttons";
@@ -13,7 +14,6 @@ import { CollectionItems, CollectionsToolbar } from "./lists";
 
 export const CollectionsDashboard = async () => {
    const queryClient = new QueryClient();
-   await queryClient.prefetchQuery(preloadCollectionsOptions());
 
    const viewMode = collectionsSearchParamsCache.get("view");
    const sortMode = collectionsSearchParamsCache.get("sort");
@@ -21,6 +21,13 @@ export const CollectionsDashboard = async () => {
    const filters: DCollectionsFilter = {
       search: collectionsSearchParamsCache.get("f_search"),
    };
+
+   await queryClient.prefetchInfiniteQuery(
+      infiniteLoadCollectionsPageOptions({
+         filters,
+         sort: resolveSort(sortMode),
+      })
+   );
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
