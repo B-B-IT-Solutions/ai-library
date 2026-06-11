@@ -1,6 +1,10 @@
 import { Sort } from "@/data/types/common";
 import { DCollectionsFilter } from "@/data/types/domain/collection";
 
+export type LoadCollectionPreviewsParams = {
+   enabled: boolean;
+};
+
 export type LoadCollectionsPageParams = {
    filters?: DCollectionsFilter;
    sort?: Sort;

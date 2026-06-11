@@ -11,4 +11,6 @@ export const collectionKeys = {
       [...collectionKeys.all, "collection", id] as const,
    collectionPromptIds: (id: string) =>
       [...collectionKeys.all, "collection", id, "promptIds"] as const,
+   promptCollections: (promptId: string) =>
+      [...collectionKeys.all, "prompt", promptId, "collections"] as const,
 };

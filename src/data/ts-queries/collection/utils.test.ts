@@ -6,6 +6,7 @@ import { collectionKeys } from "./utils";
 describe("collectionKeys tests", () => {
    test("collectionKeys - test", async () => {
       const collectionId = "a9dec5e2-485b-467a-8c21-85c054b96745";
+      const promptId = "a9dec5e2-485b-467a-8c21-85c054b96745";
       const filters = dtestData.dCollectionsFilter();
       const sort = dtestData.sort("name", "asc");
 
@@ -34,6 +35,12 @@ describe("collectionKeys tests", () => {
          "collection",
          collectionId,
          "promptIds",
+      ]);
+      expect(collectionKeys.promptCollections(promptId)).toEqual([
+         "collections",
+         "prompt",
+         promptId,
+         "collections",
       ]);
    });
 });

@@ -32,7 +32,6 @@ import {
    DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
-import { LoadCollectionPreviewsParams } from "../library/types";
 
 import {
    addPromptToCollectionOptions,
@@ -51,6 +50,7 @@ import {
 } from "./collection";
 import {
    AddPromptToCollectionParams,
+   LoadCollectionPreviewsParams,
    LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";

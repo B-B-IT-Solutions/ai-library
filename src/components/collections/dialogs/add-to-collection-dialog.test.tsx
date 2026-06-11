@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 
 import {
+   LoadCollectionPreviewsParams,
    useCreateCollection,
    useLoadCollectionPreviews,
 } from "@/data/ts-queries/collection";
@@ -24,7 +25,6 @@ import {
 } from "@/data/ts-queries/library";
 import {
    LoadCollectionIdsParams,
-   LoadCollectionPreviewsParams,
    UpdateCollectionIdsParams,
 } from "@/data/ts-queries/library/types";
 import { DCollectionPreview } from "@/data/types/domain/collection";

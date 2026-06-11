@@ -12,4 +12,6 @@ export {
 export type {
    AddPromptToCollectionParams,
    RemovePromptFromCollectionParams,
+   LoadCollectionPreviewsParams,
+   LoadCollectionsPageParams,
 } from "./types";

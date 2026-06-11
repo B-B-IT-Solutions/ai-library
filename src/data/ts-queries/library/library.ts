@@ -15,19 +15,19 @@ import {
    updatePromptCollections,
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
+import { collectionKeys } from "../collection/utils";
 
 import type {
    LoadCollectionIdsParams,
    UpdateCollectionIdsParams,
 } from "./types";
-import { libraryKeys } from "./utils";
 
 export const loadPromptCollectionIdsOptions = (
    params: LoadCollectionIdsParams
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    const { entryId, enabled } = params;
    return {
-      queryKey: libraryKeys.promptCollections(entryId),
+      queryKey: collectionKeys.promptCollections(entryId),
       queryFn: () => getPromptCollectionIds(entryId),
       placeholderData: keepPreviousData,
       enabled,
@@ -52,7 +52,7 @@ export const updatePromptCollectionsOptions = (
       onSuccess: (_, params) => {
          const { promptId, collectionIds } = params;
          queryClient.setQueryData(
-            libraryKeys.promptCollections(promptId),
+            collectionKeys.promptCollections(promptId),
             collectionIds
          );
       },

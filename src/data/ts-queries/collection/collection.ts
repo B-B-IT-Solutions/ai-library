@@ -33,11 +33,11 @@ import {
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
-import { LoadCollectionPreviewsParams } from "../library/types";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    AddPromptToCollectionParams,
+   LoadCollectionPreviewsParams,
    LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";
