@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { filter, flatMap, includes, isEmpty, map } from "es-toolkit/compat";
-import { Loader, Plus, Search, X } from "lucide-react";
+import { Check, Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -107,7 +107,10 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
                   data-testid="loader-icon"
                />
             ) : isIn ? (
-               <X className="h-3.5 w-3.5 text-slate-500" />
+               <>
+                  <Check className="hidden h-3.5 w-3.5 text-green-600 lg:block lg:group-hover:hidden" />
+                  <X className="h-3.5 w-3.5 text-slate-400 lg:hidden lg:group-hover:block" />
+               </>
             ) : (
                <Plus className="h-3.5 w-3.5" />
             )}
