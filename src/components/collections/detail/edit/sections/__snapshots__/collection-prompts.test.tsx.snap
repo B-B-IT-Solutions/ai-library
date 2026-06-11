@@ -253,7 +253,24 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-x h-3.5 w-3.5 text-slate-500"
+                class="lucide lucide-check hidden h-3.5 w-3.5 text-green-600 lg:block lg:group-hover:hidden"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 6 9 17l-5-5"
+                />
+              </svg>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-x h-3.5 w-3.5 text-slate-400 lg:hidden lg:group-hover:block"
                 fill="none"
                 height="24"
                 stroke="currentColor"
