@@ -235,7 +235,7 @@ describe("loadCollectionPromptIds hooks tests", () => {
          Error,
          string[]
       > = {
-         queryKey: ["collections", "collection", collectionId, "templateIds"],
+         queryKey: ["collections", "collection", collectionId, "promptIds"],
          queryFn: jest.fn(),
          placeholderData: keepPreviousData,
          staleTime: 2 * 60 * 1000,
@@ -301,7 +301,7 @@ describe("addPromptToCollection hooks tests", () => {
          "collections",
          "collection",
          collectionId,
-         "templateIds",
+         "promptIds",
       ];
       expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
       expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
@@ -396,7 +396,7 @@ describe("removePromptFromCollection hooks tests", () => {
          "collections",
          "collection",
          collectionId,
-         "templateIds",
+         "promptIds",
       ];
       expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
       expect(queryClientMock.setQueryData).toHaveBeenCalledWith(

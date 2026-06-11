@@ -27,7 +27,7 @@ export const loadPromptCollectionIdsOptions = (
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    const { entryId, enabled } = params;
    return {
-      queryKey: libraryKeys.entryCollections(entryId),
+      queryKey: libraryKeys.promptCollections(entryId),
       queryFn: () => getPromptCollectionIds(entryId),
       placeholderData: keepPreviousData,
       enabled,
@@ -52,7 +52,7 @@ export const updatePromptCollectionsOptions = (
       onSuccess: (_, params) => {
          const { promptId, collectionIds } = params;
          queryClient.setQueryData(
-            libraryKeys.entryCollections(promptId),
+            libraryKeys.promptCollections(promptId),
             collectionIds
          );
       },

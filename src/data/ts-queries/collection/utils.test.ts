@@ -33,7 +33,7 @@ describe("collectionKeys tests", () => {
          "collections",
          "collection",
          collectionId,
-         "templateIds",
+         "promptIds",
       ]);
    });
 });

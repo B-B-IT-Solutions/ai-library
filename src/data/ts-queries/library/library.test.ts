@@ -56,7 +56,7 @@ describe("loadPromptCollectionIds hooks tests", () => {
          Error,
          string[]
       > = {
-         queryKey: ["library", "entry", entryId, "collections"],
+         queryKey: ["library", "prompt", entryId, "collections"],
          queryFn: jest.fn(),
          placeholderData: keepPreviousData,
          enabled: enabled,
@@ -131,7 +131,7 @@ describe("updatePromptCollections hooks tests", () => {
 
       const expectedQueryKey: QueryKey = [
          "library",
-         "entry",
+         "prompt",
          promptId,
          "collections",
       ];

@@ -5,9 +5,9 @@ describe("libraryKeys tests", () => {
       const promptId = "a9dec5e2-485b-467a-8c21-85c054b96745";
 
       expect(libraryKeys.all).toEqual(["library"]);
-      expect(libraryKeys.entryCollections(promptId)).toEqual([
+      expect(libraryKeys.promptCollections(promptId)).toEqual([
          "library",
-         "entry",
+         "prompt",
          promptId,
          "collections",
       ]);
