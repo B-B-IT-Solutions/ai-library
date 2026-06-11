@@ -102,7 +102,7 @@ describe("CollectionOther toggle tests", () => {
       });
    });
 
-   it("toggle public clicked - public collection - success - test", async () => {
+   it("toggle public clicked - public collection - confirm - success - test", async () => {
       const collection = dtestData.dCollection();
       collection.isPublic = true;
 
@@ -118,6 +118,9 @@ describe("CollectionOther toggle tests", () => {
       const toggleBtn = screen.getByTestId("public-toggle-btn");
       await userEvent.click(toggleBtn);
 
+      const confirmBtn = screen.getByTestId("confirm-private-btn");
+      await userEvent.click(confirmBtn);
+
       await waitFor(() => {
          expect(setCollectionPublicMock).toHaveBeenCalledTimes(1);
          expect(setCollectionPublicMock).toHaveBeenCalledWith(
@@ -127,6 +130,23 @@ describe("CollectionOther toggle tests", () => {
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
+      });
+   });
+
+   it("toggle public clicked - public collection - cancel - test", async () => {
+      const collection = dtestData.dCollection();
+      collection.isPublic = true;
+
+      render(<CollectionOther collection={collection} />);
+
+      const toggleBtn = screen.getByTestId("public-toggle-btn");
+      await userEvent.click(toggleBtn);
+
+      const cancelBtn = screen.getByTestId("cancel-private-btn");
+      await userEvent.click(cancelBtn);
+
+      await waitFor(() => {
+         expect(setCollectionPublicMock).not.toHaveBeenCalled();
       });
    });
 

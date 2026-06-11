@@ -3,7 +3,7 @@
 exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -11,7 +11,7 @@ exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
     >
       <div
         class="relative"
-        data-testid="templates-search"
+        data-testid="prompts-search"
       >
         <svg
           aria-hidden="true"
@@ -39,13 +39,13 @@ exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
           data-slot="input"
           data-testid="search-input"
-          placeholder="Vorlagen durchsuchen..."
+          placeholder="Prompts durchsuchen..."
           value=""
         />
       </div>
       <div
         class="flex justify-center py-8"
-        data-testid="templates-loading"
+        data-testid="prompts-loading"
       >
         <svg
           aria-hidden="true"
@@ -94,7 +94,7 @@ exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
 exports[`CollectionPrompts rendering tests in collection/not in collection - empty - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -102,7 +102,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - emp
     >
       <div
         class="relative"
-        data-testid="templates-search"
+        data-testid="prompts-search"
       >
         <svg
           aria-hidden="true"
@@ -130,40 +130,66 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - emp
           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
           data-slot="input"
           data-testid="search-input"
-          placeholder="Vorlagen durchsuchen..."
+          placeholder="Prompts durchsuchen..."
           value=""
         />
       </div>
       <div
-        class="max-h-130 overflow-y-auto bg-white"
-        data-testid="templates-list"
+        class="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
+        data-testid="prompts-list"
       >
         <div>
           <div
-            class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
+            class="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
           >
             In dieser Sammlung (
             0
             )
           </div>
           <div
-            class="py-6 text-center text-sm text-slate-400"
+            class="flex flex-col items-center py-8 text-slate-400"
             data-testid="in-collection-empty"
           >
-            Noch keine Vorlagen hinzugefügt
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-folder-open mb-2 h-8 w-8 opacity-40"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"
+              />
+            </svg>
+            <p
+              class="text-sm"
+            >
+              Keine Prompts vorhanden
+            </p>
+            <p
+              class="text-xs"
+            >
+              Füge Prompts hinzu
+            </p>
           </div>
         </div>
         <div>
           <div
-            class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
+            class="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
           >
-            Weitere Vorlagen
+            Weitere Prompts
           </div>
           <div
             class="py-6 text-center text-sm text-slate-400"
             data-testid="not-in-collection-empty"
           >
-            Keine Vorlagen gefunden
+            Keine Prompts gefunden
           </div>
         </div>
       </div>
@@ -175,7 +201,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - emp
 exports[`CollectionPrompts rendering tests in collection/not in collection - with items - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -183,7 +209,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
     >
       <div
         class="relative"
-        data-testid="templates-search"
+        data-testid="prompts-search"
       >
         <svg
           aria-hidden="true"
@@ -211,28 +237,28 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
           data-slot="input"
           data-testid="search-input"
-          placeholder="Vorlagen durchsuchen..."
+          placeholder="Prompts durchsuchen..."
           value=""
         />
       </div>
       <div
-        class="max-h-130 overflow-y-auto bg-white"
-        data-testid="templates-list"
+        class="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
+        data-testid="prompts-list"
       >
         <div>
           <div
-            class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
+            class="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
           >
             In dieser Sammlung (
             1
             )
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-true"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-true"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -241,7 +267,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 0
@@ -253,7 +279,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
+                class="lucide lucide-check hidden h-3.5 w-3.5 text-green-600 lg:block lg:group-hover:hidden"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -270,7 +296,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </svg>
               <svg
                 aria-hidden="true"
-                class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
+                class="lucide lucide-x h-3.5 w-3.5 text-slate-400 lg:hidden lg:group-hover:block"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -293,16 +319,16 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
         </div>
         <div>
           <div
-            class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
+            class="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
           >
-            Weitere Vorlagen
+            Weitere Prompts
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-false"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -311,7 +337,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 1
@@ -344,11 +370,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-false"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -357,7 +383,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 2
@@ -390,11 +416,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-false"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -403,7 +429,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 3
@@ -436,11 +462,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-false"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -449,7 +475,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 4
@@ -482,11 +508,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-            data-testid="template-row-false"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
+            data-testid="prompt-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -495,7 +521,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 5
