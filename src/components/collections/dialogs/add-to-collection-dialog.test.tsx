@@ -377,7 +377,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: dtestData.dPrompt().id,
+         promptId: prompt.id,
          collectionIds: [collection2.id, collection3.id],
       };
 
@@ -451,7 +451,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: [collection1.id, collection2.id, collection3.id],
       };
 
@@ -510,7 +510,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: selectedIds,
       };
 

@@ -187,7 +187,7 @@ describe("loadCollectionPreviews hooks tests", () => {
          Error,
          DCollectionPreview[]
       > = {
-         queryKey: ["library", "collection-previews"],
+         queryKey: ["collections", "previews"],
          queryFn: jest.fn(),
          placeholderData: keepPreviousData,
          enabled,

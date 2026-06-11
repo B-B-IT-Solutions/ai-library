@@ -72,7 +72,7 @@ export const AddToCollectionDialog = ({
 
    const handleConfirm = async () => {
       const params: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: selectedColIds,
       };
 

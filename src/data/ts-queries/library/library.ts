@@ -46,13 +46,13 @@ export const updatePromptCollectionsOptions = (
 ): UseMutationOptions<ActionResult, Error, UpdateCollectionIdsParams> => {
    return {
       mutationFn: async (params: UpdateCollectionIdsParams) => {
-         const { entryId, collectionIds } = params;
-         return await updatePromptCollections(entryId, collectionIds);
+         const { promptId, collectionIds } = params;
+         return await updatePromptCollections(promptId, collectionIds);
       },
       onSuccess: (_, params) => {
-         const { entryId, collectionIds } = params;
+         const { promptId, collectionIds } = params;
          queryClient.setQueryData(
-            libraryKeys.entryCollections(entryId),
+            libraryKeys.entryCollections(promptId),
             collectionIds
          );
       },

@@ -15,6 +15,6 @@ export type LoadCollectionIdsParams = {
 };
 
 export type UpdateCollectionIdsParams = {
-   entryId: string;
+   promptId: string;
    collectionIds: string[];
 };

@@ -119,11 +119,11 @@ describe("updatePromptCollections hooks tests", () => {
          message: "Collections updated",
       };
 
-      const entryId = "entry-id-1";
+      const promptId = "prompt-id-1";
       const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
-         entryId,
+         promptId,
          collectionIds,
       };
 
@@ -132,7 +132,7 @@ describe("updatePromptCollections hooks tests", () => {
       const expectedQueryKey: QueryKey = [
          "library",
          "entry",
-         entryId,
+         promptId,
          "collections",
       ];
       expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
@@ -157,7 +157,7 @@ describe("updatePromptCollections hooks tests", () => {
       const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
-         entryId,
+         promptId: entryId,
          collectionIds,
       };
 
@@ -166,7 +166,7 @@ describe("updatePromptCollections hooks tests", () => {
          expect(result.current.isSuccess).toBe(true);
          expect(updatePromptCollectionsMock).toHaveBeenCalledTimes(1);
          expect(updatePromptCollectionsMock).toHaveBeenCalledWith(
-            params.entryId,
+            params.promptId,
             params.collectionIds
          );
       });
