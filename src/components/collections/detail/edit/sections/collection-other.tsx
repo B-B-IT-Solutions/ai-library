@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { Card, CardContent } from "@/components/shadcn/card";
 import { CopyButton } from "@/components/shared/buttons";
 import { setCollectionPublic } from "@/data/actions/collection";
 import { DCollection } from "@/data/types/domain/collection";
@@ -103,12 +102,12 @@ export const CollectionOther = ({ collection }: Props) => {
    };
 
    return (
-      <Card data-testid="collection-other">
-         <CardContent className="space-y-3 pt-6">
+      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-other">
+         <div className="space-y-3">
             <p className="text-sm font-semibold text-slate-700">Freigabe</p>
             {publicToggle()}
             {url()}
-         </CardContent>
-      </Card>
+         </div>
+      </div>
    );
 };

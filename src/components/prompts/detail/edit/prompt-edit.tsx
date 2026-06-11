@@ -39,6 +39,8 @@ export const PromptEdit = ({
       [prompt, currentCollection]
    );
 
+   const formId = "prompt-edit-form";
+
    const breadcrumbs = () => {
       if (prompt) {
          return (
@@ -76,7 +78,7 @@ export const PromptEdit = ({
       return (
          <Button
             type="submit"
-            form="prompt-edit-form"
+            form={formId}
             disabled={isSubmitting}
             className="cursor-pointer bg-blue-700 hover:bg-blue-800"
             data-testid="save-btn"
@@ -120,6 +122,7 @@ export const PromptEdit = ({
                   currentCollection={currentCollection}
                   globalFields={globalFields}
                   onSubmit={setIsSubmitting}
+                  formId={formId}
                />
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>

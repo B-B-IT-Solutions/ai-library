@@ -27,6 +27,7 @@ type Props = {
    currentCollection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
    onSubmit: (isSubmiting: boolean) => void;
+   formId?: string;
 };
 
 export const PromptEditForm = ({
@@ -34,6 +35,7 @@ export const PromptEditForm = ({
    currentCollection,
    globalFields,
    onSubmit: onSubmittingChange,
+   formId = "prompt-edit-form",
 }: Props) => {
    const router = useRouter();
    const isEdit = !!prompt;
@@ -92,7 +94,7 @@ export const PromptEditForm = ({
       <div data-testid="prompt-edit-form" className="space-y-4">
          <Form {...form}>
             <form
-               id="prompt-edit-form"
+               id={formId}
                onSubmit={form.handleSubmit(onSubmit)}
                className="space-y-4"
             >
