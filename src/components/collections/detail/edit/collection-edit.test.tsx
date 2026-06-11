@@ -1,19 +1,31 @@
 jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
+jest.mock("sonner");
 
-import { screen, waitFor, within } from "@testing-library/react";
+import { getByTestId, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
    assertNotInDocument,
    dtestData,
    renderWithReactQuery,
+   typeIntoInput,
+   typeIntoTextArea,
 } from "@tests";
+import mockRouter from "next-router-mock";
+import { toast } from "sonner";
 
-import { getCollectionPromptIds } from "@/data/actions/collection";
+import {
+   createCollection,
+   getCollectionPromptIds,
+   updateCollection,
+} from "@/data/actions/collection";
 import { getPromptsPage } from "@/data/actions/prompt";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import { ActionResult } from "@/data/types/utils";
 
 import { CollectionEdit } from "./collection-edit";
+import { initCollection } from "./utils";
 
 const getCollectionPromptIdsMock =
    getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
@@ -21,6 +33,14 @@ const getCollectionPromptIdsMock =
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
    typeof getPromptsPage
 >;
+
+const createCollectionMock = createCollection as jest.MockedFunction<
+   typeof createCollection
+>;
+const updateCollectionMock = updateCollection as jest.MockedFunction<
+   typeof updateCollection
+>;
+const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
    const edit = screen.getByTestId("collection-edit");
@@ -30,9 +50,22 @@ const assertRendered = () => {
    assertInDocument(breadcrumbs);
 };
 
-const assertHeaderActionsRendered = () => {
+const assertBtnsRendered = () => {
    const headerActions = screen.getByTestId("header-actions");
-   assertInDocument(within(headerActions).getByTestId("cancel-btn"));
+   const headerCancelBtn = getByTestId(headerActions, "cancel-btn");
+   const headerSaveBtn = getByTestId(headerActions, "save-btn");
+
+   const footerActions = screen.getByTestId("footer-actions");
+   const footerCancelBtn = getByTestId(footerActions, "cancel-btn");
+   const footerSaveBtn = getByTestId(footerActions, "save-btn");
+
+   assertInDocument(headerActions);
+   assertInDocument(headerCancelBtn);
+   assertInDocument(headerSaveBtn);
+
+   assertInDocument(footerActions);
+   assertInDocument(footerCancelBtn);
+   assertInDocument(footerSaveBtn);
 };
 
 const assertCreateModeRendered = () => {
@@ -101,7 +134,7 @@ describe("CollectionEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHeaderActionsRendered();
+         assertBtnsRendered();
          assertCreateModeRendered();
       });
 
@@ -117,49 +150,12 @@ describe("CollectionEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHeaderActionsRendered();
+         assertBtnsRendered();
          assertEditModeRendered();
          assertGeneralTabRendered();
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("CollectionEdit navigation tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("create mode - cancel btn navigates to /collections - test", async () => {
-      renderWithReactQuery(<CollectionEdit />);
-
-      await waitFor(() => assertRendered());
-
-      const headerActions = screen.getByTestId("header-actions");
-      const cancelBtn = within(headerActions).getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(cancelBtn.closest("a")).toHaveAttribute("href", "/collections");
-      });
-   });
-
-   it("edit mode - cancel btn navigates to collection view - test", async () => {
-      const collection = dtestData.dCollection(1);
-      renderWithReactQuery(<CollectionEdit collection={collection} />);
-
-      await waitFor(() => assertRendered());
-
-      const headerActions = screen.getByTestId("header-actions");
-      const cancelBtn = within(headerActions).getByTestId("cancel-btn");
-
-      await waitFor(() => {
-         expect(cancelBtn.closest("a")).toHaveAttribute(
-            "href",
-            `/collections/${collection.id}`
-         );
-      });
    });
 });
 
@@ -174,6 +170,7 @@ describe("CollectionEdit functionality tests", () => {
 
    beforeEach(() => {
       jest.clearAllMocks();
+      mockRouter.push("/");
    });
 
    it("tab switching - test", async () => {
@@ -205,6 +202,198 @@ describe("CollectionEdit functionality tests", () => {
 
       await waitFor(() => {
          assertGeneralTabRendered();
+      });
+   });
+
+   it("create mode - save btn clicked - success - test", async () => {
+      const collection = dtestData.dCollection(2);
+      const result: ActionResult<DCollection> = {
+         success: true,
+         message: "Sammlung erfolgreich erstellt",
+         data: collection,
+      };
+      createCollectionMock.mockResolvedValue(result);
+
+      render(<CollectionEdit />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(createCollectionMock).not.toHaveBeenCalled();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      await waitFor(() => {
+         expect(createCollectionMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "Neue Sammlung");
+      await userEvent.click(saveBtn);
+
+      const initValues = initCollection();
+      const expectedPayload: DCollectionUpdate = {
+         ...initValues,
+         name: initValues.name + "Neue Sammlung",
+      };
+
+      await waitFor(() => {
+         expect(createCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createCollectionMock).toHaveBeenCalledWith(expectedPayload);
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual(`/collections/${collection.id}`);
+      });
+   });
+
+   it("create mode - save btn clicked - failed - test", async () => {
+      const result: ActionResult<DCollection> = {
+         success: false,
+         message: "Fehler beim Erstellen",
+      };
+      createCollectionMock.mockResolvedValue(result);
+
+      render(<CollectionEdit />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(createCollectionMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "Neue Sammlung 123");
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      const initValues = initCollection();
+      const expectedPayload: DCollectionUpdate = {
+         ...initValues,
+         name: initValues.name + "Neue Sammlung 123",
+      };
+
+      await waitFor(() => {
+         expect(createCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createCollectionMock).toHaveBeenCalledWith(expectedPayload);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/");
+      });
+   });
+
+   it("edit mode - save btn clicked - success - test", async () => {
+      const collection = dtestData.dCollection(1);
+      const result: ActionResult<DCollection> = {
+         success: true,
+         message: "Sammlung erfolgreich gespeichert",
+         data: collection,
+      };
+      updateCollectionMock.mockResolvedValue(result);
+
+      render(<CollectionEdit collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(updateCollectionMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", " aktualisiert");
+      await typeIntoTextArea("description", " neu");
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      const initValues = initCollection(collection);
+      const expectedPayload: DCollectionUpdate = {
+         ...initValues,
+         name: initValues.name + " aktualisiert",
+         description: initValues.description + " neu",
+      };
+
+      await waitFor(() => {
+         expect(updateCollectionMock).toHaveBeenCalledTimes(1);
+         expect(updateCollectionMock).toHaveBeenCalledWith(
+            collection.id,
+            expectedPayload
+         );
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
+      });
+   });
+
+   it("edit mode - save btn clicked - failed - test", async () => {
+      const collection = dtestData.dCollection(1);
+      const result: ActionResult<DCollection> = {
+         success: false,
+         message: "Fehler beim Speichern",
+         data: collection,
+      };
+      updateCollectionMock.mockResolvedValue(result);
+
+      render(<CollectionEdit collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(updateCollectionMock).not.toHaveBeenCalled();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      const initValues = initCollection(collection);
+      const expectedPayload: DCollectionUpdate = {
+         ...initValues,
+      };
+
+      await waitFor(() => {
+         expect(updateCollectionMock).toHaveBeenCalledTimes(1);
+         expect(updateCollectionMock).toHaveBeenCalledWith(
+            collection.id,
+            expectedPayload
+         );
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
+      });
+   });
+
+   it("create mode - cancel btn clicked - test", async () => {
+      renderWithReactQuery(<CollectionEdit />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertBtnsRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const cancelBtn = getByTestId(headerActions, "cancel-btn");
+      await userEvent.click(cancelBtn);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual("/collections");
+      });
+   });
+
+   it("edit mode - cancel btn clicked - test", async () => {
+      const collection = dtestData.dCollection();
+
+      renderWithReactQuery(<CollectionEdit collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertBtnsRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const cancelBtn = getByTestId(headerActions, "cancel-btn");
+      await userEvent.click(cancelBtn);
+
+      await waitFor(() => {
+         expect(mockRouter.asPath).toEqual(`/collections/${collection.id}`);
       });
    });
 });
