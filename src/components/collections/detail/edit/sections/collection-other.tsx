@@ -60,7 +60,7 @@ export const CollectionOther = ({ collection }: Props) => {
             </div>
             <Button
                type="button"
-               variant={isPublic ? "destructive" : "outline"}
+               variant="outline"
                size="sm"
                onClick={handleTogglePublic}
                disabled={isSubmitting}
@@ -69,9 +69,9 @@ export const CollectionOther = ({ collection }: Props) => {
                {isSubmitting ? (
                   <Loader className="h-4 w-4 animate-spin" />
                ) : isPublic ? (
-                  "Deaktivieren"
+                  "Privat machen"
                ) : (
-                  "Aktivieren"
+                  "Öffentlich machen"
                )}
             </Button>
          </div>
