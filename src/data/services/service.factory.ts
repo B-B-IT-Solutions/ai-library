@@ -25,6 +25,7 @@ import {
    UserService,
    VerificationTokenService,
 } from "@/data/services/user";
+import { WorkflowService } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
 
@@ -48,6 +49,7 @@ export class ServiceFactory {
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
    private emailService?: IEmailService;
+   private workflowService?: WorkflowService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -230,5 +232,15 @@ export class ServiceFactory {
          }
       }
       return this.emailService;
+   }
+
+   getWorkflowService(): WorkflowService {
+      if (!this.workflowService) {
+         this.workflowService = new WorkflowService(
+            this.repositories.workflowRepository(),
+            this.getSubscriptionService()
+         );
+      }
+      return this.workflowService;
    }
 }

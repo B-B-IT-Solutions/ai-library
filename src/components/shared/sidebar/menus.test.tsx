@@ -3,6 +3,7 @@ import {
    Compass,
    FileText,
    Folder,
+   GitBranch,
    Package,
    Send,
    Settings,
@@ -19,6 +20,12 @@ const expectedNavigationMenu1: DMenuItem[] = [
       title: "Prompts",
       icon: Braces,
       url: "/templates",
+   },
+   {
+      id: "/workflows",
+      title: "Workflows",
+      icon: GitBranch,
+      url: "/workflows",
    },
    {
       id: "/collections",

@@ -14,6 +14,7 @@ import {
    UserRepository,
    VerificationTokenRepository,
 } from "./user";
+import { WorkflowRepository } from "./workflow";
 
 export class RepositoryFactory {
    private prisma: DbClient;
@@ -33,6 +34,7 @@ export class RepositoryFactory {
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
    private publicSettingsRepo?: PublicSettingsRepository;
+   private workflowRepo?: WorkflowRepository;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
@@ -152,5 +154,12 @@ export class RepositoryFactory {
          this.publicSettingsRepo = new PublicSettingsRepository(this.prisma);
       }
       return this.publicSettingsRepo;
+   }
+
+   workflowRepository(): WorkflowRepository {
+      if (!this.workflowRepo) {
+         this.workflowRepo = new WorkflowRepository(this.prisma);
+      }
+      return this.workflowRepo;
    }
 }
