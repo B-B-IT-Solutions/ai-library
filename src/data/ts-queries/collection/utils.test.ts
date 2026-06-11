@@ -29,7 +29,7 @@ describe("collectionKeys tests", () => {
          "collection",
          collectionId,
       ]);
-      expect(collectionKeys.collectionTemplateIds(collectionId)).toEqual([
+      expect(collectionKeys.collectionPromptIds(collectionId)).toEqual([
          "collections",
          "collection",
          collectionId,

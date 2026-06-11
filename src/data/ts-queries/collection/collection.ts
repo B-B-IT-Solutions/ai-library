@@ -117,7 +117,7 @@ export const loadCollectionPromptIdsOptions = (
    collectionId: string
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    return {
-      queryKey: collectionKeys.collectionTemplateIds(collectionId),
+      queryKey: collectionKeys.collectionPromptIds(collectionId),
       queryFn: () => getCollectionPromptIds(collectionId),
       placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
@@ -147,7 +147,7 @@ export const addPromptToCollectionOptions = (
             return [...templateIds, params.promptId];
          };
          queryClient.setQueryData(
-            collectionKeys.collectionTemplateIds(params.collectionId),
+            collectionKeys.collectionPromptIds(params.collectionId),
             updater
          );
       },
@@ -181,7 +181,7 @@ export const removePromptFromCollectionOptions = (
             return filter(templateIds, (id) => id != params.promptId);
          };
          queryClient.setQueryData(
-            collectionKeys.collectionTemplateIds(params.collectionId),
+            collectionKeys.collectionPromptIds(params.collectionId),
             updater
          );
       },

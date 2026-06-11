@@ -9,6 +9,6 @@ export const collectionKeys = {
    collectionPreviews: () => [...collectionKeys.all, "previews"] as const,
    collection: (id: string) =>
       [...collectionKeys.all, "collection", id] as const,
-   collectionTemplateIds: (id: string) =>
+   collectionPromptIds: (id: string) =>
       [...collectionKeys.all, "collection", id, "templateIds"] as const,
 };
