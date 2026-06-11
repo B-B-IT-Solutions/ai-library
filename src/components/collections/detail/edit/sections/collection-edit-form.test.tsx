@@ -1,7 +1,7 @@
 jest.mock("@/data/actions/collection");
 jest.mock("sonner");
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
@@ -28,13 +28,7 @@ const updateCollectionMock = updateCollection as jest.MockedFunction<
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
-   const form = screen.getByTestId("collection-edit-form");
-   const cancelBtn = screen.getByTestId("cancel-btn");
-   const saveBtn = screen.getByTestId("save-btn");
-
-   assertInDocument(form);
-   assertInDocument(cancelBtn);
-   assertInDocument(saveBtn);
+   assertInDocument(screen.getByTestId("collection-edit-form"));
 };
 
 const assertFormRendered = () => {
@@ -45,6 +39,10 @@ const assertFormRendered = () => {
    assertInDocument(name);
    assertInDocument(description);
    assertInDocument(color);
+};
+
+const submitForm = () => {
+   fireEvent.submit(document.getElementById("collection-edit-form")!);
 };
 
 describe("CollectionEditForm rendering tests", () => {
@@ -100,15 +98,14 @@ describe("CollectionEditForm functionality tests", () => {
          expect(createCollectionMock).not.toHaveBeenCalled();
       });
 
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
+      submitForm();
 
       await waitFor(() => {
          expect(createCollectionMock).not.toHaveBeenCalled();
       });
 
       await typeIntoInput("name", "Neue Sammlung");
-      await userEvent.click(saveBtn);
+      submitForm();
 
       const initValues = initCollection();
       const expectedPayload: DCollectionUpdate = {
@@ -141,9 +138,7 @@ describe("CollectionEditForm functionality tests", () => {
       });
 
       await typeIntoInput("name", "Neue Sammlung 123");
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
+      submitForm();
 
       const initValues = initCollection();
       const expectedPayload: DCollectionUpdate = {
@@ -157,23 +152,6 @@ describe("CollectionEditForm functionality tests", () => {
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");
-      });
-   });
-
-   it("create mode - cancel btn clicked - test", async () => {
-      render(<CollectionEditForm />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertFormRendered();
-         expect(mockRouter.pathname).toEqual("/");
-      });
-
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/collections");
       });
    });
 
@@ -196,9 +174,7 @@ describe("CollectionEditForm functionality tests", () => {
 
       await typeIntoInput("name", " aktualisiert");
       await typeIntoTextArea("description", " neu");
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
+      submitForm();
 
       const initValues = initCollection(collection);
       const expectedPayload: DCollectionUpdate = {
@@ -236,8 +212,7 @@ describe("CollectionEditForm functionality tests", () => {
          expect(updateCollectionMock).not.toHaveBeenCalled();
       });
 
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
+      submitForm();
 
       const initValues = initCollection(collection);
       const expectedPayload: DCollectionUpdate = {
@@ -253,24 +228,6 @@ describe("CollectionEditForm functionality tests", () => {
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
-      });
-   });
-
-   it("edit mode - cancel btn clicked - test", async () => {
-      const collection = dtestData.dCollection(1);
-      render(<CollectionEditForm collection={collection} />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertFormRendered();
-         expect(mockRouter.pathname).toEqual("/");
-      });
-
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/collections/${collection.id}`);
       });
    });
 });

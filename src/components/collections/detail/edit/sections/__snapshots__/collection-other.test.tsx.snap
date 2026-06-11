@@ -3,13 +3,11 @@
 exports[`CollectionOther rendering tests private collection - test 1`] = `
 <div>
   <div
-    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
-    data-slot="card"
+    class="rounded-xl bg-white p-6 shadow-sm"
     data-testid="collection-other"
   >
     <div
-      class="px-6 space-y-3 pt-6"
-      data-slot="card-content"
+      class="space-y-3"
     >
       <p
         class="text-sm font-semibold text-slate-700"
@@ -78,13 +76,11 @@ exports[`CollectionOther rendering tests private collection - test 1`] = `
 exports[`CollectionOther rendering tests public collection - test 1`] = `
 <div>
   <div
-    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
-    data-slot="card"
+    class="rounded-xl bg-white p-6 shadow-sm"
     data-testid="collection-other"
   >
     <div
-      class="px-6 space-y-3 pt-6"
-      data-slot="card-content"
+      class="space-y-3"
     >
       <p
         class="text-sm font-semibold text-slate-700"

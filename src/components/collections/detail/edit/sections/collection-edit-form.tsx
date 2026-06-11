@@ -1,15 +1,11 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/components/shadcn/button";
-import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { createCollection, updateCollection } from "@/data/actions/collection";
@@ -19,13 +15,18 @@ import { initCollection } from "../utils";
 
 type Props = {
    collection?: DCollection;
+   onSubmittingChange?: (isSubmitting: boolean) => void;
 };
 
-export const CollectionEditForm = ({ collection }: Props) => {
+export const CollectionEditForm = ({ collection, onSubmittingChange }: Props) => {
    const router = useRouter();
    const isEdit = !!collection;
 
    const [isSubmitting, startTransition] = useTransition();
+
+   useEffect(() => {
+      onSubmittingChange?.(isSubmitting);
+   }, [isSubmitting, onSubmittingChange]);
 
    const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateCollectionSchema),
@@ -64,83 +65,34 @@ export const CollectionEditForm = ({ collection }: Props) => {
       }
    };
 
-   const cancelBtn = () => {
-      return (
-         <Link href={isEdit ? `/collections/${collection.id}` : "/collections"}>
-            <Button
-               type="button"
-               variant="outline"
-               disabled={isSubmitting}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               Abbrechen
-            </Button>
-         </Link>
-      );
-   };
-
-   const submitBtn = () => {
-      return (
-         <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid={"save-btn"}
-         >
-            {isSubmitting ? (
-               <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
-               </>
-            ) : isEdit ? (
-               "Speichern"
-            ) : (
-               "Erstellen"
-            )}
-         </Button>
-      );
-   };
-
-   const buttons = () => {
-      return (
-         <div className="flex items-center justify-end gap-3 pt-2">
-            {cancelBtn()}
-            {submitBtn()}
-         </div>
-      );
-   };
-
    return (
-      <Card data-testid="collection-edit-form">
-         <CardContent>
-            <Form {...form}>
-               <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-5"
-               >
-                  <FormInput<DCollectionUpdate>
-                     name="name"
-                     label="Name"
-                     required={true}
-                     control={form.control}
-                  />
-                  <FormTextArea<DCollectionUpdate>
-                     name="description"
-                     label="Beschreibung"
-                     placeholder="Wofür wird diese Sammlung verwendet?"
-                     control={form.control}
-                  />
-                  <FormInput<DCollectionUpdate>
-                     name="color"
-                     label="Farbe"
-                     type="color"
-                     control={form.control}
-                  />
-                  {buttons()}
-               </form>
-            </Form>
-         </CardContent>
-      </Card>
+      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-edit-form">
+         <Form {...form}>
+            <form
+               id="collection-edit-form"
+               onSubmit={form.handleSubmit(onSubmit)}
+               className="space-y-5"
+            >
+               <FormInput<DCollectionUpdate>
+                  name="name"
+                  label="Name"
+                  required={true}
+                  control={form.control}
+               />
+               <FormTextArea<DCollectionUpdate>
+                  name="description"
+                  label="Beschreibung"
+                  placeholder="Wofür wird diese Sammlung verwendet?"
+                  control={form.control}
+               />
+               <FormInput<DCollectionUpdate>
+                  name="color"
+                  label="Farbe"
+                  type="color"
+                  control={form.control}
+               />
+            </form>
+         </Form>
+      </div>
    );
 };

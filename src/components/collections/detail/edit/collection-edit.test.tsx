@@ -1,7 +1,7 @@
 jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt");
 
-import { screen, waitFor } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
@@ -30,12 +30,21 @@ const assertRendered = () => {
    assertInDocument(breadcrumbs);
 };
 
+const assertHeaderActionsRendered = () => {
+   const headerActions = screen.getByTestId("header-actions");
+   assertInDocument(within(headerActions).getByTestId("cancel-btn"));
+};
+
 const assertCreateModeRendered = () => {
    const editForm = screen.getByTestId("collection-edit-form");
-   const tabs = screen.queryByTestId("mock-react-tabs-root");
+   const tabs = screen.getByTestId("mock-react-tabs-root");
+   const tabTemplates = screen.getByTestId("tab-templates-btn");
+   const tabOther = screen.getByTestId("tab-other-btn");
 
    assertInDocument(editForm);
-   assertNotInDocument(tabs);
+   assertInDocument(tabs);
+   expect(tabTemplates).toBeDisabled();
+   expect(tabOther).toBeDisabled();
 };
 
 const assertEditModeRendered = () => {
@@ -48,6 +57,8 @@ const assertEditModeRendered = () => {
    assertInDocument(tabGeneral);
    assertInDocument(tabTemplates);
    assertInDocument(tabOther);
+   expect(tabTemplates).not.toBeDisabled();
+   expect(tabOther).not.toBeDisabled();
 };
 
 const assertGeneralTabRendered = () => {
@@ -90,6 +101,7 @@ describe("CollectionEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertHeaderActionsRendered();
          assertCreateModeRendered();
       });
 
@@ -105,11 +117,49 @@ describe("CollectionEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertHeaderActionsRendered();
          assertEditModeRendered();
          assertGeneralTabRendered();
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("CollectionEdit navigation tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("create mode - cancel btn navigates to /collections - test", async () => {
+      renderWithReactQuery(<CollectionEdit />);
+
+      await waitFor(() => assertRendered());
+
+      const headerActions = screen.getByTestId("header-actions");
+      const cancelBtn = within(headerActions).getByTestId("cancel-btn");
+      await userEvent.click(cancelBtn);
+
+      await waitFor(() => {
+         expect(cancelBtn.closest("a")).toHaveAttribute("href", "/collections");
+      });
+   });
+
+   it("edit mode - cancel btn navigates to collection view - test", async () => {
+      const collection = dtestData.dCollection(1);
+      renderWithReactQuery(<CollectionEdit collection={collection} />);
+
+      await waitFor(() => assertRendered());
+
+      const headerActions = screen.getByTestId("header-actions");
+      const cancelBtn = within(headerActions).getByTestId("cancel-btn");
+
+      await waitFor(() => {
+         expect(cancelBtn.closest("a")).toHaveAttribute(
+            "href",
+            `/collections/${collection.id}`
+         );
+      });
    });
 });
 

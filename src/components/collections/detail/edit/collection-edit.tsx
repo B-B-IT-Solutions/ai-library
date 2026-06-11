@@ -1,5 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import { Loader } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/shadcn/button";
 import {
    Tabs,
    TabsContent,
@@ -9,7 +14,6 @@ import {
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
-   ItemDetailsEditBreadcrumbs,
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
@@ -28,20 +32,10 @@ type Props = {
 
 export const CollectionEdit = ({ collection }: Props) => {
    const isEdit = !!collection;
+   const [isSubmitting, setIsSubmitting] = useState(false);
+   const [activeTab, setActiveTab] = useState("general");
 
-   const header = () => {
-      const title = isEdit ? "Sammlung Bearbeiten" : "Neue Sammlung Erstellen";
-      const text = isEdit
-         ? "Bearbeiten Sie die Details und Vorlagen der Sammlung"
-         : "Erstellen Sie eine neue Sammlung";
-
-      return (
-         <>
-            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
-            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
-         </>
-      );
-   };
+   const cancelUrl = isEdit ? `/collections/${collection.id}` : "/collections";
 
    const breadcrumbs = () => {
       if (isEdit) {
@@ -56,57 +50,106 @@ export const CollectionEdit = ({ collection }: Props) => {
       return <CollectionBreadcrumb variant="new" />;
    };
 
-   const body = () => {
-      if (isEdit) {
-         return (
-            <Tabs defaultValue="general" orientation="horizontal">
-               <TabsList variant="default" className="w-full bg-slate-50">
-                  <TabsTrigger
-                     value="general"
-                     className="bg-slate-50 py-3.5"
-                     data-testid="tab-general-btn"
-                  >
-                     Einstellungen
-                  </TabsTrigger>
-                  <TabsTrigger
-                     value="templates"
-                     className="bg-slate-50 py-3.5"
-                     data-testid="tab-templates-btn"
-                  >
-                     Vorlagen
-                  </TabsTrigger>
-                  <TabsTrigger
-                     value="other"
-                     className="bg-slate-50 py-3.5"
-                     data-testid="tab-other-btn"
-                  >
-                     Freigabe
-                  </TabsTrigger>
-               </TabsList>
-               <TabsContent value="general">
-                  <CollectionEditForm collection={collection} />
-               </TabsContent>
+   const actions = () => (
+      <div className="flex items-center gap-2">
+         <Button
+            asChild
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="cancel-btn"
+         >
+            <Link href={cancelUrl}>Abbrechen</Link>
+         </Button>
+         {activeTab === "general" && (
+            <Button
+               type="submit"
+               form="collection-edit-form"
+               disabled={isSubmitting}
+               className="cursor-pointer bg-blue-700 hover:bg-blue-800"
+               data-testid="save-btn"
+            >
+               {isSubmitting ? (
+                  <>
+                     <Loader className="h-4 w-4 animate-spin" />
+                     {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+                  </>
+               ) : isEdit ? (
+                  "Sammlung speichern"
+               ) : (
+                  "Sammlung erstellen"
+               )}
+            </Button>
+         )}
+      </div>
+   );
+
+   const body = () => (
+      <Tabs value={activeTab} onValueChange={setActiveTab} orientation="horizontal">
+         <TabsList
+            className="mb-6 h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent px-0"
+         >
+            <TabsTrigger
+               value="general"
+               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:border-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+               data-testid="tab-general-btn"
+            >
+               Einstellungen
+            </TabsTrigger>
+            <TabsTrigger
+               value="templates"
+               disabled={!isEdit}
+               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:border-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40"
+               data-testid="tab-templates-btn"
+            >
+               Vorlagen
+            </TabsTrigger>
+            <TabsTrigger
+               value="other"
+               disabled={!isEdit}
+               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:border-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40"
+               data-testid="tab-other-btn"
+            >
+               Freigabe
+            </TabsTrigger>
+         </TabsList>
+         <TabsContent value="general">
+            <CollectionEditForm
+               collection={collection}
+               onSubmittingChange={setIsSubmitting}
+            />
+         </TabsContent>
+         {isEdit && (
+            <>
                <TabsContent value="templates">
                   <CollectionPrompts collectionId={collection.id} />
                </TabsContent>
                <TabsContent value="other">
                   <CollectionOther collection={collection} />
                </TabsContent>
-            </Tabs>
-         );
-      }
-      return <CollectionEditForm collection={collection} />;
-   };
+            </>
+         )}
+      </Tabs>
+   );
 
    return (
       <ItemDetailsEdit data-testid="collection-edit">
-         <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
+         <ItemDetailsEditHeader>
+            {breadcrumbs()}
+            <div className="ml-auto hidden lg:flex" data-testid="header-actions">
+               {actions()}
+            </div>
+         </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
-            <ItemDetailsEditBreadcrumbs>
-               {breadcrumbs()}
-            </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>{body()}</ItemDetailsEditBody>
          </ItemDetailsEditContent>
+         <div
+            className="flex justify-end border-t border-slate-200 bg-white px-6 py-3 lg:hidden"
+            data-testid="footer-actions"
+         >
+            {actions()}
+         </div>
       </ItemDetailsEdit>
    );
 };

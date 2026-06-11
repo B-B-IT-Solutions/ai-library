@@ -7,7 +7,6 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { Card, CardContent } from "@/components/shadcn/card";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { Input } from "@/components/shadcn/input";
 import {
@@ -216,22 +215,20 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
    };
 
    return (
-      <Card data-testid="collection-prompts">
-         <CardContent>
-            <div className="flex flex-col gap-4">
-               <div className="relative" data-testid="templates-search">
-                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input
-                     placeholder="Vorlagen durchsuchen..."
-                     value={search}
-                     onChange={(e) => setSearch(e.target.value)}
-                     className="pl-9"
-                     data-testid="search-input"
-                  />
-               </div>
-               {promptsList()}
+      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-prompts">
+         <div className="flex flex-col gap-4">
+            <div className="relative" data-testid="templates-search">
+               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+               <Input
+                  placeholder="Vorlagen durchsuchen..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9"
+                  data-testid="search-input"
+               />
             </div>
-         </CardContent>
-      </Card>
+            {promptsList()}
+         </div>
+      </div>
    );
 };
