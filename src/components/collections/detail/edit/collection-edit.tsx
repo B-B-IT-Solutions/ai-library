@@ -37,6 +37,8 @@ export const CollectionEdit = ({ collection }: Props) => {
 
    const cancelUrl = isEdit ? `/collections/${collection.id}` : "/collections";
 
+   const formId = "collection-edit-form";
+
    const breadcrumbs = () => {
       if (isEdit) {
          return (
@@ -65,7 +67,7 @@ export const CollectionEdit = ({ collection }: Props) => {
          {activeTab === "general" && (
             <Button
                type="submit"
-               form="collection-edit-form"
+               form={formId}
                disabled={isSubmitting}
                className="cursor-pointer bg-blue-700 hover:bg-blue-800"
                data-testid="save-btn"
@@ -120,6 +122,7 @@ export const CollectionEdit = ({ collection }: Props) => {
             <CollectionEditForm
                collection={collection}
                onSubmittingChange={setIsSubmitting}
+               formId={formId}
             />
          </TabsContent>
          {isEdit && (

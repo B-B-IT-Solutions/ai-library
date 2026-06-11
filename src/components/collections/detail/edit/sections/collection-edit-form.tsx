@@ -16,9 +16,14 @@ import { initCollection } from "../utils";
 type Props = {
    collection?: DCollection;
    onSubmittingChange?: (isSubmitting: boolean) => void;
+   formId?: string;
 };
 
-export const CollectionEditForm = ({ collection, onSubmittingChange }: Props) => {
+export const CollectionEditForm = ({
+   collection,
+   onSubmittingChange,
+   formId = "collection-edit-form",
+}: Props) => {
    const router = useRouter();
    const isEdit = !!collection;
 
@@ -66,10 +71,13 @@ export const CollectionEditForm = ({ collection, onSubmittingChange }: Props) =>
    };
 
    return (
-      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-edit-form">
+      <div
+         className="rounded-xl bg-white p-6 shadow-sm"
+         data-testid="collection-edit-form"
+      >
          <Form {...form}>
             <form
-               id="collection-edit-form"
+               id={formId}
                onSubmit={form.handleSubmit(onSubmit)}
                className="space-y-5"
             >
