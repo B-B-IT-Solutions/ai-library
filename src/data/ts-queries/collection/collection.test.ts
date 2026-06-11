@@ -5,6 +5,8 @@ import {
    keepPreviousData,
    MutationFunctionContext,
    QueryClient,
+   QueryFunction,
+   QueryFunctionContext,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
@@ -16,28 +18,39 @@ import { mockDeep } from "jest-mock-extended";
 
 import {
    addPromptToCollection,
+   createCollection,
+   getCollectionPreviews,
    getCollectionPromptIds,
    getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
 import {
+   DCollection,
+   DCollectionPreview,
    DCollectionsPage,
    DCollectionsPageQuery,
+   DCollectionUpdate,
 } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import {
    addPromptToCollectionOptions,
+   createCollectionOptions,
    infiniteLoadCollectionsPageOptions,
+   loadCollectionPreviewsOptions,
    loadCollectionPromptIdsOptions,
+   preloadCollectionPreviewsOptions,
    removePromptFromCollectionOptions,
    useAddPromptToCollection,
+   useCreateCollection,
    useInfiniteLoadCollectionsPage,
+   useLoadCollectionPreviews,
    useLoadCollectionPromptIds,
    useRemovePromptFromCollection,
 } from "./collection";
 import {
    AddPromptToCollectionParams,
+   LoadCollectionPreviewsParams,
    LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";
@@ -53,6 +66,10 @@ const getCollectionsPageMock = getCollectionsPage as jest.MockedFunction<
    typeof getCollectionsPage
 >;
 
+const getCollectionPreviewsMock = getCollectionPreviews as jest.MockedFunction<
+   typeof getCollectionPreviews
+>;
+
 const getCollectionPromptIdsMock =
    getCollectionPromptIds as jest.MockedFunction<typeof getCollectionPromptIds>;
 
@@ -64,6 +81,39 @@ const removePromptFromCollectionMock =
    removePromptFromCollection as jest.MockedFunction<
       typeof removePromptFromCollection
    >;
+
+const createCollectionMock = createCollection as jest.MockedFunction<
+   typeof createCollection
+>;
+
+describe("prefetch options tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("preloadCollectionPreviewsOptions  - test", async () => {
+      const collections = dtestData.dCollectionPreviews();
+      getCollectionPreviewsMock.mockResolvedValue(collections);
+
+      const options = preloadCollectionPreviewsOptions();
+      const queryFn = options.queryFn as QueryFunction<DCollectionPreview[]>;
+      const context = {} as QueryFunctionContext;
+      const fnResult = await queryFn(context);
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DCollectionPreview[],
+         Error,
+         DCollectionPreview[]
+      > = {
+         queryKey: ["collections", "previews"],
+         queryFn: jest.fn(),
+      };
+
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
+      expect(fnResult).toEqual(collections);
+   });
+});
 
 describe("infiniteLoadCollectionsPage hooks tests", () => {
    beforeEach(() => {
@@ -124,6 +174,55 @@ describe("infiniteLoadCollectionsPage hooks tests", () => {
    });
 });
 
+describe("loadCollectionPreviews hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("loadCollectionPreviewsOptions - test", async () => {
+      const enabled = true;
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DCollectionPreview[],
+         Error,
+         DCollectionPreview[]
+      > = {
+         queryKey: ["collections", "previews"],
+         queryFn: jest.fn(),
+         placeholderData: keepPreviousData,
+         enabled,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const params: LoadCollectionPreviewsParams = {
+         enabled,
+      };
+
+      const options = loadCollectionPreviewsOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadCollectionPreviews test", async () => {
+      const enabled = true;
+
+      const collections = dtestData.dCollectionPreviews();
+      getCollectionPreviewsMock.mockResolvedValue(collections);
+
+      const params: LoadCollectionPreviewsParams = {
+         enabled,
+      };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadCollectionPreviews(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(collections);
+         expect(getCollectionPreviewsMock).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
 describe("loadCollectionPromptIds hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -136,7 +235,7 @@ describe("loadCollectionPromptIds hooks tests", () => {
          Error,
          string[]
       > = {
-         queryKey: ["collections", "collection", collectionId, "templateIds"],
+         queryKey: ["collections", "collection", collectionId, "promptIds"],
          queryFn: jest.fn(),
          placeholderData: keepPreviousData,
          staleTime: 2 * 60 * 1000,
@@ -202,7 +301,7 @@ describe("addPromptToCollection hooks tests", () => {
          "collections",
          "collection",
          collectionId,
-         "templateIds",
+         "promptIds",
       ];
       expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
       expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
@@ -297,7 +396,7 @@ describe("removePromptFromCollection hooks tests", () => {
          "collections",
          "collection",
          collectionId,
-         "templateIds",
+         "promptIds",
       ];
       expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
       expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
@@ -350,6 +449,64 @@ describe("removePromptFromCollection hooks tests", () => {
             params.collectionId,
             params.promptId
          );
+      });
+   });
+});
+
+describe("createCollection hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("createCollectionOptions test", async () => {
+      const update = dtestData.dCollectionUpdate();
+
+      const expectedOptions: UseMutationOptions<
+         ActionResult<DCollection>,
+         Error,
+         DCollectionUpdate
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = createCollectionOptions(queryClientMock);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
+
+      const result: ActionResult<DCollection> = {
+         success: true,
+         message: "Collection created",
+         data: undefined,
+      };
+
+      options.onSuccess!(result, update, undefined, mutationContextMock);
+
+      const expectedQueryKey: QueryKey = { queryKey: ["collections", {}] };
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledWith(
+         expectedQueryKey
+      );
+   });
+
+   test("useCreateCollection test", async () => {
+      const actionResult: ActionResult<DCollection> = {
+         success: true,
+         message: "Collection created",
+         data: dtestData.dCollection(),
+      };
+      createCollectionMock.mockResolvedValue(actionResult);
+
+      const { result } = renderHookWithReactQuery(() => useCreateCollection());
+
+      const newCollection = dtestData.dCollectionUpdate();
+
+      await waitFor(() => {
+         result.current.mutate(newCollection);
+         expect(result.current.isSuccess).toBe(true);
+         expect(createCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createCollectionMock).toHaveBeenCalledWith(newCollection);
       });
    });
 });

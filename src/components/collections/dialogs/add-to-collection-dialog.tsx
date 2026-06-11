@@ -16,8 +16,8 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Label } from "@/components/shadcn/label";
+import { useLoadCollectionPreviews } from "@/data/ts-queries/collection";
 import {
-   useLoadCollectionPreviews,
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
@@ -72,7 +72,7 @@ export const AddToCollectionDialog = ({
 
    const handleConfirm = async () => {
       const params: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: selectedColIds,
       };
 

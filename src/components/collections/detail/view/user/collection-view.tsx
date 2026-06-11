@@ -7,7 +7,6 @@ import {
 import { PromptItems, PromptsToolbar } from "@/components/prompts/lists";
 import { templatesSearchParamsCache } from "@/components/prompts/search-params";
 import { getPromptCategories, getPromptModels } from "@/data/actions/prompt";
-import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { infiniteLoadPromptsPageOptions } from "@/data/ts-queries/prompt";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
@@ -41,8 +40,6 @@ export const CollectionView = async ({ collection }: Props) => {
          })
       ),
    ]);
-
-   queryClient.setQueryData(libraryKeys.collection(collection.id), collection);
 
    const categories = await getPromptCategories();
    const models = await getPromptModels();

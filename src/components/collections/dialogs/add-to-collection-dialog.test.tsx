@@ -1,3 +1,4 @@
+jest.mock("@/data/ts-queries/collection");
 jest.mock("@/data/ts-queries/library");
 jest.mock("sonner");
 
@@ -14,14 +15,16 @@ import {
 import { toast } from "sonner";
 
 import {
+   LoadCollectionPreviewsParams,
    useCreateCollection,
    useLoadCollectionPreviews,
+} from "@/data/ts-queries/collection";
+import {
    useLoadPromptCollectionIds,
    useUpdatePromptCollections,
 } from "@/data/ts-queries/library";
 import {
    LoadCollectionIdsParams,
-   LoadCollectionPreviewsParams,
    UpdateCollectionIdsParams,
 } from "@/data/ts-queries/library/types";
 import { DCollectionPreview } from "@/data/types/domain/collection";
@@ -374,7 +377,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: dtestData.dPrompt().id,
+         promptId: prompt.id,
          collectionIds: [collection2.id, collection3.id],
       };
 
@@ -448,7 +451,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: [collection1.id, collection2.id, collection3.id],
       };
 
@@ -507,7 +510,7 @@ describe("AddToCollectionDialog functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
-         entryId: prompt.id,
+         promptId: prompt.id,
          collectionIds: selectedIds,
       };
 

@@ -1,4 +1,5 @@
 import {
+   FetchQueryOptions,
    InfiniteData,
    keepPreviousData,
    QueryClient,
@@ -18,21 +19,40 @@ import { filter, isEmpty } from "es-toolkit/compat";
 
 import {
    addPromptToCollection,
+   createCollection,
+   getCollectionPreviews,
    getCollectionPromptIds,
    getCollectionsPage,
    removePromptFromCollection,
 } from "@/data/actions/collection";
-import { DCollectionsPage } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionPreview,
+   DCollectionsPage,
+   DCollectionUpdate,
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    AddPromptToCollectionParams,
+   LoadCollectionPreviewsParams,
    LoadCollectionsPageParams,
    RemovePromptFromCollectionParams,
 } from "./types";
 import { collectionKeys } from "./utils";
+
+export const preloadCollectionPreviewsOptions = (): FetchQueryOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   return {
+      queryKey: collectionKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+   };
+};
 
 export const infiniteLoadCollectionsPageOptions = (
    params: LoadCollectionsPageParams
@@ -69,11 +89,35 @@ export const useInfiniteLoadCollectionsPage = (
    return useInfiniteQuery(options);
 };
 
+export const loadCollectionPreviewsOptions = (
+   params: LoadCollectionPreviewsParams
+): UndefinedInitialDataOptions<
+   DCollectionPreview[],
+   Error,
+   DCollectionPreview[]
+> => {
+   const { enabled } = params;
+   return {
+      queryKey: collectionKeys.collectionPreviews(),
+      queryFn: getCollectionPreviews,
+      placeholderData: keepPreviousData,
+      enabled,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadCollectionPreviews = (
+   params: LoadCollectionPreviewsParams
+): UseQueryResult<DCollectionPreview[]> => {
+   const options = loadCollectionPreviewsOptions(params);
+   return useQuery<DCollectionPreview[]>(options);
+};
+
 export const loadCollectionPromptIdsOptions = (
    collectionId: string
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    return {
-      queryKey: collectionKeys.collectionTemplateIds(collectionId),
+      queryKey: collectionKeys.collectionPromptIds(collectionId),
       queryFn: () => getCollectionPromptIds(collectionId),
       placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
@@ -103,7 +147,7 @@ export const addPromptToCollectionOptions = (
             return [...templateIds, params.promptId];
          };
          queryClient.setQueryData(
-            collectionKeys.collectionTemplateIds(params.collectionId),
+            collectionKeys.collectionPromptIds(params.collectionId),
             updater
          );
       },
@@ -137,7 +181,7 @@ export const removePromptFromCollectionOptions = (
             return filter(templateIds, (id) => id != params.promptId);
          };
          queryClient.setQueryData(
-            collectionKeys.collectionTemplateIds(params.collectionId),
+            collectionKeys.collectionPromptIds(params.collectionId),
             updater
          );
       },
@@ -152,4 +196,28 @@ export const useRemovePromptFromCollection = (): UseMutationResult<
    const queryClient = useQueryClient();
    const options = removePromptFromCollectionOptions(queryClient);
    return useMutation(options);
+};
+
+export const createCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
+   return {
+      mutationFn: async (data: DCollectionUpdate) => {
+         return await createCollection(data);
+      },
+      onSuccess: () => {
+         queryClient.invalidateQueries({
+            queryKey: collectionKeys.collectionsPage({}),
+         });
+      },
+   };
+};
+
+export const useCreateCollection = (): UseMutationResult<
+   ActionResult<DCollection>,
+   Error,
+   DCollectionUpdate
+> => {
+   const queryClient = useQueryClient();
+   return useMutation(createCollectionOptions(queryClient));
 };

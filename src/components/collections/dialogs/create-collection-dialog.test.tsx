@@ -1,4 +1,4 @@
-jest.mock("@/data/ts-queries/library");
+jest.mock("@/data/ts-queries/collection");
 jest.mock("sonner");
 
 import { screen, waitFor, within } from "@testing-library/react";
@@ -13,7 +13,7 @@ import {
 } from "@tests";
 import { toast } from "sonner";
 
-import { useCreateCollection } from "@/data/ts-queries/library";
+import { useCreateCollection } from "@/data/ts-queries/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
