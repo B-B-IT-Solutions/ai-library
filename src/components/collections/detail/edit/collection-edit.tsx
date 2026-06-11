@@ -53,7 +53,7 @@ export const CollectionEdit = ({ collection }: Props) => {
    const actions = () => (
       <div className="flex items-center gap-2">
          <Button
-            asChild
+            asChild={true}
             type="button"
             variant="outline"
             disabled={isSubmitting}
