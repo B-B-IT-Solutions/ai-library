@@ -122,16 +122,19 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       return (
          <div
             key={descriptor.id}
-            className="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            className="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid={`template-row-${isIn}`}
          >
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
                <p className="truncate text-sm font-medium text-slate-900">
                   {descriptor.title}
                </p>
             </div>
             {descriptor.recommendedModel && (
-               <Badge variant="secondary" className="shrink-0 text-xs">
+               <Badge
+                  variant="secondary"
+                  className="hidden shrink-0 text-xs sm:inline-flex"
+               >
                   {descriptor.recommendedModel}
                </Badge>
             )}
@@ -194,7 +197,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       }
       return (
          <div
-            className="relative max-h-130 overflow-y-auto bg-white"
+            className="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
             data-testid="templates-list"
          >
             <div>
@@ -215,7 +218,10 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
    };
 
    return (
-      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-prompts">
+      <div
+         className="rounded-xl bg-white p-4 shadow-sm sm:p-6"
+         data-testid="collection-prompts"
+      >
          <div className="flex flex-col gap-4">
             <div className="relative" data-testid="templates-search">
                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
