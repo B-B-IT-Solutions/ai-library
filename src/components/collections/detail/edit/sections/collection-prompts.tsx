@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { filter, flatMap, includes, isEmpty, map } from "es-toolkit/compat";
-import { Check, Loader, Plus, Search, X } from "lucide-react";
+import { Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -107,10 +107,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
                   data-testid="loader-icon"
                />
             ) : isIn ? (
-               <>
-                  <Check className="h-3.5 w-3.5 text-green-600 group-hover:hidden" />
-                  <X className="hidden h-3.5 w-3.5 text-slate-400 group-hover:inline" />
-               </>
+               <X className="h-3.5 w-3.5 text-slate-500" />
             ) : (
                <Plus className="h-3.5 w-3.5" />
             )}
@@ -194,18 +191,18 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       }
       return (
          <div
-            className="max-h-130 overflow-y-auto bg-white"
+            className="relative max-h-130 overflow-y-auto bg-white"
             data-testid="templates-list"
          >
             <div>
-               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+               <div className="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                   In dieser Sammlung ({promptIds.length})
                </div>
                {promptsInCollection()}
             </div>
 
             <div>
-               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+               <div className="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                   Weitere Vorlagen
                </div>
                {promptsNotInCollection()}
