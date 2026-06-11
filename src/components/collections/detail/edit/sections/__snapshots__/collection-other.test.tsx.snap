@@ -70,6 +70,21 @@ exports[`CollectionOther rendering tests private collection - test 1`] = `
       </div>
     </div>
   </div>
+  <div
+    data-slot="alert-dialog"
+    data-testid="mock-react-alert-dialog-root"
+  >
+    <div
+      data-slot="alert-dialog-portal"
+      data-testid="mock-react-alert-dialog-portal"
+    >
+      <div
+        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+        data-slot="alert-dialog-overlay"
+        data-testid="mock-react-alert-dialog-overlay"
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -192,6 +207,21 @@ exports[`CollectionOther rendering tests public collection - test 1`] = `
           In Zwischenablage kopieren
         </div>
       </div>
+    </div>
+  </div>
+  <div
+    data-slot="alert-dialog"
+    data-testid="mock-react-alert-dialog-root"
+  >
+    <div
+      data-slot="alert-dialog-portal"
+      data-testid="mock-react-alert-dialog-portal"
+    >
+      <div
+        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+        data-slot="alert-dialog-overlay"
+        data-testid="mock-react-alert-dialog-overlay"
+      />
     </div>
   </div>
 </div>

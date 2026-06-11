@@ -97,23 +97,23 @@ const setupDefaultMocks = () => {
 
 const assertRendered = () => {
    const collectionTemplates = screen.getByTestId("collection-prompts");
-   const search = screen.getByTestId("templates-search");
+   const search = screen.getByTestId("prompts-search");
 
    assertInDocument(collectionTemplates);
    assertInDocument(search);
 };
 
 const assertTemplatesLoadingRendered = () => {
-   const loading = screen.getByTestId("templates-loading");
-   const list = screen.queryByTestId("templates-list");
+   const loading = screen.getByTestId("prompts-loading");
+   const list = screen.queryByTestId("prompts-list");
 
    assertInDocument(loading);
    assertNotInDocument(list);
 };
 
 const assertTemplatesListRendered = () => {
-   const list = screen.getByTestId("templates-list");
-   const loading = screen.queryByTestId("templates-loading");
+   const list = screen.getByTestId("prompts-list");
+   const loading = screen.queryByTestId("prompts-loading");
 
    assertInDocument(list);
    assertNotInDocument(loading);
@@ -130,7 +130,7 @@ const assertNotInCollecitonEmpty = () => {
 };
 
 const assertTemplateRows = (count: number, isIn: boolean) => {
-   const rows = screen.getAllByTestId(`template-row-${isIn}`);
+   const rows = screen.getAllByTestId(`prompt-row-${isIn}`);
    expect(rows).toHaveLength(count);
 };
 

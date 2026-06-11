@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { filter, flatMap, includes, isEmpty, map } from "es-toolkit/compat";
-import { Check, Loader, Plus, Search, X } from "lucide-react";
+import { Check, FolderOpen, Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -80,24 +80,24 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       });
    };
 
-   const handleToggle = (descriptor: DPrompt, isIn: boolean) => {
-      setPendingId(descriptor.id);
+   const handleToggle = (prompt: DPrompt, isIn: boolean) => {
+      setPendingId(prompt.id);
 
       if (isIn) {
-         removePromptFromCollection(descriptor);
+         removePromptFromCollection(prompt);
       } else {
-         addPromptToCollection(descriptor);
+         addPromptToCollection(prompt);
       }
    };
 
-   const rowControlBtn = (descriptor: DPrompt, isIn: boolean) => {
-      const isPending = pendingId === descriptor.id;
+   const rowControlBtn = (prompt: DPrompt, isIn: boolean) => {
+      const isPending = pendingId === prompt.id;
       return (
          <Button
             variant={isIn ? "ghost" : "outline"}
             size="sm"
             className="h-7 shrink-0 cursor-pointer gap-1.5 px-2"
-            onClick={() => handleToggle(descriptor, isIn)}
+            onClick={() => handleToggle(prompt, isIn)}
             disabled={isPending}
             data-testid={`${isIn ? "remove" : "add"}-template-btn`}
          >
@@ -118,27 +118,27 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       );
    };
 
-   const renderRow = (descriptor: DPrompt, isIn: boolean) => {
+   const renderRow = (prompt: DPrompt, isIn: boolean) => {
       return (
          <div
-            key={descriptor.id}
+            key={prompt.id}
             className="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
-            data-testid={`template-row-${isIn}`}
+            data-testid={`prompt-row-${isIn}`}
          >
             <div className="min-w-0 flex-1">
                <p className="truncate text-sm font-medium text-slate-900">
-                  {descriptor.title}
+                  {prompt.title}
                </p>
             </div>
-            {descriptor.recommendedModel && (
+            {prompt.recommendedModel && (
                <Badge
                   variant="secondary"
                   className="hidden shrink-0 text-xs sm:inline-flex"
                >
-                  {descriptor.recommendedModel}
+                  {prompt.recommendedModel}
                </Badge>
             )}
-            {rowControlBtn(descriptor, isIn)}
+            {rowControlBtn(prompt, isIn)}
          </div>
       );
    };
@@ -147,10 +147,12 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       if (isEmpty(inCollection)) {
          return (
             <div
-               className="py-6 text-center text-sm text-slate-400"
+               className="flex flex-col items-center py-8 text-slate-400"
                data-testid="in-collection-empty"
             >
-               Noch keine Vorlagen hinzugefügt
+               <FolderOpen className="mb-2 h-8 w-8 opacity-40" />
+               <p className="text-sm">Keine Prompts vorhanden</p>
+               <p className="text-xs">Füge Prompts hinzu</p>
             </div>
          );
       }
@@ -160,8 +162,8 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
    const promptsNotInCollection = () => {
       if (isEmpty(notInCollection)) {
          const text = isEmpty(allPrompts)
-            ? "Keine Vorlagen gefunden"
-            : "Keine weiteren Vorlagen gefunden";
+            ? "Keine Prompts gefunden"
+            : "Keine weiteren Prompts gefunden";
 
          return (
             <div
@@ -189,7 +191,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
          return (
             <div
                className="flex justify-center py-8"
-               data-testid="templates-loading"
+               data-testid="prompts-loading"
             >
                <Loader className="h-5 w-5 animate-spin text-slate-400" />
             </div>
@@ -198,7 +200,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
       return (
          <div
             className="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
-            data-testid="templates-list"
+            data-testid="prompts-list"
          >
             <div>
                <div className="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
@@ -209,7 +211,7 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
 
             <div>
                <div className="sticky top-0 z-10 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
-                  Weitere Vorlagen
+                  Weitere Prompts
                </div>
                {promptsNotInCollection()}
             </div>
@@ -223,10 +225,10 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
          data-testid="collection-prompts"
       >
          <div className="flex flex-col gap-4">
-            <div className="relative" data-testid="templates-search">
+            <div className="relative" data-testid="prompts-search">
                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                <Input
-                  placeholder="Vorlagen durchsuchen..."
+                  placeholder="Prompts durchsuchen..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-9"

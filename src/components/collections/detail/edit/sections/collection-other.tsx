@@ -1,10 +1,20 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Globe, Loader, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import {
+   AlertDialog,
+   AlertDialogAction,
+   AlertDialogCancel,
+   AlertDialogContent,
+   AlertDialogDescription,
+   AlertDialogFooter,
+   AlertDialogHeader,
+   AlertDialogTitle,
+} from "@/components/shadcn/alert-dialog";
 import { Button } from "@/components/shadcn/button";
 import { CopyButton } from "@/components/shared/buttons";
 import { setCollectionPublic } from "@/data/actions/collection";
@@ -16,7 +26,7 @@ type Props = {
 
 export const CollectionOther = ({ collection }: Props) => {
    const router = useRouter();
-
+   const [showConfirm, setShowConfirm] = useState(false);
    const [isSubmitting, startTransition] = useTransition();
 
    const publicUrl = `${window.location.origin}/preview/collections/${collection.publicToken}`;
@@ -33,6 +43,14 @@ export const CollectionOther = ({ collection }: Props) => {
          }
          router.refresh();
       });
+   };
+
+   const handleBtnClick = () => {
+      if (isPublic) {
+         setShowConfirm(true);
+      } else {
+         handleTogglePublic();
+      }
    };
 
    const publicToggle = () => {
@@ -62,7 +80,7 @@ export const CollectionOther = ({ collection }: Props) => {
                type="button"
                variant="outline"
                size="sm"
-               onClick={handleTogglePublic}
+               onClick={handleBtnClick}
                disabled={isSubmitting}
                data-testid="public-toggle-btn"
             >
@@ -102,12 +120,40 @@ export const CollectionOther = ({ collection }: Props) => {
    };
 
    return (
-      <div className="rounded-xl bg-white p-6 shadow-sm" data-testid="collection-other">
-         <div className="space-y-3">
-            <p className="text-sm font-semibold text-slate-700">Freigabe</p>
-            {publicToggle()}
-            {url()}
+      <>
+         <div
+            className="rounded-xl bg-white p-6 shadow-sm"
+            data-testid="collection-other"
+         >
+            <div className="space-y-3">
+               <p className="text-sm font-semibold text-slate-700">Freigabe</p>
+               {publicToggle()}
+               {url()}
+            </div>
          </div>
-      </div>
+
+         <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+            <AlertDialogContent>
+               <AlertDialogHeader>
+                  <AlertDialogTitle>Sammlung privat machen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                     Der öffentliche Link wird ungültig. Personen mit dem Link
+                     können die Sammlung nicht mehr öffnen.
+                  </AlertDialogDescription>
+               </AlertDialogHeader>
+               <AlertDialogFooter>
+                  <AlertDialogCancel data-testid="cancel-private-btn">
+                     Abbrechen
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                     onClick={handleTogglePublic}
+                     data-testid="confirm-private-btn"
+                  >
+                     Privat machen
+                  </AlertDialogAction>
+               </AlertDialogFooter>
+            </AlertDialogContent>
+         </AlertDialog>
+      </>
    );
 };
