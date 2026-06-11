@@ -94,7 +94,7 @@ export const CollectionEdit = ({ collection }: Props) => {
          <TabsList className="mb-6 h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0">
             <TabsTrigger
                value="general"
-               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:border-b-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+               className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                data-testid="tab-general-btn"
             >
                Einstellungen
@@ -102,7 +102,7 @@ export const CollectionEdit = ({ collection }: Props) => {
             <TabsTrigger
                value="templates"
                disabled={!isEdit}
-               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:border-b-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+               className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                data-testid="tab-templates-btn"
             >
                Vorlagen
@@ -110,7 +110,7 @@ export const CollectionEdit = ({ collection }: Props) => {
             <TabsTrigger
                value="other"
                disabled={!isEdit}
-               className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:border-b-blue-600 data-[state=active]:bg-transparent data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+               className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                data-testid="tab-other-btn"
             >
                Freigabe
