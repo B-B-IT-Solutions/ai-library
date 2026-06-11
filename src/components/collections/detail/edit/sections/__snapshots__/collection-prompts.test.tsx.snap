@@ -3,7 +3,7 @@
 exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -94,7 +94,7 @@ exports[`CollectionPrompts rendering tests idsLoading true - test 1`] = `
 exports[`CollectionPrompts rendering tests in collection/not in collection - empty - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -135,7 +135,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - emp
         />
       </div>
       <div
-        class="relative max-h-130 overflow-y-auto bg-white"
+        class="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
         data-testid="templates-list"
       >
         <div>
@@ -175,7 +175,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - emp
 exports[`CollectionPrompts rendering tests in collection/not in collection - with items - test 1`] = `
 <div>
   <div
-    class="rounded-xl bg-white p-6 shadow-sm"
+    class="rounded-xl bg-white p-4 shadow-sm sm:p-6"
     data-testid="collection-prompts"
   >
     <div
@@ -216,7 +216,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
         />
       </div>
       <div
-        class="relative max-h-130 overflow-y-auto bg-white"
+        class="relative max-h-80 overflow-y-auto bg-white sm:max-h-130"
         data-testid="templates-list"
       >
         <div>
@@ -228,11 +228,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             )
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-true"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -241,7 +241,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 0
@@ -298,11 +298,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             Weitere Vorlagen
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -311,7 +311,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 1
@@ -344,11 +344,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -357,7 +357,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 2
@@ -390,11 +390,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -403,7 +403,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 3
@@ -436,11 +436,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -449,7 +449,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 4
@@ -482,11 +482,11 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
             </button>
           </div>
           <div
-            class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            class="group flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-slate-50 sm:gap-3 sm:p-3"
             data-testid="template-row-false"
           >
             <div
-              class="flex-1"
+              class="min-w-0 flex-1"
             >
               <p
                 class="truncate text-sm font-medium text-slate-900"
@@ -495,7 +495,7 @@ exports[`CollectionPrompts rendering tests in collection/not in collection - wit
               </p>
             </div>
             <span
-              class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
+              class="items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 hidden shrink-0 text-xs sm:inline-flex"
               data-slot="badge"
             >
               model 5
