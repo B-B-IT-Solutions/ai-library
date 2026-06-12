@@ -9,6 +9,7 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import {
+   WorkflowCountArgs,
    WorkflowCreateArgs,
    WorkflowCreateInput,
    WorkflowDeleteArgs,
@@ -64,11 +65,32 @@ export class WorkflowRepository {
       return toDWorkflows(data);
    }
 
-   async pCountWorkflows(userId: string): Promise<number> {
-      return this.prisma.workflow.count({ where: { userId } });
+   async pGetWorkflowsCount(userId: string): Promise<number> {
+      const args = {
+         where: { userId },
+      } satisfies WorkflowCountArgs;
+      return this.prisma.workflow.count(args);
    }
 
    async pGetWorkflow(
+      userId: string,
+      workflowId: string
+   ): Promise<DWorkflow | null> {
+      const args = {
+         where: {
+            id: workflowId,
+            userId,
+         },
+      } satisfies WorkflowFindUniqueArgs;
+
+      const data = await this.prisma.workflow.findUnique(args);
+      if (!data) {
+         return null;
+      }
+      return toDWorkflow(data);
+   }
+
+   async pGetWorkflowWithSteps(
       userId: string,
       workflowId: string
    ): Promise<DWorkflowWithSteps | null> {

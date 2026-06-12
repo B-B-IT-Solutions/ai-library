@@ -92,6 +92,7 @@ import {
 import {
    DWorkflow,
    DWorkflowStep,
+   DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { LoginUser } from "@/data/types/next-auth";
@@ -982,6 +983,13 @@ export const dGlobalPromptFieldUpdate = (
       defaultValue: `defaultValue-${index}`,
       options: [`option ${index}`, `option ${index + 1}`],
       order: index,
+   };
+};
+
+export const dWorkflowUpdate = (index = 1): DWorkflowUpdate => {
+   return {
+      title: `title-${index}`,
+      description: `description ${index}`,
    };
 };
 

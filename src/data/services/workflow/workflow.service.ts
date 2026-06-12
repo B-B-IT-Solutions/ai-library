@@ -27,7 +27,7 @@ export class WorkflowService {
       userId: string,
       workflowId: string
    ): Promise<DWorkflowWithSteps | null> {
-      return this.repository.pGetWorkflow(userId, workflowId);
+      return this.repository.pGetWorkflowWithSteps(userId, workflowId);
    }
 
    async createWorkflow(
@@ -71,9 +71,12 @@ export class WorkflowService {
       data: DWorkflowStepCreate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
+      const workflow = await this.repository.pGetWorkflowWithSteps(
+         userId,
+         workflowId
+      );
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
 
       const tier = await this.subscriptionService.getUserTier(userId);
@@ -99,9 +102,12 @@ export class WorkflowService {
       data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
+      const workflow = await this.repository.pGetWorkflowWithSteps(
+         userId,
+         workflowId
+      );
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
 
       // Cycle detection
@@ -124,9 +130,12 @@ export class WorkflowService {
       workflowId: string
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
+      const workflow = await this.repository.pGetWorkflowWithSteps(
+         userId,
+         workflowId
+      );
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
       return this.repository.pDeleteWorkflowStep(userId, stepId);
    }
@@ -136,20 +145,23 @@ export class WorkflowService {
       workflowId: string,
       stepId: string
    ): Promise<void> {
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
+      const workflow = await this.repository.pGetWorkflowWithSteps(
+         userId,
+         workflowId
+      );
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
       await this.repository.pSetStartStep(userId, workflowId, stepId);
    }
 
    async getWorkflowsCount(userId: string): Promise<number> {
-      return await this.repository.pCountWorkflows(userId);
+      return await this.repository.pGetWorkflowsCount(userId);
    }
 
    async getWorkflowsUsage(userId: string): Promise<DWorkflowsUsage> {
       const tier = await this.subscriptionService.getUserTier(userId);
-      const current = await this.repository.pCountWorkflows(userId);
+      const current = await this.repository.pGetWorkflowsCount(userId);
 
       const tierFeatures = {
          FREE: 0,

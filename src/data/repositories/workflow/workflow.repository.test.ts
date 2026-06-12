@@ -5,6 +5,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { DWorkflowUpdate } from "@/data/types/domain/workflow";
 import {
+   WorkflowCountArgs,
    WorkflowCreateArgs,
    WorkflowDeleteArgs,
    WorkflowFindManyArgs,
@@ -49,6 +50,29 @@ describe("pGetWorkflows", () => {
    });
 });
 
+describe("pGetWorkflowsCount", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflows count retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const workflowsCount = 11;
+      prismaMock.workflow.count.mockResolvedValue(workflowsCount);
+
+      const result = await repository.pGetWorkflowsCount(userId);
+
+      const expectedArgs: WorkflowCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(workflowsCount);
+      expect(prismaMock.workflow.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.count).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
 describe("pGetWorkflow", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -61,6 +85,48 @@ describe("pGetWorkflow", () => {
       prismaMock.workflow.findUnique.mockResolvedValue(null);
 
       const result = await repository.pGetWorkflow(userId, workflowId);
+
+      const expectedArgs: WorkflowFindUniqueArgs = {
+         where: { id: workflowId, userId },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.workflow.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.findUnique).toHaveBeenCalledWith(expectedArgs);
+   });
+
+   it("workflow retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const workflow = ptestData.pWorkflow(1);
+      prismaMock.workflow.findUnique.mockResolvedValue(workflow);
+
+      const result = await repository.pGetWorkflow(userId, workflow.id);
+
+      const expectedResult = toDWorkflow(workflow);
+
+      const expectedArgs: WorkflowFindUniqueArgs = {
+         where: { id: workflow.id, userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.workflow.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.findUnique).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pGetWorkflowWithSteps", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflow null - test", async () => {
+      const userId = "user-id-1";
+      const workflowId = "workflow-id-0001";
+
+      prismaMock.workflow.findUnique.mockResolvedValue(null);
+
+      const result = await repository.pGetWorkflowWithSteps(userId, workflowId);
 
       const expectedArgs: WorkflowFindUniqueArgs = {
          where: { id: workflowId, userId },
@@ -86,7 +152,7 @@ describe("pGetWorkflow", () => {
       const row = ptestData.pWorkflowWithSteps(1);
       prismaMock.workflow.findUnique.mockResolvedValue(row);
 
-      const result = await repository.pGetWorkflow(userId, workflowId);
+      const result = await repository.pGetWorkflowWithSteps(userId, workflowId);
 
       const expectedResult = toDWorkflowWithSteps(row);
 

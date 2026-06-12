@@ -7,6 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import { SubscriptionService } from "@/data/services/subscription";
+import { FeatureName } from "@/lib/subscription/access-control";
 import { ServiceFactory } from "../service.factory";
 
 import {
@@ -68,13 +69,142 @@ describe("getWorkflow tests", () => {
    it("workflow retrieved - test", async () => {
       const userId = "user-id-1";
       const workflow = dtestData.dWorkflowWithSteps();
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
+      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(workflow);
 
       const result = await workflowService.getWorkflow(userId, workflow.id);
 
       expect(result).toEqual(workflow);
+      expect(workflowRepoMock.pGetWorkflowWithSteps).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowWithSteps).toHaveBeenCalledWith(
+         userId,
+         workflow.id
+      );
+   });
+});
+
+describe("createWorkflow", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("workflow created - test", async () => {
+      const userId = "user-id-1";
+      const feature: FeatureName = "maxWorkflows";
+
+      const workflowsCount = 71;
+      workflowRepoMock.pGetWorkflowsCount.mockResolvedValue(workflowsCount);
+
+      const newWorkflow = dtestData.dWorkflow();
+      workflowRepoMock.pCreateWorkflow.mockResolvedValue(newWorkflow);
+
+      const update = dtestData.dWorkflowUpdate();
+
+      const result = await workflowService.createWorkflow(userId, update);
+
+      expect(result).toEqual(newWorkflow);
+      expect(workflowRepoMock.pCreateWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pCreateWorkflow).toHaveBeenCalledWith(
+         userId,
+         update
+      );
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledWith(userId);
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         feature,
+         workflowsCount
+      );
+   });
+});
+
+describe("updateWorkflow", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("workflow null - test", async () => {
+      const workflowId = "workflow-id-1";
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
+
+      const update = dtestData.dWorkflowUpdate();
+      const fn = () =>
+         workflowService.updateWorkflow(userId, workflowId, update);
+
+      await expect(fn).rejects.toThrow("Workflow not found.");
       expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledTimes(1);
       expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflowId
+      );
+      expect(workflowRepoMock.pUpdateWorkflow).not.toHaveBeenCalled();
+   });
+
+   it("workflow updated - test", async () => {
+      const workflow = dtestData.dWorkflow();
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
+
+      workflowRepoMock.pUpdateWorkflow.mockResolvedValue(workflow);
+
+      const update = dtestData.dWorkflowUpdate();
+      const result = await workflowService.updateWorkflow(
+         userId,
+         workflow.id,
+         update
+      );
+
+      expect(result).toEqual(workflow);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflow.id
+      );
+      expect(workflowRepoMock.pUpdateWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pUpdateWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflow.id,
+         update
+      );
+   });
+});
+
+describe("deleteWorkflow", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("workflow null - test", async () => {
+      const workflowId = "workflow-id-1";
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
+
+      const fn = () => workflowService.deleteWorkflow(userId, workflowId);
+
+      await expect(fn).rejects.toThrow("Workflow not found.");
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflowId
+      );
+      expect(workflowRepoMock.pDeleteWorkflow).not.toHaveBeenCalled();
+   });
+
+   it("workflow deleted - test", async () => {
+      const workflow = dtestData.dWorkflow();
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
+
+      workflowRepoMock.pUpdateWorkflow.mockResolvedValue(workflow);
+
+      await workflowService.deleteWorkflow(userId, workflow.id);
+
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflow.id
+      );
+      expect(workflowRepoMock.pDeleteWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pDeleteWorkflow).toHaveBeenCalledWith(
          userId,
          workflow.id
       );
@@ -148,66 +278,13 @@ describe("detectCycle", () => {
    });
 });
 
-// ── createWorkflow ────────────────────────────────────────────────────────────
-
-describe("createWorkflow", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("should throw SubscriptionAccessError for FREE users", async () => {
-      subscriptionServiceMock.getUserTier.mockResolvedValue("FREE");
-
-      await expect(
-         workflowService.createWorkflow(userId, { title: "My Workflow" })
-      ).rejects.toThrow(
-         "Workflows sind nur für BASIC- und PRO-Nutzer verfügbar."
-      );
-   });
-
-   it("should throw WorkflowLimitError when BASIC user has reached 5 workflows", async () => {
-      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
-      workflowRepoMock.pCountWorkflows.mockResolvedValue(5);
-
-      await expect(
-         workflowService.createWorkflow(userId, { title: "My Workflow" })
-      ).rejects.toBeInstanceOf(WorkflowLimitError);
-   });
-
-   it("should create workflow for PRO user without limits", async () => {
-      subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
-      workflowRepoMock.pCreateWorkflow.mockResolvedValue(baseWorkflow);
-
-      const result = await workflowService.createWorkflow(userId, {
-         title: "My Workflow",
-      });
-
-      expect(result).toEqual(baseWorkflow);
-      expect(workflowRepoMock.pCreateWorkflow).toHaveBeenCalledTimes(1);
-   });
-
-   it("should create workflow for BASIC user when under limit (< 5)", async () => {
-      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
-      workflowRepoMock.pCountWorkflows.mockResolvedValue(3);
-      workflowRepoMock.pCreateWorkflow.mockResolvedValue(baseWorkflow);
-
-      const result = await workflowService.createWorkflow(userId, {
-         title: "My Workflow",
-      });
-
-      expect(result).toEqual(baseWorkflow);
-   });
-});
-
-// ── createWorkflowStep ────────────────────────────────────────────────────────
-
 describe("createWorkflowStep", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
+      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(null);
 
       await expect(
          workflowService.createWorkflowStep(userId, workflowId, {
@@ -222,7 +299,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
       workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(10);
 
@@ -239,7 +316,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should allow PRO user to exceed 10 steps", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
       workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
 
@@ -261,36 +338,6 @@ describe("createWorkflowStep", () => {
    });
 });
 
-// ── deleteWorkflow ────────────────────────────────────────────────────────────
-
-describe("deleteWorkflow", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
-
-      await expect(
-         workflowService.deleteWorkflow(userId, workflowId)
-      ).rejects.toThrow("Workflow not found.");
-   });
-
-   it("should delete workflow successfully", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      workflowRepoMock.pDeleteWorkflow.mockResolvedValue(undefined);
-
-      await workflowService.deleteWorkflow(userId, workflowId);
-
-      expect(workflowRepoMock.pDeleteWorkflow).toHaveBeenCalledWith(
-         userId,
-         workflowId
-      );
-   });
-});
-
-// ── updateWorkflowStep (cycle detection) ─────────────────────────────────────
-
 describe("updateWorkflowStep with cycle detection", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -299,7 +346,7 @@ describe("updateWorkflowStep with cycle detection", () => {
    const stepId = "step-a";
 
    it("should detect cycle and throw", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue({
+      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue({
          ...baseWorkflow,
          steps: [
             {

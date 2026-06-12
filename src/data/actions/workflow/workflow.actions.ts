@@ -10,7 +10,6 @@ import { WorkflowLimitError } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowUpdate,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
