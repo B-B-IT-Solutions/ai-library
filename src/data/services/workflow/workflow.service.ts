@@ -1,7 +1,6 @@
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import {
    DWorkflow,
-   DWorkflowCreate,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
@@ -33,7 +32,7 @@ export class WorkflowService {
 
    async createWorkflow(
       userId: string,
-      data: DWorkflowCreate
+      data: DWorkflowUpdate
    ): Promise<DWorkflow> {
       const currentCount = await this.getWorkflowsCount(userId);
       const feature: FeatureName = "maxWorkflows";

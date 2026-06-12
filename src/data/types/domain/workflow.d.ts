@@ -40,11 +40,6 @@ export type DWorkflowsUsage = {
    limit: number; // -1 = unbegrenzt (PRO)
 };
 
-export type DWorkflowCreate = {
-   title: string;
-   description?: string | null;
-};
-
 export type DWorkflowUpdate = {
    title: string;
    description?: string | null;

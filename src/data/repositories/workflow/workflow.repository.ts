@@ -3,7 +3,6 @@ import { map } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowCreate,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
@@ -100,7 +99,7 @@ export class WorkflowRepository {
 
    async pCreateWorkflow(
       userId: string,
-      data: DWorkflowCreate
+      data: DWorkflowUpdate
    ): Promise<DWorkflow> {
       const input: WorkflowCreateInput = {
          title: data.title,

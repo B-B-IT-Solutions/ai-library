@@ -10,7 +10,7 @@ import { WorkflowLimitError } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowCreate,
+   DWorkflowUpdate,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
@@ -61,7 +61,7 @@ export const getWorkflowsUsage = async (): Promise<DWorkflowsUsage> => {
 // ── Create / Update / Delete Workflow ────────────────────────────────────────
 
 export const createWorkflow = async (
-   data: DWorkflowCreate
+   data: DWorkflowUpdate
 ): Promise<ActionResult<DWorkflow>> => {
    try {
       const user = await requireUser();

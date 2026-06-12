@@ -3,7 +3,7 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DWorkflowCreate, DWorkflowUpdate } from "@/data/types/domain/workflow";
+import { DWorkflowUpdate } from "@/data/types/domain/workflow";
 import {
    WorkflowCreateArgs,
    WorkflowDeleteArgs,
@@ -119,7 +119,7 @@ describe("pCreateWorkflow", () => {
       const workflow = ptestData.pWorkflow(1);
       prismaMock.workflow.create.mockResolvedValue(workflow);
 
-      const createData: DWorkflowCreate = {
+      const createData: DWorkflowUpdate = {
          title: workflow.title,
          description: workflow.description,
       };
