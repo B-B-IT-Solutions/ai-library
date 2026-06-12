@@ -62,7 +62,7 @@ export const getWorkflowsUsage = async (): Promise<DWorkflowsUsage> => {
 
 export const createWorkflow = async (
    data: DWorkflowCreate
-): Promise<ActionResult<DWorkflowWithSteps>> => {
+): Promise<ActionResult<DWorkflow>> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -98,7 +98,7 @@ export const createWorkflow = async (
 export const updateWorkflow = async (
    workflowId: string,
    data: DWorkflowUpdate
-): Promise<ActionResult<DWorkflowWithSteps>> => {
+): Promise<ActionResult<DWorkflow>> => {
    try {
       if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
       const user = await requireUser();
