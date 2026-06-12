@@ -3,11 +3,12 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DWorkflowCreate } from "@/data/types/domain/workflow";
+import { DWorkflowCreate, DWorkflowUpdate } from "@/data/types/domain/workflow";
 import {
    WorkflowCreateArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
+   WorkflowUpdateArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -139,5 +140,45 @@ describe("pCreateWorkflow", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.create).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pUpdateWorkflow", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflow updated - test", async () => {
+      const userId = "user-id-1";
+      const workflow = ptestData.pWorkflow(1);
+      prismaMock.workflow.update.mockResolvedValue(workflow);
+
+      const updateData: DWorkflowUpdate = {
+         title: workflow.title,
+         description: workflow.description,
+      };
+
+      const result = await repository.pUpdateWorkflow(
+         userId,
+         workflow.id,
+         updateData
+      );
+
+      const expectedResult = toDWorkflow(workflow);
+
+      const expectedArgs: WorkflowUpdateArgs = {
+         where: {
+            id: workflow.id,
+            userId,
+         },
+         data: {
+            title: workflow.title,
+            description: workflow.description,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.workflow.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.update).toHaveBeenCalledWith(expectedArgs);
    });
 });
