@@ -14,6 +14,9 @@ import {
    WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
+   WorkflowFindUniqueOrThrowArgs,
+   WorkflowStepCreateArgs,
+   WorkflowStepUpdateManyArgs,
    WorkflowUpdateArgs,
    WorkflowUpdateInput,
 } from "@/generated/prisma/models";
@@ -161,13 +164,15 @@ export class WorkflowRepository {
    ): Promise<DWorkflowWithSteps> {
       // If isStart is set, unset any existing start step first
       if (data.isStart) {
-         await this.prisma.workflowStep.updateMany({
+         const args = {
             where: { workflowId },
             data: { isStart: false },
-         });
+         } satisfies WorkflowStepUpdateManyArgs;
+
+         await this.prisma.workflowStep.updateMany(args);
       }
 
-      await this.prisma.workflowStep.create({
+      const args = {
          data: {
             workflowId,
             title: data.title,
@@ -185,12 +190,26 @@ export class WorkflowRepository {
                })),
             },
          },
-      });
+      } satisfies WorkflowStepCreateArgs;
 
-      const workflow = await this.prisma.workflow.findUniqueOrThrow({
+      await this.prisma.workflowStep.create(args);
+
+      const argsWorkflow = {
          where: { id: workflowId, userId },
-         include: WORKFLOW_DETAIL_INCLUDE,
-      });
+         include: {
+            _count: { select: { steps: true } },
+            steps: {
+               orderBy: {
+                  position: "asc" as const,
+               },
+               include: STEP_INCLUDE,
+            },
+         },
+      } satisfies WorkflowFindUniqueOrThrowArgs;
+
+      const workflow =
+         await this.prisma.workflow.findUniqueOrThrow(argsWorkflow);
+
       return toDWorkflowWithSteps(
          workflow as Parameters<typeof toDWorkflowWithSteps>[0]
       );
