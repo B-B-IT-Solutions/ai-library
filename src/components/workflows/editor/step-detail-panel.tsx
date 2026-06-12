@@ -36,8 +36,8 @@ import {
 } from "@/data/actions/workflow";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
-   DWorkflowWithSteps,
    DWorkflowStep,
+   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 
@@ -74,7 +74,7 @@ export const StepDetailPanel = ({
               title: step.title,
               hint: step.hint ?? "",
               type: step.type,
-              templateId: step.promptId ?? "",
+              promptId: step.promptId ?? "",
               content: step.content ?? "",
               isStart: step.isStart,
               position: step.position,
@@ -88,7 +88,7 @@ export const StepDetailPanel = ({
               title: "",
               hint: "",
               type: "PROMPT_REF",
-              templateId: "",
+              promptId: "",
               content: "",
               isStart: allSteps.length === 0,
               position: allSteps.length,
@@ -103,7 +103,7 @@ export const StepDetailPanel = ({
             title: step.title,
             hint: step.hint ?? "",
             type: step.type,
-            templateId: step.promptId ?? "",
+            promptId: step.promptId ?? "",
             content: step.content ?? "",
             isStart: step.isStart,
             position: step.position,
@@ -134,8 +134,8 @@ export const StepDetailPanel = ({
       try {
          const payload = {
             ...values,
-            templateId:
-               values.type === "PROMPT_REF" ? values.templateId || null : null,
+            promptId:
+               values.type === "PROMPT_REF" ? values.promptId || null : null,
             content: values.type === "STANDALONE" ? values.content : null,
             hint: values.hint || null,
          };
@@ -262,7 +262,7 @@ export const StepDetailPanel = ({
                {stepType === "PROMPT_REF" && (
                   <FormField
                      control={form.control}
-                     name="templateId"
+                     name="promptId"
                      render={({ field }) => (
                         <FormItem>
                            <FormLabel>Template *</FormLabel>
@@ -298,7 +298,7 @@ export const StepDetailPanel = ({
                         <FormItem>
                            <FormLabel>Prompt-Text *</FormLabel>
                            <FormControl>
-                              <div className="min-h-[200px] rounded-md border">
+                              <div className="min-h-50 rounded-md border">
                                  <MDEditor
                                     value={field.value ?? ""}
                                     onChange={field.onChange}

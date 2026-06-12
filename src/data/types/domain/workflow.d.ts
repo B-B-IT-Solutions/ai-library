@@ -60,7 +60,7 @@ export type DWorkflowStepCreate = {
    title: string;
    hint?: string | null;
    type: DWorkflowStepType;
-   templateId?: string | null;
+   promptId?: string | null;
    content?: string | null;
    isStart?: boolean;
    position?: number;
@@ -71,7 +71,7 @@ export type DWorkflowStepUpdate = {
    title: string;
    hint?: string | null;
    type: DWorkflowStepType;
-   templateId?: string | null;
+   promptId?: string | null;
    content?: string | null;
    isStart?: boolean;
    position?: number;

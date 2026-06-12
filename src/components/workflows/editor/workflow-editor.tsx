@@ -13,6 +13,7 @@ import {
 } from "@/components/shadcn/tooltip";
 import { setStartStep } from "@/data/actions/workflow";
 import {
+   DWorkflow,
    DWorkflowStep,
    DWorkflowsUsage,
    DWorkflowWithSteps,
@@ -44,8 +45,13 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
       usage.limit !== -1 &&
       steps.length >= (usage.limit === 0 ? 0 : 10); // BASIC = 10 steps
 
-   const handleWorkflowSaved = (saved: DWorkflowWithSteps) => {
-      setWorkflow(saved);
+   const handleWorkflowSaved = (saved: DWorkflow) => {
+      const updatedWorkflow: DWorkflowWithSteps = {
+         ...saved,
+         steps: workflow!.steps,
+      };
+
+      setWorkflow(updatedWorkflow);
    };
 
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
@@ -60,7 +66,9 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
    };
 
    const handleSetStartStep = async (step: DWorkflowStep) => {
-      if (!workflow) return;
+      if (!workflow) {
+         return;
+      }
       const result = await setStartStep(workflow.id, step.id);
       if (result.success) {
          // Optimistic update

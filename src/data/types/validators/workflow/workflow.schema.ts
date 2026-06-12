@@ -24,18 +24,18 @@ export const createWorkflowStepSchema = z
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
       type: z.enum(["PROMPT_REF", "STANDALONE"]),
-      templateId: z.string().uuid().nullish(),
+      promptId: z.string().uuid().nullish(),
       content: z.string().nullish(),
       isStart: z.boolean(),
       position: z.number().int().min(0),
       edges: z.array(workflowEdgeInputSchema),
    })
    .superRefine((data, ctx) => {
-      if (data.type === "PROMPT_REF" && !data.templateId) {
+      if (data.type === "PROMPT_REF" && !data.promptId) {
          ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "Bitte ein Template auswählen",
-            path: ["templateId"],
+            path: ["promptId"],
          });
       }
       if (data.type === "STANDALONE" && !data.content?.trim()) {

@@ -19,14 +19,14 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { Textarea } from "@/components/shadcn/textarea";
 import { createWorkflow, updateWorkflow } from "@/data/actions/workflow";
-import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import { DWorkflow, DWorkflowWithSteps } from "@/data/types/domain/workflow";
 import { updateWorkflowSchema } from "@/data/types/validators/workflow";
 
 type FormValues = z.infer<typeof updateWorkflowSchema>;
 
 type Props = {
    workflow?: DWorkflowWithSteps | null;
-   onSaved: (workflow: DWorkflowWithSteps) => void;
+   onSaved: (workflow: DWorkflow) => void;
 };
 
 export const WorkflowMetadataForm = ({ workflow, onSaved }: Props) => {
