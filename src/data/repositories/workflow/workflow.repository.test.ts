@@ -8,7 +8,7 @@ import {
    WorkflowFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { toDWorkflowDetail, toDWorkflows } from "./workflow.mapper";
+import { toDWorkflows, toDWorkflowWithSteps } from "./workflow.mapper";
 import { WorkflowRepository } from "./workflow.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -80,7 +80,7 @@ describe("pGetWorkflow", () => {
 
       const result = await repository.pGetWorkflow(userId, workflowId);
 
-      const expectedResult = toDWorkflowDetail(row);
+      const expectedResult = toDWorkflowWithSteps(row);
 
       const expectedArgs: WorkflowFindUniqueArgs = {
          where: { id: workflowId, userId },

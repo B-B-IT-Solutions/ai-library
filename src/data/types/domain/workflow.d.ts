@@ -9,6 +9,10 @@ export type DWorkflow = {
    createdAt: string;
 };
 
+export type DWorkflowWithSteps = DWorkflow & {
+   steps: DWorkflowStep[];
+};
+
 export type DWorkflowStep = {
    id: string;
    workflowId: string;
@@ -29,10 +33,6 @@ export type DWorkflowStepEdge = {
    toStepId: string;
    label: string;
    order: number;
-};
-
-export type DWorkflowDetail = DWorkflow & {
-   steps: DWorkflowStep[];
 };
 
 export type DWorkflowsUsage = {

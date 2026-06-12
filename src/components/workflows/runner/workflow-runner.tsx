@@ -13,7 +13,10 @@ import { MDRenderer } from "@/components/shared/md";
 import { CopyButton } from "@/components/shared/buttons";
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import { DWorkflowDetail, DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowWithSteps,
+   DWorkflowStep,
+} from "@/data/types/domain/workflow";
 
 type RunnerState = {
    historyStack: string[];
@@ -23,7 +26,7 @@ type RunnerState = {
 type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
 type Props = {
-   workflow: DWorkflowDetail;
+   workflow: DWorkflowWithSteps;
    initialTemplateData: TemplateDataCache;
 };
 

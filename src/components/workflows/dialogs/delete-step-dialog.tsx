@@ -14,7 +14,7 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { deleteWorkflowStep } from "@/data/actions/workflow";
-import { DWorkflowDetail } from "@/data/types/domain/workflow";
+import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
 
 type Props = {
    open: boolean;
@@ -22,7 +22,7 @@ type Props = {
    stepId: string;
    stepTitle: string;
    workflowId: string;
-   onDeleted: (workflow: DWorkflowDetail) => void;
+   onDeleted: (workflow: DWorkflowWithSteps) => void;
 };
 
 export const DeleteStepDialog = ({
@@ -54,9 +54,10 @@ export const DeleteStepDialog = ({
             <DialogHeader>
                <DialogTitle>Schritt löschen</DialogTitle>
                <DialogDescription>
-                  Möchtest du den Schritt <strong>&quot;{stepTitle}&quot;</strong>{" "}
-                  wirklich löschen? Alle ein- und ausgehenden Verbindungen werden
-                  ebenfalls gelöscht.
+                  Möchtest du den Schritt{" "}
+                  <strong>&quot;{stepTitle}&quot;</strong> wirklich löschen?
+                  Alle ein- und ausgehenden Verbindungen werden ebenfalls
+                  gelöscht.
                </DialogDescription>
             </DialogHeader>
             <DialogFooter>

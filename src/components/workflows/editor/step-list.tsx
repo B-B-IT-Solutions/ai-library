@@ -11,11 +11,14 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DWorkflowDetail, DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowWithSteps,
+   DWorkflowStep,
+} from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   workflow: DWorkflowDetail;
+   workflow: DWorkflowWithSteps;
    selectedStepId: string | null;
    onSelectStep: (step: DWorkflowStep) => void;
    onSetStartStep: (step: DWorkflowStep) => void;

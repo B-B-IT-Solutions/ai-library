@@ -4,9 +4,9 @@ import {
 } from "@/data/types/db/workflow";
 
 import {
-   toDWorkflow,
-   toDWorkflowDetail,
    toDWorkflows,
+   toDWorkflowWithStepCount,
+   toDWorkflowWithSteps,
 } from "./workflow.mapper";
 
 const baseDate = new Date("2025-01-01T00:00:00Z");
@@ -24,7 +24,7 @@ const makePWorkflow = (overrides = {}): WorkflowWithStepCount => ({
 
 describe("toDWorkflow", () => {
    it("maps a workflow with step count to DWorkflow", () => {
-      const result = toDWorkflow(makePWorkflow());
+      const result = toDWorkflowWithStepCount(makePWorkflow());
       expect(result).toEqual({
          id: "wf-1",
          title: "Test Workflow",
@@ -36,7 +36,9 @@ describe("toDWorkflow", () => {
    });
 
    it("maps null description correctly", () => {
-      const result = toDWorkflow(makePWorkflow({ description: null }));
+      const result = toDWorkflowWithStepCount(
+         makePWorkflow({ description: null })
+      );
       expect(result.description).toBeNull();
    });
 });
@@ -91,7 +93,7 @@ describe("toDWorkflowDetail", () => {
          ],
       };
 
-      const result = toDWorkflowDetail(row);
+      const result = toDWorkflowWithSteps(row);
 
       expect(result.id).toBe("wf-1");
       expect(result.steps).toHaveLength(1);
@@ -130,7 +132,7 @@ describe("toDWorkflowDetail", () => {
          ],
       };
 
-      const result = toDWorkflowDetail(row);
+      const result = toDWorkflowWithSteps(row);
       expect(result.steps[0].promptTitle).toBe("My Template");
    });
 });

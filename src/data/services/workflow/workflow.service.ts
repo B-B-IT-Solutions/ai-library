@@ -2,11 +2,11 @@ import { WorkflowRepository } from "@/data/repositories/workflow";
 import {
    DWorkflow,
    DWorkflowCreate,
-   DWorkflowDetail,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
+   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { hasReachedLimit } from "@/lib/subscription/access-control";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
@@ -25,7 +25,7 @@ export class WorkflowService {
    async getWorkflow(
       userId: string,
       workflowId: string
-   ): Promise<DWorkflowDetail | null> {
+   ): Promise<DWorkflowWithSteps | null> {
       return this.repository.pGetWorkflow(userId, workflowId);
    }
 
@@ -47,7 +47,7 @@ export class WorkflowService {
    async createWorkflow(
       userId: string,
       data: DWorkflowCreate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       const tier = await this.subscriptionService.getUserTier(userId);
 
       if (tier === "FREE") {
@@ -74,7 +74,7 @@ export class WorkflowService {
       userId: string,
       workflowId: string,
       data: DWorkflowUpdate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
@@ -94,7 +94,7 @@ export class WorkflowService {
       userId: string,
       workflowId: string,
       data: DWorkflowStepCreate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
@@ -122,7 +122,7 @@ export class WorkflowService {
       stepId: string,
       workflowId: string,
       data: DWorkflowStepUpdate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
@@ -147,7 +147,7 @@ export class WorkflowService {
       userId: string,
       stepId: string,
       workflowId: string
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {

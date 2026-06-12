@@ -35,7 +35,10 @@ import {
    updateWorkflowStep,
 } from "@/data/actions/workflow";
 import { DPrompt } from "@/data/types/domain/prompt";
-import { DWorkflowDetail, DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowWithSteps,
+   DWorkflowStep,
+} from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 
 type FormValues = z.infer<typeof updateWorkflowStepSchema>;
@@ -44,7 +47,7 @@ type Props = {
    workflowId: string;
    step: DWorkflowStep | null;
    allSteps: DWorkflowStep[];
-   onSaved: (workflow: DWorkflowDetail) => void;
+   onSaved: (workflow: DWorkflowWithSteps) => void;
    onCreateMode?: boolean;
    onCancelCreate?: () => void;
 };

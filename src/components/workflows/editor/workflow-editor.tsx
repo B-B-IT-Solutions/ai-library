@@ -1,35 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Play } from "lucide-react";
+import { Play, Plus } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { setStartStep } from "@/data/actions/workflow";
-import {
-   DWorkflowDetail,
-   DWorkflowStep,
-   DWorkflowsUsage,
-} from "@/data/types/domain/workflow";
 import {
    Tooltip,
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-
+import { setStartStep } from "@/data/actions/workflow";
+import {
+   DWorkflowStep,
+   DWorkflowsUsage,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 import { DeleteStepDialog } from "../dialogs/delete-step-dialog";
+
 import { StepDetailPanel } from "./step-detail-panel";
 import { StepList } from "./step-list";
 import { WorkflowMetadataForm } from "./workflow-metadata-form";
 
 type Props = {
-   initialWorkflow: DWorkflowDetail | null;
+   initialWorkflow: DWorkflowWithSteps | null;
    usage?: DWorkflowsUsage;
 };
 
 export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
-   const [workflow, setWorkflow] = useState<DWorkflowDetail | null>(
+   const [workflow, setWorkflow] = useState<DWorkflowWithSteps | null>(
       initialWorkflow
    );
    const [selectedStep, setSelectedStep] = useState<DWorkflowStep | null>(null);
@@ -44,11 +44,11 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
       usage.limit !== -1 &&
       steps.length >= (usage.limit === 0 ? 0 : 10); // BASIC = 10 steps
 
-   const handleWorkflowSaved = (saved: DWorkflowDetail) => {
+   const handleWorkflowSaved = (saved: DWorkflowWithSteps) => {
       setWorkflow(saved);
    };
 
-   const handleStepSaved = (saved: DWorkflowDetail) => {
+   const handleStepSaved = (saved: DWorkflowWithSteps) => {
       setWorkflow(saved);
       const updatedStep = saved.steps.find((s) => s.id === selectedStep?.id);
       if (updatedStep) {
@@ -75,14 +75,14 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
             };
          });
          if (selectedStep?.id === step.id) {
-            setSelectedStep((s) => s ? { ...s, isStart: true } : s);
+            setSelectedStep((s) => (s ? { ...s, isStart: true } : s));
          }
       } else {
          toast.error(result.message);
       }
    };
 
-   const handleStepDeleted = (updated: DWorkflowDetail) => {
+   const handleStepDeleted = (updated: DWorkflowWithSteps) => {
       setWorkflow(updated);
       if (deleteStep && selectedStep?.id === deleteStep.id) {
          setSelectedStep(null);
@@ -107,7 +107,7 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
          );
       }
       return (
-         <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
+         <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
             Wähle einen Schritt aus der Liste oder erstelle einen neuen.
          </div>
       );
@@ -191,7 +191,9 @@ export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
             </div>
 
             {/* RIGHT COLUMN */}
-            <div className="overflow-y-auto bg-white">{rightPanelContent()}</div>
+            <div className="overflow-y-auto bg-white">
+               {rightPanelContent()}
+            </div>
          </div>
 
          {deleteStep && workflow && (

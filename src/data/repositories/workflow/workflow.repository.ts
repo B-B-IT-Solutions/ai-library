@@ -4,17 +4,23 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
    DWorkflowCreate,
-   DWorkflowDetail,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
+   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import {
+   WorkflowCreateArgs,
+   WorkflowCreateInput,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { toDWorkflowDetail, toDWorkflows } from "./workflow.mapper";
+import {
+   toDWorkflow,
+   toDWorkflows,
+   toDWorkflowWithSteps,
+} from "./workflow.mapper";
 
 const STEP_INCLUDE = {
    template: {
@@ -60,7 +66,7 @@ export class WorkflowRepository {
    async pGetWorkflow(
       userId: string,
       workflowId: string
-   ): Promise<DWorkflowDetail | null> {
+   ): Promise<DWorkflowWithSteps | null> {
       const args = {
          where: { id: workflowId, userId },
          include: {
@@ -86,29 +92,36 @@ export class WorkflowRepository {
       if (!data) {
          return null;
       }
-      return toDWorkflowDetail(data);
+      return toDWorkflowWithSteps(data);
    }
 
    async pCreateWorkflow(
       userId: string,
       data: DWorkflowCreate
-   ): Promise<DWorkflowDetail> {
-      const row = await this.prisma.workflow.create({
-         data: {
-            userId,
-            title: data.title,
-            description: data.description ?? null,
+   ): Promise<DWorkflow> {
+      const input: WorkflowCreateInput = {
+         title: data.title,
+         description: data.description ?? null,
+         user: {
+            connect: {
+               id: userId,
+            },
          },
-         include: WORKFLOW_DETAIL_INCLUDE,
-      });
-      return toDWorkflowDetail(row as Parameters<typeof toDWorkflowDetail>[0]);
+      };
+
+      const args = {
+         data: input,
+      } satisfies WorkflowCreateArgs;
+
+      const workflow = await this.prisma.workflow.create(args);
+      return toDWorkflow(workflow);
    }
 
    async pUpdateWorkflow(
       userId: string,
       workflowId: string,
       data: DWorkflowUpdate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       const row = await this.prisma.workflow.update({
          where: { id: workflowId, userId },
          data: {
@@ -117,7 +130,9 @@ export class WorkflowRepository {
          },
          include: WORKFLOW_DETAIL_INCLUDE,
       });
-      return toDWorkflowDetail(row as Parameters<typeof toDWorkflowDetail>[0]);
+      return toDWorkflowWithSteps(
+         row as Parameters<typeof toDWorkflowWithSteps>[0]
+      );
    }
 
    async pDeleteWorkflow(userId: string, workflowId: string): Promise<void> {
@@ -134,7 +149,7 @@ export class WorkflowRepository {
       userId: string,
       workflowId: string,
       data: DWorkflowStepCreate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       // If isStart is set, unset any existing start step first
       if (data.isStart) {
          await this.prisma.workflowStep.updateMany({
@@ -167,8 +182,8 @@ export class WorkflowRepository {
          where: { id: workflowId, userId },
          include: WORKFLOW_DETAIL_INCLUDE,
       });
-      return toDWorkflowDetail(
-         workflow as Parameters<typeof toDWorkflowDetail>[0]
+      return toDWorkflowWithSteps(
+         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
       );
    }
 
@@ -176,7 +191,7 @@ export class WorkflowRepository {
       userId: string,
       stepId: string,
       data: DWorkflowStepUpdate
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const step = await this.prisma.workflowStep.findFirstOrThrow({
          where: { id: stepId, workflow: { userId } },
@@ -223,15 +238,15 @@ export class WorkflowRepository {
          where: { id: workflowId, userId },
          include: WORKFLOW_DETAIL_INCLUDE,
       });
-      return toDWorkflowDetail(
-         workflow as Parameters<typeof toDWorkflowDetail>[0]
+      return toDWorkflowWithSteps(
+         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
       );
    }
 
    async pDeleteWorkflowStep(
       userId: string,
       stepId: string
-   ): Promise<DWorkflowDetail> {
+   ): Promise<DWorkflowWithSteps> {
       const step = await this.prisma.workflowStep.findFirstOrThrow({
          where: { id: stepId, workflow: { userId } },
          select: { workflowId: true },
@@ -244,8 +259,8 @@ export class WorkflowRepository {
          where: { id: workflowId, userId },
          include: WORKFLOW_DETAIL_INCLUDE,
       });
-      return toDWorkflowDetail(
-         workflow as Parameters<typeof toDWorkflowDetail>[0]
+      return toDWorkflowWithSteps(
+         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
       );
    }
 
