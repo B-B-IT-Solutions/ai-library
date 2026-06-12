@@ -879,8 +879,11 @@ export const pWorkflowStepWithEdgesAndPrompt = (
 ): WorkflowStepWithEdgesAndPrompt => {
    return {
       ...pWorkflowStep(index),
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      prompt: {
+         title: `prompt-${index}`,
+      },
       outgoingEdges: [],
-      prompt: null,
    };
 };
 
