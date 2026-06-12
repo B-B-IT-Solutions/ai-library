@@ -29,14 +29,14 @@ import {
 import { Separator } from "@/components/shadcn/separator";
 import { Textarea } from "@/components/shadcn/textarea";
 import { MDEditor } from "@/components/shared/md";
-import { createWorkflowStep, updateWorkflowStep } from "@/data/actions/workflow";
 import { getPromptTemplates } from "@/data/actions/prompt";
-import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 import {
-   DWorkflowDetail,
-   DWorkflowStep,
-} from "@/data/types/domain/workflow";
+   createWorkflowStep,
+   updateWorkflowStep,
+} from "@/data/actions/workflow";
 import { DPrompt } from "@/data/types/domain/prompt";
+import { DWorkflowDetail, DWorkflowStep } from "@/data/types/domain/workflow";
+import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 
 type FormValues = z.infer<typeof updateWorkflowStepSchema>;
 
@@ -71,7 +71,7 @@ export const StepDetailPanel = ({
               title: step.title,
               hint: step.hint ?? "",
               type: step.type,
-              templateId: step.templateId ?? "",
+              templateId: step.promptId ?? "",
               content: step.content ?? "",
               isStart: step.isStart,
               position: step.position,
@@ -84,7 +84,7 @@ export const StepDetailPanel = ({
          : {
               title: "",
               hint: "",
-              type: "TEMPLATE_REF",
+              type: "PROMPT_REF",
               templateId: "",
               content: "",
               isStart: allSteps.length === 0,
@@ -100,7 +100,7 @@ export const StepDetailPanel = ({
             title: step.title,
             hint: step.hint ?? "",
             type: step.type,
-            templateId: step.templateId ?? "",
+            templateId: step.promptId ?? "",
             content: step.content ?? "",
             isStart: step.isStart,
             position: step.position,
@@ -113,7 +113,11 @@ export const StepDetailPanel = ({
       }
    }, [step, form]);
 
-   const { fields: edgeFields, append, remove } = useFieldArray({
+   const {
+      fields: edgeFields,
+      append,
+      remove,
+   } = useFieldArray({
       control: form.control,
       name: "edges",
    });
@@ -127,7 +131,8 @@ export const StepDetailPanel = ({
       try {
          const payload = {
             ...values,
-            templateId: values.type === "TEMPLATE_REF" ? (values.templateId || null) : null,
+            templateId:
+               values.type === "PROMPT_REF" ? values.templateId || null : null,
             content: values.type === "STANDALONE" ? values.content : null,
             hint: values.hint || null,
          };
@@ -221,12 +226,12 @@ export const StepDetailPanel = ({
                            <Button
                               type="button"
                               variant={
-                                 field.value === "TEMPLATE_REF"
+                                 field.value === "PROMPT_REF"
                                     ? "default"
                                     : "outline"
                               }
                               size="sm"
-                              onClick={() => field.onChange("TEMPLATE_REF")}
+                              onClick={() => field.onChange("PROMPT_REF")}
                               data-testid="type-template-ref"
                            >
                               Template-Referenz
@@ -251,7 +256,7 @@ export const StepDetailPanel = ({
                />
 
                {/* Template-Picker */}
-               {stepType === "TEMPLATE_REF" && (
+               {stepType === "PROMPT_REF" && (
                   <FormField
                      control={form.control}
                      name="templateId"
@@ -410,7 +415,11 @@ export const StepDetailPanel = ({
                      variant="outline"
                      size="sm"
                      onClick={() =>
-                        append({ toStepId: "", label: "", order: edgeFields.length })
+                        append({
+                           toStepId: "",
+                           label: "",
+                           order: edgeFields.length,
+                        })
                      }
                      className="w-full"
                      data-testid="add-edge-btn"

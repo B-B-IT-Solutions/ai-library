@@ -2,7 +2,10 @@ import z from "zod";
 
 export const workflowEdgeInputSchema = z.object({
    toStepId: z.string().uuid("Ungültige Schritt-ID"),
-   label: z.string().min(1, "Bitte ein Label für diese Verbindung eingeben").max(250),
+   label: z
+      .string()
+      .min(1, "Bitte ein Label für diese Verbindung eingeben")
+      .max(250),
    order: z.number().int().min(0),
 });
 
@@ -20,7 +23,7 @@ export const createWorkflowStepSchema = z
    .object({
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
-      type: z.enum(["TEMPLATE_REF", "STANDALONE"]),
+      type: z.enum(["PROMPT_REF", "STANDALONE"]),
       templateId: z.string().uuid().nullish(),
       content: z.string().nullish(),
       isStart: z.boolean(),
@@ -28,7 +31,7 @@ export const createWorkflowStepSchema = z
       edges: z.array(workflowEdgeInputSchema),
    })
    .superRefine((data, ctx) => {
-      if (data.type === "TEMPLATE_REF" && !data.templateId) {
+      if (data.type === "PROMPT_REF" && !data.templateId) {
          ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "Bitte ein Template auswählen",

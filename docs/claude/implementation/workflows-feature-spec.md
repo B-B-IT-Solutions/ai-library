@@ -21,15 +21,15 @@
 
 ## 2. User Stories
 
-| #   | Story                                                                                                                                                                    | Tier   |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
-| W-1 | Als BASIC/PRO-Nutzer möchte ich einen Workflow erstellen, dem ich einen Titel und eine Beschreibung gebe, damit andere (und ich selbst) verstehen, wozu er dient.        | BASIC+ |
-| W-2 | Als BASIC/PRO-Nutzer möchte ich Schritte hinzufügen — entweder als Referenz auf ein Template aus meiner Bibliothek oder als eigenständigen Prompt-Text.                  | BASIC+ |
-| W-3 | Als BASIC/PRO-Nutzer möchte ich für jeden Schritt definieren, welche Schritte als Nächstes möglich sind (mit einem beschreibenden Label pro Wahl).                       | BASIC+ |
-| W-4 | Als BASIC/PRO-Nutzer möchte ich einen Workflow im Runner-Modus ausführen, der mich Schritt für Schritt führt — mit Formularfeldern, Vorschau und Kopierfunktion.         | BASIC+ |
-| W-5 | Als BASIC/PRO-Nutzer möchte ich im Runner nach dem Kopieren eines Prompts aus mehreren möglichen nächsten Schritten wählen, je nach Output meines KI-Tools.              | BASIC+ |
-| W-6 | Als BASIC/PRO-Nutzer möchte ich im Runner zurückgehen können, damit ich Fehler korrigieren oder eine andere Wahl treffen kann.                                           | BASIC+ |
-| W-7 | Als FREE-Nutzer, der die Sidebar sieht, möchte ich verstehen, dass Workflows ein Bezahl-Feature sind, damit ich den Wert einer Upgrade-Entscheidung beurteilen kann.     | FREE   |
+| #   | Story                                                                                                                                                                | Tier   |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| W-1 | Als BASIC/PRO-Nutzer möchte ich einen Workflow erstellen, dem ich einen Titel und eine Beschreibung gebe, damit andere (und ich selbst) verstehen, wozu er dient.    | BASIC+ |
+| W-2 | Als BASIC/PRO-Nutzer möchte ich Schritte hinzufügen — entweder als Referenz auf ein Template aus meiner Bibliothek oder als eigenständigen Prompt-Text.              | BASIC+ |
+| W-3 | Als BASIC/PRO-Nutzer möchte ich für jeden Schritt definieren, welche Schritte als Nächstes möglich sind (mit einem beschreibenden Label pro Wahl).                   | BASIC+ |
+| W-4 | Als BASIC/PRO-Nutzer möchte ich einen Workflow im Runner-Modus ausführen, der mich Schritt für Schritt führt — mit Formularfeldern, Vorschau und Kopierfunktion.     | BASIC+ |
+| W-5 | Als BASIC/PRO-Nutzer möchte ich im Runner nach dem Kopieren eines Prompts aus mehreren möglichen nächsten Schritten wählen, je nach Output meines KI-Tools.          | BASIC+ |
+| W-6 | Als BASIC/PRO-Nutzer möchte ich im Runner zurückgehen können, damit ich Fehler korrigieren oder eine andere Wahl treffen kann.                                       | BASIC+ |
+| W-7 | Als FREE-Nutzer, der die Sidebar sieht, möchte ich verstehen, dass Workflows ein Bezahl-Feature sind, damit ich den Wert einer Upgrade-Entscheidung beurteilen kann. | FREE   |
 
 ---
 
@@ -76,7 +76,7 @@ model WorkflowStep {
 }
 
 enum WorkflowStepType {
-  TEMPLATE_REF
+  PROMPT_REF
   STANDALONE
 
   @@map("workflow_step_type")
@@ -112,25 +112,25 @@ workflows Workflow[]
 
 ### 3.3 Modell-Regeln & Invarianten
 
-| Regel | Begründung |
-| ----- | ---------- |
-| Genau 1 Step mit `isStart = true` pro Workflow | Eindeutiger Einstiegspunkt für den Runner |
-| `TEMPLATE_REF`-Step: `templateId` gesetzt, `content` ist `null` | Datenkonsistenz |
-| `STANDALONE`-Step: `content` gesetzt, `templateId` ist `null` | Datenkonsistenz |
-| Kein Zyklus im Graphen (gerichteter azyklischer Graph, DAG) | Runner würde sonst in Endlosschleife laufen |
-| `fromStepId ≠ toStepId` auf jeder Edge | Self-Loop ist kein valider Pfad |
-| `UNIQUE(fromStepId, toStepId)` | Keine Duplikat-Kanten zwischen denselben zwei Schritten |
+| Regel                                                         | Begründung                                              |
+| ------------------------------------------------------------- | ------------------------------------------------------- |
+| Genau 1 Step mit `isStart = true` pro Workflow                | Eindeutiger Einstiegspunkt für den Runner               |
+| `PROMPT_REF`-Step: `templateId` gesetzt, `content` ist `null` | Datenkonsistenz                                         |
+| `STANDALONE`-Step: `content` gesetzt, `templateId` ist `null` | Datenkonsistenz                                         |
+| Kein Zyklus im Graphen (gerichteter azyklischer Graph, DAG)   | Runner würde sonst in Endlosschleife laufen             |
+| `fromStepId ≠ toStepId` auf jeder Edge                        | Self-Loop ist kein valider Pfad                         |
+| `UNIQUE(fromStepId, toStepId)`                                | Keine Duplikat-Kanten zwischen denselben zwei Schritten |
 
 ---
 
 ## 4. Subscription-Limits
 
-| Feature | FREE | BASIC | PRO |
-| ------- | :--: | :---: | :-: |
-| Workflows-Eintrag in Sidebar | Lock-Icon | ✅ | ✅ |
-| Workflow erstellen | ❌ | max. **5** | ✅ unbegrenzt |
-| Steps pro Workflow | — | max. **10** | ✅ unbegrenzt |
-| Workflow ausführen (Runner) | ❌ | ✅ | ✅ |
+| Feature                      |   FREE    |    BASIC    |      PRO      |
+| ---------------------------- | :-------: | :---------: | :-----------: |
+| Workflows-Eintrag in Sidebar | Lock-Icon |     ✅      |      ✅       |
+| Workflow erstellen           |    ❌     | max. **5**  | ✅ unbegrenzt |
+| Steps pro Workflow           |     —     | max. **10** | ✅ unbegrenzt |
+| Workflow ausführen (Runner)  |    ❌     |     ✅      |      ✅       |
 
 **Enforcement:**
 
@@ -223,10 +223,10 @@ Gilt für `/workflows/new` (leerer Zustand) und `/workflows/[id]/edit` (befüllt
 
 ### 7.2 Workflow-Metadaten (linke Spalte, oben)
 
-| Feld | Typ | Pflicht | Validierung |
-| ---- | --- | :-----: | ----------- |
-| Titel | Input | ✅ | max. 250 Zeichen |
-| Beschreibung | Textarea | ❌ | max. 750 Zeichen |
+| Feld         | Typ      | Pflicht | Validierung      |
+| ------------ | -------- | :-----: | ---------------- |
+| Titel        | Input    |   ✅    | max. 250 Zeichen |
+| Beschreibung | Textarea |   ❌    | max. 750 Zeichen |
 
 Eigener "Speichern"-Button für den Metadaten-Block.
 
@@ -238,7 +238,7 @@ Jeder Schritt als Karte:
 ┌─────────────────────────────────────────────────────────┐
 │  [● Start]  Schritt-Titel                    [✏] [⋮]   │
 │  Badge: "Template" / "Eigenständig"                     │
-│  Template-Name (wenn TEMPLATE_REF)                      │
+│  Template-Name (wenn PROMPT_REF)                      │
 │                                                         │
 │  → "Label A" → Schritt X                               │
 │  → "Label B" → Schritt Y                               │
@@ -247,13 +247,14 @@ Jeder Schritt als Karte:
 
 **Visuelle Badges:**
 
-| Zustand | Badge |
-| ------- | ----- |
-| Ist Startschritt | `[Start]` (blau) |
-| Keine ausgehenden Verbindungen | `[Ende]` (grau) |
+| Zustand                                                   | Badge                               |
+| --------------------------------------------------------- | ----------------------------------- |
+| Ist Startschritt                                          | `[Start]` (blau)                    |
+| Keine ausgehenden Verbindungen                            | `[Ende]` (grau)                     |
 | Keine eingehenden Verbindungen **und** nicht Startschritt | `[Nicht verbunden]` (gelb, Warnung) |
 
 **Aktionen per Step (Dropdown `⋮`):**
+
 - "Als Startschritt setzen" (setzt alle anderen auf `isStart = false`)
 - "Schritt löschen" (Bestätigungs-Dialog, Hinweis dass Verbindungen zu/von diesem Schritt ebenfalls gelöscht werden)
 
@@ -263,14 +264,14 @@ Klick auf `✏` oder auf die Karte → Schritt wird in die rechte Spalte geladen
 
 #### Basis-Felder
 
-| Feld | Typ | Pflicht | Validierung |
-| ---- | --- | :-----: | ----------- |
-| Titel | Input | ✅ | max. 250 Zeichen |
-| Hinweis (Hint) | Textarea | ❌ | max. 750 Zeichen; wird dem Nutzer im Runner als Kontext-Box angezeigt |
-| Typ | Toggle: "Template-Referenz" / "Eigenständig" | ✅ | — |
-| Template (nur wenn TEMPLATE_REF) | Combobox/Picker: Suche in eigenen Templates | ✅ | Template muss existieren |
-| Prompt-Text (nur wenn STANDALONE) | Rich-Text-Editor (Tiptap) | ✅ | min. 1 Zeichen |
-| Ist Startschritt | Checkbox | — | Max. 1 pro Workflow; Aktivieren hebt den bisherigen Start auf |
+| Feld                              | Typ                                          | Pflicht | Validierung                                                           |
+| --------------------------------- | -------------------------------------------- | :-----: | --------------------------------------------------------------------- |
+| Titel                             | Input                                        |   ✅    | max. 250 Zeichen                                                      |
+| Hinweis (Hint)                    | Textarea                                     |   ❌    | max. 750 Zeichen; wird dem Nutzer im Runner als Kontext-Box angezeigt |
+| Typ                               | Toggle: "Template-Referenz" / "Eigenständig" |   ✅    | —                                                                     |
+| Template (nur wenn PROMPT_REF)    | Combobox/Picker: Suche in eigenen Templates  |   ✅    | Template muss existieren                                              |
+| Prompt-Text (nur wenn STANDALONE) | Rich-Text-Editor (Tiptap)                    |   ✅    | min. 1 Zeichen                                                        |
+| Ist Startschritt                  | Checkbox                                     |    —    | Max. 1 pro Workflow; Aktivieren hebt den bisherigen Start auf         |
 
 #### Sektion "Nächste Schritte" (Verbindungen)
 
@@ -298,15 +299,15 @@ Nächste Schritte
 
 Validierung beim Speichern eines Schritts (inkl. Edges):
 
-| Bedingung | Fehlermeldung |
-| --------- | ------------- |
-| Titel leer | _"Titel ist erforderlich"_ |
-| `TEMPLATE_REF` ohne `templateId` | _"Bitte ein Template auswählen"_ |
-| `STANDALONE` ohne `content` | _"Prompt-Text darf nicht leer sein"_ |
-| Edge ohne Label | _"Bitte ein Label für diese Verbindung eingeben"_ |
-| Edge ohne Ziel-Schritt | _"Bitte einen Zielschritt für diese Verbindung auswählen"_ |
-| Duplikat-Kante (gleicher Zielschritt zweimal) | _"Dieser Schritt ist bereits als Ziel eingetragen"_ |
-| Zyklus erkannt | _"Diese Verbindung erzeugt eine Endlosschleife"_ |
+| Bedingung                                     | Fehlermeldung                                              |
+| --------------------------------------------- | ---------------------------------------------------------- |
+| Titel leer                                    | _"Titel ist erforderlich"_                                 |
+| `PROMPT_REF` ohne `templateId`                | _"Bitte ein Template auswählen"_                           |
+| `STANDALONE` ohne `content`                   | _"Prompt-Text darf nicht leer sein"_                       |
+| Edge ohne Label                               | _"Bitte ein Label für diese Verbindung eingeben"_          |
+| Edge ohne Ziel-Schritt                        | _"Bitte einen Zielschritt für diese Verbindung auswählen"_ |
+| Duplikat-Kante (gleicher Zielschritt zweimal) | _"Dieser Schritt ist bereits als Ziel eingetragen"_        |
+| Zyklus erkannt                                | _"Diese Verbindung erzeugt eine Endlosschleife"_           |
 
 **Zyklus-Erkennung:** DFS vom `isStart`-Step. Wenn ein bereits im aktuellen Pfad besuchter Knoten erneut erreicht wird → Zyklus. Muss **serverseitig** validiert werden (nicht nur client-seitig).
 
@@ -327,7 +328,7 @@ Fokussierter Vollbild-Modus — kein App-Sidebar, kein App-Header (eigenes Layou
 │                                                              │
 │  [Hinweis-Box, wenn hint vorhanden]                          │
 │                                                              │
-│  [UsePromptForm — wenn TEMPLATE_REF]                         │
+│  [UsePromptForm — wenn PROMPT_REF]                         │
 │  ODER                                                        │
 │  [Standalone-Prompt-Ansicht — wenn STANDALONE]               │
 │                                                              │
@@ -342,12 +343,12 @@ Fokussierter Vollbild-Modus — kein App-Sidebar, kein App-Header (eigenes Layou
 
 ### 8.2 Schritt-Rendering
 
-**Wenn `type = TEMPLATE_REF` und Template vorhanden:**
+**Wenn `type = PROMPT_REF` und Template vorhanden:**
 
 Lädt `DPromptGenerationData` via `getPromptGenerationData(templateId)` (bestehende Server Action).
 Rendert **`UsePromptForm`** aus `src/components/prompt-templating/use-prompt/use-prompt-form.tsx` — identisch zur bestehenden Verwendung im Template-Detail. Felder werden live ausgefüllt, Vorschau aktualisiert sich, Copy- und "In KI öffnen"-Buttons sind enthalten.
 
-**Wenn `type = TEMPLATE_REF` aber Template gelöscht (`templateId` gesetzt, Template aber nicht mehr auffindbar):**
+**Wenn `type = PROMPT_REF` aber Template gelöscht (`templateId` gesetzt, Template aber nicht mehr auffindbar):**
 
 Warning-Box: _"Das verknüpfte Template wurde gelöscht. Dieser Schritt kann nicht ausgeführt werden."_
 Die "Nächste Schritte"-Buttons bleiben aktiv — der Nutzer kann diesen Schritt überspringen.
@@ -362,8 +363,10 @@ Copy-Button (identisch zu `PromptText`-Komponente).
 Wird angezeigt wenn `step.hint` vorhanden:
 
 ```html
-<div class="bg-blue-50 border border-blue-200 rounded-md p-3 text-sm text-blue-800">
-  ℹ  [Hinweis-Text]
+<div
+   class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800"
+>
+   ℹ [Hinweis-Text]
 </div>
 ```
 
@@ -410,27 +413,27 @@ Neue Schicht analog zu bestehenden Patterns (RepositoryFactory → ServiceFactor
 
 ### 9.1 Server Actions (`src/actions/workflow/`)
 
-| Action | Beschreibung |
-| ------ | ------------ |
-| `createWorkflow(data)` | Erstellt Workflow. Prüft BASIC-Limit (5). |
-| `updateWorkflow(id, data)` | Aktualisiert Titel/Beschreibung. Ownership-Check. |
-| `deleteWorkflow(id)` | Löscht Workflow + alle Steps + alle Edges (Cascade). Ownership-Check. |
-| `getWorkflows()` | Alle Workflows des eingeloggten Nutzers (Liste, neueste zuerst). |
-| `getWorkflow(id)` | Einzelner Workflow mit Steps + Edges. Ownership-Check. |
-| `createWorkflowStep(workflowId, data)` | Fügt Step hinzu. Prüft BASIC-Step-Limit (10). |
-| `updateWorkflowStep(id, data)` | Aktualisiert Step-Felder inkl. Edges (ersetzt alle Edges des Steps). Inkl. Zyklus-Validierung. |
-| `deleteWorkflowStep(id)` | Löscht Step + alle zugehörigen Edges (in- und outgoing). |
-| `setStartStep(workflowId, stepId)` | Setzt `isStart = true` für `stepId`, `false` für alle anderen Steps desselben Workflows. Transaktion. |
-| `getWorkflowForRunner(id)` | Workflow + Steps + Edges + `templateTitle` (denormalisiert). Read-only. Ownership-Check. |
+| Action                                 | Beschreibung                                                                                          |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `createWorkflow(data)`                 | Erstellt Workflow. Prüft BASIC-Limit (5).                                                             |
+| `updateWorkflow(id, data)`             | Aktualisiert Titel/Beschreibung. Ownership-Check.                                                     |
+| `deleteWorkflow(id)`                   | Löscht Workflow + alle Steps + alle Edges (Cascade). Ownership-Check.                                 |
+| `getWorkflows()`                       | Alle Workflows des eingeloggten Nutzers (Liste, neueste zuerst).                                      |
+| `getWorkflow(id)`                      | Einzelner Workflow mit Steps + Edges. Ownership-Check.                                                |
+| `createWorkflowStep(workflowId, data)` | Fügt Step hinzu. Prüft BASIC-Step-Limit (10).                                                         |
+| `updateWorkflowStep(id, data)`         | Aktualisiert Step-Felder inkl. Edges (ersetzt alle Edges des Steps). Inkl. Zyklus-Validierung.        |
+| `deleteWorkflowStep(id)`               | Löscht Step + alle zugehörigen Edges (in- und outgoing).                                              |
+| `setStartStep(workflowId, stepId)`     | Setzt `isStart = true` für `stepId`, `false` für alle anderen Steps desselben Workflows. Transaktion. |
+| `getWorkflowForRunner(id)`             | Workflow + Steps + Edges + `templateTitle` (denormalisiert). Read-only. Ownership-Check.              |
 
 ### 9.2 Service-Invarianten
 
-| Regel | Error-Code |
-| ----- | ---------- |
-| Jede mutierende Action prüft `workflow.userId === session.user.id` | `403 Forbidden` |
+| Regel                                                                                   | Error-Code               |
+| --------------------------------------------------------------------------------------- | ------------------------ |
+| Jede mutierende Action prüft `workflow.userId === session.user.id`                      | `403 Forbidden`          |
 | Vor `createWorkflow`: Zählt bestehende Workflows des Nutzers; wenn ≥ 5 und Tier = BASIC | `WORKFLOW_LIMIT_REACHED` |
-| Vor `createWorkflowStep`: Zählt Steps des Workflows; wenn ≥ 10 und Tier = BASIC | `STEP_LIMIT_REACHED` |
-| In `updateWorkflowStep` beim Hinzufügen einer Edge: DFS-Zyklus-Check | `CYCLE_DETECTED` |
+| Vor `createWorkflowStep`: Zählt Steps des Workflows; wenn ≥ 10 und Tier = BASIC         | `STEP_LIMIT_REACHED`     |
+| In `updateWorkflowStep` beim Hinzufügen einer Edge: DFS-Zyklus-Check                    | `CYCLE_DETECTED`         |
 
 ---
 
@@ -446,7 +449,7 @@ export type DWorkflow = {
   createdAt: string;
 };
 
-export type DWorkflowStepType = "TEMPLATE_REF" | "STANDALONE";
+export type DWorkflowStepType = "PROMPT_REF" | "STANDALONE";
 
 export type DWorkflowStep = {
   id: string;
@@ -509,7 +512,7 @@ When:   Nutzer sendet POST-Request direkt (API-Bypass)
 Then:   Server antwortet mit Error WORKFLOW_LIMIT_REACHED
 ```
 
-### AC-3: Schritt vom Typ TEMPLATE_REF hinzufügen
+### AC-3: Schritt vom Typ PROMPT_REF hinzufügen
 
 ```
 Given:  Nutzer ist im Workflow-Editor
@@ -520,7 +523,7 @@ When:   Nutzer klickt "+ Schritt hinzufügen"
   And:  Klickt "Speichern"
 Then:   Schritt erscheint in der Schritt-Liste
   And:  Schritt zeigt den Template-Namen
-  And:  type = TEMPLATE_REF, templateId ist korrekt gesetzt
+  And:  type = PROMPT_REF, templateId ist korrekt gesetzt
 ```
 
 ### AC-4: Verzweigung konfigurieren (2 Ausgänge)
@@ -547,11 +550,11 @@ Then:   Speichern schlägt fehl
   And:  Keine WorkflowStepEdge wurde gespeichert
 ```
 
-### AC-6: Runner — Schritt ausführen (TEMPLATE_REF)
+### AC-6: Runner — Schritt ausführen (PROMPT_REF)
 
 ```
 Given:  Nutzer öffnet /workflows/[id]/run
-  And:  Erster Schritt ist TEMPLATE_REF mit 2 Variablen
+  And:  Erster Schritt ist PROMPT_REF mit 2 Variablen
 When:   Seite lädt
 Then:   UsePromptForm mit 2 Feldern wird angezeigt
   And:  Vorschau zeigt den Prompt-Text mit ungefüllten Platzhaltern
@@ -625,14 +628,14 @@ Then:   Runner setzt zurück auf { historyStack: [startStepId], currentIndex: 0 
 
 ## 12. Edge Cases & Fehler-Zustände
 
-| Situation | Verhalten |
-| --------- | --------- |
-| Runner aufgerufen, kein `isStart`-Step im Workflow | Server: 400-Error. UI: _"Kein Startschritt definiert."_ + Link zum Editor |
-| Runner aufgerufen, Workflow hat 0 Steps | UI: _"Dieser Workflow enthält noch keine Schritte."_ + Link zum Editor |
-| Step wird gelöscht, der als Ziel in einer Edge referenziert wird | `onDelete: Cascade` auf `WorkflowStepEdge` — Edges werden automatisch mitgelöscht |
-| BASIC-Nutzer upgradet auf PRO, hat > 5 Workflows | Alle Workflows bleiben erhalten; Limit wird nicht rückwirkend erzwungen |
-| Template wird umbenannt, das in einem Step referenziert wird | Step zeigt immer den aktuellen Titel — `templateTitle` wird beim Laden live abgefragt |
-| Nutzer hat 2 Browser-Tabs mit demselben Editor offen | Last-write-wins; kein Konflikt-Management in MVP |
+| Situation                                                              | Verhalten                                                                                       |
+| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Runner aufgerufen, kein `isStart`-Step im Workflow                     | Server: 400-Error. UI: _"Kein Startschritt definiert."_ + Link zum Editor                       |
+| Runner aufgerufen, Workflow hat 0 Steps                                | UI: _"Dieser Workflow enthält noch keine Schritte."_ + Link zum Editor                          |
+| Step wird gelöscht, der als Ziel in einer Edge referenziert wird       | `onDelete: Cascade` auf `WorkflowStepEdge` — Edges werden automatisch mitgelöscht               |
+| BASIC-Nutzer upgradet auf PRO, hat > 5 Workflows                       | Alle Workflows bleiben erhalten; Limit wird nicht rückwirkend erzwungen                         |
+| Template wird umbenannt, das in einem Step referenziert wird           | Step zeigt immer den aktuellen Titel — `templateTitle` wird beim Laden live abgefragt           |
+| Nutzer hat 2 Browser-Tabs mit demselben Editor offen                   | Last-write-wins; kein Konflikt-Management in MVP                                                |
 | Workflow mit Schritten aber ohne `isStart`-Step wird über API geöffnet | Editor zeigt `[Nicht verbunden]`-Warnung auf allen Steps + Banner _"Kein Startschritt gesetzt"_ |
 
 ---
@@ -644,7 +647,7 @@ Then:   Runner setzt zurück auf { historyStack: [startStepId], currentIndex: 0 
 3. **Repository + Service + Actions:** CRUD inkl. Zyklus-Validierung und Subscription-Limit-Checks
 4. **Workflow-Liste `/workflows`:** Page + WorkflowCard + Empty State + Subscription-Gate
 5. **Workflow-Editor `/workflows/new` + `[id]/edit`:** Metadaten-Editor + Schritt-Liste + Schritt-Detail-Panel
-6. **Runner `/workflows/[id]/run`:** Client-State, TEMPLATE_REF + STANDALONE Rendering, Navigations-Logik
+6. **Runner `/workflows/[id]/run`:** Client-State, PROMPT_REF + STANDALONE Rendering, Navigations-Logik
 7. **Sidebar-Eintrag** + FREE-Gate
 8. **Unit- und Integrationstests** (Services/Validierung, CRUD, Editor + Runner Komponenten)
 
@@ -652,11 +655,11 @@ Then:   Runner setzt zurück auf { historyStack: [startStepId], currentIndex: 0 
 
 ## 14. MVP vs. Full Vision
 
-| Bereich | MVP (diese Spezifikation) | Full Vision |
-| ------- | ------------------------- | ----------- |
-| Editor-UX | Formular-basierter Editor (Step-Liste + Detail-Panel) | Visueller Canvas-Editor (z.B. ReactFlow) mit Drag & Drop |
-| Sharing | Privat only | Teilen via Token (wie Collections), Marketplace-Workflows |
-| Runner-State | Kein Persistenz — geht bei Reload verloren | Session wird gespeichert (DB oder localStorage) |
-| Variables über Schritte hinweg | Nicht unterstützt | `{{step_1_output}}` in späteren Schritten verwendbar |
-| Collaboration | — | Team-Workflows, Permissions |
-| Explore-Katalog | — | Öffentliche Workflow-Vorlagen |
+| Bereich                        | MVP (diese Spezifikation)                             | Full Vision                                               |
+| ------------------------------ | ----------------------------------------------------- | --------------------------------------------------------- |
+| Editor-UX                      | Formular-basierter Editor (Step-Liste + Detail-Panel) | Visueller Canvas-Editor (z.B. ReactFlow) mit Drag & Drop  |
+| Sharing                        | Privat only                                           | Teilen via Token (wie Collections), Marketplace-Workflows |
+| Runner-State                   | Kein Persistenz — geht bei Reload verloren            | Session wird gespeichert (DB oder localStorage)           |
+| Variables über Schritte hinweg | Nicht unterstützt                                     | `{{step_1_output}}` in späteren Schritten verwendbar      |
+| Collaboration                  | —                                                     | Team-Workflows, Permissions                               |
+| Explore-Katalog                | —                                                     | Öffentliche Workflow-Vorlagen                             |

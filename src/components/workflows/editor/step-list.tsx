@@ -11,8 +11,8 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { DWorkflowDetail, DWorkflowStep } from "@/data/types/domain/workflow";
+import { cn } from "@/lib/utils";
 
 type Props = {
    workflow: DWorkflowDetail;
@@ -63,7 +63,7 @@ export const StepList = ({
                   <div className="flex items-start justify-between gap-2">
                      <div className="flex min-w-0 flex-1 items-center gap-2">
                         {step.isStart && (
-                           <Badge className="shrink-0 bg-blue-600 hover:bg-blue-600 text-xs">
+                           <Badge className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600">
                               Start
                            </Badge>
                         )}
@@ -78,7 +78,7 @@ export const StepList = ({
                         {isDisconnected && (
                            <Badge
                               variant="outline"
-                              className="shrink-0 border-yellow-400 text-yellow-700 text-xs"
+                              className="shrink-0 border-yellow-400 text-xs text-yellow-700"
                            >
                               Nicht verbunden
                            </Badge>
@@ -138,12 +138,12 @@ export const StepList = ({
 
                   <div className="mt-1.5 text-xs text-muted-foreground">
                      <Badge variant="outline" className="text-xs">
-                        {step.type === "TEMPLATE_REF"
+                        {step.type === "PROMPT_REF"
                            ? "Template"
                            : "Eigenständig"}
                      </Badge>
-                     {step.templateTitle && (
-                        <span className="ml-2">{step.templateTitle}</span>
+                     {step.promptTitle && (
+                        <span className="ml-2">{step.promptTitle}</span>
                      )}
                   </div>
 

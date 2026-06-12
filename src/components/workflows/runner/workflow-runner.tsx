@@ -50,9 +50,9 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
       // Load template data lazily if needed
       if (!templateDataCache[toStepId]) {
          const nextStep = workflow.steps.find((s) => s.id === toStepId);
-         if (nextStep?.type === "TEMPLATE_REF" && nextStep.templateId) {
+         if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
             try {
-               const data = await getPromptGenerationData(nextStep.templateId);
+               const data = await getPromptGenerationData(nextStep.promptId);
                setTemplateDataCache((prev) => ({
                   ...prev,
                   [toStepId]: data,
@@ -88,7 +88,9 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
       return (
          <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
             <AlertTriangle className="h-12 w-12 text-yellow-500" />
-            <h2 className="text-xl font-semibold">Kein Startschritt definiert</h2>
+            <h2 className="text-xl font-semibold">
+               Kein Startschritt definiert
+            </h2>
             <p className="text-muted-foreground">
                Dieser Workflow hat keinen Startschritt. Bitte definiere einen
                Startschritt im Editor.
@@ -115,7 +117,10 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
    }
 
    return (
-      <div className="flex h-screen flex-col bg-background" data-testid="workflow-runner">
+      <div
+         className="flex h-screen flex-col bg-background"
+         data-testid="workflow-runner"
+      >
          {/* Header */}
          <div className="flex items-center justify-between border-b bg-white px-6 py-3">
             <div className="flex items-center gap-3">
@@ -130,7 +135,9 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
                   Zurück
                </Button>
                <Separator orientation="vertical" className="h-5" />
-               <h1 className="font-semibold text-slate-900">{workflow.title}</h1>
+               <h1 className="font-semibold text-slate-900">
+                  {workflow.title}
+               </h1>
             </div>
             <Button
                variant="ghost"
@@ -147,26 +154,28 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
 
          {/* Breadcrumb path */}
          <div className="flex items-center gap-1 overflow-x-auto border-b bg-slate-50 px-6 py-2 text-sm">
-            {state.historyStack.slice(0, state.currentIndex + 1).map((stepId, idx) => {
-               const step = workflow.steps.find((s) => s.id === stepId);
-               const isCurrent = idx === state.currentIndex;
-               return (
-                  <span key={stepId} className="flex items-center gap-1">
-                     {idx > 0 && (
-                        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                     )}
-                     <span
-                        className={
-                           isCurrent
-                              ? "font-semibold text-primary"
-                              : "text-muted-foreground"
-                        }
-                     >
-                        {step?.title ?? stepId}
+            {state.historyStack
+               .slice(0, state.currentIndex + 1)
+               .map((stepId, idx) => {
+                  const step = workflow.steps.find((s) => s.id === stepId);
+                  const isCurrent = idx === state.currentIndex;
+                  return (
+                     <span key={stepId} className="flex items-center gap-1">
+                        {idx > 0 && (
+                           <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                        )}
+                        <span
+                           className={
+                              isCurrent
+                                 ? "font-semibold text-primary"
+                                 : "text-muted-foreground"
+                           }
+                        >
+                           {step?.title ?? stepId}
+                        </span>
                      </span>
-                  </span>
-               );
-            })}
+                  );
+               })}
          </div>
 
          {/* Content */}
@@ -174,9 +183,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             {currentStep ? (
                <StepRenderer
                   step={currentStep}
-                  templateData={
-                     templateDataCache[currentStep.id] ?? null
-                  }
+                  templateData={templateDataCache[currentStep.id] ?? null}
                />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>
@@ -186,9 +193,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
          {/* Navigation footer */}
          <div className="border-t bg-white px-6 py-4">
             {isCompleted ? (
-               <CompletedState
-                  onRestart={handleRestart}
-               />
+               <CompletedState onRestart={handleRestart} />
             ) : (
                <NextStepButtons
                   edges={outgoingEdges}
@@ -221,8 +226,8 @@ const StepRenderer = ({ step, templateData }: StepRendererProps) => {
             </div>
          )}
 
-         {/* TEMPLATE_REF */}
-         {step.type === "TEMPLATE_REF" && (
+         {/* PROMPT_REF */}
+         {step.type === "PROMPT_REF" && (
             <>
                {templateData ? (
                   <UsePromptForm
@@ -243,7 +248,7 @@ const StepRenderer = ({ step, templateData }: StepRendererProps) => {
          {step.type === "STANDALONE" && step.content && (
             <div>
                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                  <span className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
                      Prompt-Text
                   </span>
                   <CopyButton
@@ -292,10 +297,7 @@ const NextStepButtons = ({ edges, steps, onChoose }: NextStepButtonsProps) => {
                      >
                         {edge.label}
                         {target && (
-                           <Badge
-                              variant="secondary"
-                              className="ml-2 text-xs"
-                           >
+                           <Badge variant="secondary" className="ml-2 text-xs">
                               {target.title}
                            </Badge>
                         )}

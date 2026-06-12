@@ -25,7 +25,9 @@ export const toDWorkflow = (w: WorkflowWithStepCount): DWorkflow => ({
 export const toDWorkflows = (ws: WorkflowWithStepCount[]): DWorkflow[] =>
    map(ws, toDWorkflow);
 
-export const toDWorkflowStepEdge = (e: WorkflowStepEdge): DWorkflowStepEdge => ({
+export const toDWorkflowStepEdge = (
+   e: WorkflowStepEdge
+): DWorkflowStepEdge => ({
    id: e.id,
    fromStepId: e.fromStepId,
    toStepId: e.toStepId,
@@ -41,8 +43,8 @@ export const toDWorkflowStep = (
    title: s.title,
    hint: s.hint,
    type: s.type,
-   templateId: s.templateId,
-   templateTitle: s.template?.title ?? null,
+   promptId: s.promptId,
+   promptTitle: s.template?.title ?? null,
    content: s.content,
    isStart: s.isStart,
    position: s.position,

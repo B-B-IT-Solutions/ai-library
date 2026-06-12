@@ -1,6 +1,13 @@
-import { WorkflowDetailRow, WorkflowWithStepCount } from "@/data/types/db/workflow";
+import {
+   WorkflowDetailRow,
+   WorkflowWithStepCount,
+} from "@/data/types/db/workflow";
 
-import { toDWorkflow, toDWorkflowDetail, toDWorkflows } from "./workflow.mapper";
+import {
+   toDWorkflow,
+   toDWorkflowDetail,
+   toDWorkflows,
+} from "./workflow.mapper";
 
 const baseDate = new Date("2025-01-01T00:00:00Z");
 
@@ -36,7 +43,10 @@ describe("toDWorkflow", () => {
 
 describe("toDWorkflows", () => {
    it("maps an array of workflows", () => {
-      const workflows = [makePWorkflow(), makePWorkflow({ id: "wf-2", title: "Second" })];
+      const workflows = [
+         makePWorkflow(),
+         makePWorkflow({ id: "wf-2", title: "Second" }),
+      ];
       const result = toDWorkflows(workflows);
       expect(result).toHaveLength(2);
       expect(result[0].id).toBe("wf-1");
@@ -89,7 +99,7 @@ describe("toDWorkflowDetail", () => {
       expect(result.steps[0].title).toBe("First Step");
       expect(result.steps[0].hint).toBe("A hint");
       expect(result.steps[0].isStart).toBe(true);
-      expect(result.steps[0].templateTitle).toBeNull();
+      expect(result.steps[0].promptTitle).toBeNull();
       expect(result.steps[0].outgoingEdges).toHaveLength(1);
       expect(result.steps[0].outgoingEdges[0].label).toBe("Weiter");
    });
@@ -109,8 +119,8 @@ describe("toDWorkflowDetail", () => {
                workflowId: "wf-1",
                title: "Template Step",
                hint: null,
-               type: "TEMPLATE_REF",
-               templateId: "tmpl-1",
+               type: "PROMPT_REF",
+               promptId: "tmpl-1",
                content: null,
                isStart: true,
                position: 0,
@@ -123,6 +133,6 @@ describe("toDWorkflowDetail", () => {
       };
 
       const result = toDWorkflowDetail(row);
-      expect(result.steps[0].templateTitle).toBe("My Template");
+      expect(result.steps[0].promptTitle).toBe("My Template");
    });
 });

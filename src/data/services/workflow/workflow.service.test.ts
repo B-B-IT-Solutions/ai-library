@@ -3,8 +3,8 @@ jest.mock("@/data/services/subscription");
 
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { WorkflowRepository } from "@/data/repositories/workflow";
 import prisma from "@/data/repositories/prisma";
+import { WorkflowRepository } from "@/data/repositories/workflow";
 import { SubscriptionService } from "@/data/services/subscription";
 
 import {
@@ -126,7 +126,9 @@ describe("createWorkflow", () => {
 
       await expect(
          workflowService.createWorkflow(userId, { title: "My Workflow" })
-      ).rejects.toThrow("Workflows sind nur für BASIC- und PRO-Nutzer verfügbar.");
+      ).rejects.toThrow(
+         "Workflows sind nur für BASIC- und PRO-Nutzer verfügbar."
+      );
    });
 
    it("should throw WorkflowLimitError when BASIC user has reached 5 workflows", async () => {
@@ -272,12 +274,20 @@ describe("updateWorkflowStep with cycle detection", () => {
                title: "A",
                hint: null,
                type: "STANDALONE",
-               templateId: null,
-               templateTitle: null,
+               promptId: null,
+               promptTitle: null,
                content: "a",
                isStart: true,
                position: 0,
-               outgoingEdges: [{ id: "e1", fromStepId: "step-a", toStepId: "step-b", label: "Next", order: 0 }],
+               outgoingEdges: [
+                  {
+                     id: "e1",
+                     fromStepId: "step-a",
+                     toStepId: "step-b",
+                     label: "Next",
+                     order: 0,
+                  },
+               ],
             },
             {
                id: "step-b",
@@ -285,8 +295,8 @@ describe("updateWorkflowStep with cycle detection", () => {
                title: "B",
                hint: null,
                type: "STANDALONE",
-               templateId: null,
-               templateTitle: null,
+               promptId: null,
+               promptTitle: null,
                content: "b",
                isStart: false,
                position: 1,
