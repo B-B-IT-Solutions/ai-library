@@ -41,6 +41,12 @@ const workflowServiceMock = {
    ServiceFactory.prototype as { getWorkflowService?: () => WorkflowService }
 ).getWorkflowService = jest.fn().mockReturnValue(workflowServiceMock);
 
+const sGetWorkflows = WorkflowService.prototype.getWorkflows;
+
+const sGetWorkflowsMock = sGetWorkflows as jest.MockedFunction<
+   typeof sGetWorkflows
+>;
+
 const userId = "334db648-f300-4284-8149-075ff465d750";
 const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
