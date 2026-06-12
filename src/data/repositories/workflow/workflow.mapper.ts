@@ -1,9 +1,9 @@
 import { map } from "es-toolkit/compat";
 
 import {
-   WorkflowDetailRow,
-   WorkflowStepWithEdgesAndTemplate,
+   WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
+   WorkflowWithSteps,
 } from "@/data/types/db/workflow";
 import {
    DWorkflow,
@@ -36,7 +36,7 @@ export const toDWorkflowStepEdge = (
 });
 
 export const toDWorkflowStep = (
-   s: WorkflowStepWithEdgesAndTemplate
+   s: WorkflowStepWithEdgesAndPrompt
 ): DWorkflowStep => ({
    id: s.id,
    workflowId: s.workflowId,
@@ -51,7 +51,7 @@ export const toDWorkflowStep = (
    outgoingEdges: map(s.outgoingEdges, toDWorkflowStepEdge),
 });
 
-export const toDWorkflowDetail = (w: WorkflowDetailRow): DWorkflowDetail => ({
+export const toDWorkflowDetail = (w: WorkflowWithSteps): DWorkflowDetail => ({
    id: w.id,
    title: w.title,
    description: w.description,

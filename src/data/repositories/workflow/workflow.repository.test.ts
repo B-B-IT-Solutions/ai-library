@@ -75,7 +75,7 @@ describe("pGetWorkflow", () => {
    it("workflow retrieved - test", async () => {
       const userId = "user-id-1";
       const workflowId = "workflow-id-0001";
-      const row = ptestData.pWorkflowDetailRow(1);
+      const row = ptestData.pWorkflowWithSteps(1);
       prismaMock.workflow.findUnique.mockResolvedValue(row);
 
       const result = await repository.pGetWorkflow(userId, workflowId);

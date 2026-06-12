@@ -31,9 +31,9 @@ import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
-   WorkflowDetailRow,
-   WorkflowStepWithEdgesAndTemplate,
+   WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
+   WorkflowWithSteps,
 } from "@/data/types/db/workflow";
 import {
    Cart,
@@ -842,6 +842,16 @@ export const pWorkflowWithStepCount = (index = 1): WorkflowWithStepCount => {
    };
 };
 
+export const pWorkflowWithSteps = (index = 1): WorkflowWithSteps => {
+   return {
+      ...pWorkflow(index),
+      steps: [
+         pWorkflowStepWithEdgesAndPrompt(1),
+         pWorkflowStepWithEdgesAndPrompt(2),
+      ],
+   };
+};
+
 export const pWorkflow = (index = 1): Workflow => {
    return {
       id: `workflow-id-000${index}`,
@@ -853,42 +863,39 @@ export const pWorkflow = (index = 1): Workflow => {
    };
 };
 
-export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => ({
-   id: `edge-id-000${index}`,
-   fromStepId: `step-id-000${index}`,
-   toStepId: `step-id-000${index + 1}`,
-   label: `label-${index}`,
-   order: index - 1,
-   createdAt: new Date("2025-09-27"),
-});
+export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => {
+   return {
+      id: `edge-id-000${index}`,
+      fromStepId: `step-id-000${index}`,
+      toStepId: `step-id-000${index + 1}`,
+      label: `label-${index}`,
+      order: index - 1,
+      createdAt: new Date("2025-09-27"),
+   };
+};
 
-export const pWorkflowStep = (index = 1): WorkflowStep => ({
-   id: `step-id-000${index}`,
-   workflowId: `workflow-id-0001`,
-   title: `step-title-${index}`,
-   hint: null,
-   type: "STANDALONE",
-   promptId: null,
-   content: `content-${index}`,
-   isStart: index === 1,
-   position: index - 1,
-   createdAt: new Date("2025-09-27"),
-   updatedAt: new Date("2025-09-27"),
-});
-
-export const pWorkflowStepWithEdgesAndTemplate = (
+export const pWorkflowStepWithEdgesAndPrompt = (
    index = 1
-): WorkflowStepWithEdgesAndTemplate => ({
-   ...pWorkflowStep(index),
-   outgoingEdges: [],
-   prompt: null,
-});
+): WorkflowStepWithEdgesAndPrompt => {
+   return {
+      ...pWorkflowStep(index),
+      outgoingEdges: [],
+      prompt: null,
+   };
+};
 
-export const pWorkflowDetailRow = (index = 1): WorkflowDetailRow => ({
-   ...pWorkflow(index),
-   _count: { steps: 2 },
-   steps: [
-      pWorkflowStepWithEdgesAndTemplate(1),
-      pWorkflowStepWithEdgesAndTemplate(2),
-   ],
-});
+export const pWorkflowStep = (index = 1): WorkflowStep => {
+   return {
+      id: `step-id-000${index}`,
+      workflowId: `workflow-id-0001`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      content: `content-${index}`,
+      isStart: index === 1,
+      position: index - 1,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};

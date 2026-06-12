@@ -1,6 +1,6 @@
 import {
-   WorkflowDetailRow,
    WorkflowWithStepCount,
+   WorkflowWithSteps,
 } from "@/data/types/db/workflow";
 
 import {
@@ -56,14 +56,13 @@ describe("toDWorkflows", () => {
 
 describe("toDWorkflowDetail", () => {
    it("maps a workflow with steps and edges", () => {
-      const row: WorkflowDetailRow = {
+      const row: WorkflowWithSteps = {
          id: "wf-1",
          userId: "user-1",
          title: "My Workflow",
          description: null,
          createdAt: baseDate,
          updatedAt: baseDate,
-         _count: { steps: 1 },
          steps: [
             {
                id: "step-1",
@@ -105,14 +104,13 @@ describe("toDWorkflowDetail", () => {
    });
 
    it("maps templateTitle from template relation", () => {
-      const row: WorkflowDetailRow = {
+      const row: WorkflowWithSteps = {
          id: "wf-1",
          userId: "user-1",
          title: "Workflow",
          description: null,
          createdAt: baseDate,
          updatedAt: baseDate,
-         _count: { steps: 1 },
          steps: [
             {
                id: "step-1",
