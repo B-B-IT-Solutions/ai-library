@@ -6,6 +6,7 @@ import prisma from "@/data/repositories/prisma";
 import { DWorkflowCreate, DWorkflowUpdate } from "@/data/types/domain/workflow";
 import {
    WorkflowCreateArgs,
+   WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
    WorkflowUpdateArgs,
@@ -180,5 +181,29 @@ describe("pUpdateWorkflow", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.update).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pDeleteWorkflow", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflow deleted - test", async () => {
+      const userId = "user-id-1";
+      const workflow = ptestData.pWorkflow(1);
+      prismaMock.workflow.delete.mockResolvedValue(workflow);
+
+      await repository.pDeleteWorkflow(userId, workflow.id);
+
+      const expectedArgs: WorkflowDeleteArgs = {
+         where: {
+            id: workflow.id,
+            userId,
+         },
+      };
+
+      expect(prismaMock.workflow.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.delete).toHaveBeenCalledWith(expectedArgs);
    });
 });

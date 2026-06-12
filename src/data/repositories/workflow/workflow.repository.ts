@@ -12,6 +12,7 @@ import {
 import {
    WorkflowCreateArgs,
    WorkflowCreateInput,
+   WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
    WorkflowUpdateArgs,
@@ -139,10 +140,15 @@ export class WorkflowRepository {
       return toDWorkflow(workflow);
    }
 
-   async pDeleteWorkflow(userId: string, workflowId: string): Promise<void> {
-      await this.prisma.workflow.delete({
-         where: { id: workflowId, userId },
-      });
+   async pDeleteWorkflow(userId: string, workflowId: string) {
+      const args = {
+         where: {
+            id: workflowId,
+            userId,
+         },
+      } satisfies WorkflowDeleteArgs;
+
+      await this.prisma.workflow.delete(args);
    }
 
    async pCountWorkflowSteps(workflowId: string): Promise<number> {
