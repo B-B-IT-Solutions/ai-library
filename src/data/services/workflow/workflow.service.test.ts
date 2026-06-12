@@ -218,7 +218,7 @@ describe("createWorkflowStep", () => {
             position: 0,
             edges: [],
          })
-      ).rejects.toThrow("Workflow nicht gefunden.");
+      ).rejects.toThrow("Workflow not found.");
    });
 
    it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
@@ -273,7 +273,7 @@ describe("deleteWorkflow", () => {
 
       await expect(
          workflowService.deleteWorkflow(userId, workflowId)
-      ).rejects.toThrow("Workflow nicht gefunden.");
+      ).rejects.toThrow("Workflow not found.");
    });
 
    it("should delete workflow successfully", async () => {

@@ -8,8 +8,10 @@ import {
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { hasReachedLimit } from "@/lib/subscription/access-control";
-import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+import {
+   FeatureName,
+   hasReachedLimit,
+} from "@/lib/subscription/access-control";
 import { SubscriptionService } from "../subscription";
 
 export class WorkflowService {
@@ -32,25 +34,14 @@ export class WorkflowService {
    async createWorkflow(
       userId: string,
       data: DWorkflowCreate
-   ): Promise<DWorkflowWithSteps> {
-      const tier = await this.subscriptionService.getUserTier(userId);
-
-      if (tier === "FREE") {
-         throw new SubscriptionAccessError(
-            "Workflows sind nur für BASIC- und PRO-Nutzer verfügbar.",
-            "canUseWorkflows"
-         );
-      }
-
-      if (tier === "BASIC") {
-         const count = await this.repository.pCountWorkflows(userId);
-         if (hasReachedLimit(tier, "maxWorkflows", count)) {
-            throw new WorkflowLimitError(
-               "WORKFLOW_LIMIT_REACHED",
-               "Du hast das Limit von 5 Workflows erreicht. Upgrade auf PRO für unbegrenzte Workflows."
-            );
-         }
-      }
+   ): Promise<DWorkflow> {
+      const currentCount = await this.getWorkflowsCount(userId);
+      const feature: FeatureName = "maxWorkflows";
+      await this.subscriptionService.requireCountLimit(
+         userId,
+         feature,
+         currentCount
+      );
 
       return this.repository.pCreateWorkflow(userId, data);
    }
@@ -59,10 +50,10 @@ export class WorkflowService {
       userId: string,
       workflowId: string,
       data: DWorkflowUpdate
-   ): Promise<DWorkflowWithSteps> {
+   ): Promise<DWorkflow> {
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
       return this.repository.pUpdateWorkflow(userId, workflowId, data);
    }
@@ -70,7 +61,7 @@ export class WorkflowService {
    async deleteWorkflow(userId: string, workflowId: string): Promise<void> {
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
-         throw new Error("Workflow nicht gefunden.");
+         throw new Error("Workflow not found.");
       }
       await this.repository.pDeleteWorkflow(userId, workflowId);
    }
@@ -151,6 +142,10 @@ export class WorkflowService {
          throw new Error("Workflow nicht gefunden.");
       }
       await this.repository.pSetStartStep(userId, workflowId, stepId);
+   }
+
+   async getWorkflowsCount(userId: string): Promise<number> {
+      return await this.repository.pCountWorkflows(userId);
    }
 
    async getWorkflowsUsage(userId: string): Promise<DWorkflowsUsage> {
