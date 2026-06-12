@@ -12,8 +12,8 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import {
-   DWorkflowWithSteps,
    DWorkflowStep,
+   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
