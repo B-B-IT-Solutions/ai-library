@@ -14,6 +14,8 @@ import {
    WorkflowCreateInput,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
+   WorkflowUpdateArgs,
+   WorkflowUpdateInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -108,7 +110,6 @@ export class WorkflowRepository {
             },
          },
       };
-
       const args = {
          data: input,
       } satisfies WorkflowCreateArgs;
@@ -121,18 +122,21 @@ export class WorkflowRepository {
       userId: string,
       workflowId: string,
       data: DWorkflowUpdate
-   ): Promise<DWorkflowWithSteps> {
-      const row = await this.prisma.workflow.update({
-         where: { id: workflowId, userId },
-         data: {
-            title: data.title,
-            description: data.description ?? null,
+   ): Promise<DWorkflow> {
+      const input: WorkflowUpdateInput = {
+         title: data.title,
+         description: data.description,
+      };
+      const args = {
+         where: {
+            id: workflowId,
+            userId,
          },
-         include: WORKFLOW_DETAIL_INCLUDE,
-      });
-      return toDWorkflowWithSteps(
-         row as Parameters<typeof toDWorkflowWithSteps>[0]
-      );
+         data: input,
+      } satisfies WorkflowUpdateArgs;
+
+      const workflow = await this.prisma.workflow.update(args);
+      return toDWorkflow(workflow);
    }
 
    async pDeleteWorkflow(userId: string, workflowId: string): Promise<void> {
