@@ -5,18 +5,16 @@ import {
    DWorkflow,
    DWorkflowCreate,
    DWorkflowDetail,
-   DWorkflowStep,
    DWorkflowStepCreate,
-   DWorkflowStepEdgeInput,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
-
 import {
-   toDWorkflow,
-   toDWorkflowDetail,
-   toDWorkflows,
-} from "./workflow.mapper";
+   WorkflowFindManyArgs,
+   WorkflowFindUniqueArgs,
+} from "@/generated/prisma/models";
+
+import { toDWorkflowDetail, toDWorkflows } from "./workflow.mapper";
 
 const STEP_INCLUDE = {
    template: {
@@ -43,11 +41,14 @@ export class WorkflowRepository {
    }
 
    async pGetWorkflows(userId: string): Promise<DWorkflow[]> {
-      const rows = await this.prisma.workflow.findMany({
+      const args = {
          where: { userId },
          include: { _count: { select: { steps: true } } },
          orderBy: { createdAt: "desc" },
-      });
+      } satisfies WorkflowFindManyArgs;
+
+      const rows = await this.prisma.workflow.findMany(args);
+
       return toDWorkflows(rows);
    }
 
@@ -59,12 +60,17 @@ export class WorkflowRepository {
       userId: string,
       workflowId: string
    ): Promise<DWorkflowDetail | null> {
-      const row = await this.prisma.workflow.findUnique({
+      const args = {
          where: { id: workflowId, userId },
          include: WORKFLOW_DETAIL_INCLUDE,
-      });
-      if (!row) return null;
-      return toDWorkflowDetail(row as Parameters<typeof toDWorkflowDetail>[0]);
+      } satisfies WorkflowFindUniqueArgs;
+
+      const row = await this.prisma.workflow.findUnique(args);
+
+      if (!row) {
+         return null;
+      }
+      return toDWorkflowDetail(row);
    }
 
    async pCreateWorkflow(
@@ -172,7 +178,9 @@ export class WorkflowRepository {
          }
 
          // Replace all outgoing edges
-         await tx.workflowStepEdge.deleteMany({ where: { fromStepId: stepId } });
+         await tx.workflowStepEdge.deleteMany({
+            where: { fromStepId: stepId },
+         });
 
          await tx.workflowStep.update({
             where: { id: stepId },
@@ -244,7 +252,9 @@ export class WorkflowRepository {
 
    async pGetStepsForCycleCheck(
       workflowId: string
-   ): Promise<Array<{ id: string; outgoingEdges: Array<{ toStepId: string }> }>> {
+   ): Promise<
+      Array<{ id: string; outgoingEdges: Array<{ toStepId: string }> }>
+   > {
       return this.prisma.workflowStep.findMany({
          where: { workflowId },
          select: {
