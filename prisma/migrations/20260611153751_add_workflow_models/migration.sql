@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "workflow_step_type" AS ENUM ('TEMPLATE_REF', 'STANDALONE');
+CREATE TYPE "workflow_step_type" AS ENUM ('PROMPT_REF', 'STANDALONE');
 
 -- CreateTable
 CREATE TABLE "workflow" (
@@ -20,7 +20,7 @@ CREATE TABLE "workflow_step" (
     "title" VARCHAR(250) NOT NULL,
     "hint" VARCHAR(750),
     "type" "workflow_step_type" NOT NULL,
-    "template_id" UUID,
+    "prompt_id" UUID,
     "content" TEXT,
     "is_start" BOOLEAN NOT NULL DEFAULT false,
     "position" INTEGER NOT NULL DEFAULT 0,
@@ -64,7 +64,7 @@ ALTER TABLE "workflow" ADD CONSTRAINT "workflow_user_id_fkey" FOREIGN KEY ("user
 ALTER TABLE "workflow_step" ADD CONSTRAINT "workflow_step_workflow_id_fkey" FOREIGN KEY ("workflow_id") REFERENCES "workflow"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "workflow_step" ADD CONSTRAINT "workflow_step_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "workflow_step" ADD CONSTRAINT "workflow_step_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "workflow_step_edge" ADD CONSTRAINT "workflow_step_edge_from_step_id_fkey" FOREIGN KEY ("from_step_id") REFERENCES "workflow_step"("id") ON DELETE CASCADE ON UPDATE CASCADE;
