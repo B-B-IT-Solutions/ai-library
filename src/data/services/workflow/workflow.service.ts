@@ -22,11 +22,11 @@ export class WorkflowService {
       return this.repository.pGetWorkflows(userId);
    }
 
-   async getWorkflowById(
+   async getWorkflow(
       userId: string,
       workflowId: string
    ): Promise<DWorkflowDetail | null> {
-      return this.repository.pGetWorkflowById(userId, workflowId);
+      return this.repository.pGetWorkflow(userId, workflowId);
    }
 
    async getWorkflowsUsage(userId: string): Promise<DWorkflowsUsage> {
@@ -75,10 +75,7 @@ export class WorkflowService {
       workflowId: string,
       data: DWorkflowUpdate
    ): Promise<DWorkflowDetail> {
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }
@@ -86,10 +83,7 @@ export class WorkflowService {
    }
 
    async deleteWorkflow(userId: string, workflowId: string): Promise<void> {
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }
@@ -102,10 +96,7 @@ export class WorkflowService {
       data: DWorkflowStepCreate
    ): Promise<DWorkflowDetail> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }
@@ -133,10 +124,7 @@ export class WorkflowService {
       data: DWorkflowStepUpdate
    ): Promise<DWorkflowDetail> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }
@@ -161,10 +149,7 @@ export class WorkflowService {
       workflowId: string
    ): Promise<DWorkflowDetail> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }
@@ -176,10 +161,7 @@ export class WorkflowService {
       workflowId: string,
       stepId: string
    ): Promise<void> {
-      const workflow = await this.repository.pGetWorkflowById(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow nicht gefunden.");
       }

@@ -38,8 +38,9 @@ const workflowServiceMock = {
 } as unknown as DeepMockProxy<WorkflowService>;
 
 // Stub ServiceFactory#getWorkflowService
-(ServiceFactory.prototype as { getWorkflowService?: () => WorkflowService }).getWorkflowService =
-   jest.fn().mockReturnValue(workflowServiceMock);
+(
+   ServiceFactory.prototype as { getWorkflowService?: () => WorkflowService }
+).getWorkflowService = jest.fn().mockReturnValue(workflowServiceMock);
 
 const userId = "334db648-f300-4284-8149-075ff465d750";
 const workflowId = "444db648-f300-4284-8149-075ff465d750";
@@ -57,11 +58,17 @@ const baseWorkflow = {
 describe("getWorkflows", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns workflows list", async () => {
-      (workflowServiceMock.getWorkflows as jest.Mock).mockResolvedValue([baseWorkflow]);
+      (workflowServiceMock.getWorkflows as jest.Mock).mockResolvedValue([
+         baseWorkflow,
+      ]);
 
       const result = await getWorkflows();
       expect(result).toEqual([baseWorkflow]);
@@ -79,7 +86,11 @@ describe("getWorkflows", () => {
 describe("getWorkflow", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns null for invalid UUID", async () => {
@@ -89,7 +100,9 @@ describe("getWorkflow", () => {
    });
 
    it("returns workflow by ID", async () => {
-      (workflowServiceMock.getWorkflowById as jest.Mock).mockResolvedValue(baseWorkflow);
+      (workflowServiceMock.getWorkflow as jest.Mock).mockResolvedValue(
+         baseWorkflow
+      );
 
       const result = await getWorkflow(workflowId);
       expect(result).toEqual(baseWorkflow);
@@ -99,11 +112,17 @@ describe("getWorkflow", () => {
 describe("createWorkflow", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns success with workflow data", async () => {
-      (workflowServiceMock.createWorkflow as jest.Mock).mockResolvedValue(baseWorkflow);
+      (workflowServiceMock.createWorkflow as jest.Mock).mockResolvedValue(
+         baseWorkflow
+      );
 
       const result = await createWorkflow({ title: "My Workflow" });
 
@@ -114,7 +133,10 @@ describe("createWorkflow", () => {
    it("returns upgradeRequired when FREE user tries to create", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
       (workflowServiceMock.createWorkflow as jest.Mock).mockRejectedValue(
-         new SubscriptionAccessError("Workflows sind nur für BASIC", "canUseWorkflows")
+         new SubscriptionAccessError(
+            "Workflows sind nur für BASIC",
+            "canUseWorkflows"
+         )
       );
 
       const result = await createWorkflow({ title: "Workflow" });
@@ -151,7 +173,11 @@ describe("createWorkflow", () => {
 describe("updateWorkflow", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns null for invalid UUID", async () => {
@@ -176,11 +202,17 @@ describe("updateWorkflow", () => {
 describe("deleteWorkflow", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns success on delete", async () => {
-      (workflowServiceMock.deleteWorkflow as jest.Mock).mockResolvedValue(undefined);
+      (workflowServiceMock.deleteWorkflow as jest.Mock).mockResolvedValue(
+         undefined
+      );
 
       const result = await deleteWorkflow(workflowId);
       expect(result.success).toBe(true);
@@ -200,7 +232,11 @@ describe("deleteWorkflow", () => {
 describe("createWorkflowStep", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      requireUserMock.mockResolvedValue({ id: userId, name: "User", email: "u@test.com" });
+      requireUserMock.mockResolvedValue({
+         id: userId,
+         name: "User",
+         email: "u@test.com",
+      });
    });
 
    it("returns upgradeRequired when step limit reached", async () => {

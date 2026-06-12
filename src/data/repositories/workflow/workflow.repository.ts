@@ -47,16 +47,15 @@ export class WorkflowRepository {
          orderBy: { createdAt: "desc" },
       } satisfies WorkflowFindManyArgs;
 
-      const rows = await this.prisma.workflow.findMany(args);
-
-      return toDWorkflows(rows);
+      const data = await this.prisma.workflow.findMany(args);
+      return toDWorkflows(data);
    }
 
    async pCountWorkflows(userId: string): Promise<number> {
       return this.prisma.workflow.count({ where: { userId } });
    }
 
-   async pGetWorkflowById(
+   async pGetWorkflow(
       userId: string,
       workflowId: string
    ): Promise<DWorkflowDetail | null> {
@@ -65,12 +64,11 @@ export class WorkflowRepository {
          include: WORKFLOW_DETAIL_INCLUDE,
       } satisfies WorkflowFindUniqueArgs;
 
-      const row = await this.prisma.workflow.findUnique(args);
-
-      if (!row) {
+      const data = await this.prisma.workflow.findUnique(args);
+      if (!data) {
          return null;
       }
-      return toDWorkflowDetail(row);
+      return toDWorkflowDetail(data);
    }
 
    async pCreateWorkflow(

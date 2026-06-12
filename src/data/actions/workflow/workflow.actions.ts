@@ -40,7 +40,7 @@ export const getWorkflow = async (
       if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
       const user = await requireUser();
       const service = getService();
-      return await service.getWorkflowById(user.id, workflowId);
+      return await service.getWorkflow(user.id, workflowId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -67,11 +67,19 @@ export const createWorkflow = async (
       const user = await requireUser();
       const service = getService();
       const workflow = await service.createWorkflow(user.id, data);
-      return { success: true, message: "Workflow erfolgreich erstellt", data: workflow };
+      return {
+         success: true,
+         message: "Workflow erfolgreich erstellt",
+         data: workflow,
+      };
    } catch (error) {
       console.error(formatError(error));
       if (error instanceof SubscriptionAccessError) {
-         return { success: false, message: error.message, upgradeRequired: true };
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
       }
       if (error instanceof WorkflowLimitError) {
          return {
@@ -80,7 +88,10 @@ export const createWorkflow = async (
             upgradeRequired: error.code === "WORKFLOW_LIMIT_REACHED",
          };
       }
-      return { success: false, message: "Workflow konnte nicht erstellt werden" };
+      return {
+         success: false,
+         message: "Workflow konnte nicht erstellt werden",
+      };
    }
 };
 
@@ -93,10 +104,17 @@ export const updateWorkflow = async (
       const user = await requireUser();
       const service = getService();
       const workflow = await service.updateWorkflow(user.id, workflowId, data);
-      return { success: true, message: "Workflow erfolgreich aktualisiert", data: workflow };
+      return {
+         success: true,
+         message: "Workflow erfolgreich aktualisiert",
+         data: workflow,
+      };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Workflow konnte nicht aktualisiert werden" };
+      return {
+         success: false,
+         message: "Workflow konnte nicht aktualisiert werden",
+      };
    }
 };
 
@@ -111,7 +129,10 @@ export const deleteWorkflow = async (
       return { success: true, message: "Workflow erfolgreich gelöscht" };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Workflow konnte nicht gelöscht werden" };
+      return {
+         success: false,
+         message: "Workflow konnte nicht gelöscht werden",
+      };
    }
 };
 
@@ -125,8 +146,16 @@ export const createWorkflowStep = async (
       if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
       const user = await requireUser();
       const service = getService();
-      const workflow = await service.createWorkflowStep(user.id, workflowId, data);
-      return { success: true, message: "Schritt erfolgreich hinzugefügt", data: workflow };
+      const workflow = await service.createWorkflowStep(
+         user.id,
+         workflowId,
+         data
+      );
+      return {
+         success: true,
+         message: "Schritt erfolgreich hinzugefügt",
+         data: workflow,
+      };
    } catch (error) {
       console.error(formatError(error));
       if (error instanceof WorkflowLimitError) {
@@ -136,7 +165,10 @@ export const createWorkflowStep = async (
             upgradeRequired: error.code === "STEP_LIMIT_REACHED",
          };
       }
-      return { success: false, message: "Schritt konnte nicht hinzugefügt werden" };
+      return {
+         success: false,
+         message: "Schritt konnte nicht hinzugefügt werden",
+      };
    }
 };
 
@@ -156,14 +188,24 @@ export const updateWorkflowStep = async (
          workflowId,
          data
       );
-      return { success: true, message: "Schritt erfolgreich aktualisiert", data: workflow };
+      return {
+         success: true,
+         message: "Schritt erfolgreich aktualisiert",
+         data: workflow,
+      };
    } catch (error) {
       console.error(formatError(error));
       const msg = formatError(error);
       if (msg.includes("Endlosschleife")) {
-         return { success: false, message: "Diese Verbindung erzeugt eine Endlosschleife" };
+         return {
+            success: false,
+            message: "Diese Verbindung erzeugt eine Endlosschleife",
+         };
       }
-      return { success: false, message: "Schritt konnte nicht aktualisiert werden" };
+      return {
+         success: false,
+         message: "Schritt konnte nicht aktualisiert werden",
+      };
    }
 };
 
@@ -181,10 +223,17 @@ export const deleteWorkflowStep = async (
          stepId,
          workflowId
       );
-      return { success: true, message: "Schritt erfolgreich gelöscht", data: workflow };
+      return {
+         success: true,
+         message: "Schritt erfolgreich gelöscht",
+         data: workflow,
+      };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Schritt konnte nicht gelöscht werden" };
+      return {
+         success: false,
+         message: "Schritt konnte nicht gelöscht werden",
+      };
    }
 };
 
@@ -201,7 +250,10 @@ export const setStartStep = async (
       return { success: true, message: "Startschritt gesetzt" };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Startschritt konnte nicht gesetzt werden" };
+      return {
+         success: false,
+         message: "Startschritt konnte nicht gesetzt werden",
+      };
    }
 };
 
@@ -214,7 +266,7 @@ export const getWorkflowForRunner = async (
       if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
       const user = await requireUser();
       const service = getService();
-      return await service.getWorkflowById(user.id, workflowId);
+      return await service.getWorkflow(user.id, workflowId);
    } catch (error) {
       console.error(formatError(error));
       return null;

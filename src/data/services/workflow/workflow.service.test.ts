@@ -169,7 +169,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue(null);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
       await expect(
          workflowService.createWorkflowStep(userId, workflowId, {
@@ -184,7 +184,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
       workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(10);
 
@@ -201,7 +201,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should allow PRO user to exceed 10 steps", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
       workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
 
@@ -231,7 +231,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue(null);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
       await expect(
          workflowService.deleteWorkflow(userId, workflowId)
@@ -239,7 +239,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("should delete workflow successfully", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
       workflowRepoMock.pDeleteWorkflow.mockResolvedValue(undefined);
 
       await workflowService.deleteWorkflow(userId, workflowId);
@@ -261,7 +261,7 @@ describe("updateWorkflowStep with cycle detection", () => {
    const stepId = "step-a";
 
    it("should detect cycle and throw", async () => {
-      workflowRepoMock.pGetWorkflowById.mockResolvedValue({
+      workflowRepoMock.pGetWorkflow.mockResolvedValue({
          ...baseWorkflow,
          steps: [
             {
