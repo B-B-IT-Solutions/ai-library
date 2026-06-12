@@ -1,7 +1,6 @@
 jest.mock("@/data/actions/auth-utils");
 jest.mock("@/data/services/service.factory");
 
-import { dtestData, ntestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { requireUser } from "@/data/actions/auth-utils";

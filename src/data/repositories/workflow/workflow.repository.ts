@@ -101,7 +101,7 @@ export class WorkflowRepository {
    ): Promise<DWorkflow> {
       const input: WorkflowCreateInput = {
          title: data.title,
-         description: data.description ?? null,
+         description: data.description,
          user: {
             connect: {
                id: userId,

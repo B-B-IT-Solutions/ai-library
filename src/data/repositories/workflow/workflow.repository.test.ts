@@ -3,12 +3,18 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { DWorkflowCreate } from "@/data/types/domain/workflow";
 import {
+   WorkflowCreateArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { toDWorkflows, toDWorkflowWithSteps } from "./workflow.mapper";
+import {
+   toDWorkflow,
+   toDWorkflows,
+   toDWorkflowWithSteps,
+} from "./workflow.mapper";
 import { WorkflowRepository } from "./workflow.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -98,5 +104,40 @@ describe("pGetWorkflow", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.findUnique).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pCreateWorkflow", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflow created - test", async () => {
+      const userId = "user-id-1";
+      const workflow = ptestData.pWorkflow(1);
+      prismaMock.workflow.create.mockResolvedValue(workflow);
+
+      const createData: DWorkflowCreate = {
+         title: workflow.title,
+         description: workflow.description,
+      };
+
+      const result = await repository.pCreateWorkflow(userId, createData);
+
+      const expectedResult = toDWorkflow(workflow);
+
+      const expectedArgs: WorkflowCreateArgs = {
+         data: {
+            title: workflow.title,
+            description: workflow.description,
+            user: {
+               connect: { id: userId },
+            },
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.workflow.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.create).toHaveBeenCalledWith(expectedArgs);
    });
 });
