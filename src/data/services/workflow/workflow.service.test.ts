@@ -6,6 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import { SubscriptionService } from "@/data/services/subscription";
+import { ServiceFactory } from "../service.factory";
 
 import {
    detectCycle,
@@ -13,19 +14,14 @@ import {
    WorkflowService,
 } from "./workflow.service";
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+const serviceFactory = new ServiceFactory(prisma);
+const subscriptionService = serviceFactory.getSubscriptionService();
+
+const subscriptionServiceMock =
+   subscriptionService as DeepMockProxy<SubscriptionService>;
 
 const workflowRepo = new WorkflowRepository(prisma);
 const workflowRepoMock = workflowRepo as DeepMockProxy<WorkflowRepository>;
-
-const subscriptionService = new SubscriptionService(
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   null as any,
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   null as any
-);
-const subscriptionServiceMock =
-   subscriptionService as DeepMockProxy<SubscriptionService>;
 
 const workflowService = new WorkflowService(
    workflowRepoMock,

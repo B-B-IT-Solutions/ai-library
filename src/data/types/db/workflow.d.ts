@@ -1,4 +1,8 @@
-import { Workflow, WorkflowStep, WorkflowStepEdge } from "@/generated/prisma/client";
+import {
+   Workflow,
+   WorkflowStep,
+   WorkflowStepEdge,
+} from "@/generated/prisma/client";
 
 export type WorkflowWithStepCount = Workflow & {
    _count: {

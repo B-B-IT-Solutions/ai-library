@@ -5,8 +5,8 @@ import {
    DWorkflowDetail,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
-   DWorkflowUpdate,
    DWorkflowsUsage,
+   DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
 import { hasReachedLimit } from "@/lib/subscription/access-control";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
@@ -113,7 +113,8 @@ export class WorkflowService {
       const tier = await this.subscriptionService.getUserTier(userId);
 
       if (tier === "BASIC") {
-         const stepCount = await this.repository.pCountWorkflowSteps(workflowId);
+         const stepCount =
+            await this.repository.pCountWorkflowSteps(workflowId);
          if (hasReachedLimit(tier, "maxWorkflowSteps", stepCount)) {
             throw new WorkflowLimitError(
                "STEP_LIMIT_REACHED",
@@ -142,8 +143,13 @@ export class WorkflowService {
 
       // Cycle detection
       if (data.edges && data.edges.length > 0) {
-         const allSteps = await this.repository.pGetStepsForCycleCheck(workflowId);
-         detectCycle(allSteps, stepId, data.edges.map((e) => e.toStepId));
+         const allSteps =
+            await this.repository.pGetStepsForCycleCheck(workflowId);
+         detectCycle(
+            allSteps,
+            stepId,
+            data.edges.map((e) => e.toStepId)
+         );
       }
 
       return this.repository.pUpdateWorkflowStep(userId, stepId, data);

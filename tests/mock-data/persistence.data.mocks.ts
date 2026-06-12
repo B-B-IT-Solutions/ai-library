@@ -30,6 +30,7 @@ import {
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
+import { WorkflowWithStepCount } from "@/data/types/db/workflow";
 import {
    Cart,
    CartItem,
@@ -61,6 +62,7 @@ import {
    SubscriptionPlan,
    User,
    VerificationToken,
+   Workflow,
 } from "@/generated/prisma/client";
 import {
    Prompt0CreateInput,
@@ -816,6 +818,30 @@ export const pCatalogCategory = (index = 1): CatalogCategory => {
       slug: `category-${index}`,
       description: `Description for category ${index}`,
       order: index,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pWorkflowWithStepCounts = (count = 3): WorkflowWithStepCount[] => {
+   return range(0, count).map((i) => pWorkflowWithStepCount(i + 1));
+};
+
+export const pWorkflowWithStepCount = (index = 1): WorkflowWithStepCount => {
+   return {
+      ...pWorkflow(index),
+      _count: {
+         steps: index + 2,
+      },
+   };
+};
+
+export const pWorkflow = (index = 1): Workflow => {
+   return {
+      id: `workflow-id-000${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title-${index}`,
+      description: `description ${index}`,
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
    };
