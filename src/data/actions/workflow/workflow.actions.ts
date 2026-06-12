@@ -35,7 +35,7 @@ export const getWorkflowWithSteps = async (
 ): Promise<DWorkflowWithSteps | null> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -98,7 +98,7 @@ export const updateWorkflow = async (
 ): Promise<ActionResult<DWorkflow>> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -122,7 +122,7 @@ export const deleteWorkflow = async (
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -143,7 +143,7 @@ export const createWorkflowStep = async (
 ): Promise<ActionResult<DWorkflowWithSteps>> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -180,10 +180,10 @@ export const updateWorkflowStep = async (
 ): Promise<ActionResult<DWorkflowWithSteps>> => {
    try {
       if (!isValidUuid(stepId)) {
-         throw new Error("Ungültige Schritt-ID.");
+         throw new Error("Invalid Schritt-ID.");
       }
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -220,10 +220,10 @@ export const deleteWorkflowStep = async (
 ): Promise<ActionResult<DWorkflowWithSteps>> => {
    try {
       if (!isValidUuid(stepId)) {
-         throw new Error("Ungültige Schritt-ID.");
+         throw new Error("Invalid Schritt-ID.");
       }
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -252,10 +252,10 @@ export const setStartStep = async (
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       if (!isValidUuid(stepId)) {
-         throw new Error("Ungültige Schritt-ID.");
+         throw new Error("Invalid Schritt-ID.");
       }
       const user = await requireUser();
       const service = getService();
@@ -275,7 +275,7 @@ export const getWorkflowForRunner = async (
 ): Promise<DWorkflowWithSteps | null> => {
    try {
       if (!isValidUuid(workflowId)) {
-         throw new Error("Ungültige Workflow-ID.");
+         throw new Error("Invalid Workflow-ID.");
       }
       const user = await requireUser();
       const service = getService();
