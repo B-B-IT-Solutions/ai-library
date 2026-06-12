@@ -28,7 +28,9 @@ const STEP_INCLUDE = {
 const WORKFLOW_DETAIL_INCLUDE = {
    _count: { select: { steps: true } },
    steps: {
-      orderBy: { position: "asc" as const },
+      orderBy: {
+         position: "asc" as const,
+      },
       include: STEP_INCLUDE,
    },
 } as const;
@@ -61,7 +63,23 @@ export class WorkflowRepository {
    ): Promise<DWorkflowDetail | null> {
       const args = {
          where: { id: workflowId, userId },
-         include: WORKFLOW_DETAIL_INCLUDE,
+         include: {
+            steps: {
+               orderBy: {
+                  position: "asc" as const,
+               },
+               include: {
+                  prompt: {
+                     select: { title: true },
+                  },
+                  outgoingEdges: {
+                     orderBy: {
+                        order: "asc" as const,
+                     },
+                  },
+               },
+            },
+         },
       } satisfies WorkflowFindUniqueArgs;
 
       const data = await this.prisma.workflow.findUnique(args);

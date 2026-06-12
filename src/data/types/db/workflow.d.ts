@@ -10,11 +10,9 @@ export type WorkflowWithStepCount = Workflow & {
    };
 };
 
-export type WorkflowStepEdgeRow = WorkflowStepEdge;
-
 export type WorkflowStepWithEdgesAndTemplate = WorkflowStep & {
    outgoingEdges: WorkflowStepEdge[];
-   template: { title: string } | null;
+   prompt: { title: string } | null;
 };
 
 export type WorkflowDetailRow = Workflow & {

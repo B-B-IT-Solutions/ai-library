@@ -30,7 +30,11 @@ import {
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
-import { WorkflowWithStepCount } from "@/data/types/db/workflow";
+import {
+   WorkflowDetailRow,
+   WorkflowStepWithEdgesAndTemplate,
+   WorkflowWithStepCount,
+} from "@/data/types/db/workflow";
 import {
    Cart,
    CartItem,
@@ -63,6 +67,8 @@ import {
    User,
    VerificationToken,
    Workflow,
+   WorkflowStep,
+   WorkflowStepEdge,
 } from "@/generated/prisma/client";
 import {
    Prompt0CreateInput,
@@ -846,3 +852,43 @@ export const pWorkflow = (index = 1): Workflow => {
       updatedAt: new Date("2025-09-27"),
    };
 };
+
+export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => ({
+   id: `edge-id-000${index}`,
+   fromStepId: `step-id-000${index}`,
+   toStepId: `step-id-000${index + 1}`,
+   label: `label-${index}`,
+   order: index - 1,
+   createdAt: new Date("2025-09-27"),
+});
+
+export const pWorkflowStep = (index = 1): WorkflowStep => ({
+   id: `step-id-000${index}`,
+   workflowId: `workflow-id-0001`,
+   title: `step-title-${index}`,
+   hint: null,
+   type: "STANDALONE",
+   promptId: null,
+   content: `content-${index}`,
+   isStart: index === 1,
+   position: index - 1,
+   createdAt: new Date("2025-09-27"),
+   updatedAt: new Date("2025-09-27"),
+});
+
+export const pWorkflowStepWithEdgesAndTemplate = (
+   index = 1
+): WorkflowStepWithEdgesAndTemplate => ({
+   ...pWorkflowStep(index),
+   outgoingEdges: [],
+   prompt: null,
+});
+
+export const pWorkflowDetailRow = (index = 1): WorkflowDetailRow => ({
+   ...pWorkflow(index),
+   _count: { steps: 2 },
+   steps: [
+      pWorkflowStepWithEdgesAndTemplate(1),
+      pWorkflowStepWithEdgesAndTemplate(2),
+   ],
+});
