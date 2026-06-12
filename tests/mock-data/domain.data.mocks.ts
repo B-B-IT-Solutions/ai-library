@@ -89,6 +89,11 @@ import {
    DUserUpdate,
    DVerificationToken,
 } from "@/data/types/domain/user";
+import {
+   DWorkflow,
+   DWorkflowStep,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
@@ -977,5 +982,47 @@ export const dGlobalPromptFieldUpdate = (
       defaultValue: `defaultValue-${index}`,
       options: [`option ${index}`, `option ${index + 1}`],
       order: index,
+   };
+};
+
+export const dWorkflows = (count = 3): DWorkflow[] => {
+   return range(0, count).map((i) => dWorkflow(i + 1));
+};
+
+export const dWorkflowWithSteps = (index = 1): DWorkflowWithSteps => {
+   return {
+      ...dWorkflow(index),
+      steps: dWorkflowSteps(),
+   };
+};
+
+export const dWorkflow = (index = 1): DWorkflow => {
+   return {
+      id: `workflow-id-000${index}`,
+      title: `title-${index}`,
+      description: `description ${index}`,
+      stepCount: index + 2,
+      createdAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
+   return range(0, count).map((i) => dWorkflowStep(i + 1));
+};
+
+export const dWorkflowStep = (index = 1): DWorkflowStep => {
+   return {
+      id: `step-id-000${index}`,
+      workflowId: `workflow-id-0001`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      promptTitle: `prompt-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      content: `content-${index}`,
+      isStart: index === 1,
+      position: index - 1,
+      outgoingEdges: [],
    };
 };

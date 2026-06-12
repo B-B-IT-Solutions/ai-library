@@ -845,10 +845,7 @@ export const pWorkflowWithStepCount = (index = 1): WorkflowWithStepCount => {
 export const pWorkflowWithSteps = (index = 1): WorkflowWithSteps => {
    return {
       ...pWorkflow(index),
-      steps: [
-         pWorkflowStepWithEdgesAndPrompt(1),
-         pWorkflowStepWithEdgesAndPrompt(2),
-      ],
+      steps: pWorkflowStepWithEdgesAndPrompts(),
    };
 };
 
@@ -872,6 +869,12 @@ export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => {
       order: index - 1,
       createdAt: new Date("2025-09-27"),
    };
+};
+
+export const pWorkflowStepWithEdgesAndPrompts = (
+   count = 3
+): WorkflowStepWithEdgesAndPrompt[] => {
+   return range(0, count).map((i) => pWorkflowStepWithEdgesAndPrompt(i + 1));
 };
 
 export const pWorkflowStepWithEdgesAndPrompt = (

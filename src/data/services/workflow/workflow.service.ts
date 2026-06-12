@@ -29,21 +29,6 @@ export class WorkflowService {
       return this.repository.pGetWorkflow(userId, workflowId);
    }
 
-   async getWorkflowsUsage(userId: string): Promise<DWorkflowsUsage> {
-      const tier = await this.subscriptionService.getUserTier(userId);
-      const current = await this.repository.pCountWorkflows(userId);
-
-      const tierFeatures = {
-         FREE: 0,
-         BASIC: 5,
-         PRO: -1,
-      } as const;
-
-      const limit = tierFeatures[tier];
-
-      return { current, limit };
-   }
-
    async createWorkflow(
       userId: string,
       data: DWorkflowCreate
@@ -166,6 +151,21 @@ export class WorkflowService {
          throw new Error("Workflow nicht gefunden.");
       }
       await this.repository.pSetStartStep(userId, workflowId, stepId);
+   }
+
+   async getWorkflowsUsage(userId: string): Promise<DWorkflowsUsage> {
+      const tier = await this.subscriptionService.getUserTier(userId);
+      const current = await this.repository.pCountWorkflows(userId);
+
+      const tierFeatures = {
+         FREE: 0,
+         BASIC: 5,
+         PRO: -1,
+      } as const;
+
+      const limit = tierFeatures[tier];
+
+      return { current, limit };
    }
 }
 

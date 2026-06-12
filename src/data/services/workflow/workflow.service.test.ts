@@ -1,6 +1,7 @@
 jest.mock("@/data/repositories/workflow");
 jest.mock("@/data/services/subscription");
 
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -41,7 +42,44 @@ const baseWorkflow = {
    steps: [],
 };
 
-// ── detectCycle ───────────────────────────────────────────────────────────────
+describe("getWorkflows tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("workflows retrieved - test", async () => {
+      const userId = "user-id-1";
+      const workflows = dtestData.dWorkflows();
+      workflowRepoMock.pGetWorkflows.mockResolvedValue(workflows);
+
+      const result = await workflowService.getWorkflows(userId);
+
+      expect(result).toEqual(workflows);
+      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getWorkflow tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("workflow retrieved - test", async () => {
+      const userId = "user-id-1";
+      const workflow = dtestData.dWorkflowWithSteps();
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
+
+      const result = await workflowService.getWorkflow(userId, workflow.id);
+
+      expect(result).toEqual(workflow);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflow).toHaveBeenCalledWith(
+         userId,
+         workflow.id
+      );
+   });
+});
 
 describe("detectCycle", () => {
    beforeEach(() => {
