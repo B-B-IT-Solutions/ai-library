@@ -260,7 +260,10 @@ export const setStartStep = async (
       const user = await requireUser();
       const service = getService();
       await service.setStartStep(user.id, workflowId, stepId);
-      return { success: true, message: "Startschritt gesetzt" };
+      return {
+         success: true,
+         message: "Startschritt gesetzt",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
