@@ -92,6 +92,9 @@ import {
 import {
    DWorkflow,
    DWorkflowStep,
+   DWorkflowStepCreate,
+   DWorkflowStepUpdate,
+   DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
@@ -990,6 +993,37 @@ export const dWorkflowUpdate = (index = 1): DWorkflowUpdate => {
    return {
       title: `title-${index}`,
       description: `description ${index}`,
+   };
+};
+
+export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
+   return {
+      current: index,
+      limit: index + 3,
+   };
+};
+
+export const dWorkflowStepCreate = (index = 1): DWorkflowStepCreate => {
+   return {
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      content: `content-${index}`,
+      isStart: false,
+      position: index - 1,
+      edges: [],
+   };
+};
+
+export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
+   return {
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      content: `content-${index}`,
+      isStart: false,
+      position: index - 1,
+      edges: [],
    };
 };
 
