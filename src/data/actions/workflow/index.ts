@@ -1,6 +1,6 @@
 export {
    getWorkflows,
-   getWorkflow,
+   getWorkflowWithSteps,
    getWorkflowsUsage,
    createWorkflow,
    updateWorkflow,

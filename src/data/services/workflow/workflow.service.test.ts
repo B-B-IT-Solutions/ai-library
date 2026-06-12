@@ -61,7 +61,7 @@ describe("getWorkflows tests", () => {
    });
 });
 
-describe("getWorkflow tests", () => {
+describe("getWorkflowWithSteps tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -71,7 +71,10 @@ describe("getWorkflow tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(workflow);
 
-      const result = await workflowService.getWorkflow(userId, workflow.id);
+      const result = await workflowService.getWorkflowWithSteps(
+         userId,
+         workflow.id
+      );
 
       expect(result).toEqual(workflow);
       expect(workflowRepoMock.pGetWorkflowWithSteps).toHaveBeenCalledTimes(1);

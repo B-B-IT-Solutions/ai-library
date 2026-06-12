@@ -23,7 +23,7 @@ export class WorkflowService {
       return this.repository.pGetWorkflows(userId);
    }
 
-   async getWorkflow(
+   async getWorkflowWithSteps(
       userId: string,
       workflowId: string
    ): Promise<DWorkflowWithSteps | null> {

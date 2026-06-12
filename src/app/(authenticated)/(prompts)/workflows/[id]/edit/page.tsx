@@ -1,11 +1,11 @@
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { WorkflowEditor } from "@/components/workflows";
-import { requireUser } from "@/data/actions/auth-utils";
-import { getWorkflow, getWorkflowsUsage } from "@/data/actions/workflow";
-import prisma from "@/data/repositories/prisma";
-import { ServiceFactory } from "@/data/services";
+import {
+   getWorkflowsUsage,
+   getWorkflowWithSteps,
+} from "@/data/actions/workflow";
 
 export const metadata: Metadata = {
    title: "Workflow bearbeiten",
@@ -17,16 +17,9 @@ type PageProps = {
 
 const EditWorkflowPage = async ({ params }: PageProps) => {
    const { id } = await params;
-   const user = await requireUser();
-
-   const factory = new ServiceFactory(prisma);
-   const tier = await factory.getSubscriptionService().getUserTier(user.id);
-   if (tier === "FREE") {
-      redirect("/subscription/pricing");
-   }
 
    const [workflow, usage] = await Promise.all([
-      getWorkflow(id),
+      getWorkflowWithSteps(id),
       getWorkflowsUsage(),
    ]);
 

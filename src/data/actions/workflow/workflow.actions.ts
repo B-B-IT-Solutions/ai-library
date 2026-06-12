@@ -19,8 +19,6 @@ import {
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
-// ── Read ─────────────────────────────────────────────────────────────────────
-
 export const getWorkflows = async (): Promise<DWorkflow[]> => {
    try {
       const user = await requireUser();
@@ -32,14 +30,16 @@ export const getWorkflows = async (): Promise<DWorkflow[]> => {
    }
 };
 
-export const getWorkflow = async (
+export const getWorkflowWithSteps = async (
    workflowId: string
 ): Promise<DWorkflowWithSteps | null> => {
    try {
-      if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
+      if (!isValidUuid(workflowId)) {
+         throw new Error("Ungültige Workflow-ID.");
+      }
       const user = await requireUser();
       const service = getService();
-      return await service.getWorkflow(user.id, workflowId);
+      return await service.getWorkflowWithSteps(user.id, workflowId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -56,8 +56,6 @@ export const getWorkflowsUsage = async (): Promise<DWorkflowsUsage> => {
       return { current: 0, limit: 0 };
    }
 };
-
-// ── Create / Update / Delete Workflow ────────────────────────────────────────
 
 export const createWorkflow = async (
    data: DWorkflowUpdate
@@ -134,8 +132,6 @@ export const deleteWorkflow = async (
       };
    }
 };
-
-// ── Create / Update / Delete Step ────────────────────────────────────────────
 
 export const createWorkflowStep = async (
    workflowId: string,
@@ -256,8 +252,6 @@ export const setStartStep = async (
    }
 };
 
-// ── Runner ───────────────────────────────────────────────────────────────────
-
 export const getWorkflowForRunner = async (
    workflowId: string
 ): Promise<DWorkflowWithSteps | null> => {
@@ -265,14 +259,12 @@ export const getWorkflowForRunner = async (
       if (!isValidUuid(workflowId)) throw new Error("Ungültige Workflow-ID.");
       const user = await requireUser();
       const service = getService();
-      return await service.getWorkflow(user.id, workflowId);
+      return await service.getWorkflowWithSteps(user.id, workflowId);
    } catch (error) {
       console.error(formatError(error));
       return null;
    }
 };
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);

@@ -13,8 +13,8 @@ import {
    createWorkflow,
    createWorkflowStep,
    deleteWorkflow,
-   getWorkflow,
    getWorkflows,
+   getWorkflowWithSteps,
    updateWorkflow,
 } from "./workflow.actions";
 
@@ -94,16 +94,16 @@ describe("getWorkflow", () => {
 
    it("returns null for invalid UUID", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
-      const result = await getWorkflow("not-a-uuid");
+      const result = await getWorkflowWithSteps("not-a-uuid");
       expect(result).toBeNull();
    });
 
    it("returns workflow by ID", async () => {
-      (workflowServiceMock.getWorkflow as jest.Mock).mockResolvedValue(
+      (workflowServiceMock.getWorkflowWithSteps as jest.Mock).mockResolvedValue(
          baseWorkflow
       );
 
-      const result = await getWorkflow(workflowId);
+      const result = await getWorkflowWithSteps(workflowId);
       expect(result).toEqual(baseWorkflow);
    });
 });
