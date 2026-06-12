@@ -1,138 +1,134 @@
+import { ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
+
 import {
+   WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
    WorkflowWithSteps,
 } from "@/data/types/db/workflow";
+import {
+   DWorkflow,
+   DWorkflowStep,
+   DWorkflowStepEdge,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
+import { Workflow, WorkflowStepEdge } from "@/generated/prisma/client";
 
 import {
+   toDWorkflow,
    toDWorkflows,
+   toDWorkflowStep,
+   toDWorkflowStepEdge,
    toDWorkflowWithStepCount,
    toDWorkflowWithSteps,
 } from "./workflow.mapper";
 
-const baseDate = new Date("2025-01-01T00:00:00Z");
+const toDWorkflowInternal = (w: Workflow): DWorkflow => {
+   return {
+      id: w.id,
+      title: w.title,
+      description: w.description,
+      stepCount: 0,
+      updatedAt: w.updatedAt.toISOString(),
+      createdAt: w.createdAt.toISOString(),
+   };
+};
 
-const makePWorkflow = (overrides = {}): WorkflowWithStepCount => ({
-   id: "wf-1",
-   userId: "user-1",
-   title: "Test Workflow",
-   description: "A description",
-   createdAt: baseDate,
-   updatedAt: baseDate,
-   _count: { steps: 3 },
-   ...overrides,
-});
+const toDWorkflowWithStepCountInternal = (
+   w: WorkflowWithStepCount
+): DWorkflow => {
+   return {
+      ...toDWorkflowInternal(w),
+      stepCount: w._count.steps,
+   };
+};
 
-describe("toDWorkflow", () => {
-   it("maps a workflow with step count to DWorkflow", () => {
-      const result = toDWorkflowWithStepCount(makePWorkflow());
-      expect(result).toEqual({
-         id: "wf-1",
-         title: "Test Workflow",
-         description: "A description",
-         stepCount: 3,
-         createdAt: baseDate.toISOString(),
-         updatedAt: baseDate.toISOString(),
-      });
-   });
+const toDWorkflowStepEdgeInternal = (
+   e: WorkflowStepEdge
+): DWorkflowStepEdge => {
+   return {
+      id: e.id,
+      fromStepId: e.fromStepId,
+      toStepId: e.toStepId,
+      label: e.label,
+      order: e.order,
+   };
+};
 
-   it("maps null description correctly", () => {
-      const result = toDWorkflowWithStepCount(
-         makePWorkflow({ description: null })
-      );
-      expect(result.description).toBeNull();
-   });
-});
+const toDWorkflowStepInternal = (
+   s: WorkflowStepWithEdgesAndPrompt
+): DWorkflowStep => {
+   return {
+      id: s.id,
+      workflowId: s.workflowId,
+      title: s.title,
+      hint: s.hint,
+      type: s.type,
+      promptId: s.promptId,
+      promptTitle: s.prompt?.title ?? null,
+      content: s.content,
+      isStart: s.isStart,
+      position: s.position,
+      outgoingEdges: map(s.outgoingEdges, toDWorkflowStepEdgeInternal),
+   };
+};
 
-describe("toDWorkflows", () => {
-   it("maps an array of workflows", () => {
-      const workflows = [
-         makePWorkflow(),
-         makePWorkflow({ id: "wf-2", title: "Second" }),
-      ];
+const toDWorkflowWithStepsInternal = (
+   w: WorkflowWithSteps
+): DWorkflowWithSteps => {
+   return {
+      ...toDWorkflowInternal(w),
+      stepCount: w.steps.length,
+      steps: map(w.steps, toDWorkflowStepInternal),
+   };
+};
+
+describe("toDWorkflows tests", () => {
+   it("toDWorkflows test", () => {
+      const workflows = ptestData.pWorkflowWithStepCounts(3);
       const result = toDWorkflows(workflows);
-      expect(result).toHaveLength(2);
-      expect(result[0].id).toBe("wf-1");
-      expect(result[1].id).toBe("wf-2");
-   });
-});
-
-describe("toDWorkflowDetail", () => {
-   it("maps a workflow with steps and edges", () => {
-      const row: WorkflowWithSteps = {
-         id: "wf-1",
-         userId: "user-1",
-         title: "My Workflow",
-         description: null,
-         createdAt: baseDate,
-         updatedAt: baseDate,
-         steps: [
-            {
-               id: "step-1",
-               workflowId: "wf-1",
-               title: "First Step",
-               hint: "A hint",
-               type: "STANDALONE",
-               promptId: null,
-               content: "Do something",
-               isStart: true,
-               position: 0,
-               createdAt: baseDate,
-               updatedAt: baseDate,
-               prompt: null,
-               outgoingEdges: [
-                  {
-                     id: "edge-1",
-                     fromStepId: "step-1",
-                     toStepId: "step-2",
-                     label: "Weiter",
-                     order: 0,
-                     createdAt: baseDate,
-                  },
-               ],
-            },
-         ],
-      };
-
-      const result = toDWorkflowWithSteps(row);
-
-      expect(result.id).toBe("wf-1");
-      expect(result.steps).toHaveLength(1);
-      expect(result.steps[0].title).toBe("First Step");
-      expect(result.steps[0].hint).toBe("A hint");
-      expect(result.steps[0].isStart).toBe(true);
-      expect(result.steps[0].promptTitle).toBeNull();
-      expect(result.steps[0].outgoingEdges).toHaveLength(1);
-      expect(result.steps[0].outgoingEdges[0].label).toBe("Weiter");
+      const expectedResult = map(workflows, toDWorkflowWithStepCountInternal);
+      expect(result).toEqual(expectedResult);
    });
 
-   it("maps templateTitle from template relation", () => {
-      const row: WorkflowWithSteps = {
-         id: "wf-1",
-         userId: "user-1",
-         title: "Workflow",
-         description: null,
-         createdAt: baseDate,
-         updatedAt: baseDate,
-         steps: [
-            {
-               id: "step-1",
-               workflowId: "wf-1",
-               title: "Template Step",
-               hint: null,
-               type: "PROMPT_REF",
-               promptId: "tmpl-1",
-               content: null,
-               isStart: true,
-               position: 0,
-               createdAt: baseDate,
-               updatedAt: baseDate,
-               prompt: { title: "My Template" },
-               outgoingEdges: [],
-            },
-         ],
-      };
+   it("toDWorkflowWithStepCount test", () => {
+      const workflow = ptestData.pWorkflowWithStepCount(1);
+      const result = toDWorkflowWithStepCount(workflow);
+      const expectedResult = toDWorkflowWithStepCountInternal(workflow);
+      expect(result).toEqual(expectedResult);
+   });
 
-      const result = toDWorkflowWithSteps(row);
-      expect(result.steps[0].promptTitle).toBe("My Template");
+   it("toDWorkflowWithSteps test", () => {
+      const workflow = ptestData.pWorkflowWithSteps(1);
+      const result = toDWorkflowWithSteps(workflow);
+      const expectedResult = toDWorkflowWithStepsInternal(workflow);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDWorkflowStep test", () => {
+      const workflow1 = ptestData.pWorkflowStepWithEdgesAndPrompt(1);
+      const result1 = toDWorkflowStep(workflow1);
+      const expectedResult1 = toDWorkflowStepInternal(workflow1);
+      expect(result1).toEqual(expectedResult1);
+
+      const workflow2 = ptestData.pWorkflowStepWithEdgesAndPrompt(123);
+      workflow2.prompt = null;
+      const result2 = toDWorkflowStep(workflow2);
+      const expectedResult2 = toDWorkflowStepInternal(workflow2);
+      expect(result2).toEqual(expectedResult2);
+   });
+
+   it("toDWorkflow test", () => {
+      const workflow = ptestData.pWorkflow(1);
+      const result = toDWorkflow(workflow);
+      const expectedResult = toDWorkflowInternal(workflow);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDWorkflowStepEdge test", () => {
+      const workflow = ptestData.pWorkflowStepEdge(1);
+      const result = toDWorkflowStepEdge(workflow);
+      const expectedResult = toDWorkflowStepEdgeInternal(workflow);
+      expect(result).toEqual(expectedResult);
    });
 });
