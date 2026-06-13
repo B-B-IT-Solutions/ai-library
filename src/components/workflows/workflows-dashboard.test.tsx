@@ -4,7 +4,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
 import { getWorkflowsPage, getWorkflowsUsage } from "@/data/actions/workflow";
-import { DWorkflowsPageQuery, DWorkflowsUsage } from "@/data/types/domain/workflow";
+import {
+   DWorkflowsPageQuery,
+   DWorkflowsUsage,
+} from "@/data/types/domain/workflow";
 
 import { WorkflowsDashboard } from "./workflows-dashboard";
 
