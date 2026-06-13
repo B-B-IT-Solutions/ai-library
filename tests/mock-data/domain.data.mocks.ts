@@ -91,6 +91,7 @@ import {
 } from "@/data/types/domain/user";
 import {
    DWorkflow,
+   DWorkflowsPage,
    DWorkflowStep,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
@@ -1012,6 +1013,18 @@ export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
       isStart: false,
       position: index - 1,
       edges: [],
+   };
+};
+
+export const dWorkflowsPage = (count = 3): DWorkflowsPage => {
+   const content = dWorkflows(count);
+   return {
+      content,
+      numberOfElements: content.length,
+      pageNumber: 0,
+      pageSize: 10,
+      totalElements: count,
+      totalPages: 1,
    };
 };
 
