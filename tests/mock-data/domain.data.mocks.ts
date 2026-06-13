@@ -89,6 +89,15 @@ import {
    DUserUpdate,
    DVerificationToken,
 } from "@/data/types/domain/user";
+import {
+   DWorkflow,
+   DWorkflowStep,
+   DWorkflowStepUpdate,
+   DWorkflowStepWithOutgoingEdges,
+   DWorkflowsUsage,
+   DWorkflowUpdate,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
@@ -977,5 +986,98 @@ export const dGlobalPromptFieldUpdate = (
       defaultValue: `defaultValue-${index}`,
       options: [`option ${index}`, `option ${index + 1}`],
       order: index,
+   };
+};
+
+export const dWorkflowUpdate = (index = 1): DWorkflowUpdate => {
+   return {
+      title: `title-${index}`,
+      description: `description ${index}`,
+   };
+};
+
+export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
+   return {
+      current: index,
+      limit: index + 3,
+   };
+};
+
+export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
+   return {
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      content: `content-${index}`,
+      isStart: false,
+      position: index - 1,
+      edges: [],
+   };
+};
+
+export const dWorkflows = (count = 3): DWorkflow[] => {
+   return range(0, count).map((i) => dWorkflow(i + 1));
+};
+
+export const dWorkflowWithSteps = (index = 1): DWorkflowWithSteps => {
+   return {
+      ...dWorkflow(index),
+      steps: dWorkflowSteps(),
+   };
+};
+
+export const dWorkflow = (index = 1): DWorkflow => {
+   return {
+      id: `workflow-id-000${index}`,
+      title: `title-${index}`,
+      description: `description ${index}`,
+      stepCount: index + 2,
+      createdAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
+   return range(0, count).map((i) => dWorkflowStep(i + 1));
+};
+
+export const dWorkflowStep = (index = 1): DWorkflowStep => {
+   return {
+      id: `step-id-000${index}`,
+      workflowId: `workflow-id-0001`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      promptTitle: `prompt-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      content: `content-${index}`,
+      isStart: index === 1,
+      position: index - 1,
+      outgoingEdges: [],
+   };
+};
+
+export const dWorkflowStepsWithOutgoingEdges = (
+   count = 3
+): DWorkflowStepWithOutgoingEdges[] => {
+   return range(0, count).map((i) => dWorkflowStepWithOutgoingEdges(i + 1));
+};
+
+export const dWorkflowStepWithOutgoingEdges = (
+   index = 1
+): DWorkflowStepWithOutgoingEdges => {
+   return {
+      id: `step-id-000${index}`,
+      outgoingEdges: [
+         {
+            toStepId: `step-${index}-1`,
+         },
+         {
+            toStepId: `step-${index}-2`,
+         },
+         {
+            toStepId: `step-${index}-3`,
+         },
+      ],
    };
 };

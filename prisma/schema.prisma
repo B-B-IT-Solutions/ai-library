@@ -35,6 +35,7 @@ model User {
   promptCategories          Prompt0Category[]
   promptTemplateCategories  PromptCategory[]
   prompts                   Prompt[]
+  workflows                 Workflow[]
 
   @@map("user")
 }
@@ -173,6 +174,7 @@ model Prompt {
   globalFields      PromptGlobalField[]
   productItems      ProductItem[]
   collectionEntries LibraryCollectionEntry[]
+  workflowSteps     WorkflowStep[]
 
   @@index([userId])
   @@map("prompt")
@@ -625,4 +627,67 @@ model SubscriptionHistory {
   @@index([userId])
   @@index([stripeEventId])
   @@map("subscription_history")
+}
+
+// Workflow Models
+
+enum WorkflowStepType {
+  PROMPT_REF
+  STANDALONE
+
+  @@map("workflow_step_type")
+}
+
+model Workflow {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  title       String   @db.VarChar(250)
+  description String?  @db.VarChar(750)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  steps WorkflowStep[]
+
+  @@index([userId])
+  @@map("workflow")
+}
+
+model WorkflowStep {
+  id         String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workflowId String           @map("workflow_id") @db.Uuid
+  title      String           @db.VarChar(250)
+  hint       String?          @db.VarChar(750)
+  type       WorkflowStepType
+  promptId   String?          @map("prompt_id") @db.Uuid
+  content    String?          @db.Text
+  isStart    Boolean          @default(false) @map("is_start")
+  position   Int              @default(0)
+  createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime         @updatedAt @map("updated_at")
+
+  workflow      Workflow           @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  prompt        Prompt?            @relation(fields: [promptId], references: [id], onDelete: SetNull)
+  outgoingEdges WorkflowStepEdge[] @relation("EdgeFrom")
+  incomingEdges WorkflowStepEdge[] @relation("EdgeTo")
+
+  @@index([workflowId])
+  @@map("workflow_step")
+}
+
+model WorkflowStepEdge {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fromStepId String   @map("from_step_id") @db.Uuid
+  toStepId   String   @map("to_step_id") @db.Uuid
+  label      String   @db.VarChar(250)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  fromStep WorkflowStep @relation("EdgeFrom", fields: [fromStepId], references: [id], onDelete: Cascade)
+  toStep   WorkflowStep @relation("EdgeTo", fields: [toStepId], references: [id], onDelete: Cascade)
+
+  @@unique([fromStepId, toStepId])
+  @@index([fromStepId])
+  @@index([toStepId])
+  @@map("workflow_step_edge")
 }

@@ -71,26 +71,26 @@ const assertBtnsRendered = () => {
 const assertCreateModeRendered = () => {
    const editForm = screen.getByTestId("collection-edit-form");
    const tabs = screen.getByTestId("mock-react-tabs-root");
-   const tabTemplates = screen.getByTestId("tab-templates-btn");
+   const tabPrompts = screen.getByTestId("tab-prompts-btn");
    const tabOther = screen.getByTestId("tab-other-btn");
 
    assertInDocument(editForm);
    assertInDocument(tabs);
-   expect(tabTemplates).toBeDisabled();
+   expect(tabPrompts).toBeDisabled();
    expect(tabOther).toBeDisabled();
 };
 
 const assertEditModeRendered = () => {
    const tabs = screen.getByTestId("mock-react-tabs-root");
    const tabGeneral = screen.getByTestId("tab-general-btn");
-   const tabTemplates = screen.getByTestId("tab-templates-btn");
+   const tabPrompts = screen.getByTestId("tab-prompts-btn");
    const tabOther = screen.getByTestId("tab-other-btn");
 
    assertInDocument(tabs);
    assertInDocument(tabGeneral);
-   assertInDocument(tabTemplates);
+   assertInDocument(tabPrompts);
    assertInDocument(tabOther);
-   expect(tabTemplates).not.toBeDisabled();
+   expect(tabPrompts).not.toBeDisabled();
    expect(tabOther).not.toBeDisabled();
 };
 
@@ -183,8 +183,8 @@ describe("CollectionEdit functionality tests", () => {
          assertGeneralTabRendered();
       });
 
-      const tabTemplates = screen.getByTestId("tab-templates-btn");
-      userEvent.click(tabTemplates);
+      const tabPrompts = screen.getByTestId("tab-prompts-btn");
+      userEvent.click(tabPrompts);
 
       await waitFor(() => {
          assertTemplatesTabRendered();

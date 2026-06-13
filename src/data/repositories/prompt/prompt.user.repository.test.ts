@@ -839,7 +839,7 @@ describe("pCreatePrompt tests", () => {
       mockReset(prismaMock);
    });
 
-   test("descriptor created - test", async () => {
+   test("prompt created - test", async () => {
       const userId = "user-id-123";
       const data = dtestData.dPromptUpdate();
       const newDescriptor = ptestData.pPromptWithCategories();

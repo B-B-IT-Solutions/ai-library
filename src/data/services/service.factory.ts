@@ -25,6 +25,7 @@ import {
    UserService,
    VerificationTokenService,
 } from "@/data/services/user";
+import { WorkflowService } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
 
@@ -44,6 +45,7 @@ export class ServiceFactory {
    private prompt0Service?: Prompt0Service;
    private promptService?: PromptService;
    private publicPromptService?: PublicPromptService;
+   private workflowService?: WorkflowService;
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
@@ -172,6 +174,16 @@ export class ServiceFactory {
          );
       }
       return this.publicPromptService;
+   }
+
+   getWorkflowService(): WorkflowService {
+      if (!this.workflowService) {
+         this.workflowService = new WorkflowService(
+            this.repositories.workflowRepository(),
+            this.getSubscriptionService()
+         );
+      }
+      return this.workflowService;
    }
 
    getSubscriptionService(): SubscriptionService {

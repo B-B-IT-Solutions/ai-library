@@ -54,24 +54,22 @@ export const toDPromptVariablesInternal = (
 
 export const toDPromptVariableInternal = (
    field: PromptField
-): DPromptVariable => ({
-   id: field.id,
-   promptId: field.promptId,
-   name: field.name,
-   label: field.label,
-   description: field.description,
-   type: field.type,
-   required: field.required,
-   order: field.order,
-   defaultValue: field.defaultValue,
-   options: field.options as string[] | undefined,
-});
+): DPromptVariable => {
+   return {
+      id: field.id,
+      promptId: field.promptId,
+      name: field.name,
+      label: field.label,
+      description: field.description,
+      type: field.type,
+      required: field.required,
+      order: field.order,
+      defaultValue: field.defaultValue,
+      options: field.options as string[] | undefined,
+   };
+};
 
 describe("prompt mappers tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
    it("toDPrompts test", async () => {
       const descriptors = ptestData.pPromptsWithCategories();
       const result = toDPrompts(descriptors);
