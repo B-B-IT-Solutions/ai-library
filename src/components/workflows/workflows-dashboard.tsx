@@ -5,29 +5,31 @@ import { GitBranch, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { DWorkflow, DWorkflowsUsage } from "@/data/types/domain/workflow";
 import {
    Tooltip,
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
+import { DWorkflow, DWorkflowsUsage } from "@/data/types/domain/workflow";
 
 import { WorkflowCard } from "./cards/workflow-card";
 
 type Props = {
-   initialWorkflows: DWorkflow[];
+   workflows: DWorkflow[];
    usage: DWorkflowsUsage;
 };
 
-export const WorkflowsList = ({ initialWorkflows, usage }: Props) => {
+export const WorkflowsDashboard = ({
+   workflows: initialWorkflows,
+   usage,
+}: Props) => {
    const [workflows, setWorkflows] = useState<DWorkflow[]>(initialWorkflows);
 
    const handleDeleted = (workflowId: string) => {
       setWorkflows((prev) => prev.filter((w) => w.id !== workflowId));
    };
 
-   const isAtLimit =
-      usage.limit !== -1 && usage.current >= usage.limit;
+   const isAtLimit = usage.limit !== -1 && usage.current >= usage.limit;
 
    const isFreeTier = usage.limit === 0;
 
@@ -37,13 +39,15 @@ export const WorkflowsList = ({ initialWorkflows, usage }: Props) => {
          <div className="space-y-4 border-b bg-white px-6 py-4">
             <div className="flex items-center justify-between">
                <div>
-                  <h1 className="text-2xl font-bold text-slate-900">Workflows</h1>
+                  <h1 className="text-2xl font-bold text-slate-900">
+                     Workflows
+                  </h1>
                   <p className="mt-1 text-sm text-slate-600">
                      Verbinde mehrere Prompts zu einem geführten Prozess
                   </p>
                </div>
-               {!isFreeTier && (
-                  isAtLimit ? (
+               {!isFreeTier &&
+                  (isAtLimit ? (
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <span>
@@ -64,13 +68,15 @@ export const WorkflowsList = ({ initialWorkflows, usage }: Props) => {
                            Neuer Workflow
                         </Link>
                      </Button>
-                  )
-               )}
+                  ))}
             </div>
 
             {/* BASIC usage display */}
             {usage.limit > 0 && usage.limit !== -1 && (
-               <p className="text-sm text-muted-foreground" data-testid="workflow-usage">
+               <p
+                  className="text-sm text-muted-foreground"
+                  data-testid="workflow-usage"
+               >
                   {usage.current} / {usage.limit} Workflows verwendet
                </p>
             )}
