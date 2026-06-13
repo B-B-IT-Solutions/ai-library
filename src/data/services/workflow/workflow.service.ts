@@ -138,10 +138,7 @@ export class WorkflowService {
       workflowId: string,
       stepId: string
    ): Promise<void> {
-      const workflow = await this.repository.pGetWorkflowWithSteps(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow not found.");
       }
@@ -167,8 +164,6 @@ export class WorkflowService {
       return { current, limit };
    }
 }
-
-// ── Error classes ────────────────────────────────────────────────────────────
 
 export class WorkflowLimitError extends Error {
    constructor(

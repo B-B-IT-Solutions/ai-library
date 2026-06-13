@@ -337,9 +337,7 @@ export class WorkflowRepository {
             },
          },
       });
-      return toDWorkflowWithSteps(
-         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
-      );
+      return toDWorkflowWithSteps(workflow);
    }
 
    async pSetStartStep(
