@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -10,6 +10,7 @@ import {
    WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
+   WorkflowStepFindManyArgs,
    WorkflowUpdateArgs,
 } from "@/generated/prisma/models";
 
@@ -271,5 +272,36 @@ describe("pDeleteWorkflow", () => {
 
       expect(prismaMock.workflow.delete).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.delete).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pGetWorkflowStepsForCycleCheck", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("workflow steps retrieved - test", async () => {
+      const workflowId = "workflow-id-1";
+      const steps = dtestData.dWorkflowStepsWithOutgoingEdges();
+      prismaMock.workflowStep.findMany.mockResolvedValue(steps);
+
+      const result =
+         await repository.pGetWorkflowStepsForCycleCheck(workflowId);
+
+      const expectedArgs: WorkflowStepFindManyArgs = {
+         where: { workflowId },
+         select: {
+            id: true,
+            outgoingEdges: {
+               select: { toStepId: true },
+            },
+         },
+      };
+
+      expect(result).toEqual(steps);
+      expect(prismaMock.workflowStep.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStep.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
    });
 });

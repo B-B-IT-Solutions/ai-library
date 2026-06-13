@@ -19,6 +19,7 @@ import {
    WorkflowFindUniqueOrThrowArgs,
    WorkflowStepCreateArgs,
    WorkflowStepEdgeCreateWithoutFromStepInput,
+   WorkflowStepFindManyArgs,
    WorkflowStepUpdateManyArgs,
    WorkflowUpdateArgs,
    WorkflowUpdateInput,
@@ -361,7 +362,7 @@ export class WorkflowRepository {
    async pGetWorkflowStepsForCycleCheck(
       workflowId: string
    ): Promise<DWorkflowStepWithOutgoingEdges[]> {
-      return this.prisma.workflowStep.findMany({
+      const args = {
          where: { workflowId },
          select: {
             id: true,
@@ -369,6 +370,8 @@ export class WorkflowRepository {
                select: { toStepId: true },
             },
          },
-      });
+      } satisfies WorkflowStepFindManyArgs;
+
+      return this.prisma.workflowStep.findMany(args);
    }
 }
