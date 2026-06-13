@@ -13,10 +13,7 @@ import { DWorkflowsSortByMode } from "@/data/types/domain/common";
 import { workflowsSearchParams } from "../../workflows-search-params";
 
 export const SortBySelect = () => {
-   const [sort, setSort] = useQueryState(
-      "sort",
-      workflowsSearchParams["sort"]
-   );
+   const [sort, setSort] = useQueryState("sort", workflowsSearchParams["sort"]);
 
    return (
       <Select
@@ -28,18 +25,6 @@ export const SortBySelect = () => {
          </SelectTrigger>
          <SelectContent>
             <SelectItem
-               value={DWorkflowsSortByMode.DATE_DESC}
-               data-testid="desc-date"
-            >
-               Neueste zuerst
-            </SelectItem>
-            <SelectItem
-               value={DWorkflowsSortByMode.DATE_ASC}
-               data-testid="asc-date"
-            >
-               Älteste zuerst
-            </SelectItem>
-            <SelectItem
                value={DWorkflowsSortByMode.TITLE_ASC}
                data-testid="asc-title"
             >
@@ -50,6 +35,18 @@ export const SortBySelect = () => {
                data-testid="desc-title"
             >
                Titel Z-A
+            </SelectItem>
+            <SelectItem
+               value={DWorkflowsSortByMode.DATE_DESC}
+               data-testid="desc-date"
+            >
+               Neueste zuerst
+            </SelectItem>
+            <SelectItem
+               value={DWorkflowsSortByMode.DATE_ASC}
+               data-testid="asc-date"
+            >
+               Älteste zuerst
             </SelectItem>
          </SelectContent>
       </Select>

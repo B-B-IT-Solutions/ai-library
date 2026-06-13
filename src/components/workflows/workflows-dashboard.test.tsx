@@ -1,15 +1,18 @@
 jest.mock("@/data/actions/workflow");
+jest.mock("./workflows-search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
 
 import { getWorkflowsPage, getWorkflowsUsage } from "@/data/actions/workflow";
-import {
-   DWorkflowsPageQuery,
-   DWorkflowsUsage,
-} from "@/data/types/domain/workflow";
+import { DWorkflowsSortByMode } from "@/data/types/domain/common";
+import { DWorkflowsUsage } from "@/data/types/domain/workflow";
 
 import { WorkflowsDashboard } from "./workflows-dashboard";
+import { workflowsSearchParamsCache } from "./workflows-search-params";
+
+type CacheKey = Parameters<typeof workflowsSearchParamsCache.get>[0];
 
 const getWorkflowsPageMock = getWorkflowsPage as jest.MockedFunction<
    typeof getWorkflowsPage
@@ -17,26 +20,30 @@ const getWorkflowsPageMock = getWorkflowsPage as jest.MockedFunction<
 const getWorkflowsUsageMock = getWorkflowsUsage as jest.MockedFunction<
    typeof getWorkflowsUsage
 >;
+const workflowsSearchParamsCacheMock =
+   workflowsSearchParamsCache as DeepMockProxy<
+      typeof workflowsSearchParamsCache
+   >;
+
+const mockSearchParams = (key: CacheKey) => {
+   switch (key) {
+      case "sort":
+         return DWorkflowsSortByMode.DATE_DESC;
+      case "f_search":
+         return "";
+   }
+};
 
 const assertDashboardRendered = () => {
    assertInDocument(screen.getByTestId("workflows-dashboard"));
    assertInDocument(screen.getByTestId("create-workflow-btn"));
-};
-
-const assertGetWorkflowsPageCalled = (expected: DWorkflowsPageQuery) => {
-   expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
-   expect(getWorkflowsPageMock).toHaveBeenCalledWith(expected);
-};
-
-const defaultQuery: DWorkflowsPageQuery = {
-   pagination: { pageNumber: 0, pageSize: 10 },
-   filter: undefined,
-   sort: undefined,
+   assertInDocument(screen.getByTestId("workflows-toolbar"));
 };
 
 describe("WorkflowsDashboard", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      workflowsSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
    });
 
    it("renders dashboard with workflows", async () => {
@@ -49,7 +56,7 @@ describe("WorkflowsDashboard", () => {
 
       await waitFor(() => {
          assertDashboardRendered();
-         assertGetWorkflowsPageCalled(defaultQuery);
+         expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
          expect(getWorkflowsUsageMock).toHaveBeenCalledTimes(1);
       });
 

@@ -8,7 +8,7 @@ import { DWorkflowsSortByMode } from "@/data/types/domain/common";
 
 export const sortByParam = parseAsStringEnum<DWorkflowsSortByMode>(
    Object.values(DWorkflowsSortByMode)
-).withDefault(DWorkflowsSortByMode.DATE_DESC);
+).withDefault(DWorkflowsSortByMode.TITLE_ASC);
 
 export const f_searchParam = parseAsString.withDefault("");
 
