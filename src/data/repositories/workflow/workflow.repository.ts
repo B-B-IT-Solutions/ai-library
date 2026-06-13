@@ -18,6 +18,7 @@ import {
    WorkflowFindUniqueArgs,
    WorkflowFindUniqueOrThrowArgs,
    WorkflowStepCreateArgs,
+   WorkflowStepEdgeCreateWithoutFromStepInput,
    WorkflowStepUpdateManyArgs,
    WorkflowUpdateArgs,
    WorkflowUpdateInput,
@@ -28,25 +29,6 @@ import {
    toDWorkflows,
    toDWorkflowWithSteps,
 } from "./workflow.mapper";
-
-const STEP_INCLUDE = {
-   template: {
-      select: { title: true },
-   },
-   outgoingEdges: {
-      orderBy: { order: "asc" as const },
-   },
-} as const;
-
-const WORKFLOW_DETAIL_INCLUDE = {
-   _count: { select: { steps: true } },
-   steps: {
-      orderBy: {
-         position: "asc" as const,
-      },
-      include: STEP_INCLUDE,
-   },
-} as const;
 
 export class WorkflowRepository {
    private prisma: DbClient;
@@ -195,6 +177,21 @@ export class WorkflowRepository {
          await this.prisma.workflowStep.updateMany(args);
       }
 
+      const edgesArgs: WorkflowStepEdgeCreateWithoutFromStepInput[] = map(
+         data.edges,
+         (e) => {
+            return {
+               label: e.label,
+               order: e.order,
+               toStep: {
+                  connect: {
+                     id: e.toStepId,
+                  },
+               },
+            };
+         }
+      );
+
       const args = {
          data: {
             workflowId,
@@ -206,11 +203,7 @@ export class WorkflowRepository {
             isStart: data.isStart,
             position: data.position,
             outgoingEdges: {
-               create: map(data.edges ?? [], (e) => ({
-                  toStepId: e.toStepId,
-                  label: e.label,
-                  order: e.order,
-               })),
+               create: edgesArgs,
             },
          },
       } satisfies WorkflowStepCreateArgs;
@@ -225,7 +218,14 @@ export class WorkflowRepository {
                orderBy: {
                   position: "asc" as const,
                },
-               include: STEP_INCLUDE,
+               include: {
+                  prompt: {
+                     select: { title: true },
+                  },
+                  outgoingEdges: {
+                     orderBy: { order: "asc" as const },
+                  },
+               },
             },
          },
       } satisfies WorkflowFindUniqueOrThrowArgs;
@@ -233,9 +233,7 @@ export class WorkflowRepository {
       const workflow =
          await this.prisma.workflow.findUniqueOrThrow(argsWorkflow);
 
-      return toDWorkflowWithSteps(
-         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
-      );
+      return toDWorkflowWithSteps(workflow);
    }
 
    async pUpdateWorkflowStep(
@@ -270,10 +268,10 @@ export class WorkflowRepository {
                title: data.title,
                hint: data.hint ?? null,
                type: data.type,
-               templateId: data.promptId ?? null,
-               content: data.content ?? null,
-               isStart: data.isStart ?? false,
-               position: data.position ?? 0,
+               templateId: data.promptId,
+               content: data.content,
+               isStart: data.isStart,
+               position: data.position,
                outgoingEdges: {
                   create: map(data.edges ?? [], (e) => ({
                      toStepId: e.toStepId,
@@ -287,11 +285,24 @@ export class WorkflowRepository {
 
       const workflow = await this.prisma.workflow.findUniqueOrThrow({
          where: { id: workflowId, userId },
-         include: WORKFLOW_DETAIL_INCLUDE,
+         include: {
+            _count: { select: { steps: true } },
+            steps: {
+               orderBy: {
+                  position: "asc" as const,
+               },
+               include: {
+                  prompt: {
+                     select: { title: true },
+                  },
+                  outgoingEdges: {
+                     orderBy: { order: "asc" as const },
+                  },
+               },
+            },
+         },
       });
-      return toDWorkflowWithSteps(
-         workflow as Parameters<typeof toDWorkflowWithSteps>[0]
-      );
+      return toDWorkflowWithSteps(workflow);
    }
 
    async pDeleteWorkflowStep(
@@ -308,7 +319,22 @@ export class WorkflowRepository {
 
       const workflow = await this.prisma.workflow.findUniqueOrThrow({
          where: { id: workflowId, userId },
-         include: WORKFLOW_DETAIL_INCLUDE,
+         include: {
+            _count: { select: { steps: true } },
+            steps: {
+               orderBy: {
+                  position: "asc" as const,
+               },
+               include: {
+                  prompt: {
+                     select: { title: true },
+                  },
+                  outgoingEdges: {
+                     orderBy: { order: "asc" as const },
+                  },
+               },
+            },
+         },
       });
       return toDWorkflowWithSteps(
          workflow as Parameters<typeof toDWorkflowWithSteps>[0]
