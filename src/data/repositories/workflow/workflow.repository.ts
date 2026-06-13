@@ -201,10 +201,10 @@ export class WorkflowRepository {
             title: data.title,
             hint: data.hint ?? null,
             type: data.type,
-            promptId: data.promptId ?? null,
-            content: data.content ?? null,
-            isStart: data.isStart ?? false,
-            position: data.position ?? 0,
+            promptId: data.promptId,
+            content: data.content,
+            isStart: data.isStart,
+            position: data.position,
             outgoingEdges: {
                create: map(data.edges ?? [], (e) => ({
                   toStepId: e.toStepId,
