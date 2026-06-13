@@ -1,7 +1,14 @@
+import { ListViewToggle } from "@/components/shared/buttons";
+import { DListViewMode } from "@/data/types/domain/common";
+
 import { SearchFilter } from "./filters";
 import { SortBySelect } from "./sort-by";
 
-export const WorkflowsToolbar = () => {
+type Props = {
+   viewMode: DListViewMode;
+};
+
+export const WorkflowsToolbar = ({ viewMode }: Props) => {
    return (
       <div
          className="flex items-center justify-between border-b bg-white px-6 py-3"
@@ -13,6 +20,7 @@ export const WorkflowsToolbar = () => {
             </div>
             <SortBySelect />
          </div>
+         <ListViewToggle currentView={viewMode} />
       </div>
    );
 };

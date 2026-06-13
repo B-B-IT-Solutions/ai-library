@@ -20,6 +20,7 @@ import { workflowsSearchParamsCache } from "./workflows-search-params";
 export const WorkflowsDashboard = async () => {
    const queryClient = new QueryClient();
 
+   const viewMode = workflowsSearchParamsCache.get("view");
    const sortMode = workflowsSearchParamsCache.get("sort");
 
    const filters: DWorkflowsFilter = {
@@ -64,7 +65,7 @@ export const WorkflowsDashboard = async () => {
                </div>
             </div>
 
-            <WorkflowsToolbar />
+            <WorkflowsToolbar viewMode={viewMode} />
 
             <div className="flex-1 overflow-y-auto p-6">
                <WorkflowItems params={params} />
