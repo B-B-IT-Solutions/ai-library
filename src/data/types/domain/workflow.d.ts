@@ -1,3 +1,12 @@
+import { Page, PageQuery } from "../common";
+
+export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
+export type DWorkflowsPage = Page<DWorkflow>;
+
+export type DWorkflowsFilter = {
+   search?: string;
+};
+
 export type DWorkflowStepType = "PROMPT_REF" | "STANDALONE";
 
 export type DWorkflow = {
