@@ -92,7 +92,6 @@ import {
 import {
    DWorkflow,
    DWorkflowStep,
-   DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
    DWorkflowsUsage,
@@ -1001,18 +1000,6 @@ export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
    return {
       current: index,
       limit: index + 3,
-   };
-};
-
-export const dWorkflowStepCreate = (index = 1): DWorkflowStepCreate => {
-   return {
-      title: `step-title-${index}`,
-      hint: `step-hint-${index}`,
-      type: "STANDALONE",
-      content: `content-${index}`,
-      isStart: false,
-      position: index - 1,
-      edges: [],
    };
 };
 

@@ -51,17 +51,6 @@ export type DWorkflowStepEdgeInput = {
    order: number;
 };
 
-export type DWorkflowStepCreate = {
-   title: string;
-   hint?: string | null;
-   type: DWorkflowStepType;
-   promptId?: string | null;
-   content?: string | null;
-   isStart?: boolean;
-   position?: number;
-   edges?: DWorkflowStepEdgeInput[];
-};
-
 export type DWorkflowStepUpdate = {
    title: string;
    hint?: string | null;
