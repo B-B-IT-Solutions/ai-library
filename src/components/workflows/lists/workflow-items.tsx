@@ -10,7 +10,6 @@ import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
    useInfiniteLoadWorkflowsPage,
-   useLoadWorkflowsUsage,
    workflowKeys,
 } from "@/data/ts-queries/workflow";
 import { DWorkflowsPage } from "@/data/types/domain/workflow";
@@ -19,9 +18,9 @@ import { WorkflowItem } from "./items";
 
 export const WorkflowItems = () => {
    const queryClient = useQueryClient();
+
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadWorkflowsPage({});
-   const { data: usage } = useLoadWorkflowsUsage();
 
    const workflows = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
@@ -44,14 +43,12 @@ export const WorkflowItems = () => {
       );
    };
 
-   const isFreeTier = usage?.limit === 0;
-
    if (isLoading) {
       return <WorkflowsListSkeleton />;
    }
 
    if (workflows.length === 0) {
-      return <EmptyState isFreeTier={isFreeTier ?? false} />;
+      return <EmptyState />;
    }
 
    return (
@@ -85,7 +82,7 @@ const WorkflowsListSkeleton = () => (
    </div>
 );
 
-const EmptyState = ({ isFreeTier }: { isFreeTier: boolean }) => (
+const EmptyState = () => (
    <div
       className="flex flex-col items-center justify-center gap-4 py-16 text-center"
       data-testid="workflows-empty-state"
@@ -97,13 +94,11 @@ const EmptyState = ({ isFreeTier }: { isFreeTier: boolean }) => (
       <p className="max-w-sm text-sm text-muted-foreground">
          Verbinde mehrere Prompts zu einem geführten Prozess.
       </p>
-      {!isFreeTier && (
-         <Button asChild>
-            <Link href="/workflows/new">
-               <Plus className="mr-2 h-4 w-4" />
-               Ersten Workflow erstellen
-            </Link>
-         </Button>
-      )}
+      <Button asChild>
+         <Link href="/workflows/new">
+            <Plus className="mr-2 h-4 w-4" />
+            Ersten Workflow erstellen
+         </Link>
+      </Button>
    </div>
 );

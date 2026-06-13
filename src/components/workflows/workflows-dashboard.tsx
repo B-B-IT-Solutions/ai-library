@@ -4,12 +4,8 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import {
-   infiniteLoadWorkflowsPageOptions,
-   loadWorkflowsUsageOptions,
-   workflowKeys,
-} from "@/data/ts-queries/workflow";
-import { DWorkflowsUsage } from "@/data/types/domain/workflow";
+import { getWorkflowsUsage } from "@/data/actions/workflow";
+import { infiniteLoadWorkflowsPageOptions } from "@/data/ts-queries/workflow";
 
 import { CreateWorfklowButton } from "./buttons";
 import { WorkflowItems } from "./lists";
@@ -19,12 +15,10 @@ export const WorkflowsDashboard = async () => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(infiniteLoadWorkflowsPageOptions({})),
-      queryClient.prefetchQuery(loadWorkflowsUsageOptions()),
    ]);
 
-   const usage = queryClient.getQueryData<DWorkflowsUsage>(
-      workflowKeys.usage()
-   );
+   const [usage] = await Promise.all([getWorkflowsUsage()]);
+
    const isUpgradeRequired =
       usage != null && usage.limit !== -1 && usage.current >= usage.limit;
 

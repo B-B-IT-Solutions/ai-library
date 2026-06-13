@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`WorkflowsPage rendering tests page rendered - test 1`] = `
+<div>
+  <div
+    class="h-full"
+    data-testid="workflows-page"
+  >
+    <div
+      data-testid="workflows-dashboard"
+    />
+  </div>
+</div>
+`;
