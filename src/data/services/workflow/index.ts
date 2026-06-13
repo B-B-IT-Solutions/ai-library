@@ -1,1 +1,1 @@
-export { WorkflowService, WorkflowLimitError, detectCycle } from "./workflow.service";
+export { WorkflowService, WorkflowLimitError } from "./workflow.service";

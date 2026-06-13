@@ -2,7 +2,10 @@ import { DWorkflowStepWithOutgoingEdges } from "@/data/types/domain/workflow";
 
 import { detectCycle } from "./utils";
 
-const step = (id: string, toStepIds: string[] = []): DWorkflowStepWithOutgoingEdges => ({
+const step = (
+   id: string,
+   toStepIds: string[] = []
+): DWorkflowStepWithOutgoingEdges => ({
    id,
    outgoingEdges: toStepIds.map((toStepId) => ({ toStepId })),
 });
@@ -78,13 +81,29 @@ describe("detectCycle tests", () => {
 
    it("branching graph no cycle - test", () => {
       // a→b, a→c, b→d, c→d
-      const steps = [step("a", ["b", "c"]), step("b", ["d"]), step("c", ["d"]), step("d")];
+      const steps = [
+         step("a", ["b", "c"]),
+         step("b", ["d"]),
+         step("c", ["d"]),
+         step("d"),
+      ];
       expect(() => detectCycle(steps, "a", ["b", "c"])).not.toThrow();
+   });
+
+   it("edge points to unknown step id - test", () => {
+      // "b" is not in steps → adj.get("b") returns undefined → ?? [] fallback
+      const steps = [step("a", ["b"])];
+      expect(() => detectCycle(steps, "a", ["b"])).not.toThrow();
    });
 
    it("branching graph with cycle throws - test", () => {
       // a→b, a→c, b→d, d→a
-      const steps = [step("a", ["b", "c"]), step("b", ["d"]), step("c"), step("d")];
+      const steps = [
+         step("a", ["b", "c"]),
+         step("b", ["d"]),
+         step("c"),
+         step("d"),
+      ];
       expect(() => detectCycle(steps, "d", ["a"])).toThrow(
          "Diese Verbindung erzeugt eine Endlosschleife"
       );

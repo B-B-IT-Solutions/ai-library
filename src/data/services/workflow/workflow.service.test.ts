@@ -10,11 +10,7 @@ import { SubscriptionService } from "@/data/services/subscription";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { ServiceFactory } from "../service.factory";
 
-import {
-   detectCycle,
-   WorkflowLimitError,
-   WorkflowService,
-} from "./workflow.service";
+import { WorkflowLimitError, WorkflowService } from "./workflow.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const subscriptionService = serviceFactory.getSubscriptionService();
@@ -214,73 +210,6 @@ describe("deleteWorkflow", () => {
    });
 });
 
-describe("detectCycle", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("should not throw for a simple linear graph (A → B → C)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [{ toStepId: "B" }] },
-         { id: "B", outgoingEdges: [{ toStepId: "C" }] },
-         { id: "C", outgoingEdges: [] },
-      ];
-      expect(() => detectCycle(steps, "A", ["B"])).not.toThrow();
-   });
-
-   it("should throw when adding C → A creates a cycle (A → B → C → A)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [{ toStepId: "B" }] },
-         { id: "B", outgoingEdges: [{ toStepId: "C" }] },
-         { id: "C", outgoingEdges: [] },
-      ];
-      expect(() => detectCycle(steps, "C", ["A"])).toThrow(
-         "Diese Verbindung erzeugt eine Endlosschleife"
-      );
-   });
-
-   it("should throw for a self-loop (A → A)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [] },
-         { id: "B", outgoingEdges: [] },
-      ];
-      expect(() => detectCycle(steps, "A", ["A"])).toThrow(
-         "Diese Verbindung erzeugt eine Endlosschleife"
-      );
-   });
-
-   it("should not throw for a branching DAG (A → B, A → C)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [] },
-         { id: "B", outgoingEdges: [] },
-         { id: "C", outgoingEdges: [] },
-      ];
-      expect(() => detectCycle(steps, "A", ["B", "C"])).not.toThrow();
-   });
-
-   it("should not throw when graph has multiple start points (disconnected)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [{ toStepId: "B" }] },
-         { id: "B", outgoingEdges: [] },
-         { id: "C", outgoingEdges: [{ toStepId: "D" }] },
-         { id: "D", outgoingEdges: [] },
-      ];
-      expect(() => detectCycle(steps, "A", ["B"])).not.toThrow();
-   });
-
-   it("should throw for indirect cycle (A → B → C → B)", () => {
-      const steps = [
-         { id: "A", outgoingEdges: [{ toStepId: "B" }] },
-         { id: "B", outgoingEdges: [{ toStepId: "C" }] },
-         { id: "C", outgoingEdges: [] },
-      ];
-      // Adding B → C creates: A→B→C and C will get B from proposed edges
-      expect(() => detectCycle(steps, "C", ["B"])).toThrow(
-         "Diese Verbindung erzeugt eine Endlosschleife"
-      );
-   });
-});
-
 describe("createWorkflowStep", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -345,8 +274,6 @@ describe("updateWorkflowStep with cycle detection", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
-
-   const stepId = "step-a";
 
    it("should detect cycle and throw", async () => {
       workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue({
