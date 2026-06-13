@@ -3,6 +3,8 @@ import { map } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
@@ -35,6 +37,48 @@ export class WorkflowRepository {
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
+   }
+
+   async pGetWorkflowsPage(
+      userId: string,
+      query?: DWorkflowsPageQuery
+   ): Promise<DWorkflowsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const search = query?.filter?.search;
+      const where = {
+         userId,
+         ...(search ? { title: { contains: search, mode: "insensitive" as const } } : {}),
+      };
+
+      const orderBy = query?.sort
+         ? { [query.sort.field]: query.sort.order }
+         : { createdAt: "desc" as const };
+
+      const args = {
+         where,
+         include: { _count: { select: { steps: true } } },
+         orderBy,
+         skip,
+         take: pageSize,
+      } satisfies WorkflowFindManyArgs;
+
+      const [workflows, totalElements] = await Promise.all([
+         this.prisma.workflow.findMany(args),
+         this.prisma.workflow.count({ where }),
+      ]);
+
+      return {
+         content: toDWorkflows(workflows),
+         pageNumber,
+         pageSize,
+         numberOfElements: workflows.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements,
+      };
    }
 
    async pGetWorkflows(userId: string): Promise<DWorkflow[]> {

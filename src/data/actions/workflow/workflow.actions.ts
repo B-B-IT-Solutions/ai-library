@@ -4,12 +4,15 @@ import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
+import { EMPTY_PAGE } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { WorkflowLimitError } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
@@ -17,6 +20,19 @@ import {
 } from "@/data/types/domain/workflow";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
+
+export const getWorkflowsPage = async (
+   query?: DWorkflowsPageQuery
+): Promise<DWorkflowsPage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getWorkflowsPage(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
+};
 
 export const getWorkflows = async (): Promise<DWorkflow[]> => {
    try {

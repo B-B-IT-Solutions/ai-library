@@ -1,4 +1,5 @@
 export {
+   getWorkflowsPage,
    getWorkflows,
    getWorkflowWithSteps,
    getWorkflowsUsage,

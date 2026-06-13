@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import {
-   loadWorkflowsOptions,
+   infiniteLoadWorkflowsPageOptions,
    loadWorkflowsUsageOptions,
    workflowKeys,
 } from "@/data/ts-queries/workflow";
@@ -18,7 +18,7 @@ export const WorkflowsDashboard = async () => {
    const queryClient = new QueryClient();
 
    await Promise.all([
-      queryClient.prefetchQuery(loadWorkflowsOptions()),
+      queryClient.prefetchInfiniteQuery(infiniteLoadWorkflowsPageOptions({})),
       queryClient.prefetchQuery(loadWorkflowsUsageOptions()),
    ]);
 

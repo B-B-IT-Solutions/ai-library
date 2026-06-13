@@ -1,6 +1,8 @@
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import {
    DWorkflow,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
@@ -19,6 +21,13 @@ export class WorkflowService {
       private readonly repository: WorkflowRepository,
       private readonly subscriptionService: SubscriptionService
    ) {}
+
+   async getWorkflowsPage(
+      userId: string,
+      query?: DWorkflowsPageQuery
+   ): Promise<DWorkflowsPage> {
+      return this.repository.pGetWorkflowsPage(userId, query);
+   }
 
    async getWorkflows(userId: string): Promise<DWorkflow[]> {
       return this.repository.pGetWorkflows(userId);

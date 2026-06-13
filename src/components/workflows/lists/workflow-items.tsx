@@ -1,27 +1,46 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import { flatMap } from "es-toolkit/compat";
 import { GitBranch, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
+import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
-   useLoadWorkflows,
+   useInfiniteLoadWorkflowsPage,
    useLoadWorkflowsUsage,
    workflowKeys,
 } from "@/data/ts-queries/workflow";
-import { DWorkflow } from "@/data/types/domain/workflow";
+import { DWorkflowsPage } from "@/data/types/domain/workflow";
 
 import { WorkflowItem } from "./items";
 
 export const WorkflowItems = () => {
    const queryClient = useQueryClient();
-   const { data: workflows = [], isLoading } = useLoadWorkflows();
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+      useInfiniteLoadWorkflowsPage({});
    const { data: usage } = useLoadWorkflowsUsage();
 
+   const workflows = useMemo(
+      () => flatMap(data?.pages, (page) => page.content),
+      [data]
+   );
+
    const handleDeleted = (workflowId: string) => {
-      queryClient.setQueryData<DWorkflow[]>(workflowKeys.workflows(), (old) =>
-         (old ?? []).filter((w) => w.id !== workflowId)
+      queryClient.setQueryData<InfiniteData<DWorkflowsPage>>(
+         workflowKeys.workflowsPage({}),
+         (old) => {
+            if (!old) return old;
+            return {
+               ...old,
+               pages: old.pages.map((page) => ({
+                  ...page,
+                  content: page.content.filter((w) => w.id !== workflowId),
+               })),
+            };
+         }
       );
    };
 
@@ -36,15 +55,22 @@ export const WorkflowItems = () => {
    }
 
    return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-         {workflows.map((workflow) => (
-            <WorkflowItem
-               key={workflow.id}
-               workflow={workflow}
-               onDeleted={() => handleDeleted(workflow.id)}
-            />
-         ))}
-      </div>
+      <InfiniteScroll
+         hasMore={hasNextPage}
+         isLoading={isFetching}
+         next={fetchNextPage}
+         threshold={0.1}
+      >
+         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {workflows.map((workflow) => (
+               <WorkflowItem
+                  key={workflow.id}
+                  workflow={workflow}
+                  onDeleted={() => handleDeleted(workflow.id)}
+               />
+            ))}
+         </div>
+      </InfiniteScroll>
    );
 };
 
