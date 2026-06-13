@@ -1,7 +1,10 @@
 import { Metadata } from "next";
 import { SearchParams } from "nuqs";
 
-import { WorkflowsDashboard } from "@/components/workflows";
+import {
+   WorkflowsDashboard,
+   workflowsSearchParamsCache,
+} from "@/components/workflows";
 
 export const metadata: Metadata = {
    title: "Meine Workflows",
@@ -12,6 +15,8 @@ export type PageProps = {
 };
 
 export const WorkflowsPage = async (props: PageProps) => {
+   await workflowsSearchParamsCache.parse(props.searchParams);
+
    return (
       <div data-testid="workflows-page" className="h-full">
          <WorkflowsDashboard />

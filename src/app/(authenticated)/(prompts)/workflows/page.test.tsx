@@ -2,22 +2,23 @@ jest.mock("@/components/workflows", () => ({
    WorkflowsDashboard: () => {
       return <div data-testid="workflows-dashboard" />;
    },
-   // templatesSearchParamsCache: {
-   //    parse: jest.fn(),
-   // },
+   workflowsSearchParamsCache: {
+      parse: jest.fn(),
+   },
 }));
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-// import { templatesSearchParamsCache } from "@/components/prompts";
+import { workflowsSearchParamsCache } from "@/components/workflows";
+
 import { metadata, PageProps, WorkflowsPage } from "./page";
 
-// const templatesSearchParamsCacheParseMock =
-//    templatesSearchParamsCache.parse as jest.MockedFunction<
-//       typeof templatesSearchParamsCache.parse
-//    >;
+const workflowsSearchParamsCacheParseMock =
+   workflowsSearchParamsCache.parse as jest.MockedFunction<
+      typeof workflowsSearchParamsCache.parse
+   >;
 
 const expectedMetadata: Metadata = {
    title: "Meine Workflows",
@@ -47,10 +48,10 @@ describe("WorkflowsPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         // expect(templatesSearchParamsCacheParseMock).toHaveBeenCalledTimes(1);
-         // expect(templatesSearchParamsCacheParseMock).toHaveBeenCalledWith(
-         //    props.searchParams
-         // );
+         expect(workflowsSearchParamsCacheParseMock).toHaveBeenCalledTimes(1);
+         expect(workflowsSearchParamsCacheParseMock).toHaveBeenCalledWith(
+            props.searchParams
+         );
       });
 
       expect(container).toMatchSnapshot();

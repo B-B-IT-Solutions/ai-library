@@ -5,19 +5,39 @@ import {
 } from "@tanstack/react-query";
 
 import { getWorkflowsUsage } from "@/data/actions/workflow";
-import { infiniteLoadWorkflowsPageOptions } from "@/data/ts-queries/workflow";
+import { resolveSort } from "@/data/ts-queries/utils";
+import {
+   infiniteLoadWorkflowsPageOptions,
+   type LoadWorkflowsPageParams,
+} from "@/data/ts-queries/workflow";
+import { DWorkflowsFilter } from "@/data/types/domain/workflow";
 
 import { CreateWorfklowButton } from "./buttons";
 import { WorkflowItems } from "./lists";
+import { WorkflowsToolbar } from "./toolbar";
+import { workflowsSearchParamsCache } from "./workflows-search-params";
 
 export const WorkflowsDashboard = async () => {
    const queryClient = new QueryClient();
 
+   const sortMode = workflowsSearchParamsCache.get("sort");
+
+   const filters: DWorkflowsFilter = {
+      search: workflowsSearchParamsCache.get("f_search"),
+   };
+
+   const params: LoadWorkflowsPageParams = {
+      filters,
+      sort: resolveSort(sortMode),
+   };
+
    await Promise.all([
-      queryClient.prefetchInfiniteQuery(infiniteLoadWorkflowsPageOptions({})),
+      queryClient.prefetchInfiniteQuery(
+         infiniteLoadWorkflowsPageOptions(params)
+      ),
    ]);
 
-   const [usage] = await Promise.all([getWorkflowsUsage()]);
+   const usage = await getWorkflowsUsage();
 
    const isUpgradeRequired =
       usage != null && usage.limit !== -1 && usage.current >= usage.limit;
@@ -44,8 +64,10 @@ export const WorkflowsDashboard = async () => {
                </div>
             </div>
 
+            <WorkflowsToolbar />
+
             <div className="flex-1 overflow-y-auto p-6">
-               <WorkflowItems />
+               <WorkflowItems params={params} />
             </div>
          </div>
       </HydrationBoundary>

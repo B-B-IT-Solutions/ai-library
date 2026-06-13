@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
+   type LoadWorkflowsPageParams,
    useInfiniteLoadWorkflowsPage,
    workflowKeys,
 } from "@/data/ts-queries/workflow";
@@ -16,11 +17,15 @@ import { DWorkflowsPage } from "@/data/types/domain/workflow";
 
 import { WorkflowItem } from "./items";
 
-export const WorkflowItems = () => {
+type Props = {
+   params: LoadWorkflowsPageParams;
+};
+
+export const WorkflowItems = ({ params }: Props) => {
    const queryClient = useQueryClient();
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-      useInfiniteLoadWorkflowsPage({});
+      useInfiniteLoadWorkflowsPage(params);
 
    const workflows = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
@@ -29,7 +34,7 @@ export const WorkflowItems = () => {
 
    const handleDeleted = (workflowId: string) => {
       queryClient.setQueryData<InfiniteData<DWorkflowsPage>>(
-         workflowKeys.workflowsPage({}),
+         workflowKeys.workflowsPage(params),
          (old) => {
             if (!old) return old;
             return {
