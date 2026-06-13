@@ -216,7 +216,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(null);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
       await expect(
          workflowService.createWorkflowStep(userId, workflowId, {
@@ -231,7 +231,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
-      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
       workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(10);
 
@@ -248,7 +248,7 @@ describe("createWorkflowStep", () => {
    });
 
    it("should allow PRO user to exceed 10 steps", async () => {
-      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue(baseWorkflow);
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
       subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
       workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
 
@@ -276,45 +276,7 @@ describe("updateWorkflowStep with cycle detection", () => {
    });
 
    it("should detect cycle and throw", async () => {
-      workflowRepoMock.pGetWorkflowWithSteps.mockResolvedValue({
-         ...baseWorkflow,
-         steps: [
-            {
-               id: "step-a",
-               workflowId,
-               title: "A",
-               hint: null,
-               type: "STANDALONE",
-               promptId: null,
-               promptTitle: null,
-               content: "a",
-               isStart: true,
-               position: 0,
-               outgoingEdges: [
-                  {
-                     id: "e1",
-                     fromStepId: "step-a",
-                     toStepId: "step-b",
-                     label: "Next",
-                     order: 0,
-                  },
-               ],
-            },
-            {
-               id: "step-b",
-               workflowId,
-               title: "B",
-               hint: null,
-               type: "STANDALONE",
-               promptId: null,
-               promptTitle: null,
-               content: "b",
-               isStart: false,
-               position: 1,
-               outgoingEdges: [],
-            },
-         ],
-      });
+      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
 
       workflowRepoMock.pGetWorkflowStepsForCycleCheck.mockResolvedValue([
          { id: "step-a", outgoingEdges: [{ toStepId: "step-b" }] },
