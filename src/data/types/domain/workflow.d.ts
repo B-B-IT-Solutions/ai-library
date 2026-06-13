@@ -1,4 +1,4 @@
-import { Page, PageQuery, Sort } from "../common";
+import { Page, PageQuery } from "../common";
 
 export type DWorkflowsFilter = {
    search?: string;
