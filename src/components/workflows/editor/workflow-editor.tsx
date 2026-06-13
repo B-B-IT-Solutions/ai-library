@@ -25,12 +25,12 @@ import { StepList } from "./step-list";
 import { WorkflowMetadataForm } from "./workflow-metadata-form";
 
 type Props = {
-   initialWorkflow: DWorkflowWithSteps | null;
+   initialWorkflow?: DWorkflowWithSteps;
    usage?: DWorkflowsUsage;
 };
 
 export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
-   const [workflow, setWorkflow] = useState<DWorkflowWithSteps | null>(
+   const [workflow, setWorkflow] = useState<DWorkflowWithSteps | undefined>(
       initialWorkflow
    );
    const [selectedStep, setSelectedStep] = useState<DWorkflowStep | null>(null);
