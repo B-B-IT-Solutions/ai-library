@@ -13,6 +13,8 @@ import {
 } from "@/lib/subscription/access-control";
 import { SubscriptionService } from "../subscription";
 
+import { detectCycle } from "./utils";
+
 export class WorkflowService {
    constructor(
       private readonly repository: WorkflowRepository,
@@ -71,10 +73,7 @@ export class WorkflowService {
       data: DWorkflowStepCreate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowWithSteps(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow not found.");
       }
@@ -102,10 +101,7 @@ export class WorkflowService {
       data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowWithSteps(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow not found.");
       }
@@ -130,10 +126,7 @@ export class WorkflowService {
       workflowId: string
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
-      const workflow = await this.repository.pGetWorkflowWithSteps(
-         userId,
-         workflowId
-      );
+      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
       if (!workflow) {
          throw new Error("Workflow not found.");
       }
@@ -185,55 +178,5 @@ export class WorkflowLimitError extends Error {
       super(message);
       this.name = "WorkflowLimitError";
       Object.setPrototypeOf(this, WorkflowLimitError.prototype);
-   }
-}
-
-// ── Cycle detection (DFS) ────────────────────────────────────────────────────
-
-/**
- * Detects whether adding edges from `fromStepId` → `newToStepIds`
- * would create a cycle in the workflow's step graph.
- */
-export function detectCycle(
-   steps: Array<{ id: string; outgoingEdges: Array<{ toStepId: string }> }>,
-   fromStepId: string,
-   newToStepIds: string[]
-): void {
-   // Build adjacency map with the proposed new edges merged in
-   const adj = new Map<string, string[]>();
-   for (const s of steps) {
-      adj.set(
-         s.id,
-         s.id === fromStepId
-            ? newToStepIds
-            : s.outgoingEdges.map((e) => e.toStepId)
-      );
-   }
-
-   // DFS from every node (handles disconnected graph)
-   const visited = new Set<string>();
-   const inStack = new Set<string>();
-
-   const dfs = (nodeId: string): boolean => {
-      if (inStack.has(nodeId)) return true; // cycle!
-      if (visited.has(nodeId)) return false;
-
-      visited.add(nodeId);
-      inStack.add(nodeId);
-
-      for (const neighbour of adj.get(nodeId) ?? []) {
-         if (dfs(neighbour)) return true;
-      }
-
-      inStack.delete(nodeId);
-      return false;
-   };
-
-   for (const s of steps) {
-      if (!visited.has(s.id)) {
-         if (dfs(s.id)) {
-            throw new Error("Diese Verbindung erzeugt eine Endlosschleife");
-         }
-      }
    }
 }
