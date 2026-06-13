@@ -106,7 +106,7 @@ export const WorkflowItem = ({ workflow, onDeleted }: Props) => {
                <Button asChild className="w-full" size="sm">
                   <Link href={`/workflows/${workflow.id}/run`}>
                      <Play className="mr-2 h-4 w-4" />
-                     Ausführen
+                     Anwenden
                   </Link>
                </Button>
             </CardFooter>
