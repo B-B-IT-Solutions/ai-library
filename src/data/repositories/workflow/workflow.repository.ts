@@ -26,6 +26,7 @@ import {
    WorkflowUpdateInput,
 } from "@/generated/prisma/models";
 
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 import {
    toDWorkflow,
    toDWorkflows,
@@ -48,15 +49,8 @@ export class WorkflowRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const search = query?.filter?.search;
-      const where = {
-         userId,
-         ...(search ? { title: { contains: search, mode: "insensitive" as const } } : {}),
-      };
-
-      const orderBy = query?.sort
-         ? { [query.sort.field]: query.sort.order }
-         : { createdAt: "desc" as const };
+      const where = resolveWhereInput(userId, query?.filter);
+      const orderBy = resolveOrderBy(query?.sort);
 
       const args = {
          where,
@@ -79,17 +73,6 @@ export class WorkflowRepository {
          totalPages: Math.ceil(totalElements / pageSize),
          totalElements,
       };
-   }
-
-   async pGetWorkflows(userId: string): Promise<DWorkflow[]> {
-      const args = {
-         where: { userId },
-         include: { _count: { select: { steps: true } } },
-         orderBy: { createdAt: "desc" },
-      } satisfies WorkflowFindManyArgs;
-
-      const data = await this.prisma.workflow.findMany(args);
-      return toDWorkflows(data);
    }
 
    async pGetWorkflowsCount(userId: string): Promise<number> {
