@@ -34,17 +34,6 @@ export const getWorkflowsPage = async (
    }
 };
 
-export const getWorkflows = async (): Promise<DWorkflow[]> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.getWorkflows(user.id);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
 export const getWorkflowWithSteps = async (
    workflowId: string
 ): Promise<DWorkflowWithSteps | null> => {

@@ -39,21 +39,26 @@ const baseWorkflow = {
    steps: [],
 };
 
-describe("getWorkflows tests", () => {
+describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("workflows retrieved - test", async () => {
       const userId = "user-id-1";
-      const workflows = dtestData.dWorkflows();
-      workflowRepoMock.pGetWorkflows.mockResolvedValue(workflows);
+      const page = dtestData.dWorkflowsPage(1);
+      workflowRepoMock.pGetWorkflowsPage.mockResolvedValue(page);
 
-      const result = await workflowService.getWorkflows(userId);
+      const query = dtestData.dWorkflowsPageQuery();
 
-      expect(result).toEqual(workflows);
-      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledTimes(1);
-      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledWith(userId);
+      const result = await workflowService.getWorkflowsPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(workflowRepoMock.pGetWorkflowsPage).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 

@@ -91,7 +91,9 @@ import {
 } from "@/data/types/domain/user";
 import {
    DWorkflow,
+   DWorkflowsFilter,
    DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStep,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
@@ -1013,6 +1015,22 @@ export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
       isStart: false,
       position: index - 1,
       edges: [],
+   };
+};
+
+export const dWorkflowsPageQuery = (index = 1): DWorkflowsPageQuery => {
+   return {
+      pagination: {
+         pageNumber: 1,
+         pageSize: 10,
+      },
+      filter: dWorkflowsFilter(index),
+   };
+};
+
+export const dWorkflowsFilter = (index = 1): DWorkflowsFilter => {
+   return {
+      search: `search-${index}`,
    };
 };
 

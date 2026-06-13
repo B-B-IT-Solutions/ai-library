@@ -29,10 +29,6 @@ export class WorkflowService {
       return this.repository.pGetWorkflowsPage(userId, query);
    }
 
-   async getWorkflows(userId: string): Promise<DWorkflow[]> {
-      return this.repository.pGetWorkflows(userId);
-   }
-
    async getWorkflowWithSteps(
       userId: string,
       workflowId: string
