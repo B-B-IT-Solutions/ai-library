@@ -5,6 +5,7 @@ import {
    DWorkflow,
    DWorkflowStepCreate,
    DWorkflowStepUpdate,
+   DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
@@ -331,16 +332,16 @@ export class WorkflowRepository {
       ]);
    }
 
-   async pGetStepsForCycleCheck(
+   async pGetWorkflowStepsForCycleCheck(
       workflowId: string
-   ): Promise<
-      Array<{ id: string; outgoingEdges: Array<{ toStepId: string }> }>
-   > {
+   ): Promise<DWorkflowStepWithOutgoingEdges[]> {
       return this.prisma.workflowStep.findMany({
          where: { workflowId },
          select: {
             id: true,
-            outgoingEdges: { select: { toStepId: true } },
+            outgoingEdges: {
+               select: { toStepId: true },
+            },
          },
       });
    }

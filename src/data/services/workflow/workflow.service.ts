@@ -109,7 +109,7 @@ export class WorkflowService {
       // Cycle detection
       if (data.edges && data.edges.length > 0) {
          const allSteps =
-            await this.repository.pGetStepsForCycleCheck(workflowId);
+            await this.repository.pGetWorkflowStepsForCycleCheck(workflowId);
          detectCycle(
             allSteps,
             stepId,

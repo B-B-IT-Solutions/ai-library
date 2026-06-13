@@ -72,3 +72,8 @@ export type DWorkflowStepUpdate = {
    position?: number;
    edges?: DWorkflowStepEdgeInput[];
 };
+
+export type DWorkflowStepWithOutgoingEdges = {
+   id: string;
+   outgoingEdges: Array<{ toStepId: string }>;
+};
