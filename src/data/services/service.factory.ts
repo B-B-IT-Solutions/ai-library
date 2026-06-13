@@ -45,11 +45,11 @@ export class ServiceFactory {
    private prompt0Service?: Prompt0Service;
    private promptService?: PromptService;
    private publicPromptService?: PublicPromptService;
+   private workflowService?: WorkflowService;
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
    private emailService?: IEmailService;
-   private workflowService?: WorkflowService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -176,6 +176,16 @@ export class ServiceFactory {
       return this.publicPromptService;
    }
 
+   getWorkflowService(): WorkflowService {
+      if (!this.workflowService) {
+         this.workflowService = new WorkflowService(
+            this.repositories.workflowRepository(),
+            this.getSubscriptionService()
+         );
+      }
+      return this.workflowService;
+   }
+
    getSubscriptionService(): SubscriptionService {
       if (!this.subscriptionService) {
          this.subscriptionService = new SubscriptionService(
@@ -232,15 +242,5 @@ export class ServiceFactory {
          }
       }
       return this.emailService;
-   }
-
-   getWorkflowService(): WorkflowService {
-      if (!this.workflowService) {
-         this.workflowService = new WorkflowService(
-            this.repositories.workflowRepository(),
-            this.getSubscriptionService()
-         );
-      }
-      return this.workflowService;
    }
 }
