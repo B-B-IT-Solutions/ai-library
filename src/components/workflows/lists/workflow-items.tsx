@@ -63,7 +63,10 @@ export const WorkflowItems = ({ params }: Props) => {
          next={fetchNextPage}
          threshold={0.1}
       >
-         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+         <div
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            data-testid="workflow-items"
+         >
             {workflows.map((workflow) => (
                <WorkflowItem
                   key={workflow.id}

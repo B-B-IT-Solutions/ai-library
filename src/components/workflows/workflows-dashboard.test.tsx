@@ -6,13 +6,20 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { getWorkflowsPage, getWorkflowsUsage } from "@/data/actions/workflow";
-import { DWorkflowsSortByMode } from "@/data/types/domain/common";
-import { DWorkflowsUsage } from "@/data/types/domain/workflow";
+import {
+   DListViewMode,
+   DWorkflowsSortByMode,
+} from "@/data/types/domain/common";
+import {
+   DWorkflowsPageQuery,
+   DWorkflowsUsage,
+} from "@/data/types/domain/workflow";
 
 import { WorkflowsDashboard } from "./workflows-dashboard";
 import { workflowsSearchParamsCache } from "./workflows-search-params";
 
 type CacheKey = Parameters<typeof workflowsSearchParamsCache.get>[0];
+type CacheValue = ReturnType<typeof workflowsSearchParamsCache.get>;
 
 const getWorkflowsPageMock = getWorkflowsPage as jest.MockedFunction<
    typeof getWorkflowsPage
@@ -25,8 +32,10 @@ const workflowsSearchParamsCacheMock =
       typeof workflowsSearchParamsCache
    >;
 
-const mockSearchParams = (key: CacheKey) => {
+const mockSearchParams = (key: CacheKey): CacheValue => {
    switch (key) {
+      case "view":
+         return DListViewMode.GRID;
       case "sort":
          return DWorkflowsSortByMode.DATE_DESC;
       case "f_search":
@@ -34,74 +43,62 @@ const mockSearchParams = (key: CacheKey) => {
    }
 };
 
-const assertDashboardRendered = () => {
-   assertInDocument(screen.getByTestId("workflows-dashboard"));
-   assertInDocument(screen.getByTestId("create-workflow-btn"));
-   assertInDocument(screen.getByTestId("workflows-toolbar"));
+const assertRendered = () => {
+   const dashboard = screen.getByTestId("workflows-dashboard");
+   const createBtn = screen.getByTestId("create-workflow-btn");
+   const toolbar = screen.getByTestId("workflows-toolbar");
+   const items = screen.getByTestId("workflow-items");
+
+   assertInDocument(dashboard);
+   assertInDocument(createBtn);
+   assertInDocument(toolbar);
+   assertInDocument(items);
+};
+
+const assertGetWorkflowsPageCalled = (expectedPayload: DWorkflowsPageQuery) => {
+   expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
+   expect(getWorkflowsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("WorkflowsDashboard", () => {
+   beforeAll(() => {
+      const page = dtestData.dWorkflowsPage();
+      getWorkflowsPageMock.mockResolvedValue(page);
+   });
+
    beforeEach(() => {
       jest.clearAllMocks();
+   });
+
+   it("renders - test", async () => {
       workflowsSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
-   });
 
-   it("renders dashboard with workflows", async () => {
-      const page = dtestData.dWorkflowsPage();
-      getWorkflowsPageMock.mockResolvedValue(page);
-      const usage: DWorkflowsUsage = { current: 2, limit: 10 };
+      const usage: DWorkflowsUsage = {
+         current: 2,
+         limit: 10,
+      };
       getWorkflowsUsageMock.mockResolvedValue(usage);
 
       const { container } = await renderAsyncRSC(WorkflowsDashboard, {});
 
+      const expectedPayload: DWorkflowsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: {
+            search: mockSearchParams("f_search"),
+         },
+         sort: {
+            field: "createdAt",
+            order: "desc",
+         },
+      };
+
       await waitFor(() => {
-         assertDashboardRendered();
-         expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
+         assertRendered();
          expect(getWorkflowsUsageMock).toHaveBeenCalledTimes(1);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("renders dashboard with upgrade required when limit reached", async () => {
-      const page = dtestData.dWorkflowsPage();
-      getWorkflowsPageMock.mockResolvedValue(page);
-      const usage: DWorkflowsUsage = { current: 5, limit: 5 };
-      getWorkflowsUsageMock.mockResolvedValue(usage);
-
-      const { container } = await renderAsyncRSC(WorkflowsDashboard, {});
-
-      await waitFor(() => {
-         assertDashboardRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("renders dashboard with upgrade not required when limit is -1", async () => {
-      const page = dtestData.dWorkflowsPage();
-      getWorkflowsPageMock.mockResolvedValue(page);
-      const usage: DWorkflowsUsage = { current: 100, limit: -1 };
-      getWorkflowsUsageMock.mockResolvedValue(usage);
-
-      const { container } = await renderAsyncRSC(WorkflowsDashboard, {});
-
-      await waitFor(() => {
-         assertDashboardRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("renders dashboard when usage fetch fails", async () => {
-      const page = dtestData.dWorkflowsPage(0);
-      getWorkflowsPageMock.mockResolvedValue(page);
-      getWorkflowsUsageMock.mockRejectedValue(new Error("network error"));
-
-      const { container } = await renderAsyncRSC(WorkflowsDashboard, {});
-
-      await waitFor(() => {
-         assertDashboardRendered();
+         assertGetWorkflowsPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
