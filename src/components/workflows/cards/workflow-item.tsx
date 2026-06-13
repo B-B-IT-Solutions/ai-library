@@ -22,7 +22,6 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DWorkflow } from "@/data/types/domain/workflow";
-
 import { DeleteWorkflowDialog } from "../dialogs/delete-workflow-dialog";
 
 type Props = {
@@ -30,7 +29,7 @@ type Props = {
    onDeleted: () => void;
 };
 
-export const WorkflowCard = ({ workflow, onDeleted }: Props) => {
+export const WorkflowItem = ({ workflow, onDeleted }: Props) => {
    const [deleteOpen, setDeleteOpen] = useState(false);
 
    return (
@@ -91,7 +90,9 @@ export const WorkflowCard = ({ workflow, onDeleted }: Props) => {
 
             <CardContent className="flex-1 pb-2">
                <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-                  <Badge variant="secondary">{workflow.stepCount} Schritte</Badge>
+                  <Badge variant="secondary">
+                     {workflow.stepCount} Schritte
+                  </Badge>
                   <span>
                      Zuletzt bearbeitet{" "}
                      {format(new Date(workflow.updatedAt), "dd. MMM yyyy", {
