@@ -6,7 +6,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { DWorkflow, DWorkflowsUsage } from "@/data/types/domain/workflow";
-import { WorkflowItem } from "../cards/workflow-item";
+
+import { WorkflowItem } from "./items";
 
 type Props = {
    workflows: DWorkflow[];
