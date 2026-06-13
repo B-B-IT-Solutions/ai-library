@@ -10,7 +10,6 @@ import { WorkflowLimitError } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
@@ -139,7 +138,7 @@ export const deleteWorkflow = async (
 
 export const createWorkflowStep = async (
    workflowId: string,
-   data: DWorkflowStepCreate
+   data: DWorkflowStepUpdate
 ): Promise<ActionResult<DWorkflowWithSteps>> => {
    try {
       if (!isValidUuid(workflowId)) {

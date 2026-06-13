@@ -1,52 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { GitBranch, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { DWorkflow, DWorkflowsUsage } from "@/data/types/domain/workflow";
+import {
+   useLoadWorkflows,
+   useLoadWorkflowsUsage,
+   workflowKeys,
+} from "@/data/ts-queries/workflow";
+import { DWorkflow } from "@/data/types/domain/workflow";
 
 import { WorkflowItem } from "./items";
 
-type Props = {
-   workflows: DWorkflow[];
-   usage: DWorkflowsUsage;
-};
-
-export const WorkflowItems = ({
-   workflows: initialWorkflows,
-   usage,
-}: Props) => {
-   const [workflows, setWorkflows] = useState<DWorkflow[]>(initialWorkflows);
+export const WorkflowItems = () => {
+   const queryClient = useQueryClient();
+   const { data: workflows = [], isLoading } = useLoadWorkflows();
+   const { data: usage } = useLoadWorkflowsUsage();
 
    const handleDeleted = (workflowId: string) => {
-      setWorkflows((prev) => prev.filter((w) => w.id !== workflowId));
+      queryClient.setQueryData<DWorkflow[]>(workflowKeys.workflows(), (old) =>
+         (old ?? []).filter((w) => w.id !== workflowId)
+      );
    };
 
-   const isFreeTier = usage.limit === 0;
+   const isFreeTier = usage?.limit === 0;
+
+   if (isLoading) {
+      return <WorkflowsListSkeleton />;
+   }
+
+   if (workflows.length === 0) {
+      return <EmptyState isFreeTier={isFreeTier ?? false} />;
+   }
 
    return (
-      <div className="flex h-full flex-col bg-slate-50">
-         {/* Grid or empty state */}
-         <div className="flex-1 overflow-y-auto p-6">
-            {workflows.length === 0 ? (
-               <EmptyState isFreeTier={isFreeTier} />
-            ) : (
-               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {workflows.map((workflow) => (
-                     <WorkflowItem
-                        key={workflow.id}
-                        workflow={workflow}
-                        onDeleted={() => handleDeleted(workflow.id)}
-                     />
-                  ))}
-               </div>
-            )}
-         </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+         {workflows.map((workflow) => (
+            <WorkflowItem
+               key={workflow.id}
+               workflow={workflow}
+               onDeleted={() => handleDeleted(workflow.id)}
+            />
+         ))}
       </div>
    );
 };
+
+const WorkflowsListSkeleton = () => (
+   <div
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      data-testid="workflows-list-skeleton"
+   >
+      {Array.from({ length: 6 }).map((_, i) => (
+         <div key={i} className="h-40 animate-pulse rounded-lg bg-slate-200" />
+      ))}
+   </div>
+);
 
 const EmptyState = ({ isFreeTier }: { isFreeTier: boolean }) => (
    <div

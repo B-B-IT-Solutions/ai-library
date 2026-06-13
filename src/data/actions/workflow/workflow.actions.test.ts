@@ -536,7 +536,7 @@ describe("createWorkflowStep tests", () => {
    });
 
    it("invalid UUID - test", async () => {
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep("invalid-uuid", data);
 
       const expectedResult: ActionResult = {
@@ -554,7 +554,7 @@ describe("createWorkflowStep tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -579,7 +579,7 @@ describe("createWorkflowStep tests", () => {
       );
       sCreateWorkflowStepMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -605,7 +605,7 @@ describe("createWorkflowStep tests", () => {
       const error = new Error("db error");
       sCreateWorkflowStepMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -630,7 +630,7 @@ describe("createWorkflowStep tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sCreateWorkflowStepMock.mockResolvedValue(workflow);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult<DWorkflowWithSteps> = {

@@ -1,7 +1,6 @@
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import {
    DWorkflow,
-   DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
@@ -70,7 +69,7 @@ export class WorkflowService {
    async createWorkflowStep(
       userId: string,
       workflowId: string,
-      data: DWorkflowStepCreate
+      data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);

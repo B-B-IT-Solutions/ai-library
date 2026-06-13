@@ -3,7 +3,6 @@ import { map } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowStepCreate,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
@@ -166,7 +165,7 @@ export class WorkflowRepository {
    async pCreateWorkflowStep(
       userId: string,
       workflowId: string,
-      data: DWorkflowStepCreate
+      data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // If isStart is set, unset any existing start step first
       if (data.isStart) {
