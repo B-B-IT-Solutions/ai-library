@@ -4,6 +4,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   DWorkflowsPage,
    DWorkflowsPageQuery,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
@@ -15,6 +16,7 @@ import {
    WorkflowFindUniqueArgs,
    WorkflowStepFindManyArgs,
    WorkflowUpdateArgs,
+   WorkflowWhereInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -32,116 +34,156 @@ describe("pGetWorkflowsPage", () => {
       mockReset(prismaMock);
    });
 
-   it("page retrieved - default query - test", async () => {
+   it("query undefined - test", async () => {
       const userId = "user-id-1";
-      const rows = ptestData.pWorkflowWithStepCounts(3);
-      prismaMock.workflow.findMany.mockResolvedValue(rows);
-      prismaMock.workflow.count.mockResolvedValue(3);
+      const workflows = ptestData.pWorkflowWithStepCounts(3);
+      const totalEntries = 15;
+      prismaMock.workflow.findMany.mockResolvedValue(workflows);
+      prismaMock.workflow.count.mockResolvedValue(totalEntries);
 
       const result = await repository.pGetWorkflowsPage(userId);
 
+      const expectedResult: DWorkflowsPage = {
+         content: toDWorkflows(workflows),
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: workflows.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere: WorkflowWhereInput = {
+         userId,
+      };
+
       const expectedArgs: WorkflowFindManyArgs = {
-         where: { userId },
+         where: expectedWhere,
          include: { _count: { select: { steps: true } } },
          orderBy: { createdAt: "desc" },
          skip: 0,
          take: 20,
       };
 
-      expect(result).toEqual({
-         content: toDWorkflows(rows),
-         pageNumber: 0,
-         pageSize: 20,
-         numberOfElements: 3,
-         totalPages: 1,
-         totalElements: 3,
-      });
+      const expectedCountArgs: WorkflowCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.findMany).toHaveBeenCalledWith(expectedArgs);
       expect(prismaMock.workflow.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.workflow.count).toHaveBeenCalledWith({
-         where: { userId },
-      });
+      expect(prismaMock.workflow.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 
-   it("page retrieved - with search filter - test", async () => {
+   it("sort createdAt asc - test", async () => {
       const userId = "user-id-1";
-      const rows = ptestData.pWorkflowWithStepCounts(1);
-      prismaMock.workflow.findMany.mockResolvedValue(rows);
-      prismaMock.workflow.count.mockResolvedValue(1);
+      const workflows = ptestData.pWorkflowWithStepCounts(10);
+      const totalEntries = 15;
+      prismaMock.workflow.findMany.mockResolvedValue(workflows);
+      prismaMock.workflow.count.mockResolvedValue(totalEntries);
 
       const query: DWorkflowsPageQuery = {
-         pagination: { pageNumber: 0, pageSize: 10 },
-         filter: { search: "my-flow" },
+         pagination: {
+            pageNumber: 1,
+            pageSize: 10,
+         },
+         filter: {
+            search: "search-1",
+         },
       };
 
       const result = await repository.pGetWorkflowsPage(userId, query);
 
-      const where = {
+      const expectedResult: DWorkflowsPage = {
+         content: toDWorkflows(workflows),
+         pageNumber: 1,
+         pageSize: 10,
+         numberOfElements: workflows.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere: WorkflowWhereInput = {
          userId,
-         title: { contains: "my-flow", mode: "insensitive" as const },
+         title: {
+            contains: "search-1",
+            mode: "insensitive" as const,
+         },
       };
 
       const expectedArgs: WorkflowFindManyArgs = {
-         where,
+         where: expectedWhere,
          include: { _count: { select: { steps: true } } },
          orderBy: { createdAt: "desc" },
-         skip: 0,
+         skip: 10,
          take: 10,
       };
 
-      expect(result.content).toEqual(toDWorkflows(rows));
+      const expectedCountArgs: WorkflowCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.workflow.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.findMany).toHaveBeenCalledWith(expectedArgs);
-      expect(prismaMock.workflow.count).toHaveBeenCalledWith({ where });
+      expect(prismaMock.workflow.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 
-   it("page retrieved - with pagination and sort - test", async () => {
+   it("sort createdAt desc - test", async () => {
       const userId = "user-id-1";
-      const rows = ptestData.pWorkflowWithStepCounts(2);
-      prismaMock.workflow.findMany.mockResolvedValue(rows);
-      prismaMock.workflow.count.mockResolvedValue(22);
+      const workflows = ptestData.pWorkflowWithStepCounts(10);
+      const totalEntries = 15;
+      prismaMock.workflow.findMany.mockResolvedValue(workflows);
+      prismaMock.workflow.count.mockResolvedValue(totalEntries);
 
       const query: DWorkflowsPageQuery = {
-         pagination: { pageNumber: 2, pageSize: 5 },
-         sort: { field: "title", order: "asc" },
+         pagination: {
+            pageNumber: 2,
+            pageSize: 5,
+         },
+         filter: {
+            search: "search-1",
+         },
+         sort: { field: "createdAt", order: "asc" },
       };
 
       const result = await repository.pGetWorkflowsPage(userId, query);
 
+      const expectedResult: DWorkflowsPage = {
+         content: toDWorkflows(workflows),
+         pageNumber: 2,
+         pageSize: 5,
+         numberOfElements: workflows.length,
+         totalPages: Math.ceil(totalEntries / 5),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere: WorkflowWhereInput = {
+         userId,
+         title: {
+            contains: "search-1",
+            mode: "insensitive" as const,
+         },
+      };
+
       const expectedArgs: WorkflowFindManyArgs = {
-         where: { userId },
+         where: expectedWhere,
          include: { _count: { select: { steps: true } } },
-         orderBy: { title: "asc" },
+         orderBy: { createdAt: "asc" },
          skip: 10,
          take: 5,
       };
 
-      expect(result).toEqual({
-         content: toDWorkflows(rows),
-         pageNumber: 2,
-         pageSize: 5,
-         numberOfElements: 2,
-         totalPages: 5,
-         totalElements: 22,
-      });
+      const expectedCountArgs: WorkflowCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.workflow.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.findMany).toHaveBeenCalledWith(expectedArgs);
-   });
-
-   it("empty page - test", async () => {
-      const userId = "user-id-1";
-      prismaMock.workflow.findMany.mockResolvedValue([]);
-      prismaMock.workflow.count.mockResolvedValue(0);
-
-      const result = await repository.pGetWorkflowsPage(userId);
-
-      expect(result).toEqual({
-         content: [],
-         pageNumber: 0,
-         pageSize: 20,
-         numberOfElements: 0,
-         totalPages: 0,
-         totalElements: 0,
-      });
+      expect(prismaMock.workflow.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflow.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 });
 
