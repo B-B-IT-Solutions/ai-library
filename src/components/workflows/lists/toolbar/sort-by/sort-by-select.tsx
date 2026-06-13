@@ -10,7 +10,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DWorkflowsSortByMode } from "@/data/types/domain/common";
-import { workflowsSearchParams } from "../../workflows-search-params";
+import { workflowsSearchParams } from "../../../workflows-search-params";
 
 export const SortBySelect = () => {
    const [sort, setSort] = useQueryState("sort", workflowsSearchParams["sort"]);

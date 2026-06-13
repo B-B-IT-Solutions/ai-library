@@ -6,7 +6,7 @@ import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "@/components/shadcn/input";
-import { workflowsSearchParams } from "../../workflows-search-params";
+import { workflowsSearchParams } from "../../../workflows-search-params";
 
 export const SearchFilter = () => {
    const [urlSearch, setUrlSearch] = useQueryState(

@@ -13,8 +13,7 @@ import {
 import { DWorkflowsFilter } from "@/data/types/domain/workflow";
 
 import { CreateWorfklowButton } from "./buttons";
-import { WorkflowItems } from "./lists";
-import { WorkflowsToolbar } from "./toolbar";
+import { WorkflowItems, WorkflowsToolbar } from "./lists";
 import { workflowsSearchParamsCache } from "./workflows-search-params";
 
 export const WorkflowsDashboard = async () => {
