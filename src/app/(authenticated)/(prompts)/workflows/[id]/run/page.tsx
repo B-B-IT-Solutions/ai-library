@@ -1,12 +1,9 @@
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { WorkflowRunner } from "@/components/workflows";
-import { requireUser } from "@/data/actions/auth-utils";
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { getWorkflowForRunner } from "@/data/actions/workflow";
-import prisma from "@/data/repositories/prisma";
-import { ServiceFactory } from "@/data/services";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
 
 export const metadata: Metadata = {
@@ -19,18 +16,11 @@ type PageProps = {
 
 const RunWorkflowPage = async ({ params }: PageProps) => {
    const { id } = await params;
-   const user = await requireUser();
-
-   const factory = new ServiceFactory(prisma);
-   const tier = await factory.getSubscriptionService().getUserTier(user.id);
-   if (tier === "FREE") {
-      redirect("/subscription/pricing");
-   }
 
    const workflow = await getWorkflowForRunner(id);
 
    if (!workflow) {
-      notFound();
+      return notFound();
    }
 
    // Pre-load template data for the start step to avoid client-side waterfall

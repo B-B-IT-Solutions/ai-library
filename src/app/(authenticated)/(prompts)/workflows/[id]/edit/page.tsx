@@ -24,7 +24,7 @@ const EditWorkflowPage = async ({ params }: PageProps) => {
    ]);
 
    if (!workflow) {
-      notFound();
+      return notFound();
    }
 
    return (
