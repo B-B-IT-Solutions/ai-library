@@ -34,7 +34,7 @@ export const WorkflowItems = ({ params }: Props) => {
 
    const handleDeleted = (workflowId: string) => {
       queryClient.setQueryData<InfiniteData<DWorkflowsPage>>(
-         workflowKeys.workflowsPage(params),
+         workflowKeys.workflows(params),
          (old) => {
             if (!old) return old;
             return {

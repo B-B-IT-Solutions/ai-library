@@ -28,7 +28,7 @@ export const infiniteLoadWorkflowsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: workflowKeys.workflowsPage(params),
+      queryKey: workflowKeys.workflows(params),
       queryFn: async ({ pageParam }) => {
          const query: DWorkflowsPageQuery = pageQuery(
             pageParam,
