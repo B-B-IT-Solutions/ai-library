@@ -113,6 +113,7 @@ exports[`WorkflowItems shows workflow cards when workflows exist 1`] = `
 <div>
   <div
     class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    data-testid="workflow-items"
   >
     <div
       class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"

@@ -10,7 +10,7 @@ import { SubscriptionService } from "@/data/services/subscription";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { ServiceFactory } from "../service.factory";
 
-import { WorkflowLimitError, WorkflowService } from "./workflow.service";
+import { WorkflowService } from "./workflow.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const subscriptionService = serviceFactory.getSubscriptionService();
@@ -235,27 +235,12 @@ describe("createWorkflowStep", () => {
       ).rejects.toThrow("Workflow not found.");
    });
 
-   it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
-      workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(10);
-
-      await expect(
-         workflowService.createWorkflowStep(userId, workflowId, {
-            title: "Step",
-            type: "STANDALONE",
-            content: "content",
-            isStart: false,
-            position: 10,
-            edges: [],
-         })
-      ).rejects.toBeInstanceOf(WorkflowLimitError);
-   });
-
    it("should allow PRO user to exceed 10 steps", async () => {
       workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
       workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
+
+      const stepsCount = 10;
+      workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(stepsCount);
 
       const result = await workflowService.createWorkflowStep(
          userId,
@@ -272,6 +257,14 @@ describe("createWorkflowStep", () => {
 
       expect(result).toEqual(baseWorkflow);
       expect(workflowRepoMock.pCreateWorkflowStep).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         "maxWorkflowSteps",
+         stepsCount
+      );
    });
 });
 

@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { WorkflowLimitError, WorkflowService } from "@/data/services/workflow";
+import { WorkflowService } from "@/data/services/workflow";
 import {
    DWorkflow,
    DWorkflowsUsage,
@@ -274,32 +274,6 @@ describe("createWorkflow tests", () => {
       const error = new SubscriptionAccessError(
          "Nur für BASIC",
          "canUseWorkflows"
-      );
-      sCreateWorkflowMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowUpdate();
-      const result = await createWorkflow(data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: error.message,
-         upgradeRequired: true,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowMock).toHaveBeenCalledWith(user.id, data);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("workflow limit error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new WorkflowLimitError(
-         "WORKFLOW_LIMIT_REACHED",
-         "Limit erreicht"
       );
       sCreateWorkflowMock.mockRejectedValue(error);
 
@@ -590,9 +564,9 @@ describe("createWorkflowStep tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const error = new WorkflowLimitError(
-         "STEP_LIMIT_REACHED",
-         "Maximale Schrittanzahl erreicht"
+      const error = new SubscriptionAccessError(
+         "Maximale Schrittanzahl erreicht",
+         "canUseWorkflows"
       );
       sCreateWorkflowStepMock.mockRejectedValue(error);
 

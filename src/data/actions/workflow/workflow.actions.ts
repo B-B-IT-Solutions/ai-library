@@ -82,13 +82,6 @@ export const createWorkflow = async (
             upgradeRequired: true,
          };
       }
-      if (error instanceof WorkflowLimitError) {
-         return {
-            success: false,
-            message: error.message,
-            upgradeRequired: error.code === "WORKFLOW_LIMIT_REACHED",
-         };
-      }
       return {
          success: false,
          message: "Workflow konnte nicht erstellt werden",
@@ -163,11 +156,11 @@ export const createWorkflowStep = async (
       };
    } catch (error) {
       console.error(formatError(error));
-      if (error instanceof WorkflowLimitError) {
+      if (error instanceof SubscriptionAccessError) {
          return {
             success: false,
             message: error.message,
-            upgradeRequired: error.code === "STEP_LIMIT_REACHED",
+            upgradeRequired: true,
          };
       }
       return {
