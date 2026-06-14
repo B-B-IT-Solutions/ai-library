@@ -7,7 +7,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import {
