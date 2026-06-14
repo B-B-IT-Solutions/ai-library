@@ -48,7 +48,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const handleWorkflowSaved = (saved: DWorkflow) => {
       const updatedWorkflow: DWorkflowWithSteps = {
          ...saved,
-         steps: workflow!.steps,
+         steps: workflow?.steps ?? [],
       };
 
       setWorkflow(updatedWorkflow);
