@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { map } from "es-toolkit/compat";
+import { filter, map } from "es-toolkit/compat";
 import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -72,7 +72,7 @@ export const StepForm = ({
 
    const stepType = form.watch("type");
 
-   const otherSteps = allSteps.filter((s) => s.id !== step?.id);
+   const otherSteps = filter(allSteps, (s) => s.id !== step?.id);
 
    const edgeStepOptions: Option[] = map(otherSteps, (s) => {
       return {
