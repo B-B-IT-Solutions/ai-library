@@ -20,6 +20,7 @@ type Props<T extends FieldValues> = {
    description?: string | null;
    required?: boolean;
    rows?: number;
+   maxLength?: number;
    className?: string;
    control: Control<T>;
 };
@@ -31,6 +32,7 @@ export const FormTextArea = <T extends FieldValues>({
    description,
    required,
    rows = 3,
+   maxLength,
    className,
    control,
 }: Props<T>) => {
@@ -65,6 +67,7 @@ export const FormTextArea = <T extends FieldValues>({
                      {...field}
                      placeholder={placeholder}
                      rows={rows}
+                     maxLength={maxLength}
                      data-testid="textarea"
                   />
                </FormControl>

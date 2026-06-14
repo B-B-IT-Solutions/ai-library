@@ -1,4 +1,10 @@
+import z from "zod";
+
 import { Page, PageQuery } from "../common";
+import {
+   updateWorkflowSchema,
+   updateWorkflowStepSchema,
+} from "../validators/workflow";
 
 export type DWorkflowsPageQuery = PageQuery<DWorkflowsFilter>;
 export type DWorkflowsPage = Page<DWorkflow>;
@@ -49,10 +55,7 @@ export type DWorkflowsUsage = {
    limit: number; // -1 = unbegrenzt (PRO)
 };
 
-export type DWorkflowUpdate = {
-   title: string;
-   description?: string | null;
-};
+export type DWorkflowUpdate = z.infer<typeof updateWorkflowSchema>;
 
 export type DWorkflowStepEdgeInput = {
    toStepId: string;
@@ -60,16 +63,7 @@ export type DWorkflowStepEdgeInput = {
    order: number;
 };
 
-export type DWorkflowStepUpdate = {
-   title: string;
-   hint?: string | null;
-   type: DWorkflowStepType;
-   promptId?: string | null;
-   content?: string | null;
-   isStart?: boolean;
-   position?: number;
-   edges?: DWorkflowStepEdgeInput[];
-};
+export type DWorkflowStepUpdate = z.infer<typeof updateWorkflowStepSchema>;
 
 export type DWorkflowStepWithOutgoingEdges = {
    id: string;

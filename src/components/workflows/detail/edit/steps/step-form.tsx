@@ -1,0 +1,392 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, ChevronsUpDown, Plus, Trash2 } from "lucide-react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import { Button } from "@/components/shadcn/button";
+import {
+   Command,
+   CommandEmpty,
+   CommandGroup,
+   CommandInput,
+   CommandItem,
+   CommandList,
+} from "@/components/shadcn/command";
+import {
+   Form,
+   FormControl,
+   FormField,
+   FormItem,
+   FormLabel,
+   FormMessage,
+} from "@/components/shadcn/form";
+import { Input } from "@/components/shadcn/input";
+import {
+   Popover,
+   PopoverContent,
+   PopoverTrigger,
+} from "@/components/shadcn/popover";
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/shadcn/select";
+import { Separator } from "@/components/shadcn/separator";
+import {
+   FormCheckBox,
+   FormInput,
+   FormMDEditor,
+   FormSelect,
+   FormTextArea,
+} from "@/components/shared/widgets";
+import { getPromptTemplates } from "@/data/actions/prompt";
+import {
+   createWorkflowStep,
+   updateWorkflowStep,
+} from "@/data/actions/workflow";
+import { DPrompt } from "@/data/types/domain/prompt";
+import {
+   DWorkflowStep,
+   DWorkflowStepUpdate,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
+import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
+import { cn } from "@/lib/utils";
+import { initWorkflowStep } from "../utils";
+
+type Props = {
+   workflowId: string;
+   step?: DWorkflowStep;
+   allSteps: DWorkflowStep[];
+   onSaved: (workflow: DWorkflowWithSteps) => void;
+   onCreateMode?: boolean;
+   onCancelCreate?: () => void;
+   onDirtyChange?: (dirty: boolean) => void;
+};
+
+export const StepForm = ({
+   workflowId,
+   step,
+   allSteps,
+   onSaved,
+   onCreateMode = false,
+   onCancelCreate,
+}: Props) => {
+   const [loading, setLoading] = useState(false);
+   const [prompts, setPrompts] = useState<DPrompt[]>([]);
+   const [templateOpen, setTemplateOpen] = useState(false);
+
+   useEffect(() => {
+      getPromptTemplates().then(setPrompts).catch(console.error);
+   }, []);
+
+   const form = useForm<DWorkflowStepUpdate>({
+      resolver: zodResolver(updateWorkflowStepSchema),
+      defaultValues: initWorkflowStep(step),
+   });
+
+   // Reset form when selected step changes
+   useEffect(() => {
+      if (step) {
+         form.reset(initWorkflowStep(step));
+      }
+   }, [step, form]);
+
+   const {
+      fields: edgeFields,
+      append,
+      remove,
+   } = useFieldArray({ control: form.control, name: "edges" });
+
+   const stepType = form.watch("type");
+   const otherSteps = allSteps.filter((s) => s.id !== step?.id);
+
+   const submitInternal = async (values: DWorkflowStepUpdate) => {
+      const payload = {
+         ...values,
+         promptId:
+            values.type === "PROMPT_REF" ? values.promptId || null : null,
+         content: values.type === "STANDALONE" ? values.content : null,
+         hint: values.hint || null,
+      };
+
+      const result = step
+         ? await updateWorkflowStep(step.id, workflowId, payload)
+         : await createWorkflowStep(workflowId, payload);
+
+      if (result.success && result.data) {
+         toast.success(result.message);
+         onSaved(result.data);
+         if (onCreateMode && onCancelCreate) {
+            onCancelCreate();
+         }
+      } else {
+         toast.error(result.message);
+         throw new Error(result.message);
+      }
+   };
+
+   const onSubmit = async (values: DWorkflowStepUpdate) => {
+      setLoading(true);
+      try {
+         await submitInternal(values);
+      } finally {
+         setLoading(false);
+      }
+   };
+
+   return (
+      <Form {...form}>
+         <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-1 flex-col gap-5 overflow-y-auto p-5"
+            data-testid="step-form"
+         >
+            <FormInput<DWorkflowStepUpdate>
+               name="title"
+               label="Titel"
+               placeholder="Schritt Titel"
+               required={true}
+               control={form.control}
+            />
+
+            <FormSelect<DWorkflowStepUpdate>
+               name="type"
+               label="Typ des Schritts"
+               placeholder="Standardwert auswählen"
+               options={[
+                  { value: "PROMPT_REF", label: "Prompt" },
+                  { value: "STANDALONE", label: "Eigenständig" },
+               ]}
+               control={form.control}
+            />
+
+            {/* Prompt-Picker als Combobox */}
+            {stepType === "PROMPT_REF" && (
+               <FormField
+                  control={form.control}
+                  name="promptId"
+                  render={({ field }) => {
+                     const selected = prompts.find((t) => t.id === field.value);
+                     return (
+                        <FormItem>
+                           <FormLabel>Prompt *</FormLabel>
+                           <Popover
+                              open={templateOpen}
+                              onOpenChange={setTemplateOpen}
+                           >
+                              <PopoverTrigger asChild>
+                                 <FormControl>
+                                    <Button
+                                       variant="outline"
+                                       role="combobox"
+                                       aria-expanded={templateOpen}
+                                       className="w-full justify-between font-normal"
+                                       data-testid="template-select"
+                                    >
+                                       <span className="truncate">
+                                          {selected
+                                             ? selected.title
+                                             : "Prompt auswählen…"}
+                                       </span>
+                                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                 </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                 className="p-0"
+                                 align="start"
+                                 style={{
+                                    width: "var(--radix-popover-trigger-width)",
+                                 }}
+                              >
+                                 <Command>
+                                    <CommandInput placeholder="Prompt suchen…" />
+                                    <CommandList>
+                                       <CommandEmpty>
+                                          Kein Prompt gefunden.
+                                       </CommandEmpty>
+                                       <CommandGroup>
+                                          {prompts.map((t) => (
+                                             <CommandItem
+                                                key={t.id}
+                                                value={t.title}
+                                                onSelect={() => {
+                                                   field.onChange(t.id);
+                                                   setTemplateOpen(false);
+                                                }}
+                                             >
+                                                <Check
+                                                   className={cn(
+                                                      "mr-2 h-4 w-4",
+                                                      field.value === t.id
+                                                         ? "opacity-100"
+                                                         : "opacity-0"
+                                                   )}
+                                                />
+                                                {t.title}
+                                             </CommandItem>
+                                          ))}
+                                       </CommandGroup>
+                                    </CommandList>
+                                 </Command>
+                              </PopoverContent>
+                           </Popover>
+                           <FormMessage />
+                        </FormItem>
+                     );
+                  }}
+               />
+            )}
+
+            {/* Standalone-Content */}
+            {stepType === "STANDALONE" && (
+               <FormMDEditor<DWorkflowStepUpdate>
+                  name="content"
+                  placeholder="Texts des Prompts"
+                  control={form.control}
+               />
+            )}
+
+            <FormCheckBox<DWorkflowStepUpdate>
+               name="isStart"
+               label="Ist Startschritt"
+               control={form.control}
+            />
+
+            <FormTextArea<DWorkflowStepUpdate>
+               name="hint"
+               label="Hinwweis"
+               placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
+               maxLength={750}
+               rows={3}
+               control={form.control}
+            />
+
+            <Separator />
+
+            {/* Nächste Schritte / Edges */}
+            <div className="space-y-3">
+               <h3 className="text-sm font-semibold">Nächste Schritte</h3>
+
+               {edgeFields.length === 0 && (
+                  <p className="text-sm text-muted-foreground">
+                     Keine Verbindungen — dieser Schritt beendet den Workflow.
+                  </p>
+               )}
+
+               {edgeFields.map((edgeField, idx) => (
+                  <div
+                     key={edgeField.id}
+                     className="flex items-end gap-2 rounded-md border p-3"
+                  >
+                     <FormField
+                        control={form.control}
+                        name={`edges.${idx}.label`}
+                        render={({ field }) => (
+                           <FormItem className="flex-1">
+                              <FormLabel className="text-xs">Label</FormLabel>
+                              <FormControl>
+                                 <Input
+                                    {...field}
+                                    placeholder="z.B. Weiter"
+                                    maxLength={250}
+                                 />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                     <FormField
+                        control={form.control}
+                        name={`edges.${idx}.toStepId`}
+                        render={({ field }) => (
+                           <FormItem className="flex-1">
+                              <FormLabel className="text-xs">
+                                 Zielschritt
+                              </FormLabel>
+                              <Select
+                                 value={field.value}
+                                 onValueChange={field.onChange}
+                              >
+                                 <FormControl>
+                                    <SelectTrigger>
+                                       <SelectValue placeholder="Schritt…" />
+                                    </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                    {otherSteps.map((s) => (
+                                       <SelectItem key={s.id} value={s.id}>
+                                          {s.title}
+                                       </SelectItem>
+                                    ))}
+                                 </SelectContent>
+                              </Select>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                     <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="shrink-0"
+                        onClick={() => remove(idx)}
+                     >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                     </Button>
+                  </div>
+               ))}
+
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                     append({
+                        toStepId: "",
+                        label: "",
+                        order: edgeFields.length,
+                     })
+                  }
+                  className="w-full"
+                  data-testid="add-edge-btn"
+               >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Verbindung hinzufügen
+               </Button>
+            </div>
+
+            {form.formState.errors.edges?.message && (
+               <p className="text-sm text-destructive">
+                  {form.formState.errors.edges.message}
+               </p>
+            )}
+
+            <div className="flex justify-end gap-2">
+               {onCancelCreate && (
+                  <Button
+                     type="button"
+                     variant="outline"
+                     onClick={onCancelCreate}
+                  >
+                     Abbrechen
+                  </Button>
+               )}
+               <Button
+                  type="submit"
+                  disabled={loading}
+                  data-testid="save-step-btn"
+               >
+                  Schritt erstellen
+               </Button>
+            </div>
+         </form>
+      </Form>
+   );
+};
