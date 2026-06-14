@@ -42,6 +42,7 @@ import {
    FormInput,
    FormMDEditor,
    FormSelect,
+   FormSelectLoadableValues,
    FormTextArea,
 } from "@/components/shared/widgets";
 import { getPromptTemplates } from "@/data/actions/prompt";
@@ -164,6 +165,15 @@ export const StepForm = ({
                   { value: "STANDALONE", label: "Eigenständig" },
                ]}
                control={form.control}
+            />
+
+            <FormSelectLoadableValues<DWorkflowStepUpdate>
+               name="promptId"
+               label="Prompt"
+               placeholder="Prompt suchen…"
+               required={true}
+               control={form.control}
+               prompts={prompts}
             />
 
             {/* Prompt-Picker als Combobox */}
