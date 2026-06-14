@@ -29,7 +29,7 @@ type Props = {
    onSaved: (workflow: DWorkflow) => void;
 };
 
-export const WorkflowMetadataForm = ({ workflow, onSaved }: Props) => {
+export const WorkflowForm = ({ workflow, onSaved }: Props) => {
    const [loading, setLoading] = useState(false);
 
    const form = useForm<FormValues>({

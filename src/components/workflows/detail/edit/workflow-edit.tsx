@@ -20,9 +20,9 @@ import {
 } from "@/data/types/domain/workflow";
 import { DeleteStepDialog } from "../../dialogs/delete-step-dialog";
 
+import { WorkflowForm } from "./form";
 import { StepDetailPanel } from "./step-detail-panel";
 import { StepList } from "./step-list";
-import { WorkflowMetadataForm } from "./workflow-metadata-form";
 
 type Props = {
    initialWorkflow?: DWorkflowWithSteps;
@@ -126,7 +126,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
          <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-0 overflow-hidden">
             {/* LEFT COLUMN */}
             <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
-               <WorkflowMetadataForm
+               <WorkflowForm
                   workflow={workflow}
                   onSaved={handleWorkflowSaved}
                />
