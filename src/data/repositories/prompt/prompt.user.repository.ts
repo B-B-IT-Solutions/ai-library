@@ -1,4 +1,4 @@
-﻿import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
+﻿import { flatMap, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -8,6 +8,8 @@ import {
 import {
    DPrompt,
    DPromptCategory,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
@@ -15,7 +17,6 @@ import {
    DPromptVariableUpdate,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
-import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCountArgs,
    PromptCreateArgs,
@@ -24,16 +25,15 @@ import {
    PromptFindManyArgs,
    PromptUpdateArgs,
    PromptUpdateInput,
-   PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
+import {
+   toDPrompt,
+   toDPromptPreviews,
+   toDPrompts,
+   toDPromptWithContent,
+} from "./prompt.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
-
-type PGetPromptsParams = {
-   search?: string;
-   categories?: string[];
-};
 
 export class PromptRepository {
    private prisma: DbClient;
@@ -68,33 +68,61 @@ export class PromptRepository {
          where,
       };
 
-      const [descriptors, totalElements] = await Promise.all([
+      const [prompts, totalElements] = await Promise.all([
          this.prisma.prompt.findMany(args) as Promise<PromptWithCategories[]>,
          this.prisma.prompt.count(countArgs),
       ]);
 
       return {
-         content: toDPrompts(descriptors),
+         content: toDPrompts(prompts),
          pageNumber,
          pageSize,
-         numberOfElements: descriptors.length,
+         numberOfElements: prompts.length,
          totalPages: Math.ceil(totalElements / pageSize),
          totalElements: totalElements,
       };
    }
 
-   async pGetPrompts(params?: PGetPromptsParams) {
-      const where = this.resolveGetPromptsWhereInput(params);
+   async pGetPromptPreviewsPage(
+      userId: string,
+      query?: DPromptPreviewsPageQuery
+   ): Promise<DPromptPreviewsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
 
-      const templates = await this.prisma.prompt.findMany({
-         where: where,
-         include: {
-            categories: true,
+      const where = resolveWhereInput(userId, query?.filter);
+      const orderBy = resolveOrderBy(query?.sort);
+
+      const args = {
+         where,
+         select: {
+            id: true,
+            title: true,
          },
-         take: 20,
-      });
+         orderBy,
+         skip,
+         take: pageSize,
+      } satisfies PromptFindManyArgs;
 
-      return toDPrompts(templates);
+      const countArgs = {
+         where,
+      } satisfies PromptCountArgs;
+
+      const [prompts, totalElements] = await Promise.all([
+         this.prisma.prompt.findMany(args),
+         this.prisma.prompt.count(countArgs),
+      ]);
+
+      return {
+         content: toDPromptPreviews(prompts),
+         pageNumber,
+         pageSize,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements: totalElements,
+      };
    }
 
    async pGetPrompt(userId: string, id: string): Promise<DPrompt | null> {
@@ -301,55 +329,5 @@ export class PromptRepository {
 
       const models = map(descriptors, (d) => d.recommendedModel);
       return uniq(models).sort();
-   }
-
-   private resolveGetPromptsWhereInput(
-      params?: PGetPromptsParams
-   ): PromptWhereInput | undefined {
-      if (isEmpty(params)) {
-         return undefined;
-      }
-
-      const { search, categories } = params;
-
-      const searchClause: Prisma.PromptWhereInput[] | undefined = search
-         ? [
-              {
-                 title: {
-                    contains: search,
-                    mode: "insensitive",
-                 },
-              },
-              {
-                 content: {
-                    content: {
-                       contains: search,
-                       mode: "insensitive",
-                    },
-                 },
-              },
-           ]
-         : undefined;
-
-      const isCategories = !isEmpty(categories);
-      const categoriesClause: Prisma.PromptWhereInput[] | undefined =
-         isCategories
-            ? [
-                 {
-                    categories: {
-                       some: {
-                          name: {
-                             in: categories,
-                          },
-                       },
-                    },
-                 },
-              ]
-            : undefined;
-
-      return {
-         OR: searchClause,
-         AND: categoriesClause,
-      };
    }
 }

@@ -45,7 +45,7 @@ import {
    FormSelectLoadableValues,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { getPromptTemplates } from "@/data/actions/prompt";
+import { getPromptPreviewsPage } from "@/data/actions/prompt";
 import {
    createWorkflowStep,
    updateWorkflowStep,
@@ -83,7 +83,7 @@ export const StepForm = ({
    const [templateOpen, setTemplateOpen] = useState(false);
 
    useEffect(() => {
-      getPromptTemplates().then(setPrompts).catch(console.error);
+      getPromptPreviewsPage().then(setPrompts).catch(console.error);
    }, []);
 
    const form = useForm<DWorkflowStepUpdate>({

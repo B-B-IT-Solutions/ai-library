@@ -76,6 +76,28 @@ describe("getPromptsPage tests", () => {
    });
 });
 
+describe("getPromptPreviewsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("prompts retrieved - test", async () => {
+      const userId = "user-id-1";
+      const page = dtestData.dPromptPreviewsPage();
+      const query = dtestData.dPromptPreviewsPageQuery();
+      promptRepoMock.pGetPromptPreviewsPage.mockResolvedValue(page);
+
+      const result = await promptService.getPromptPreviewsPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(promptRepoMock.pGetPromptPreviewsPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptPreviewsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
+   });
+});
+
 describe("getPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -566,49 +588,6 @@ describe("togglePromptFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-   });
-});
-
-describe("getPrompts tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getPrompts - params undefined - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const result = await promptService.getPrompts();
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(undefined);
-   });
-
-   it("getPrompts - params empty - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const result = await promptService.getPrompts({});
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith({});
-   });
-
-   it("getPrompts - params defined - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const search = "prompt 123";
-      const categories = ["cat 1", "cat2", "cat 3"];
-      const params = { search, categories };
-
-      const result = await promptService.getPrompts(params);
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(params);
    });
 });
 

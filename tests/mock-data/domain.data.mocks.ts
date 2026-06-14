@@ -43,6 +43,9 @@ import {
    DPrompt,
    DPromptCategory,
    DPromptGenerationData,
+   DPromptPreview,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsFilter,
    DPromptsPage,
    DPromptsPageQuery,
@@ -581,11 +584,55 @@ export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
    };
 };
 
-export const dPromptsPage = (count = 3): DPromptsPage => {
-   const descriptors = dPrompts(count);
+export const dPromptPreviewsPageQuery = (
+   index = 1
+): DPromptPreviewsPageQuery => {
    return {
-      content: descriptors,
-      numberOfElements: descriptors.length,
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dPromptsFilter(index),
+   };
+};
+
+export const dPromptsPageQuery = (index = 1): DPromptsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dPromptsFilter(index),
+   };
+};
+
+export const dPromptsFilter = (index = 1): DPromptsFilter => {
+   return {
+      search: `search ${index}`,
+      categories: ["cat 1", "cat 2", "cat 3"],
+      models: ["mod 1", "mod 2", "mod 3"],
+      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
+      isFavorite: false,
+   };
+};
+
+export const dPromptsPage = (count = 3): DPromptsPage => {
+   const prompts = dPrompts(count);
+   return {
+      content: prompts,
+      numberOfElements: prompts.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
+export const dPromptPreviewsPage = (count = 3): DPromptPreviewsPage => {
+   const prompts = dPromptPreviews(count);
+   return {
+      content: prompts,
+      numberOfElements: prompts.length,
       pageNumber: 1,
       pageSize: 3,
       totalElements: 15,
@@ -616,6 +663,17 @@ export const dPromptWithContent = (index = 1): DPromptWithContent => {
    return {
       ...dPrompt(index),
       content: `content ${index}`,
+   };
+};
+
+export const dPromptPreviews = (count = 3): DPromptPreview[] => {
+   return range(0, count).map((i) => dPromptPreview(i));
+};
+
+export const dPromptPreview = (index = 1): DPromptPreview => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title ${index}`,
    };
 };
 
@@ -705,26 +763,6 @@ export const dPromptCategories = (count = 3): DPromptCategory[] => {
 export const dPromptCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
-   };
-};
-
-export const dPromptsPageQuery = (index = 1): DPromptsPageQuery => {
-   return {
-      pagination: {
-         pageSize: 10,
-         pageNumber: 1,
-      },
-      filter: dPromptsFilter(index),
-   };
-};
-
-export const dPromptsFilter = (index = 1): DPromptsFilter => {
-   return {
-      search: `search ${index}`,
-      categories: ["cat 1", "cat 2", "cat 3"],
-      models: ["mod 1", "mod 2", "mod 3"],
-      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
-      isFavorite: false,
    };
 };
 

@@ -23,6 +23,7 @@ import {
    ProductWithItems,
 } from "@/data/types/db/product";
 import {
+   PromptPreview,
    PromptWithCategories,
    PromptWithContent,
    PromptWithRelations,
@@ -501,6 +502,17 @@ export const pPromptWithCategories = (index = 1): PromptWithCategories => {
    return {
       ...templateDescriptor,
       categories,
+   };
+};
+
+export const pPromptPreviews = (count = 3): PromptPreview[] => {
+   return range(0, count).map((i) => pPromptPreview(i));
+};
+
+export const pPromptPreview = (index = 1): PromptPreview => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title ${index}`,
    };
 };
 

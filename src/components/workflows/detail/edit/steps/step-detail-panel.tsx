@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { getPromptTemplates } from "@/data/actions/prompt";
+import { getPromptPreviewsPage } from "@/data/actions/prompt";
 import {
    createWorkflowStep,
    updateWorkflowStep,
@@ -61,7 +61,7 @@ export const StepDetailPanel = forwardRef<StepDetailPanelRef, Props>(
       const [templates, setTemplates] = useState<DPrompt[]>([]);
 
       useEffect(() => {
-         getPromptTemplates().then(setTemplates).catch(console.error);
+         getPromptPreviewsPage().then(setTemplates).catch(console.error);
       }, []);
 
       const form = useForm<FormValues>({

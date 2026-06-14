@@ -18,3 +18,5 @@ export type PromptWithRelations = PromptWithCategories & {
 export type PromptWithContent = PromptWithRelations & {
    content: PromptContent;
 };
+
+export type PromptPreview = Pick<Prompt, "id" | "title">;
