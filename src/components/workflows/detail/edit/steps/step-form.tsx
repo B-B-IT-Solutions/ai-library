@@ -37,7 +37,6 @@ import {
    updateWorkflowStep,
 } from "@/data/actions/workflow";
 import { useInfiniteLoadPromptPreviewsPage } from "@/data/ts-queries/prompt/prompt";
-import { DPrompt } from "@/data/types/domain/prompt";
 import {
    DWorkflowStep,
    DWorkflowStepUpdate,
