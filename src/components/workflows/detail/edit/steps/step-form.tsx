@@ -2,27 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { map } from "es-toolkit/compat";
 import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/shadcn/select";
+import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import {
    FormCheckBox,
@@ -32,6 +18,7 @@ import {
    FormSelectLoadableValues,
    FormTextArea,
 } from "@/components/shared/widgets";
+import { Option } from "@/components/shared/widgets/form-select";
 import {
    createWorkflowStep,
    updateWorkflowStep,
@@ -84,7 +71,15 @@ export const StepForm = ({
    } = useFieldArray({ control: form.control, name: "edges" });
 
    const stepType = form.watch("type");
+
    const otherSteps = allSteps.filter((s) => s.id !== step?.id);
+
+   const edgeStepOptions: Option[] = map(otherSteps, (s) => {
+      return {
+         value: s.id,
+         label: s.title,
+      };
+   });
 
    const submitInternal = async (values: DWorkflowStepUpdate) => {
       const payload = {
@@ -204,52 +199,22 @@ export const StepForm = ({
                      key={edgeField.id}
                      className="flex items-end gap-2 rounded-md border p-3"
                   >
-                     <FormField
-                        control={form.control}
+                     <FormInput<DWorkflowStepUpdate>
                         name={`edges.${idx}.label`}
-                        render={({ field }) => (
-                           <FormItem className="flex-1">
-                              <FormLabel className="text-xs">Label</FormLabel>
-                              <FormControl>
-                                 <Input
-                                    {...field}
-                                    placeholder="z.B. Weiter"
-                                    maxLength={250}
-                                 />
-                              </FormControl>
-                              <FormMessage />
-                           </FormItem>
-                        )}
-                     />
-                     <FormField
+                        label="Label"
+                        placeholder="z.B. Weiter"
+                        maxLength={250}
                         control={form.control}
-                        name={`edges.${idx}.toStepId`}
-                        render={({ field }) => (
-                           <FormItem className="flex-1">
-                              <FormLabel className="text-xs">
-                                 Zielschritt
-                              </FormLabel>
-                              <Select
-                                 value={field.value}
-                                 onValueChange={field.onChange}
-                              >
-                                 <FormControl>
-                                    <SelectTrigger>
-                                       <SelectValue placeholder="Schritt…" />
-                                    </SelectTrigger>
-                                 </FormControl>
-                                 <SelectContent>
-                                    {otherSteps.map((s) => (
-                                       <SelectItem key={s.id} value={s.id}>
-                                          {s.title}
-                                       </SelectItem>
-                                    ))}
-                                 </SelectContent>
-                              </Select>
-                              <FormMessage />
-                           </FormItem>
-                        )}
                      />
+
+                     <FormSelect<DWorkflowStepUpdate>
+                        name={`edges.${idx}.toStepId`}
+                        label="Zielschritt"
+                        placeholder="Schritt…"
+                        options={edgeStepOptions}
+                        control={form.control}
+                     />
+
                      <Button
                         type="button"
                         variant="ghost"

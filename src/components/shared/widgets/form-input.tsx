@@ -21,6 +21,7 @@ type Props<T extends FieldValues> = {
    description?: string | null;
    required?: boolean;
    message?: string;
+   maxLength?: number;
    type?: HTMLInputTypeAttribute;
    className?: string;
    fixStyling?: boolean;
@@ -34,6 +35,7 @@ export const FormInput = <T extends FieldValues>({
    description,
    required,
    message,
+   maxLength,
    type,
    className,
    fixStyling,
@@ -90,6 +92,7 @@ export const FormInput = <T extends FieldValues>({
                      {...field}
                      type={type}
                      placeholder={placeholder}
+                     maxLength={maxLength}
                      data-testid="input"
                   />
                </FormControl>

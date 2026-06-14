@@ -119,6 +119,7 @@ exports[`FormInput rendering tests FormInput - message undefined - fixStlying tr
       data-slot="form-control"
       data-testid="input"
       id="_r_0_-form-item"
+      maxlength="250"
       name="test-1"
       placeholder="Placeholder 1"
       value=""
