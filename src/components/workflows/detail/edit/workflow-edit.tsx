@@ -21,8 +21,8 @@ import {
 import { DeleteStepDialog } from "../../dialogs/delete-step-dialog";
 
 import { WorkflowForm } from "./form";
-import { StepDetailPanel } from "./step-detail-panel";
-import { StepList } from "./step-list";
+import { StepDetailPanel } from "./steps/step-detail-panel";
+import { StepList } from "./steps/step-list";
 
 type Props = {
    initialWorkflow?: DWorkflowWithSteps;
