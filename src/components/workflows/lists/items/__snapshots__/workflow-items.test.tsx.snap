@@ -50,14 +50,14 @@ exports[`WorkflowItems rendering tests prompts - empty - test 1`] = `
       Verbinde mehrere Prompts zu einem geführten Prozess.
     </p>
     <a
-      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
       data-slot="button"
-      data-testid="mock-link"
+      data-testid="create-workflow-btn"
       href="/workflows/new"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-plus mr-2 h-4 w-4"
+        class="lucide lucide-plus h-4 w-4"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -75,7 +75,7 @@ exports[`WorkflowItems rendering tests prompts - empty - test 1`] = `
           d="M12 5v14"
         />
       </svg>
-      Ersten Workflow erstellen
+      Neuer Workflow
     </a>
   </div>
 </div>

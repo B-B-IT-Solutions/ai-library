@@ -26,11 +26,10 @@ import { DeleteWorkflowDialog } from "../../dialogs/delete-workflow-dialog";
 
 type Props = {
    workflow: DWorkflow;
-   onDeleted: () => void;
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const WorkflowItem = ({ workflow, onDeleted, ref }: Props) => {
+export const WorkflowItem = ({ workflow, ref }: Props) => {
    const [deleteOpen, setDeleteOpen] = useState(false);
 
    return (
@@ -119,7 +118,7 @@ export const WorkflowItem = ({ workflow, onDeleted, ref }: Props) => {
             onOpenChange={setDeleteOpen}
             workflowId={workflow.id}
             workflowTitle={workflow.title}
-            onDeleted={onDeleted}
+            onDeleted={() => {}}
          />
       </>
    );

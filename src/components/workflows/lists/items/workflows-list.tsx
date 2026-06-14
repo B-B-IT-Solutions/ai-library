@@ -16,7 +16,6 @@ export const WorfklowsList = ({ workflows, ref }: Props) => {
             key={workflow.id}
             workflow={workflow}
             ref={isLast ? ref : undefined}
-            onDeleted={() => {}}
          />
       );
    };
