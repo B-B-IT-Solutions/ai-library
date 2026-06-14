@@ -40,6 +40,14 @@ type LoadedItem = {
    title: string;
 };
 
+type LoadedItemInfiniteOption = UndefinedInitialDataInfiniteOptions<
+   Page<LoadedItem>,
+   Error,
+   InfiniteData<Page<LoadedItem>>,
+   QueryKey,
+   number
+>;
+
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
@@ -47,15 +55,7 @@ type Props<T extends FieldValues> = {
    required?: boolean;
    className?: string;
    control: Control<T>;
-   queryOptions: (
-      search: string
-   ) => UndefinedInitialDataInfiniteOptions<
-      Page<LoadedItem>,
-      Error,
-      InfiniteData<Page<LoadedItem>>,
-      QueryKey,
-      number
-   >;
+   queryOptions: (search: string) => LoadedItemInfiniteOption;
 };
 
 export const FormSelectLoadableValues = <T extends FieldValues>({
