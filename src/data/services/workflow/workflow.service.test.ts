@@ -10,7 +10,7 @@ import { SubscriptionService } from "@/data/services/subscription";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { ServiceFactory } from "../service.factory";
 
-import { WorkflowLimitError, WorkflowService } from "./workflow.service";
+import { WorkflowService } from "./workflow.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const subscriptionService = serviceFactory.getSubscriptionService();
@@ -39,21 +39,26 @@ const baseWorkflow = {
    steps: [],
 };
 
-describe("getWorkflows tests", () => {
+describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("workflows retrieved - test", async () => {
       const userId = "user-id-1";
-      const workflows = dtestData.dWorkflows();
-      workflowRepoMock.pGetWorkflows.mockResolvedValue(workflows);
+      const page = dtestData.dWorkflowsPage(1);
+      workflowRepoMock.pGetWorkflowsPage.mockResolvedValue(page);
 
-      const result = await workflowService.getWorkflows(userId);
+      const query = dtestData.dWorkflowsPageQuery();
 
-      expect(result).toEqual(workflows);
-      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledTimes(1);
-      expect(workflowRepoMock.pGetWorkflows).toHaveBeenCalledWith(userId);
+      const result = await workflowService.getWorkflowsPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(workflowRepoMock.pGetWorkflowsPage).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 
@@ -230,27 +235,12 @@ describe("createWorkflowStep", () => {
       ).rejects.toThrow("Workflow not found.");
    });
 
-   it("should throw WorkflowLimitError when BASIC user has 10 steps", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
-      workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(10);
-
-      await expect(
-         workflowService.createWorkflowStep(userId, workflowId, {
-            title: "Step",
-            type: "STANDALONE",
-            content: "content",
-            isStart: false,
-            position: 10,
-            edges: [],
-         })
-      ).rejects.toBeInstanceOf(WorkflowLimitError);
-   });
-
    it("should allow PRO user to exceed 10 steps", async () => {
       workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
       workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
+
+      const stepsCount = 10;
+      workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(stepsCount);
 
       const result = await workflowService.createWorkflowStep(
          userId,
@@ -267,6 +257,14 @@ describe("createWorkflowStep", () => {
 
       expect(result).toEqual(baseWorkflow);
       expect(workflowRepoMock.pCreateWorkflowStep).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
+         userId,
+         "maxWorkflowSteps",
+         stepsCount
+      );
    });
 });
 

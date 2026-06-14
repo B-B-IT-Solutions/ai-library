@@ -4,7 +4,8 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { WorkflowLimitError, WorkflowService } from "@/data/services/workflow";
+import { EMPTY_PAGE } from "@/data/actions/utils";
+import { WorkflowService } from "@/data/services/workflow";
 import {
    DWorkflow,
    DWorkflowsUsage,
@@ -19,7 +20,7 @@ import {
    deleteWorkflow,
    deleteWorkflowStep,
    getWorkflowForRunner,
-   getWorkflows,
+   getWorkflowsPage,
    getWorkflowsUsage,
    getWorkflowWithSteps,
    setStartStep,
@@ -29,7 +30,7 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetWorkflows = WorkflowService.prototype.getWorkflows;
+const sGetWorkflowsPage = WorkflowService.prototype.getWorkflowsPage;
 const sGetWorkflowWithSteps = WorkflowService.prototype.getWorkflowWithSteps;
 const sGetWorkflowsUsage = WorkflowService.prototype.getWorkflowsUsage;
 const sCreateWorkflow = WorkflowService.prototype.createWorkflow;
@@ -40,8 +41,8 @@ const sUpdateWorkflowStep = WorkflowService.prototype.updateWorkflowStep;
 const sDeleteWorkflowStep = WorkflowService.prototype.deleteWorkflowStep;
 const sSetStartStep = WorkflowService.prototype.setStartStep;
 
-const sGetWorkflowsMock = sGetWorkflows as jest.MockedFunction<
-   typeof sGetWorkflows
+const sGetWorkflowsPageMock = sGetWorkflowsPage as jest.MockedFunction<
+   typeof sGetWorkflowsPage
 >;
 const sGetWorkflowWithStepsMock = sGetWorkflowWithSteps as jest.MockedFunction<
    typeof sGetWorkflowWithSteps
@@ -74,7 +75,7 @@ const sSetStartStepMock = sSetStartStep as jest.MockedFunction<
 const workflowId = "444db648-f300-4284-8149-075ff465d750";
 const stepId = "555db648-f300-4284-8149-075ff465d750";
 
-describe("getWorkflows tests", () => {
+describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -88,11 +89,25 @@ describe("getWorkflows tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getWorkflows();
+      const result = await getWorkflowsPage();
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(EMPTY_PAGE);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetWorkflowsMock).not.toHaveBeenCalled();
+      expect(sGetWorkflowsPageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("service error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("DB error");
+      sGetWorkflowsPageMock.mockRejectedValue(error);
+
+      const result = await getWorkflowsPage();
+
+      expect(result).toEqual(EMPTY_PAGE);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -101,15 +116,17 @@ describe("getWorkflows tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const workflows = dtestData.dWorkflows();
-      sGetWorkflowsMock.mockResolvedValue(workflows);
+      const page = dtestData.dWorkflowsPage(1);
+      sGetWorkflowsPageMock.mockResolvedValue(page);
 
-      const result = await getWorkflows();
+      const query = dtestData.dWorkflowsPageQuery();
 
-      expect(result).toEqual(workflows);
+      const result = await getWorkflowsPage(query);
+
+      expect(result).toEqual(page);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetWorkflowsMock).toHaveBeenCalledTimes(1);
-      expect(sGetWorkflowsMock).toHaveBeenCalledWith(user.id);
+      expect(sGetWorkflowsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetWorkflowsPageMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 
@@ -257,32 +274,6 @@ describe("createWorkflow tests", () => {
       const error = new SubscriptionAccessError(
          "Nur für BASIC",
          "canUseWorkflows"
-      );
-      sCreateWorkflowMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowUpdate();
-      const result = await createWorkflow(data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: error.message,
-         upgradeRequired: true,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowMock).toHaveBeenCalledWith(user.id, data);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("workflow limit error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new WorkflowLimitError(
-         "WORKFLOW_LIMIT_REACHED",
-         "Limit erreicht"
       );
       sCreateWorkflowMock.mockRejectedValue(error);
 
@@ -536,7 +527,7 @@ describe("createWorkflowStep tests", () => {
    });
 
    it("invalid UUID - test", async () => {
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep("invalid-uuid", data);
 
       const expectedResult: ActionResult = {
@@ -554,7 +545,7 @@ describe("createWorkflowStep tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -573,13 +564,13 @@ describe("createWorkflowStep tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const error = new WorkflowLimitError(
-         "STEP_LIMIT_REACHED",
-         "Maximale Schrittanzahl erreicht"
+      const error = new SubscriptionAccessError(
+         "Maximale Schrittanzahl erreicht",
+         "canUseWorkflows"
       );
       sCreateWorkflowStepMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -605,7 +596,7 @@ describe("createWorkflowStep tests", () => {
       const error = new Error("db error");
       sCreateWorkflowStepMock.mockRejectedValue(error);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -630,7 +621,7 @@ describe("createWorkflowStep tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sCreateWorkflowStepMock.mockResolvedValue(workflow);
 
-      const data = dtestData.dWorkflowStepCreate();
+      const data = dtestData.dWorkflowStepUpdate();
       const result = await createWorkflowStep(workflowId, data);
 
       const expectedResult: ActionResult<DWorkflowWithSteps> = {

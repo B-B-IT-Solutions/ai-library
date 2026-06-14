@@ -1,21 +1,25 @@
 import { Metadata } from "next";
+import { SearchParams } from "nuqs";
 
-import { WorkflowsDashboard } from "@/components/workflows";
-import { getWorkflows, getWorkflowsUsage } from "@/data/actions/workflow";
+import {
+   WorkflowsDashboard,
+   workflowsSearchParamsCache,
+} from "@/components/workflows";
 
 export const metadata: Metadata = {
-   title: "Workflows",
+   title: "Meine Workflows",
 };
 
-const WorkflowsPage = async () => {
-   const [workflows, usage] = await Promise.all([
-      getWorkflows(),
-      getWorkflowsUsage(),
-   ]);
+export type PageProps = {
+   searchParams: Promise<SearchParams>;
+};
+
+export const WorkflowsPage = async (props: PageProps) => {
+   await workflowsSearchParamsCache.parse(props.searchParams);
 
    return (
       <div data-testid="workflows-page" className="h-full">
-         <WorkflowsDashboard workflows={workflows} usage={usage} />
+         <WorkflowsDashboard />
       </div>
    );
 };

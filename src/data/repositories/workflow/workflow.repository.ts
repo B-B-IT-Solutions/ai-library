@@ -3,7 +3,8 @@ import { map } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
-   DWorkflowStepCreate,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
@@ -25,6 +26,7 @@ import {
    WorkflowUpdateInput,
 } from "@/generated/prisma/models";
 
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 import {
    toDWorkflow,
    toDWorkflows,
@@ -38,15 +40,39 @@ export class WorkflowRepository {
       this.prisma = prisma;
    }
 
-   async pGetWorkflows(userId: string): Promise<DWorkflow[]> {
+   async pGetWorkflowsPage(
+      userId: string,
+      query?: DWorkflowsPageQuery
+   ): Promise<DWorkflowsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where = resolveWhereInput(userId, query?.filter);
+      const orderBy = resolveOrderBy(query?.sort);
+
       const args = {
-         where: { userId },
+         where,
          include: { _count: { select: { steps: true } } },
-         orderBy: { createdAt: "desc" },
+         orderBy,
+         skip,
+         take: pageSize,
       } satisfies WorkflowFindManyArgs;
 
-      const data = await this.prisma.workflow.findMany(args);
-      return toDWorkflows(data);
+      const [workflows, totalElements] = await Promise.all([
+         this.prisma.workflow.findMany(args),
+         this.prisma.workflow.count({ where }),
+      ]);
+
+      return {
+         content: toDWorkflows(workflows),
+         pageNumber,
+         pageSize,
+         numberOfElements: workflows.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements,
+      };
    }
 
    async pGetWorkflowsCount(userId: string): Promise<number> {
@@ -166,7 +192,7 @@ export class WorkflowRepository {
    async pCreateWorkflowStep(
       userId: string,
       workflowId: string,
-      data: DWorkflowStepCreate
+      data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // If isStart is set, unset any existing start step first
       if (data.isStart) {

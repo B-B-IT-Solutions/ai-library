@@ -1,16 +1,14 @@
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import {
    DWorkflow,
-   DWorkflowStepCreate,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
    DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import {
-   FeatureName,
-   hasReachedLimit,
-} from "@/lib/subscription/access-control";
+import { FeatureName } from "@/lib/subscription/access-control";
 import { SubscriptionService } from "../subscription";
 
 import { detectCycle } from "./utils";
@@ -21,8 +19,11 @@ export class WorkflowService {
       private readonly subscriptionService: SubscriptionService
    ) {}
 
-   async getWorkflows(userId: string): Promise<DWorkflow[]> {
-      return this.repository.pGetWorkflows(userId);
+   async getWorkflowsPage(
+      userId: string,
+      query?: DWorkflowsPageQuery
+   ): Promise<DWorkflowsPage> {
+      return this.repository.pGetWorkflowsPage(userId, query);
    }
 
    async getWorkflowWithSteps(
@@ -70,7 +71,7 @@ export class WorkflowService {
    async createWorkflowStep(
       userId: string,
       workflowId: string,
-      data: DWorkflowStepCreate
+      data: DWorkflowStepUpdate
    ): Promise<DWorkflowWithSteps> {
       // Verify ownership
       const workflow = await this.repository.pGetWorkflow(userId, workflowId);
@@ -78,18 +79,13 @@ export class WorkflowService {
          throw new Error("Workflow not found.");
       }
 
-      const tier = await this.subscriptionService.getUserTier(userId);
-
-      if (tier === "BASIC") {
-         const stepCount =
-            await this.repository.pCountWorkflowSteps(workflowId);
-         if (hasReachedLimit(tier, "maxWorkflowSteps", stepCount)) {
-            throw new WorkflowLimitError(
-               "STEP_LIMIT_REACHED",
-               "Maximale Schrittanzahl erreicht (10/10). Upgrade auf PRO."
-            );
-         }
-      }
+      const stepCount = await this.repository.pCountWorkflowSteps(workflowId);
+      const feature: FeatureName = "maxWorkflowSteps";
+      await this.subscriptionService.requireCountLimit(
+         userId,
+         feature,
+         stepCount
+      );
 
       return this.repository.pCreateWorkflowStep(userId, workflowId, data);
    }
@@ -162,16 +158,5 @@ export class WorkflowService {
       const limit = tierFeatures[tier];
 
       return { current, limit };
-   }
-}
-
-export class WorkflowLimitError extends Error {
-   constructor(
-      public readonly code: "WORKFLOW_LIMIT_REACHED" | "STEP_LIMIT_REACHED",
-      message: string
-   ) {
-      super(message);
-      this.name = "WorkflowLimitError";
-      Object.setPrototypeOf(this, WorkflowLimitError.prototype);
    }
 }
