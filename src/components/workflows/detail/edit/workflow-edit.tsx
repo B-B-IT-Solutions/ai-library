@@ -1,21 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Loader2, Play, Plus, Zap } from "lucide-react";
-import { GitBranch } from "lucide-react";
+import { GitBranch, Loader2, Play, Plus, Zap } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
-import {
-   AlertDialog,
-   AlertDialogAction,
-   AlertDialogCancel,
-   AlertDialogContent,
-   AlertDialogDescription,
-   AlertDialogFooter,
-   AlertDialogHeader,
-   AlertDialogTitle,
-} from "@/components/shadcn/alert-dialog";
 import { Button } from "@/components/shadcn/button";
 import {
    Tabs,
@@ -38,7 +27,7 @@ import {
 import { DeleteStepDialog } from "../../dialogs/delete-step-dialog";
 
 import { WorkflowForm } from "./form";
-import { StepDetailPanel } from "./steps/step-detail-panel";
+import { StepDetailPanel, StepDetailPanelRef } from "./steps/step-detail-panel";
 import { StepList } from "./steps/step-list";
 
 const FORM_ID = "workflow-edit-form";
@@ -56,58 +45,57 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
       initialWorkflow
    );
    const [activeTab, setActiveTab] = useState("details");
-   const [selectedStep, setSelectedStep] = useState<
-      DWorkflowStep | undefined
-   >();
+   const [selectedStep, setSelectedStep] = useState<DWorkflowStep | null>(null);
    const [createMode, setCreateMode] = useState(false);
    const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
 
-   // Workflow form state (lifted from WorkflowForm)
+   // Workflow form state lifted from WorkflowForm
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [workflowFormIsDirty, setWorkflowFormIsDirty] = useState(false);
 
    // Step form state
    const [stepIsDirty, setStepIsDirty] = useState(false);
-   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
-   const pendingNavigationRef = useRef<(() => void) | null>(null);
+   const stepPanelRef = useRef<StepDetailPanelRef>(null);
 
    const steps = workflow?.steps ?? [];
    const isEdit = !!workflow;
+   const hasAnyChanges = workflowFormIsDirty || stepIsDirty || createMode;
 
    const isAtStepLimit =
       usage !== undefined &&
       usage.limit !== -1 &&
       steps.length >= (usage.limit === 0 ? 0 : 10);
 
-   // Guard step navigation when step form is dirty
-   const guardNavigation = (action: () => void) => {
-      if (stepIsDirty) {
-         pendingNavigationRef.current = action;
-         setShowUnsavedDialog(true);
-         return;
+   /** Auto-saves the current step if dirty, then runs the action. */
+   const withAutoSave = async (action: () => void) => {
+      if (stepIsDirty && stepPanelRef.current) {
+         try {
+            await stepPanelRef.current.submit();
+         } catch {
+            toast.error("Schritt konnte nicht gespeichert werden.");
+            return;
+         }
       }
       action();
    };
 
-   const handleConfirmNavigation = () => {
-      pendingNavigationRef.current?.();
-      pendingNavigationRef.current = null;
-      setShowUnsavedDialog(false);
-      setStepIsDirty(false);
-   };
-
-   const handleCancelNavigation = () => {
-      pendingNavigationRef.current = null;
-      setShowUnsavedDialog(false);
+   /** Global save: saves current step (if dirty) + workflow metadata (if dirty). */
+   const handleGlobalSave = async () => {
+      if (stepIsDirty && stepPanelRef.current) {
+         try {
+            await stepPanelRef.current.submit();
+         } catch {
+            return; // toast already shown inside submit
+         }
+      }
+      if (workflowFormIsDirty) {
+         const formEl = document.getElementById(FORM_ID);
+         if (formEl instanceof HTMLFormElement) formEl.requestSubmit();
+      }
    };
 
    const handleWorkflowSaved = (saved: DWorkflow) => {
-      const updatedWorkflow: DWorkflowWithSteps = {
-         ...saved,
-         steps: workflow?.steps ?? [],
-      };
-      setWorkflow(updatedWorkflow);
-      // After creating a new workflow, switch to steps tab
+      setWorkflow({ ...saved, steps: workflow?.steps ?? [] });
       if (!isEdit) {
          setActiveTab("steps");
       }
@@ -116,28 +104,25 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
       setWorkflow(saved);
       const updatedStep = saved.steps.find((s) => s.id === selectedStep?.id);
-      if (updatedStep) {
-         setSelectedStep(updatedStep);
-      } else {
-         setSelectedStep(undefined);
-         setCreateMode(false);
-      }
+      setSelectedStep(updatedStep ?? null);
+      if (!updatedStep) setCreateMode(false);
    };
 
    const handleSetStartStep = async (step: DWorkflowStep) => {
       if (!workflow) return;
       const result = await setStartStep(workflow.id, step.id);
       if (result.success) {
-         setWorkflow((prev) => {
-            if (!prev) return prev;
-            return {
-               ...prev,
-               steps: prev.steps.map((s) => ({
-                  ...s,
-                  isStart: s.id === step.id,
-               })),
-            };
-         });
+         setWorkflow((prev) =>
+            prev
+               ? {
+                    ...prev,
+                    steps: prev.steps.map((s) => ({
+                       ...s,
+                       isStart: s.id === step.id,
+                    })),
+                 }
+               : prev
+         );
          if (selectedStep?.id === step.id) {
             setSelectedStep((s) => (s ? { ...s, isStart: true } : s));
          }
@@ -149,23 +134,13 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const handleStepDeleted = (updated: DWorkflowWithSteps) => {
       setWorkflow(updated);
       if (deleteStep && selectedStep?.id === deleteStep.id) {
-         setSelectedStep(undefined);
+         setSelectedStep(null);
       }
       setDeleteStep(null);
    };
 
-   const breadcrumb = () => {
-      if (!isEdit) {
-         return (
-            <ItemDetailsBreadcrumb
-               root={{ label: "Workflows", href: "/workflows" }}
-               variant="new"
-               page={{ label: "Neuer Workflow" }}
-               data-testid="workflow-breadcrumb"
-            />
-         );
-      }
-      return (
+   const breadcrumb = () =>
+      isEdit ? (
          <ItemDetailsBreadcrumb
             root={{ label: "Workflows", href: "/workflows" }}
             variant="edit"
@@ -176,13 +151,20 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
             }}
             data-testid="workflow-breadcrumb"
          />
+      ) : (
+         <ItemDetailsBreadcrumb
+            root={{ label: "Workflows", href: "/workflows" }}
+            variant="new"
+            page={{ label: "Neuer Workflow" }}
+            data-testid="workflow-breadcrumb"
+         />
       );
-   };
 
    const rightPanelContent = () => {
       if (createMode || selectedStep) {
          return (
             <StepDetailPanel
+               ref={stepPanelRef}
                workflowId={workflow!.id}
                step={selectedStep}
                allSteps={steps}
@@ -190,7 +172,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                onCreateMode={createMode && !selectedStep}
                onCancelCreate={() => {
                   setCreateMode(false);
-                  setSelectedStep(undefined);
+                  setSelectedStep(null);
                }}
                onDirtyChange={setStepIsDirty}
             />
@@ -213,7 +195,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                </div>
                <Button
                   onClick={() => {
-                     setSelectedStep(undefined);
+                     setSelectedStep(null);
                      setCreateMode(true);
                   }}
                >
@@ -243,8 +225,8 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                variant="outline"
                size="sm"
                onClick={() =>
-                  guardNavigation(() => {
-                     setSelectedStep(undefined);
+                  withAutoSave(() => {
+                     setSelectedStep(null);
                      setCreateMode(true);
                   })
                }
@@ -270,21 +252,19 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                         </Link>
                      </Button>
                   )}
-                  {activeTab === "details" && (
-                     <Button
-                        type="submit"
-                        form={FORM_ID}
-                        size="sm"
-                        disabled={isSubmitting || !workflowFormIsDirty}
-                        className="bg-blue-700 hover:bg-blue-800"
-                        data-testid="save-workflow-meta-btn"
-                     >
-                        {isSubmitting && (
-                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        {isEdit ? "Speichern" : "Erstellen"}
-                     </Button>
-                  )}
+                  <Button
+                     type="button"
+                     size="sm"
+                     disabled={isSubmitting || !hasAnyChanges}
+                     className="bg-blue-700 hover:bg-blue-800"
+                     onClick={handleGlobalSave}
+                     data-testid="save-workflow-meta-btn"
+                  >
+                     {isSubmitting && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                     )}
+                     {isEdit ? "Speichern" : "Erstellen"}
+                  </Button>
                </div>
             </ItemDetailsEditHeader>
 
@@ -300,6 +280,9 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                      data-testid="tab-details-btn"
                   >
                      Details
+                     {workflowFormIsDirty && (
+                        <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
+                     )}
                   </TabsTrigger>
                   <TabsTrigger
                      value="steps"
@@ -312,6 +295,9 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                         <span className="ml-1.5 text-xs text-muted-foreground">
                            ({steps.length})
                         </span>
+                     )}
+                     {stepIsDirty && (
+                        <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
                      )}
                   </TabsTrigger>
                </TabsList>
@@ -339,7 +325,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                               workflow={workflow}
                               selectedStepId={selectedStep?.id ?? null}
                               onSelectStep={(step) =>
-                                 guardNavigation(() => {
+                                 withAutoSave(() => {
                                     setSelectedStep(step);
                                     setCreateMode(false);
                                  })
@@ -378,8 +364,8 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                                  variant="outline"
                                  className="w-full"
                                  onClick={() =>
-                                    guardNavigation(() => {
-                                       setSelectedStep(undefined);
+                                    withAutoSave(() => {
+                                       setSelectedStep(null);
                                        setCreateMode(true);
                                     })
                                  }
@@ -400,32 +386,6 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                )}
             </Tabs>
          </ItemDetailsEdit>
-
-         {/* Unsaved changes confirmation */}
-         <AlertDialog
-            open={showUnsavedDialog}
-            onOpenChange={(open) => !open && handleCancelNavigation()}
-         >
-            <AlertDialogContent>
-               <AlertDialogHeader>
-                  <AlertDialogTitle>Ungespeicherte Änderungen</AlertDialogTitle>
-                  <AlertDialogDescription>
-                     {selectedStep
-                        ? `Der Schritt "${selectedStep.title}" hat ungespeicherte Änderungen.`
-                        : "Du hast ungespeicherte Änderungen."}{" "}
-                     Möchtest du sie verwerfen?
-                  </AlertDialogDescription>
-               </AlertDialogHeader>
-               <AlertDialogFooter>
-                  <AlertDialogCancel onClick={handleCancelNavigation}>
-                     Zurück zum Formular
-                  </AlertDialogCancel>
-                  <AlertDialogAction onClick={handleConfirmNavigation}>
-                     Verwerfen
-                  </AlertDialogAction>
-               </AlertDialogFooter>
-            </AlertDialogContent>
-         </AlertDialog>
 
          {deleteStep && workflow && (
             <DeleteStepDialog

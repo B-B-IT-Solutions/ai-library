@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+   forwardRef,
+   useEffect,
+   useImperativeHandle,
+   useRef,
+   useState,
+} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronDown, ChevronsUpDown, Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -26,11 +32,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import {
-   Popover,
-   PopoverContent,
-   PopoverTrigger,
-} from "@/components/shadcn/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
 import {
    Select,
    SelectContent,
@@ -53,13 +55,17 @@ import {
 } from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 import { cn } from "@/lib/utils";
-import { initWorkflowStep } from "../utils";
 
 type FormValues = z.infer<typeof updateWorkflowStepSchema>;
 
+export type StepDetailPanelRef = {
+   /** Submits the form and returns a promise that resolves on success, rejects on failure or validation error. */
+   submit: () => Promise<void>;
+};
+
 type Props = {
    workflowId: string;
-   step?: DWorkflowStep;
+   step: DWorkflowStep | null;
    allSteps: DWorkflowStep[];
    onSaved: (workflow: DWorkflowWithSteps) => void;
    onCreateMode?: boolean;
@@ -67,73 +73,96 @@ type Props = {
    onDirtyChange?: (dirty: boolean) => void;
 };
 
-export const StepDetailPanel = ({
-   workflowId,
-   step,
-   allSteps,
-   onSaved,
-   onCreateMode = false,
-   onCancelCreate,
-   onDirtyChange,
-}: Props) => {
-   const [loading, setLoading] = useState(false);
-   const [templates, setTemplates] = useState<DPrompt[]>([]);
-   const [templateOpen, setTemplateOpen] = useState(false);
-   const [showHint, setShowHint] = useState(() => !!step?.hint);
+export const StepDetailPanel = forwardRef<StepDetailPanelRef, Props>(
+   (
+      {
+         workflowId,
+         step,
+         allSteps,
+         onSaved,
+         onCreateMode = false,
+         onCancelCreate,
+         onDirtyChange,
+      },
+      ref
+   ) => {
+      const [loading, setLoading] = useState(false);
+      const [templates, setTemplates] = useState<DPrompt[]>([]);
+      const [templateOpen, setTemplateOpen] = useState(false);
+      const [showHint, setShowHint] = useState(() => !!(step?.hint));
 
-   useEffect(() => {
-      getPromptTemplates().then(setTemplates).catch(console.error);
-   }, []);
+      useEffect(() => {
+         getPromptTemplates().then(setTemplates).catch(console.error);
+      }, []);
 
-   const form = useForm<FormValues>({
-      resolver: zodResolver(updateWorkflowStepSchema),
-      defaultValues: initWorkflowStep(step),
-   });
+      const form = useForm<FormValues>({
+         resolver: zodResolver(updateWorkflowStepSchema),
+         defaultValues: step
+            ? {
+                 title: step.title,
+                 hint: step.hint ?? "",
+                 type: step.type,
+                 promptId: step.promptId ?? "",
+                 content: step.content ?? "",
+                 isStart: step.isStart,
+                 position: step.position,
+                 edges: step.outgoingEdges.map((e) => ({
+                    toStepId: e.toStepId,
+                    label: e.label,
+                    order: e.order,
+                 })),
+              }
+            : {
+                 title: "",
+                 hint: "",
+                 type: "PROMPT_REF",
+                 promptId: "",
+                 content: "",
+                 isStart: allSteps.length === 0,
+                 position: allSteps.length,
+                 edges: [],
+              },
+      });
 
-   // Reset form when selected step changes
-   useEffect(() => {
-      if (step) {
-         form.reset({
-            title: step.title,
-            hint: step.hint ?? "",
-            type: step.type,
-            promptId: step.promptId ?? "",
-            content: step.content ?? "",
-            isStart: step.isStart,
-            position: step.position,
-            edges: step.outgoingEdges.map((e) => ({
-               toStepId: e.toStepId,
-               label: e.label,
-               order: e.order,
-            })),
-         });
-         setShowHint(!!step.hint);
-      }
-   }, [step, form]);
+      // Reset form when selected step changes
+      useEffect(() => {
+         if (step) {
+            form.reset({
+               title: step.title,
+               hint: step.hint ?? "",
+               type: step.type,
+               promptId: step.promptId ?? "",
+               content: step.content ?? "",
+               isStart: step.isStart,
+               position: step.position,
+               edges: step.outgoingEdges.map((e) => ({
+                  toStepId: e.toStepId,
+                  label: e.label,
+                  order: e.order,
+               })),
+            });
+            setShowHint(!!(step.hint));
+         }
+      }, [step, form]);
 
-   // Propagate dirty state to parent
-   const onDirtyChangeRef = useRef(onDirtyChange);
-   onDirtyChangeRef.current = onDirtyChange;
-   const isDirty = form.formState.isDirty;
-   useEffect(() => {
-      onDirtyChangeRef.current?.(isDirty);
-   }, [isDirty]);
+      // Propagate dirty state to parent
+      const onDirtyChangeRef = useRef(onDirtyChange);
+      onDirtyChangeRef.current = onDirtyChange;
+      const isDirty = form.formState.isDirty;
+      useEffect(() => {
+         onDirtyChangeRef.current?.(isDirty);
+      }, [isDirty]);
 
-   const {
-      fields: edgeFields,
-      append,
-      remove,
-   } = useFieldArray({
-      control: form.control,
-      name: "edges",
-   });
+      const {
+         fields: edgeFields,
+         append,
+         remove,
+      } = useFieldArray({ control: form.control, name: "edges" });
 
-   const stepType = form.watch("type");
-   const otherSteps = allSteps.filter((s) => s.id !== step?.id);
+      const stepType = form.watch("type");
+      const otherSteps = allSteps.filter((s) => s.id !== step?.id);
 
-   const onSubmit = async (values: FormValues) => {
-      setLoading(true);
-      try {
+      const submitInternal = async (values: FormValues) => {
          const payload = {
             ...values,
             promptId:
@@ -142,12 +171,9 @@ export const StepDetailPanel = ({
             hint: values.hint || null,
          };
 
-         let result;
-         if (step) {
-            result = await updateWorkflowStep(step.id, workflowId, payload);
-         } else {
-            result = await createWorkflowStep(workflowId, payload);
-         }
+         const result = step
+            ? await updateWorkflowStep(step.id, workflowId, payload)
+            : await createWorkflowStep(workflowId, payload);
 
          if (result.success && result.data) {
             toast.success(result.message);
@@ -157,387 +183,425 @@ export const StepDetailPanel = ({
             }
          } else {
             toast.error(result.message);
+            throw new Error(result.message);
          }
-      } finally {
-         setLoading(false);
-      }
-   };
+      };
 
-   const headerTitle = onCreateMode
-      ? "Neuer Schritt"
-      : step?.title
-        ? `Schritt bearbeiten`
-        : "Schritt bearbeiten";
+      // Expose submit to parent via ref
+      useImperativeHandle(ref, () => ({
+         submit: () =>
+            new Promise<void>((resolve, reject) => {
+               form.handleSubmit(
+                  async (values) => {
+                     setLoading(true);
+                     try {
+                        await submitInternal(values);
+                        resolve();
+                     } catch {
+                        reject();
+                     } finally {
+                        setLoading(false);
+                     }
+                  },
+                  () => reject(new Error("Validation failed"))
+               )();
+            }),
+      }));
 
-   return (
-      <div
-         className="flex h-full flex-col overflow-y-auto"
-         data-testid="step-detail-panel"
-      >
-         <div className="shrink-0 border-b bg-white px-5 py-4">
-            <div className="flex items-center gap-2">
-               <h2 className="font-semibold text-slate-900">{headerTitle}</h2>
-               {isDirty && (
-                  <span
-                     className="h-2 w-2 rounded-full bg-amber-400"
-                     title="Ungespeicherte Änderungen"
-                  />
+      const onSubmit = async (values: FormValues) => {
+         setLoading(true);
+         try {
+            await submitInternal(values);
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      return (
+         <div
+            className="flex h-full flex-col overflow-y-auto"
+            data-testid="step-detail-panel"
+         >
+            <div className="shrink-0 border-b bg-white px-5 py-4">
+               <div className="flex items-center gap-2">
+                  <h2 className="font-semibold text-slate-900">
+                     {onCreateMode ? "Neuer Schritt" : "Schritt bearbeiten"}
+                  </h2>
+                  {isDirty && (
+                     <span
+                        className="h-2 w-2 rounded-full bg-amber-400"
+                        title="Ungespeicherte Änderungen"
+                     />
+                  )}
+               </div>
+               {step?.title && !onCreateMode && (
+                  <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                     {step.title}
+                  </p>
                )}
             </div>
-            {step?.title && !onCreateMode && (
-               <p className="mt-0.5 truncate text-sm text-muted-foreground">
-                  {step.title}
-               </p>
-            )}
-         </div>
 
-         <Form {...form}>
-            <form
-               onSubmit={form.handleSubmit(onSubmit)}
-               className="flex flex-1 flex-col gap-5 overflow-y-auto p-5"
-            >
-               {/* Titel */}
-               <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Titel *</FormLabel>
-                        <FormControl>
-                           <Input
-                              {...field}
-                              placeholder="Schritt-Titel"
-                              maxLength={250}
-                              data-testid="step-title-input"
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-
-               {/* Typ */}
-               <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Typ</FormLabel>
-                        <div className="flex gap-2">
-                           <Button
-                              type="button"
-                              variant={
-                                 field.value === "PROMPT_REF"
-                                    ? "default"
-                                    : "outline"
-                              }
-                              size="sm"
-                              onClick={() => field.onChange("PROMPT_REF")}
-                              data-testid="type-template-ref"
-                           >
-                              Template-Referenz
-                           </Button>
-                           <Button
-                              type="button"
-                              variant={
-                                 field.value === "STANDALONE"
-                                    ? "default"
-                                    : "outline"
-                              }
-                              size="sm"
-                              onClick={() => field.onChange("STANDALONE")}
-                              data-testid="type-standalone"
-                           >
-                              Eigenständig
-                           </Button>
-                        </div>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-
-               {/* Template-Picker als Combobox */}
-               {stepType === "PROMPT_REF" && (
+            <Form {...form}>
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-1 flex-col gap-5 overflow-y-auto p-5"
+               >
+                  {/* Titel */}
                   <FormField
                      control={form.control}
-                     name="promptId"
-                     render={({ field }) => {
-                        const selected = templates.find(
-                           (t) => t.id === field.value
-                        );
-                        return (
-                           <FormItem>
-                              <FormLabel>Template *</FormLabel>
-                              <Popover
-                                 open={templateOpen}
-                                 onOpenChange={setTemplateOpen}
-                              >
-                                 <PopoverTrigger asChild>
-                                    <FormControl>
-                                       <Button
-                                          variant="outline"
-                                          role="combobox"
-                                          aria-expanded={templateOpen}
-                                          className="w-full justify-between font-normal"
-                                          data-testid="template-select"
-                                       >
-                                          <span className="truncate">
-                                             {selected
-                                                ? selected.title
-                                                : "Template auswählen…"}
-                                          </span>
-                                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                       </Button>
-                                    </FormControl>
-                                 </PopoverTrigger>
-                                 <PopoverContent
-                                    className="p-0"
-                                    align="start"
-                                    style={{
-                                       width: "var(--radix-popover-trigger-width)",
-                                    }}
-                                 >
-                                    <Command>
-                                       <CommandInput placeholder="Template suchen…" />
-                                       <CommandList>
-                                          <CommandEmpty>
-                                             Kein Template gefunden.
-                                          </CommandEmpty>
-                                          <CommandGroup>
-                                             {templates.map((t) => (
-                                                <CommandItem
-                                                   key={t.id}
-                                                   value={t.title}
-                                                   onSelect={() => {
-                                                      field.onChange(t.id);
-                                                      setTemplateOpen(false);
-                                                   }}
-                                                >
-                                                   <Check
-                                                      className={cn(
-                                                         "mr-2 h-4 w-4",
-                                                         field.value === t.id
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                      )}
-                                                   />
-                                                   {t.title}
-                                                </CommandItem>
-                                             ))}
-                                          </CommandGroup>
-                                       </CommandList>
-                                    </Command>
-                                 </PopoverContent>
-                              </Popover>
-                              <FormMessage />
-                           </FormItem>
-                        );
-                     }}
-                  />
-               )}
-
-               {/* Standalone-Content */}
-               {stepType === "STANDALONE" && (
-                  <FormField
-                     control={form.control}
-                     name="content"
+                     name="title"
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel>Prompt-Text *</FormLabel>
+                           <FormLabel>Titel *</FormLabel>
                            <FormControl>
-                              <div className="min-h-50 rounded-md border">
-                                 <MDEditor
-                                    value={field.value ?? ""}
-                                    onChange={field.onChange}
-                                 />
-                              </div>
+                              <Input
+                                 {...field}
+                                 placeholder="Schritt-Titel"
+                                 maxLength={250}
+                                 data-testid="step-title-input"
+                              />
                            </FormControl>
                            <FormMessage />
                         </FormItem>
                      )}
                   />
-               )}
 
-               {/* Ist Startschritt */}
-               <FormField
-                  control={form.control}
-                  name="isStart"
-                  render={({ field }) => (
-                     <FormItem className="flex items-center gap-2 space-y-0">
-                        <FormControl>
-                           <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              data-testid="is-start-checkbox"
-                           />
-                        </FormControl>
-                        <FormLabel className="cursor-pointer font-normal">
-                           Ist Startschritt
-                        </FormLabel>
-                     </FormItem>
-                  )}
-               />
+                  {/* Typ */}
+                  <FormField
+                     control={form.control}
+                     name="type"
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>Typ</FormLabel>
+                           <div className="flex gap-2">
+                              <Button
+                                 type="button"
+                                 variant={
+                                    field.value === "PROMPT_REF"
+                                       ? "default"
+                                       : "outline"
+                                 }
+                                 size="sm"
+                                 onClick={() => field.onChange("PROMPT_REF")}
+                                 data-testid="type-template-ref"
+                              >
+                                 Template-Referenz
+                              </Button>
+                              <Button
+                                 type="button"
+                                 variant={
+                                    field.value === "STANDALONE"
+                                       ? "default"
+                                       : "outline"
+                                 }
+                                 size="sm"
+                                 onClick={() => field.onChange("STANDALONE")}
+                                 data-testid="type-standalone"
+                              >
+                                 Eigenständig
+                              </Button>
+                           </div>
+                           <FormMessage />
+                        </FormItem>
+                     )}
+                  />
 
-               {/* Hinweis — collapsible */}
-               <div>
-                  <button
-                     type="button"
-                     className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
-                     onClick={() => setShowHint((v) => !v)}
-                  >
-                     <ChevronDown
-                        className={cn(
-                           "h-4 w-4 transition-transform duration-150",
-                           showHint && "rotate-180"
-                        )}
-                     />
-                     Hinweis (optional)
-                  </button>
-                  {showHint && (
+                  {/* Template-Picker als Combobox */}
+                  {stepType === "PROMPT_REF" && (
                      <FormField
                         control={form.control}
-                        name="hint"
+                        name="promptId"
+                        render={({ field }) => {
+                           const selected = templates.find(
+                              (t) => t.id === field.value
+                           );
+                           return (
+                              <FormItem>
+                                 <FormLabel>Template *</FormLabel>
+                                 <Popover
+                                    open={templateOpen}
+                                    onOpenChange={setTemplateOpen}
+                                 >
+                                    <PopoverTrigger asChild>
+                                       <FormControl>
+                                          <Button
+                                             variant="outline"
+                                             role="combobox"
+                                             aria-expanded={templateOpen}
+                                             className="w-full justify-between font-normal"
+                                             data-testid="template-select"
+                                          >
+                                             <span className="truncate">
+                                                {selected
+                                                   ? selected.title
+                                                   : "Template auswählen…"}
+                                             </span>
+                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                          </Button>
+                                       </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                       className="p-0"
+                                       align="start"
+                                       style={{
+                                          width: "var(--radix-popover-trigger-width)",
+                                       }}
+                                    >
+                                       <Command>
+                                          <CommandInput placeholder="Template suchen…" />
+                                          <CommandList>
+                                             <CommandEmpty>
+                                                Kein Template gefunden.
+                                             </CommandEmpty>
+                                             <CommandGroup>
+                                                {templates.map((t) => (
+                                                   <CommandItem
+                                                      key={t.id}
+                                                      value={t.title}
+                                                      onSelect={() => {
+                                                         field.onChange(t.id);
+                                                         setTemplateOpen(false);
+                                                      }}
+                                                   >
+                                                      <Check
+                                                         className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            field.value === t.id
+                                                               ? "opacity-100"
+                                                               : "opacity-0"
+                                                         )}
+                                                      />
+                                                      {t.title}
+                                                   </CommandItem>
+                                                ))}
+                                             </CommandGroup>
+                                          </CommandList>
+                                       </Command>
+                                    </PopoverContent>
+                                 </Popover>
+                                 <FormMessage />
+                              </FormItem>
+                           );
+                        }}
+                     />
+                  )}
+
+                  {/* Standalone-Content */}
+                  {stepType === "STANDALONE" && (
+                     <FormField
+                        control={form.control}
+                        name="content"
                         render={({ field }) => (
-                           <FormItem className="mt-2">
+                           <FormItem>
+                              <FormLabel>Prompt-Text *</FormLabel>
                               <FormControl>
-                                 <Textarea
-                                    {...field}
-                                    value={field.value ?? ""}
-                                    placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
-                                    maxLength={750}
-                                    rows={3}
-                                 />
+                                 <div className="min-h-50 rounded-md border">
+                                    <MDEditor
+                                       value={field.value ?? ""}
+                                       onChange={field.onChange}
+                                    />
+                                 </div>
                               </FormControl>
                               <FormMessage />
                            </FormItem>
                         )}
                      />
                   )}
-               </div>
 
-               <Separator />
+                  {/* Ist Startschritt */}
+                  <FormField
+                     control={form.control}
+                     name="isStart"
+                     render={({ field }) => (
+                        <FormItem className="flex items-center gap-2 space-y-0">
+                           <FormControl>
+                              <Checkbox
+                                 checked={field.value}
+                                 onCheckedChange={field.onChange}
+                                 data-testid="is-start-checkbox"
+                              />
+                           </FormControl>
+                           <FormLabel className="cursor-pointer font-normal">
+                              Ist Startschritt
+                           </FormLabel>
+                        </FormItem>
+                     )}
+                  />
 
-               {/* Nächste Schritte / Edges */}
-               <div className="space-y-3">
-                  <h3 className="text-sm font-semibold">Nächste Schritte</h3>
-
-                  {edgeFields.length === 0 && (
-                     <p className="text-sm text-muted-foreground">
-                        Keine Verbindungen — dieser Schritt beendet den
-                        Workflow.
-                     </p>
-                  )}
-
-                  {edgeFields.map((edgeField, idx) => (
-                     <div
-                        key={edgeField.id}
-                        className="flex items-end gap-2 rounded-md border p-3"
+                  {/* Hinweis — collapsible */}
+                  <div>
+                     <button
+                        type="button"
+                        className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
+                        onClick={() => setShowHint((v) => !v)}
                      >
+                        <ChevronDown
+                           className={cn(
+                              "h-4 w-4 transition-transform duration-150",
+                              showHint && "rotate-180"
+                           )}
+                        />
+                        Hinweis (optional)
+                     </button>
+                     {showHint && (
                         <FormField
                            control={form.control}
-                           name={`edges.${idx}.label`}
+                           name="hint"
                            render={({ field }) => (
-                              <FormItem className="flex-1">
-                                 <FormLabel className="text-xs">
-                                    Label
-                                 </FormLabel>
+                              <FormItem className="mt-2">
                                  <FormControl>
-                                    <Input
+                                    <Textarea
                                        {...field}
-                                       placeholder="z.B. Weiter"
-                                       maxLength={250}
+                                       value={field.value ?? ""}
+                                       placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
+                                       maxLength={750}
+                                       rows={3}
                                     />
                                  </FormControl>
                                  <FormMessage />
                               </FormItem>
                            )}
                         />
-                        <FormField
-                           control={form.control}
-                           name={`edges.${idx}.toStepId`}
-                           render={({ field }) => (
-                              <FormItem className="flex-1">
-                                 <FormLabel className="text-xs">
-                                    Zielschritt
-                                 </FormLabel>
-                                 <Select
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                 >
-                                    <FormControl>
-                                       <SelectTrigger>
-                                          <SelectValue placeholder="Schritt…" />
-                                       </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                       {otherSteps.map((s) => (
-                                          <SelectItem key={s.id} value={s.id}>
-                                             {s.title}
-                                          </SelectItem>
-                                       ))}
-                                    </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
-                        <Button
-                           type="button"
-                           variant="ghost"
-                           size="icon"
-                           className="shrink-0"
-                           onClick={() => remove(idx)}
+                     )}
+                  </div>
+
+                  <Separator />
+
+                  {/* Nächste Schritte / Edges */}
+                  <div className="space-y-3">
+                     <h3 className="text-sm font-semibold">Nächste Schritte</h3>
+
+                     {edgeFields.length === 0 && (
+                        <p className="text-sm text-muted-foreground">
+                           Keine Verbindungen — dieser Schritt beendet den
+                           Workflow.
+                        </p>
+                     )}
+
+                     {edgeFields.map((edgeField, idx) => (
+                        <div
+                           key={edgeField.id}
+                           className="flex items-end gap-2 rounded-md border p-3"
                         >
-                           <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                     </div>
-                  ))}
+                           <FormField
+                              control={form.control}
+                              name={`edges.${idx}.label`}
+                              render={({ field }) => (
+                                 <FormItem className="flex-1">
+                                    <FormLabel className="text-xs">
+                                       Label
+                                    </FormLabel>
+                                    <FormControl>
+                                       <Input
+                                          {...field}
+                                          placeholder="z.B. Weiter"
+                                          maxLength={250}
+                                       />
+                                    </FormControl>
+                                    <FormMessage />
+                                 </FormItem>
+                              )}
+                           />
+                           <FormField
+                              control={form.control}
+                              name={`edges.${idx}.toStepId`}
+                              render={({ field }) => (
+                                 <FormItem className="flex-1">
+                                    <FormLabel className="text-xs">
+                                       Zielschritt
+                                    </FormLabel>
+                                    <Select
+                                       value={field.value}
+                                       onValueChange={field.onChange}
+                                    >
+                                       <FormControl>
+                                          <SelectTrigger>
+                                             <SelectValue placeholder="Schritt…" />
+                                          </SelectTrigger>
+                                       </FormControl>
+                                       <SelectContent>
+                                          {otherSteps.map((s) => (
+                                             <SelectItem
+                                                key={s.id}
+                                                value={s.id}
+                                             >
+                                                {s.title}
+                                             </SelectItem>
+                                          ))}
+                                       </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                 </FormItem>
+                              )}
+                           />
+                           <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="shrink-0"
+                              onClick={() => remove(idx)}
+                           >
+                              <Trash2 className="h-4 w-4 text-destructive" />
+                           </Button>
+                        </div>
+                     ))}
 
-                  <Button
-                     type="button"
-                     variant="outline"
-                     size="sm"
-                     onClick={() =>
-                        append({
-                           toStepId: "",
-                           label: "",
-                           order: edgeFields.length,
-                        })
-                     }
-                     className="w-full"
-                     data-testid="add-edge-btn"
-                  >
-                     <Plus className="mr-2 h-4 w-4" />
-                     Verbindung hinzufügen
-                  </Button>
-               </div>
-
-               {form.formState.errors.edges?.message && (
-                  <p className="text-sm text-destructive">
-                     {form.formState.errors.edges.message}
-                  </p>
-               )}
-
-               <div className="flex justify-end gap-2">
-                  {onCreateMode && onCancelCreate && (
                      <Button
                         type="button"
                         variant="outline"
-                        onClick={onCancelCreate}
+                        size="sm"
+                        onClick={() =>
+                           append({
+                              toStepId: "",
+                              label: "",
+                              order: edgeFields.length,
+                           })
+                        }
+                        className="w-full"
+                        data-testid="add-edge-btn"
                      >
-                        Abbrechen
+                        <Plus className="mr-2 h-4 w-4" />
+                        Verbindung hinzufügen
                      </Button>
+                  </div>
+
+                  {form.formState.errors.edges?.message && (
+                     <p className="text-sm text-destructive">
+                        {form.formState.errors.edges.message}
+                     </p>
                   )}
-                  <Button
-                     type="submit"
-                     disabled={loading}
-                     data-testid="save-step-btn"
-                  >
-                     Schritt speichern
-                  </Button>
-               </div>
-            </form>
-         </Form>
-      </div>
-   );
-};
+
+                  {/*
+                   * Create mode: explicit submit button required — auto-save only
+                   * triggers on navigation, not on initial creation.
+                   * Edit mode: no button needed; global "Speichern" + auto-save
+                   * on step switch handle persistence.
+                   */}
+                  {onCreateMode && (
+                     <div className="flex justify-end gap-2">
+                        {onCancelCreate && (
+                           <Button
+                              type="button"
+                              variant="outline"
+                              onClick={onCancelCreate}
+                           >
+                              Abbrechen
+                           </Button>
+                        )}
+                        <Button
+                           type="submit"
+                           disabled={loading}
+                           data-testid="save-step-btn"
+                        >
+                           Schritt erstellen
+                        </Button>
+                     </div>
+                  )}
+               </form>
+            </Form>
+         </div>
+      );
+   }
+);
+
+StepDetailPanel.displayName = "StepDetailPanel";
