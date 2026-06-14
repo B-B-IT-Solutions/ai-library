@@ -2,6 +2,8 @@ export {
    preloadPromptTemplateCategoriesOptions,
    infiniteLoadPromptsPageOptions,
    useInfiniteLoadPromptsPage,
+   infiniteLoadPromptPreviewsPageOptions,
+   useInfiniteLoadPromptPreviewsPage,
    useLoadPromptTemplateCategories,
    useToggleFavorite,
 } from "./prompt";

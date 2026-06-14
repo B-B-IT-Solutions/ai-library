@@ -36,7 +36,7 @@ import {
    createWorkflowStep,
    updateWorkflowStep,
 } from "@/data/actions/workflow";
-import { useInfiniteLoadPromptPreviewsPage } from "@/data/ts-queries/prompt/prompt";
+import { infiniteLoadPromptPreviewsPageOptions } from "@/data/ts-queries/prompt";
 import {
    DWorkflowStep,
    DWorkflowStepUpdate,
@@ -146,92 +146,21 @@ export const StepForm = ({
                control={form.control}
             />
 
-            <FormSelectLoadableValues<DWorkflowStepUpdate>
-               name="promptId"
-               label="Prompt"
-               placeholder="Prompt suchen…"
-               required={true}
-               control={form.control}
-               loadData={useInfiniteLoadPromptPreviewsPage}
-            />
-
             {/* Prompt-Picker als Combobox */}
-            {/* {stepType === "PROMPT_REF" && (
-               <FormField
-                  control={form.control}
+            {stepType === "PROMPT_REF" && (
+               <FormSelectLoadableValues<DWorkflowStepUpdate>
                   name="promptId"
-                  render={({ field }) => {
-                     const selected = prompts.find((t) => t.id === field.value);
-                     return (
-                        <FormItem>
-                           <FormLabel>Prompt *</FormLabel>
-                           <Popover
-                              open={templateOpen}
-                              onOpenChange={setTemplateOpen}
-                           >
-                              <PopoverTrigger asChild>
-                                 <FormControl>
-                                    <Button
-                                       variant="outline"
-                                       role="combobox"
-                                       aria-expanded={templateOpen}
-                                       className="w-full justify-between font-normal"
-                                       data-testid="template-select"
-                                    >
-                                       <span className="truncate">
-                                          {selected
-                                             ? selected.title
-                                             : "Prompt auswählen…"}
-                                       </span>
-                                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                 </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent
-                                 className="p-0"
-                                 align="start"
-                                 style={{
-                                    width: "var(--radix-popover-trigger-width)",
-                                 }}
-                              >
-                                 <Command>
-                                    <CommandInput placeholder="Prompt suchen…" />
-                                    <CommandList>
-                                       <CommandEmpty>
-                                          Kein Prompt gefunden.
-                                       </CommandEmpty>
-                                       <CommandGroup>
-                                          {prompts.map((t) => (
-                                             <CommandItem
-                                                key={t.id}
-                                                value={t.title}
-                                                onSelect={() => {
-                                                   field.onChange(t.id);
-                                                   setTemplateOpen(false);
-                                                }}
-                                             >
-                                                <Check
-                                                   className={cn(
-                                                      "mr-2 h-4 w-4",
-                                                      field.value === t.id
-                                                         ? "opacity-100"
-                                                         : "opacity-0"
-                                                   )}
-                                                />
-                                                {t.title}
-                                             </CommandItem>
-                                          ))}
-                                       </CommandGroup>
-                                    </CommandList>
-                                 </Command>
-                              </PopoverContent>
-                           </Popover>
-                           <FormMessage />
-                        </FormItem>
-                     );
-                  }}
+                  label="Prompt"
+                  placeholder="Prompt suchen…"
+                  required={true}
+                  control={form.control}
+                  queryOptions={(search) =>
+                     infiniteLoadPromptPreviewsPageOptions({
+                        filters: { search },
+                     })
+                  }
                />
-            )} */}
+            )}
 
             {/* Standalone-Content */}
             {stepType === "STANDALONE" && (

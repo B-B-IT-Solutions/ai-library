@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
+import {
+   InfiniteData,
+   QueryKey,
+   UndefinedInitialDataInfiniteOptions,
+   useInfiniteQuery,
+} from "@tanstack/react-query";
 import { flatMap } from "es-toolkit/compat";
 import { Check, ChevronsUpDown, Loader } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
@@ -30,7 +35,7 @@ import {
 import { Page } from "@/data/types/common";
 import { cn } from "@/lib/utils";
 
-type LoadableValue = {
+type LoadedItem = {
    id: string;
    title: string;
 };
@@ -42,9 +47,15 @@ type Props<T extends FieldValues> = {
    required?: boolean;
    className?: string;
    control: Control<T>;
-   loadData: <P>(
-      v: P
-   ) => UseInfiniteQueryResult<InfiniteData<Page<LoadableValue>>, Error>;
+   queryOptions: (
+      search: string
+   ) => UndefinedInitialDataInfiniteOptions<
+      Page<LoadedItem>,
+      Error,
+      InfiniteData<Page<LoadedItem>>,
+      QueryKey,
+      number
+   >;
 };
 
 export const FormSelectLoadableValues = <T extends FieldValues>({
@@ -54,16 +65,15 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    required,
    className,
    control,
-   loadData,
+   queryOptions,
 }: Props<T>) => {
    const [open, setOpen] = useState(false);
    const [search, setSearch] = useState("");
 
    const { field } = useController({ name, control });
 
-   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = loadData(
-      { filters: { search } }
-   );
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+      useInfiniteQuery(queryOptions(search));
 
    const items = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
@@ -150,7 +160,7 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
 };
 
 type SelectCommandItemProps = {
-   item: LoadableValue;
+   item: LoadedItem;
    isSelected: boolean;
    onSelect: () => void;
    ref?: React.Ref<HTMLDivElement>;
