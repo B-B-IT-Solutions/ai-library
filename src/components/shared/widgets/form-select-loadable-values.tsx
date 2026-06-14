@@ -95,24 +95,24 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                   <CommandList>
                      <CommandEmpty>Kein Prompt gefunden.</CommandEmpty>
                      <CommandGroup>
-                        {prompts.map((t) => (
+                        {prompts.map((p) => (
                            <CommandItem
-                              key={t.id}
-                              value={t.title}
+                              key={p.id}
+                              value={p.title}
                               onSelect={() => {
-                                 field.onChange(t.id);
+                                 field.onChange(p.id);
                                  setOpen(false);
                               }}
                            >
                               <Check
                                  className={cn(
                                     "mr-2 h-4 w-4",
-                                    field.value === t.id
+                                    field.value === p.id
                                        ? "opacity-100"
                                        : "opacity-0"
                                  )}
                               />
-                              {t.title}
+                              {p.title}
                            </CommandItem>
                         ))}
                      </CommandGroup>
