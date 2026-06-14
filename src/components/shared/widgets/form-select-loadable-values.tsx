@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import { flatMap, isEmpty } from "es-toolkit/compat";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { flatMap } from "es-toolkit/compat";
+import { Check, ChevronsUpDown, Loader } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -28,7 +28,6 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Page } from "@/data/types/common";
-import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type LoadableValue = {
@@ -57,18 +56,19 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    control,
    loadData,
 }: Props<T>) => {
+   const [open, setOpen] = useState(false);
+   const [search, setSearch] = useState("");
+
    const { field } = useController({ name, control });
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = loadData(
-      {}
+      { filters: { search } }
    );
 
    const items = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
       [data]
    );
-
-   const [open, setOpen] = useState(false);
    const selected = items.find((t) => t.id === field.value);
 
    const renderlabel = () => {
@@ -111,9 +111,13 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                }}
             >
                <Command>
-                  <CommandInput placeholder={placeholder} />
+                  <CommandInput
+                     placeholder={placeholder}
+                     value={search}
+                     onValueChange={setSearch}
+                  />
                   <CommandList>
-                     <CommandEmpty>Kein Prompt gefunden.</CommandEmpty>
+                     <SelectCommandEmpty isLoading={isLoading} />
                      <CommandGroup>
                         <InfiniteScroll
                            hasMore={hasNextPage}
@@ -123,7 +127,7 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                         >
                            {items.map((item) => {
                               return (
-                                 <LoadedCommandItem
+                                 <SelectCommandItem
                                     key={item.id}
                                     item={item}
                                     isSelected={field.value === item.id}
@@ -145,19 +149,19 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    );
 };
 
-type CommandItemProps = {
+type SelectCommandItemProps = {
    item: LoadableValue;
    isSelected: boolean;
    onSelect: () => void;
    ref?: React.Ref<HTMLDivElement>;
 };
 
-const LoadedCommandItem = ({
+export const SelectCommandItem = ({
    item,
    isSelected,
    onSelect,
    ref,
-}: CommandItemProps) => {
+}: SelectCommandItemProps) => {
    return (
       <CommandItem
          ref={ref}
@@ -174,4 +178,19 @@ const LoadedCommandItem = ({
          {item.title}
       </CommandItem>
    );
+};
+
+type SelectCommandEmptyProps = {
+   isLoading: boolean;
+};
+
+export const SelectCommandEmpty = ({ isLoading }: SelectCommandEmptyProps) => {
+   if (isLoading) {
+      return (
+         <CommandEmpty>
+            <Loader className="mx-auto h-4 w-4 animate-spin text-muted-foreground" />
+         </CommandEmpty>
+      );
+   }
+   return <CommandEmpty>Kein Prompt gefunden.</CommandEmpty>;
 };
