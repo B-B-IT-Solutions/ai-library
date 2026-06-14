@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -13,14 +13,16 @@ import {
 import { DeleteStepDialog } from "../../../dialogs/delete-step-dialog";
 
 import { StepDetailPanel, StepDetailPanelRef } from "./step-detail-panel";
-import { StepList } from "./step-list";
+import { StepItem } from "./step-item.";
 
 type Props = {
    workflow: DWorkflowWithSteps;
 };
 
 export const WorkflowSteps = ({ workflow }: Props) => {
-   const [selectedStep, setSelectedStep] = useState<DWorkflowStep | null>(null);
+   const [selectedStep, setSelectedStep] = useState<
+      DWorkflowStep | undefined
+   >();
    const [createMode, setCreateMode] = useState(false);
    const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
 
@@ -46,7 +48,7 @@ export const WorkflowSteps = ({ workflow }: Props) => {
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
       //   setWorkflow(saved);
       const updatedStep = saved.steps.find((s) => s.id === selectedStep?.id);
-      setSelectedStep(updatedStep ?? null);
+      setSelectedStep(updatedStep ?? undefined);
       if (!updatedStep) setCreateMode(false);
    };
 
@@ -76,7 +78,7 @@ export const WorkflowSteps = ({ workflow }: Props) => {
    const handleStepDeleted = (updated: DWorkflowWithSteps) => {
       //   setWorkflow(updated);
       if (deleteStep && selectedStep?.id === deleteStep.id) {
-         setSelectedStep(null);
+         setSelectedStep(undefined);
       }
       setDeleteStep(null);
    };
@@ -93,7 +95,7 @@ export const WorkflowSteps = ({ workflow }: Props) => {
                onCreateMode={createMode && !selectedStep}
                onCancelCreate={() => {
                   setCreateMode(false);
-                  setSelectedStep(null);
+                  setSelectedStep(undefined);
                }}
                onDirtyChange={setStepIsDirty}
             />
@@ -110,7 +112,7 @@ export const WorkflowSteps = ({ workflow }: Props) => {
                size="sm"
                onClick={() =>
                   withAutoSave(() => {
-                     setSelectedStep(null);
+                     setSelectedStep(undefined);
                      setCreateMode(true);
                   })
                }
@@ -122,6 +124,8 @@ export const WorkflowSteps = ({ workflow }: Props) => {
       );
    };
 
+   const hasStart = steps.some((s) => s.isStart);
+
    return (
       <>
          <div
@@ -129,25 +133,41 @@ export const WorkflowSteps = ({ workflow }: Props) => {
             data-testid="workflow-steps"
          >
             <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
-               <StepList
-                  workflow={workflow}
-                  selectedStepId={selectedStep?.id ?? null}
-                  onSelectStep={(step) =>
-                     withAutoSave(() => {
-                        setSelectedStep(step);
-                        setCreateMode(false);
-                     })
-                  }
-                  onSetStartStep={handleSetStartStep}
-                  onDeleteStep={(step) => setDeleteStep(step)}
-               />
+               <div className="space-y-2" data-testid="step-list">
+                  {!hasStart && steps.length > 0 && (
+                     <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
+                        <Star className="h-4 w-4 shrink-0" />
+                        Kein Startschritt gesetzt
+                     </div>
+                  )}
+
+                  {steps.map((step, idx) => {
+                     return (
+                        <StepItem
+                           key={idx}
+                           step={step}
+                           index={idx}
+                           allSteps={steps}
+                           selectedStepId={selectedStep?.id ?? null}
+                           onSelectStep={(step) =>
+                              withAutoSave(() => {
+                                 setSelectedStep(step);
+                                 setCreateMode(false);
+                              })
+                           }
+                           onSetStartStep={handleSetStartStep}
+                           onDeleteStep={(step) => setDeleteStep(step)}
+                        />
+                     );
+                  })}
+               </div>
 
                <Button
                   variant="outline"
                   className="w-full"
                   onClick={() =>
                      withAutoSave(() => {
-                        setSelectedStep(null);
+                        setSelectedStep(undefined);
                         setCreateMode(true);
                      })
                   }

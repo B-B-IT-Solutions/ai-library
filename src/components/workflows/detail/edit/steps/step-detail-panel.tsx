@@ -32,7 +32,11 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
+import {
+   Popover,
+   PopoverContent,
+   PopoverTrigger,
+} from "@/components/shadcn/popover";
 import {
    Select,
    SelectContent,
@@ -55,6 +59,7 @@ import {
 } from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
 import { cn } from "@/lib/utils";
+import { initWorkflowStep } from "../utils";
 
 type FormValues = z.infer<typeof updateWorkflowStepSchema>;
 
@@ -65,7 +70,7 @@ export type StepDetailPanelRef = {
 
 type Props = {
    workflowId: string;
-   step: DWorkflowStep | null;
+   step?: DWorkflowStep;
    allSteps: DWorkflowStep[];
    onSaved: (workflow: DWorkflowWithSteps) => void;
    onCreateMode?: boolean;
@@ -89,7 +94,7 @@ export const StepDetailPanel = forwardRef<StepDetailPanelRef, Props>(
       const [loading, setLoading] = useState(false);
       const [templates, setTemplates] = useState<DPrompt[]>([]);
       const [templateOpen, setTemplateOpen] = useState(false);
-      const [showHint, setShowHint] = useState(() => !!(step?.hint));
+      const [showHint, setShowHint] = useState(() => !!step?.hint);
 
       useEffect(() => {
          getPromptTemplates().then(setTemplates).catch(console.error);
@@ -97,51 +102,14 @@ export const StepDetailPanel = forwardRef<StepDetailPanelRef, Props>(
 
       const form = useForm<FormValues>({
          resolver: zodResolver(updateWorkflowStepSchema),
-         defaultValues: step
-            ? {
-                 title: step.title,
-                 hint: step.hint ?? "",
-                 type: step.type,
-                 promptId: step.promptId ?? "",
-                 content: step.content ?? "",
-                 isStart: step.isStart,
-                 position: step.position,
-                 edges: step.outgoingEdges.map((e) => ({
-                    toStepId: e.toStepId,
-                    label: e.label,
-                    order: e.order,
-                 })),
-              }
-            : {
-                 title: "",
-                 hint: "",
-                 type: "PROMPT_REF",
-                 promptId: "",
-                 content: "",
-                 isStart: allSteps.length === 0,
-                 position: allSteps.length,
-                 edges: [],
-              },
+         defaultValues: initWorkflowStep(step),
       });
 
       // Reset form when selected step changes
       useEffect(() => {
          if (step) {
-            form.reset({
-               title: step.title,
-               hint: step.hint ?? "",
-               type: step.type,
-               promptId: step.promptId ?? "",
-               content: step.content ?? "",
-               isStart: step.isStart,
-               position: step.position,
-               edges: step.outgoingEdges.map((e) => ({
-                  toStepId: e.toStepId,
-                  label: e.label,
-                  order: e.order,
-               })),
-            });
-            setShowHint(!!(step.hint));
+            form.reset(initWorkflowStep(step));
+            setShowHint(!!step.hint);
          }
       }, [step, form]);
 
