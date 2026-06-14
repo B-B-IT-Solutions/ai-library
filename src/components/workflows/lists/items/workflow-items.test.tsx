@@ -4,7 +4,11 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { getWorkflowsPage } from "@/data/actions/workflow";
-import { DListViewMode } from "@/data/types/domain/common";
+import {
+   DListViewMode,
+   DWorkflowsSortByMode,
+} from "@/data/types/domain/common";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { DWorkflowsPageQuery } from "@/data/types/domain/workflow";
 
 import { WorkflowItems } from "./workflow-items";
@@ -13,30 +17,29 @@ const getWorkflowsPageMock = getWorkflowsPage as jest.MockedFunction<
    typeof getWorkflowsPage
 >;
 
-const assertSkeletonRendered = () => {
-   const skeleton = screen.getByTestId("workflows-skeleton");
-   assertInDocument(skeleton);
+const assertGridRendered = () => {
+   const entries = screen.getByTestId("workflows-grid");
+   assertInDocument(entries);
 };
 
-const assertEmptyStateRendered = () =>
-   assertInDocument(screen.getByTestId("workflows-empty-state"));
-
-const assertWorkflowCardsRendered = (count: number) => {
-   const workflows = dtestData.dWorkflows(count);
-   workflows.forEach((w) =>
-      assertInDocument(screen.getByTestId(`workflow-card-${w.id}`))
-   );
+const assertListRendered = () => {
+   const entries = screen.getByTestId("workflows-list");
+   assertInDocument(entries);
 };
 
-const assertGetWorkflowsPageCalled = (expected: DWorkflowsPageQuery) => {
+const assertWorfklowsEmptyRendered = () => {
+   const empty = screen.getByTestId("workflows-empty");
+   assertInDocument(empty);
+};
+
+const assertWorkflowsFilterEmptyRendered = () => {
+   const empty = screen.getByTestId("workflows-filter-empty");
+   assertInDocument(empty);
+};
+
+const assertGetWorkflowsPageCalled = (expectedPayload: DWorkflowsPageQuery) => {
    expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
-   expect(getWorkflowsPageMock).toHaveBeenCalledWith(expected);
-};
-
-const defaultQuery: DWorkflowsPageQuery = {
-   pagination: { pageNumber: 0, pageSize: 10 },
-   filter: undefined,
-   sort: undefined,
+   expect(getWorkflowsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("WorkflowItems rendering tests", () => {
@@ -44,72 +47,105 @@ describe("WorkflowItems rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("shows skeleton while loading", () => {
-      getWorkflowsPageMock.mockImplementation(
-         () => new Promise(() => undefined)
-      );
-
-      const { container } = renderWithRouter(
-         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
-      );
-
-      assertSkeletonRendered();
-      expect(container).toMatchSnapshot();
-   });
-
-   it("shows empty state when no workflows", async () => {
+   it("prompts - empty - test", async () => {
       const page = dtestData.dWorkflowsPage(0);
       getWorkflowsPageMock.mockResolvedValue(page);
 
       const { container } = renderWithRouter(
-         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
+         <WorkflowItems
+            viewMode={DListViewMode.GRID}
+            sortMode={DWorkflowsSortByMode.DATE_DESC}
+            filters={{}}
+         />
       );
 
       await waitFor(() => {
-         assertEmptyStateRendered();
+         assertWorfklowsEmptyRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("shows workflow cards when workflows exist", async () => {
-      const page = dtestData.dWorkflowsPage(3);
+   it("prompts - filter empty - test", async () => {
+      const page = dtestData.dWorkflowsPage(0);
       getWorkflowsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dWorkflowsFilter();
 
       const { container } = renderWithRouter(
-         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
+         <WorkflowItems
+            viewMode={DListViewMode.GRID}
+            sortMode={DWorkflowsSortByMode.DATE_DESC}
+            filters={filters}
+         />
       );
 
       await waitFor(() => {
-         assertWorkflowCardsRendered(3);
-         assertGetWorkflowsPageCalled(defaultQuery);
+         assertWorkflowsFilterEmptyRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("calls getWorkflowsPage with filter and sort params", async () => {
-      const page = dtestData.dWorkflowsPage(1);
+   it("view grid - test", async () => {
+      const page = dtestData.dWorkflowsPage();
       getWorkflowsPageMock.mockResolvedValue(page);
 
-      const params = {
-         filters: { search: "test" },
-         sort: { field: "title", order: "asc" as const },
-      };
+      const filters = dtestData.dWorkflowsFilter();
 
-      renderWithRouter(
-         <WorkflowItems viewMode={DListViewMode.GRID} params={params} />
+      const { container } = renderWithRouter(
+         <WorkflowItems
+            viewMode={DListViewMode.GRID}
+            sortMode={DWorkflowsSortByMode.DATE_DESC}
+            filters={filters}
+         />
       );
 
-      const expectedQuery: DWorkflowsPageQuery = {
-         pagination: { pageNumber: 0, pageSize: 10 },
-         filter: params.filters,
-         sort: params.sort,
+      const expectedPayload: DPromptsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "createdAt", order: "desc" },
       };
 
       await waitFor(() => {
-         expect(getWorkflowsPageMock).toHaveBeenCalledTimes(1);
-         expect(getWorkflowsPageMock).toHaveBeenCalledWith(expectedQuery);
+         assertGridRendered();
+         assertGetWorkflowsPageCalled(expectedPayload);
       });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("view list - test", async () => {
+      const page = dtestData.dWorkflowsPage();
+      getWorkflowsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dWorkflowsFilter();
+
+      const { container } = renderWithRouter(
+         <WorkflowItems
+            viewMode={DListViewMode.LIST}
+            sortMode={DWorkflowsSortByMode.DATE_ASC}
+            filters={filters}
+         />
+      );
+
+      const expectedPayload: DPromptsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "createdAt", order: "asc" },
+      };
+
+      await waitFor(() => {
+         assertListRendered();
+         assertGetWorkflowsPageCalled(expectedPayload);
+      });
+
+      expect(container).toMatchSnapshot();
    });
 });

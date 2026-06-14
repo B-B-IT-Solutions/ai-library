@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { flatMap } from "es-toolkit/compat";
+import { flatMap, isEmpty } from "es-toolkit/compat";
 import { GitBranch, Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -42,11 +42,28 @@ export const WorkflowItems = ({ viewMode, filters, sortMode }: Props) => {
       [data]
    );
 
+   const hasActiveFilters = useMemo(() => !isEmpty(filters.search), [filters]);
+
    if (isLoading) {
       return <WorkflowsSkeleton viewMode={viewMode} />;
    }
 
-   if (workflows.length === 0) {
+   if (isEmpty(workflows)) {
+      if (hasActiveFilters) {
+         return (
+            <div
+               className="flex flex-col items-center justify-center py-16 text-center"
+               data-testid="workflows-filter-empty"
+            >
+               <p className="text-lg font-medium text-slate-700">
+                  Keine Ergebnisse für diese Filter
+               </p>
+               <p className="mt-2 text-sm text-slate-500">
+                  Passe deine Filterkriterien an oder setze sie zurück.
+               </p>
+            </div>
+         );
+      }
       return <EmptyState />;
    }
 
@@ -78,7 +95,7 @@ export const WorkflowItems = ({ viewMode, filters, sortMode }: Props) => {
 const EmptyState = () => (
    <div
       className="flex flex-col items-center justify-center gap-4 py-16 text-center"
-      data-testid="workflows-empty-state"
+      data-testid="workflows-empty"
    >
       <GitBranch className="h-12 w-12 text-slate-300" />
       <h2 className="text-lg font-semibold text-slate-700">
