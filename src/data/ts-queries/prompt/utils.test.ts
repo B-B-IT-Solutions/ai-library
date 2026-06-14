@@ -8,19 +8,29 @@ describe("keys tests", () => {
       const sort = dtestData.sort("name", "asc");
 
       expect(templateKeys.all).toEqual(["templates"]);
-      expect(templateKeys.templates({})).toEqual(["templates", {}]);
-      expect(templateKeys.templates({ filters, sort })).toEqual([
+      expect(templateKeys.prompts({})).toEqual(["templates", {}]);
+      expect(templateKeys.prompts({ filters, sort })).toEqual([
          "templates",
          { filters, sort },
       ]);
-      expect(templateKeys.publicTemplates({})).toEqual([
+      expect(templateKeys.publicPrompts({})).toEqual([
          "templates",
          "public",
          {},
       ]);
-      expect(templateKeys.publicTemplates({ filters, sort })).toEqual([
+      expect(templateKeys.publicPrompts({ filters, sort })).toEqual([
          "templates",
          "public",
+         { filters, sort },
+      ]);
+      expect(templateKeys.promptPreviews({})).toEqual([
+         "templates",
+         "previews",
+         {},
+      ]);
+      expect(templateKeys.promptPreviews({ filters, sort })).toEqual([
+         "templates",
+         "previews",
          { filters, sort },
       ]);
    });

@@ -11,11 +11,11 @@ import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
-import { LoadTemplateDescriptorsParams } from "./types";
+import { LoadPromptsPageParams } from "./types";
 import { templateKeys } from "./utils";
 
 export const infiniteLoadPublicTemplateDescriptorsOptions = (
-   params: LoadTemplateDescriptorsParams
+   params: LoadPromptsPageParams
 ): UndefinedInitialDataInfiniteOptions<
    DPromptsPage,
    Error,
@@ -25,7 +25,7 @@ export const infiniteLoadPublicTemplateDescriptorsOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.publicTemplates(params),
+      queryKey: templateKeys.publicPrompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
@@ -43,7 +43,7 @@ export const infiniteLoadPublicTemplateDescriptorsOptions = (
 };
 
 export const useInfiniteLoadPublicTemplateDescriptors = (
-   props: LoadTemplateDescriptorsParams
+   props: LoadPromptsPageParams
 ): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
    const options = infiniteLoadPublicTemplateDescriptorsOptions(props);
    return useInfiniteQuery(options);

@@ -12,6 +12,6 @@ export {
 } from "./prompt.public";
 
 export type {
-   LoadTemplateDescriptorsParams,
+   LoadPromptsPageParams as LoadTemplateDescriptorsParams,
    UpdateIsFavoriteParams,
 } from "./types";
