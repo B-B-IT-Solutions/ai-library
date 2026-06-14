@@ -104,7 +104,7 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                      role="combobox"
                      aria-expanded={open}
                      className="w-full justify-between font-normal"
-                     data-testid="template-select"
+                     data-testid="item-select"
                   >
                      <span className="truncate">
                         {selected ? selected.title : "Prompt auswählen…"}
