@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Loader2, Play } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -21,12 +21,11 @@ import {
    DWorkflowsUsage,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
+import { worfklowEditNavigateBackUrl } from "../../utils/utils";
 
 import { WorkflowForm } from "./form";
 import { StepDetailPanelRef } from "./steps/step-detail-panel";
 import { WorkflowSteps } from "./steps/steps";
-
-const FORM_ID = "workflow-edit-form";
 
 const TAB_TRIGGER_CLASS =
    "rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40";
@@ -65,7 +64,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
          }
       }
       if (workflowFormIsDirty) {
-         const formEl = document.getElementById(FORM_ID);
+         const formEl = document.getElementById(formId);
          if (formEl instanceof HTMLFormElement) formEl.requestSubmit();
       }
    };
@@ -76,6 +75,31 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
          setActiveTab("steps");
       }
    };
+
+   const backUrl = useMemo(
+      () => worfklowEditNavigateBackUrl(workflow),
+      [workflow]
+   );
+
+   const formId = "workflow-edit-form";
+
+   // const breadcrumbs = () => {
+   //    if (prompt) {
+   //       return (
+   //          <PromptBreadcrumb
+   //             variant="edit"
+   //             prompt={prompt}
+   //             currentCollection={currentCollection}
+   //          />
+   //       );
+   //    }
+   //    return (
+   //       <PromptBreadcrumb
+   //          variant="new"
+   //          currentCollection={currentCollection}
+   //       />
+   //    );
+   // };
 
    const breadcrumb = () =>
       isEdit ? (
@@ -98,32 +122,61 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
          />
       );
 
+   const cancelBtn = () => {
+      return (
+         <Button
+            asChild={true}
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="cancel-btn"
+         >
+            <Link href={backUrl}>Abbrechen</Link>
+         </Button>
+      );
+   };
+
+   const submitBtn = () => {
+      return (
+         <Button
+            type="submit"
+            form={formId}
+            disabled={isSubmitting || !hasAnyChanges}
+            onClick={handleGlobalSave}
+            className="cursor-pointer bg-blue-700 hover:bg-blue-800"
+            data-testid="save-btn"
+         >
+            {isSubmitting ? (
+               <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+               </>
+            ) : (
+               <>{isEdit ? "Workflow speichern" : "Workflow erstellen"}</>
+            )}
+         </Button>
+      );
+   };
+
+   const actions = () => {
+      return (
+         <div className="flex items-center gap-2">
+            {cancelBtn()}
+            {submitBtn()}
+         </div>
+      );
+   };
+
    return (
       <ItemDetailsEdit data-testid="workflow-edit">
          <ItemDetailsEditHeader>
             {breadcrumb()}
-            <div className="ml-auto flex items-center gap-2">
-               {isEdit && steps.length > 0 && (
-                  <Button asChild size="sm" variant="outline">
-                     <Link href={`/workflows/${workflow.id}/run`}>
-                        <Play className="mr-2 h-4 w-4" />
-                        Ausführen
-                     </Link>
-                  </Button>
-               )}
-               <Button
-                  type="button"
-                  size="sm"
-                  disabled={isSubmitting || !hasAnyChanges}
-                  className="bg-blue-700 hover:bg-blue-800"
-                  onClick={handleGlobalSave}
-                  data-testid="save-workflow-meta-btn"
-               >
-                  {isSubmitting && (
-                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  {isEdit ? "Speichern" : "Erstellen"}
-               </Button>
+            <div
+               className="ml-auto hidden lg:flex"
+               data-testid="header-actions"
+            >
+               {actions()}
             </div>
          </ItemDetailsEditHeader>
 
@@ -160,21 +213,17 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                   )}
                </TabsTrigger>
             </TabsList>
-
-            {/* Details Tab */}
             <TabsContent value="details" className="overflow-y-auto">
                <div className="mx-auto max-w-2xl px-6 py-8">
                   <WorkflowForm
                      workflow={workflow}
-                     formId={FORM_ID}
+                     formId={formId}
                      onSaved={handleWorkflowSaved}
                      onSubmittingChange={setIsSubmitting}
                      onDirtyChange={setWorkflowFormIsDirty}
                   />
                </div>
             </TabsContent>
-
-            {/* Steps Tab */}
             {isEdit && (
                <TabsContent value="steps" className="overflow-hidden">
                   <WorkflowSteps workflow={workflow} />
