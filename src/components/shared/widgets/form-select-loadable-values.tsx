@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
+import { flatMap, isEmpty } from "es-toolkit/compat";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
@@ -19,13 +21,20 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
+import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
    Popover,
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { Page } from "@/data/types/common";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
+
+type LoadableValue = {
+   id: string;
+   title: string;
+};
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
@@ -34,7 +43,9 @@ type Props<T extends FieldValues> = {
    required?: boolean;
    className?: string;
    control: Control<T>;
-   prompts: DPrompt[];
+   loadData: <P>(
+      v: P
+   ) => UseInfiniteQueryResult<InfiniteData<Page<LoadableValue>>, Error>;
 };
 
 export const FormSelectLoadableValues = <T extends FieldValues>({
@@ -44,12 +55,21 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    required,
    className,
    control,
-   prompts,
+   loadData,
 }: Props<T>) => {
    const { field } = useController({ name, control });
 
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = loadData(
+      {}
+   );
+
+   const items = useMemo(
+      () => flatMap(data?.pages, (page) => page.content),
+      [data]
+   );
+
    const [open, setOpen] = useState(false);
-   const selected = prompts.find((t) => t.id === field.value);
+   const selected = items.find((t) => t.id === field.value);
 
    const renderlabel = () => {
       if (required) {
@@ -95,26 +115,26 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                   <CommandList>
                      <CommandEmpty>Kein Prompt gefunden.</CommandEmpty>
                      <CommandGroup>
-                        {prompts.map((p) => (
-                           <CommandItem
-                              key={p.id}
-                              value={p.title}
-                              onSelect={() => {
-                                 field.onChange(p.id);
-                                 setOpen(false);
-                              }}
-                           >
-                              <Check
-                                 className={cn(
-                                    "mr-2 h-4 w-4",
-                                    field.value === p.id
-                                       ? "opacity-100"
-                                       : "opacity-0"
-                                 )}
-                              />
-                              {p.title}
-                           </CommandItem>
-                        ))}
+                        <InfiniteScroll
+                           hasMore={hasNextPage}
+                           isLoading={isFetching}
+                           next={fetchNextPage}
+                           threshold={0.1}
+                        >
+                           {items.map((item) => {
+                              return (
+                                 <LoadedCommandItem
+                                    key={item.id}
+                                    item={item}
+                                    isSelected={field.value === item.id}
+                                    onSelect={() => {
+                                       field.onChange(item.id);
+                                       setOpen(false);
+                                    }}
+                                 />
+                              );
+                           })}
+                        </InfiniteScroll>
                      </CommandGroup>
                   </CommandList>
                </Command>
@@ -122,5 +142,36 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
          </Popover>
          <FormMessage />
       </FormItem>
+   );
+};
+
+type CommandItemProps = {
+   item: LoadableValue;
+   isSelected: boolean;
+   onSelect: () => void;
+   ref?: React.Ref<HTMLDivElement>;
+};
+
+const LoadedCommandItem = ({
+   item,
+   isSelected,
+   onSelect,
+   ref,
+}: CommandItemProps) => {
+   return (
+      <CommandItem
+         ref={ref}
+         key={item.id}
+         value={item.title}
+         onSelect={onSelect}
+      >
+         <Check
+            className={cn(
+               "mr-2 h-4 w-4",
+               isSelected ? "opacity-100" : "opacity-0"
+            )}
+         />
+         {item.title}
+      </CommandItem>
    );
 };

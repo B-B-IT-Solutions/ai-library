@@ -2,19 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown, Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Command,
-   CommandEmpty,
-   CommandGroup,
-   CommandInput,
-   CommandItem,
-   CommandList,
-} from "@/components/shadcn/command";
 import {
    Form,
    FormControl,
@@ -24,11 +16,6 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import {
-   Popover,
-   PopoverContent,
-   PopoverTrigger,
-} from "@/components/shadcn/popover";
 import {
    Select,
    SelectContent,
@@ -45,11 +32,11 @@ import {
    FormSelectLoadableValues,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { getPromptPreviewsPage } from "@/data/actions/prompt";
 import {
    createWorkflowStep,
    updateWorkflowStep,
 } from "@/data/actions/workflow";
+import { useInfiniteLoadPromptPreviewsPage } from "@/data/ts-queries/prompt/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
 import {
    DWorkflowStep,
@@ -57,7 +44,6 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
-import { cn } from "@/lib/utils";
 import { initWorkflowStep } from "../utils";
 
 type Props = {
@@ -79,12 +65,6 @@ export const StepForm = ({
    onCancelCreate,
 }: Props) => {
    const [loading, setLoading] = useState(false);
-   const [prompts, setPrompts] = useState<DPrompt[]>([]);
-   const [templateOpen, setTemplateOpen] = useState(false);
-
-   useEffect(() => {
-      getPromptPreviewsPage().then(setPrompts).catch(console.error);
-   }, []);
 
    const form = useForm<DWorkflowStepUpdate>({
       resolver: zodResolver(updateWorkflowStepSchema),
@@ -173,11 +153,11 @@ export const StepForm = ({
                placeholder="Prompt suchen…"
                required={true}
                control={form.control}
-               prompts={prompts}
+               loadData={useInfiniteLoadPromptPreviewsPage}
             />
 
             {/* Prompt-Picker als Combobox */}
-            {stepType === "PROMPT_REF" && (
+            {/* {stepType === "PROMPT_REF" && (
                <FormField
                   control={form.control}
                   name="promptId"
@@ -252,7 +232,7 @@ export const StepForm = ({
                      );
                   }}
                />
-            )}
+            )} */}
 
             {/* Standalone-Content */}
             {stepType === "STANDALONE" && (
