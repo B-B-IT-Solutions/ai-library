@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Button } from "@/components/shadcn/button";
 import {
    Form,
    FormControl,
@@ -26,12 +24,19 @@ type FormValues = z.infer<typeof updateWorkflowSchema>;
 
 type Props = {
    workflow?: DWorkflowWithSteps | null;
+   formId: string;
    onSaved: (workflow: DWorkflow) => void;
+   onSubmittingChange: (submitting: boolean) => void;
+   onDirtyChange: (dirty: boolean) => void;
 };
 
-export const WorkflowForm = ({ workflow, onSaved }: Props) => {
-   const [loading, setLoading] = useState(false);
-
+export const WorkflowForm = ({
+   workflow,
+   formId,
+   onSaved,
+   onSubmittingChange,
+   onDirtyChange,
+}: Props) => {
    const form = useForm<FormValues>({
       resolver: zodResolver(updateWorkflowSchema),
       defaultValues: {
@@ -40,8 +45,18 @@ export const WorkflowForm = ({ workflow, onSaved }: Props) => {
       },
    });
 
+   const onSubmittingChangeRef = useRef(onSubmittingChange);
+   onSubmittingChangeRef.current = onSubmittingChange;
+   const onDirtyChangeRef = useRef(onDirtyChange);
+   onDirtyChangeRef.current = onDirtyChange;
+
+   const isDirty = form.formState.isDirty;
+   useEffect(() => {
+      onDirtyChangeRef.current(isDirty);
+   }, [isDirty]);
+
    const onSubmit = async (values: FormValues) => {
-      setLoading(true);
+      onSubmittingChangeRef.current(true);
       try {
          let result;
          if (workflow) {
@@ -52,71 +67,61 @@ export const WorkflowForm = ({ workflow, onSaved }: Props) => {
 
          if (result.success && result.data) {
             toast.success(result.message);
+            form.reset(values); // clear dirty state after save
             onSaved(result.data);
          } else {
             toast.error(result.message);
          }
       } finally {
-         setLoading(false);
+         onSubmittingChangeRef.current(false);
       }
    };
 
    return (
-      <div className="rounded-lg border bg-white p-4">
-         <h2 className="mb-4 text-sm font-semibold text-slate-900">
-            Workflow-Details
-         </h2>
-         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-               <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Titel *</FormLabel>
-                        <FormControl>
-                           <Input
-                              {...field}
-                              placeholder="Mein Workflow"
-                              maxLength={250}
-                              data-testid="workflow-title-input"
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-               <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Beschreibung</FormLabel>
-                        <FormControl>
-                           <Textarea
-                              {...field}
-                              value={field.value ?? ""}
-                              placeholder="Wofür wird dieser Workflow verwendet?"
-                              maxLength={750}
-                              rows={3}
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-               <Button
-                  type="submit"
-                  size="sm"
-                  disabled={loading || !form.formState.isDirty}
-                  className="w-full"
-                  data-testid="save-workflow-meta-btn"
-               >
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Speichern
-               </Button>
-            </form>
-         </Form>
-      </div>
+      <Form {...form}>
+         <form
+            id={formId}
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+         >
+            <FormField
+               control={form.control}
+               name="title"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Titel *</FormLabel>
+                     <FormControl>
+                        <Input
+                           {...field}
+                           placeholder="Mein Workflow"
+                           maxLength={250}
+                           data-testid="workflow-title-input"
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="description"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Beschreibung</FormLabel>
+                     <FormControl>
+                        <Textarea
+                           {...field}
+                           value={field.value ?? ""}
+                           placeholder="Wofür wird dieser Workflow verwendet?"
+                           maxLength={750}
+                           rows={4}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+         </form>
+      </Form>
    );
 };

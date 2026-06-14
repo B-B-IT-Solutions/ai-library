@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ChevronLeft, GitBranch, Play, Plus, Zap } from "lucide-react";
+import { Loader2, Play, Plus, Zap } from "lucide-react";
+import { GitBranch } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -16,6 +17,17 @@ import {
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
 import { Button } from "@/components/shadcn/button";
+import {
+   Tabs,
+   TabsContent,
+   TabsList,
+   TabsTrigger,
+} from "@/components/shadcn/tabs";
+import { ItemDetailsBreadcrumb } from "@/components/shared/breadcrumbs";
+import {
+   ItemDetailsEdit,
+   ItemDetailsEditHeader,
+} from "@/components/shared/wrappers/item-details";
 import { setStartStep } from "@/data/actions/workflow";
 import {
    DWorkflow,
@@ -29,6 +41,11 @@ import { WorkflowForm } from "./form";
 import { StepDetailPanel } from "./steps/step-detail-panel";
 import { StepList } from "./steps/step-list";
 
+const FORM_ID = "workflow-edit-form";
+
+const TAB_TRIGGER_CLASS =
+   "rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40";
+
 type Props = {
    initialWorkflow?: DWorkflowWithSteps;
    usage?: DWorkflowsUsage;
@@ -38,22 +55,31 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const [workflow, setWorkflow] = useState<DWorkflowWithSteps | undefined>(
       initialWorkflow
    );
-   const [selectedStep, setSelectedStep] = useState<DWorkflowStep | null>(null);
+   const [activeTab, setActiveTab] = useState("details");
+   const [selectedStep, setSelectedStep] = useState<
+      DWorkflowStep | undefined
+   >();
    const [createMode, setCreateMode] = useState(false);
    const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
+
+   // Workflow form state (lifted from WorkflowForm)
+   const [isSubmitting, setIsSubmitting] = useState(false);
+   const [workflowFormIsDirty, setWorkflowFormIsDirty] = useState(false);
+
+   // Step form state
    const [stepIsDirty, setStepIsDirty] = useState(false);
    const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
    const pendingNavigationRef = useRef<(() => void) | null>(null);
 
    const steps = workflow?.steps ?? [];
+   const isEdit = !!workflow;
 
-   // Step limit check for BASIC tier
    const isAtStepLimit =
       usage !== undefined &&
       usage.limit !== -1 &&
-      steps.length >= (usage.limit === 0 ? 0 : 10); // BASIC = 10 steps
+      steps.length >= (usage.limit === 0 ? 0 : 10);
 
-   // Guard navigation when step form has unsaved changes
+   // Guard step navigation when step form is dirty
    const guardNavigation = (action: () => void) => {
       if (stepIsDirty) {
          pendingNavigationRef.current = action;
@@ -81,6 +107,10 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
          steps: workflow?.steps ?? [],
       };
       setWorkflow(updatedWorkflow);
+      // After creating a new workflow, switch to steps tab
+      if (!isEdit) {
+         setActiveTab("steps");
+      }
    };
 
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
@@ -89,7 +119,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
       if (updatedStep) {
          setSelectedStep(updatedStep);
       } else {
-         setSelectedStep(null);
+         setSelectedStep(undefined);
          setCreateMode(false);
       }
    };
@@ -119,9 +149,34 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const handleStepDeleted = (updated: DWorkflowWithSteps) => {
       setWorkflow(updated);
       if (deleteStep && selectedStep?.id === deleteStep.id) {
-         setSelectedStep(null);
+         setSelectedStep(undefined);
       }
       setDeleteStep(null);
+   };
+
+   const breadcrumb = () => {
+      if (!isEdit) {
+         return (
+            <ItemDetailsBreadcrumb
+               root={{ label: "Workflows", href: "/workflows" }}
+               variant="new"
+               page={{ label: "Neuer Workflow" }}
+               data-testid="workflow-breadcrumb"
+            />
+         );
+      }
+      return (
+         <ItemDetailsBreadcrumb
+            root={{ label: "Workflows", href: "/workflows" }}
+            variant="edit"
+            link={{
+               href: `/workflows/${workflow.id}`,
+               label: workflow.title,
+               tooltip: workflow.title,
+            }}
+            data-testid="workflow-breadcrumb"
+         />
+      );
    };
 
    const rightPanelContent = () => {
@@ -135,14 +190,14 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                onCreateMode={createMode && !selectedStep}
                onCancelCreate={() => {
                   setCreateMode(false);
-                  setSelectedStep(null);
+                  setSelectedStep(undefined);
                }}
                onDirtyChange={setStepIsDirty}
             />
          );
       }
 
-      if (steps.length === 0 && workflow) {
+      if (steps.length === 0) {
          return (
             <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
                <div className="rounded-full bg-slate-100 p-4">
@@ -153,13 +208,12 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                      Noch keine Schritte
                   </h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                     Erstelle den ersten Schritt, um deinen Workflow
-                     aufzubauen.
+                     Erstelle den ersten Schritt, um deinen Workflow aufzubauen.
                   </p>
                </div>
                <Button
                   onClick={() => {
-                     setSelectedStep(null);
+                     setSelectedStep(undefined);
                      setCreateMode(true);
                   }}
                >
@@ -190,7 +244,7 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                size="sm"
                onClick={() =>
                   guardNavigation(() => {
-                     setSelectedStep(null);
+                     setSelectedStep(undefined);
                      setCreateMode(true);
                   })
                }
@@ -204,55 +258,83 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
 
    return (
       <>
-         <div className="flex h-full flex-col">
-            {/* STICKY HEADER */}
-            <div className="flex shrink-0 items-center justify-between border-b bg-white px-4 py-3">
-               <div className="flex min-w-0 items-center gap-2">
-                  <Link
-                     href="/workflows"
-                     className="flex shrink-0 items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                     <ChevronLeft className="h-4 w-4" />
-                     Workflows
-                  </Link>
-                  <span className="text-muted-foreground">/</span>
-                  <span className="truncate text-sm font-semibold text-slate-900">
-                     {workflow?.title || "Neuer Workflow"}
-                  </span>
+         <ItemDetailsEdit data-testid="workflow-edit">
+            <ItemDetailsEditHeader>
+               {breadcrumb()}
+               <div className="ml-auto flex items-center gap-2">
+                  {isEdit && steps.length > 0 && (
+                     <Button asChild size="sm" variant="outline">
+                        <Link href={`/workflows/${workflow.id}/run`}>
+                           <Play className="mr-2 h-4 w-4" />
+                           Ausführen
+                        </Link>
+                     </Button>
+                  )}
+                  {activeTab === "details" && (
+                     <Button
+                        type="submit"
+                        form={FORM_ID}
+                        size="sm"
+                        disabled={isSubmitting || !workflowFormIsDirty}
+                        className="bg-blue-700 hover:bg-blue-800"
+                        data-testid="save-workflow-meta-btn"
+                     >
+                        {isSubmitting && (
+                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        {isEdit ? "Speichern" : "Erstellen"}
+                     </Button>
+                  )}
                </div>
+            </ItemDetailsEditHeader>
 
-               {workflow && steps.length > 0 && (
-                  <Button asChild size="sm">
-                     <Link href={`/workflows/${workflow.id}/run`}>
-                        <Play className="mr-2 h-4 w-4" />
-                        Ausführen
-                     </Link>
-                  </Button>
-               )}
-            </div>
+            <Tabs
+               value={activeTab}
+               onValueChange={setActiveTab}
+               className="flex flex-1 flex-col overflow-hidden"
+            >
+               <TabsList className="h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0">
+                  <TabsTrigger
+                     value="details"
+                     className={TAB_TRIGGER_CLASS}
+                     data-testid="tab-details-btn"
+                  >
+                     Details
+                  </TabsTrigger>
+                  <TabsTrigger
+                     value="steps"
+                     disabled={!isEdit}
+                     className={TAB_TRIGGER_CLASS}
+                     data-testid="tab-steps-btn"
+                  >
+                     Schritte
+                     {steps.length > 0 && (
+                        <span className="ml-1.5 text-xs text-muted-foreground">
+                           ({steps.length})
+                        </span>
+                     )}
+                  </TabsTrigger>
+               </TabsList>
 
-            {/* MAIN GRID */}
-            <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-               {/* LEFT COLUMN */}
-               <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
-                  <WorkflowForm
-                     workflow={workflow}
-                     onSaved={handleWorkflowSaved}
-                  />
+               {/* Details Tab */}
+               <TabsContent value="details" className="overflow-y-auto">
+                  <div className="mx-auto max-w-2xl px-6 py-8">
+                     <WorkflowForm
+                        workflow={workflow}
+                        formId={FORM_ID}
+                        onSaved={handleWorkflowSaved}
+                        onSubmittingChange={setIsSubmitting}
+                        onDirtyChange={setWorkflowFormIsDirty}
+                     />
+                  </div>
+               </TabsContent>
 
-                  {workflow && (
-                     <>
-                        <div className="flex-1">
-                           <div className="mb-2 flex items-center justify-between">
-                              <span className="text-sm font-semibold text-slate-700">
-                                 Schritte
-                                 {steps.length > 0 && (
-                                    <span className="ml-1.5 font-normal text-muted-foreground">
-                                       ({steps.length})
-                                    </span>
-                                 )}
-                              </span>
-                           </div>
+               {/* Steps Tab */}
+               {isEdit && (
+                  <TabsContent value="steps" className="overflow-hidden">
+                     <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+                        {/* LEFT: step list */}
+                        <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
                            <StepList
                               workflow={workflow}
                               selectedStepId={selectedStep?.id ?? null}
@@ -265,59 +347,59 @@ export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
                               onSetStartStep={handleSetStartStep}
                               onDeleteStep={(step) => setDeleteStep(step)}
                            />
-                        </div>
 
-                        {isAtStepLimit ? (
-                           <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-                              <div className="flex items-start gap-2">
-                                 <Zap className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-                                 <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-medium text-amber-900">
-                                       Schritt-Limit erreicht (10/10)
-                                    </p>
-                                    <p className="mt-0.5 text-xs text-amber-700">
-                                       Mit PRO sind unbegrenzte Schritte
-                                       möglich.
-                                    </p>
-                                    <Button
-                                       asChild
-                                       size="sm"
-                                       variant="outline"
-                                       className="mt-2 w-full"
-                                    >
-                                       <Link href="/settings/billing">
-                                          Auf PRO upgraden →
-                                       </Link>
-                                    </Button>
+                           {isAtStepLimit ? (
+                              <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                                 <div className="flex items-start gap-2">
+                                    <Zap className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                                    <div className="min-w-0 flex-1">
+                                       <p className="text-sm font-medium text-amber-900">
+                                          Schritt-Limit erreicht (10/10)
+                                       </p>
+                                       <p className="mt-0.5 text-xs text-amber-700">
+                                          Mit PRO sind unbegrenzte Schritte
+                                          möglich.
+                                       </p>
+                                       <Button
+                                          asChild
+                                          size="sm"
+                                          variant="outline"
+                                          className="mt-2 w-full"
+                                       >
+                                          <Link href="/settings/billing">
+                                             Auf PRO upgraden →
+                                          </Link>
+                                       </Button>
+                                    </div>
                                  </div>
                               </div>
-                           </div>
-                        ) : (
-                           <Button
-                              variant="outline"
-                              className="w-full"
-                              onClick={() =>
-                                 guardNavigation(() => {
-                                    setSelectedStep(null);
-                                    setCreateMode(true);
-                                 })
-                              }
-                              data-testid="add-step-btn"
-                           >
-                              <Plus className="mr-2 h-4 w-4" />
-                              Schritt hinzufügen
-                           </Button>
-                        )}
-                     </>
-                  )}
-               </div>
+                           ) : (
+                              <Button
+                                 variant="outline"
+                                 className="w-full"
+                                 onClick={() =>
+                                    guardNavigation(() => {
+                                       setSelectedStep(undefined);
+                                       setCreateMode(true);
+                                    })
+                                 }
+                                 data-testid="add-step-btn"
+                              >
+                                 <Plus className="mr-2 h-4 w-4" />
+                                 Schritt hinzufügen
+                              </Button>
+                           )}
+                        </div>
 
-               {/* RIGHT COLUMN */}
-               <div className="overflow-y-auto bg-white">
-                  {rightPanelContent()}
-               </div>
-            </div>
-         </div>
+                        {/* RIGHT: step detail */}
+                        <div className="overflow-y-auto bg-white">
+                           {rightPanelContent()}
+                        </div>
+                     </div>
+                  </TabsContent>
+               )}
+            </Tabs>
+         </ItemDetailsEdit>
 
          {/* Unsaved changes confirmation */}
          <AlertDialog
