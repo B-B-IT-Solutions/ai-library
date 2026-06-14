@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { WorkflowEditor } from "@/components/workflows";
+import { WorkflowEdit } from "@/components/workflows";
 import { getWorkflowsUsage } from "@/data/actions/workflow";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ const NewWorkflowPage = async () => {
 
    return (
       <div data-testid="new-workflow-page" className="h-full">
-         <WorkflowEditor usage={usage} />
+         <WorkflowEdit usage={usage} />
       </div>
    );
 };

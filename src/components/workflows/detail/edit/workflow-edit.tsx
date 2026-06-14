@@ -18,7 +18,7 @@ import {
    DWorkflowsUsage,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { DeleteStepDialog } from "../dialogs/delete-step-dialog";
+import { DeleteStepDialog } from "../../dialogs/delete-step-dialog";
 
 import { StepDetailPanel } from "./step-detail-panel";
 import { StepList } from "./step-list";
@@ -29,7 +29,7 @@ type Props = {
    usage?: DWorkflowsUsage;
 };
 
-export const WorkflowEditor = ({ initialWorkflow, usage }: Props) => {
+export const WorkflowEdit = ({ initialWorkflow, usage }: Props) => {
    const [workflow, setWorkflow] = useState<DWorkflowWithSteps | undefined>(
       initialWorkflow
    );
