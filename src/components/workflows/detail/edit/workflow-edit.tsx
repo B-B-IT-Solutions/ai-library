@@ -42,7 +42,6 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
       initialWorkflow
    );
    const [activeTab, setActiveTab] = useState("details");
-   const [createMode, setCreateMode] = useState(false);
 
    // Workflow form state lifted from WorkflowForm
    const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +53,6 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
 
    const steps = workflow?.steps ?? [];
    const isEdit = !!workflow;
-   const hasAnyChanges = workflowFormIsDirty || stepIsDirty || createMode;
 
    /** Global save: saves current step (if dirty) + workflow metadata (if dirty). */
    const handleGlobalSave = async () => {
@@ -112,7 +110,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
          <Button
             type="submit"
             form={formId}
-            disabled={isSubmitting || !hasAnyChanges}
+            disabled={isSubmitting}
             onClick={handleGlobalSave}
             className="cursor-pointer bg-blue-700 hover:bg-blue-800"
             data-testid="save-btn"
