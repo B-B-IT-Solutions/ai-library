@@ -17,7 +17,7 @@ import { DListViewMode } from "@/data/types/domain/common";
 import { DWorkflowsPage } from "@/data/types/domain/workflow";
 import { WorkflowItem } from "../item";
 
-import { WorkflowItemsSkeleton } from "./workflow-items-skeleton";
+import { WorkflowsSkeleton } from "./workflows-skeleton";
 
 type Props = {
    viewMode: DListViewMode;
@@ -52,7 +52,7 @@ export const WorkflowItems = ({ viewMode, params }: Props) => {
    };
 
    if (isLoading) {
-      return <WorkflowItemsSkeleton viewMode={viewMode} />;
+      return <WorkflowsSkeleton viewMode={viewMode} />;
    }
 
    if (workflows.length === 0) {

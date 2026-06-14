@@ -3,17 +3,17 @@ import { assertInDocument } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { WorkflowItemsSkeleton } from "./workflow-items-skeleton";
+import { WorkflowsSkeleton } from "./workflows-skeleton";
 
 const assertRendered = () => {
-   const skeleton = screen.getByTestId("workflow-items-skeleton");
+   const skeleton = screen.getByTestId("workflows-skeleton");
    assertInDocument(skeleton);
 };
 
-describe("WorkflowItemsSkeleton rendering tests", () => {
+describe("WorkflowsSkeleton rendering tests", () => {
    it("grid view - default count - test", async () => {
       const { container } = render(
-         <WorkflowItemsSkeleton viewMode={DListViewMode.GRID} />
+         <WorkflowsSkeleton viewMode={DListViewMode.GRID} />
       );
 
       assertRendered();
@@ -22,7 +22,7 @@ describe("WorkflowItemsSkeleton rendering tests", () => {
 
    it("list view - default count - test", async () => {
       const { container } = render(
-         <WorkflowItemsSkeleton viewMode={DListViewMode.LIST} />
+         <WorkflowsSkeleton viewMode={DListViewMode.LIST} />
       );
 
       assertRendered();
@@ -31,7 +31,7 @@ describe("WorkflowItemsSkeleton rendering tests", () => {
 
    it("grid view - custom count - test", async () => {
       const { container } = render(
-         <WorkflowItemsSkeleton viewMode={DListViewMode.GRID} count={3} />
+         <WorkflowsSkeleton viewMode={DListViewMode.GRID} count={3} />
       );
 
       assertRendered();

@@ -4,6 +4,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { getWorkflowsPage } from "@/data/actions/workflow";
+import { DListViewMode } from "@/data/types/domain/common";
 import { DWorkflowsPageQuery } from "@/data/types/domain/workflow";
 
 import { WorkflowItems } from "./workflow-items";
@@ -12,8 +13,10 @@ const getWorkflowsPageMock = getWorkflowsPage as jest.MockedFunction<
    typeof getWorkflowsPage
 >;
 
-const assertSkeletonRendered = () =>
-   assertInDocument(screen.getByTestId("workflows-list-skeleton"));
+const assertSkeletonRendered = () => {
+   const skeleton = screen.getByTestId("workflows-skeleton");
+   assertInDocument(skeleton);
+};
 
 const assertEmptyStateRendered = () =>
    assertInDocument(screen.getByTestId("workflows-empty-state"));
@@ -46,7 +49,9 @@ describe("WorkflowItems", () => {
          () => new Promise(() => undefined)
       );
 
-      const { container } = renderWithRouter(<WorkflowItems params={{}} />);
+      const { container } = renderWithRouter(
+         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
+      );
 
       assertSkeletonRendered();
       expect(container).toMatchSnapshot();
@@ -56,7 +61,9 @@ describe("WorkflowItems", () => {
       const page = dtestData.dWorkflowsPage(0);
       getWorkflowsPageMock.mockResolvedValue(page);
 
-      const { container } = renderWithRouter(<WorkflowItems params={{}} />);
+      const { container } = renderWithRouter(
+         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
+      );
 
       await waitFor(() => {
          assertEmptyStateRendered();
@@ -69,7 +76,9 @@ describe("WorkflowItems", () => {
       const page = dtestData.dWorkflowsPage(3);
       getWorkflowsPageMock.mockResolvedValue(page);
 
-      const { container } = renderWithRouter(<WorkflowItems params={{}} />);
+      const { container } = renderWithRouter(
+         <WorkflowItems viewMode={DListViewMode.GRID} params={{}} />
+      );
 
       await waitFor(() => {
          assertWorkflowCardsRendered(3);
@@ -88,7 +97,9 @@ describe("WorkflowItems", () => {
          sort: { field: "title", order: "asc" as const },
       };
 
-      renderWithRouter(<WorkflowItems params={params} />);
+      renderWithRouter(
+         <WorkflowItems viewMode={DListViewMode.GRID} params={params} />
+      );
 
       const expectedQuery: DWorkflowsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },

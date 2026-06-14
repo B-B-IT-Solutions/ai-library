@@ -33,12 +33,12 @@ type Props = {
    count?: number;
 };
 
-export const WorkflowItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
+export const WorkflowsSkeleton = ({ viewMode, count = 8 }: Props) => {
    const cards = range(count).map((i) => <WorkflowItemSkeleton key={i} />);
 
    if (viewMode === DListViewMode.LIST) {
       return (
-         <div className="space-y-4" data-testid="workflow-items-skeleton">
+         <div className="space-y-4" data-testid="workflows-skeleton">
             {cards}
          </div>
       );
@@ -47,7 +47,7 @@ export const WorkflowItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="workflow-items-skeleton"
+         data-testid="workflows-skeleton"
       >
          {cards}
       </div>

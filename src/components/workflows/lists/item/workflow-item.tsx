@@ -27,16 +27,18 @@ import { DeleteWorkflowDialog } from "../../dialogs/delete-workflow-dialog";
 type Props = {
    workflow: DWorkflow;
    onDeleted: () => void;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const WorkflowItem = ({ workflow, onDeleted }: Props) => {
+export const WorkflowItem = ({ workflow, onDeleted, ref }: Props) => {
    const [deleteOpen, setDeleteOpen] = useState(false);
 
    return (
       <>
          <Card
+            ref={ref}
             className="flex flex-col transition-shadow hover:shadow-md"
-            data-testid={`workflow-card-${workflow.id}`}
+            data-testid="workflow-item"
          >
             <CardHeader className="pb-2">
                <div className="flex items-start justify-between gap-2">
