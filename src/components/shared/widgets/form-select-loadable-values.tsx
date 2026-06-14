@@ -125,6 +125,7 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
                      placeholder={placeholder}
                      value={search}
                      onValueChange={setSearch}
+                     data-testid="search-input"
                   />
                   <CommandList>
                      <SelectCommandEmpty isLoading={isLoading} />
@@ -178,6 +179,7 @@ export const SelectCommandItem = ({
          key={item.id}
          value={item.title}
          onSelect={onSelect}
+         data-testid="command-item"
       >
          <Check
             className={cn(
@@ -197,10 +199,14 @@ type SelectCommandEmptyProps = {
 export const SelectCommandEmpty = ({ isLoading }: SelectCommandEmptyProps) => {
    if (isLoading) {
       return (
-         <CommandEmpty>
+         <CommandEmpty data-testid="command-empty-loading">
             <Loader className="mx-auto h-4 w-4 animate-spin text-muted-foreground" />
          </CommandEmpty>
       );
    }
-   return <CommandEmpty>Kein Prompt gefunden.</CommandEmpty>;
+   return (
+      <CommandEmpty data-testid="command-empty">
+         Kein Prompt gefunden.
+      </CommandEmpty>
+   );
 };

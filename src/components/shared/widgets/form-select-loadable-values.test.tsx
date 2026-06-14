@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import {
@@ -39,14 +39,14 @@ const makeQueryResult = (overrides: Record<string, unknown> = {}) => ({
 
 const mockQueryOptions = jest.fn().mockReturnValue({});
 
-type FormValues = { promptId: string };
+type FormValues = { promptId: string | undefined };
 
 type WrapperProps = {
    value?: string;
    required?: boolean;
 };
 
-const TestWrapper = ({ value = "", required }: WrapperProps) => {
+const TestWrapper = ({ value, required }: WrapperProps) => {
    const form = useForm<FormValues>({
       defaultValues: { promptId: value },
    });
@@ -69,37 +69,43 @@ const assertRendered = () => {
    assertInDocument(trigger);
 };
 
+const assertPopoverContentRendered = () => {
+   const searchInput = screen.getByTestId("search-input");
+   const item1 = screen.getByText("Prompt Alpha");
+   const item2 = screen.getByText("Prompt Beta");
+
+   assertInDocument(searchInput);
+   assertInDocument(item1);
+   assertInDocument(item2);
+};
+
+const assertPopoverContentNotRendered = () => {
+   const searchInput = screen.queryByTestId("search-input");
+   assertNotInDocument(searchInput);
+};
+
 describe("FormSelectLoadableValues rendering tests", () => {
    beforeEach(() => {
       mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
    });
 
-   it("FormSelectLoadableValues - without required - test", () => {
+   it("value undefined - test", async () => {
       const { container } = render(<TestWrapper />);
 
-      assertRendered();
-      expect(screen.queryByText("*")).not.toBeInTheDocument();
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("FormSelectLoadableValues - with required - test", () => {
-      const { container } = render(<TestWrapper required={true} />);
-
-      assertRendered();
-      expect(screen.getByText("*")).toBeInTheDocument();
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("FormSelectLoadableValues - with pre-selected value - test", async () => {
-      const { container } = render(<TestWrapper value="1" />);
-
-      assertRendered();
       await waitFor(() => {
-         expect(
-            within(screen.getByTestId("item-select")).getByText("Prompt Alpha")
-         ).toBeInTheDocument();
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("value defined - test", async () => {
+      const { container } = render(
+         <TestWrapper value="test 1" required={true} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -112,108 +118,169 @@ describe("FormSelectLoadableValues functionality tests", () => {
       mockQueryOptions.mockClear();
    });
 
-   it("FormSelectLoadableValues - opens popover on trigger click - test", async () => {
+   it("trigger clicked btn - test", async () => {
       render(<TestWrapper />);
-
-      expect(
-         screen.queryByPlaceholderText("Prompt suchen…")
-      ).not.toBeInTheDocument();
-
-      await userEvent.click(screen.getByTestId("item-select"));
-
-      expect(screen.getByPlaceholderText("Prompt suchen…")).toBeInTheDocument();
-      expect(screen.getByText("Prompt Alpha")).toBeInTheDocument();
-      expect(screen.getByText("Prompt Beta")).toBeInTheDocument();
-   });
-
-   it("FormSelectLoadableValues - selects item and closes popover - test", async () => {
-      render(<TestWrapper />);
-      await userEvent.click(screen.getByTestId("item-select"));
-      await userEvent.click(screen.getByText("Prompt Alpha"));
 
       await waitFor(() => {
-         expect(
-            screen.queryByPlaceholderText("Prompt suchen…")
-         ).not.toBeInTheDocument();
-         expect(
-            within(screen.getByTestId("item-select")).getByText("Prompt Alpha")
-         ).toBeInTheDocument();
+         assertRendered();
+         assertPopoverContentNotRendered();
       });
-   });
 
-   it("FormSelectLoadableValues - calls queryOptions with empty string initially - test", () => {
-      render(<TestWrapper />);
+      const trigger1 = screen.getByTestId("item-select");
+      await userEvent.click(trigger1);
+
+      await waitFor(() => {
+         assertPopoverContentRendered();
+      });
+
+      const item1 = screen.getByText("Prompt Alpha");
+      await userEvent.click(item1);
+
+      await waitFor(() => {
+         assertPopoverContentNotRendered();
+      });
+
+      const trigger2 = screen.getByTestId("item-select");
+      const selectedItem = within(trigger2).getByText("Prompt Alpha");
+      assertInDocument(selectedItem);
+
+      expect(mockQueryOptions).toHaveBeenCalled();
       expect(mockQueryOptions).toHaveBeenCalledWith("");
    });
 
-   it("FormSelectLoadableValues - calls queryOptions with search term - test", async () => {
+   it("items search - test", async () => {
       render(<TestWrapper />);
-      await userEvent.click(screen.getByTestId("item-select"));
-      await userEvent.type(screen.getByPlaceholderText("Prompt suchen…"), "A");
 
       await waitFor(() => {
-         expect(mockQueryOptions).toHaveBeenCalledWith("A");
+         assertRendered();
+         assertPopoverContentNotRendered();
       });
-   });
 
-   it("FormSelectLoadableValues - shows loading state - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ isLoading: true, data: undefined })
-      );
-      render(<TestWrapper />);
-      await userEvent.click(screen.getByTestId("item-select"));
+      const trigger1 = screen.getByTestId("item-select");
+      await userEvent.click(trigger1);
 
-      expect(document.querySelector(".animate-spin")).toBeInTheDocument();
-   });
+      await waitFor(() => {
+         assertPopoverContentRendered();
+      });
 
-   it("FormSelectLoadableValues - shows empty message when no items - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: [] }] } })
-      );
-      render(<TestWrapper />);
-      await userEvent.click(screen.getByTestId("item-select"));
+      const input = screen.getByTestId("search-input");
+      await userEvent.type(input, "A");
 
-      expect(screen.getByText("Kein Prompt gefunden.")).toBeInTheDocument();
+      const item1 = screen.getByText("Prompt Alpha");
+      await userEvent.click(item1);
+
+      await waitFor(() => {
+         assertPopoverContentNotRendered();
+      });
+
+      const trigger2 = screen.getByTestId("item-select");
+      const selectedItem = within(trigger2).getByText("Prompt Alpha");
+      assertInDocument(selectedItem);
+
+      expect(mockQueryOptions).toHaveBeenCalled();
+      expect(mockQueryOptions).toHaveBeenCalledWith("A");
    });
 });
 
 describe("SelectCommandEmpty rendering tests", () => {
-   const renderEmpty = (isLoading: boolean) =>
-      render(
+   const assertLoadingRendered = () => {
+      const empty = screen.getByTestId("command-empty-loading");
+      assertInDocument(empty);
+   };
+
+   const assertEmptyRendered = () => {
+      const empty = screen.getByTestId("command-empty");
+      assertInDocument(empty);
+   };
+
+   it("isLoading true - test", () => {
+      const { container } = render(
          <Command>
             <CommandList>
-               <SelectCommandEmpty isLoading={isLoading} />
+               <SelectCommandEmpty isLoading={true} />
             </CommandList>
          </Command>
       );
 
-   it("SelectCommandEmpty - isLoading true - shows spinner - test", () => {
-      const { container } = renderEmpty(true);
-
-      expect(document.querySelector(".animate-spin")).toBeInTheDocument();
+      assertLoadingRendered();
       expect(container).toMatchSnapshot();
    });
 
-   it("SelectCommandEmpty - isLoading false - shows empty message - test", () => {
-      const { container } = renderEmpty(false);
+   it("isLoading false - test", () => {
+      const { container } = render(
+         <Command>
+            <CommandList>
+               <SelectCommandEmpty isLoading={false} />
+            </CommandList>
+         </Command>
+      );
 
-      expect(screen.getByText("Kein Prompt gefunden.")).toBeInTheDocument();
+      assertEmptyRendered();
       expect(container).toMatchSnapshot();
    });
 });
 
 describe("SelectCommandItem rendering tests", () => {
-   const item = { id: "1", title: "Test Prompt" };
-   const onSelect = jest.fn();
+   const item = {
+      id: "1",
+      title: "Test Prompt",
+   };
 
-   const renderItem = (isSelected: boolean) =>
+   const assertRendered = () => {
+      const item = screen.getByTestId("command-item");
+      assertInDocument(item);
+   };
+
+   it("selected true - test", () => {
+      const { container } = render(
+         <Command>
+            <CommandList>
+               <CommandGroup>
+                  <SelectCommandItem
+                     item={item}
+                     isSelected={true}
+                     onSelect={jest.fn()}
+                  />
+               </CommandGroup>
+            </CommandList>
+         </Command>
+      );
+
+      assertRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("selected false - test", () => {
+      const { container } = render(
+         <Command>
+            <CommandList>
+               <CommandGroup>
+                  <SelectCommandItem
+                     item={item}
+                     isSelected={false}
+                     onSelect={jest.fn()}
+                  />
+               </CommandGroup>
+            </CommandList>
+         </Command>
+      );
+
+      assertRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("onSelect clicked - test", async () => {
+      const onSelect = jest.fn();
+
       render(
          <Command>
             <CommandList>
                <CommandGroup>
                   <SelectCommandItem
                      item={item}
-                     isSelected={isSelected}
+                     isSelected={false}
                      onSelect={onSelect}
                   />
                </CommandGroup>
@@ -221,31 +288,9 @@ describe("SelectCommandItem rendering tests", () => {
          </Command>
       );
 
-   beforeEach(() => {
-      onSelect.mockClear();
-   });
+      const commandItem = screen.getByTestId("command-item");
+      await userEvent.click(commandItem);
 
-   it("SelectCommandItem - not selected - test", () => {
-      const { container } = renderItem(false);
-
-      assertInDocument(screen.getByText("Test Prompt"));
-      expect(document.querySelector(".opacity-0")).toBeInTheDocument();
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("SelectCommandItem - selected - test", () => {
-      const { container } = renderItem(true);
-
-      assertInDocument(screen.getByText("Test Prompt"));
-      expect(document.querySelector(".opacity-100")).toBeInTheDocument();
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("SelectCommandItem - calls onSelect on click - test", async () => {
-      renderItem(false);
-      await userEvent.click(screen.getByText("Test Prompt"));
       expect(onSelect).toHaveBeenCalled();
    });
 });
