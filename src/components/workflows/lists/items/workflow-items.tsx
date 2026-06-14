@@ -13,14 +13,18 @@ import {
    useInfiniteLoadWorkflowsPage,
    workflowKeys,
 } from "@/data/ts-queries/workflow";
+import { DListViewMode } from "@/data/types/domain/common";
 import { DWorkflowsPage } from "@/data/types/domain/workflow";
 import { WorkflowItem } from "../item";
 
+import { WorkflowItemsSkeleton } from "./workflow-items-skeleton";
+
 type Props = {
+   viewMode: DListViewMode;
    params: LoadWorkflowsPageParams;
 };
 
-export const WorkflowItems = ({ params }: Props) => {
+export const WorkflowItems = ({ viewMode, params }: Props) => {
    const queryClient = useQueryClient();
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
@@ -48,7 +52,7 @@ export const WorkflowItems = ({ params }: Props) => {
    };
 
    if (isLoading) {
-      return <WorkflowsListSkeleton />;
+      return <WorkflowItemsSkeleton viewMode={viewMode} />;
    }
 
    if (workflows.length === 0) {
@@ -77,17 +81,6 @@ export const WorkflowItems = ({ params }: Props) => {
       </InfiniteScroll>
    );
 };
-
-const WorkflowsListSkeleton = () => (
-   <div
-      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-      data-testid="workflows-list-skeleton"
-   >
-      {Array.from({ length: 6 }).map((_, i) => (
-         <div key={i} className="h-40 animate-pulse rounded-lg bg-slate-200" />
-      ))}
-   </div>
-);
 
 const EmptyState = () => (
    <div
