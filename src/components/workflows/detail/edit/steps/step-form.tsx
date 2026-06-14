@@ -157,6 +157,7 @@ export const StepForm = ({
                   queryOptions={(search) =>
                      infiniteLoadPromptPreviewsPageOptions({
                         filters: { search },
+                        sort: { field: "title", order: "asc" },
                      })
                   }
                />
