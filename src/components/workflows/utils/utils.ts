@@ -4,6 +4,10 @@ export const isEditMode = (workflow?: DWorkflow) => {
    return !!workflow;
 };
 
+export const viewWorkflowUrl = (workflow: DWorkflow) => {
+   return `/workflows/${workflow.id}`;
+};
+
 export const newWorkflowUrl = () => {
    return "/workflows/new";
 };

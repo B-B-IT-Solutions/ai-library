@@ -11,9 +11,10 @@ import {
    TabsList,
    TabsTrigger,
 } from "@/components/shadcn/tabs";
-import { ItemDetailsBreadcrumb } from "@/components/shared/breadcrumbs";
 import {
    ItemDetailsEdit,
+   ItemDetailsEditBody,
+   ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
 import {
@@ -21,6 +22,7 @@ import {
    DWorkflowsUsage,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
+import { WorkflowBreadcrumb } from "../../breadcrumbs";
 import { worfklowEditNavigateBackUrl } from "../../utils/utils";
 
 import { WorkflowForm } from "./form";
@@ -83,44 +85,12 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
 
    const formId = "workflow-edit-form";
 
-   // const breadcrumbs = () => {
-   //    if (prompt) {
-   //       return (
-   //          <PromptBreadcrumb
-   //             variant="edit"
-   //             prompt={prompt}
-   //             currentCollection={currentCollection}
-   //          />
-   //       );
-   //    }
-   //    return (
-   //       <PromptBreadcrumb
-   //          variant="new"
-   //          currentCollection={currentCollection}
-   //       />
-   //    );
-   // };
-
-   const breadcrumb = () =>
-      isEdit ? (
-         <ItemDetailsBreadcrumb
-            root={{ label: "Workflows", href: "/workflows" }}
-            variant="edit"
-            link={{
-               href: `/workflows/${workflow.id}`,
-               label: workflow.title,
-               tooltip: workflow.title,
-            }}
-            data-testid="workflow-breadcrumb"
-         />
-      ) : (
-         <ItemDetailsBreadcrumb
-            root={{ label: "Workflows", href: "/workflows" }}
-            variant="new"
-            page={{ label: "Neuer Workflow" }}
-            data-testid="workflow-breadcrumb"
-         />
-      );
+   const breadcrumb = () => {
+      if (workflow) {
+         return <WorkflowBreadcrumb variant="edit" workflow={workflow} />;
+      }
+      return <WorkflowBreadcrumb variant="new" />;
+   };
 
    const cancelBtn = () => {
       return (
@@ -168,18 +138,8 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
       );
    };
 
-   return (
-      <ItemDetailsEdit data-testid="workflow-edit">
-         <ItemDetailsEditHeader>
-            {breadcrumb()}
-            <div
-               className="ml-auto hidden lg:flex"
-               data-testid="header-actions"
-            >
-               {actions()}
-            </div>
-         </ItemDetailsEditHeader>
-
+   const body = () => {
+      return (
          <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
@@ -230,6 +190,25 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                </TabsContent>
             )}
          </Tabs>
+      );
+   };
+
+   return (
+      <ItemDetailsEdit data-testid="workflow-edit">
+         <ItemDetailsEditHeader>
+            {breadcrumb()}
+            <div
+               className="ml-auto hidden lg:flex"
+               data-testid="header-actions"
+            >
+               {actions()}
+            </div>
+         </ItemDetailsEditHeader>
+         <ItemDetailsEditContent>
+            <ItemDetailsEditBody className="max-w-7xl">
+               {body()}
+            </ItemDetailsEditBody>
+         </ItemDetailsEditContent>
       </ItemDetailsEdit>
    );
 };

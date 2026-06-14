@@ -4,6 +4,7 @@ import {
    breadcrumbRootUrl,
    isEditMode,
    newWorkflowUrl,
+   viewWorkflowUrl,
    worfklowEditNavigateBackUrl,
 } from "./utils";
 
@@ -21,6 +22,14 @@ describe("isEditMode - tests", () => {
       const workflow = dtestData.dWorkflow();
       const result = isEditMode(workflow);
       expect(result).toBe(true);
+   });
+});
+
+describe("viewWorkflowUrl - tests", () => {
+   it("workflow url - test", () => {
+      const workflow = dtestData.dWorkflow();
+      const result = viewWorkflowUrl(workflow);
+      expect(result).toBe(`/workflows/${workflow.id}`);
    });
 });
 
@@ -45,7 +54,7 @@ describe("worfklowEditNavigateBackUrl - tests", () => {
 });
 
 describe("breadcrumbRootUrl - tests", () => {
-   it("url - test", () => {
+   it("workflows - test", () => {
       const result = breadcrumbRootUrl();
       expect(result).toBe("/workflows");
    });
