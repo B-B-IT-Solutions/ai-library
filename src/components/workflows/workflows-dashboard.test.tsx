@@ -47,7 +47,7 @@ const assertRendered = () => {
    const dashboard = screen.getByTestId("workflows-dashboard");
    const createBtn = screen.getByTestId("create-workflow-btn");
    const toolbar = screen.getByTestId("workflows-toolbar");
-   const items = screen.getByTestId("workflow-items");
+   const items = screen.getByTestId("workflows-grid");
 
    assertInDocument(dashboard);
    assertInDocument(createBtn);
