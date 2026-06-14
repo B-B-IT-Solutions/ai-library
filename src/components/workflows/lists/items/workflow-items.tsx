@@ -1,31 +1,38 @@
 "use client";
 
 import { useMemo } from "react";
-import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { flatMap } from "es-toolkit/compat";
 import { GitBranch, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
+import { resolveSort } from "@/data/ts-queries/utils";
 import {
    type LoadWorkflowsPageParams,
    useInfiniteLoadWorkflowsPage,
-   workflowKeys,
 } from "@/data/ts-queries/workflow";
-import { DListViewMode } from "@/data/types/domain/common";
-import { DWorkflowsPage } from "@/data/types/domain/workflow";
-import { WorkflowItem } from "../item";
+import {
+   DListViewMode,
+   DWorkflowsSortByMode,
+} from "@/data/types/domain/common";
+import { DWorkflowsFilter } from "@/data/types/domain/workflow";
 
+import { WorkflowsGrid } from "./workflows-grid";
+import { WorfklowsList } from "./workflows-list";
 import { WorkflowsSkeleton } from "./workflows-skeleton";
 
 type Props = {
    viewMode: DListViewMode;
-   params: LoadWorkflowsPageParams;
+   filters: DWorkflowsFilter;
+   sortMode: DWorkflowsSortByMode;
 };
 
-export const WorkflowItems = ({ viewMode, params }: Props) => {
-   const queryClient = useQueryClient();
+export const WorkflowItems = ({ viewMode, filters, sortMode }: Props) => {
+   const params: LoadWorkflowsPageParams = {
+      filters,
+      sort: resolveSort(sortMode),
+   };
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadWorkflowsPage(params);
@@ -35,28 +42,25 @@ export const WorkflowItems = ({ viewMode, params }: Props) => {
       [data]
    );
 
-   const handleDeleted = (workflowId: string) => {
-      queryClient.setQueryData<InfiniteData<DWorkflowsPage>>(
-         workflowKeys.workflows(params),
-         (old) => {
-            if (!old) return old;
-            return {
-               ...old,
-               pages: old.pages.map((page) => ({
-                  ...page,
-                  content: page.content.filter((w) => w.id !== workflowId),
-               })),
-            };
-         }
-      );
-   };
-
    if (isLoading) {
       return <WorkflowsSkeleton viewMode={viewMode} />;
    }
 
    if (workflows.length === 0) {
       return <EmptyState />;
+   }
+
+   if (viewMode === DListViewMode.LIST) {
+      return (
+         <InfiniteScroll
+            hasMore={hasNextPage}
+            isLoading={isFetching}
+            next={fetchNextPage}
+            threshold={0.1}
+         >
+            <WorfklowsList workflows={workflows} />
+         </InfiniteScroll>
+      );
    }
 
    return (
@@ -66,18 +70,7 @@ export const WorkflowItems = ({ viewMode, params }: Props) => {
          next={fetchNextPage}
          threshold={0.1}
       >
-         <div
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            data-testid="workflow-items"
-         >
-            {workflows.map((workflow) => (
-               <WorkflowItem
-                  key={workflow.id}
-                  workflow={workflow}
-                  onDeleted={() => handleDeleted(workflow.id)}
-               />
-            ))}
-         </div>
+         <WorkflowsGrid workflows={workflows} />
       </InfiniteScroll>
    );
 };

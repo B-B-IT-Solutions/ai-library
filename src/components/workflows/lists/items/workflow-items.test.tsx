@@ -39,7 +39,7 @@ const defaultQuery: DWorkflowsPageQuery = {
    sort: undefined,
 };
 
-describe("WorkflowItems", () => {
+describe("WorkflowItems rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

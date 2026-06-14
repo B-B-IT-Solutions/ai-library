@@ -67,7 +67,11 @@ export const WorkflowsDashboard = async () => {
             <WorkflowsToolbar viewMode={viewMode} />
 
             <div className="flex-1 overflow-y-auto p-6">
-               <WorkflowItems viewMode={viewMode} params={params} />
+               <WorkflowItems
+                  viewMode={viewMode}
+                  filters={filters}
+                  sortMode={sortMode}
+               />
             </div>
          </div>
       </HydrationBoundary>
