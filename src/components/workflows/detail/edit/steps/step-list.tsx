@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, ArrowRight, Edit, MoreHorizontal } from "lucide-react";
+import { ArrowRight, MoreHorizontal, Star } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -8,7 +8,6 @@ import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
-   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import {
@@ -40,12 +39,12 @@ export const StepList = ({
       <div className="space-y-2" data-testid="step-list">
          {!hasStart && steps.length > 0 && (
             <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
-               <AlertTriangle className="h-4 w-4 shrink-0" />
+               <Star className="h-4 w-4 shrink-0" />
                Kein Startschritt gesetzt
             </div>
          )}
 
-         {steps.map((step) => {
+         {steps.map((step, idx) => {
             const isSelected = step.id === selectedStepId;
             const isEndStep = step.outgoingEdges.length === 0;
             const incomingCount = steps.filter((s) =>
@@ -58,13 +57,19 @@ export const StepList = ({
                   key={step.id}
                   className={cn(
                      "cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary",
-                     isSelected && "border-primary ring-1 ring-primary"
+                     isSelected && "border-primary ring-1 ring-primary",
+                     isDisconnected &&
+                        !isSelected &&
+                        "border-l-[3px] border-l-orange-400"
                   )}
                   onClick={() => onSelectStep(step)}
                   data-testid={`step-card-${step.id}`}
                >
                   <div className="flex items-start justify-between gap-2">
                      <div className="flex min-w-0 flex-1 items-center gap-2">
+                        <span className="w-5 shrink-0 text-right font-mono text-xs text-muted-foreground">
+                           {idx + 1}.
+                        </span>
                         {step.isStart && (
                            <Badge className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600">
                               Start
@@ -78,14 +83,6 @@ export const StepList = ({
                               Ende
                            </Badge>
                         )}
-                        {isDisconnected && (
-                           <Badge
-                              variant="outline"
-                              className="shrink-0 border-yellow-400 text-xs text-yellow-700"
-                           >
-                              Nicht verbunden
-                           </Badge>
-                        )}
                         <span className="truncate text-sm font-medium">
                            {step.title}
                         </span>
@@ -96,12 +93,24 @@ export const StepList = ({
                            variant="ghost"
                            size="icon"
                            className="h-6 w-6"
+                           title={
+                              step.isStart
+                                 ? "Ist Startschritt"
+                                 : "Als Startschritt setzen"
+                           }
                            onClick={(e) => {
                               e.stopPropagation();
-                              onSelectStep(step);
+                              if (!step.isStart) onSetStartStep(step);
                            }}
                         >
-                           <Edit className="h-3.5 w-3.5" />
+                           <Star
+                              className={cn(
+                                 "h-3.5 w-3.5",
+                                 step.isStart
+                                    ? "fill-blue-600 text-blue-600"
+                                    : "text-muted-foreground"
+                              )}
+                           />
                         </Button>
                         <DropdownMenu>
                            <DropdownMenuTrigger asChild>
@@ -116,16 +125,6 @@ export const StepList = ({
                            </DropdownMenuTrigger>
                            <DropdownMenuContent align="end">
                               <DropdownMenuItem
-                                 onClick={(e) => {
-                                    e.stopPropagation();
-                                    onSetStartStep(step);
-                                 }}
-                                 disabled={step.isStart}
-                              >
-                                 Als Startschritt setzen
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
                                  className="text-destructive focus:text-destructive"
                                  onClick={(e) => {
                                     e.stopPropagation();
@@ -139,37 +138,39 @@ export const StepList = ({
                      </div>
                   </div>
 
-                  <div className="mt-1.5 text-xs text-muted-foreground">
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
                      <Badge variant="outline" className="text-xs">
                         {step.type === "PROMPT_REF"
                            ? "Template"
                            : "Eigenständig"}
                      </Badge>
                      {step.promptTitle && (
-                        <span className="ml-2">{step.promptTitle}</span>
+                        <span className="truncate">{step.promptTitle}</span>
+                     )}
+                     {isDisconnected && (
+                        <span className="font-medium text-orange-600">
+                           · Nicht verbunden
+                        </span>
                      )}
                   </div>
 
                   {step.outgoingEdges.length > 0 && (
-                     <div className="mt-2 space-y-1">
+                     <div className="mt-2 flex flex-wrap gap-1">
                         {step.outgoingEdges.map((edge) => {
                            const target = steps.find(
                               (s) => s.id === edge.toStepId
                            );
                            return (
-                              <div
+                              <span
                                  key={edge.id}
-                                 className="flex items-center gap-1 text-xs text-muted-foreground"
+                                 className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
                               >
+                                 {edge.label}
                                  <ArrowRight className="h-3 w-3 shrink-0" />
-                                 <span className="font-medium">
-                                    {edge.label}
+                                 <span className="max-w-[80px] truncate">
+                                    {target?.title ?? "?"}
                                  </span>
-                                 <span>→</span>
-                                 <span className="truncate">
-                                    {target?.title ?? "Unbekannt"}
-                                 </span>
-                              </div>
+                              </span>
                            );
                         })}
                      </div>

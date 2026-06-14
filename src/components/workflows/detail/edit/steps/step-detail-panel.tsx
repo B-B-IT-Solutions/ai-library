@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Trash2 } from "lucide-react";
+import { Check, ChevronDown, ChevronsUpDown, Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
 import { Checkbox } from "@/components/shadcn/checkbox";
+import {
+   Command,
+   CommandEmpty,
+   CommandGroup,
+   CommandInput,
+   CommandItem,
+   CommandList,
+} from "@/components/shadcn/command";
 import {
    Form,
    FormControl,
@@ -18,6 +26,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
 import {
    Select,
    SelectContent,
@@ -39,6 +48,7 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
+import { cn } from "@/lib/utils";
 
 type FormValues = z.infer<typeof updateWorkflowStepSchema>;
 
@@ -49,6 +59,7 @@ type Props = {
    onSaved: (workflow: DWorkflowWithSteps) => void;
    onCreateMode?: boolean;
    onCancelCreate?: () => void;
+   onDirtyChange?: (dirty: boolean) => void;
 };
 
 export const StepDetailPanel = ({
@@ -58,9 +69,12 @@ export const StepDetailPanel = ({
    onSaved,
    onCreateMode = false,
    onCancelCreate,
+   onDirtyChange,
 }: Props) => {
    const [loading, setLoading] = useState(false);
    const [templates, setTemplates] = useState<DPrompt[]>([]);
+   const [templateOpen, setTemplateOpen] = useState(false);
+   const [showHint, setShowHint] = useState(() => !!(step?.hint));
 
    useEffect(() => {
       getPromptTemplates().then(setTemplates).catch(console.error);
@@ -112,8 +126,17 @@ export const StepDetailPanel = ({
                order: e.order,
             })),
          });
+         setShowHint(!!(step.hint));
       }
    }, [step, form]);
+
+   // Propagate dirty state to parent
+   const onDirtyChangeRef = useRef(onDirtyChange);
+   onDirtyChangeRef.current = onDirtyChange;
+   const isDirty = form.formState.isDirty;
+   useEffect(() => {
+      onDirtyChangeRef.current?.(isDirty);
+   }, [isDirty]);
 
    const {
       fields: edgeFields,
@@ -125,7 +148,6 @@ export const StepDetailPanel = ({
    });
 
    const stepType = form.watch("type");
-
    const otherSteps = allSteps.filter((s) => s.id !== step?.id);
 
    const onSubmit = async (values: FormValues) => {
@@ -160,15 +182,32 @@ export const StepDetailPanel = ({
       }
    };
 
+   const headerTitle = onCreateMode
+      ? "Neuer Schritt"
+      : step?.title
+        ? `Schritt bearbeiten`
+        : "Schritt bearbeiten";
+
    return (
       <div
          className="flex h-full flex-col overflow-y-auto"
          data-testid="step-detail-panel"
       >
-         <div className="border-b bg-white px-5 py-4">
-            <h2 className="font-semibold text-slate-900">
-               {onCreateMode ? "Neuer Schritt" : "Schritt bearbeiten"}
-            </h2>
+         <div className="shrink-0 border-b bg-white px-5 py-4">
+            <div className="flex items-center gap-2">
+               <h2 className="font-semibold text-slate-900">{headerTitle}</h2>
+               {isDirty && (
+                  <span
+                     className="h-2 w-2 rounded-full bg-amber-400"
+                     title="Ungespeicherte Änderungen"
+                  />
+               )}
+            </div>
+            {step?.title && !onCreateMode && (
+               <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                  {step.title}
+               </p>
+            )}
          </div>
 
          <Form {...form}>
@@ -189,27 +228,6 @@ export const StepDetailPanel = ({
                               placeholder="Schritt-Titel"
                               maxLength={250}
                               data-testid="step-title-input"
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-
-               {/* Hinweis */}
-               <FormField
-                  control={form.control}
-                  name="hint"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Hinweis (optional)</FormLabel>
-                        <FormControl>
-                           <Textarea
-                              {...field}
-                              value={field.value ?? ""}
-                              placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
-                              maxLength={750}
-                              rows={3}
                            />
                         </FormControl>
                         <FormMessage />
@@ -257,34 +275,81 @@ export const StepDetailPanel = ({
                   )}
                />
 
-               {/* Template-Picker */}
+               {/* Template-Picker als Combobox */}
                {stepType === "PROMPT_REF" && (
                   <FormField
                      control={form.control}
                      name="promptId"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Template *</FormLabel>
-                           <Select
-                              value={field.value ?? ""}
-                              onValueChange={field.onChange}
-                           >
-                              <FormControl>
-                                 <SelectTrigger data-testid="template-select">
-                                    <SelectValue placeholder="Template auswählen…" />
-                                 </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                 {templates.map((t) => (
-                                    <SelectItem key={t.id} value={t.id}>
-                                       {t.title}
-                                    </SelectItem>
-                                 ))}
-                              </SelectContent>
-                           </Select>
-                           <FormMessage />
-                        </FormItem>
-                     )}
+                     render={({ field }) => {
+                        const selected = templates.find(
+                           (t) => t.id === field.value
+                        );
+                        return (
+                           <FormItem>
+                              <FormLabel>Template *</FormLabel>
+                              <Popover
+                                 open={templateOpen}
+                                 onOpenChange={setTemplateOpen}
+                              >
+                                 <PopoverTrigger asChild>
+                                    <FormControl>
+                                       <Button
+                                          variant="outline"
+                                          role="combobox"
+                                          aria-expanded={templateOpen}
+                                          className="w-full justify-between font-normal"
+                                          data-testid="template-select"
+                                       >
+                                          <span className="truncate">
+                                             {selected
+                                                ? selected.title
+                                                : "Template auswählen…"}
+                                          </span>
+                                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                       </Button>
+                                    </FormControl>
+                                 </PopoverTrigger>
+                                 <PopoverContent
+                                    className="p-0"
+                                    align="start"
+                                    style={{ width: "var(--radix-popover-trigger-width)" }}
+                                 >
+                                    <Command>
+                                       <CommandInput placeholder="Template suchen…" />
+                                       <CommandList>
+                                          <CommandEmpty>
+                                             Kein Template gefunden.
+                                          </CommandEmpty>
+                                          <CommandGroup>
+                                             {templates.map((t) => (
+                                                <CommandItem
+                                                   key={t.id}
+                                                   value={t.title}
+                                                   onSelect={() => {
+                                                      field.onChange(t.id);
+                                                      setTemplateOpen(false);
+                                                   }}
+                                                >
+                                                   <Check
+                                                      className={cn(
+                                                         "mr-2 h-4 w-4",
+                                                         field.value === t.id
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
+                                                      )}
+                                                   />
+                                                   {t.title}
+                                                </CommandItem>
+                                             ))}
+                                          </CommandGroup>
+                                       </CommandList>
+                                    </Command>
+                                 </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                           </FormItem>
+                        );
+                     }}
                   />
                )}
 
@@ -330,6 +395,43 @@ export const StepDetailPanel = ({
                   )}
                />
 
+               {/* Hinweis — collapsible */}
+               <div>
+                  <button
+                     type="button"
+                     className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
+                     onClick={() => setShowHint((v) => !v)}
+                  >
+                     <ChevronDown
+                        className={cn(
+                           "h-4 w-4 transition-transform duration-150",
+                           showHint && "rotate-180"
+                        )}
+                     />
+                     Hinweis (optional)
+                  </button>
+                  {showHint && (
+                     <FormField
+                        control={form.control}
+                        name="hint"
+                        render={({ field }) => (
+                           <FormItem className="mt-2">
+                              <FormControl>
+                                 <Textarea
+                                    {...field}
+                                    value={field.value ?? ""}
+                                    placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
+                                    maxLength={750}
+                                    rows={3}
+                                 />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                  )}
+               </div>
+
                <Separator />
 
                {/* Nächste Schritte / Edges */}
@@ -338,73 +440,66 @@ export const StepDetailPanel = ({
 
                   {edgeFields.length === 0 && (
                      <p className="text-sm text-muted-foreground">
-                        Keine Verbindungen — dieser Schritt endet den Workflow.
+                        Keine Verbindungen — dieser Schritt beendet den Workflow.
                      </p>
                   )}
 
                   {edgeFields.map((edgeField, idx) => (
                      <div
                         key={edgeField.id}
-                        className="flex items-start gap-2 rounded-md border p-3"
+                        className="flex items-end gap-2 rounded-md border p-3"
                      >
-                        <div className="flex flex-1 flex-col gap-2">
-                           <FormField
-                              control={form.control}
-                              name={`edges.${idx}.label`}
-                              render={({ field }) => (
-                                 <FormItem>
-                                    <FormLabel className="text-xs">
-                                       Label
-                                    </FormLabel>
+                        <FormField
+                           control={form.control}
+                           name={`edges.${idx}.label`}
+                           render={({ field }) => (
+                              <FormItem className="flex-1">
+                                 <FormLabel className="text-xs">Label</FormLabel>
+                                 <FormControl>
+                                    <Input
+                                       {...field}
+                                       placeholder="z.B. Weiter"
+                                       maxLength={250}
+                                    />
+                                 </FormControl>
+                                 <FormMessage />
+                              </FormItem>
+                           )}
+                        />
+                        <FormField
+                           control={form.control}
+                           name={`edges.${idx}.toStepId`}
+                           render={({ field }) => (
+                              <FormItem className="flex-1">
+                                 <FormLabel className="text-xs">
+                                    Zielschritt
+                                 </FormLabel>
+                                 <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                 >
                                     <FormControl>
-                                       <Input
-                                          {...field}
-                                          placeholder="z.B. Weiter / Nochmal"
-                                          maxLength={250}
-                                       />
+                                       <SelectTrigger>
+                                          <SelectValue placeholder="Schritt…" />
+                                       </SelectTrigger>
                                     </FormControl>
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />
-                           <FormField
-                              control={form.control}
-                              name={`edges.${idx}.toStepId`}
-                              render={({ field }) => (
-                                 <FormItem>
-                                    <FormLabel className="text-xs">
-                                       Zielschritt
-                                    </FormLabel>
-                                    <Select
-                                       value={field.value}
-                                       onValueChange={field.onChange}
-                                    >
-                                       <FormControl>
-                                          <SelectTrigger>
-                                             <SelectValue placeholder="Schritt auswählen…" />
-                                          </SelectTrigger>
-                                       </FormControl>
-                                       <SelectContent>
-                                          {otherSteps.map((s) => (
-                                             <SelectItem
-                                                key={s.id}
-                                                value={s.id}
-                                             >
-                                                {s.title}
-                                             </SelectItem>
-                                          ))}
-                                       </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />
-                        </div>
+                                    <SelectContent>
+                                       {otherSteps.map((s) => (
+                                          <SelectItem key={s.id} value={s.id}>
+                                             {s.title}
+                                          </SelectItem>
+                                       ))}
+                                    </SelectContent>
+                                 </Select>
+                                 <FormMessage />
+                              </FormItem>
+                           )}
+                        />
                         <Button
                            type="button"
                            variant="ghost"
                            size="icon"
-                           className="mt-6 shrink-0"
+                           className="shrink-0"
                            onClick={() => remove(idx)}
                         >
                            <Trash2 className="h-4 w-4 text-destructive" />
@@ -431,7 +526,6 @@ export const StepDetailPanel = ({
                   </Button>
                </div>
 
-               {/* Form error from edges */}
                {form.formState.errors.edges?.message && (
                   <p className="text-sm text-destructive">
                      {form.formState.errors.edges.message}
