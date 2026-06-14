@@ -14,8 +14,7 @@ import {
    workflowKeys,
 } from "@/data/ts-queries/workflow";
 import { DWorkflowsPage } from "@/data/types/domain/workflow";
-
-import { WorkflowItem } from "./item";
+import { WorkflowItem } from "../item";
 
 type Props = {
    params: LoadWorkflowsPageParams;
