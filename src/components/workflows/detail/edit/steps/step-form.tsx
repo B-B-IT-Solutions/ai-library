@@ -40,6 +40,9 @@ export const StepForm = ({ index, step, allSteps, control }: Props) => {
       control,
    });
 
+   console.log("index -", index);
+   console.log(field);
+
    const {
       fields: edgeFields,
       append,
@@ -107,7 +110,6 @@ export const StepForm = ({ index, step, allSteps, control }: Props) => {
             control={control}
          />
 
-         {/* Prompt-Picker als Combobox */}
          {stepType === "PROMPT_REF" && (
             <FormSelectLoadableValues<DWorkflowUpdate>
                name={`steps.${index}.promptId`}
@@ -124,7 +126,6 @@ export const StepForm = ({ index, step, allSteps, control }: Props) => {
             />
          )}
 
-         {/* Standalone-Content */}
          {stepType === "STANDALONE" && (
             <FormMDEditor<DWorkflowUpdate>
                name={`steps.${index}.content`}

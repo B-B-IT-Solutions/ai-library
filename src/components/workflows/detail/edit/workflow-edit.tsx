@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -181,7 +181,12 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
             </TabsContent>
             {isEdit && (
                <TabsContent value="steps" className="overflow-hidden">
-                  <WorkflowSteps workflow={workflow} control={form.control} />
+                  <FormProvider {...form}>
+                     <WorkflowSteps
+                        workflow={workflow}
+                        control={form.control}
+                     />
+                  </FormProvider>
                </TabsContent>
             )}
          </Tabs>
