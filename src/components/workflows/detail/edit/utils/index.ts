@@ -1,1 +1,1 @@
-export { initWorkflowStep } from "./init-values";
+export { initWorkflow, initWorkflowStep } from "./init-values";

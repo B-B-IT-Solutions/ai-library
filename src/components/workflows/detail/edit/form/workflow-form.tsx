@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,7 +27,6 @@ type Props = {
    formId: string;
    onSaved: (workflow: DWorkflow) => void;
    onSubmittingChange: (submitting: boolean) => void;
-   onDirtyChange: (dirty: boolean) => void;
 };
 
 export const WorkflowForm = ({
@@ -35,7 +34,6 @@ export const WorkflowForm = ({
    formId,
    onSaved,
    onSubmittingChange,
-   onDirtyChange,
 }: Props) => {
    const form = useForm<FormValues>({
       resolver: zodResolver(updateWorkflowSchema),
@@ -47,13 +45,6 @@ export const WorkflowForm = ({
 
    const onSubmittingChangeRef = useRef(onSubmittingChange);
    onSubmittingChangeRef.current = onSubmittingChange;
-   const onDirtyChangeRef = useRef(onDirtyChange);
-   onDirtyChangeRef.current = onDirtyChange;
-
-   const isDirty = form.formState.isDirty;
-   useEffect(() => {
-      onDirtyChangeRef.current(isDirty);
-   }, [isDirty]);
 
    const onSubmit = async (values: FormValues) => {
       onSubmittingChangeRef.current(true);

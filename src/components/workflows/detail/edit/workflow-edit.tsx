@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useFieldArray, useForm } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -20,13 +22,16 @@ import {
 import {
    DWorkflow,
    DWorkflowsUsage,
+   DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
+import { updateWorkflowSchema } from "@/data/types/validators/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
 import { worfklowEditNavigateBackUrl } from "../../utils/utils";
 
 import { WorkflowForm } from "./form";
 import { WorkflowSteps } from "./steps/steps";
+import { initWorkflow } from "./utils";
 
 const TAB_TRIGGER_CLASS =
    "rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40";
@@ -44,19 +49,33 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
 
    // Workflow form state lifted from WorkflowForm
    const [isSubmitting, setIsSubmitting] = useState(false);
-   const [workflowFormIsDirty, setWorkflowFormIsDirty] = useState(false);
-
-   // Step form state
-   const [stepIsDirty, setStepIsDirty] = useState(false);
 
    const steps = workflow?.steps ?? [];
    const isEdit = !!workflow;
 
-   /** Global save: saves current step (if dirty) + workflow metadata (if dirty). */
+   const form = useForm<DWorkflowUpdate>({
+      resolver: zodResolver(updateWorkflowSchema),
+      defaultValues: initWorkflow(initialWorkflow),
+   });
+
+   const {
+      fields: stepFields,
+      append: addStep,
+      remove: removeStep,
+   } = useFieldArray({
+      control: form.control,
+      name: "steps",
+      keyName: "_key",
+   });
+
+   const handleRemoveStep = (index: number) => {
+      removeStep(index);
+   };
+
    const handleGlobalSave = async () => {
-      if (workflowFormIsDirty) {
-         const formEl = document.getElementById(formId);
-         if (formEl instanceof HTMLFormElement) formEl.requestSubmit();
+      const formEl = document.getElementById(formId);
+      if (formEl instanceof HTMLFormElement) {
+         formEl.requestSubmit();
       }
    };
 
@@ -141,7 +160,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                   data-testid="tab-details-btn"
                >
                   Details
-                  {workflowFormIsDirty && (
+                  {form.formState.isDirty && (
                      <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
                   )}
                </TabsTrigger>
@@ -157,7 +176,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                         ({steps.length})
                      </span>
                   )}
-                  {stepIsDirty && (
+                  {form.formState.isDirty && (
                      <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
                   )}
                </TabsTrigger>
@@ -169,7 +188,6 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                      formId={formId}
                      onSaved={handleWorkflowSaved}
                      onSubmittingChange={setIsSubmitting}
-                     onDirtyChange={setWorkflowFormIsDirty}
                   />
                </div>
             </TabsContent>

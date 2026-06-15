@@ -9,16 +9,6 @@ export const workflowEdgeInputSchema = z.object({
    order: z.number().int().min(0),
 });
 
-export const createWorkflowSchema = z.object({
-   title: z.string().min(1, "Titel ist erforderlich").max(250),
-   description: z.string().max(750).nullish(),
-});
-
-export const updateWorkflowSchema = z.object({
-   title: z.string().min(1, "Titel ist erforderlich").max(250),
-   description: z.string().max(750).nullish(),
-});
-
 export const updateWorkflowStepSchema = z
    .object({
       title: z.string().min(1, "Titel ist erforderlich").max(250),
@@ -56,3 +46,9 @@ export const updateWorkflowStepSchema = z
          });
       }
    });
+
+export const updateWorkflowSchema = z.object({
+   title: z.string().min(1, "Titel ist erforderlich").max(250),
+   description: z.string().max(750).nullish(),
+   steps: z.array(updateWorkflowStepSchema),
+});
