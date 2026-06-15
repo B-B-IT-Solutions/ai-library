@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -57,20 +57,6 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
       resolver: zodResolver(updateWorkflowSchema),
       defaultValues: initWorkflow(initialWorkflow),
    });
-
-   const {
-      fields: stepFields,
-      append: addStep,
-      remove: removeStep,
-   } = useFieldArray({
-      control: form.control,
-      name: "steps",
-      keyName: "_key",
-   });
-
-   const handleRemoveStep = (index: number) => {
-      removeStep(index);
-   };
 
    const handleGlobalSave = async () => {
       const formEl = document.getElementById(formId);
@@ -193,7 +179,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
             </TabsContent>
             {isEdit && (
                <TabsContent value="steps" className="overflow-hidden">
-                  <WorkflowSteps workflow={workflow} />
+                  <WorkflowSteps workflow={workflow} control={form.control} />
                </TabsContent>
             )}
          </Tabs>

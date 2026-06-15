@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { Plus, Star } from "lucide-react";
+import { Control, useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { setStartStep } from "@/data/actions/workflow";
 import {
    DWorkflowStep,
+   DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { DeleteStepDialog } from "../../../dialogs/delete-step-dialog";
@@ -16,20 +18,31 @@ import { StepDetailPanel } from "./step-detail-panel";
 import { StepItem } from "./step-item.";
 
 type Props = {
+   control: Control<DWorkflowUpdate>;
    workflow: DWorkflowWithSteps;
 };
 
-export const WorkflowSteps = ({ workflow }: Props) => {
+export const WorkflowSteps = ({ control, workflow }: Props) => {
    const [selectedStep, setSelectedStep] = useState<
       DWorkflowStep | undefined
    >();
    const [createMode, setCreateMode] = useState(false);
    const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
 
-   // Step form state
-   const [stepIsDirty, setStepIsDirty] = useState(false);
+   const {
+      fields: fieldSteps,
+      append: addStep,
+      remove: removeStep,
+   } = useFieldArray({
+      control: control,
+      name: "steps",
+      keyName: "_key",
+   });
 
    const steps = workflow?.steps ?? [];
+
+   // Step form state
+   const [stepIsDirty, setStepIsDirty] = useState(false);
 
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
       //   setWorkflow(saved);
@@ -130,7 +143,8 @@ export const WorkflowSteps = ({ workflow }: Props) => {
                            step={step}
                            index={idx}
                            allSteps={steps}
-                           selectedStepId={selectedStep?.id ?? null}
+                           allSteps2={fieldSteps}
+                           isSelected={step.id === selectedStep?.id}
                            onSelectStep={(step) => {
                               setSelectedStep(step);
                               setCreateMode(false);
@@ -161,7 +175,7 @@ export const WorkflowSteps = ({ workflow }: Props) => {
             </div>
          </div>
 
-         {deleteStep && workflow && (
+         {deleteStep && (
             <DeleteStepDialog
                open={!!deleteStep}
                onOpenChange={(open) => !open && setDeleteStep(null)}

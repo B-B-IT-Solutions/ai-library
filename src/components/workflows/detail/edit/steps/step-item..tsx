@@ -10,14 +10,18 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStep,
+   DWorkflowStepUpdate,
+} from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
    allSteps: DWorkflowStep[];
+   allSteps2: DWorkflowStepUpdate[];
    step: DWorkflowStep;
    index: number;
-   selectedStepId: string | null;
+   isSelected: boolean;
    onSelectStep: (step: DWorkflowStep) => void;
    onSetStartStep: (step: DWorkflowStep) => void;
    onDeleteStep: (step: DWorkflowStep) => void;
@@ -25,14 +29,14 @@ type Props = {
 
 export const StepItem = ({
    allSteps,
+   allSteps2,
    step,
    index,
-   selectedStepId,
+   isSelected,
    onSelectStep,
    onSetStartStep,
    onDeleteStep,
 }: Props) => {
-   const isSelected = step.id === selectedStepId;
    const isEndStep = step.outgoingEdges.length === 0;
    const incomingCount = allSteps.filter((s) =>
       s.outgoingEdges.some((e) => e.toStepId === step.id)

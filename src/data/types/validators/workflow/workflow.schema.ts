@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const workflowEdgeInputSchema = z.object({
-   toStepId: z.string().uuid("Ungültige Schritt-ID"),
+   toStepId: z.uuid("Ungültige Schritt-ID"),
    label: z
       .string()
       .min(1, "Bitte ein Label für diese Verbindung eingeben")
@@ -14,7 +14,7 @@ export const updateWorkflowStepSchema = z
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
       type: z.enum(["PROMPT_REF", "STANDALONE"]),
-      promptId: z.string().uuid().nullish(),
+      promptId: z.uuid().nullish(),
       content: z.string().nullish(),
       isStart: z.boolean(),
       position: z.number().int().min(0),
