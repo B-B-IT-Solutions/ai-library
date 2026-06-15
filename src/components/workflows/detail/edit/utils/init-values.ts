@@ -1,4 +1,5 @@
 import { map } from "es-toolkit/compat";
+import { v4 as uuidV4 } from "uuid";
 
 import {
    DWorkflowStep,
@@ -24,6 +25,7 @@ export const initWorkflowStep = (step?: DWorkflowStep): DWorkflowStepUpdate => {
       type: step?.type ?? "PROMPT_REF",
       promptId: step?.promptId,
       content: step?.content,
+      edgeId: step?.edgeId ?? uuidV4(),
       isStart: step?.isStart ?? false,
       position: step?.position ?? 0,
       edges: map(step?.outgoingEdges, (e) => ({

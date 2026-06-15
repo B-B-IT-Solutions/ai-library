@@ -1,7 +1,9 @@
-import { dtestData } from "@tests";
-import { map } from "es-toolkit/compat";
+jest.mock("uuid");
 
-import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
+import { ctestData, dtestData, UuidV4MockedFunction } from "@tests";
+import { map } from "es-toolkit/compat";
+import { v4 as uuidv4 } from "uuid";
+
 import {
    DWorkflowStep,
    DWorkflowStepUpdate,
@@ -9,18 +11,24 @@ import {
 
 import { initWorkflowStep } from "./init-values";
 
+const uuidv4Mock = uuidv4 as UuidV4MockedFunction;
+
+const edgeId = ctestData.uuid();
+uuidv4Mock.mockReturnValue(edgeId);
+
 const expectedInitWorfklowStepExisting = (
    step: DWorkflowStep
 ): DWorkflowStepUpdate => {
    return {
       title: step?.title,
       hint: step?.hint,
-      type: step?.type,
-      promptId: step?.promptId,
-      content: step?.content,
-      isStart: step?.isStart,
-      position: step?.position,
-      edges: map(step?.outgoingEdges, (e) => ({
+      type: step.type,
+      promptId: step.promptId,
+      content: step.content,
+      edgeId: step.edgeId,
+      isStart: step.isStart,
+      position: step.position,
+      edges: map(step.outgoingEdges, (e) => ({
          toStepId: e.toStepId,
          label: e.label,
          order: e.order,
@@ -32,6 +40,9 @@ const expectedInitWorfklowStepNew: DWorkflowStepUpdate = {
    title: "",
    hint: "",
    type: "PROMPT_REF",
+   edgeId: edgeId,
+   isStart: false,
+   position: 0,
    edges: [],
 };
 
