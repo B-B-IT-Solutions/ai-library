@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
@@ -9,12 +9,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Tabs,
-   TabsContent,
-   TabsList,
-   TabsTrigger,
-} from "@/components/shadcn/tabs";
 import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
@@ -31,12 +25,8 @@ import { updateWorkflowSchema } from "@/data/types/validators/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
 import { viewWorkflowUrl, worfklowEditNavigateBackUrl } from "../../utils";
 
-import { WorkflowForm } from "./form";
-import { WorkflowSteps } from "./steps/steps";
+import { WorkflowTabs } from "./form/tabs";
 import { initWorkflow } from "./utils";
-
-const TAB_TRIGGER_CLASS =
-   "rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40";
 
 type Props = {
    workflow?: DWorkflowWithSteps;
@@ -44,11 +34,9 @@ type Props = {
 };
 
 export const WorkflowEdit = ({ workflow }: Props) => {
-   const [activeTab, setActiveTab] = useState("details");
+   const router = useRouter();
    const [isSubmitting, startTransition] = useTransition();
 
-   const steps = workflow?.steps ?? [];
-   const router = useRouter();
    const isEdit = !!workflow;
 
    const form = useForm<DWorkflowUpdate>({
@@ -157,57 +145,6 @@ export const WorkflowEdit = ({ workflow }: Props) => {
       );
    };
 
-   const body = () => {
-      return (
-         <Tabs
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="flex flex-1 flex-col overflow-hidden"
-         >
-            <TabsList className="h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0">
-               <TabsTrigger
-                  value="details"
-                  className={TAB_TRIGGER_CLASS}
-                  data-testid="tab-details-btn"
-               >
-                  Details
-                  {form.formState.isDirty && (
-                     <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  )}
-               </TabsTrigger>
-               <TabsTrigger
-                  value="steps"
-                  disabled={!isEdit}
-                  className={TAB_TRIGGER_CLASS}
-                  data-testid="tab-steps-btn"
-               >
-                  Schritte
-                  {steps.length > 0 && (
-                     <span className="ml-1.5 text-xs text-muted-foreground">
-                        ({steps.length})
-                     </span>
-                  )}
-                  {form.formState.isDirty && (
-                     <span className="ml-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  )}
-               </TabsTrigger>
-            </TabsList>
-            <FormProvider {...form}>
-               <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
-                  <TabsContent value="details" className="overflow-y-auto">
-                     <div className="mx-auto max-w-2xl px-6 py-8">
-                        <WorkflowForm control={form.control} />
-                     </div>
-                  </TabsContent>
-                  <TabsContent value="steps" className="overflow-hidden">
-                     <WorkflowSteps control={form.control} />
-                  </TabsContent>
-               </form>
-            </FormProvider>
-         </Tabs>
-      );
-   };
-
    return (
       <ItemDetailsEdit data-testid="workflow-edit">
          <ItemDetailsEditHeader>
@@ -221,7 +158,11 @@ export const WorkflowEdit = ({ workflow }: Props) => {
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBody className="max-w-7xl">
-               {body()}
+               <FormProvider {...form}>
+                  <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+                     <WorkflowTabs control={form.control} />
+                  </form>
+               </FormProvider>
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>

@@ -3,22 +3,18 @@
 import { useState } from "react";
 import { Control, useFieldArray } from "react-hook-form";
 
-import {
-   Tabs,
-   TabsContent,
-   TabsList,
-   TabsTrigger,
-} from "@/components/shadcn/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { DWorkflowUpdate } from "@/data/types/domain/workflow";
-import { WorkflowForm } from "../../form";
-import { WorkflowSteps } from "../../steps/steps";
+
+import { BasicInfoTab } from "./basic-info-tab";
+import { StepsTab } from "./steps-tab";
 
 type Props = {
    control: Control<DWorkflowUpdate>;
 };
 
-export const WorkflowEdit = ({ control }: Props) => {
-   const [activeTab, setActiveTab] = useState("workflow");
+export const WorkflowTabs = ({ control }: Props) => {
+   const [activeTab, setActiveTab] = useState("basic-info");
 
    const { fields: fieldSteps } = useFieldArray({
       name: "steps",
@@ -34,7 +30,7 @@ export const WorkflowEdit = ({ control }: Props) => {
       >
          <TabsList className="h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0">
             <TabsTrigger
-               value="workflow"
+               value="basic-info"
                className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                data-testid="tab-workflow-btn"
             >
@@ -53,14 +49,8 @@ export const WorkflowEdit = ({ control }: Props) => {
                )}
             </TabsTrigger>
          </TabsList>
-         <TabsContent value="workflow" className="overflow-y-auto">
-            <div className="mx-auto max-w-2xl px-6 py-8">
-               <WorkflowForm control={control} />
-            </div>
-         </TabsContent>
-         <TabsContent value="steps" className="overflow-hidden">
-            <WorkflowSteps control={control} />
-         </TabsContent>
+         <BasicInfoTab control={control} value="basic-info" />
+         <StepsTab control={control} value="steps" />
       </Tabs>
    );
 };
