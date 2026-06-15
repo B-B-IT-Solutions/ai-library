@@ -246,25 +246,6 @@ export const StepForm = ({
                   {form.formState.errors.edges.message}
                </p>
             )}
-
-            <div className="flex justify-end gap-2">
-               {onCancelCreate && (
-                  <Button
-                     type="button"
-                     variant="outline"
-                     onClick={onCancelCreate}
-                  >
-                     Abbrechen
-                  </Button>
-               )}
-               <Button
-                  type="submit"
-                  disabled={loading}
-                  data-testid="save-step-btn"
-               >
-                  Schritt erstellen
-               </Button>
-            </div>
          </form>
       </Form>
    );
