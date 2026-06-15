@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { Edit, MoreHorizontal, Play } from "lucide-react";
+import { Edit, MoreVertical, Play } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -50,7 +50,7 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                            className="h-7 w-7 shrink-0"
                            data-testid="workflow-card-menu"
                         >
-                           <MoreHorizontal className="h-4 w-4" />
+                           <MoreVertical className="h-4 w-4" />
                         </Button>
                      </DropdownMenuTrigger>
                      <DropdownMenuContent align="end">
