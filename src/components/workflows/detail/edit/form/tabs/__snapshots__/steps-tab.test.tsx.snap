@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`BasicInfoTab rendering tests tab active - test 1`] = `
+<div>
+  <div
+    class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="mock-react-tabs-root"
+    orientation="horizontal"
+  >
+    <div
+      class="flex-1 outline-none overflow-hidden"
+      data-slot="tabs-content"
+      data-testid="steps-tab"
+    >
+      <div
+        class="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
+        data-testid="workflow-steps"
+      >
+        <div
+          class="flex flex-col gap-4 overflow-y-auto bg-slate-50 p-4"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
+            data-slot="button"
+            data-testid="add-step-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Schritt hinzufügen
+          </button>
+          <div
+            class="space-y-2"
+            data-testid="step-list"
+          />
+        </div>
+        <div
+          class="overflow-y-auto bg-white"
+        >
+          <div
+            class="flex h-full flex-col items-center justify-center gap-3 p-8 text-center"
+          >
+            <p
+              class="text-sm text-muted-foreground"
+            >
+              Wähle links einen Schritt zum Bearbeiten
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+              data-slot="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus mr-2 h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Neuen Schritt erstellen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`BasicInfoTab rendering tests tab not active - test 1`] = `
+<div>
+  <div
+    class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="mock-react-tabs-root"
+    orientation="horizontal"
+  />
+</div>
+`;
+
+exports[`StepsTab rendering tests tab active - test 1`] = `
+<div>
+  <div
+    class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="mock-react-tabs-root"
+    orientation="horizontal"
+  >
+    <div
+      class="flex-1 outline-none overflow-hidden"
+      data-slot="tabs-content"
+      data-testid="steps-tab"
+    >
+      <div
+        class="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
+        data-testid="workflow-steps"
+      >
+        <div
+          class="flex flex-col gap-4 overflow-y-auto bg-slate-50 p-4"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
+            data-slot="button"
+            data-testid="add-step-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Schritt hinzufügen
+          </button>
+          <div
+            class="space-y-2"
+            data-testid="step-list"
+          />
+        </div>
+        <div
+          class="overflow-y-auto bg-white"
+        >
+          <div
+            class="flex h-full flex-col items-center justify-center gap-3 p-8 text-center"
+          >
+            <p
+              class="text-sm text-muted-foreground"
+            >
+              Wähle links einen Schritt zum Bearbeiten
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+              data-slot="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus mr-2 h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Neuen Schritt erstellen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`StepsTab rendering tests tab not active - test 1`] = `
+<div>
+  <div
+    class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="mock-react-tabs-root"
+    orientation="horizontal"
+  />
+</div>
+`;

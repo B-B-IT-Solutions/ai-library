@@ -32,7 +32,7 @@ export const WorkflowTabs = ({ control }: Props) => {
             <TabsTrigger
                value="basic-info"
                className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
-               data-testid="tab-workflow-btn"
+               data-testid="tab-basic-info-btn"
             >
                Details
             </TabsTrigger>

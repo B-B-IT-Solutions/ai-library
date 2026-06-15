@@ -12,7 +12,6 @@ import {
 } from "@/data/types/domain/workflow";
 import { initWorkflowStep } from "../utils";
 
-import { StepDetail } from "./step-detail";
 import { StepForm } from "./step-form";
 import { StepItem } from "./step-item.";
 
