@@ -3,7 +3,7 @@ import {
    ItemDetailsBreadcrumb,
 } from "@/components/shared/breadcrumbs";
 import { DWorkflow } from "@/data/types/domain/workflow";
-import { breadcrumbRootUrl, viewWorkflowUrl } from "../utils/utils";
+import { breadcrumbRootUrl, viewWorkflowUrl } from "../utils";
 
 type Props =
    | {

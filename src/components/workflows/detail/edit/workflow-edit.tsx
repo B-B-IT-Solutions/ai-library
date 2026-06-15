@@ -29,10 +29,7 @@ import {
 } from "@/data/types/domain/workflow";
 import { updateWorkflowSchema } from "@/data/types/validators/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
-import {
-   viewWorkflowUrl,
-   worfklowEditNavigateBackUrl,
-} from "../../utils/utils";
+import { viewWorkflowUrl, worfklowEditNavigateBackUrl } from "../../utils";
 
 import { WorkflowForm } from "./form";
 import { WorkflowSteps } from "./steps/steps";
