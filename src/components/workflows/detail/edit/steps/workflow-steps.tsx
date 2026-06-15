@@ -12,7 +12,7 @@ import {
 } from "@/data/types/domain/workflow";
 import { initWorkflowStep } from "../utils";
 
-import { StepForm } from "./step-form";
+import { StepDetail } from "./step-detail";
 import { StepItem } from "./step-item.";
 
 type Props = {
@@ -42,31 +42,6 @@ export const WorkflowSteps = ({ control }: Props) => {
 
    const handleRemoveStep = (index: number) => {
       removeStep(index);
-   };
-
-   const rightPanelContent = () => {
-      if (selectedStep) {
-         return (
-            <StepForm
-               key={selectedStep.edgeId}
-               index={selectedStepIndex}
-               allSteps={steps}
-               control={control}
-            />
-         );
-      }
-
-      return (
-         <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-            <p className="text-sm text-muted-foreground">
-               Wähle links einen Schritt zum Bearbeiten
-            </p>
-            <Button variant="outline" size="sm" onClick={handleAddStep}>
-               <Plus className="mr-2 h-4 w-4" />
-               Neuen Schritt erstellen
-            </Button>
-         </div>
-      );
    };
 
    const hasStart = some(steps, (s) => s.isStart);
@@ -114,7 +89,15 @@ export const WorkflowSteps = ({ control }: Props) => {
             </div>
          </div>
 
-         <div className="overflow-y-auto bg-white">{rightPanelContent()}</div>
+         <div className="overflow-y-auto bg-white">
+            <StepDetail
+               index={selectedStepIndex}
+               formVisible={!!selectedStep}
+               allSteps={steps}
+               addStep={handleAddStep}
+               control={control}
+            />
+         </div>
       </div>
    );
 };
