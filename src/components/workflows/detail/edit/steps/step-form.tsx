@@ -17,31 +17,21 @@ import {
 import { Option } from "@/components/shared/widgets/form-select";
 import { infiniteLoadPromptPreviewsPageOptions } from "@/data/ts-queries/prompt";
 import {
-   DWorkflowStep,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
-   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 
 type Props = {
-   workflowId: string;
    index: number;
-   step?: DWorkflowStepUpdate;
-   allSteps: DWorkflowStep[];
-   onSaved: (workflow: DWorkflowWithSteps) => void;
-   onCreateMode?: boolean;
-   onCancelCreate?: () => void;
+   allSteps: DWorkflowStepUpdate[];
    control: Control<DWorkflowUpdate>;
 };
 
-export const StepForm = ({ index, step, allSteps, control }: Props) => {
+export const StepForm = ({ index, allSteps, control }: Props) => {
    const { field } = useController({
       name: `steps.${index}`,
       control,
    });
-
-   console.log("index -", index);
-   console.log(field);
 
    const {
       fields: edgeFields,
@@ -54,37 +44,14 @@ export const StepForm = ({ index, step, allSteps, control }: Props) => {
 
    const stepType = field.value.type;
 
-   const otherSteps = filter(allSteps, (s) => s.edgeId !== step?.edgeId);
+   const otherSteps = filter(allSteps, (s) => s.edgeId !== field.value.edgeId);
 
    const edgeStepOptions: Option[] = map(otherSteps, (s) => {
       return {
-         value: s.id,
+         value: s.edgeId,
          label: s.title,
       };
    });
-
-   const submitInternal = async (values: DWorkflowStepUpdate) => {
-      // const payload = {
-      //    ...values,
-      //    promptId:
-      //       values.type === "PROMPT_REF" ? values.promptId || null : null,
-      //    content: values.type === "STANDALONE" ? values.content : null,
-      //    hint: values.hint || null,
-      // };
-      // const result = step
-      //    ? await updateWorkflowStep(step.id, workflowId, payload)
-      //    : await createWorkflowStep(workflowId, payload);
-      // if (result.success && result.data) {
-      //    toast.success(result.message);
-      //    onSaved(result.data);
-      //    if (onCreateMode && onCancelCreate) {
-      //       onCancelCreate();
-      //    }
-      // } else {
-      //    toast.error(result.message);
-      //    throw new Error(result.message);
-      // }
-   };
 
    return (
       <form

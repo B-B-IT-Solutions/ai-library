@@ -21,6 +21,7 @@ import {
 } from "@/components/shared/wrappers/item-details";
 import {
    DWorkflow,
+   DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
@@ -72,6 +73,29 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
       if (!isEdit) {
          setActiveTab("steps");
       }
+   };
+
+   const submitInternal = async (values: DWorkflowStepUpdate) => {
+      // const payload = {
+      //    ...values,
+      //    promptId:
+      //       values.type === "PROMPT_REF" ? values.promptId || null : null,
+      //    content: values.type === "STANDALONE" ? values.content : null,
+      //    hint: values.hint || null,
+      // };
+      // const result = step
+      //    ? await updateWorkflowStep(step.id, workflowId, payload)
+      //    : await createWorkflowStep(workflowId, payload);
+      // if (result.success && result.data) {
+      //    toast.success(result.message);
+      //    onSaved(result.data);
+      //    if (onCreateMode && onCancelCreate) {
+      //       onCancelCreate();
+      //    }
+      // } else {
+      //    toast.error(result.message);
+      //    throw new Error(result.message);
+      // }
    };
 
    const backUrl = useMemo(
@@ -182,10 +206,7 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
             {isEdit && (
                <TabsContent value="steps" className="overflow-hidden">
                   <FormProvider {...form}>
-                     <WorkflowSteps
-                        workflow={workflow}
-                        control={form.control}
-                     />
+                     <WorkflowSteps control={form.control} />
                   </FormProvider>
                </TabsContent>
             )}

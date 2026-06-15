@@ -1,36 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { some } from "es-toolkit/compat";
 import { Plus, Star } from "lucide-react";
 import { Control, useFieldArray } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { setStartStep } from "@/data/actions/workflow";
 import {
-   DWorkflowStep,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
-   DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { DeleteStepDialog } from "../../../dialogs/delete-step-dialog";
 import { initWorkflowStep } from "../utils";
 
-import { StepDetailPanel } from "./step-detail-panel";
+import { StepFormPanel } from "./step-form-panel";
 import { StepItem } from "./step-item.";
 
 type Props = {
    control: Control<DWorkflowUpdate>;
-   workflow: DWorkflowWithSteps;
 };
 
-export const WorkflowSteps = ({ control, workflow }: Props) => {
+export const WorkflowSteps = ({ control }: Props) => {
    const [selectedStep, setSelectedStep] = useState<
       DWorkflowStepUpdate | undefined
    >();
    const [selectedStepIndex, setSelectedStepIndex] = useState(0);
    const [createMode, setCreateMode] = useState(false);
-   const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
 
    const {
       fields: fieldSteps,
@@ -41,8 +35,6 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
       name: "steps",
       keyName: "_key",
    });
-
-   const steps = workflow?.steps ?? [];
 
    const handleAddStep = () => {
       const newStep: DWorkflowStepUpdate = initWorkflowStep();
@@ -56,42 +48,36 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
    console.log(fieldSteps);
 
    const handleSetStartStep = async (step: DWorkflowStepUpdate) => {
-      const result = await setStartStep(workflow.id, step.id);
-      if (result.success) {
-         //  setWorkflow((prev) =>
-         //     prev
-         //        ? {
-         //             ...prev,
-         //             steps: prev.steps.map((s) => ({
-         //                ...s,
-         //                isStart: s.id === step.id,
-         //             })),
-         //          }
-         //        : prev
-         //  );
-         //  if (selectedStep?.id === step.id) {
-         //     setSelectedStep((s) => (s ? { ...s, isStart: true } : s));
-         //  }
-      } else {
-         toast.error(result.message);
-      }
+      // const result = await setStartStep(workflow.id, step.id);
+      // if (result.success) {
+      //  setWorkflow((prev) =>
+      //     prev
+      //        ? {
+      //             ...prev,
+      //             steps: prev.steps.map((s) => ({
+      //                ...s,
+      //                isStart: s.id === step.id,
+      //             })),
+      //          }
+      //        : prev
+      //  );
+      //  if (selectedStep?.id === step.id) {
+      //     setSelectedStep((s) => (s ? { ...s, isStart: true } : s));
+      //  }
+      // } else {
+      //    toast.error(result.message);
+      // }
    };
 
    const rightPanelContent = () => {
       if (createMode || selectedStep) {
          return (
-            <StepDetailPanel
+            <StepFormPanel
                key={selectedStep?.edgeId}
-               workflowId={workflow!.id}
                index={selectedStepIndex}
                step={selectedStep}
-               allSteps={steps}
-               onSaved={() => {}}
+               allSteps={fieldSteps}
                onCreateMode={createMode && !selectedStep}
-               onCancelCreate={() => {
-                  setCreateMode(false);
-                  setSelectedStep(undefined);
-               }}
                control={control}
             />
          );
@@ -110,69 +96,54 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
       );
    };
 
-   const hasStart = steps.some((s) => s.isStart);
+   const hasStart = some(fieldSteps, (s) => s.isStart);
 
    return (
-      <>
-         <div
-            className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
-            data-testid="workflow-steps"
-         >
-            <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
-               <div className="space-y-2" data-testid="step-list">
-                  {!hasStart && steps.length > 0 && (
-                     <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
-                        <Star className="h-4 w-4 shrink-0" />
-                        Kein Startschritt gesetzt
-                     </div>
-                  )}
+      <div
+         className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
+         data-testid="workflow-steps"
+      >
+         <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
+            <div className="space-y-2" data-testid="step-list">
+               {!hasStart && fieldSteps.length > 0 && (
+                  <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
+                     <Star className="h-4 w-4 shrink-0" />
+                     Kein Startschritt gesetzt
+                  </div>
+               )}
 
-                  {fieldSteps.map((step, idx) => {
-                     return (
-                        <StepItem
-                           key={idx}
-                           step={step}
-                           index={idx}
-                           allSteps={fieldSteps}
-                           isSelected={step.edgeId === selectedStep?.edgeId}
-                           onSelectStep={(step, index) => {
-                              setSelectedStepIndex(index);
-                              setSelectedStep(step);
-                              setCreateMode(false);
-                           }}
-                           onSetStartStep={handleSetStartStep}
-                           onDeleteStep={handleRemoveStep}
-                        />
-                     );
-                  })}
-               </div>
-
-               <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleAddStep}
-                  data-testid="add-step-btn"
-               >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Schritt hinzufügen
-               </Button>
+               {fieldSteps.map((step, idx) => {
+                  return (
+                     <StepItem
+                        key={idx}
+                        step={step}
+                        index={idx}
+                        allSteps={fieldSteps}
+                        isSelected={step.edgeId === selectedStep?.edgeId}
+                        onSelectStep={(step, index) => {
+                           setSelectedStepIndex(index);
+                           setSelectedStep(step);
+                           setCreateMode(false);
+                        }}
+                        onSetStartStep={handleSetStartStep}
+                        onDeleteStep={handleRemoveStep}
+                     />
+                  );
+               })}
             </div>
 
-            <div className="overflow-y-auto bg-white">
-               {rightPanelContent()}
-            </div>
+            <Button
+               variant="outline"
+               className="w-full"
+               onClick={handleAddStep}
+               data-testid="add-step-btn"
+            >
+               <Plus className="mr-2 h-4 w-4" />
+               Schritt hinzufügen
+            </Button>
          </div>
 
-         {deleteStep && (
-            <DeleteStepDialog
-               open={!!deleteStep}
-               onOpenChange={(open) => !open && setDeleteStep(null)}
-               stepId={deleteStep.id}
-               stepTitle={deleteStep.title}
-               workflowId={workflow.id}
-               onDeleted={() => {}}
-            />
-         )}
-      </>
+         <div className="overflow-y-auto bg-white">{rightPanelContent()}</div>
+      </div>
    );
 };
