@@ -62,7 +62,7 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
    });
 
    return (
-      <form
+      <div
          className="flex flex-1 flex-col gap-5 overflow-y-auto p-5"
          data-testid="step-form"
       >
@@ -189,6 +189,6 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
                Verbindung hinzufügen
             </Button>
          </div>
-      </form>
+      </div>
    );
 };

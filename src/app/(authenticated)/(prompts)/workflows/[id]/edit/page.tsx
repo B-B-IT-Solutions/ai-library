@@ -29,7 +29,7 @@ const EditWorkflowPage = async ({ params }: PageProps) => {
 
    return (
       <div data-testid="edit-workflow-page" className="h-full">
-         <WorkflowEdit initialWorkflow={workflow} usage={usage} />
+         <WorkflowEdit workflow={workflow} usage={usage} />
       </div>
    );
 };

@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -19,16 +21,18 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
+import { createWorkflow, updateWorkflow } from "@/data/actions/workflow";
 import {
-   DWorkflow,
-   DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { updateWorkflowSchema } from "@/data/types/validators/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
-import { worfklowEditNavigateBackUrl } from "../../utils/utils";
+import {
+   viewWorkflowUrl,
+   worfklowEditNavigateBackUrl,
+} from "../../utils/utils";
 
 import { WorkflowForm } from "./form";
 import { WorkflowSteps } from "./steps/steps";
@@ -38,64 +42,63 @@ const TAB_TRIGGER_CLASS =
    "rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none disabled:cursor-not-allowed disabled:opacity-40";
 
 type Props = {
-   initialWorkflow?: DWorkflowWithSteps;
+   workflow?: DWorkflowWithSteps;
    usage?: DWorkflowsUsage;
 };
 
-export const WorkflowEdit = ({ initialWorkflow }: Props) => {
-   const [workflow, setWorkflow] = useState<DWorkflowWithSteps | undefined>(
-      initialWorkflow
-   );
+export const WorkflowEdit = ({ workflow }: Props) => {
    const [activeTab, setActiveTab] = useState("details");
-
-   // Workflow form state lifted from WorkflowForm
-   const [isSubmitting, setIsSubmitting] = useState(false);
+   const [isSubmitting, startTransition] = useTransition();
 
    const steps = workflow?.steps ?? [];
+   const router = useRouter();
    const isEdit = !!workflow;
 
    const form = useForm<DWorkflowUpdate>({
       resolver: zodResolver(updateWorkflowSchema),
-      defaultValues: initWorkflow(initialWorkflow),
+      defaultValues: initWorkflow(workflow),
    });
 
-   console.log(form.getValues());
-
-   const handleGlobalSave = async () => {
-      const formEl = document.getElementById(formId);
-      if (formEl instanceof HTMLFormElement) {
-         formEl.requestSubmit();
+   const handleSave = async (data: DWorkflowUpdate) => {
+      if (isEdit) {
+         const result = await updateWorkflow(workflow.id, data);
+         if (result.success) {
+            toast.success(result.message);
+            const viewUrl = viewWorkflowUrl(workflow);
+            router.push(viewUrl);
+         } else {
+            toast.error(result.message);
+         }
+      } else {
+         const result = await createWorkflow(data);
+         if (result.success) {
+            toast.success(result.message);
+            const viewUrl = viewWorkflowUrl(result.data!);
+            router.push(viewUrl);
+         } else if (result.upgradeRequired) {
+            toast.error(result.message, {
+               action: {
+                  label: "Upgrade",
+                  onClick: () => router.push("/subscription/pricing"),
+               },
+            });
+         } else {
+            toast.error(result.message);
+         }
       }
    };
 
-   const handleWorkflowSaved = (saved: DWorkflow) => {
-      setWorkflow({ ...saved, steps: workflow?.steps ?? [] });
-      if (!isEdit) {
-         setActiveTab("steps");
-      }
-   };
-
-   const submitInternal = async (values: DWorkflowStepUpdate) => {
-      // const payload = {
-      //    ...values,
-      //    promptId:
-      //       values.type === "PROMPT_REF" ? values.promptId || null : null,
-      //    content: values.type === "STANDALONE" ? values.content : null,
+   const onSubmit = async (data: DWorkflowUpdate) => {
+      // const payload: DWorkflowUpdate = {
+      //    ...data,
+      //    promptId: data.type === "PROMPT_REF" ? data.promptId || null : null,
+      //    content: data.type === "STANDALONE" ? data.content : null,
       //    hint: values.hint || null,
       // };
-      // const result = step
-      //    ? await updateWorkflowStep(step.id, workflowId, payload)
-      //    : await createWorkflowStep(workflowId, payload);
-      // if (result.success && result.data) {
-      //    toast.success(result.message);
-      //    onSaved(result.data);
-      //    if (onCreateMode && onCancelCreate) {
-      //       onCancelCreate();
-      //    }
-      // } else {
-      //    toast.error(result.message);
-      //    throw new Error(result.message);
-      // }
+
+      startTransition(async () => {
+         handleSave(data);
+      });
    };
 
    const backUrl = useMemo(
@@ -133,7 +136,6 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
             type="submit"
             form={formId}
             disabled={isSubmitting}
-            onClick={handleGlobalSave}
             className="cursor-pointer bg-blue-700 hover:bg-blue-800"
             data-testid="save-btn"
          >
@@ -193,23 +195,18 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
                   )}
                </TabsTrigger>
             </TabsList>
-            <TabsContent value="details" className="overflow-y-auto">
-               <div className="mx-auto max-w-2xl px-6 py-8">
-                  <WorkflowForm
-                     workflow={workflow}
-                     formId={formId}
-                     onSaved={handleWorkflowSaved}
-                     onSubmittingChange={setIsSubmitting}
-                  />
-               </div>
-            </TabsContent>
-            {isEdit && (
-               <TabsContent value="steps" className="overflow-hidden">
-                  <FormProvider {...form}>
+            <FormProvider {...form}>
+               <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+                  <TabsContent value="details" className="overflow-y-auto">
+                     <div className="mx-auto max-w-2xl px-6 py-8">
+                        <WorkflowForm control={form.control} />
+                     </div>
+                  </TabsContent>
+                  <TabsContent value="steps" className="overflow-hidden">
                      <WorkflowSteps control={form.control} />
-                  </FormProvider>
-               </TabsContent>
-            )}
+                  </TabsContent>
+               </form>
+            </FormProvider>
          </Tabs>
       );
    };
