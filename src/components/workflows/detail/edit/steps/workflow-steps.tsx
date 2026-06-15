@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { some } from "es-toolkit/compat";
+import { map, some } from "es-toolkit/compat";
 import { Plus, Star } from "lucide-react";
 import { Control, useFieldArray } from "react-hook-form";
 
@@ -26,7 +26,7 @@ export const WorkflowSteps = ({ control }: Props) => {
    const [selectedStepIndex, setSelectedStepIndex] = useState(0);
 
    const {
-      fields: fieldSteps,
+      fields: steps,
       append: addStep,
       remove: removeStep,
    } = useFieldArray({
@@ -48,9 +48,9 @@ export const WorkflowSteps = ({ control }: Props) => {
       if (selectedStep) {
          return (
             <StepForm
-               key={selectedStep?.edgeId}
+               key={selectedStep.edgeId}
                index={selectedStepIndex}
-               allSteps={fieldSteps}
+               allSteps={steps}
                control={control}
             />
          );
@@ -69,7 +69,7 @@ export const WorkflowSteps = ({ control }: Props) => {
       );
    };
 
-   const hasStart = some(fieldSteps, (s) => s.isStart);
+   const hasStart = some(steps, (s) => s.isStart);
 
    return (
       <div
@@ -88,20 +88,20 @@ export const WorkflowSteps = ({ control }: Props) => {
             </Button>
 
             <div className="space-y-2" data-testid="step-list">
-               {!hasStart && fieldSteps.length > 0 && (
+               {!hasStart && steps.length > 0 && (
                   <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
                      <Star className="h-4 w-4 shrink-0" />
                      Kein Startschritt gesetzt
                   </div>
                )}
 
-               {fieldSteps.map((step, idx) => {
+               {map(steps, (step, idx) => {
                   return (
                      <StepItem
                         key={idx}
                         step={step}
                         index={idx}
-                        allSteps={fieldSteps}
+                        allSteps={steps}
                         isSelected={step.edgeId === selectedStep?.edgeId}
                         onSelectStep={(step, index) => {
                            setSelectedStepIndex(index);
