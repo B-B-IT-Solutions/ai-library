@@ -1,5 +1,6 @@
 "use client";
 
+import { filter, find } from "es-toolkit/compat";
 import { ArrowRight, MoreHorizontal, Star } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -10,26 +11,21 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import {
-   DWorkflowStep,
-   DWorkflowStepUpdate,
-} from "@/data/types/domain/workflow";
+import { DWorkflowStepUpdate } from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   allSteps: DWorkflowStep[];
-   allSteps2: DWorkflowStepUpdate[];
-   step: DWorkflowStep;
+   allSteps: DWorkflowStepUpdate[];
+   step: DWorkflowStepUpdate;
    index: number;
    isSelected: boolean;
-   onSelectStep: (step: DWorkflowStep) => void;
-   onSetStartStep: (step: DWorkflowStep) => void;
-   onDeleteStep: (step: DWorkflowStep) => void;
+   onSelectStep: (step: DWorkflowStepUpdate, index: number) => void;
+   onSetStartStep: (step: DWorkflowStepUpdate) => void;
+   onDeleteStep: (index: number) => void;
 };
 
 export const StepItem = ({
    allSteps,
-   allSteps2,
    step,
    index,
    isSelected,
@@ -37,16 +33,16 @@ export const StepItem = ({
    onSetStartStep,
    onDeleteStep,
 }: Props) => {
-   const isEndStep = step.outgoingEdges.length === 0;
-   const incomingCount = allSteps.filter((s) =>
-      s.outgoingEdges.some((e) => e.toStepId === step.id)
+   const isEndStep = step.edges.length === 0;
+   const incomingCount = filter(allSteps, (s) =>
+      s.edges.some((e) => e.toStepId === step.edgeId)
    ).length;
 
    const isDisconnected = !step.isStart && incomingCount === 0;
 
    return (
       <div
-         key={step.id}
+         key={index}
          className={cn(
             "cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary",
             isSelected && "border-primary ring-1 ring-primary",
@@ -54,8 +50,8 @@ export const StepItem = ({
                !isSelected &&
                "border-l-[3px] border-l-orange-400"
          )}
-         onClick={() => onSelectStep(step)}
-         data-testid={`step-card-${step.id}`}
+         onClick={() => onSelectStep(step, index)}
+         data-testid={`step-card-${index}`}
       >
          <div className="flex items-start justify-between gap-2">
             <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -117,7 +113,7 @@ export const StepItem = ({
                         className="text-destructive focus:text-destructive"
                         onClick={(e) => {
                            e.stopPropagation();
-                           onDeleteStep(step);
+                           onDeleteStep(index);
                         }}
                      >
                         Schritt löschen
@@ -131,9 +127,9 @@ export const StepItem = ({
             <Badge variant="outline" className="text-xs">
                {step.type === "PROMPT_REF" ? "Prompt" : "Eigenständig"}
             </Badge>
-            {step.promptTitle && (
+            {/* {step.promptTitle && (
                <span className="truncate">{step.promptTitle}</span>
-            )}
+            )} */}
             {isDisconnected && (
                <span className="font-medium text-orange-600">
                   · Nicht verbunden
@@ -141,13 +137,16 @@ export const StepItem = ({
             )}
          </div>
 
-         {step.outgoingEdges.length > 0 && (
+         {step.edges.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
-               {step.outgoingEdges.map((edge) => {
-                  const target = allSteps.find((s) => s.id === edge.toStepId);
+               {step.edges.map((edge) => {
+                  const target = find(
+                     allSteps,
+                     (s) => s.edgeId === edge.toStepId
+                  );
                   return (
                      <span
-                        key={edge.id}
+                        key={edge.toStepId}
                         className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
                      >
                         {edge.label}

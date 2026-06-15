@@ -9,10 +9,12 @@ import { Button } from "@/components/shadcn/button";
 import { setStartStep } from "@/data/actions/workflow";
 import {
    DWorkflowStep,
+   DWorkflowStepUpdate,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { DeleteStepDialog } from "../../../dialogs/delete-step-dialog";
+import { initWorkflowStep } from "../utils";
 
 import { StepDetailPanel } from "./step-detail-panel";
 import { StepItem } from "./step-item.";
@@ -24,8 +26,9 @@ type Props = {
 
 export const WorkflowSteps = ({ control, workflow }: Props) => {
    const [selectedStep, setSelectedStep] = useState<
-      DWorkflowStep | undefined
+      DWorkflowStepUpdate | undefined
    >();
+   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
    const [createMode, setCreateMode] = useState(false);
    const [deleteStep, setDeleteStep] = useState<DWorkflowStep | null>(null);
 
@@ -41,17 +44,18 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
 
    const steps = workflow?.steps ?? [];
 
-   // Step form state
-   const [stepIsDirty, setStepIsDirty] = useState(false);
-
-   const handleStepSaved = (saved: DWorkflowWithSteps) => {
-      //   setWorkflow(saved);
-      const updatedStep = saved.steps.find((s) => s.id === selectedStep?.id);
-      setSelectedStep(updatedStep ?? undefined);
-      if (!updatedStep) setCreateMode(false);
+   const handleAddStep = () => {
+      const newStep: DWorkflowStepUpdate = initWorkflowStep();
+      addStep(newStep);
    };
 
-   const handleSetStartStep = async (step: DWorkflowStep) => {
+   const handleRemoveStep = (index: number) => {
+      removeStep(index);
+   };
+
+   console.log(fieldSteps);
+
+   const handleSetStartStep = async (step: DWorkflowStepUpdate) => {
       const result = await setStartStep(workflow.id, step.id);
       if (result.success) {
          //  setWorkflow((prev) =>
@@ -73,28 +77,22 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
       }
    };
 
-   const handleStepDeleted = (updated: DWorkflowWithSteps) => {
-      //   setWorkflow(updated);
-      if (deleteStep && selectedStep?.id === deleteStep.id) {
-         setSelectedStep(undefined);
-      }
-      setDeleteStep(null);
-   };
-
    const rightPanelContent = () => {
       if (createMode || selectedStep) {
          return (
             <StepDetailPanel
+               key={selectedStep?.edgeId}
                workflowId={workflow!.id}
+               index={selectedStepIndex}
                step={selectedStep}
                allSteps={steps}
-               onSaved={handleStepSaved}
+               onSaved={() => {}}
                onCreateMode={createMode && !selectedStep}
                onCancelCreate={() => {
                   setCreateMode(false);
                   setSelectedStep(undefined);
                }}
-               onDirtyChange={setStepIsDirty}
+               control={control}
             />
          );
       }
@@ -104,14 +102,7 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
             <p className="text-sm text-muted-foreground">
                Wähle links einen Schritt zum Bearbeiten
             </p>
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={() => {
-                  setSelectedStep(undefined);
-                  setCreateMode(true);
-               }}
-            >
+            <Button variant="outline" size="sm" onClick={handleAddStep}>
                <Plus className="mr-2 h-4 w-4" />
                Neuen Schritt erstellen
             </Button>
@@ -136,21 +127,21 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
                      </div>
                   )}
 
-                  {steps.map((step, idx) => {
+                  {fieldSteps.map((step, idx) => {
                      return (
                         <StepItem
                            key={idx}
                            step={step}
                            index={idx}
-                           allSteps={steps}
-                           allSteps2={fieldSteps}
-                           isSelected={step.id === selectedStep?.id}
-                           onSelectStep={(step) => {
+                           allSteps={fieldSteps}
+                           isSelected={step.edgeId === selectedStep?.edgeId}
+                           onSelectStep={(step, index) => {
+                              setSelectedStepIndex(index);
                               setSelectedStep(step);
                               setCreateMode(false);
                            }}
                            onSetStartStep={handleSetStartStep}
-                           onDeleteStep={(step) => setDeleteStep(step)}
+                           onDeleteStep={handleRemoveStep}
                         />
                      );
                   })}
@@ -159,10 +150,7 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
                <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => {
-                     setSelectedStep(undefined);
-                     setCreateMode(true);
-                  }}
+                  onClick={handleAddStep}
                   data-testid="add-step-btn"
                >
                   <Plus className="mr-2 h-4 w-4" />
@@ -182,7 +170,7 @@ export const WorkflowSteps = ({ control, workflow }: Props) => {
                stepId={deleteStep.id}
                stepTitle={deleteStep.title}
                workflowId={workflow.id}
-               onDeleted={handleStepDeleted}
+               onDeleted={() => {}}
             />
          )}
       </>

@@ -58,6 +58,8 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
       defaultValues: initWorkflow(initialWorkflow),
    });
 
+   console.log(form.getValues());
+
    const handleGlobalSave = async () => {
       const formEl = document.getElementById(formId);
       if (formEl instanceof HTMLFormElement) {
