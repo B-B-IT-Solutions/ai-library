@@ -45,8 +45,6 @@ export const WorkflowSteps = ({ control }: Props) => {
       removeStep(index);
    };
 
-   console.log(fieldSteps);
-
    const handleSetStartStep = async (step: DWorkflowStepUpdate) => {
       // const result = await setStartStep(workflow.id, step.id);
       // if (result.success) {
@@ -104,6 +102,16 @@ export const WorkflowSteps = ({ control }: Props) => {
          data-testid="workflow-steps"
       >
          <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
+            <Button
+               variant="outline"
+               className="w-full"
+               onClick={handleAddStep}
+               data-testid="add-step-btn"
+            >
+               <Plus className="mr-2 h-4 w-4" />
+               Schritt hinzufügen
+            </Button>
+
             <div className="space-y-2" data-testid="step-list">
                {!hasStart && fieldSteps.length > 0 && (
                   <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
@@ -131,16 +139,6 @@ export const WorkflowSteps = ({ control }: Props) => {
                   );
                })}
             </div>
-
-            <Button
-               variant="outline"
-               className="w-full"
-               onClick={handleAddStep}
-               data-testid="add-step-btn"
-            >
-               <Plus className="mr-2 h-4 w-4" />
-               Schritt hinzufügen
-            </Button>
          </div>
 
          <div className="overflow-y-auto bg-white">{rightPanelContent()}</div>
