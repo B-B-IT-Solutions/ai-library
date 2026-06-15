@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 
-type Props = PropsWithChildren<{ "data-testid"?: string }>;
+import { cn } from "@/lib/utils";
+
+type Props = PropsWithChildren<{ "data-testid"?: string; className?: string }>;
 
 const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
    return (
@@ -40,9 +42,16 @@ const ItemDetailsEditBreadcrumbs = ({
    );
 };
 
-const ItemDetailsEditBody = ({ children, "data-testid": testId }: Props) => {
+const ItemDetailsEditBody = ({
+   children,
+   className,
+   "data-testid": testId,
+}: Props) => {
    return (
-      <div className="mx-auto max-w-5xl px-6 py-8" data-testid={testId}>
+      <div
+         className={cn("mx-auto max-w-5xl px-6 py-8", className)}
+         data-testid={testId}
+      >
          {children}
       </div>
    );

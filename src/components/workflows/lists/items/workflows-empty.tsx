@@ -35,7 +35,7 @@ export const WorkflowsEmpty = ({ hasActiveFilters }: Props) => {
          <p className="max-w-sm text-sm text-muted-foreground">
             Verbinde mehrere Prompts zu einem geführten Prozess.
          </p>
-         <CreateWorfklowButton />
+         <CreateWorfklowButton size="sm" />
       </div>
    );
 };

@@ -11,7 +11,7 @@ export {
    getPromptCategories,
    getPromptModels,
    getPromptTemplateCategories,
-   getPromptTemplates,
+   getPromptPreviewsPage,
    getPromptWithContent,
    getPromptsUsage,
 } from "./prompt.user.actions";

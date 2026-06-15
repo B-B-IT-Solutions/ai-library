@@ -25,10 +25,10 @@ import {
    getPromptCategories,
    getPromptGenerationData,
    getPromptModels,
+   getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
    getPromptTemplateCategories,
-   getPromptTemplates,
    getPromptWithContent,
    togglePromptFavorite,
    updatePrompt,
@@ -49,7 +49,7 @@ const sDownloadPrompt = PromptService.prototype.downloadPrompt;
 const sTogglePromptFavorite = PromptService.prototype.togglePromptFavorite;
 const sGetPromptCategories = PromptService.prototype.getPromptCategories;
 const sGetPromptModels = PromptService.prototype.getPromptModels;
-const sGetPrompts = PromptService.prototype.getPrompts;
+const sGetPromptPreviewsPage = PromptService.prototype.getPromptPreviewsPage;
 const sGetPromptWithContent = PromptService.prototype.getPromptWithContent;
 const sGetPromptTemplateCategories =
    PromptService.prototype.getPromptTemplateCategories;
@@ -58,6 +58,9 @@ const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 const sGetPromptsPageMock = sGetPromptsPage as jest.MockedFunction<
    typeof sGetPromptsPage
 >;
+const sGetPromptPreviewsPageMock =
+   sGetPromptPreviewsPage as jest.MockedFunction<typeof sGetPromptPreviewsPage>;
+
 const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;
 const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
    typeof sCreatePrompt
@@ -88,7 +91,6 @@ const sGetPromptCategoriesMock = sGetPromptCategories as jest.MockedFunction<
 const sGetPromptModelsMock = sGetPromptModels as jest.MockedFunction<
    typeof sGetPromptModels
 >;
-const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
 const sGetPromptWithContentMock = sGetPromptWithContent as jest.MockedFunction<
    typeof sGetPromptWithContent
 >;
@@ -138,6 +140,47 @@ describe("getPromptsPage tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsPageMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsPageMock).toHaveBeenCalledWith(user.id, query);
+   });
+});
+
+describe("getPromptPreviewsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptPreviewsPage();
+
+      expect(result).toEqual(EMPTY_PAGE);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptPreviewsPageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("prompts retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const page = dtestData.dPromptPreviewsPage();
+      sGetPromptPreviewsPageMock.mockResolvedValue(page);
+
+      const query = dtestData.dPromptsPageQuery();
+
+      const result = await getPromptPreviewsPage(query);
+
+      expect(result).toEqual(page);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptPreviewsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptPreviewsPageMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 
@@ -983,49 +1026,6 @@ describe("getPromptModels tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptModelsMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptModelsMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("getPromptTemplates tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("getPromptTemplates - params undefined - test", async () => {
-      const templates = dtestData.dPrompts();
-      sGetPromptsMock.mockResolvedValue(templates);
-
-      const result = await getPromptTemplates();
-
-      expect(result).toEqual(templates);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(undefined);
-   });
-
-   it("getPromptTemplates - params empty - test", async () => {
-      const templates = dtestData.dPrompts();
-      sGetPromptsMock.mockResolvedValue(templates);
-
-      const result = await getPromptTemplates({});
-
-      expect(result).toEqual(templates);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith({});
-   });
-
-   it("getPromptTemplates - params defined - test", async () => {
-      const templates = dtestData.dPrompts();
-      sGetPromptsMock.mockResolvedValue(templates);
-
-      const search = "prompt 123";
-      const categories = ["cat 1", "cat2", "cat 3"];
-      const params = { search, categories };
-
-      const result = await getPromptTemplates(params);
-
-      expect(result).toEqual(templates);
-      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(params);
    });
 });
 

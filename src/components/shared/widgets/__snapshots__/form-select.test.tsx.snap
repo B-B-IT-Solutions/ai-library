@@ -66,7 +66,7 @@ exports[`FormSelect rendering tests FormSelect - options objects - test 1`] = `
 exports[`FormSelect rendering tests FormSelect - options strings - test 1`] = `
 <div>
   <div
-    class="grid gap-2"
+    class="grid gap-2 flex-1"
     data-slot="form-item"
     data-testid="test-1"
   >

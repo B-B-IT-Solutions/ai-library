@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FormTextArea rendering tests FormTextArea - rows defined - test 1`] = `
+exports[`FormTextArea rendering tests rows defined - test 1`] = `
 <div>
   <div
     class="grid gap-2 mt-1"
@@ -22,6 +22,7 @@ exports[`FormTextArea rendering tests FormTextArea - rows defined - test 1`] = `
       data-slot="form-control"
       data-testid="textarea"
       id="_r_1_-form-item"
+      maxlength="750"
       name="test-789"
       placeholder="Placeholder 1"
       rows="5"
@@ -30,7 +31,7 @@ exports[`FormTextArea rendering tests FormTextArea - rows defined - test 1`] = `
 </div>
 `;
 
-exports[`FormTextArea rendering tests FormTextArea - rows undefined - test 1`] = `
+exports[`FormTextArea rendering tests rows undefined - test 1`] = `
 <div>
   <div
     class="grid gap-2"

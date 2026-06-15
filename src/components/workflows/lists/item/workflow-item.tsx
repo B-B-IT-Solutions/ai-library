@@ -1,9 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { Edit, MoreHorizontal, Play, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal, Play } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -22,7 +19,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DWorkflow } from "@/data/types/domain/workflow";
-import { DeleteWorkflowDialog } from "../../dialogs/delete-workflow-dialog";
+import { DeleteWorkflowButton } from "../../buttons";
 
 type Props = {
    workflow: DWorkflow;
@@ -30,8 +27,6 @@ type Props = {
 };
 
 export const WorkflowItem = ({ workflow, ref }: Props) => {
-   const [deleteOpen, setDeleteOpen] = useState(false);
-
    return (
       <>
          <Card
@@ -72,13 +67,10 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                            </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                           className="text-destructive focus:text-destructive"
-                           onClick={() => setDeleteOpen(true)}
-                        >
-                           <Trash2 className="mr-2 h-4 w-4" />
-                           Löschen
-                        </DropdownMenuItem>
+                        <DeleteWorkflowButton
+                           workflow={workflow}
+                           asMenuItem={true}
+                        />
                      </DropdownMenuContent>
                   </DropdownMenu>
                </div>
@@ -112,14 +104,6 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                </Button>
             </CardFooter>
          </Card>
-
-         <DeleteWorkflowDialog
-            open={deleteOpen}
-            onOpenChange={setDeleteOpen}
-            workflowId={workflow.id}
-            workflowTitle={workflow.title}
-            onDeleted={() => {}}
-         />
       </>
    );
 };

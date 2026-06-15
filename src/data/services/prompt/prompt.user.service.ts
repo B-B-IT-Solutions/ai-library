@@ -4,6 +4,8 @@ import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptGenerationData,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
@@ -21,11 +23,6 @@ import { SubscriptionService } from "../subscription";
 
 import { resolveAllTemplateFields } from "./utils";
 
-type DGetPromptTemplatesDescriptorsParams = {
-   search?: string;
-   categories?: string[];
-};
-
 export class PromptService {
    constructor(
       private readonly repository: PromptRepository,
@@ -39,6 +36,13 @@ export class PromptService {
       query?: DPromptsPageQuery
    ): Promise<DPromptsPage> {
       return await this.repository.pGetPromptsPage(userId, query);
+   }
+
+   async getPromptPreviewsPage(
+      userId: string,
+      query?: DPromptPreviewsPageQuery
+   ): Promise<DPromptPreviewsPage> {
+      return await this.repository.pGetPromptPreviewsPage(userId, query);
    }
 
    async getPrompt(
@@ -201,12 +205,6 @@ export class PromptService {
       isFavorite: boolean
    ) {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
-   }
-
-   async getPrompts(
-      params?: DGetPromptTemplatesDescriptorsParams
-   ): Promise<DPrompt[]> {
-      return await this.repository.pGetPrompts(params);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {

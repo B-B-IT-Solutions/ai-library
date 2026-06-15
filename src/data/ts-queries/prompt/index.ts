@@ -2,6 +2,8 @@ export {
    preloadPromptTemplateCategoriesOptions,
    infiniteLoadPromptsPageOptions,
    useInfiniteLoadPromptsPage,
+   infiniteLoadPromptPreviewsPageOptions,
+   useInfiniteLoadPromptPreviewsPage,
    useLoadPromptTemplateCategories,
    useToggleFavorite,
 } from "./prompt";
@@ -12,6 +14,6 @@ export {
 } from "./prompt.public";
 
 export type {
-   LoadTemplateDescriptorsParams,
+   LoadPromptsPageParams as LoadTemplateDescriptorsParams,
    UpdateIsFavoriteParams,
 } from "./types";

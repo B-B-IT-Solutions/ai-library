@@ -1,13 +1,18 @@
 import { filterQueryKey } from "../utils";
 
-import type { LoadTemplateDescriptorsParams } from "./types";
+import type {
+   LoadPromptPreviewsPageParams,
+   LoadPromptsPageParams,
+} from "./types";
 
 export const templateKeys = {
    all: ["templates"] as const,
-   templates: ({ filters, sort }: LoadTemplateDescriptorsParams) =>
+   prompts: ({ filters, sort }: LoadPromptsPageParams) =>
       [...templateKeys.all, filterQueryKey(filters, sort)] as const,
-   publicTemplates: ({ filters, sort }: LoadTemplateDescriptorsParams) =>
+   publicPrompts: ({ filters, sort }: LoadPromptsPageParams) =>
       [...templateKeys.all, "public", filterQueryKey(filters, sort)] as const,
+   promptPreviews: ({ filters, sort }: LoadPromptPreviewsPageParams) =>
+      [...templateKeys.all, "previews", filterQueryKey(filters, sort)] as const,
 };
 
 export const templateCategoriesKeys = {

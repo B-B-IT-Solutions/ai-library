@@ -19,7 +19,7 @@ export const updateWorkflowSchema = z.object({
    description: z.string().max(750).nullish(),
 });
 
-export const createWorkflowStepSchema = z
+export const updateWorkflowStepSchema = z
    .object({
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
@@ -56,5 +56,3 @@ export const createWorkflowStepSchema = z
          });
       }
    });
-
-export const updateWorkflowStepSchema = createWorkflowStepSchema;

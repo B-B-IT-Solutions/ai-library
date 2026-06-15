@@ -15,17 +15,24 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptPreviewsPage,
    getPromptsPage,
    getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import {
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
+   DPromptsPage,
+   DPromptsPageQuery,
+} from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import type {
-   LoadTemplateDescriptorsParams,
+   LoadPromptPreviewsPageParams,
+   LoadPromptsPageParams,
    UpdateIsFavoriteParams,
 } from "./types";
 import { templateCategoriesKeys, templateKeys } from "./utils";
@@ -44,7 +51,7 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
 };
 
 export const infiniteLoadPromptsPageOptions = (
-   params: LoadTemplateDescriptorsParams
+   params: LoadPromptsPageParams
 ): UndefinedInitialDataInfiniteOptions<
    DPromptsPage,
    Error,
@@ -54,7 +61,7 @@ export const infiniteLoadPromptsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.templates(params),
+      queryKey: templateKeys.prompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
@@ -72,9 +79,44 @@ export const infiniteLoadPromptsPageOptions = (
 };
 
 export const useInfiniteLoadPromptsPage = (
-   props: LoadTemplateDescriptorsParams
+   props: LoadPromptsPageParams
 ): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
    const options = infiniteLoadPromptsPageOptions(props);
+   return useInfiniteQuery(options);
+};
+
+export const infiniteLoadPromptPreviewsPageOptions = (
+   params: LoadPromptPreviewsPageParams
+): UndefinedInitialDataInfiniteOptions<
+   DPromptPreviewsPage,
+   Error,
+   InfiniteData<DPromptPreviewsPage>,
+   QueryKey,
+   number
+> => {
+   const { filters, sort } = params;
+   return {
+      queryKey: templateKeys.promptPreviews(params),
+      queryFn: async ({ pageParam }) => {
+         const query: DPromptPreviewsPageQuery = pageQuery(
+            pageParam,
+            PAGE_SIZE,
+            undefined,
+            filters,
+            sort
+         );
+         return await getPromptPreviewsPage(query);
+      },
+      initialPageParam: INIT_PAGE_NUMBER,
+      getNextPageParam: getNextPageParam,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useInfiniteLoadPromptPreviewsPage = (
+   props: LoadPromptPreviewsPageParams
+): UseInfiniteQueryResult<InfiniteData<DPromptPreviewsPage>, Error> => {
+   const options = infiniteLoadPromptPreviewsPageOptions(props);
    return useInfiniteQuery(options);
 };
 

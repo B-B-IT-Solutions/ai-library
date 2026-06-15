@@ -12,6 +12,7 @@ type Props = {
    description?: string | null;
    required?: boolean;
    message?: string;
+   maxLength?: number;
    className?: string;
    fixStyling?: boolean;
 };
@@ -23,6 +24,7 @@ const TestWrapper: FC<Props> = ({
    description,
    required,
    message,
+   maxLength,
    className,
    fixStyling,
 }) => {
@@ -41,6 +43,7 @@ const TestWrapper: FC<Props> = ({
             description={description}
             required={required}
             message={message}
+            maxLength={maxLength}
             className={className}
             fixStyling={fixStyling}
             control={form.control}
@@ -65,6 +68,7 @@ describe("FormInput rendering tests", () => {
             description="Description 1"
             required={true}
             message={undefined}
+            maxLength={250}
             className="pb-7"
             fixStyling={true}
          />
