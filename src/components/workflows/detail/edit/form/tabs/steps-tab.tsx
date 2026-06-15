@@ -4,7 +4,7 @@ import { Control } from "react-hook-form";
 
 import { TabsContent } from "@/components/shadcn/tabs";
 import { DWorkflowUpdate } from "@/data/types/domain/workflow";
-import { WorkflowSteps } from "../../steps/steps";
+import { WorkflowSteps } from "../../steps/workflow-steps";
 
 type Props = {
    control: Control<DWorkflowUpdate>;

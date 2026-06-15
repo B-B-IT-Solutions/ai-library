@@ -12,7 +12,8 @@ import {
 } from "@/data/types/domain/workflow";
 import { initWorkflowStep } from "../utils";
 
-import { StepFormPanel } from "./step-form-panel";
+import { StepDetail } from "./step-detail";
+import { StepForm } from "./step-form";
 import { StepItem } from "./step-item.";
 
 type Props = {
@@ -45,37 +46,13 @@ export const WorkflowSteps = ({ control }: Props) => {
       removeStep(index);
    };
 
-   const handleSetStartStep = async (step: DWorkflowStepUpdate) => {
-      // const result = await setStartStep(workflow.id, step.id);
-      // if (result.success) {
-      //  setWorkflow((prev) =>
-      //     prev
-      //        ? {
-      //             ...prev,
-      //             steps: prev.steps.map((s) => ({
-      //                ...s,
-      //                isStart: s.id === step.id,
-      //             })),
-      //          }
-      //        : prev
-      //  );
-      //  if (selectedStep?.id === step.id) {
-      //     setSelectedStep((s) => (s ? { ...s, isStart: true } : s));
-      //  }
-      // } else {
-      //    toast.error(result.message);
-      // }
-   };
-
    const rightPanelContent = () => {
       if (createMode || selectedStep) {
          return (
-            <StepFormPanel
+            <StepForm
                key={selectedStep?.edgeId}
                index={selectedStepIndex}
-               step={selectedStep}
                allSteps={fieldSteps}
-               onCreateMode={createMode && !selectedStep}
                control={control}
             />
          );
@@ -101,7 +78,7 @@ export const WorkflowSteps = ({ control }: Props) => {
          className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
          data-testid="workflow-steps"
       >
-         <div className="flex flex-col gap-4 overflow-y-auto border-r bg-slate-50 p-4">
+         <div className="flex flex-col gap-4 overflow-y-auto bg-slate-50 p-4">
             <Button
                variant="outline"
                className="w-full"
@@ -133,7 +110,6 @@ export const WorkflowSteps = ({ control }: Props) => {
                            setSelectedStep(step);
                            setCreateMode(false);
                         }}
-                        onSetStartStep={handleSetStartStep}
                         onDeleteStep={handleRemoveStep}
                      />
                   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { filter, find } from "es-toolkit/compat";
-import { ArrowRight, MoreHorizontal, Star } from "lucide-react";
+import { ArrowRight, MoreVertical } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -20,7 +20,6 @@ type Props = {
    index: number;
    isSelected: boolean;
    onSelectStep: (step: DWorkflowStepUpdate, index: number) => void;
-   onSetStartStep: (step: DWorkflowStepUpdate) => void;
    onDeleteStep: (index: number) => void;
 };
 
@@ -30,7 +29,6 @@ export const StepItem = ({
    index,
    isSelected,
    onSelectStep,
-   onSetStartStep,
    onDeleteStep,
 }: Props) => {
    const isEndStep = step.edges.length === 0;
@@ -73,30 +71,7 @@ export const StepItem = ({
                </span>
             </div>
 
-            <div className="flex items-center gap-1">
-               <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  title={
-                     step.isStart
-                        ? "Ist Startschritt"
-                        : "Als Startschritt setzen"
-                  }
-                  onClick={(e) => {
-                     e.stopPropagation();
-                     if (!step.isStart) onSetStartStep(step);
-                  }}
-               >
-                  <Star
-                     className={cn(
-                        "h-3.5 w-3.5",
-                        step.isStart
-                           ? "fill-blue-600 text-blue-600"
-                           : "text-muted-foreground"
-                     )}
-                  />
-               </Button>
+            <div className="flex items-center">
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
@@ -105,7 +80,7 @@ export const StepItem = ({
                         className="h-6 w-6"
                         onClick={(e) => e.stopPropagation()}
                      >
-                        <MoreHorizontal className="h-3.5 w-3.5" />
+                        <MoreVertical className="h-3.5 w-3.5" />
                      </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">

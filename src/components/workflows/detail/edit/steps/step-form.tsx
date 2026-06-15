@@ -63,7 +63,8 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
 
    return (
       <div
-         className="flex flex-1 flex-col gap-5 overflow-y-auto p-5"
+         className="flex h-full flex-1 flex-col gap-5 overflow-y-auto p-5"
+         //  className="flex h-full flex-col overflow-y-auto"
          data-testid="step-form"
       >
          <FormInput<DWorkflowUpdate>
