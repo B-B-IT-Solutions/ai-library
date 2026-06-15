@@ -26,7 +26,6 @@ import { WorkflowBreadcrumb } from "../../breadcrumbs";
 import { worfklowEditNavigateBackUrl } from "../../utils/utils";
 
 import { WorkflowForm } from "./form";
-import { StepDetailPanelRef } from "./steps/step-detail-panel";
 import { WorkflowSteps } from "./steps/steps";
 
 const TAB_TRIGGER_CLASS =
@@ -49,20 +48,12 @@ export const WorkflowEdit = ({ initialWorkflow }: Props) => {
 
    // Step form state
    const [stepIsDirty, setStepIsDirty] = useState(false);
-   const stepPanelRef = useRef<StepDetailPanelRef>(null);
 
    const steps = workflow?.steps ?? [];
    const isEdit = !!workflow;
 
    /** Global save: saves current step (if dirty) + workflow metadata (if dirty). */
    const handleGlobalSave = async () => {
-      if (stepIsDirty && stepPanelRef.current) {
-         try {
-            await stepPanelRef.current.submit();
-         } catch {
-            return; // toast already shown inside submit
-         }
-      }
       if (workflowFormIsDirty) {
          const formEl = document.getElementById(formId);
          if (formEl instanceof HTMLFormElement) formEl.requestSubmit();
