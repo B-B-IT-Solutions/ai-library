@@ -24,7 +24,6 @@ export const WorkflowSteps = ({ control }: Props) => {
       DWorkflowStepUpdate | undefined
    >();
    const [selectedStepIndex, setSelectedStepIndex] = useState(0);
-   const [createMode, setCreateMode] = useState(false);
 
    const {
       fields: fieldSteps,
@@ -46,7 +45,7 @@ export const WorkflowSteps = ({ control }: Props) => {
    };
 
    const rightPanelContent = () => {
-      if (createMode || selectedStep) {
+      if (selectedStep) {
          return (
             <StepForm
                key={selectedStep?.edgeId}
@@ -107,7 +106,6 @@ export const WorkflowSteps = ({ control }: Props) => {
                         onSelectStep={(step, index) => {
                            setSelectedStepIndex(index);
                            setSelectedStep(step);
-                           setCreateMode(false);
                         }}
                         onDeleteStep={handleRemoveStep}
                      />
