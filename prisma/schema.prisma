@@ -661,6 +661,7 @@ model WorkflowStep {
   type       WorkflowStepType
   promptId   String?          @map("prompt_id") @db.Uuid
   content    String?          @db.Text
+  edgeId     String           @map("edge_id") @db.Uuid
   isStart    Boolean          @default(false) @map("is_start")
   position   Int              @default(0)
   createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamp(6)

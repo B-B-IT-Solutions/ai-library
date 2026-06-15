@@ -18,6 +18,7 @@ export const updateWorkflowStepSchema = z
       content: z.string().nullish(),
       isStart: z.boolean(),
       position: z.number().int().min(0),
+      edgeId: z.uuid(),
       edges: z.array(workflowEdgeInputSchema),
    })
    .superRefine((data, ctx) => {
