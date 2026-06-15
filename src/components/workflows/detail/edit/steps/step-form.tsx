@@ -197,6 +197,7 @@ export const StepForm = ({
                         label="Label"
                         placeholder="z.B. Weiter"
                         maxLength={250}
+                        className="flex-1"
                         control={form.control}
                      />
 
@@ -204,6 +205,7 @@ export const StepForm = ({
                         name={`edges.${idx}.toStepId`}
                         label="Zielschritt"
                         placeholder="Schritt…"
+                        className="flex-1"
                         options={edgeStepOptions}
                         control={form.control}
                      />

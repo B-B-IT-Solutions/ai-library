@@ -11,6 +11,7 @@ type Props = {
    placeholder?: string;
    description?: string;
    required?: boolean;
+   className?: string;
    options: Option[];
 };
 
@@ -20,6 +21,7 @@ const TestWrapper: FC<Props> = ({
    placeholder,
    description,
    required,
+   className,
    options,
 }) => {
    const form = useForm({
@@ -36,6 +38,7 @@ const TestWrapper: FC<Props> = ({
             placeholder={placeholder}
             description={description}
             required={required}
+            className={className}
             options={options}
             control={form.control}
          />
@@ -60,6 +63,7 @@ describe("FormSelect rendering tests", () => {
             placeholder="Placeholder 1"
             description="Description 1"
             required={true}
+            className="flex-1"
             options={options}
          />
       );
