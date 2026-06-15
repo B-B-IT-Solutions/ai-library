@@ -2,7 +2,12 @@
 
 import { filter, map } from "es-toolkit/compat";
 import { Plus, Trash2 } from "lucide-react";
-import { Control, useController, useFieldArray } from "react-hook-form";
+import {
+   Control,
+   useController,
+   useFieldArray,
+   useWatch,
+} from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import { Separator } from "@/components/shadcn/separator";
@@ -33,6 +38,11 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
       control,
    });
 
+   const { type } = useWatch({
+      name: `steps.${index}`,
+      control,
+   });
+
    const {
       fields: edgeFields,
       append,
@@ -41,8 +51,6 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
       name: `steps.${index}.edges`,
       control,
    });
-
-   const stepType = field.value.type;
 
    const otherSteps = filter(allSteps, (s) => s.edgeId !== field.value.edgeId);
 
@@ -77,7 +85,7 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
             control={control}
          />
 
-         {stepType === "PROMPT_REF" && (
+         {type === "PROMPT_REF" && (
             <FormSelectLoadableValues<DWorkflowUpdate>
                name={`steps.${index}.promptId`}
                label="Prompt"
@@ -93,7 +101,7 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
             />
          )}
 
-         {stepType === "STANDALONE" && (
+         {type === "STANDALONE" && (
             <FormMDEditor<DWorkflowUpdate>
                name={`steps.${index}.content`}
                placeholder="Texts des Prompts"
