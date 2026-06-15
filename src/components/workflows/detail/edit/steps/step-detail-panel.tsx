@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import {
    createWorkflowStep,
@@ -11,14 +8,11 @@ import {
 } from "@/data/actions/workflow";
 import {
    DWorkflowStep,
+   DWorkflowStepUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { updateWorkflowStepSchema } from "@/data/types/validators/workflow";
-import { initWorkflowStep } from "../utils";
 
 import { StepForm } from "./step-form";
-
-type FormValues = z.infer<typeof updateWorkflowStepSchema>;
 
 type Props = {
    workflowId: string;
@@ -39,14 +33,7 @@ export const StepDetailPanel = ({
    onCancelCreate,
    onDirtyChange,
 }: Props) => {
-   const form = useForm<FormValues>({
-      resolver: zodResolver(updateWorkflowStepSchema),
-      defaultValues: initWorkflowStep(step),
-   });
-
-   const isDirty = form.formState.isDirty;
-
-   const submitInternal = async (values: FormValues) => {
+   const submitInternal = async (values: DWorkflowStepUpdate) => {
       const payload = {
          ...values,
          promptId:
@@ -81,12 +68,6 @@ export const StepDetailPanel = ({
                <h2 className="font-semibold text-slate-900">
                   {onCreateMode ? "Neuer Schritt" : "Schritt bearbeiten"}
                </h2>
-               {isDirty && (
-                  <span
-                     className="h-2 w-2 rounded-full bg-amber-400"
-                     title="Ungespeicherte Änderungen"
-                  />
-               )}
             </div>
             {step?.title && !onCreateMode && (
                <p className="mt-0.5 truncate text-sm text-muted-foreground">

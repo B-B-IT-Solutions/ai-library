@@ -125,7 +125,7 @@ export const StepItem = ({
 
          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
             <Badge variant="outline" className="text-xs">
-               {step.type === "PROMPT_REF" ? "Template" : "Eigenständig"}
+               {step.type === "PROMPT_REF" ? "Prompt" : "Eigenständig"}
             </Badge>
             {step.promptTitle && (
                <span className="truncate">{step.promptTitle}</span>

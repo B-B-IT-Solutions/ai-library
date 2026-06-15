@@ -39,7 +39,6 @@ export const WorkflowSteps = ({ workflow }: Props) => {
    };
 
    const handleSetStartStep = async (step: DWorkflowStep) => {
-      if (!workflow) return;
       const result = await setStartStep(workflow.id, step.id);
       if (result.success) {
          //  setWorkflow((prev) =>
