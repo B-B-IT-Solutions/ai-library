@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filter, map } from "es-toolkit/compat";
 import { Plus, Trash2 } from "lucide-react";
@@ -56,13 +56,6 @@ export const StepForm = ({
       resolver: zodResolver(updateWorkflowStepSchema),
       defaultValues: initWorkflowStep(step),
    });
-
-   // Reset form when selected step changes
-   useEffect(() => {
-      if (step) {
-         form.reset(initWorkflowStep(step));
-      }
-   }, [step, form]);
 
    const {
       fields: edgeFields,

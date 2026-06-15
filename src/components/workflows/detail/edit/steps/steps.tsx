@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,7 +12,7 @@ import {
 } from "@/data/types/domain/workflow";
 import { DeleteStepDialog } from "../../../dialogs/delete-step-dialog";
 
-import { StepDetailPanel, StepDetailPanelRef } from "./step-detail-panel";
+import { StepDetailPanel } from "./step-detail-panel";
 import { StepItem } from "./step-item.";
 
 type Props = {
@@ -28,22 +28,8 @@ export const WorkflowSteps = ({ workflow }: Props) => {
 
    // Step form state
    const [stepIsDirty, setStepIsDirty] = useState(false);
-   const stepPanelRef = useRef<StepDetailPanelRef>(null);
 
    const steps = workflow?.steps ?? [];
-
-   /** Auto-saves the current step if dirty, then runs the action. */
-   const withAutoSave = async (action: () => void) => {
-      if (stepIsDirty && stepPanelRef.current) {
-         try {
-            await stepPanelRef.current.submit();
-         } catch {
-            toast.error("Schritt konnte nicht gespeichert werden.");
-            return;
-         }
-      }
-      action();
-   };
 
    const handleStepSaved = (saved: DWorkflowWithSteps) => {
       //   setWorkflow(saved);
@@ -87,7 +73,6 @@ export const WorkflowSteps = ({ workflow }: Props) => {
       if (createMode || selectedStep) {
          return (
             <StepDetailPanel
-               ref={stepPanelRef}
                workflowId={workflow!.id}
                step={selectedStep}
                allSteps={steps}
@@ -110,12 +95,10 @@ export const WorkflowSteps = ({ workflow }: Props) => {
             <Button
                variant="outline"
                size="sm"
-               onClick={() =>
-                  withAutoSave(() => {
-                     setSelectedStep(undefined);
-                     setCreateMode(true);
-                  })
-               }
+               onClick={() => {
+                  setSelectedStep(undefined);
+                  setCreateMode(true);
+               }}
             >
                <Plus className="mr-2 h-4 w-4" />
                Neuen Schritt erstellen
@@ -149,12 +132,10 @@ export const WorkflowSteps = ({ workflow }: Props) => {
                            index={idx}
                            allSteps={steps}
                            selectedStepId={selectedStep?.id ?? null}
-                           onSelectStep={(step) =>
-                              withAutoSave(() => {
-                                 setSelectedStep(step);
-                                 setCreateMode(false);
-                              })
-                           }
+                           onSelectStep={(step) => {
+                              setSelectedStep(step);
+                              setCreateMode(false);
+                           }}
                            onSetStartStep={handleSetStartStep}
                            onDeleteStep={(step) => setDeleteStep(step)}
                         />
@@ -165,12 +146,10 @@ export const WorkflowSteps = ({ workflow }: Props) => {
                <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() =>
-                     withAutoSave(() => {
-                        setSelectedStep(undefined);
-                        setCreateMode(true);
-                     })
-                  }
+                  onClick={() => {
+                     setSelectedStep(undefined);
+                     setCreateMode(true);
+                  }}
                   data-testid="add-step-btn"
                >
                   <Plus className="mr-2 h-4 w-4" />
