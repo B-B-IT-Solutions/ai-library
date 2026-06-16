@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { PublicPromptItemsGrid } from "./prompt-items-grid-public";
+import { PublicPromptsGrid } from "./prompts-grid-public";
 
 const assertEmptyRendered = () => {
    const empty = screen.getByTestId("prompt-items-empty");
@@ -9,7 +9,7 @@ const assertEmptyRendered = () => {
 };
 
 const assertRendered = () => {
-   const items = screen.getByTestId("public-prompt-items-grid");
+   const items = screen.getByTestId("prompts-grid-public");
    const cards = screen.getAllByTestId("public-prompt-item");
 
    assertInDocument(items);
@@ -19,7 +19,7 @@ const assertRendered = () => {
 describe("PublicPromptItemsGrid rendering tests", () => {
    it("prompts - empty - test", async () => {
       const { container } = renderWithReactQuery(
-         <PublicPromptItemsGrid prompts={[]} />
+         <PublicPromptsGrid prompts={[]} />
       );
 
       await waitFor(() => {
@@ -33,7 +33,7 @@ describe("PublicPromptItemsGrid rendering tests", () => {
       const prompts = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <PublicPromptItemsGrid
+         <PublicPromptsGrid
             prompts={prompts}
             collectionToken="public-token-1"
          />

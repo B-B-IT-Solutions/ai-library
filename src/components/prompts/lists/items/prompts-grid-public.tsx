@@ -9,11 +9,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const PublicPromptItemsGrid = ({
-   prompts,
-   collectionToken,
-   ref,
-}: Props) => {
+export const PublicPromptsGrid = ({ prompts, collectionToken, ref }: Props) => {
    if (isEmpty(prompts)) {
       return (
          <div
@@ -45,7 +41,7 @@ export const PublicPromptItemsGrid = ({
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="public-prompt-items-grid"
+         data-testid="prompts-grid-public"
       >
          {map(prompts, (p, idx) => item(p, idx))}
       </div>
