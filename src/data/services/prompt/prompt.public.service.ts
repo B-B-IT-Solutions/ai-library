@@ -63,13 +63,13 @@ export class PublicPromptService {
       return null;
    }
 
-   async getPublicPrompt(descriptorId: string): Promise<DPrompt | null> {
-      return await this.repository.pGetPublicPrompt(descriptorId);
+   async getPublicPrompt(promptId: string): Promise<DPrompt | null> {
+      return await this.repository.pGetPublicPrompt(promptId);
    }
 
    async getPublicPromptContent(
-      templateId: string
+      promptId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPublicPromptContent(templateId);
+      return await this.repository.pGetPublicPromptContent(promptId);
    }
 }

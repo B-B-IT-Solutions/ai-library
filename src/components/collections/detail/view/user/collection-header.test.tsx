@@ -31,12 +31,18 @@ const assertRendered = () => {
 
 const assertPublicBadgeRendered = () => {
    const badge = screen.getByTestId("public-badge");
+   const copyBtn = screen.getByTestId("copy-collection-url-btn");
+
    assertInDocument(badge);
+   assertInDocument(copyBtn);
 };
 
 const assertPublicBadgeNotRendered = () => {
    const badge = screen.queryByTestId("public-badge");
+   const copyBtn = screen.queryByTestId("copy-collection-url-btn");
+
    assertNotInDocument(badge);
+   assertNotInDocument(copyBtn);
 };
 
 describe("CollectionHeader rendering tests", () => {

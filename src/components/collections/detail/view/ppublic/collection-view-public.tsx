@@ -50,7 +50,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
                </div>
             </div>
 
-            <div className="container mx-auto max-w-6xl px-4 py-8">
+            <div className="max-w-8xl container mx-auto px-4 py-8">
                <PublicPromptItems
                   viewMode={viewMode}
                   groupBy={groupBy}

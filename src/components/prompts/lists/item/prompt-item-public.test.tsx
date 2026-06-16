@@ -11,32 +11,32 @@ import mockRouter from "next-router-mock";
 import { PublicPromptItem } from "./prompt-item-public";
 
 const assertRendered = () => {
-   const itemCard = screen.getByTestId("public-prompt-item");
+   const prompt = screen.getByTestId("prompt-item-public");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("public-use-prompt-btn");
-   const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
+   const moreOptionsBtn = screen.getByTestId("more-options-trigger-btn");
 
-   assertInDocument(itemCard);
+   assertInDocument(prompt);
    assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
    assertInDocument(usePromptBtn);
-   assertInDocument(dropdownMenuBtn);
+   assertInDocument(moreOptionsBtn);
 };
 
 const assertDropdownMenuItemsRendered = () => {
-   const viewDetailsLink = screen.getByTestId("view-details-link");
+   const viewPromptItem = screen.getByTestId("view-prompt-menu-item");
    const downloadMenuItem = screen.getByTestId("download-prompt-menu-item");
 
-   assertInDocument(viewDetailsLink);
+   assertInDocument(viewPromptItem);
    assertInDocument(downloadMenuItem);
 };
 
 const assertDropdownMenuItemsNotRendered = () => {
-   const viewDetailsLink = screen.queryByTestId("view-details-link");
+   const viewPromptItem = screen.queryByTestId("view-prompt-menu-item");
    const downloadMenuItem = screen.queryByTestId("download-prompt-menu-item");
 
-   assertNotInDocument(viewDetailsLink);
+   assertNotInDocument(viewPromptItem);
    assertNotInDocument(downloadMenuItem);
 };
 
@@ -97,16 +97,16 @@ describe("PromptItem functionality tests", () => {
          expect(mockRouter.asPath).toEqual("/");
       });
 
-      const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
-      userEvent.click(dropdownMenuBtn);
+      const moreOptionsBtn = screen.getByTestId("more-options-trigger-btn");
+      userEvent.click(moreOptionsBtn);
 
       await waitFor(() => {
          assertDropdownMenuItemsRendered();
          expect(mockRouter.asPath).toEqual("/");
       });
 
-      const viewDetailsLink = screen.getByTestId("view-details-link");
-      userEvent.click(viewDetailsLink);
+      const viewPromptItem = screen.getByTestId("view-prompt-menu-item");
+      userEvent.click(viewPromptItem);
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);

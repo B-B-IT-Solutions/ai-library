@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader, Plus } from "lucide-react";
+import { Loader, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 import { UsePromptDialog } from "@/components/prompt-templating";
@@ -11,11 +11,11 @@ import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPrompt;
+   prompt: DPrompt;
    className?: string;
 };
 
-export const PublicUsePromptButton = ({ descriptor, className }: Props) => {
+export const PublicUsePromptButton = ({ prompt, className }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const [templateData, setTemplateData] =
@@ -23,7 +23,7 @@ export const PublicUsePromptButton = ({ descriptor, className }: Props) => {
 
    const handleUseTemplate = async () => {
       startTransition(async () => {
-         const data = await getPublicPromptGenerationData(descriptor.id);
+         const data = await getPublicPromptGenerationData(prompt.id);
          if (data) {
             setTemplateData(data);
          } else {
@@ -40,7 +40,7 @@ export const PublicUsePromptButton = ({ descriptor, className }: Props) => {
       if (templateData) {
          return (
             <UsePromptDialog
-               prompt={descriptor}
+               prompt={prompt}
                generationData={templateData}
                onCancel={handleCancel}
             />
@@ -60,8 +60,8 @@ export const PublicUsePromptButton = ({ descriptor, className }: Props) => {
 
       return (
          <>
-            <Plus className="mr-1.5 h-4 w-4" />
-            <span>Prompt anwenden</span>
+            <Zap className="mr-1 h-4 w-4" />
+            <span>Anwenden</span>
          </>
       );
    };

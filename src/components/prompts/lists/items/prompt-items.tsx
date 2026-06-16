@@ -14,9 +14,10 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { PromptItemsGrid } from "./prompt-items-grid";
-import { PromptItemsList } from "./prompt-items-list";
-import { PromptItemsSkeleton } from "./prompt-items-skeleton";
+import { PromptsSkeleton } from "./prompt-skeleton";
+import { PromtpsEmpty } from "./prompts-empty";
+import { PromptsGrid } from "./prompts-grid";
+import { PromptsList } from "./prompts-list";
 
 type Props = {
    viewMode: DListViewMode;
@@ -53,39 +54,11 @@ export const PromptItems = ({
    );
 
    if (isLoading) {
-      return <PromptItemsSkeleton viewMode={viewMode} />;
+      return <PromptsSkeleton viewMode={viewMode} />;
    }
 
    if (isEmpty(prompts)) {
-      if (hasActiveFilters) {
-         return (
-            <div
-               className="flex flex-col items-center justify-center py-16 text-center"
-               data-testid="prompt-items-filter-empty"
-            >
-               <p className="text-lg font-medium text-slate-700">
-                  Keine Ergebnisse für diese Filter
-               </p>
-               <p className="mt-2 text-sm text-slate-500">
-                  Passe deine Filterkriterien an oder setze sie zurück.
-               </p>
-            </div>
-         );
-      }
-      return (
-         <div
-            className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="prompt-items-empty"
-         >
-            <p className="text-lg font-medium text-slate-700">
-               Noch keine Prompts
-            </p>
-            <p className="mt-2 text-sm text-slate-500">
-               Erstelle deinen ersten Prompt und baue deine persönliche
-               Bibliothek auf.
-            </p>
-         </div>
-      );
+      return <PromtpsEmpty hasActiveFilters={hasActiveFilters} />;
    }
 
    if (viewMode === DListViewMode.LIST) {
@@ -96,8 +69,8 @@ export const PromptItems = ({
             next={fetchNextPage}
             threshold={0.1}
          >
-            <PromptItemsList
-               descriptors={prompts}
+            <PromptsList
+               prompts={prompts}
                currentColleciton={currentCollection}
             />
          </InfiniteScroll>
@@ -111,10 +84,7 @@ export const PromptItems = ({
          next={fetchNextPage}
          threshold={0.1}
       >
-         <PromptItemsGrid
-            descriptors={prompts}
-            currentColleciton={currentCollection}
-         />
+         <PromptsGrid prompts={prompts} currentColleciton={currentCollection} />
       </InfiniteScroll>
    );
 };

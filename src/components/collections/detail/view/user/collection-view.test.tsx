@@ -71,12 +71,12 @@ const assertRendered = () => {
    const view = screen.getByTestId("collection-view");
    const header = screen.getByTestId("collection-header");
    const toolbar = screen.getByTestId("prompts-toolbar");
-   const items = screen.getByTestId("prompt-items-grid");
+   const prompts = screen.getByTestId("prompts-grid");
 
    assertInDocument(view);
    assertInDocument(header);
    assertInDocument(toolbar);
-   assertInDocument(items);
+   assertInDocument(prompts);
 };
 
 const assertGetLibraryEntriesPageCalled = (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { flatMap } from "es-toolkit/compat";
+import { flatMap, isEmpty } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPublicTemplateDescriptors } from "@/data/ts-queries/prompt";
@@ -13,7 +13,9 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { PublicPromptItemsGrid } from "./prompt-items-grid-public";
+import { PromptsSkeleton } from "./prompt-skeleton";
+import { PromtpsEmpty } from "./prompts-empty";
+import { PublicPromptsGrid } from "./prompts-grid-public";
 
 type Props = {
    viewMode: DListViewMode;
@@ -36,20 +38,26 @@ export const PublicPromptItems = ({
          sort: resolveSort(sortBy),
       });
 
-   const entries = useMemo(
+   const prompts = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
       [data]
    );
 
+   const hasActiveFilters = useMemo(
+      () =>
+         !isEmpty(filters.search) ||
+         !isEmpty(filters.categories) ||
+         !isEmpty(filters.models) ||
+         !isEmpty(filters.collectionIds),
+      [filters]
+   );
+
    if (isLoading) {
-      return (
-         <div className="flex items-center justify-center py-16">
-            <div className="text-center">
-               <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-               <p className="mt-4 text-sm text-slate-600">Lädt Vorlagen...</p>
-            </div>
-         </div>
-      );
+      return <PromptsSkeleton viewMode={viewMode} />;
+   }
+
+   if (isEmpty(prompts)) {
+      return <PromtpsEmpty hasActiveFilters={hasActiveFilters} />;
    }
 
    return (
@@ -57,10 +65,10 @@ export const PublicPromptItems = ({
          hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
-         threshold={0.7}
+         threshold={0.1}
       >
-         <PublicPromptItemsGrid
-            descriptors={entries}
+         <PublicPromptsGrid
+            prompts={prompts}
             collectionToken={collectionToken}
          />
       </InfiniteScroll>
