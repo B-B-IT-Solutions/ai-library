@@ -77,12 +77,12 @@ const assertRendered = () => {
    const dashboard = screen.getByTestId("prompts-dashboard");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const toolbar = screen.getByTestId("prompts-toolbar");
-   const entries = screen.getByTestId("prompt-items-grid");
+   const prompts = screen.getByTestId("prompts-grid");
 
    assertInDocument(dashboard);
    assertInDocument(createPromptBtn);
    assertInDocument(toolbar);
-   assertInDocument(entries);
+   assertInDocument(prompts);
 };
 
 const assertGetPromptsPageCalled = (expectedPayload: DPromptsPageQuery) => {

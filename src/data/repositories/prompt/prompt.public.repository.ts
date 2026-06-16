@@ -65,9 +65,9 @@ export class PublicPromptRepository {
       };
    }
 
-   async pGetPublicPrompt(id: string): Promise<DPrompt | null> {
+   async pGetPublicPrompt(promptId: string): Promise<DPrompt | null> {
       const args = {
-         where: { id },
+         where: { id: promptId },
          include: {
             categories: true,
          },
@@ -80,10 +80,10 @@ export class PublicPromptRepository {
    }
 
    async pGetPublicPromptContent(
-      id: string
+      promptId: string
    ): Promise<DPromptWithContent | null> {
       const args = {
-         where: { id },
+         where: { id: promptId },
          include: {
             content: true,
             categories: true,

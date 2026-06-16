@@ -33,12 +33,12 @@ type Props = {
    count?: number;
 };
 
-export const PromptItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
+export const PromptsSkeleton = ({ viewMode, count = 8 }: Props) => {
    const cards = range(count).map((i) => <PromptItemSkeleton key={i} />);
 
    if (viewMode === DListViewMode.LIST) {
       return (
-         <div className="space-y-4" data-testid="prompt-items-skeleton">
+         <div className="space-y-4" data-testid="prompts-skeleton">
             {cards}
          </div>
       );
@@ -47,7 +47,7 @@ export const PromptItemsSkeleton = ({ viewMode, count = 8 }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="prompt-items-skeleton"
+         data-testid="prompts-skeleton"
       >
          {cards}
       </div>

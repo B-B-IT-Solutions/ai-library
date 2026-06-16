@@ -3,17 +3,17 @@ import { assertInDocument } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { PromptItemsSkeleton } from "./prompt-items-skeleton";
+import { PromptsSkeleton } from "./prompt-skeleton";
 
 const assertRendered = () => {
-   const skeleton = screen.getByTestId("prompt-items-skeleton");
+   const skeleton = screen.getByTestId("prompts-skeleton");
    assertInDocument(skeleton);
 };
 
 describe("PromptItemsSkeleton rendering tests", () => {
    it("grid view - default count - test", async () => {
       const { container } = render(
-         <PromptItemsSkeleton viewMode={DListViewMode.GRID} />
+         <PromptsSkeleton viewMode={DListViewMode.GRID} />
       );
 
       assertRendered();
@@ -22,7 +22,7 @@ describe("PromptItemsSkeleton rendering tests", () => {
 
    it("list view - default count - test", async () => {
       const { container } = render(
-         <PromptItemsSkeleton viewMode={DListViewMode.LIST} />
+         <PromptsSkeleton viewMode={DListViewMode.LIST} />
       );
 
       assertRendered();
@@ -31,7 +31,7 @@ describe("PromptItemsSkeleton rendering tests", () => {
 
    it("grid view - custom count - test", async () => {
       const { container } = render(
-         <PromptItemsSkeleton viewMode={DListViewMode.GRID} count={3} />
+         <PromptsSkeleton viewMode={DListViewMode.GRID} count={3} />
       );
 
       assertRendered();

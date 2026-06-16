@@ -1,0 +1,33 @@
+import { map } from "es-toolkit/compat";
+
+import { DPrompt } from "@/data/types/domain/prompt";
+import { PublicPromptItem } from "../item";
+
+type Props = {
+   prompts: DPrompt[];
+   collectionToken?: string | null;
+   ref?: React.Ref<HTMLDivElement>;
+};
+
+export const PublicPromptsGrid = ({ prompts, collectionToken, ref }: Props) => {
+   const item = (prompt: DPrompt, index: number) => {
+      const isLast = index === prompts.length - 1;
+      return (
+         <PublicPromptItem
+            key={prompt.id}
+            prompt={prompt}
+            collectionToken={collectionToken}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
+   return (
+      <div
+         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+         data-testid="prompts-grid-public"
+      >
+         {map(prompts, (p, idx) => item(p, idx))}
+      </div>
+   );
+};
