@@ -24,22 +24,22 @@ const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
 >;
 
 const assertGridRendered = () => {
-   const entries = screen.getByTestId("prompt-items-grid");
-   assertInDocument(entries);
+   const prompts = screen.getByTestId("prompts-grid");
+   assertInDocument(prompts);
 };
 
 const assertListRendered = () => {
-   const entries = screen.getByTestId("prompt-items-list");
-   assertInDocument(entries);
+   const prompts = screen.getByTestId("prompts-list");
+   assertInDocument(prompts);
 };
 
 const assertPromptsEmptyRendered = () => {
-   const empty = screen.getByTestId("prompt-items-empty");
+   const empty = screen.getByTestId("prompts-empty");
    assertInDocument(empty);
 };
 
 const assertPromptsFilterEmptyRendered = () => {
-   const empty = screen.getByTestId("prompt-items-filter-empty");
+   const empty = screen.getByTestId("prompts-filter-empty");
    assertInDocument(empty);
 };
 

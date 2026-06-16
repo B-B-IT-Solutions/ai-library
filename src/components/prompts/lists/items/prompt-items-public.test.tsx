@@ -18,8 +18,18 @@ const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
 >;
 
 const assertGridRendered = () => {
-   const items = screen.getByTestId("public-prompt-items-grid");
-   assertInDocument(items);
+   const prompts = screen.getByTestId("prompts-grid-public");
+   assertInDocument(prompts);
+};
+
+const assertPromptsEmptyRendered = () => {
+   const empty = screen.getByTestId("prompts-empty");
+   assertInDocument(empty);
+};
+
+const assertPromptsFilterEmptyRendered = () => {
+   const empty = screen.getByTestId("prompts-filter-empty");
+   assertInDocument(empty);
 };
 
 const assertGetLibraryEntriesPageCalled = (
@@ -30,16 +40,56 @@ const assertGetLibraryEntriesPageCalled = (
 };
 
 describe("PublicPromptItems rendering tests", () => {
-   beforeAll(() => {
-      const page = dtestData.dPromptsPage();
-      getPublicPromptsPageMock.mockResolvedValue(page);
-   });
-
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
+   it("prompts - empty - test", async () => {
+      const page = dtestData.dPromptsPage(0);
+      getPublicPromptsPageMock.mockResolvedValue(page);
+
+      const { container } = renderWithRouter(
+         <PublicPromptItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={{}}
+         />
+      );
+
+      await waitFor(() => {
+         assertPromptsEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("prompts - filter empty - test", async () => {
+      const page = dtestData.dPromptsPage(0);
+      getPublicPromptsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dPromptsFilter();
+
+      const { container } = renderWithRouter(
+         <PublicPromptItems
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.NONE}
+            sortBy={DListSortByMode.DATE_DESC}
+            filters={filters}
+         />
+      );
+
+      await waitFor(() => {
+         assertPromptsFilterEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("view grid - test", async () => {
+      const page = dtestData.dPromptsPage();
+      getPublicPromptsPageMock.mockResolvedValue(page);
+
       const filters = dtestData.dPromptsFilter();
 
       const { container } = renderWithRouter(

@@ -8,3 +8,4 @@ export { ViewPromptButton } from "./view-prompt-button";
 export { PromptMoreOptionsButton } from "./prompt-more-options-button";
 
 export { PublicUsePromptButton } from "./use-prompt-button-public";
+export { PublicPromptMoreOptionsButton } from "./prompt-more-options-button-public";

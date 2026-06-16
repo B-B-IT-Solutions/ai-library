@@ -27,15 +27,15 @@ export const getPublicPromptsPage = async (
 };
 
 export const getPublicPrompt = async (
-   descriptorId: string
+   promptId: string
 ): Promise<DPrompt | null> => {
    try {
-      if (!isValidUuid(descriptorId)) {
+      if (!isValidUuid(promptId)) {
          throw new Error("Invalid Descriptor ID.");
       }
 
       const service = getService();
-      return await service.getPublicPrompt(descriptorId);
+      return await service.getPublicPrompt(promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -43,15 +43,15 @@ export const getPublicPrompt = async (
 };
 
 export const getPublicPromptContent = async (
-   templateId: string
+   promptId: string
 ): Promise<DPromptWithContent | null> => {
    try {
-      if (!isValidUuid(templateId)) {
+      if (!isValidUuid(promptId)) {
          throw new Error("Invalid Template ID.");
       }
 
       const service = getService();
-      return await service.getPublicPromptContent(templateId);
+      return await service.getPublicPromptContent(promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -59,15 +59,15 @@ export const getPublicPromptContent = async (
 };
 
 export const getPublicPromptGenerationData = async (
-   templateId: string
+   promptId: string
 ): Promise<DPromptGenerationData | null> => {
    try {
-      if (!isValidUuid(templateId)) {
+      if (!isValidUuid(promptId)) {
          throw new Error("Invalid Descriptor ID.");
       }
 
       const service = getService();
-      return await service.getPublicPromptGenerationData(templateId);
+      return await service.getPublicPromptGenerationData(promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
