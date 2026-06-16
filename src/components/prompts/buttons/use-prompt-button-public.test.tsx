@@ -38,10 +38,8 @@ describe("PublicUsePromptButton rendering tests", () => {
       const data = dtestData.dPromptGenerationData();
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPrompt();
-      const { container } = render(
-         <PublicUsePromptButton descriptor={descriptor} />
-      );
+      const prompt = dtestData.dPrompt();
+      const { container } = render(<PublicUsePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -55,10 +53,8 @@ describe("PublicUsePromptButton rendering tests", () => {
       data.allFields = [];
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPrompt();
-      const { container } = render(
-         <PublicUsePromptButton descriptor={descriptor} />
-      );
+      const prompt = dtestData.dPrompt();
+      const { container } = render(<PublicUsePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -71,12 +67,9 @@ describe("PublicUsePromptButton rendering tests", () => {
       const data = dtestData.dPromptGenerationData();
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
       const { container } = render(
-         <PublicUsePromptButton
-            descriptor={descriptor}
-            className="custom-class"
-         />
+         <PublicUsePromptButton prompt={prompt} className="custom-class" />
       );
 
       await waitFor(() => {
@@ -97,9 +90,9 @@ describe("PublicUsePromptButton functionality - tests", () => {
    it("submit clicked - success - templateData null - test", async () => {
       getPublicPromptGenerationDataMock.mockResolvedValue(null);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
-      render(<PublicUsePromptButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -113,9 +106,7 @@ describe("PublicUsePromptButton functionality - tests", () => {
       });
 
       expect(getPublicPromptGenerationDataMock).toHaveBeenCalledTimes(1);
-      expect(getPublicPromptGenerationDataMock).toHaveBeenCalledWith(
-         descriptor.id
-      );
+      expect(getPublicPromptGenerationDataMock).toHaveBeenCalledWith(prompt.id);
       expect(toastMock.error).toHaveBeenCalledTimes(1);
       expect(toastMock.error).toHaveBeenCalledWith(
          "Vorlage konnte nicht geladen werden"
@@ -126,9 +117,9 @@ describe("PublicUsePromptButton functionality - tests", () => {
       const data = dtestData.dPromptGenerationData();
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
-      render(<PublicUsePromptButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -146,9 +137,9 @@ describe("PublicUsePromptButton functionality - tests", () => {
       const data = dtestData.dPromptGenerationData();
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPrompt();
+      const prompt = dtestData.dPrompt();
 
-      render(<PublicUsePromptButton descriptor={descriptor} />);
+      render(<PublicUsePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

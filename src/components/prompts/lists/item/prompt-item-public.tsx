@@ -111,7 +111,7 @@ export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
                   "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
                )}
             >
-               <PublicUsePromptButton descriptor={prompt} />
+               <PublicUsePromptButton prompt={prompt} />
                {dropdownMenu()}
             </div>
          </div>
