@@ -14,9 +14,9 @@ import {
 } from "@/data/types/domain/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-import { PromptItemsGrid } from "./prompt-items-grid";
-import { PromptItemsList } from "./prompt-items-list";
-import { PromptItemsSkeleton } from "./prompt-items-skeleton";
+import { PromptsSkeleton } from "./prompt-skeleton";
+import { PromptsGrid } from "./prompts-grid";
+import { PromptsList } from "./prompts-list";
 
 type Props = {
    viewMode: DListViewMode;
@@ -53,7 +53,7 @@ export const PromptItems = ({
    );
 
    if (isLoading) {
-      return <PromptItemsSkeleton viewMode={viewMode} />;
+      return <PromptsSkeleton viewMode={viewMode} />;
    }
 
    if (isEmpty(prompts)) {
@@ -96,8 +96,8 @@ export const PromptItems = ({
             next={fetchNextPage}
             threshold={0.1}
          >
-            <PromptItemsList
-               descriptors={prompts}
+            <PromptsList
+               prompts={prompts}
                currentColleciton={currentCollection}
             />
          </InfiniteScroll>
@@ -111,10 +111,7 @@ export const PromptItems = ({
          next={fetchNextPage}
          threshold={0.1}
       >
-         <PromptItemsGrid
-            prompts={prompts}
-            currentColleciton={currentCollection}
-         />
+         <PromptsGrid prompts={prompts} currentColleciton={currentCollection} />
       </InfiniteScroll>
    );
 };

@@ -2,19 +2,19 @@ import { createRef } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { PromptItemsGrid } from "./prompt-items-grid";
+import { PromptsList } from "./prompts-list";
 
 const assertRendered = () => {
-   const entries = screen.getByTestId("prompt-items-grid");
-   assertInDocument(entries);
+   const prompts = screen.getByTestId("prompts-list");
+   assertInDocument(prompts);
 };
 
-describe("PromptItemsGrid rendering tests", () => {
-   it("prompt - collectionId undefined - test", async () => {
-      const descriptors = dtestData.dPrompts();
+describe("PromptItemsList rendering tests", () => {
+   it("prompts - collecitonId undefined - test", async () => {
+      const prompts = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <PromptItemsGrid prompts={descriptors} />
+         <PromptsList prompts={prompts} />
       );
 
       await waitFor(() => {
@@ -24,15 +24,12 @@ describe("PromptItemsGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("prompt - collectionId defined - test", async () => {
-      const descriptors = dtestData.dPrompts();
+   it("prompts - collecitonId defined - test", async () => {
+      const prompts = dtestData.dPrompts();
       const collection = dtestData.dCollectionPreview();
 
       const { container } = renderWithReactQuery(
-         <PromptItemsGrid
-            prompts={descriptors}
-            currentColleciton={collection}
-         />
+         <PromptsList prompts={prompts} currentColleciton={collection} />
       );
 
       await waitFor(() => {
@@ -43,12 +40,12 @@ describe("PromptItemsGrid rendering tests", () => {
    });
 });
 
-describe("PromptItemsGrid ref tests", () => {
+describe("PromptItemsList ref tests", () => {
    it("ref is forwarded to the last item DOM element - test", async () => {
       const ref = createRef<HTMLDivElement>();
       const descriptors = dtestData.dPrompts(); // 3 items
 
-      renderWithReactQuery(<PromptItemsGrid prompts={descriptors} ref={ref} />);
+      renderWithReactQuery(<PromptsList prompts={descriptors} ref={ref} />);
 
       await waitFor(() => {
          const items = screen.getAllByTestId("prompt-item");

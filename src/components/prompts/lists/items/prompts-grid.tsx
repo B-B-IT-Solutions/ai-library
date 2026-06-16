@@ -2,26 +2,21 @@ import { map } from "es-toolkit/compat";
 
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
-
 import { PromptItem } from "../item";
 
 type Props = {
-   descriptors: DPrompt[];
+   prompts: DPrompt[];
    currentColleciton?: DCollectionPreview;
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const PromptItemsList = ({
-   descriptors,
-   currentColleciton,
-   ref,
-}: Props) => {
-   const item = (descriptor: DPrompt, index: number) => {
-      const isLast = index === descriptors.length - 1;
+export const PromptsGrid = ({ prompts, currentColleciton, ref }: Props) => {
+   const item = (prompt: DPrompt, index: number) => {
+      const isLast = index === prompts.length - 1;
       return (
          <PromptItem
-            key={descriptor.id}
-            prompt={descriptor}
+            key={prompt.id}
+            prompt={prompt}
             currentCollection={currentColleciton}
             ref={isLast ? ref : undefined}
          />
@@ -29,8 +24,11 @@ export const PromptItemsList = ({
    };
 
    return (
-      <div className="space-y-4" data-testid="prompt-items-list">
-         {map(descriptors, (d, i) => item(d, i))}
+      <div
+         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+         data-testid="prompts-grid"
+      >
+         {map(prompts, (p, i) => item(p, i))}
       </div>
    );
 };
