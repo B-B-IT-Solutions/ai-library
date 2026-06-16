@@ -15,6 +15,7 @@ import {
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
 import { PromptsSkeleton } from "./prompt-skeleton";
+import { PromtpsEmpty } from "./prompts-empty";
 import { PromptsGrid } from "./prompts-grid";
 import { PromptsList } from "./prompts-list";
 
@@ -57,35 +58,7 @@ export const PromptItems = ({
    }
 
    if (isEmpty(prompts)) {
-      if (hasActiveFilters) {
-         return (
-            <div
-               className="flex flex-col items-center justify-center py-16 text-center"
-               data-testid="prompt-items-filter-empty"
-            >
-               <p className="text-lg font-medium text-slate-700">
-                  Keine Ergebnisse für diese Filter
-               </p>
-               <p className="mt-2 text-sm text-slate-500">
-                  Passe deine Filterkriterien an oder setze sie zurück.
-               </p>
-            </div>
-         );
-      }
-      return (
-         <div
-            className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="prompt-items-empty"
-         >
-            <p className="text-lg font-medium text-slate-700">
-               Noch keine Prompts
-            </p>
-            <p className="mt-2 text-sm text-slate-500">
-               Erstelle deinen ersten Prompt und baue deine persönliche
-               Bibliothek auf.
-            </p>
-         </div>
-      );
+      return <PromtpsEmpty hasActiveFilters={hasActiveFilters} />;
    }
 
    if (viewMode === DListViewMode.LIST) {
