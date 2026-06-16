@@ -69,7 +69,38 @@ describe("PublicTemplatePage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("prompt retrieved - test", async () => {
+   it("prompt retrieved - collectionId undefined - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      getPublicPromptContentMock.mockResolvedValue(prompt);
+
+      getPublicCollectionByTokenMock.mockResolvedValue(null);
+
+      const params: PageParams = { id: "descriptor-id-1" };
+      const searchParams: PageSearchParams = { col: "collection-token-1" };
+
+      const props: PageProps = {
+         params: Promise.resolve(params),
+         searchParams: Promise.resolve(searchParams),
+      };
+
+      const { container } = await renderAsyncRSC(PublicPromptPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(getPublicPromptContentMock).toHaveBeenCalledTimes(1);
+         expect(getPublicPromptContentMock).toHaveBeenCalledWith(params.id);
+         expect(getPublicPromptMock).not.toHaveBeenCalled();
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
+            searchParams.col
+         );
+         expect(notFoundMock).not.toHaveBeenCalled();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("prompt retrieved - collectionId defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       getPublicPromptContentMock.mockResolvedValue(prompt);
 
