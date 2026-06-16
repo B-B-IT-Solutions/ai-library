@@ -8,7 +8,7 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { PublicPromptMoreOptionsButton } from "./public-prompt-more-options-button";
+import { PublicPromptMoreOptionsButton } from "./prompt-more-options-button-public";
 
 const assertRendered = () => {
    const btn = screen.getByTestId("public-prompt-more-options-btn");
