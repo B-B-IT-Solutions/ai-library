@@ -14,7 +14,7 @@ import {
    PageParams,
    PageProps,
    PageSearchParams,
-   PublicTemplatePage,
+   PublicPromptPage,
 } from "./page";
 
 const getPublicPromptMock = getPublicPrompt as jest.MockedFunction<
@@ -44,34 +44,7 @@ describe("PublicTemplatePage rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("descriptor null - test", async () => {
-      getPublicPromptMock.mockResolvedValue(null);
-
-      const params: PageParams = { id: "descriptor-id-1" };
-      const searchParams: PageSearchParams = {};
-
-      const props: PageProps = {
-         params: Promise.resolve(params),
-         searchParams: Promise.resolve(searchParams),
-      };
-
-      const { container } = await renderAsyncRSC(PublicTemplatePage, props);
-
-      await waitFor(() => {
-         expect(getPublicPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptMock).toHaveBeenCalledWith(params.id);
-         expect(notFoundMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptContentMock).not.toHaveBeenCalled();
-         expect(getPublicCollectionByTokenMock).not.toHaveBeenCalled();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("descriptor retrieved - template null - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPublicPromptMock.mockResolvedValue(descriptor);
-
+   it("prompt null - test", async () => {
       getPublicPromptContentMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
@@ -82,13 +55,13 @@ describe("PublicTemplatePage rendering tests", () => {
          searchParams: Promise.resolve(searchParams),
       };
 
-      const { container } = await renderAsyncRSC(PublicTemplatePage, props);
+      const { container } = await renderAsyncRSC(PublicPromptPage, props);
 
       await waitFor(() => {
-         expect(getPublicPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPublicPromptContentMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptContentMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPublicPromptContentMock).toHaveBeenCalledWith(params.id);
+         expect(notFoundMock).toHaveBeenCalledTimes(1);
+         expect(getPublicPromptMock).not.toHaveBeenCalled();
          expect(getPublicCollectionByTokenMock).not.toHaveBeenCalled();
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
@@ -96,12 +69,9 @@ describe("PublicTemplatePage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptor retrieved - template retrieved - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      getPublicPromptMock.mockResolvedValue(descriptor);
-
-      const template = dtestData.dPromptWithContent();
-      getPublicPromptContentMock.mockResolvedValue(template);
+   it("prompt retrieved - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      getPublicPromptContentMock.mockResolvedValue(prompt);
 
       const collection = dtestData.dCollection();
       getPublicCollectionByTokenMock.mockResolvedValue(collection);
@@ -114,18 +84,18 @@ describe("PublicTemplatePage rendering tests", () => {
          searchParams: Promise.resolve(searchParams),
       };
 
-      const { container } = await renderAsyncRSC(PublicTemplatePage, props);
+      const { container } = await renderAsyncRSC(PublicPromptPage, props);
 
       await waitFor(() => {
          assertRendered();
-         expect(getPublicPromptMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptMock).toHaveBeenCalledWith(params.id);
          expect(getPublicPromptContentMock).toHaveBeenCalledTimes(1);
-         expect(getPublicPromptContentMock).toHaveBeenCalledWith(descriptor.id);
+         expect(getPublicPromptContentMock).toHaveBeenCalledWith(params.id);
+         expect(getPublicPromptMock).not.toHaveBeenCalled();
          expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
          expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
             searchParams.col
          );
+         expect(notFoundMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -137,7 +107,7 @@ describe("PublicTemplatePage functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("generateMetadata- collection null - test", async () => {
+   it("generateMetadata- prompt null - test", async () => {
       getPublicPromptMock.mockResolvedValue(null);
 
       const pageParams: PageParams = { id: "descriptor-id-1" };
@@ -150,15 +120,16 @@ describe("PublicTemplatePage functionality tests", () => {
 
       const metadata = await generateMetadata(props);
       const expectedMetadata: Metadata = {
-         title: "Vorlage nicht gefunden",
+         title: "Prompt nicht gefunden",
       };
 
       expect(metadata).toEqual(expectedMetadata);
       expect(getPublicPromptMock).toHaveBeenCalledTimes(1);
       expect(getPublicPromptMock).toHaveBeenCalledWith(pageParams.id);
+      expect(getPublicPromptContent).not.toHaveBeenCalled();
    });
 
-   it("generateMetadata- descriptor defined - test", async () => {
+   it("generateMetadata- prompt retrieved - test", async () => {
       const descriptor = dtestData.dPrompt();
       getPublicPromptMock.mockResolvedValue(descriptor);
 
@@ -181,5 +152,6 @@ describe("PublicTemplatePage functionality tests", () => {
       expect(metadata).toEqual(expectedMetadata);
       expect(getPublicPromptMock).toHaveBeenCalledTimes(1);
       expect(getPublicPromptMock).toHaveBeenCalledWith(pageParams.id);
+      expect(getPublicPromptContent).not.toHaveBeenCalled();
    });
 });

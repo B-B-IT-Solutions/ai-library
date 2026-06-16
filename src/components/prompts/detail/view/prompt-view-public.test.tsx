@@ -16,15 +16,10 @@ const assertRendered = () => {
 
 describe("PublicPromptView rendering tests", () => {
    it("collection undefined - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
 
       const { container } = render(
-         <PublicPromptView
-            descriptor={descriptor}
-            template={template}
-            collection={undefined}
-         />
+         <PublicPromptView prompt={prompt} collection={undefined} />
       );
 
       await waitFor(() => {
@@ -35,16 +30,11 @@ describe("PublicPromptView rendering tests", () => {
    });
 
    it("collection defined - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      const template = dtestData.dPromptWithContent();
+      const prompt = dtestData.dPromptWithContent();
       const collection = dtestData.dCollection();
 
       const { container } = render(
-         <PublicPromptView
-            descriptor={descriptor}
-            template={template}
-            collection={collection}
-         />
+         <PublicPromptView prompt={prompt} collection={collection} />
       );
 
       await waitFor(() => {
