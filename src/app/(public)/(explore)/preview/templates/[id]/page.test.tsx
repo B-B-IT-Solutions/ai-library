@@ -32,7 +32,7 @@ const getPublicCollectionByTokenMock =
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const assertRendered = () => {
-   const page = screen.getByTestId("public-prompt-view-page");
+   const page = screen.getByTestId("prompt-page-public");
    const view = screen.getByTestId("public-prompt-view");
 
    assertInDocument(page);
