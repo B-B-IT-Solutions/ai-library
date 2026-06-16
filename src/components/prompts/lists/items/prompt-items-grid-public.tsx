@@ -1,8 +1,7 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DPrompt } from "@/data/types/domain/prompt";
-
-import { PublicPromptItem } from "./item";
+import { PublicPromptItem } from "../item";
 
 type Props = {
    prompts: DPrompt[];
