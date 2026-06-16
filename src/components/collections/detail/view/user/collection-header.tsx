@@ -4,7 +4,7 @@ import { CreatePromptButton } from "@/components/prompts/buttons";
 import { Badge } from "@/components/shadcn/badge";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../../breadcrumbs";
-import { MoreOptionsButton } from "../../../buttons";
+import { CopyCollectionUrlButton, MoreOptionsButton } from "../../../buttons";
 
 type Props = {
    collection: DCollection;
@@ -24,14 +24,20 @@ export const CollectionHeader = ({ collection }: Props) => {
                      {collection.name}
                   </h1>
                   {collection.isPublic && (
-                     <Badge
-                        variant="outline"
-                        className="gap-1 border-green-300 bg-green-50 text-green-700"
-                        data-testid="public-badge"
-                     >
-                        <Globe className="h-3 w-3" />
-                        Öffentlich
-                     </Badge>
+                     <div className="group">
+                        <Badge
+                           variant="outline"
+                           className="gap-1 border-green-300 bg-green-50 text-green-700"
+                           data-testid="public-badge"
+                        >
+                           <Globe className="h-3 w-3" />
+                           Öffentlich
+                        </Badge>
+                        <CopyCollectionUrlButton
+                           collection={collection}
+                           className="ml-1 opacity-0 group-hover:opacity-100"
+                        />
+                     </div>
                   )}
                </div>
                {collection.description && (
