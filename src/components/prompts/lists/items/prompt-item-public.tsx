@@ -13,18 +13,15 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
-import {
-   AddToFavoriteButton,
-   DownloadPromptButton,
-   PublicUsePromptButton,
-} from "../../buttons";
+import { DownloadPromptButton, PublicUsePromptButton } from "../../buttons";
 
 type Props = {
    prompt: DPrompt;
    collectionToken?: string | null;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
-export const PublicPromptItem = ({ prompt, collectionToken }: Props) => {
+export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
    const templateDetailsUrl = collectionToken
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
@@ -77,17 +74,13 @@ export const PublicPromptItem = ({ prompt, collectionToken }: Props) => {
 
    return (
       <Card
+         ref={ref}
          className="group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
          data-testid="public-prompt-item"
       >
          <CardHeader className="gap-2 p-5 pb-3">
             <div className="flex items-start justify-between gap-2">
                {categories()}
-               <AddToFavoriteButton
-                  prompt={prompt}
-                  variant="inline"
-                  hideInactive={true}
-               />
             </div>
             <Link
                href={templateDetailsUrl}

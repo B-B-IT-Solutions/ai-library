@@ -5,15 +5,17 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import { PublicPromptItem } from "./items";
 
 type Props = {
-   descriptors: DPrompt[];
+   prompts: DPrompt[];
    collectionToken?: string | null;
+   ref?: React.Ref<HTMLDivElement>;
 };
 
 export const PublicPromptItemsGrid = ({
-   descriptors,
+   prompts,
    collectionToken,
+   ref,
 }: Props) => {
-   if (isEmpty(descriptors)) {
+   if (isEmpty(prompts)) {
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
@@ -29,18 +31,24 @@ export const PublicPromptItemsGrid = ({
       );
    }
 
+   const item = (prompt: DPrompt, index: number) => {
+      const isLast = index === prompts.length - 1;
+      return (
+         <PublicPromptItem
+            key={prompt.id}
+            prompt={prompt}
+            collectionToken={collectionToken}
+            ref={isLast ? ref : undefined}
+         />
+      );
+   };
+
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
          data-testid="public-prompt-items-grid"
       >
-         {map(descriptors, (prompt) => (
-            <PublicPromptItem
-               key={prompt.id}
-               prompt={prompt}
-               collectionToken={collectionToken}
-            />
-         ))}
+         {map(prompts, (p, idx) => item(p, idx))}
       </div>
    );
 };

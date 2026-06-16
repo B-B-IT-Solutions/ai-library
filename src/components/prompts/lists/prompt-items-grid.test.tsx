@@ -14,7 +14,7 @@ describe("PromptItemsGrid rendering tests", () => {
       const descriptors = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
-         <PromptItemsGrid descriptors={descriptors} />
+         <PromptItemsGrid prompts={descriptors} />
       );
 
       await waitFor(() => {
@@ -30,7 +30,7 @@ describe("PromptItemsGrid rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <PromptItemsGrid
-            descriptors={descriptors}
+            prompts={descriptors}
             currentColleciton={collection}
          />
       );
@@ -48,9 +48,7 @@ describe("PromptItemsGrid ref tests", () => {
       const ref = createRef<HTMLDivElement>();
       const descriptors = dtestData.dPrompts(); // 3 items
 
-      renderWithReactQuery(
-         <PromptItemsGrid descriptors={descriptors} ref={ref} />
-      );
+      renderWithReactQuery(<PromptItemsGrid prompts={descriptors} ref={ref} />);
 
       await waitFor(() => {
          const items = screen.getAllByTestId("prompt-item");

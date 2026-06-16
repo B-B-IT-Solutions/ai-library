@@ -57,10 +57,10 @@ export const PublicPromptItems = ({
          hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
-         threshold={0.7}
+         threshold={0.1}
       >
          <PublicPromptItemsGrid
-            descriptors={entries}
+            prompts={entries}
             collectionToken={collectionToken}
          />
       </InfiniteScroll>

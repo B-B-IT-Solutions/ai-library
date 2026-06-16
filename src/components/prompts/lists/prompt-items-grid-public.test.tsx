@@ -17,9 +17,9 @@ const assertRendered = () => {
 };
 
 describe("PublicPromptItemsGrid rendering tests", () => {
-   it("descriptors - empty - test", async () => {
+   it("prompts - empty - test", async () => {
       const { container } = renderWithReactQuery(
-         <PublicPromptItemsGrid descriptors={[]} />
+         <PublicPromptItemsGrid prompts={[]} />
       );
 
       await waitFor(() => {
@@ -29,12 +29,12 @@ describe("PublicPromptItemsGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("descriptors - with items - test", async () => {
-      const descriptors = dtestData.dPrompts();
+   it("prompts - with items - test", async () => {
+      const prompts = dtestData.dPrompts();
 
       const { container } = renderWithReactQuery(
          <PublicPromptItemsGrid
-            descriptors={descriptors}
+            prompts={prompts}
             collectionToken="public-token-1"
          />
       );

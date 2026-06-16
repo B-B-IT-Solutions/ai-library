@@ -112,7 +112,7 @@ export const PromptItems = ({
          threshold={0.1}
       >
          <PromptItemsGrid
-            descriptors={prompts}
+            prompts={prompts}
             currentColleciton={currentCollection}
          />
       </InfiniteScroll>
