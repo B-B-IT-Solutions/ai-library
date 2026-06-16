@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 import { DCollectionPreview } from "@/data/types/domain/collection";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { PromptItem } from "./items";
+import { PromptItem } from "../item";
 
 type Props = {
    prompts: DPrompt[];
