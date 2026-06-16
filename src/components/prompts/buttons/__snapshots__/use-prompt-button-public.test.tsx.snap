@@ -9,7 +9,7 @@ exports[`PublicUsePromptButton rendering tests with className - rendered test 1`
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-plus mr-1.5 h-4 w-4"
+      class="lucide lucide-zap mr-1 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -21,14 +21,11 @@ exports[`PublicUsePromptButton rendering tests with className - rendered test 1`
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M5 12h14"
-      />
-      <path
-        d="M12 5v14"
+        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
       />
     </svg>
     <span>
-      Prompt anwenden
+      Anwenden
     </span>
   </button>
 </div>
@@ -43,7 +40,7 @@ exports[`PublicUsePromptButton rendering tests with fields - rendered test 1`] =
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-plus mr-1.5 h-4 w-4"
+      class="lucide lucide-zap mr-1 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -55,14 +52,11 @@ exports[`PublicUsePromptButton rendering tests with fields - rendered test 1`] =
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M5 12h14"
-      />
-      <path
-        d="M12 5v14"
+        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
       />
     </svg>
     <span>
-      Prompt anwenden
+      Anwenden
     </span>
   </button>
 </div>
@@ -77,7 +71,7 @@ exports[`PublicUsePromptButton rendering tests without fields - rendered test 1`
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-plus mr-1.5 h-4 w-4"
+      class="lucide lucide-zap mr-1 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -89,14 +83,11 @@ exports[`PublicUsePromptButton rendering tests without fields - rendered test 1`
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M5 12h14"
-      />
-      <path
-        d="M12 5v14"
+        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
       />
     </svg>
     <span>
-      Prompt anwenden
+      Anwenden
     </span>
   </button>
 </div>
