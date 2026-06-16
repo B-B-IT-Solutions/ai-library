@@ -76,7 +76,7 @@ export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
       <Card
          ref={ref}
          className="group relative flex flex-col gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
-         data-testid="public-prompt-item"
+         data-testid="prompt-item-public"
       >
          <CardHeader className="gap-2 p-5 pb-3">
             <div className="flex items-start justify-between gap-2">

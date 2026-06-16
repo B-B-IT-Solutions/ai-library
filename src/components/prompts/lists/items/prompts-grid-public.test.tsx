@@ -5,11 +5,11 @@ import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { PublicPromptsGrid } from "./prompts-grid-public";
 
 const assertRendered = () => {
-   const items = screen.getByTestId("prompts-grid-public");
-   const cards = screen.getAllByTestId("public-prompt-item");
+   const prompts = screen.getByTestId("prompts-grid-public");
+   const promptItems = screen.getAllByTestId("prompt-item-public");
 
-   assertInDocument(items);
-   expect(cards.length).toBeGreaterThan(0);
+   assertInDocument(prompts);
+   expect(promptItems.length).toBeGreaterThan(0);
 };
 
 describe("PublicPromptItemsGrid rendering tests", () => {
@@ -41,7 +41,7 @@ describe("PublicPromptItemsGrid ref tests", () => {
       );
 
       await waitFor(() => {
-         const items = screen.getAllByTestId("public-prompt-item");
+         const items = screen.getAllByTestId("prompt-item-public");
          expect(ref.current).not.toBeNull();
          expect(ref.current).toBe(items[items.length - 1]);
       });

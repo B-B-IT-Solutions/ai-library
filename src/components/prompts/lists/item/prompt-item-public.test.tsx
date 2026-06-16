@@ -11,13 +11,13 @@ import mockRouter from "next-router-mock";
 import { PublicPromptItem } from "./prompt-item-public";
 
 const assertRendered = () => {
-   const itemCard = screen.getByTestId("public-prompt-item");
+   const prompt = screen.getByTestId("prompt-item-public");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const usePromptBtn = screen.getByTestId("public-use-prompt-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
-   assertInDocument(itemCard);
+   assertInDocument(prompt);
    assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
    assertInDocument(usePromptBtn);
