@@ -34,12 +34,12 @@ const assertListRendered = () => {
 };
 
 const assertPromptsEmptyRendered = () => {
-   const empty = screen.getByTestId("prompt-items-empty");
+   const empty = screen.getByTestId("prompts-empty");
    assertInDocument(empty);
 };
 
 const assertPromptsFilterEmptyRendered = () => {
-   const empty = screen.getByTestId("prompt-items-filter-empty");
+   const empty = screen.getByTestId("prompts-filter-empty");
    assertInDocument(empty);
 };
 
