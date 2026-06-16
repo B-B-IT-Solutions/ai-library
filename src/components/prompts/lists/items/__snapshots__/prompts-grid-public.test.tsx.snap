@@ -1,25 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PublicPromptItemsGrid rendering tests prompts - empty - test 1`] = `
-<div>
-  <div
-    class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="prompt-items-empty"
-  >
-    <p
-      class="text-lg font-medium text-slate-600"
-    >
-      Keine Vorlagen gefunden
-    </p>
-    <p
-      class="mt-2 text-sm text-slate-500"
-    >
-      Versuchen Sie, Ihre Filterkriterien anzupassen
-    </p>
-  </div>
-</div>
-`;
-
 exports[`PublicPromptItemsGrid rendering tests prompts - with items - test 1`] = `
 <div>
   <div

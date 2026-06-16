@@ -1,4 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 
 import { DPrompt } from "@/data/types/domain/prompt";
 import { PublicPromptItem } from "../item";
@@ -10,22 +10,6 @@ type Props = {
 };
 
 export const PublicPromptsGrid = ({ prompts, collectionToken, ref }: Props) => {
-   if (isEmpty(prompts)) {
-      return (
-         <div
-            className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="prompt-items-empty"
-         >
-            <p className="text-lg font-medium text-slate-600">
-               Keine Vorlagen gefunden
-            </p>
-            <p className="mt-2 text-sm text-slate-500">
-               Versuchen Sie, Ihre Filterkriterien anzupassen
-            </p>
-         </div>
-      );
-   }
-
    const item = (prompt: DPrompt, index: number) => {
       const isLast = index === prompts.length - 1;
       return (
