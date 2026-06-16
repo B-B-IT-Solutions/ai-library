@@ -47,7 +47,10 @@ export const PublicPromptPage = async ({ params, searchParams }: PageProps) => {
 
    return (
       <div data-testid="prompt-page-public">
-         <PublicPromptView prompt={prompt} collection={collection} />
+         <PublicPromptView
+            prompt={prompt}
+            collection={collection || undefined}
+         />
       </div>
    );
 };

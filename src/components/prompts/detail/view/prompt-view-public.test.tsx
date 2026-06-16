@@ -7,11 +7,13 @@ import { PublicPromptView } from "./prompt-view-public";
 const assertRendered = () => {
    const view = screen.getByTestId("public-prompt-view");
    const breadcrumb = screen.getByTestId("template-breadcrumb");
-   const content = screen.getByTestId("prompt-text");
+   const form = screen.getByTestId("template-view-form");
+   const sidebar = screen.getByTestId("prompt-sidebar-public");
 
    assertInDocument(view);
    assertInDocument(breadcrumb);
-   assertInDocument(content);
+   assertInDocument(form);
+   assertInDocument(sidebar);
 };
 
 describe("PublicPromptView rendering tests", () => {

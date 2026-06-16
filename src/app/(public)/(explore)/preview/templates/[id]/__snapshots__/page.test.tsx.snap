@@ -8,318 +8,306 @@ exports[`PublicTemplatePage rendering tests prompt retrieved - test 1`] = `
     data-testid="prompt-page-public"
   >
     <div
-      class="bg-slate-50"
+      class="flex h-full flex-col bg-slate-50"
       data-testid="public-prompt-view"
     >
       <div
         class="border-b bg-white"
       >
         <div
-          class="container mx-auto max-w-5xl px-4 py-6"
+          class="mx-auto max-w-7xl py-4"
         >
-          <div
-            class="mb-4"
+          <nav
+            aria-label="breadcrumb"
+            data-slot="breadcrumb"
+            data-testid="template-breadcrumb"
           >
-            <nav
-              aria-label="breadcrumb"
-              data-slot="breadcrumb"
-              data-testid="template-breadcrumb"
+            <ol
+              class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
+              data-slot="breadcrumb-list"
             >
-              <ol
-                class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
-                data-slot="breadcrumb-list"
+              <li
+                class="inline-flex items-center gap-1.5"
+                data-slot="breadcrumb-item"
               >
-                <li
-                  class="inline-flex items-center gap-1.5"
-                  data-slot="breadcrumb-item"
+                <a
+                  class="transition-colors hover:text-foreground"
+                  data-slot="breadcrumb-link"
+                  data-testid="root-link"
+                  href="/preview/collections/token-1"
                 >
-                  <a
-                    class="transition-colors hover:text-foreground"
-                    data-slot="breadcrumb-link"
-                    data-testid="root-link"
-                    href="/preview/collections/token-1"
-                  >
-                    name 1
-                  </a>
-                </li>
-                <li
+                  name 1
+                </a>
+              </li>
+              <li
+                aria-hidden="true"
+                class="[&>svg]:size-3.5"
+                data-slot="breadcrumb-separator"
+                role="presentation"
+              >
+                <svg
                   aria-hidden="true"
-                  class="[&>svg]:size-3.5"
-                  data-slot="breadcrumb-separator"
-                  role="presentation"
+                  class="lucide lucide-chevron-right"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-chevron-right"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="m9 18 6-6-6-6"
-                    />
-                  </svg>
-                </li>
-                <li
-                  class="inline-flex items-center gap-1.5"
-                  data-slot="breadcrumb-item"
+                  <path
+                    d="m9 18 6-6-6-6"
+                  />
+                </svg>
+              </li>
+              <li
+                class="inline-flex items-center gap-1.5"
+                data-slot="breadcrumb-item"
+              >
+                <span
+                  aria-current="page"
+                  aria-disabled="true"
+                  class="font-normal text-foreground max-w-40 truncate"
+                  data-slot="breadcrumb-page"
+                  role="link"
+                  title="title 1"
                 >
-                  <span
-                    aria-current="page"
-                    aria-disabled="true"
-                    class="font-normal text-foreground max-w-40 truncate"
-                    data-slot="breadcrumb-page"
-                    role="link"
-                    title="title 1"
-                  >
-                    title 1
-                  </span>
-                </li>
-              </ol>
-            </nav>
-          </div>
-          <h1
-            class="text-3xl font-bold tracking-tight text-slate-900"
-          >
-            title 1
-          </h1>
-          <div
-            class="mt-3 flex flex-wrap items-center gap-3"
-          >
-            <span
-              class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-bot h-3.5 w-3.5"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 8V4H8"
-                />
-                <rect
-                  height="12"
-                  rx="2"
-                  width="16"
-                  x="4"
-                  y="8"
-                />
-                <path
-                  d="M2 14h2"
-                />
-                <path
-                  d="M20 14h2"
-                />
-                <path
-                  d="M15 13v2"
-                />
-                <path
-                  d="M9 13v2"
-                />
-              </svg>
-              model 1
-            </span>
-            <span
-              class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-sm text-slate-600"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-tag h-3 w-3"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                />
-                <circle
-                  cx="7.5"
-                  cy="7.5"
-                  fill="currentColor"
-                  r=".5"
-                />
-              </svg>
-              category 0
-            </span>
-            <span
-              class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-sm text-slate-600"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-tag h-3 w-3"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                />
-                <circle
-                  cx="7.5"
-                  cy="7.5"
-                  fill="currentColor"
-                  r=".5"
-                />
-              </svg>
-              category 1
-            </span>
-            <span
-              class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-sm text-slate-600"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-tag h-3 w-3"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                />
-                <circle
-                  cx="7.5"
-                  cy="7.5"
-                  fill="currentColor"
-                  r=".5"
-                />
-              </svg>
-              category 2
-            </span>
-          </div>
+                  title 1
+                </span>
+              </li>
+            </ol>
+          </nav>
         </div>
       </div>
       <div
-        class="container mx-auto max-w-5xl px-4 py-8"
+        class="flex-1 overflow-y-auto"
       >
         <div
-          class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
-          data-slot="card"
-          data-testid="template-view-public-form"
+          class="mx-auto max-w-7xl px-6 py-8"
         >
           <div
-            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b border-slate-100 pb-5"
-            data-slot="card-header"
-          >
-            <h2
-              class="text-lg font-semibold text-slate-900"
-            >
-              Beschreibung
-            </h2>
-            <div
-              class="prose prose-slate max-w-none text-slate-600"
-            >
-              <div
-                class="text-slate-700 leading-relaxed"
-                data-testid="react-md"
-              >
-                <div
-                  data-testid="react-markdown-mock"
-                >
-                  description 1
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="px-6 pt-6"
-            data-slot="card-content"
+            class="grid gap-8 lg:grid-cols-[1fr_260px]"
           >
             <div
-              data-testid="prompt-text"
+              class="rounded-xl bg-white p-6 shadow-sm"
             >
               <div
-                class="mb-3 flex items-center justify-between"
-              >
-                <span
-                  class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
-                >
-                  Prompt-Text
-                </span>
-                <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer px-3 hover:bg-slate-200"
-                  data-slot="button"
-                  data-testid="copy-btn"
-                  title="In Zwischenablage kopieren"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-copy mr-2 h-4 w-4 text-slate-600"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      height="14"
-                      rx="2"
-                      ry="2"
-                      width="14"
-                      x="8"
-                      y="8"
-                    />
-                    <path
-                      d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-                    />
-                  </svg>
-                  <span
-                    class="text-sm text-slate-600"
-                  >
-                    Kopieren
-                  </span>
-                </button>
-              </div>
-              <div
-                class="rounded-lg bg-slate-100 p-5"
+                data-testid="template-view-form"
               >
                 <div
-                  class="font-mono text-sm leading-relaxed text-slate-900"
-                  data-testid="react-md"
+                  class="mb-8"
                 >
                   <div
-                    data-testid="react-markdown-mock"
+                    class="mb-3 flex flex-wrap gap-2"
+                    data-testid="categories"
                   >
-                    content 1
+                    <span
+                      class="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
+                    >
+                      category 0
+                    </span>
+                    <span
+                      class="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
+                    >
+                      category 1
+                    </span>
+                    <span
+                      class="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
+                    >
+                      category 2
+                    </span>
+                  </div>
+                  <h1
+                    class="mb-2 text-3xl font-bold text-slate-900"
+                  >
+                    title 1
+                  </h1>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    Erstellt 
+                    27.09.2025
+                     ·
+                     
+                    model 1
+                  </p>
+                </div>
+                <div
+                  class="mb-8"
+                  data-testid="description"
+                >
+                  <div
+                    class="mb-3 border-t border-slate-200 pt-4"
+                  >
+                    <span
+                      class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
+                    >
+                      Beschreibung
+                    </span>
+                  </div>
+                  <div
+                    class="text-sm leading-relaxed text-slate-900"
+                    data-testid="react-md"
+                  >
+                    <div
+                      data-testid="react-markdown-mock"
+                    >
+                      description 1
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="border-t border-slate-200 pt-4"
+                >
+                  <div
+                    data-testid="prompt-text"
+                  >
+                    <div
+                      class="mb-3 flex items-center justify-between"
+                    >
+                      <span
+                        class="text-xs font-semibold tracking-widest text-slate-400 uppercase"
+                      >
+                        Prompt-Text
+                      </span>
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer px-3 hover:bg-slate-200"
+                        data-slot="button"
+                        data-testid="copy-btn"
+                        title="In Zwischenablage kopieren"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-copy mr-2 h-4 w-4 text-slate-600"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            height="14"
+                            rx="2"
+                            ry="2"
+                            width="14"
+                            x="8"
+                            y="8"
+                          />
+                          <path
+                            d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                          />
+                        </svg>
+                        <span
+                          class="text-sm text-slate-600"
+                        >
+                          Kopieren
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      class="rounded-lg bg-slate-100 p-5"
+                    >
+                      <div
+                        class="font-mono text-sm leading-relaxed text-slate-900"
+                        data-testid="react-md"
+                      >
+                        <div
+                          data-testid="react-markdown-mock"
+                        >
+                          content 1
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <aside
+              class="space-y-3 lg:sticky lg:top-8 lg:self-start"
+              data-testid="prompt-sidebar-public"
+            >
+              <button
+                class="inline-flex items-center whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-700 text-white hover:bg-blue-800 w-full justify-start py-5 text-sm"
+                data-slot="button"
+                data-testid="public-use-prompt-btn"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-zap mr-1 h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+                  />
+                </svg>
+                <span>
+                  Anwenden
+                </span>
+              </button>
+              <div
+                class="space-y-1 pt-1"
+              >
+                <button
+                  class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer justify-start"
+                  data-slot="button"
+                  data-testid="download-prompt-btn"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-download mr-2 h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 15V3"
+                    />
+                    <path
+                      d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                    />
+                    <path
+                      d="m7 10 5 5 5-5"
+                    />
+                  </svg>
+                  Herunterladen
+                </button>
+              </div>
+              <div
+                class="border-t border-slate-200 pt-4"
+              >
+                <p
+                  class="mb-2 text-xs font-medium text-slate-400"
+                >
+                  Empfohlenes Modell
+                </p>
+                <div
+                  class="rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm text-slate-700"
+                >
+                  model 1
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
