@@ -3,19 +3,67 @@
 exports[`PromptItems rendering tests prompts - empty - test 1`] = `
 <div>
   <div
-    class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="prompt-items-empty"
+    class="flex flex-col items-center justify-center gap-4 py-16 text-center"
+    data-testid="prompts-empty"
   >
-    <p
-      class="text-lg font-medium text-slate-700"
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-braces h-12 w-12 text-slate-300"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"
+      />
+      <path
+        d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
+      />
+    </svg>
+    <h2
+      class="text-lg font-semibold text-slate-700"
     >
       Noch keine Prompts
-    </p>
+    </h2>
     <p
-      class="mt-2 text-sm text-slate-500"
+      class="max-w-sm text-sm text-muted-foreground"
     >
       Erstelle deinen ersten Prompt und baue deine persönliche Bibliothek auf.
     </p>
+    <a
+      class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
+      data-slot="button"
+      data-testid="create-prompt-btn"
+      href="/templates/new"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-plus h-4 w-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 12h14"
+        />
+        <path
+          d="M12 5v14"
+        />
+      </svg>
+      Neuer Prompt
+    </a>
   </div>
 </div>
 `;
@@ -24,7 +72,7 @@ exports[`PromptItems rendering tests prompts - filter empty - test 1`] = `
 <div>
   <div
     class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="prompt-items-filter-empty"
+    data-testid="prompts-filter-empty"
   >
     <p
       class="text-lg font-medium text-slate-700"
