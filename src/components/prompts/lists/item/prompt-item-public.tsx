@@ -1,19 +1,13 @@
 import { map } from "es-toolkit/compat";
-import { Eye, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
-import { DownloadPromptButton, PublicUsePromptButton } from "../../buttons";
+import {
+   PublicPromptMoreOptionsButton,
+   PublicUsePromptButton,
+} from "../../buttons";
 
 type Props = {
    prompt: DPrompt;
@@ -26,51 +20,18 @@ export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
       ? `/preview/templates/${prompt.id}?col=${collectionToken}`
       : `/preview/templates/${prompt.id}`;
 
-   const categories = () => {
-      return (
-         <div className="flex flex-wrap gap-1" data-testid="categories">
-            {map(prompt.categories, (cat) => (
-               <span
-                  key={cat.name}
-                  className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-700"
-               >
-                  {cat.name}
-               </span>
-            ))}
-         </div>
-      );
-   };
-
-   const dropdownMenu = () => {
-      return (
-         <DropdownMenu>
-            <DropdownMenuTrigger asChild={true}>
-               <Button
-                  variant="outline"
-                  size="sm"
-                  className="cursor-pointer"
-                  data-testid="dropdown-menu-btn"
-               >
-                  <MoreVertical className="h-4 w-4" />
-               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-               <DropdownMenuItem asChild={true}>
-                  <Link
-                     href={templateDetailsUrl}
-                     className="cursor-pointer"
-                     data-testid="view-details-link"
-                  >
-                     <Eye className="mr-2 h-4 w-4" />
-                     Details anzeigen
-                  </Link>
-               </DropdownMenuItem>
-               <DropdownMenuSeparator />
-               <DownloadPromptButton prompt={prompt} asMenuItem={true} />
-            </DropdownMenuContent>
-         </DropdownMenu>
-      );
-   };
+   const categories = () => (
+      <div className="flex flex-wrap gap-1" data-testid="categories">
+         {map(prompt.categories, (cat) => (
+            <span
+               key={cat.name}
+               className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-700"
+            >
+               {cat.name}
+            </span>
+         ))}
+      </div>
+   );
 
    return (
       <Card
@@ -112,7 +73,10 @@ export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
                )}
             >
                <PublicUsePromptButton prompt={prompt} />
-               {dropdownMenu()}
+               <PublicPromptMoreOptionsButton
+                  prompt={prompt}
+                  collectionToken={collectionToken}
+               />
             </div>
          </div>
       </Card>
