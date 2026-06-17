@@ -41,11 +41,11 @@ export const StepItem = ({
    });
 
    const isEndStep = step.edges.length === 0;
-   const incomingCount = filter(steps, (s) =>
+   const incomingEdges = filter(steps, (s) =>
       s.edges.some((e) => e.toStepId === step.edgeId)
-   ).length;
+   );
 
-   const isDisconnected = !step.isStart && incomingCount === 0;
+   const isDisconnected = !step.isStart && incomingEdges.length === 0;
 
    return (
       <div
