@@ -9,7 +9,7 @@ import {
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
 
-import { StepItem } from "./step-item.";
+import { StepItem } from "./step-item";
 
 type Props = {
    steps: DWorkflowStepUpdate[];

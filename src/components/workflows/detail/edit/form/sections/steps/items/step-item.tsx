@@ -58,7 +58,7 @@ export const StepItem = ({
                "border-l-[3px] border-l-orange-400"
          )}
          onClick={() => onSelectStep(index)}
-         data-testid={`step-card-${index}`}
+         data-testid="step"
       >
          <div className="flex items-start justify-between gap-2">
             <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -66,12 +66,19 @@ export const StepItem = ({
                   {index + 1}.
                </span>
                {step.isStart && (
-                  <Badge className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600">
+                  <Badge
+                     className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600"
+                     data-testid="start-badge"
+                  >
                      Start
                   </Badge>
                )}
                {isEndStep && !step.isStart && (
-                  <Badge variant="secondary" className="shrink-0 text-xs">
+                  <Badge
+                     variant="secondary"
+                     className="shrink-0 text-xs"
+                     data-testid="end-badge"
+                  >
                      Ende
                   </Badge>
                )}
@@ -82,12 +89,13 @@ export const StepItem = ({
 
             <div className="flex items-center">
                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild={true}>
                      <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6"
                         onClick={(e) => e.stopPropagation()}
+                        data-testid="more-options-btn"
                      >
                         <MoreVertical className="h-3.5 w-3.5" />
                      </Button>
@@ -99,6 +107,7 @@ export const StepItem = ({
                            e.stopPropagation();
                            onDeleteStep(index);
                         }}
+                        data-testid="delete-menu-item"
                      >
                         Schritt löschen
                      </DropdownMenuItem>
@@ -108,7 +117,11 @@ export const StepItem = ({
          </div>
 
          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-            <Badge variant="outline" className="text-xs">
+            <Badge
+               variant="outline"
+               className="text-xs"
+               data-testid="type-badge"
+            >
                {step.type === "PROMPT_REF" ? "Prompt" : "Eigenständig"}
             </Badge>
             {/* {step.promptTitle && (

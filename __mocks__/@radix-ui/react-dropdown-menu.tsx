@@ -131,6 +131,7 @@ const Item = ({
    const handleClick = () => {
       const event = {
          preventDefault: jest.fn(),
+         stopPropagation: jest.fn(),
       } as unknown as React.MouseEvent<HTMLElement>;
 
       onClick?.(event);
