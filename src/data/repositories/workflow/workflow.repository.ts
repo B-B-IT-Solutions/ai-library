@@ -119,6 +119,11 @@ export class WorkflowRepository {
                      orderBy: {
                         order: "asc" as const,
                      },
+                     include: {
+                        toStep: {
+                           select: { edgeId: true },
+                        },
+                     },
                   },
                },
             },
@@ -158,19 +163,108 @@ export class WorkflowRepository {
       workflowId: string,
       data: DWorkflowUpdate
    ): Promise<DWorkflow> {
-      const input: WorkflowUpdateInput = {
-         title: data.title,
-         description: data.description,
-      };
-      const args = {
-         where: {
-            id: workflowId,
-            userId,
-         },
-         data: input,
-      } satisfies WorkflowUpdateArgs;
+      const workflow = await this.prisma.$transaction(async (tx) => {
+         const updated = await tx.workflow.update({
+            where: { id: workflowId, userId },
+            data: {
+               title: data.title,
+               description: data.description,
+            },
+         });
 
-      const workflow = await this.prisma.workflow.update(args);
+         // Sync steps
+         const existingSteps = await tx.workflowStep.findMany({
+            where: { workflowId },
+            select: { id: true, edgeId: true },
+         });
+
+         const existingByEdgeId = new Map(
+            existingSteps.map((s) => [s.edgeId, s.id])
+         );
+         const submittedEdgeIds = new Set(data.steps.map((s) => s.edgeId));
+
+         // Delete removed steps (cascade removes their edges)
+         const stepIdsToDelete = existingSteps
+            .filter((s) => !submittedEdgeIds.has(s.edgeId))
+            .map((s) => s.id);
+         if (stepIdsToDelete.length > 0) {
+            await tx.workflowStep.deleteMany({
+               where: { id: { in: stepIdsToDelete } },
+            });
+         }
+
+         // Create new steps first (no edges yet) to get their DB ids
+         const stepsToCreate = data.steps.filter(
+            (s) => !existingByEdgeId.has(s.edgeId)
+         );
+         for (const step of stepsToCreate) {
+            const created = await tx.workflowStep.create({
+               data: {
+                  workflowId,
+                  title: step.title,
+                  hint: step.hint ?? null,
+                  type: step.type,
+                  promptId: step.promptId ?? null,
+                  content: step.content ?? null,
+                  edgeId: step.edgeId,
+                  isStart: step.isStart,
+                  position: step.position,
+               },
+               select: { id: true, edgeId: true },
+            });
+            existingByEdgeId.set(created.edgeId, created.id);
+         }
+
+         // Enforce single start step
+         const startStep = data.steps.find((s) => s.isStart);
+         if (startStep) {
+            const startStepDbId = existingByEdgeId.get(startStep.edgeId);
+            await tx.workflowStep.updateMany({
+               where: { workflowId, id: { not: startStepDbId } },
+               data: { isStart: false },
+            });
+         } else {
+            await tx.workflowStep.updateMany({
+               where: { workflowId },
+               data: { isStart: false },
+            });
+         }
+
+         // Update each step and replace its edges
+         for (const step of data.steps) {
+            const stepId = existingByEdgeId.get(step.edgeId)!;
+
+            await tx.workflowStepEdge.deleteMany({
+               where: { fromStepId: stepId },
+            });
+
+            // Resolve edge toStepId: form uses edgeId as value, DB needs step id
+            const resolvedEdges = step.edges.map((e) => ({
+               toStepId: existingByEdgeId.get(e.toStepId) ?? e.toStepId,
+               label: e.label,
+               order: e.order,
+            }));
+
+            await tx.workflowStep.update({
+               where: { id: stepId },
+               data: {
+                  title: step.title,
+                  hint: step.hint ?? null,
+                  type: step.type,
+                  promptId: step.promptId ?? null,
+                  content: step.content ?? null,
+                  isStart: step.isStart,
+                  position: step.position,
+                  outgoingEdges: {
+                     create: resolvedEdges,
+                  },
+               },
+            });
+         }
+
+         return updated;
+      });
+
       return toDWorkflow(workflow);
    }
 
@@ -252,6 +346,7 @@ export class WorkflowRepository {
                   },
                   outgoingEdges: {
                      orderBy: { order: "asc" as const },
+                     include: { toStep: { select: { edgeId: true } } },
                   },
                },
             },
@@ -296,7 +391,7 @@ export class WorkflowRepository {
                title: data.title,
                hint: data.hint ?? null,
                type: data.type,
-               templateId: data.promptId,
+               promptId: data.promptId,
                content: data.content,
                isStart: data.isStart,
                position: data.position,
@@ -325,6 +420,7 @@ export class WorkflowRepository {
                   },
                   outgoingEdges: {
                      orderBy: { order: "asc" as const },
+                     include: { toStep: { select: { edgeId: true } } },
                   },
                },
             },
@@ -359,6 +455,7 @@ export class WorkflowRepository {
                   },
                   outgoingEdges: {
                      orderBy: { order: "asc" as const },
+                     include: { toStep: { select: { edgeId: true } } },
                   },
                },
             },

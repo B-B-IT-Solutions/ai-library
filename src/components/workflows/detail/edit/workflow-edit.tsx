@@ -44,6 +44,8 @@ export const WorkflowEdit = ({ workflow }: Props) => {
       defaultValues: initWorkflow(workflow),
    });
 
+   console.log(form.formState.errors);
+
    const handleSave = async (data: DWorkflowUpdate) => {
       if (isEdit) {
          const result = await updateWorkflow(workflow.id, data);
