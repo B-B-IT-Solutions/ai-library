@@ -52,7 +52,7 @@ export const WorkflowSteps = ({ control }: Props) => {
                variant="outline"
                className="w-full"
                onClick={handleAddStep}
-               data-testid="add-step-btn"
+               data-testid="add-step-main-btn"
             >
                <Plus className="mr-2 h-4 w-4" />
                Schritt hinzufügen
