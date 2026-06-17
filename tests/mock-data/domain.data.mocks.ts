@@ -1123,7 +1123,22 @@ export const dWorkflowStep = (index = 1): DWorkflowStep => {
       content: `content-${index}`,
       isStart: index === 1,
       position: index - 1,
-      outgoingEdges: [],
+      outgoingEdges: [
+         {
+            id: "oe-1",
+            fromStepId: "step-id-0001",
+            toStepId: `edge-id-${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            id: "oe-2",
+            fromStepId: "step-id-0001",
+            toStepId: `edge-id-${index + 2}`,
+            label: "Abbrechen",
+            order: 1,
+         },
+      ],
    };
 };
 

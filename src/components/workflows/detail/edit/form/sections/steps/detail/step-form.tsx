@@ -165,6 +165,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
                      size="icon"
                      className="shrink-0"
                      onClick={() => remove(edgeIdx)}
+                     data-testid="remove-edge-btn"
                   >
                      <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>

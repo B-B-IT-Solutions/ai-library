@@ -75,6 +75,28 @@ const assertStandaloneRendered = (index: number) => {
    assertNotInDocument(promptId);
 };
 
+const assertEdgeRendered = (stepIdx: number, edgeIdx: number) => {
+   const label = screen.getByTestId(`steps.${stepIdx}.edges.${edgeIdx}.label`);
+   const toStepId = screen.getByTestId(
+      `steps.${stepIdx}.edges.${edgeIdx}.toStepId`
+   );
+
+   assertInDocument(label);
+   assertInDocument(toStepId);
+};
+
+const assertEdgeNotRendered = (stepIdx: number, edgeIdx: number) => {
+   const label = screen.queryByTestId(
+      `steps.${stepIdx}.edges.${edgeIdx}.label`
+   );
+   const toStepId = screen.queryByTestId(
+      `steps.${stepIdx}.edges.${edgeIdx}.toStepId`
+   );
+
+   assertNotInDocument(label);
+   assertNotInDocument(toStepId);
+};
+
 describe("StepForm rendering tests", () => {
    it("type PROMPT_REF - test", async () => {
       const prompts = dtestData.dPromptPreviewsPage();
@@ -82,6 +104,7 @@ describe("StepForm rendering tests", () => {
 
       const workflow = dtestData.dWorkflowWithSteps();
       workflow.steps[1].type = "PROMPT_REF";
+      workflow.steps[1].outgoingEdges = [];
 
       const { container } = renderWithReactQuery(
          <TestWrapper workflow={workflow} index={1} />
@@ -141,6 +164,46 @@ describe("StepForm functionality tests", () => {
 
       await waitFor(() => {
          assertStandaloneRendered(1);
+      });
+   });
+
+   it("adds edge btn clicked -test ", async () => {
+      const index = 0;
+      const workflow = dtestData.dWorkflowWithSteps();
+      workflow.steps[0].outgoingEdges = [];
+
+      renderWithReactQuery(<TestWrapper workflow={workflow} index={index} />);
+
+      await waitFor(() => {
+         assertRendered(index);
+      });
+
+      const btn = screen.getByTestId("add-edge-btn");
+      await userEvent.click(btn);
+
+      await waitFor(() => {
+         assertEdgeRendered(index, 0);
+      });
+   });
+
+   it("removes edge btn clicked - test", async () => {
+      const index = 0;
+      const workflow = dtestData.dWorkflowWithSteps();
+
+      renderWithReactQuery(<TestWrapper workflow={workflow} index={index} />);
+
+      await waitFor(() => {
+         assertRendered(index);
+         assertEdgeRendered(index, 0);
+         assertEdgeRendered(index, 1);
+      });
+
+      const btn = screen.getAllByTestId("remove-edge-btn");
+      await userEvent.click(btn[1]);
+
+      await waitFor(() => {
+         assertEdgeRendered(index, 0);
+         assertEdgeNotRendered(index, 1);
       });
    });
 });
