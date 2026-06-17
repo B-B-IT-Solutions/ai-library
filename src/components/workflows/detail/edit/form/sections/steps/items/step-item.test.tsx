@@ -142,33 +142,16 @@ describe("StepItem rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("middle step with edges - shows neither Start nor Ende badge - test", async () => {
-      const step1 = makeStep({
-         edgeId: EDGE_ID_1,
-         isStart: true,
-         edges: [{ toStepId: EDGE_ID_2, label: "Weiter", order: 0 }],
-      });
-      const step2 = makeStep({
-         edgeId: EDGE_ID_2,
-         isStart: false,
-         title: "Schritt 2",
-         position: 1,
-         edges: [{ toStepId: EDGE_ID_3, label: "Weiter", order: 0 }],
-      });
-      const step3 = makeStep({
-         edgeId: EDGE_ID_3,
-         isStart: false,
-         title: "Schritt 3",
-         position: 2,
-      });
-      const steps = [step1, step2, step3];
+   it("middle step with edges - test", async () => {
+      const steps = dtestData.dWorkflowStepUpdates(3);
 
-      render(<TestWrapper steps={steps} index={1} />);
+      const { container } = render(<TestWrapper steps={steps} index={1} />);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByText("Start"));
-         assertNotInDocument(screen.queryByText("Ende"));
+         assertRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("disconnected step - not start, no incoming edges - shows warning - test", async () => {
