@@ -19,7 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type Props = {
-   allSteps: DWorkflowStepUpdate[];
+   steps: DWorkflowStepUpdate[];
    index: number;
    isSelected: boolean;
    onSelectStep: (index: number) => void;
@@ -28,7 +28,7 @@ type Props = {
 };
 
 export const StepItem = ({
-   allSteps,
+   steps,
    index,
    isSelected,
    onSelectStep,
@@ -41,7 +41,7 @@ export const StepItem = ({
    });
 
    const isEndStep = step.edges.length === 0;
-   const incomingCount = filter(allSteps, (s) =>
+   const incomingCount = filter(steps, (s) =>
       s.edges.some((e) => e.toStepId === step.edgeId)
    ).length;
 
@@ -124,10 +124,7 @@ export const StepItem = ({
          {step.edges.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
                {step.edges.map((edge) => {
-                  const target = find(
-                     allSteps,
-                     (s) => s.edgeId === edge.toStepId
-                  );
+                  const target = find(steps, (s) => s.edgeId === edge.toStepId);
                   return (
                      <span
                         key={edge.toStepId}

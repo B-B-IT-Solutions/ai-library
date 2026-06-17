@@ -33,7 +33,7 @@ export const StepItems = ({
          <StepItem
             key={index}
             index={index}
-            allSteps={steps}
+            steps={steps}
             isSelected={index === selectedIndex}
             onSelectStep={onSelectStep}
             onDeleteStep={onDeleteStep}
