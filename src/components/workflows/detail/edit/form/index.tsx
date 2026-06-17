@@ -1,1 +1,1 @@
-export { WorkflowForm } from "./sections/basic-info/workflow-form";
+export { WorkflowEditForm } from "./sections/basic-info/workflow-form";

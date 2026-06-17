@@ -29,7 +29,7 @@ const TestWrapper = ({ activeTab, value }: WrapperProps) => {
 
 const assertTabRendered = () => {
    const tab = screen.getByTestId("basic-info-tab");
-   const form = screen.getByTestId("workflow-form");
+   const form = screen.getByTestId("workflow-edit-form");
 
    assertInDocument(tab);
    assertInDocument(form);

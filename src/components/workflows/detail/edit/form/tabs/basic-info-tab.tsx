@@ -4,7 +4,7 @@ import { Control } from "react-hook-form";
 
 import { TabsContent } from "@/components/shadcn/tabs";
 import { DWorkflowUpdate } from "@/data/types/domain/workflow";
-import { WorkflowForm } from "../sections";
+import { WorkflowEditForm } from "../sections";
 
 type Props = {
    control: Control<DWorkflowUpdate>;
@@ -19,7 +19,7 @@ export const BasicInfoTab = ({ control, value }: Props) => {
          data-testid="basic-info-tab"
       >
          <div className="mx-auto max-w-2xl px-6 py-8">
-            <WorkflowForm control={control} />
+            <WorkflowEditForm control={control} />
          </div>
       </TabsContent>
    );

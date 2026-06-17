@@ -9,9 +9,9 @@ type Props = {
    control: Control<DWorkflowUpdate>;
 };
 
-export const WorkflowForm = ({ control }: Props) => {
+export const WorkflowEditForm = ({ control }: Props) => {
    return (
-      <div className="space-y-4" data-testid="workflow-form">
+      <div className="space-y-4" data-testid="workflow-edit-form">
          <FormInput<DWorkflowUpdate>
             name="title"
             label="Titel"
