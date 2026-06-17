@@ -1,6 +1,7 @@
 jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
    assertNotInDocument,
@@ -108,5 +109,38 @@ describe("StepForm rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("StepForm functionality tests", () => {
+   it("type switch - test", async () => {
+      const index = 1;
+      const prompts = dtestData.dPromptPreviewsPage();
+      getPromptPreviewsPageMock.mockResolvedValue(prompts);
+
+      const workflow = dtestData.dWorkflowWithSteps();
+      workflow.steps[index].type = "PROMPT_REF";
+
+      renderWithReactQuery(<TestWrapper workflow={workflow} index={index} />);
+
+      await waitFor(() => {
+         assertRendered(1);
+         assertPromptRefRendered(1);
+      });
+
+      const type = screen.getByTestId(`steps.${index}.type-trigger`);
+      await userEvent.click(type);
+
+      await waitFor(() => {
+         const option = screen.getByText("Eigenständig");
+         assertInDocument(option);
+      });
+
+      const option = screen.getByText("Eigenständig");
+      await userEvent.click(option);
+
+      await waitFor(() => {
+         assertStandaloneRendered(1);
+      });
    });
 });
