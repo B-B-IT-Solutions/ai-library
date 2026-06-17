@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AlertTriangle, ArrowLeft, ChevronRight, Info, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { UsePromptForm } from "@/components/prompt-templating/use-prompt/use-prompt-form";
 import { Badge } from "@/components/shadcn/badge";
@@ -31,8 +30,6 @@ type Props = {
 };
 
 export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
-   const router = useRouter();
-
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
