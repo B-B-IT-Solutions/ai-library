@@ -27,6 +27,7 @@ exports[`TemplateFieldType rendering tests TemplateFieldType rendered test 1`] =
         data-size="default"
         data-slot="select-trigger"
         data-state="closed"
+        data-testid="test-1-trigger"
         dir="ltr"
         role="combobox"
         type="button"
