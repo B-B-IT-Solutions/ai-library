@@ -46,7 +46,6 @@ export const WorkflowEdit = ({ workflow }: Props) => {
 
    const handleSave = async (data: DWorkflowUpdate) => {
       if (isEdit) {
-         console.log(data);
          const result = await updateWorkflow(workflow.id, data);
          if (result.success) {
             toast.success(result.message);

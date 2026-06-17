@@ -206,13 +206,15 @@ describe("WorkflowEdit functionality tests", () => {
          assertRendered();
       });
 
+      await typeIntoInput("title", "Mein Workflow");
+
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
       const initValue = initWorkflow(workflow);
       const expectedPayload: DWorkflowUpdate = {
-         title: initValue.title,
+         title: initValue.title + "Mein Workflow",
          description: initValue.description,
          steps: [],
       };
@@ -248,14 +250,16 @@ describe("WorkflowEdit functionality tests", () => {
          assertRendered();
       });
 
+      await typeIntoInput("title", "Mein Workflow");
+
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
       const initValue = initWorkflow(workflow);
       const expectedPayload: DWorkflowUpdate = {
-         title: initValue.title + "Test Template",
-         description: initValue.description + "Test Description",
+         title: initValue.title + "Mein Workflow",
+         description: initValue.description,
          // steps: initValue.steps,
          steps: [],
       };
