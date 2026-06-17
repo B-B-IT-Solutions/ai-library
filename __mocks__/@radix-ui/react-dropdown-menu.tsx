@@ -42,12 +42,14 @@ const Trigger = ({ asChild, children, ...props }: TriggerProps) => {
    };
 
    if (asChild && React.isValidElement(children)) {
-      const child = children as React.ReactElement<{ onClick?: () => void }>;
+      const child = children as React.ReactElement<{
+         onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+      }>;
       const childOnClick = child.props.onClick;
       return React.cloneElement(child, {
          ...props,
-         onClick: () => {
-            childOnClick?.();
+         onClick: (e: React.MouseEvent<HTMLElement>) => {
+            childOnClick?.(e);
             handleClick();
          },
       });
