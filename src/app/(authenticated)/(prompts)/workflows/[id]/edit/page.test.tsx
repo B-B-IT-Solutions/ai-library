@@ -25,8 +25,11 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   assertInDocument(screen.getByTestId("edit-workflow-page"));
-   assertInDocument(screen.getByTestId("workflow-edit"));
+   const page = screen.getByTestId("edit-workflow-page");
+   const edit = screen.getByTestId("workflow-edit");
+
+   assertInDocument(page);
+   assertInDocument(edit);
 };
 
 describe("EditWorkflowPage rendering tests", () => {
