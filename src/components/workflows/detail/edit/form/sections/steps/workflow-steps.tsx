@@ -10,7 +10,7 @@ import {
    DWorkflowStepUpdate,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
-import { initWorkflowStep } from "../utils";
+import { initWorkflowStep } from "../../utils";
 
 import { StepDetail } from "./step-detail";
 import { StepItem } from "./step-item.";

@@ -9,7 +9,7 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { updateWorkflowSchema } from "@/data/types/validators/workflow";
-import { initWorkflow } from "../../utils";
+import { initWorkflow } from "../utils";
 
 import { WorkflowTabs } from "./workflow-tabs";
 

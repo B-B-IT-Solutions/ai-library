@@ -26,7 +26,7 @@ import { WorkflowBreadcrumb } from "../../breadcrumbs";
 import { viewWorkflowUrl, worfklowEditNavigateBackUrl } from "../../utils";
 
 import { WorkflowTabs } from "./form/tabs";
-import { initWorkflow } from "./utils";
+import { initWorkflow } from "./form/utils";
 
 type Props = {
    workflow?: DWorkflowWithSteps;

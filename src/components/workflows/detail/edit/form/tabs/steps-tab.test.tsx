@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { Tabs } from "@/components/shadcn/tabs";
 import { DWorkflowUpdate } from "@/data/types/domain/workflow";
-import { initWorkflow } from "../../utils";
+import { initWorkflow } from "../utils";
 
 import { StepsTab } from "./steps-tab";
 
