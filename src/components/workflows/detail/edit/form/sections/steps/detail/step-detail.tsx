@@ -23,11 +23,19 @@ type Props = {
 export const StepDetail = ({ index, steps, addStep, control }: Props) => {
    if (isUndefined(index)) {
       return (
-         <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
+         <div
+            className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center"
+            data-testid="step-not-selected"
+         >
             <p className="text-sm text-muted-foreground">
                Wähle links einen Schritt zum Bearbeiten
             </p>
-            <Button variant="outline" size="sm" onClick={addStep}>
+            <Button
+               variant="outline"
+               size="sm"
+               onClick={addStep}
+               data-testid="add-step-btn"
+            >
                <Plus className="mr-2 h-4 w-4" />
                Neuen Schritt erstellen
             </Button>

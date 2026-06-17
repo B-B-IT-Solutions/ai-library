@@ -1117,7 +1117,7 @@ export const dWorkflowStep = (index = 1): DWorkflowStep => {
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       promptTitle: `prompt-${index}`,
-      type: "PROMPT_REF",
+      type: "STANDALONE",
       promptId: null,
       edgeId: `edge-id-${index}`,
       content: `content-${index}`,
