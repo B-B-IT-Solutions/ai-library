@@ -19,7 +19,7 @@ exports[`BasicInfoTab rendering tests tab active - test 1`] = `
       >
         <div
           class="space-y-4"
-          data-testid="workflow-form"
+          data-testid="workflow-edit-form"
         >
           <div
             class="grid gap-2"
