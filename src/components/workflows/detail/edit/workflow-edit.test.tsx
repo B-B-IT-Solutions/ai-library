@@ -1,6 +1,7 @@
 jest.mock("@/data/actions/workflow");
 jest.mock("sonner");
 
+import { MouseEvent } from "react";
 import { getByTestId, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -10,7 +11,7 @@ import {
    typeIntoInput,
 } from "@tests";
 import mockRouter from "next-router-mock";
-import { toast } from "sonner";
+import { Action, ExternalToast, toast } from "sonner";
 
 import { createWorkflow, updateWorkflow } from "@/data/actions/workflow";
 import {
@@ -178,13 +179,36 @@ describe("WorkflowEdit functionality tests", () => {
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
+      const initValue = initWorkflow();
+      const expectedPayload: DWorkflowUpdate = {
+         title: initValue.title + "Mein Workflow",
+         description: initValue.description,
+         steps: initValue.steps,
+      };
+
+      const expectedToastPayload = {
+         action: {
+            label: "Upgrade",
+            onClick: expect.any(Function),
+         },
+      };
+
       await waitFor(() => {
          expect(createWorkflowMock).toHaveBeenCalledTimes(1);
+         expect(createWorkflowMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledWith(
             result.message,
-            expect.objectContaining({ action: expect.any(Object) })
+            expectedToastPayload
          );
       });
+
+      const toastCall = toastMock.error.mock.calls[0];
+      const toastOptions = toastCall[1] as ExternalToast;
+      const action = toastOptions.action as Action;
+      const event = null as unknown as MouseEvent<HTMLButtonElement>;
+      action.onClick(event);
+
+      expect(mockRouter.asPath).toEqual("/subscription/pricing");
    });
 
    it("edit mode - save clicked - success - test", async () => {
