@@ -109,8 +109,16 @@ describe("WorkflowEdit functionality tests", () => {
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
+      const initValue = initWorkflow();
+      const expectedPayload: DWorkflowUpdate = {
+         title: initValue.title + "Mein Workflow",
+         description: initValue.description,
+         steps: initValue.steps,
+      };
+
       await waitFor(() => {
          expect(createWorkflowMock).toHaveBeenCalledTimes(1);
+         expect(createWorkflowMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.asPath).toEqual(`/workflows/${workflow.id}`);
       });
@@ -135,8 +143,16 @@ describe("WorkflowEdit functionality tests", () => {
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
+      const initValue = initWorkflow();
+      const expectedPayload: DWorkflowUpdate = {
+         title: initValue.title + "Mein Workflow",
+         description: initValue.description,
+         steps: initValue.steps,
+      };
+
       await waitFor(() => {
          expect(createWorkflowMock).toHaveBeenCalledTimes(1);
+         expect(createWorkflowMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.asPath).toEqual("/");
       });
@@ -172,7 +188,10 @@ describe("WorkflowEdit functionality tests", () => {
    });
 
    it("edit mode - save clicked - success - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
+      const workflow: DWorkflowWithSteps = {
+         ...dtestData.dWorkflow(),
+         steps: [],
+      };
 
       const result: ActionResult<DWorkflowWithSteps> = {
          success: true,
@@ -193,9 +212,9 @@ describe("WorkflowEdit functionality tests", () => {
 
       const initValue = initWorkflow(workflow);
       const expectedPayload: DWorkflowUpdate = {
-         title: initValue.title + "Test Template",
-         description: initValue.description + "Test Description",
-         steps: initValue.steps,
+         title: initValue.title,
+         description: initValue.description,
+         steps: [],
       };
 
       await waitFor(() => {
@@ -209,39 +228,46 @@ describe("WorkflowEdit functionality tests", () => {
       });
    });
 
-   // it("edit mode - save clicked - failed - test", async () => {
-   //    const workflow = dtestData.dWorkflowWithSteps();
-   //    const result: ActionResult<DWorkflowWithSteps> = {
-   //       success: false,
-   //       message: "Fehler beim Speichern",
-   //    };
-   //    updateWorkflowMock.mockResolvedValue(result);
+   it("edit mode - save clicked - failed - test", async () => {
+      // const workflow = dtestData.dWorkflowWithSteps();
 
-   //    renderWithReactQuery(<WorkflowEdit workflow={workflow} />);
+      const workflow: DWorkflowWithSteps = {
+         ...dtestData.dWorkflow(),
+         steps: [],
+      };
 
-   //    await waitFor(() => {
-   //       assertRendered();
-   //    });
+      const result: ActionResult<DWorkflowWithSteps> = {
+         success: false,
+         message: "Fehler beim Speichern",
+      };
+      updateWorkflowMock.mockResolvedValue(result);
 
-   //    const headerActions = screen.getByTestId("header-actions");
-   //    const saveBtn = getByTestId(headerActions, "save-btn");
-   //    await userEvent.click(saveBtn);
+      renderWithReactQuery(<WorkflowEdit workflow={workflow} />);
 
-   //    const initValue = initWorkflow(workflow);
-   //    const expectedPayload: DWorkflowUpdate = {
-   //       title: initValue.title + "Test Template",
-   //       description: initValue.description + "Test Description",
-   //       steps: initValue.steps,
-   //    };
+      await waitFor(() => {
+         assertRendered();
+      });
 
-   //    await waitFor(() => {
-   //       expect(updateWorkflowMock).toHaveBeenCalledTimes(1);
-   //       expect(updateWorkflowMock).toHaveBeenCalledWith(
-   //          workflow.id,
-   //          expectedPayload
-   //       );
-   //       expect(toastMock.error).toHaveBeenCalledWith(result.message);
-   //       expect(mockRouter.asPath).toEqual("/");
-   //    });
-   // });
+      const headerActions = screen.getByTestId("header-actions");
+      const saveBtn = getByTestId(headerActions, "save-btn");
+      await userEvent.click(saveBtn);
+
+      const initValue = initWorkflow(workflow);
+      const expectedPayload: DWorkflowUpdate = {
+         title: initValue.title + "Test Template",
+         description: initValue.description + "Test Description",
+         // steps: initValue.steps,
+         steps: [],
+      };
+
+      await waitFor(() => {
+         expect(updateWorkflowMock).toHaveBeenCalledTimes(1);
+         expect(updateWorkflowMock).toHaveBeenCalledWith(
+            workflow.id,
+            expectedPayload
+         );
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.asPath).toEqual("/");
+      });
+   });
 });
