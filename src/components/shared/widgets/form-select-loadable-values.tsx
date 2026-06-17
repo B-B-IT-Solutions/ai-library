@@ -94,7 +94,7 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    };
 
    return (
-      <FormItem>
+      <FormItem data-testid={name}>
          {renderlabel()}
          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild={true}>

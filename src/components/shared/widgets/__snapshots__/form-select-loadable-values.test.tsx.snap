@@ -5,6 +5,7 @@ exports[`FormSelectLoadableValues rendering tests value defined - test 1`] = `
   <div
     class="grid gap-2"
     data-slot="form-item"
+    data-testid="promptId"
   >
     <label
       class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
@@ -72,6 +73,7 @@ exports[`FormSelectLoadableValues rendering tests value undefined - test 1`] = `
   <div
     class="grid gap-2"
     data-slot="form-item"
+    data-testid="promptId"
   >
     <label
       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"

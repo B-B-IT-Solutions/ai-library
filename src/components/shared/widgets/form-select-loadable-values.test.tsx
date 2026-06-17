@@ -65,7 +65,10 @@ const TestWrapper = ({ value, required }: WrapperProps) => {
 };
 
 const assertRendered = () => {
+   const field = screen.getByTestId("promptId");
    const trigger = screen.getByTestId("item-select");
+
+   assertInDocument(field);
    assertInDocument(trigger);
 };
 
