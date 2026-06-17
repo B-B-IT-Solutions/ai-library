@@ -1,0 +1,931 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`WorkflowTabs rendering tests existing worfklow - test 1`] = `
+<div>
+  <div
+    class="group/tabs gap-2 data-[orientation=horizontal]:flex-col flex flex-1 flex-col overflow-hidden"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="workflow-tabs"
+    orientation="horizontal"
+  >
+    <div
+      class="group/tabs-list inline-flex items-center justify-center text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0"
+      data-slot="tabs-list"
+      data-testid="mock-react-tabs-list"
+      data-variant="default"
+    >
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="active"
+        data-testid="basic-info-tab-trigger"
+        type="button"
+      >
+        Details
+      </button>
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="inactive"
+        data-testid="steps-tab-trigger"
+        type="button"
+      >
+        Schritte
+        <span
+          class="ml-1.5 text-xs text-muted-foreground"
+        >
+          (
+          3
+          )
+        </span>
+      </button>
+    </div>
+    <div
+      class="flex-1 outline-none overflow-y-auto"
+      data-slot="tabs-content"
+      data-testid="basic-info-tab"
+    >
+      <div
+        class="mx-auto max-w-2xl px-6 py-8"
+      >
+        <div
+          class="space-y-4"
+          data-testid="workflow-edit-form"
+        >
+          <div
+            class="grid gap-2"
+            data-slot="form-item"
+            data-testid="title"
+          >
+            <label
+              class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+              data-error="false"
+              data-slot="form-label"
+              for="_r_2_-form-item"
+            >
+              Titel
+              <span
+                class="text-destructive"
+              >
+                *
+              </span>
+            </label>
+            <input
+              aria-describedby="_r_2_-form-item-description"
+              aria-invalid="false"
+              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              data-slot="form-control"
+              data-testid="input"
+              id="_r_2_-form-item"
+              name="title"
+              placeholder="Mein Workflow"
+              value="title-1"
+            />
+          </div>
+          <div
+            class="grid gap-2"
+            data-slot="form-item"
+            data-testid="description"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+              data-error="false"
+              data-slot="form-label"
+              for="_r_3_-form-item"
+            >
+              Hinwweis
+            </label>
+            <textarea
+              aria-describedby="_r_3_-form-item-description"
+              aria-invalid="false"
+              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              data-slot="form-control"
+              data-testid="textarea"
+              id="_r_3_-form-item"
+              maxlength="750"
+              name="description"
+              placeholder="Wofür wird dieser Workflow verwendet?"
+              rows="4"
+            >
+              description 1
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WorkflowTabs rendering tests existing worfklow - test 2`] = `
+<div>
+  <div
+    class="group/tabs gap-2 data-[orientation=horizontal]:flex-col flex flex-1 flex-col overflow-hidden"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="workflow-tabs"
+    orientation="horizontal"
+  >
+    <div
+      class="group/tabs-list inline-flex items-center justify-center text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0"
+      data-slot="tabs-list"
+      data-testid="mock-react-tabs-list"
+      data-variant="default"
+    >
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="inactive"
+        data-testid="basic-info-tab-trigger"
+        type="button"
+      >
+        Details
+      </button>
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="active"
+        data-testid="steps-tab-trigger"
+        type="button"
+      >
+        Schritte
+        <span
+          class="ml-1.5 text-xs text-muted-foreground"
+        >
+          (
+          3
+          )
+        </span>
+      </button>
+    </div>
+    <div
+      class="flex-1 outline-none overflow-hidden"
+      data-slot="tabs-content"
+      data-testid="steps-tab"
+    >
+      <div
+        class="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
+        data-testid="workflow-steps"
+      >
+        <div
+          class="flex flex-col gap-4 overflow-y-auto bg-slate-50 p-4"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
+            data-slot="button"
+            data-testid="add-step-main-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Schritt hinzufügen
+          </button>
+          <div
+            class="space-y-2"
+            data-testid="steps"
+          >
+            <div
+              class="cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary"
+              data-testid="step"
+            >
+              <div
+                class="flex items-start justify-between gap-2"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-center gap-2"
+                >
+                  <span
+                    class="w-5 shrink-0 text-right font-mono text-xs text-muted-foreground"
+                  >
+                    1
+                    .
+                  </span>
+                  <span
+                    class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent text-primary-foreground [a&]:hover:bg-primary/90 shrink-0 bg-blue-600 text-xs hover:bg-blue-600"
+                    data-slot="badge"
+                    data-testid="start-badge"
+                  >
+                    Start
+                  </span>
+                  <span
+                    class="truncate text-sm font-medium"
+                  >
+                    step-title-1
+                  </span>
+                </div>
+                <div
+                  class="flex items-center"
+                >
+                  <div
+                    data-slot="dropdown-menu"
+                    data-testid="mock-react-dropdown-menu-root"
+                  >
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 h-6 w-6"
+                      data-slot="dropdown-menu-trigger"
+                      data-testid="more-options-btn"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-ellipsis-vertical h-3.5 w-3.5"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="5"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="19"
+                          r="1"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      data-testid="mock-react-dropdown-menu-portal"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
+              >
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                  data-slot="badge"
+                  data-testid="type-badge"
+                >
+                  Eigenständig
+                </span>
+              </div>
+              <div
+                class="mt-2 flex flex-wrap gap-1"
+              >
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Weiter
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    step-title-2
+                  </span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Abbrechen
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    step-title-3
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div
+              class="cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary"
+              data-testid="step"
+            >
+              <div
+                class="flex items-start justify-between gap-2"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-center gap-2"
+                >
+                  <span
+                    class="w-5 shrink-0 text-right font-mono text-xs text-muted-foreground"
+                  >
+                    2
+                    .
+                  </span>
+                  <span
+                    class="truncate text-sm font-medium"
+                  >
+                    step-title-2
+                  </span>
+                </div>
+                <div
+                  class="flex items-center"
+                >
+                  <div
+                    data-slot="dropdown-menu"
+                    data-testid="mock-react-dropdown-menu-root"
+                  >
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 h-6 w-6"
+                      data-slot="dropdown-menu-trigger"
+                      data-testid="more-options-btn"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-ellipsis-vertical h-3.5 w-3.5"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="5"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="19"
+                          r="1"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      data-testid="mock-react-dropdown-menu-portal"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
+              >
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                  data-slot="badge"
+                  data-testid="type-badge"
+                >
+                  Eigenständig
+                </span>
+              </div>
+              <div
+                class="mt-2 flex flex-wrap gap-1"
+              >
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Weiter
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    step-title-3
+                  </span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Abbrechen
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    ?
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div
+              class="cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary"
+              data-testid="step"
+            >
+              <div
+                class="flex items-start justify-between gap-2"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-center gap-2"
+                >
+                  <span
+                    class="w-5 shrink-0 text-right font-mono text-xs text-muted-foreground"
+                  >
+                    3
+                    .
+                  </span>
+                  <span
+                    class="truncate text-sm font-medium"
+                  >
+                    step-title-3
+                  </span>
+                </div>
+                <div
+                  class="flex items-center"
+                >
+                  <div
+                    data-slot="dropdown-menu"
+                    data-testid="mock-react-dropdown-menu-root"
+                  >
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 h-6 w-6"
+                      data-slot="dropdown-menu-trigger"
+                      data-testid="more-options-btn"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-ellipsis-vertical h-3.5 w-3.5"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="5"
+                          r="1"
+                        />
+                        <circle
+                          cx="12"
+                          cy="19"
+                          r="1"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      data-testid="mock-react-dropdown-menu-portal"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground"
+              >
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                  data-slot="badge"
+                  data-testid="type-badge"
+                >
+                  Eigenständig
+                </span>
+              </div>
+              <div
+                class="mt-2 flex flex-wrap gap-1"
+              >
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Weiter
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    ?
+                  </span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
+                  Abbrechen
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="m12 5 7 7-7 7"
+                    />
+                  </svg>
+                  <span
+                    class="max-w-20 truncate"
+                  >
+                    ?
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="overflow-y-auto bg-white"
+        >
+          <div
+            class="flex h-full flex-col items-center justify-center gap-3 p-8 text-center"
+            data-testid="step-not-selected"
+          >
+            <p
+              class="text-sm text-muted-foreground"
+            >
+              Wähle links einen Schritt zum Bearbeiten
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+              data-slot="button"
+              data-testid="add-step-btn"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus mr-2 h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Neuen Schritt erstellen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WorkflowTabs rendering tests new worfklow - test 1`] = `
+<div>
+  <div
+    class="group/tabs gap-2 data-[orientation=horizontal]:flex-col flex flex-1 flex-col overflow-hidden"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="workflow-tabs"
+    orientation="horizontal"
+  >
+    <div
+      class="group/tabs-list inline-flex items-center justify-center text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0"
+      data-slot="tabs-list"
+      data-testid="mock-react-tabs-list"
+      data-variant="default"
+    >
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="active"
+        data-testid="basic-info-tab-trigger"
+        type="button"
+      >
+        Details
+      </button>
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="inactive"
+        data-testid="steps-tab-trigger"
+        type="button"
+      >
+        Schritte
+      </button>
+    </div>
+    <div
+      class="flex-1 outline-none overflow-y-auto"
+      data-slot="tabs-content"
+      data-testid="basic-info-tab"
+    >
+      <div
+        class="mx-auto max-w-2xl px-6 py-8"
+      >
+        <div
+          class="space-y-4"
+          data-testid="workflow-edit-form"
+        >
+          <div
+            class="grid gap-2"
+            data-slot="form-item"
+            data-testid="title"
+          >
+            <label
+              class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+              data-error="false"
+              data-slot="form-label"
+              for="_r_0_-form-item"
+            >
+              Titel
+              <span
+                class="text-destructive"
+              >
+                *
+              </span>
+            </label>
+            <input
+              aria-describedby="_r_0_-form-item-description"
+              aria-invalid="false"
+              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              data-slot="form-control"
+              data-testid="input"
+              id="_r_0_-form-item"
+              name="title"
+              placeholder="Mein Workflow"
+              value=""
+            />
+          </div>
+          <div
+            class="grid gap-2"
+            data-slot="form-item"
+            data-testid="description"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+              data-error="false"
+              data-slot="form-label"
+              for="_r_1_-form-item"
+            >
+              Hinwweis
+            </label>
+            <textarea
+              aria-describedby="_r_1_-form-item-description"
+              aria-invalid="false"
+              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              data-slot="form-control"
+              data-testid="textarea"
+              id="_r_1_-form-item"
+              maxlength="750"
+              name="description"
+              placeholder="Wofür wird dieser Workflow verwendet?"
+              rows="4"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WorkflowTabs rendering tests new worfklow - test 2`] = `
+<div>
+  <div
+    class="group/tabs gap-2 data-[orientation=horizontal]:flex-col flex flex-1 flex-col overflow-hidden"
+    data-orientation="horizontal"
+    data-slot="tabs"
+    data-testid="workflow-tabs"
+    orientation="horizontal"
+  >
+    <div
+      class="group/tabs-list inline-flex items-center justify-center text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none h-auto w-full gap-0 rounded-none border-b border-slate-200 bg-transparent p-0"
+      data-slot="tabs-list"
+      data-testid="mock-react-tabs-list"
+      data-variant="default"
+    >
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="inactive"
+        data-testid="basic-info-tab-trigger"
+        type="button"
+      >
+        Details
+      </button>
+      <button
+        class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+        data-slot="tabs-trigger"
+        data-state="active"
+        data-testid="steps-tab-trigger"
+        type="button"
+      >
+        Schritte
+      </button>
+    </div>
+    <div
+      class="flex-1 outline-none overflow-hidden"
+      data-slot="tabs-content"
+      data-testid="steps-tab"
+    >
+      <div
+        class="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
+        data-testid="workflow-steps"
+      >
+        <div
+          class="flex flex-col gap-4 overflow-y-auto bg-slate-50 p-4"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
+            data-slot="button"
+            data-testid="add-step-main-btn"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-plus mr-2 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            Schritt hinzufügen
+          </button>
+          <div
+            class="space-y-2"
+            data-testid="steps"
+          />
+        </div>
+        <div
+          class="overflow-y-auto bg-white"
+        >
+          <div
+            class="flex h-full flex-col items-center justify-center gap-3 p-8 text-center"
+            data-testid="step-not-selected"
+          >
+            <p
+              class="text-sm text-muted-foreground"
+            >
+              Wähle links einen Schritt zum Bearbeiten
+            </p>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+              data-slot="button"
+              data-testid="add-step-btn"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus mr-2 h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+              Neuen Schritt erstellen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

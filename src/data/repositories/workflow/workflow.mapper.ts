@@ -69,6 +69,7 @@ export const toDWorkflowStep = (
       promptId: s.promptId,
       promptTitle: s.prompt?.title ?? null,
       content: s.content,
+      edgeId: s.edgeId,
       isStart: s.isStart,
       position: s.position,
       outgoingEdges: map(s.outgoingEdges, toDWorkflowStepEdge),

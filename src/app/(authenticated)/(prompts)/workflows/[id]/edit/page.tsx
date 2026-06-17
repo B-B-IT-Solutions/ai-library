@@ -11,11 +11,15 @@ export const metadata: Metadata = {
    title: "Workflow bearbeiten",
 };
 
-type PageProps = {
-   params: Promise<{ id: string }>;
+export type PageParams = {
+   id: string;
 };
 
-const EditWorkflowPage = async ({ params }: PageProps) => {
+export type PageProps = {
+   params: Promise<PageParams>;
+};
+
+export const EditWorkflowPage = async ({ params }: PageProps) => {
    const { id } = await params;
 
    const [workflow, usage] = await Promise.all([
@@ -29,7 +33,7 @@ const EditWorkflowPage = async ({ params }: PageProps) => {
 
    return (
       <div data-testid="edit-workflow-page" className="h-full">
-         <WorkflowEdit initialWorkflow={workflow} usage={usage} />
+         <WorkflowEdit workflow={workflow} usage={usage} />
       </div>
    );
 };

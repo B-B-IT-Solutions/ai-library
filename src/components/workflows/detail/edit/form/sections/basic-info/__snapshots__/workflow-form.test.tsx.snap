@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`WorkflowEditForm rendering tests existing workfow - rendered - test 1`] = `
+<div>
+  <div
+    class="space-y-4"
+    data-testid="workflow-edit-form"
+  >
+    <div
+      class="grid gap-2"
+      data-slot="form-item"
+      data-testid="title"
+    >
+      <label
+        class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+        data-error="false"
+        data-slot="form-label"
+        for="_r_2_-form-item"
+      >
+        Titel
+        <span
+          class="text-destructive"
+        >
+          *
+        </span>
+      </label>
+      <input
+        aria-describedby="_r_2_-form-item-description"
+        aria-invalid="false"
+        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+        data-slot="form-control"
+        data-testid="input"
+        id="_r_2_-form-item"
+        name="title"
+        placeholder="Mein Workflow"
+        value="title-1"
+      />
+    </div>
+    <div
+      class="grid gap-2"
+      data-slot="form-item"
+      data-testid="description"
+    >
+      <label
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+        data-error="false"
+        data-slot="form-label"
+        for="_r_3_-form-item"
+      >
+        Hinwweis
+      </label>
+      <textarea
+        aria-describedby="_r_3_-form-item-description"
+        aria-invalid="false"
+        class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        data-slot="form-control"
+        data-testid="textarea"
+        id="_r_3_-form-item"
+        maxlength="750"
+        name="description"
+        placeholder="Wofür wird dieser Workflow verwendet?"
+        rows="4"
+      >
+        description 1
+      </textarea>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WorkflowEditForm rendering tests new workflow - test 1`] = `
+<div>
+  <div
+    class="space-y-4"
+    data-testid="workflow-edit-form"
+  >
+    <div
+      class="grid gap-2"
+      data-slot="form-item"
+      data-testid="title"
+    >
+      <label
+        class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+        data-error="false"
+        data-slot="form-label"
+        for="_r_0_-form-item"
+      >
+        Titel
+        <span
+          class="text-destructive"
+        >
+          *
+        </span>
+      </label>
+      <input
+        aria-describedby="_r_0_-form-item-description"
+        aria-invalid="false"
+        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+        data-slot="form-control"
+        data-testid="input"
+        id="_r_0_-form-item"
+        name="title"
+        placeholder="Mein Workflow"
+        value=""
+      />
+    </div>
+    <div
+      class="grid gap-2"
+      data-slot="form-item"
+      data-testid="description"
+    >
+      <label
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+        data-error="false"
+        data-slot="form-label"
+        for="_r_1_-form-item"
+      >
+        Hinwweis
+      </label>
+      <textarea
+        aria-describedby="_r_1_-form-item-description"
+        aria-invalid="false"
+        class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        data-slot="form-control"
+        data-testid="textarea"
+        id="_r_1_-form-item"
+        maxlength="750"
+        name="description"
+        placeholder="Wofür wird dieser Workflow verwendet?"
+        rows="4"
+      />
+    </div>
+  </div>
+</div>
+`;

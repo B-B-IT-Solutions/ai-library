@@ -90,7 +90,10 @@ export const FormSelect = <T extends FieldValues>({
                         value={field.value}
                         onValueChange={field.onChange}
                      >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger
+                           className="w-full"
+                           data-testid={`${name}-trigger`}
+                        >
                            <SelectValue placeholder={placeholder} />
                         </SelectTrigger>
                         <SelectContent>

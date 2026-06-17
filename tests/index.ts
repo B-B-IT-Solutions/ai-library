@@ -35,4 +35,4 @@ export * as ctestData from "./mock-data/common.data.mocks";
 export * as ntestData from "./mock-data/next.data.mocks";
 export * as stripeTestData from "./mock-data/stripe.data.mocks";
 
-export { type AuthMockedFunction } from "./test.types";
+export type { AuthMockedFunction, UuidV4MockedFunction } from "./test.types";

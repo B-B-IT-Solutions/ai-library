@@ -37,6 +37,7 @@ export type DWorkflowStep = {
    promptId: string | null;
    promptTitle: string | null; // denormalisiert für UI-Anzeige
    content: string | null;
+   edgeId: string;
    isStart: boolean;
    position: number;
    outgoingEdges: DWorkflowStepEdge[];

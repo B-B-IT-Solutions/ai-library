@@ -1034,6 +1034,7 @@ export const dWorkflowUpdate = (index = 1): DWorkflowUpdate => {
    return {
       title: `title-${index}`,
       description: `description ${index}`,
+      steps: dWorkflowStepUpdates(3),
    };
 };
 
@@ -1044,15 +1045,32 @@ export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
    };
 };
 
+export const dWorkflowStepUpdates = (count = 3): DWorkflowStepUpdate[] => {
+   return range(0, count).map((i) => dWorkflowStepUpdate(i + 1));
+};
+
 export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
    return {
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       type: "STANDALONE",
+      promptId: null,
+      edgeId: `edge-id-${index}`,
       content: `content-${index}`,
-      isStart: false,
+      isStart: index === 1,
       position: index - 1,
-      edges: [],
+      edges: [
+         {
+            toStepId: `edge-id-${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            toStepId: `edge-id-${index + 2}`,
+            label: "Abbrechen",
+            order: 1,
+         },
+      ],
    };
 };
 
@@ -1119,10 +1137,26 @@ export const dWorkflowStep = (index = 1): DWorkflowStep => {
       promptTitle: `prompt-${index}`,
       type: "STANDALONE",
       promptId: null,
+      edgeId: `edge-id-${index}`,
       content: `content-${index}`,
       isStart: index === 1,
       position: index - 1,
-      outgoingEdges: [],
+      outgoingEdges: [
+         {
+            id: "oe-1",
+            fromStepId: "step-id-0001",
+            toStepId: `edge-id-${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            id: "oe-2",
+            fromStepId: "step-id-0001",
+            toStepId: `edge-id-${index + 2}`,
+            label: "Abbrechen",
+            order: 1,
+         },
+      ],
    };
 };
 

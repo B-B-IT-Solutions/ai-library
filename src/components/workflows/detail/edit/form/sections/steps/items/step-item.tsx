@@ -1,6 +1,8 @@
 "use client";
 
-import { ArrowRight, MoreHorizontal, Star } from "lucide-react";
+import { filter, find } from "es-toolkit/compat";
+import { ArrowRight, MoreVertical } from "lucide-react";
+import { Control, useWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -10,39 +12,44 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStepUpdate,
+   DWorkflowUpdate,
+} from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   allSteps: DWorkflowStep[];
-   step: DWorkflowStep;
+   steps: DWorkflowStepUpdate[];
    index: number;
-   selectedStepId: string | null;
-   onSelectStep: (step: DWorkflowStep) => void;
-   onSetStartStep: (step: DWorkflowStep) => void;
-   onDeleteStep: (step: DWorkflowStep) => void;
+   isSelected: boolean;
+   onSelectStep: (index: number) => void;
+   onDeleteStep: (index: number) => void;
+   control: Control<DWorkflowUpdate>;
 };
 
 export const StepItem = ({
-   allSteps,
-   step,
+   steps,
    index,
-   selectedStepId,
+   isSelected,
    onSelectStep,
-   onSetStartStep,
    onDeleteStep,
+   control,
 }: Props) => {
-   const isSelected = step.id === selectedStepId;
-   const isEndStep = step.outgoingEdges.length === 0;
-   const incomingCount = allSteps.filter((s) =>
-      s.outgoingEdges.some((e) => e.toStepId === step.id)
-   ).length;
+   const step = useWatch({
+      name: `steps.${index}`,
+      control,
+   });
 
-   const isDisconnected = !step.isStart && incomingCount === 0;
+   const isEndStep = step.edges.length === 0;
+   const incomingEdges = filter(steps, (s) =>
+      s.edges.some((e) => e.toStepId === step.edgeId)
+   );
+
+   const isDisconnected = !step.isStart && incomingEdges.length === 0;
 
    return (
       <div
-         key={step.id}
+         key={index}
          className={cn(
             "cursor-pointer rounded-lg border bg-white p-3 transition-colors hover:border-primary",
             isSelected && "border-primary ring-1 ring-primary",
@@ -50,8 +57,8 @@ export const StepItem = ({
                !isSelected &&
                "border-l-[3px] border-l-orange-400"
          )}
-         onClick={() => onSelectStep(step)}
-         data-testid={`step-card-${step.id}`}
+         onClick={() => onSelectStep(index)}
+         data-testid="step"
       >
          <div className="flex items-start justify-between gap-2">
             <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -59,12 +66,19 @@ export const StepItem = ({
                   {index + 1}.
                </span>
                {step.isStart && (
-                  <Badge className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600">
+                  <Badge
+                     className="shrink-0 bg-blue-600 text-xs hover:bg-blue-600"
+                     data-testid="start-badge"
+                  >
                      Start
                   </Badge>
                )}
                {isEndStep && !step.isStart && (
-                  <Badge variant="secondary" className="shrink-0 text-xs">
+                  <Badge
+                     variant="secondary"
+                     className="shrink-0 text-xs"
+                     data-testid="end-badge"
+                  >
                      Ende
                   </Badge>
                )}
@@ -73,39 +87,17 @@ export const StepItem = ({
                </span>
             </div>
 
-            <div className="flex items-center gap-1">
-               <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  title={
-                     step.isStart
-                        ? "Ist Startschritt"
-                        : "Als Startschritt setzen"
-                  }
-                  onClick={(e) => {
-                     e.stopPropagation();
-                     if (!step.isStart) onSetStartStep(step);
-                  }}
-               >
-                  <Star
-                     className={cn(
-                        "h-3.5 w-3.5",
-                        step.isStart
-                           ? "fill-blue-600 text-blue-600"
-                           : "text-muted-foreground"
-                     )}
-                  />
-               </Button>
+            <div className="flex items-center">
                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild={true}>
                      <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6"
                         onClick={(e) => e.stopPropagation()}
+                        data-testid="more-options-btn"
                      >
-                        <MoreHorizontal className="h-3.5 w-3.5" />
+                        <MoreVertical className="h-3.5 w-3.5" />
                      </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -113,8 +105,9 @@ export const StepItem = ({
                         className="text-destructive focus:text-destructive"
                         onClick={(e) => {
                            e.stopPropagation();
-                           onDeleteStep(step);
+                           onDeleteStep(index);
                         }}
+                        data-testid="delete-menu-item"
                      >
                         Schritt löschen
                      </DropdownMenuItem>
@@ -124,12 +117,16 @@ export const StepItem = ({
          </div>
 
          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-            <Badge variant="outline" className="text-xs">
+            <Badge
+               variant="outline"
+               className="text-xs"
+               data-testid="type-badge"
+            >
                {step.type === "PROMPT_REF" ? "Prompt" : "Eigenständig"}
             </Badge>
-            {step.promptTitle && (
+            {/* {step.promptTitle && (
                <span className="truncate">{step.promptTitle}</span>
-            )}
+            )} */}
             {isDisconnected && (
                <span className="font-medium text-orange-600">
                   · Nicht verbunden
@@ -137,13 +134,13 @@ export const StepItem = ({
             )}
          </div>
 
-         {step.outgoingEdges.length > 0 && (
+         {step.edges.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
-               {step.outgoingEdges.map((edge) => {
-                  const target = allSteps.find((s) => s.id === edge.toStepId);
+               {step.edges.map((edge) => {
+                  const target = find(steps, (s) => s.edgeId === edge.toStepId);
                   return (
                      <span
-                        key={edge.id}
+                        key={edge.toStepId}
                         className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
                      >
                         {edge.label}

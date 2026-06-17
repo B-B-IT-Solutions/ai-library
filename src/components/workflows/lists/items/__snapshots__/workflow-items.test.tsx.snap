@@ -50,7 +50,7 @@ exports[`WorkflowItems rendering tests prompts - empty - test 1`] = `
       Verbinde mehrere Prompts zu einem geführten Prozess.
     </p>
     <a
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
+      class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
       data-slot="button"
       data-testid="create-workflow-btn"
       href="/workflows/new"
@@ -136,7 +136,7 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -153,13 +153,13 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -228,21 +228,6 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
       </div>
     </div>
     <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
-      </div>
-    </div>
-    <div
       class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
       data-slot="card"
       data-testid="workflow-item"
@@ -271,7 +256,7 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -288,13 +273,13 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -363,21 +348,6 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
       </div>
     </div>
     <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
-      </div>
-    </div>
-    <div
       class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
       data-slot="card"
       data-testid="workflow-item"
@@ -406,7 +376,7 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -423,13 +393,13 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -495,21 +465,6 @@ exports[`WorkflowItems rendering tests view grid - test 1`] = `
           </svg>
           Anwenden
         </a>
-      </div>
-    </div>
-    <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
       </div>
     </div>
   </div>
@@ -551,7 +506,7 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -568,13 +523,13 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -643,21 +598,6 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
       </div>
     </div>
     <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
-      </div>
-    </div>
-    <div
       class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
       data-slot="card"
       data-testid="workflow-item"
@@ -686,7 +626,7 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -703,13 +643,13 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -778,21 +718,6 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
       </div>
     </div>
     <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
-      </div>
-    </div>
-    <div
       class="bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm flex flex-col transition-shadow hover:shadow-md"
       data-slot="card"
       data-testid="workflow-item"
@@ -821,7 +746,7 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis h-4 w-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -838,13 +763,13 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
                   r="1"
                 />
                 <circle
-                  cx="19"
-                  cy="12"
+                  cx="12"
+                  cy="5"
                   r="1"
                 />
                 <circle
-                  cx="5"
-                  cy="12"
+                  cx="12"
+                  cy="19"
                   r="1"
                 />
               </svg>
@@ -910,21 +835,6 @@ exports[`WorkflowItems rendering tests view list - test 1`] = `
           </svg>
           Anwenden
         </a>
-      </div>
-    </div>
-    <div
-      data-slot="dialog"
-      data-testid="mock-react-dialog-root"
-    >
-      <div
-        data-slot="dialog-portal"
-        data-testid="mock-react-dialog-portal"
-      >
-        <div
-          class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-          data-slot="dialog-overlay"
-          data-testid="mock-react-dialog-overlay"
-        />
       </div>
     </div>
   </div>

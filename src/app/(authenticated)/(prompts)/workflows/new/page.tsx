@@ -7,7 +7,7 @@ export const metadata: Metadata = {
    title: "Neuer Workflow",
 };
 
-const NewWorkflowPage = async () => {
+export const NewWorkflowPage = async () => {
    const usage = await getWorkflowsUsage();
 
    return (

@@ -227,6 +227,7 @@ export class WorkflowRepository {
             type: data.type,
             promptId: data.promptId,
             content: data.content,
+            edgeId: data.edgeId,
             isStart: data.isStart,
             position: data.position,
             outgoingEdges: {

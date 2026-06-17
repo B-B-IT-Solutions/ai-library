@@ -1,7 +1,7 @@
 jest.mock("@/data/repositories/collection");
 jest.mock("uuid");
 
-import { ctestData, dtestData } from "@tests";
+import { ctestData, dtestData, UuidV4MockedFunction } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,7 +10,7 @@ import prisma from "@/data/repositories/prisma";
 
 import { CollectionService } from "./collection.user.service";
 
-const uuidv4Mock = uuidv4 as jest.MockedFunction<typeof uuidv4>;
+const uuidv4Mock = uuidv4 as UuidV4MockedFunction;
 
 const collectionRepo = new CollectionRepository(prisma);
 const collectionRepoMock =
