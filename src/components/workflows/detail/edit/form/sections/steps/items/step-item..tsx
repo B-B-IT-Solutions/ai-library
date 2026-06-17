@@ -19,7 +19,7 @@ type Props = {
    step: DWorkflowStepUpdate;
    index: number;
    isSelected: boolean;
-   onSelectStep: (step: DWorkflowStepUpdate, index: number) => void;
+   onSelectStep: (index: number) => void;
    onDeleteStep: (index: number) => void;
 };
 
@@ -48,7 +48,7 @@ export const StepItem = ({
                !isSelected &&
                "border-l-[3px] border-l-orange-400"
          )}
-         onClick={() => onSelectStep(step, index)}
+         onClick={() => onSelectStep(index)}
          data-testid={`step-card-${index}`}
       >
          <div className="flex items-start justify-between gap-2">

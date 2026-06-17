@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { map, some } from "es-toolkit/compat";
 import { Star } from "lucide-react";
 
@@ -10,14 +9,17 @@ import { StepItem } from "./step-item.";
 
 type Props = {
    steps: DWorkflowStepUpdate[];
-
-   onSelectStep: (step: DWorkflowStepUpdate, index: number) => void;
+   selectedIndex?: number;
+   onSelectStep: (index: number) => void;
    onDeleteStep: (index: number) => void;
 };
 
-export const StepItems = ({ steps, onSelectStep, onDeleteStep }: Props) => {
-   const [selectedIndex, setSelectedIndex] = useState(-1);
-
+export const StepItems = ({
+   steps,
+   selectedIndex,
+   onSelectStep,
+   onDeleteStep,
+}: Props) => {
    const hasStart = some(steps, (s) => s.isStart);
 
    const stepItem = (step: DWorkflowStepUpdate, index: number) => {
@@ -28,10 +30,7 @@ export const StepItems = ({ steps, onSelectStep, onDeleteStep }: Props) => {
             index={index}
             allSteps={steps}
             isSelected={index === selectedIndex}
-            onSelectStep={(step, index) => {
-               setSelectedIndex(index);
-               onSelectStep(step, index);
-            }}
+            onSelectStep={onSelectStep}
             onDeleteStep={onDeleteStep}
          />
       );

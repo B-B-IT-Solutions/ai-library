@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { map, some } from "es-toolkit/compat";
-import { Plus, Star } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Control, useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -14,16 +13,12 @@ import { initWorkflowStep } from "../../utils";
 
 import { StepDetail } from "./detail/step-detail";
 import { StepItems } from "./items";
-import { StepItem } from "./items/step-item.";
 
 type Props = {
    control: Control<DWorkflowUpdate>;
 };
 
 export const WorkflowSteps = ({ control }: Props) => {
-   const [selectedStep, setSelectedStep] = useState<
-      DWorkflowStepUpdate | undefined
-   >();
    const [selectedStepIndex, setSelectedStepIndex] = useState<
       number | undefined
    >();
@@ -47,8 +42,6 @@ export const WorkflowSteps = ({ control }: Props) => {
       removeStep(index);
    };
 
-   const hasStart = some(steps, (s) => s.isStart);
-
    return (
       <div
          className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
@@ -67,38 +60,10 @@ export const WorkflowSteps = ({ control }: Props) => {
 
             <StepItems
                steps={steps}
-               onSelectStep={(step, index) => {
-                  setSelectedStep(step);
-                  setSelectedStepIndex(index);
-               }}
+               selectedIndex={selectedStepIndex}
+               onSelectStep={setSelectedStepIndex}
                onDeleteStep={handleRemoveStep}
             />
-
-            <div className="space-y-2" data-testid="step-list">
-               {!hasStart && steps.length > 0 && (
-                  <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
-                     <Star className="h-4 w-4 shrink-0" />
-                     Kein Startschritt gesetzt
-                  </div>
-               )}
-
-               {map(steps, (step, idx) => {
-                  return (
-                     <StepItem
-                        key={idx}
-                        step={step}
-                        index={idx}
-                        allSteps={steps}
-                        isSelected={step.edgeId === selectedStep?.edgeId}
-                        onSelectStep={(step, index) => {
-                           setSelectedStepIndex(index);
-                           setSelectedStep(step);
-                        }}
-                        onDeleteStep={handleRemoveStep}
-                     />
-                  );
-               })}
-            </div>
          </div>
 
          <div className="overflow-y-auto bg-white">
