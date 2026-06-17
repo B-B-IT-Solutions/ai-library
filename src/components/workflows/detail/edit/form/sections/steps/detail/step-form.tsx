@@ -28,11 +28,11 @@ import {
 
 type Props = {
    index: number;
-   allSteps: DWorkflowStepUpdate[];
+   steps: DWorkflowStepUpdate[];
    control: Control<DWorkflowUpdate>;
 };
 
-export const StepForm = ({ index, allSteps, control }: Props) => {
+export const StepForm = ({ index, steps, control }: Props) => {
    const { field } = useController({
       name: `steps.${index}`,
       control,
@@ -52,7 +52,7 @@ export const StepForm = ({ index, allSteps, control }: Props) => {
       control,
    });
 
-   const otherSteps = filter(allSteps, (s) => s.edgeId !== field.value.edgeId);
+   const otherSteps = filter(steps, (s) => s.edgeId !== field.value.edgeId);
 
    const edgeStepOptions: Option[] = map(otherSteps, (s) => {
       return {

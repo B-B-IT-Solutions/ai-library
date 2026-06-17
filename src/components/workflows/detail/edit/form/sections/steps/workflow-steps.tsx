@@ -12,8 +12,9 @@ import {
 } from "@/data/types/domain/workflow";
 import { initWorkflowStep } from "../../utils";
 
-import { StepDetail } from "./step-detail";
-import { StepItem } from "./step-item.";
+import { StepDetail } from "./detail/step-detail";
+import { StepItems } from "./items";
+import { StepItem } from "./items/step-item.";
 
 type Props = {
    control: Control<DWorkflowUpdate>;
@@ -23,7 +24,9 @@ export const WorkflowSteps = ({ control }: Props) => {
    const [selectedStep, setSelectedStep] = useState<
       DWorkflowStepUpdate | undefined
    >();
-   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
+   const [selectedStepIndex, setSelectedStepIndex] = useState<
+      number | undefined
+   >();
 
    const {
       fields: steps,
@@ -62,6 +65,15 @@ export const WorkflowSteps = ({ control }: Props) => {
                Schritt hinzufügen
             </Button>
 
+            <StepItems
+               steps={steps}
+               onSelectStep={(step, index) => {
+                  setSelectedStep(step);
+                  setSelectedStepIndex(index);
+               }}
+               onDeleteStep={handleRemoveStep}
+            />
+
             <div className="space-y-2" data-testid="step-list">
                {!hasStart && steps.length > 0 && (
                   <div className="flex items-center gap-2 rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
@@ -92,8 +104,7 @@ export const WorkflowSteps = ({ control }: Props) => {
          <div className="overflow-y-auto bg-white">
             <StepDetail
                index={selectedStepIndex}
-               formVisible={!!selectedStep}
-               allSteps={steps}
+               steps={steps}
                addStep={handleAddStep}
                control={control}
             />
