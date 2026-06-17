@@ -63,6 +63,7 @@ export const WorkflowSteps = ({ control }: Props) => {
                selectedIndex={selectedStepIndex}
                onSelectStep={setSelectedStepIndex}
                onDeleteStep={handleRemoveStep}
+               control={control}
             />
          </div>
 

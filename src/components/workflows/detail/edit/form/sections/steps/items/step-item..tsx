@@ -2,6 +2,7 @@
 
 import { filter, find } from "es-toolkit/compat";
 import { ArrowRight, MoreVertical } from "lucide-react";
+import { Control, useWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -11,26 +12,34 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DWorkflowStepUpdate } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStepUpdate,
+   DWorkflowUpdate,
+} from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
    allSteps: DWorkflowStepUpdate[];
-   step: DWorkflowStepUpdate;
    index: number;
    isSelected: boolean;
    onSelectStep: (index: number) => void;
    onDeleteStep: (index: number) => void;
+   control: Control<DWorkflowUpdate>;
 };
 
 export const StepItem = ({
    allSteps,
-   step,
    index,
    isSelected,
    onSelectStep,
    onDeleteStep,
+   control,
 }: Props) => {
+   const step = useWatch({
+      name: `steps.${index}`,
+      control,
+   });
+
    const isEndStep = step.edges.length === 0;
    const incomingCount = filter(allSteps, (s) =>
       s.edges.some((e) => e.toStepId === step.edgeId)

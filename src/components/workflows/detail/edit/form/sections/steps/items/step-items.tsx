@@ -2,8 +2,12 @@
 
 import { map, some } from "es-toolkit/compat";
 import { Star } from "lucide-react";
+import { Control } from "react-hook-form";
 
-import { DWorkflowStepUpdate } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStepUpdate,
+   DWorkflowUpdate,
+} from "@/data/types/domain/workflow";
 
 import { StepItem } from "./step-item.";
 
@@ -12,6 +16,7 @@ type Props = {
    selectedIndex?: number;
    onSelectStep: (index: number) => void;
    onDeleteStep: (index: number) => void;
+   control: Control<DWorkflowUpdate>;
 };
 
 export const StepItems = ({
@@ -19,19 +24,20 @@ export const StepItems = ({
    selectedIndex,
    onSelectStep,
    onDeleteStep,
+   control,
 }: Props) => {
    const hasStart = some(steps, (s) => s.isStart);
 
-   const stepItem = (step: DWorkflowStepUpdate, index: number) => {
+   const stepItem = (index: number) => {
       return (
          <StepItem
             key={index}
-            step={step}
             index={index}
             allSteps={steps}
             isSelected={index === selectedIndex}
             onSelectStep={onSelectStep}
             onDeleteStep={onDeleteStep}
+            control={control}
          />
       );
    };
@@ -45,7 +51,7 @@ export const StepItems = ({
             </div>
          )}
 
-         {map(steps, (step, idx) => stepItem(step, idx))}
+         {map(steps, (_, index) => stepItem(index))}
       </div>
    );
 };
