@@ -17,6 +17,7 @@ type WrapperProps = {
 const TestWrapper = ({ workflow }: WrapperProps) => {
    const form = useForm<DWorkflowUpdate>({
       defaultValues: initWorkflow(workflow),
+      mode: "all",
    });
 
    return (
