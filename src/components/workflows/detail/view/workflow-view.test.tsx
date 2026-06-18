@@ -21,7 +21,7 @@ describe("WorkflowView rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertInDocument(screen.getByTestId("workflow-steps-list"));
+         assertInDocument(screen.getByTestId("workflow-steps"));
       });
 
       expect(container).toMatchSnapshot();
