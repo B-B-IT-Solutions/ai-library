@@ -212,7 +212,7 @@ export class WorkflowRepository {
       await this.prisma.workflow.delete(args);
    }
 
-   private async pCreateWorkflowSteps(
+   async pCreateWorkflowSteps(
       workflowId: string,
       steps: DWorkflowStepUpdate[]
    ) {
@@ -223,7 +223,7 @@ export class WorkflowRepository {
                title: step.title,
                hint: step.hint ?? null,
                type: step.type,
-               promptId: step.promptId ?? null,
+               promnptId: step.promptId ?? null,
                content: step.content ?? null,
                edgeId: step.edgeId,
                isStart: step.isStart,
@@ -237,7 +237,7 @@ export class WorkflowRepository {
       }
    }
 
-   private async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
+   async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
       for (const step of steps) {
          const stepId = step.id!;
          const deleteEdgesArgs = {
@@ -270,7 +270,7 @@ export class WorkflowRepository {
       }
    }
 
-   private async pDeleteWorkflowSteps(stepIdsToDelete: string[]) {
+   async pDeleteWorkflowSteps(stepIdsToDelete: string[]) {
       if (!isEmpty(stepIdsToDelete)) {
          const args = {
             where: { id: { in: stepIdsToDelete } },

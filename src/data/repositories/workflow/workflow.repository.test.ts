@@ -374,36 +374,67 @@ describe("pUpdateWorkflow", () => {
       mockReset(prismaMock);
    });
 
-   it("workflow updated - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("updates workflow with correct args and returns mapped result - test", async () => {
       const userId = "user-id-1";
       const workflow = ptestData.pWorkflow(1);
       prismaMock.workflow.update.mockResolvedValue(workflow);
       prismaMock.workflowStep.findMany.mockResolvedValue([]);
+      jest.spyOn(repository, "pDeleteWorkflowSteps").mockImplementation(async () => {});
+      jest.spyOn(repository, "pCreateWorkflowSteps").mockImplementation(async () => {});
+      jest.spyOn(repository, "pUpdateWorkflowSteps").mockImplementation(async () => {});
 
       const updateData = dtestData.dWorkflowUpdate();
-
-      const result = await repository.pUpdateWorkflow(
-         userId,
-         workflow.id,
-         updateData
-      );
+      const result = await repository.pUpdateWorkflow(userId, workflow.id, updateData);
 
       const expectedResult = toDWorkflow(workflow);
-
       const expectedArgs: WorkflowUpdateArgs = {
-         where: {
-            id: workflow.id,
-            userId,
-         },
-         data: {
-            title: workflow.title,
-            description: workflow.description,
-         },
+         where: { id: workflow.id, userId },
+         data: { title: updateData.title, description: updateData.description },
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.update).toHaveBeenCalledWith(expectedArgs);
+   });
+
+   it("categorizes steps into new/updated/deleted groups - test", async () => {
+      const userId = "user-id-1";
+      const workflow = ptestData.pWorkflow(1);
+      const existingStep = ptestData.pWorkflowStep(1);
+      const stepToDelete = ptestData.pWorkflowStep(2);
+      prismaMock.workflow.update.mockResolvedValue(workflow);
+      prismaMock.workflowStep.findMany.mockResolvedValue([existingStep, stepToDelete]);
+
+      const spyDelete = jest
+         .spyOn(repository, "pDeleteWorkflowSteps")
+         .mockImplementation(async () => {});
+      const spyCreate = jest
+         .spyOn(repository, "pCreateWorkflowSteps")
+         .mockImplementation(async () => {});
+      const spyUpdate = jest
+         .spyOn(repository, "pUpdateWorkflowSteps")
+         .mockImplementation(async () => {});
+
+      const newStep = dtestData.dWorkflowStepUpdate(0);
+      const updatedStep: DWorkflowStepUpdate = {
+         ...dtestData.dWorkflowStepUpdate(1),
+         id: existingStep.id,
+      };
+      const data: DWorkflowUpdate = {
+         title: workflow.title,
+         description: workflow.description,
+         steps: [newStep, updatedStep],
+      };
+
+      await repository.pUpdateWorkflow(userId, workflow.id, data);
+
+      expect(spyDelete).toHaveBeenCalledWith([stepToDelete.id]);
+      expect(spyCreate).toHaveBeenCalledWith(workflow.id, [newStep]);
+      expect(spyUpdate).toHaveBeenCalledWith([updatedStep]);
    });
 });
 
@@ -431,84 +462,101 @@ describe("pDeleteWorkflow", () => {
    });
 });
 
-describe("pUpdateWorkflow step operations", () => {
-   const userId = "user-id-1";
-
+describe("pDeleteWorkflowSteps", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("creates new steps - test", async () => {
-      const workflow = ptestData.pWorkflow(1);
-      prismaMock.workflow.update.mockResolvedValue(workflow);
-      prismaMock.workflowStep.findMany.mockResolvedValue([]);
+   it("empty list - no call - test", async () => {
+      await repository.pDeleteWorkflowSteps([]);
+      expect(prismaMock.workflowStep.deleteMany).not.toHaveBeenCalled();
+   });
 
-      const newStep: DWorkflowStepUpdate = dtestData.dWorkflowStepUpdate(0);
-      const data: DWorkflowUpdate = {
-         title: workflow.title,
-         description: workflow.description,
-         steps: [newStep],
+   it("deletes steps by ids - test", async () => {
+      const ids = ["step-id-1", "step-id-2"];
+
+      await repository.pDeleteWorkflowSteps(ids);
+
+      const expectedArgs: WorkflowStepDeleteManyArgs = {
+         where: { id: { in: ids } },
       };
 
-      await repository.pUpdateWorkflow(userId, workflow.id, data);
+      expect(prismaMock.workflowStep.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStep.deleteMany).toHaveBeenCalledWith(expectedArgs);
+   });
+});
 
-      const expectedCreateArgs: WorkflowStepCreateManyArgs = {
+describe("pCreateWorkflowSteps", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("empty list - no call - test", async () => {
+      await repository.pCreateWorkflowSteps("workflow-id-1", []);
+      expect(prismaMock.workflowStep.createMany).not.toHaveBeenCalled();
+   });
+
+   it("creates steps with all fields - test", async () => {
+      const workflowId = "workflow-id-1";
+      const step = dtestData.dWorkflowStepUpdate(0);
+
+      await repository.pCreateWorkflowSteps(workflowId, [step]);
+
+      const expectedArgs: WorkflowStepCreateManyArgs = {
          data: [
             {
-               workflowId: workflow.id,
-               title: newStep.title,
-               hint: newStep.hint ?? null,
-               type: newStep.type,
-               promptId: newStep.promptId ?? null,
-               content: newStep.content ?? null,
-               edgeId: newStep.edgeId,
-               isStart: newStep.isStart,
-               position: newStep.position,
+               workflowId,
+               title: step.title,
+               hint: step.hint ?? null,
+               type: step.type,
+               promptId: step.promptId ?? null,
+               content: step.content ?? null,
+               edgeId: step.edgeId,
+               isStart: step.isStart,
+               position: step.position,
             },
          ],
       };
 
       expect(prismaMock.workflowStep.createMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledWith(
-         expectedCreateArgs
-      );
-      expect(prismaMock.workflowStep.deleteMany).not.toHaveBeenCalled();
+      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pUpdateWorkflowSteps", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("empty list - no calls - test", async () => {
+      await repository.pUpdateWorkflowSteps([]);
+      expect(prismaMock.workflowStepEdge.deleteMany).not.toHaveBeenCalled();
       expect(prismaMock.workflowStep.update).not.toHaveBeenCalled();
    });
 
-   it("updates existing steps - test", async () => {
-      const workflow = ptestData.pWorkflow(1);
-      const existingStep = ptestData.pWorkflowStep(1);
-      prismaMock.workflow.update.mockResolvedValue(workflow);
-      prismaMock.workflowStep.findMany.mockResolvedValue([existingStep]);
-
-      const updatedStep: DWorkflowStepUpdate = {
+   it("deletes edges and updates step - test", async () => {
+      const step: DWorkflowStepUpdate = {
          ...dtestData.dWorkflowStepUpdate(0),
-         id: existingStep.id,
-      };
-      const data: DWorkflowUpdate = {
-         title: workflow.title,
-         description: workflow.description,
-         steps: [updatedStep],
+         id: "step-id-1",
       };
 
-      await repository.pUpdateWorkflow(userId, workflow.id, data);
+      await repository.pUpdateWorkflowSteps([step]);
 
       const expectedDeleteEdgesArgs: WorkflowStepEdgeDeleteManyArgs = {
-         where: { fromStepId: existingStep.id },
+         where: { fromStepId: step.id! },
       };
       const expectedUpdateArgs: WorkflowStepUpdateArgs = {
-         where: { id: existingStep.id },
+         where: { id: step.id! },
          data: {
-            title: updatedStep.title,
-            hint: updatedStep.hint ?? null,
-            type: updatedStep.type,
-            promptId: updatedStep.promptId ?? null,
-            content: updatedStep.content ?? null,
-            isStart: updatedStep.isStart,
-            position: updatedStep.position,
+            title: step.title,
+            hint: step.hint ?? null,
+            type: step.type,
+            promptId: step.promptId ?? null,
+            content: step.content ?? null,
+            isStart: step.isStart,
+            position: step.position,
             outgoingEdges: {
-               create: updatedStep.edges.map((e) => ({
+               create: step.edges.map((e) => ({
                   toStepId: e.toStepId,
                   label: e.label,
                   order: e.order,
@@ -518,46 +566,26 @@ describe("pUpdateWorkflow step operations", () => {
       };
 
       expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledWith(
-         expectedDeleteEdgesArgs
-      );
+      expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledWith(expectedDeleteEdgesArgs);
       expect(prismaMock.workflowStep.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.workflowStep.update).toHaveBeenCalledWith(
-         expectedUpdateArgs
-      );
-      expect(prismaMock.workflowStep.createMany).not.toHaveBeenCalled();
-      expect(prismaMock.workflowStep.deleteMany).not.toHaveBeenCalled();
+      expect(prismaMock.workflowStep.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 
-   it("deletes removed steps - test", async () => {
-      const workflow = ptestData.pWorkflow(1);
-      const stepToKeep = ptestData.pWorkflowStep(1);
-      const stepToDelete = ptestData.pWorkflowStep(2);
-      prismaMock.workflow.update.mockResolvedValue(workflow);
-      prismaMock.workflowStep.findMany.mockResolvedValue([
-         stepToKeep,
-         stepToDelete,
-      ]);
-
-      const keptStep: DWorkflowStepUpdate = {
+   it("processes each step independently - test", async () => {
+      const step1: DWorkflowStepUpdate = {
          ...dtestData.dWorkflowStepUpdate(0),
-         id: stepToKeep.id,
+         id: "step-id-1",
          edges: [],
       };
-      const data: DWorkflowUpdate = {
-         title: workflow.title,
-         description: workflow.description,
-         steps: [keptStep],
+      const step2: DWorkflowStepUpdate = {
+         ...dtestData.dWorkflowStepUpdate(1),
+         id: "step-id-2",
+         edges: [],
       };
 
-      await repository.pUpdateWorkflow(userId, workflow.id, data);
+      await repository.pUpdateWorkflowSteps([step1, step2]);
 
-      const expectedDeleteArgs: WorkflowStepDeleteManyArgs = {
-         where: { id: { in: [stepToDelete.id] } },
-      };
-
-      expect(prismaMock.workflowStep.deleteMany).toHaveBeenCalledWith(
-         expectedDeleteArgs
-      );
+      expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledTimes(2);
+      expect(prismaMock.workflowStep.update).toHaveBeenCalledTimes(2);
    });
 });
