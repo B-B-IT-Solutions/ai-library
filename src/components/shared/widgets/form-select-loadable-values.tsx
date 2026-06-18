@@ -22,6 +22,7 @@ import {
 } from "@/components/shadcn/command";
 import {
    FormControl,
+   FormField,
    FormItem,
    FormLabel,
    FormMessage,
@@ -94,69 +95,75 @@ export const FormSelectLoadableValues = <T extends FieldValues>({
    };
 
    return (
-      <FormItem data-testid={name}>
-         {renderlabel()}
-         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild={true}>
-               <FormControl>
-                  <Button
-                     variant="outline"
-                     role="combobox"
-                     aria-expanded={open}
-                     className="w-full justify-between font-normal"
-                     data-testid="item-select"
-                  >
-                     <span className="truncate">
-                        {selected ? selected.title : "Prompt auswählen…"}
-                     </span>
-                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-               </FormControl>
-            </PopoverTrigger>
-            <PopoverContent
-               className="p-0"
-               align="start"
-               style={{
-                  width: "var(--radix-popover-trigger-width)",
-               }}
-            >
-               <Command>
-                  <CommandInput
-                     placeholder={placeholder}
-                     value={search}
-                     onValueChange={setSearch}
-                     data-testid="search-input"
-                  />
-                  <CommandList>
-                     <SelectCommandEmpty isLoading={isLoading} />
-                     <CommandGroup>
-                        <InfiniteScroll
-                           hasMore={hasNextPage}
-                           isLoading={isFetching}
-                           next={fetchNextPage}
-                           threshold={0.1}
+      <FormField
+         control={control}
+         name={name}
+         render={({ field }) => (
+            <FormItem data-testid={name}>
+               {renderlabel()}
+               <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild={true}>
+                     <FormControl>
+                        <Button
+                           variant="outline"
+                           role="combobox"
+                           aria-expanded={open}
+                           className="w-full justify-between font-normal"
+                           data-testid="item-select"
                         >
-                           {items.map((item) => {
-                              return (
-                                 <SelectCommandItem
-                                    key={item.id}
-                                    item={item}
-                                    isSelected={field.value === item.id}
-                                    onSelect={() => {
-                                       field.onChange(item.id);
-                                       setOpen(false);
-                                    }}
-                                 />
-                              );
-                           })}
-                        </InfiniteScroll>
-                     </CommandGroup>
-                  </CommandList>
-               </Command>
-            </PopoverContent>
-         </Popover>
-         <FormMessage />
-      </FormItem>
+                           <span className="truncate">
+                              {selected ? selected.title : "Prompt auswählen…"}
+                           </span>
+                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                     </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent
+                     className="p-0"
+                     align="start"
+                     style={{
+                        width: "var(--radix-popover-trigger-width)",
+                     }}
+                  >
+                     <Command>
+                        <CommandInput
+                           placeholder={placeholder}
+                           value={search}
+                           onValueChange={setSearch}
+                           data-testid="search-input"
+                        />
+                        <CommandList>
+                           <SelectCommandEmpty isLoading={isLoading} />
+                           <CommandGroup>
+                              <InfiniteScroll
+                                 hasMore={hasNextPage}
+                                 isLoading={isFetching}
+                                 next={fetchNextPage}
+                                 threshold={0.1}
+                              >
+                                 {items.map((item) => {
+                                    return (
+                                       <SelectCommandItem
+                                          key={item.id}
+                                          item={item}
+                                          isSelected={field.value === item.id}
+                                          onSelect={() => {
+                                             field.onChange(item.id);
+                                             setOpen(false);
+                                          }}
+                                       />
+                                    );
+                                 })}
+                              </InfiniteScroll>
+                           </CommandGroup>
+                        </CommandList>
+                     </Command>
+                  </PopoverContent>
+               </Popover>
+               <FormMessage />
+            </FormItem>
+         )}
+      />
    );
 };
 

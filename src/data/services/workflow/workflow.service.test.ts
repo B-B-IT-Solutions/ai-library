@@ -26,19 +26,6 @@ const workflowService = new WorkflowService(
    subscriptionServiceMock
 );
 
-const userId = "334db648-f300-4284-8149-075ff465d750";
-const workflowId = "444db648-f300-4284-8149-075ff465d750";
-
-const baseWorkflow = {
-   id: workflowId,
-   title: "Test Workflow",
-   description: null,
-   stepCount: 0,
-   updatedAt: new Date().toISOString(),
-   createdAt: new Date().toISOString(),
-   steps: [],
-};
-
 describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -130,6 +117,7 @@ describe("updateWorkflow", () => {
    });
 
    it("workflow null - test", async () => {
+      const userId = "user-id-1";
       const workflowId = "workflow-id-1";
       workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
@@ -147,6 +135,7 @@ describe("updateWorkflow", () => {
    });
 
    it("workflow updated - test", async () => {
+      const userId = "user-id-1";
       const workflow = dtestData.dWorkflow();
       workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
 
@@ -180,6 +169,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("workflow null - test", async () => {
+      const userId = "user-id-1";
       const workflowId = "workflow-id-1";
       workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
@@ -195,6 +185,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("workflow deleted - test", async () => {
+      const userId = "user-id-1";
       const workflow = dtestData.dWorkflow();
       workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
 
@@ -212,84 +203,5 @@ describe("deleteWorkflow", () => {
          userId,
          workflow.id
       );
-   });
-});
-
-describe("createWorkflowStep", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("should throw when workflow not found", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
-
-      await expect(
-         workflowService.createWorkflowStep(userId, workflowId, {
-            title: "Step",
-            type: "STANDALONE",
-            content: "content",
-            isStart: true,
-            position: 0,
-            edges: [],
-         })
-      ).rejects.toThrow("Workflow not found.");
-   });
-
-   it("should allow PRO user to exceed 10 steps", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-      workflowRepoMock.pCreateWorkflowStep.mockResolvedValue(baseWorkflow);
-
-      const stepsCount = 10;
-      workflowRepoMock.pCountWorkflowSteps.mockResolvedValue(stepsCount);
-
-      const result = await workflowService.createWorkflowStep(
-         userId,
-         workflowId,
-         {
-            title: "Step 11",
-            type: "STANDALONE",
-            content: "content",
-            isStart: false,
-            position: 10,
-            edges: [],
-         }
-      );
-
-      expect(result).toEqual(baseWorkflow);
-      expect(workflowRepoMock.pCreateWorkflowStep).toHaveBeenCalledTimes(1);
-      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.requireCountLimit).toHaveBeenCalledWith(
-         userId,
-         "maxWorkflowSteps",
-         stepsCount
-      );
-   });
-});
-
-describe("updateWorkflowStep with cycle detection", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("should detect cycle and throw", async () => {
-      workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
-
-      workflowRepoMock.pGetWorkflowStepsForCycleCheck.mockResolvedValue([
-         { id: "step-a", outgoingEdges: [{ toStepId: "step-b" }] },
-         { id: "step-b", outgoingEdges: [] },
-      ]);
-
-      await expect(
-         workflowService.updateWorkflowStep(userId, "step-b", workflowId, {
-            title: "B",
-            type: "STANDALONE",
-            content: "b",
-            isStart: false,
-            position: 1,
-            edges: [{ toStepId: "step-a", label: "Back", order: 0 }],
-         })
-      ).rejects.toThrow("Endlosschleife");
    });
 });

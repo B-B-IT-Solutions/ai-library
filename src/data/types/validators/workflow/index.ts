@@ -1,5 +1,5 @@
 export {
    updateWorkflowSchema,
    updateWorkflowStepSchema,
-   workflowEdgeInputSchema,
+   updateWorkflowEdgeSchema,
 } from "./workflow.schema";

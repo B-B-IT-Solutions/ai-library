@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AlertTriangle, ArrowLeft, ChevronRight, Info, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { UsePromptForm } from "@/components/prompt-templating/use-prompt/use-prompt-form";
 import { Badge } from "@/components/shadcn/badge";
@@ -27,16 +26,19 @@ type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
 type Props = {
    workflow: DWorkflowWithSteps;
-   initialTemplateData: TemplateDataCache;
+   initialTemplateData?: TemplateDataCache;
+   onClose?: () => void;
 };
 
-export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
-   const router = useRouter();
-
+export const WorkflowRunner = ({
+   workflow,
+   initialTemplateData = {},
+   onClose,
+}: Props) => {
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
-      historyStack: startStep ? [startStep.id] : [],
+      historyStack: startStep ? [startStep.edgeId] : [],
       currentIndex: 0,
    }));
 
@@ -44,7 +46,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
       useState<TemplateDataCache>(initialTemplateData);
 
    const currentStepId = state.historyStack[state.currentIndex];
-   const currentStep = workflow.steps.find((s) => s.id === currentStepId);
+   const currentStep = workflow.steps.find((s) => s.edgeId === currentStepId);
    const outgoingEdges = currentStep?.outgoingEdges ?? [];
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
    const canGoBack = state.currentIndex > 0;
@@ -52,7 +54,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
    const handleChooseEdge = async (toStepId: string) => {
       // Load template data lazily if needed
       if (!templateDataCache[toStepId]) {
-         const nextStep = workflow.steps.find((s) => s.id === toStepId);
+         const nextStep = workflow.steps.find((s) => s.edgeId === toStepId);
          if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
             try {
                const data = await getPromptGenerationData(nextStep.promptId);
@@ -82,7 +84,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
 
    const handleRestart = () => {
       setState({
-         historyStack: startStep ? [startStep.id] : [],
+         historyStack: startStep ? [startStep.edgeId] : [],
          currentIndex: 0,
       });
    };
@@ -145,13 +147,11 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             <Button
                variant="ghost"
                size="sm"
-               asChild
+               onClick={onClose}
                data-testid="runner-close-btn"
             >
-               <Link href="/workflows">
-                  <X className="mr-1 h-4 w-4" />
-                  Beenden
-               </Link>
+               <X className="mr-1 h-4 w-4" />
+               Beenden
             </Button>
          </div>
 
@@ -160,7 +160,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             {state.historyStack
                .slice(0, state.currentIndex + 1)
                .map((stepId, idx) => {
-                  const step = workflow.steps.find((s) => s.id === stepId);
+                  const step = workflow.steps.find((s) => s.edgeId === stepId);
                   const isCurrent = idx === state.currentIndex;
                   return (
                      <span key={stepId} className="flex items-center gap-1">
@@ -186,7 +186,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             {currentStep ? (
                <StepRenderer
                   step={currentStep}
-                  templateData={templateDataCache[currentStep.id] ?? null}
+                  templateData={templateDataCache[currentStep.edgeId] ?? null}
                />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>
@@ -196,7 +196,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
          {/* Navigation footer */}
          <div className="border-t bg-white px-6 py-4">
             {isCompleted ? (
-               <CompletedState onRestart={handleRestart} />
+               <CompletedState onRestart={handleRestart} onClose={onClose} />
             ) : (
                <NextStepButtons
                   edges={outgoingEdges}
@@ -290,7 +290,7 @@ const NextStepButtons = ({ edges, steps, onChoose }: NextStepButtonsProps) => {
             {edges
                .sort((a, b) => a.order - b.order)
                .map((edge) => {
-                  const target = steps.find((s) => s.id === edge.toStepId);
+                  const target = steps.find((s) => s.edgeId === edge.toStepId);
                   return (
                      <Button
                         key={edge.id}
@@ -314,9 +314,10 @@ const NextStepButtons = ({ edges, steps, onChoose }: NextStepButtonsProps) => {
 
 type CompletedStateProps = {
    onRestart: () => void;
+   onClose?: () => void;
 };
 
-const CompletedState = ({ onRestart }: CompletedStateProps) => (
+const CompletedState = ({ onRestart, onClose }: CompletedStateProps) => (
    <div className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex items-center gap-2 text-green-700">
          <span className="text-lg">✓</span>
@@ -330,8 +331,8 @@ const CompletedState = ({ onRestart }: CompletedStateProps) => (
          >
             Von vorne starten
          </Button>
-         <Button asChild data-testid="close-btn">
-            <Link href="/workflows">Schliessen</Link>
+         <Button onClick={onClose} data-testid="close-btn">
+            Schliessen
          </Button>
       </div>
    </div>

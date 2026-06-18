@@ -33,7 +33,7 @@ exports[`StepForm rendering tests type PROMPT_REF - test 1`] = `
         id="_r_0_-form-item"
         name="steps.1.title"
         placeholder="Schritt Titel"
-        value="step-title-2"
+        value="step-title-1"
       />
     </div>
     <div
@@ -241,7 +241,7 @@ exports[`StepForm rendering tests type PROMPT_REF - test 1`] = `
         placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
         rows="3"
       >
-        step-hint-2
+        step-hint-1
       </textarea>
     </div>
     <div
@@ -263,34 +263,38 @@ exports[`StepForm rendering tests type PROMPT_REF - test 1`] = `
       >
         Keine Verbindungen — dieser Schritt beendet den Workflow.
       </p>
-      <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full"
-        data-slot="button"
-        data-testid="add-edge-btn"
-        type="button"
+      <div
+        class="flex justify-end"
       >
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-plus mr-2 h-4 w-4"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+          data-slot="button"
+          data-testid="add-edge-btn"
+          type="button"
         >
-          <path
-            d="M5 12h14"
-          />
-          <path
-            d="M12 5v14"
-          />
-        </svg>
-        Verbindung hinzufügen
-      </button>
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-plus mr-2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12h14"
+            />
+            <path
+              d="M12 5v14"
+            />
+          </svg>
+          Verbindung hinzufügen
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -329,7 +333,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
         id="_r_9_-form-item"
         name="steps.1.title"
         placeholder="Schritt Titel"
-        value="step-title-2"
+        value="step-title-1"
       />
     </div>
     <div
@@ -998,7 +1002,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
         placeholder="Kontext oder Anweisungen für den Nutzer im Runner"
         rows="3"
       >
-        step-hint-2
+        step-hint-1
       </textarea>
     </div>
     <div
@@ -1077,7 +1081,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
                 data-slot="select-value"
                 style="pointer-events: none;"
               >
-                step-title-3
+                step-title-2
               </span>
               <svg
                 aria-hidden="true"
@@ -1200,7 +1204,9 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
               <span
                 data-slot="select-value"
                 style="pointer-events: none;"
-              />
+              >
+                step-title-2
+              </span>
               <svg
                 aria-hidden="true"
                 class="lucide lucide-chevron-down size-4 opacity-50"
@@ -1261,34 +1267,38 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
           </svg>
         </button>
       </div>
-      <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full"
-        data-slot="button"
-        data-testid="add-edge-btn"
-        type="button"
+      <div
+        class="flex justify-end"
       >
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-plus mr-2 h-4 w-4"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+          data-slot="button"
+          data-testid="add-edge-btn"
+          type="button"
         >
-          <path
-            d="M5 12h14"
-          />
-          <path
-            d="M12 5v14"
-          />
-        </svg>
-        Verbindung hinzufügen
-      </button>
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-plus mr-2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12h14"
+            />
+            <path
+              d="M12 5v14"
+            />
+          </svg>
+          Verbindung hinzufügen
+        </button>
+      </div>
     </div>
   </div>
 </div>

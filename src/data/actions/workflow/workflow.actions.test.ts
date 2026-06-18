@@ -6,26 +6,18 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { WorkflowService } from "@/data/services/workflow";
-import {
-   DWorkflow,
-   DWorkflowsUsage,
-   DWorkflowWithSteps,
-} from "@/data/types/domain/workflow";
+import { DWorkflow, DWorkflowsUsage } from "@/data/types/domain/workflow";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 
 import {
    createWorkflow,
-   createWorkflowStep,
    deleteWorkflow,
-   deleteWorkflowStep,
    getWorkflowForRunner,
    getWorkflowsPage,
    getWorkflowsUsage,
    getWorkflowWithSteps,
-   setStartStep,
    updateWorkflow,
-   updateWorkflowStep,
 } from "./workflow.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -36,10 +28,6 @@ const sGetWorkflowsUsage = WorkflowService.prototype.getWorkflowsUsage;
 const sCreateWorkflow = WorkflowService.prototype.createWorkflow;
 const sUpdateWorkflow = WorkflowService.prototype.updateWorkflow;
 const sDeleteWorkflow = WorkflowService.prototype.deleteWorkflow;
-const sCreateWorkflowStep = WorkflowService.prototype.createWorkflowStep;
-const sUpdateWorkflowStep = WorkflowService.prototype.updateWorkflowStep;
-const sDeleteWorkflowStep = WorkflowService.prototype.deleteWorkflowStep;
-const sSetStartStep = WorkflowService.prototype.setStartStep;
 
 const sGetWorkflowsPageMock = sGetWorkflowsPage as jest.MockedFunction<
    typeof sGetWorkflowsPage
@@ -59,21 +47,6 @@ const sUpdateWorkflowMock = sUpdateWorkflow as jest.MockedFunction<
 const sDeleteWorkflowMock = sDeleteWorkflow as jest.MockedFunction<
    typeof sDeleteWorkflow
 >;
-const sCreateWorkflowStepMock = sCreateWorkflowStep as jest.MockedFunction<
-   typeof sCreateWorkflowStep
->;
-const sUpdateWorkflowStepMock = sUpdateWorkflowStep as jest.MockedFunction<
-   typeof sUpdateWorkflowStep
->;
-const sDeleteWorkflowStepMock = sDeleteWorkflowStep as jest.MockedFunction<
-   typeof sDeleteWorkflowStep
->;
-const sSetStartStepMock = sSetStartStep as jest.MockedFunction<
-   typeof sSetStartStep
->;
-
-const workflowId = "444db648-f300-4284-8149-075ff465d750";
-const stepId = "555db648-f300-4284-8149-075ff465d750";
 
 describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
@@ -153,6 +126,7 @@ describe("getWorkflowWithSteps tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
       const result = await getWorkflowWithSteps(workflowId);
 
@@ -168,6 +142,8 @@ describe("getWorkflowWithSteps tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       sGetWorkflowWithStepsMock.mockResolvedValue(null);
+
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
       const result = await getWorkflowWithSteps(workflowId);
 
@@ -186,6 +162,7 @@ describe("getWorkflowWithSteps tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sGetWorkflowWithStepsMock.mockResolvedValue(workflow);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowWithSteps(workflowId);
 
       expect(result).toEqual(workflow);
@@ -368,6 +345,7 @@ describe("updateWorkflow tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -390,6 +368,7 @@ describe("updateWorkflow tests", () => {
       sUpdateWorkflowMock.mockRejectedValue(error);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -415,6 +394,7 @@ describe("updateWorkflow tests", () => {
       sUpdateWorkflowMock.mockResolvedValue(workflow);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult<DWorkflow> = {
@@ -462,6 +442,7 @@ describe("deleteWorkflow tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -483,6 +464,7 @@ describe("deleteWorkflow tests", () => {
       const error = new Error("db error");
       sDeleteWorkflowMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -502,6 +484,7 @@ describe("deleteWorkflow tests", () => {
 
       sDeleteWorkflowMock.mockResolvedValue();
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -513,480 +496,6 @@ describe("deleteWorkflow tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteWorkflowMock).toHaveBeenCalledTimes(1);
       expect(sDeleteWorkflowMock).toHaveBeenCalledWith(user.id, workflowId);
-   });
-});
-
-describe("createWorkflowStep tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid UUID - test", async () => {
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await createWorkflowStep("invalid-uuid", data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht hinzugefügt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sCreateWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await createWorkflowStep(workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht hinzugefügt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("step limit error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new SubscriptionAccessError(
-         "Maximale Schrittanzahl erreicht",
-         "canUseWorkflows"
-      );
-      sCreateWorkflowStepMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await createWorkflowStep(workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: error.message,
-         upgradeRequired: true,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         workflowId,
-         data
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sCreateWorkflowStepMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await createWorkflowStep(workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht hinzugefügt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         workflowId,
-         data
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("step created - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const workflow = dtestData.dWorkflowWithSteps();
-      sCreateWorkflowStepMock.mockResolvedValue(workflow);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await createWorkflowStep(workflowId, data);
-
-      const expectedResult: ActionResult<DWorkflowWithSteps> = {
-         success: true,
-         message: "Schritt erfolgreich hinzugefügt",
-         data: workflow,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sCreateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         workflowId,
-         data
-      );
-   });
-});
-
-describe("updateWorkflowStep tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid stepId - test", async () => {
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep("invalid-uuid", workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("invalid workflowId - test", async () => {
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep(stepId, "invalid-uuid", data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep(stepId, workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("cycle error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("Diese Verbindung erzeugt eine Endlosschleife");
-      sUpdateWorkflowStepMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep(stepId, workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Diese Verbindung erzeugt eine Endlosschleife",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         stepId,
-         workflowId,
-         data
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sUpdateWorkflowStepMock.mockRejectedValue(error);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep(stepId, workflowId, data);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         stepId,
-         workflowId,
-         data
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("step updated - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const workflow = dtestData.dWorkflowWithSteps();
-      sUpdateWorkflowStepMock.mockResolvedValue(workflow);
-
-      const data = dtestData.dWorkflowStepUpdate();
-      const result = await updateWorkflowStep(stepId, workflowId, data);
-
-      const expectedResult: ActionResult<DWorkflowWithSteps> = {
-         success: true,
-         message: "Schritt erfolgreich aktualisiert",
-         data: workflow,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         stepId,
-         workflowId,
-         data
-      );
-   });
-});
-
-describe("deleteWorkflowStep tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid stepId - test", async () => {
-      const result = await deleteWorkflowStep("invalid-uuid", workflowId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("invalid workflowId - test", async () => {
-      const result = await deleteWorkflowStep(stepId, "invalid-uuid");
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await deleteWorkflowStep(stepId, workflowId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteWorkflowStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sDeleteWorkflowStepMock.mockRejectedValue(error);
-
-      const result = await deleteWorkflowStep(stepId, workflowId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Schritt konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sDeleteWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         stepId,
-         workflowId
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("step deleted - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const workflow = dtestData.dWorkflowWithSteps();
-      sDeleteWorkflowStepMock.mockResolvedValue(workflow);
-
-      const result = await deleteWorkflowStep(stepId, workflowId);
-
-      const expectedResult: ActionResult<DWorkflowWithSteps> = {
-         success: true,
-         message: "Schritt erfolgreich gelöscht",
-         data: workflow,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteWorkflowStepMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteWorkflowStepMock).toHaveBeenCalledWith(
-         user.id,
-         stepId,
-         workflowId
-      );
-   });
-});
-
-describe("setStartStep tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid workflowId - test", async () => {
-      const result = await setStartStep("invalid-uuid", stepId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Startschritt konnte nicht gesetzt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sSetStartStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("invalid stepId - test", async () => {
-      const result = await setStartStep(workflowId, "invalid-uuid");
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Startschritt konnte nicht gesetzt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sSetStartStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await setStartStep(workflowId, stepId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Startschritt konnte nicht gesetzt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sSetStartStepMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sSetStartStepMock.mockRejectedValue(error);
-
-      const result = await setStartStep(workflowId, stepId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Startschritt konnte nicht gesetzt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sSetStartStepMock).toHaveBeenCalledTimes(1);
-      expect(sSetStartStepMock).toHaveBeenCalledWith(
-         user.id,
-         workflowId,
-         stepId
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("start step set - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      sSetStartStepMock.mockResolvedValue();
-
-      const result = await setStartStep(workflowId, stepId);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Startschritt gesetzt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sSetStartStepMock).toHaveBeenCalledTimes(1);
-      expect(sSetStartStepMock).toHaveBeenCalledWith(
-         user.id,
-         workflowId,
-         stepId
-      );
    });
 });
 
@@ -1014,6 +523,7 @@ describe("getWorkflowForRunner tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowForRunner(workflowId);
 
       expect(result).toBeNull();
@@ -1030,6 +540,7 @@ describe("getWorkflowForRunner tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sGetWorkflowWithStepsMock.mockResolvedValue(workflow);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowForRunner(workflowId);
 
       expect(result).toEqual(workflow);

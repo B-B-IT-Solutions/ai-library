@@ -12,6 +12,10 @@ export const newWorkflowUrl = () => {
    return "/workflows/new";
 };
 
+export const editWorkflowUrl = (workflow: DWorkflow) => {
+   return `/workflows/${workflow.id}/edit`;
+};
+
 export const worfklowEditNavigateBackUrl = (workflow?: DWorkflow) => {
    const isEdit = isEditMode(workflow);
 

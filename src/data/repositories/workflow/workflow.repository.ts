@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -6,7 +6,6 @@ import {
    DWorkflowsPage,
    DWorkflowsPageQuery,
    DWorkflowStepUpdate,
-   DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
@@ -17,13 +16,13 @@ import {
    WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
-   WorkflowFindUniqueOrThrowArgs,
-   WorkflowStepCreateArgs,
-   WorkflowStepEdgeCreateWithoutFromStepInput,
+   WorkflowStepCreateManyArgs,
+   WorkflowStepCreateManyInput,
+   WorkflowStepDeleteManyArgs,
+   WorkflowStepEdgeDeleteManyArgs,
    WorkflowStepFindManyArgs,
-   WorkflowStepUpdateManyArgs,
+   WorkflowStepUpdateArgs,
    WorkflowUpdateArgs,
-   WorkflowUpdateInput,
 } from "@/generated/prisma/models";
 
 import { resolveOrderBy, resolveWhereInput } from "./utils";
@@ -119,6 +118,11 @@ export class WorkflowRepository {
                      orderBy: {
                         order: "asc" as const,
                      },
+                     include: {
+                        toStep: {
+                           select: { edgeId: true },
+                        },
+                     },
                   },
                },
             },
@@ -150,6 +154,9 @@ export class WorkflowRepository {
       } satisfies WorkflowCreateArgs;
 
       const workflow = await this.prisma.workflow.create(args);
+
+      await this.pCreateWorkflowSteps(workflow.id, data.steps);
+
       return toDWorkflow(workflow);
    }
 
@@ -158,19 +165,42 @@ export class WorkflowRepository {
       workflowId: string,
       data: DWorkflowUpdate
    ): Promise<DWorkflow> {
-      const input: WorkflowUpdateInput = {
-         title: data.title,
-         description: data.description,
-      };
-      const args = {
-         where: {
-            id: workflowId,
-            userId,
-         },
-         data: input,
+      const updateWorkflowArgs = {
+         where: { id: workflowId, userId },
+         data: { title: data.title, description: data.description },
       } satisfies WorkflowUpdateArgs;
 
-      const workflow = await this.prisma.workflow.update(args);
+      const workflow = await this.prisma.workflow.update(updateWorkflowArgs);
+
+      const existingStepsArgs = {
+         where: { workflowId },
+         select: { id: true },
+      } satisfies WorkflowStepFindManyArgs;
+
+      const existingSteps =
+         await this.prisma.workflowStep.findMany(existingStepsArgs);
+
+      const existingStepIds = map(existingSteps, (s) => s.id);
+      const submittedStepIds = new Set(
+         map(
+            filter(data.steps, (s) => !!s.id),
+            (s) => s.id!
+         )
+      );
+      const deletedStepIds = map(
+         filter(existingSteps, (s) => !submittedStepIds.has(s.id)),
+         (s) => s.id
+      );
+
+      const newSteps = filter(data.steps, (s) => !s.id);
+      const updatedSteps = filter(data.steps, (s) =>
+         includes(existingStepIds, s.id)
+      );
+
+      await this.pDeleteWorkflowSteps(deletedStepIds);
+      await this.pCreateWorkflowSteps(workflowId, newSteps);
+      await this.pUpdateWorkflowSteps(updatedSteps);
+
       return toDWorkflow(workflow);
    }
 
@@ -185,218 +215,71 @@ export class WorkflowRepository {
       await this.prisma.workflow.delete(args);
    }
 
-   async pCountWorkflowSteps(workflowId: string): Promise<number> {
-      return this.prisma.workflowStep.count({ where: { workflowId } });
-   }
-
-   async pCreateWorkflowStep(
-      userId: string,
+   async pCreateWorkflowSteps(
       workflowId: string,
-      data: DWorkflowStepUpdate
-   ): Promise<DWorkflowWithSteps> {
-      // If isStart is set, unset any existing start step first
-      if (data.isStart) {
-         const args = {
-            where: { workflowId },
-            data: { isStart: false },
-         } satisfies WorkflowStepUpdateManyArgs;
-
-         await this.prisma.workflowStep.updateMany(args);
-      }
-
-      const edgesArgs: WorkflowStepEdgeCreateWithoutFromStepInput[] = map(
-         data.edges,
-         (e) => {
+      steps: DWorkflowStepUpdate[]
+   ) {
+      if (!isEmpty(steps)) {
+         const inputArgs = map(steps, (step) => {
             return {
-               label: e.label,
-               order: e.order,
-               toStep: {
-                  connect: {
-                     id: e.toStepId,
-                  },
-               },
-            };
-         }
-      );
+               workflowId,
+               title: step.title,
+               hint: step.hint ?? null,
+               type: step.type,
+               promptId: step.promptId ?? null,
+               content: step.content ?? null,
+               edgeId: step.edgeId,
+               isStart: step.isStart,
+               position: step.position,
+            } satisfies WorkflowStepCreateManyInput;
+         }) satisfies WorkflowStepCreateManyInput[];
 
-      const args = {
-         data: {
-            workflowId,
-            title: data.title,
-            hint: data.hint ?? null,
-            type: data.type,
-            promptId: data.promptId,
-            content: data.content,
-            edgeId: data.edgeId,
-            isStart: data.isStart,
-            position: data.position,
-            outgoingEdges: {
-               create: edgesArgs,
-            },
-         },
-      } satisfies WorkflowStepCreateArgs;
-
-      await this.prisma.workflowStep.create(args);
-
-      const argsWorkflow = {
-         where: { id: workflowId, userId },
-         include: {
-            _count: { select: { steps: true } },
-            steps: {
-               orderBy: {
-                  position: "asc" as const,
-               },
-               include: {
-                  prompt: {
-                     select: { title: true },
-                  },
-                  outgoingEdges: {
-                     orderBy: { order: "asc" as const },
-                  },
-               },
-            },
-         },
-      } satisfies WorkflowFindUniqueOrThrowArgs;
-
-      const workflow =
-         await this.prisma.workflow.findUniqueOrThrow(argsWorkflow);
-
-      return toDWorkflowWithSteps(workflow);
+         await this.prisma.workflowStep.createMany({
+            data: inputArgs,
+         } satisfies WorkflowStepCreateManyArgs);
+      }
    }
 
-   async pUpdateWorkflowStep(
-      userId: string,
-      stepId: string,
-      data: DWorkflowStepUpdate
-   ): Promise<DWorkflowWithSteps> {
-      // Verify ownership
-      const step = await this.prisma.workflowStep.findFirstOrThrow({
-         where: { id: stepId, workflow: { userId } },
-         select: { workflowId: true },
-      });
-      const { workflowId } = step;
-
-      await this.prisma.$transaction(async (tx) => {
-         // If isStart toggled on, unset others
-         if (data.isStart) {
-            await tx.workflowStep.updateMany({
-               where: { workflowId, id: { not: stepId } },
-               data: { isStart: false },
-            });
-         }
-
-         // Replace all outgoing edges
-         await tx.workflowStepEdge.deleteMany({
+   async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
+      for (const step of steps) {
+         const stepId = step.id!;
+         const deleteEdgesArgs = {
             where: { fromStepId: stepId },
-         });
+         } satisfies WorkflowStepEdgeDeleteManyArgs;
 
-         await tx.workflowStep.update({
+         await this.prisma.workflowStepEdge.deleteMany(deleteEdgesArgs);
+
+         const updateStepsArgs = {
             where: { id: stepId },
             data: {
-               title: data.title,
-               hint: data.hint ?? null,
-               type: data.type,
-               templateId: data.promptId,
-               content: data.content,
-               isStart: data.isStart,
-               position: data.position,
+               title: step.title,
+               hint: step.hint ?? null,
+               type: step.type,
+               promptId: step.promptId ?? null,
+               content: step.content ?? null,
+               isStart: step.isStart,
+               position: step.position,
                outgoingEdges: {
-                  create: map(data.edges ?? [], (e) => ({
+                  create: map(step.edges, (e) => ({
                      toStepId: e.toStepId,
                      label: e.label,
                      order: e.order,
                   })),
                },
             },
-         });
-      });
+         } satisfies WorkflowStepUpdateArgs;
 
-      const workflow = await this.prisma.workflow.findUniqueOrThrow({
-         where: { id: workflowId, userId },
-         include: {
-            _count: { select: { steps: true } },
-            steps: {
-               orderBy: {
-                  position: "asc" as const,
-               },
-               include: {
-                  prompt: {
-                     select: { title: true },
-                  },
-                  outgoingEdges: {
-                     orderBy: { order: "asc" as const },
-                  },
-               },
-            },
-         },
-      });
-      return toDWorkflowWithSteps(workflow);
+         await this.prisma.workflowStep.update(updateStepsArgs);
+      }
    }
 
-   async pDeleteWorkflowStep(
-      userId: string,
-      stepId: string
-   ): Promise<DWorkflowWithSteps> {
-      const step = await this.prisma.workflowStep.findFirstOrThrow({
-         where: { id: stepId, workflow: { userId } },
-         select: { workflowId: true },
-      });
-      const { workflowId } = step;
+   async pDeleteWorkflowSteps(stepIdsToDelete: string[]) {
+      if (!isEmpty(stepIdsToDelete)) {
+         const args = {
+            where: { id: { in: stepIdsToDelete } },
+         } satisfies WorkflowStepDeleteManyArgs;
 
-      await this.prisma.workflowStep.delete({ where: { id: stepId } });
-
-      const workflow = await this.prisma.workflow.findUniqueOrThrow({
-         where: { id: workflowId, userId },
-         include: {
-            _count: { select: { steps: true } },
-            steps: {
-               orderBy: {
-                  position: "asc" as const,
-               },
-               include: {
-                  prompt: {
-                     select: { title: true },
-                  },
-                  outgoingEdges: {
-                     orderBy: { order: "asc" as const },
-                  },
-               },
-            },
-         },
-      });
-      return toDWorkflowWithSteps(workflow);
-   }
-
-   async pSetStartStep(
-      userId: string,
-      workflowId: string,
-      stepId: string
-   ): Promise<void> {
-      await this.prisma.$transaction([
-         this.prisma.workflowStep.updateMany({
-            where: { workflowId, workflow: { userId } },
-            data: { isStart: false },
-         }),
-         this.prisma.workflowStep.update({
-            where: { id: stepId },
-            data: { isStart: true },
-         }),
-      ]);
-   }
-
-   async pGetWorkflowStepsForCycleCheck(
-      workflowId: string
-   ): Promise<DWorkflowStepWithOutgoingEdges[]> {
-      const args = {
-         where: { workflowId },
-         select: {
-            id: true,
-            outgoingEdges: {
-               select: { toStepId: true },
-            },
-         },
-      } satisfies WorkflowStepFindManyArgs;
-
-      return this.prisma.workflowStep.findMany(args);
+         await this.prisma.workflowStep.deleteMany(args);
+      }
    }
 }

@@ -2,6 +2,7 @@ import { dtestData } from "@tests";
 
 import {
    breadcrumbRootUrl,
+   editWorkflowUrl,
    isEditMode,
    newWorkflowUrl,
    viewWorkflowUrl,
@@ -37,6 +38,14 @@ describe("newWorkflowUrl - tests", () => {
    it("url - test", () => {
       const result = newWorkflowUrl();
       expect(result).toBe("/workflows/new");
+   });
+});
+
+describe("editWorkflowUrl - tests", () => {
+   it("workflow url - test", () => {
+      const workflow = dtestData.dWorkflow();
+      const result = editWorkflowUrl(workflow);
+      expect(result).toBe(`/workflows/${workflow.id}/edit`);
    });
 });
 

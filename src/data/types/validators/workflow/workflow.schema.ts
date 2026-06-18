@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const workflowEdgeInputSchema = z.object({
+export const updateWorkflowEdgeSchema = z.object({
    toStepId: z.uuid("Ungültige Schritt-ID"),
    label: z
       .string()
@@ -11,6 +11,7 @@ export const workflowEdgeInputSchema = z.object({
 
 export const updateWorkflowStepSchema = z
    .object({
+      id: z.uuid().optional(),
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
       type: z.enum(["PROMPT_REF", "STANDALONE"]),
@@ -19,31 +20,21 @@ export const updateWorkflowStepSchema = z
       isStart: z.boolean(),
       position: z.number().int().min(0),
       edgeId: z.uuid(),
-      edges: z.array(workflowEdgeInputSchema),
+      edges: z.array(updateWorkflowEdgeSchema),
    })
    .superRefine((data, ctx) => {
       if (data.type === "PROMPT_REF" && !data.promptId) {
          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Bitte ein Template auswählen",
+            code: "custom",
+            message: "Bitte einen Prompt auswählen",
             path: ["promptId"],
          });
       }
       if (data.type === "STANDALONE" && !data.content?.trim()) {
          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: "Prompt-Text darf nicht leer sein",
             path: ["content"],
-         });
-      }
-      // Prüfe auf Duplikat-Zielschritte
-      const toStepIds = data.edges.map((e) => e.toStepId);
-      const unique = new Set(toStepIds);
-      if (unique.size !== toStepIds.length) {
-         ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Dieser Schritt ist bereits als Ziel eingetragen",
-            path: ["edges"],
          });
       }
    });

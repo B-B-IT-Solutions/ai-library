@@ -3,15 +3,12 @@ import {
    DWorkflow,
    DWorkflowsPage,
    DWorkflowsPageQuery,
-   DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { SubscriptionService } from "../subscription";
-
-import { detectCycle } from "./utils";
 
 export class WorkflowService {
    constructor(
@@ -66,79 +63,6 @@ export class WorkflowService {
          throw new Error("Workflow not found.");
       }
       await this.repository.pDeleteWorkflow(userId, workflowId);
-   }
-
-   async createWorkflowStep(
-      userId: string,
-      workflowId: string,
-      data: DWorkflowStepUpdate
-   ): Promise<DWorkflowWithSteps> {
-      // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
-      if (!workflow) {
-         throw new Error("Workflow not found.");
-      }
-
-      const stepCount = await this.repository.pCountWorkflowSteps(workflowId);
-      const feature: FeatureName = "maxWorkflowSteps";
-      await this.subscriptionService.requireCountLimit(
-         userId,
-         feature,
-         stepCount
-      );
-
-      return this.repository.pCreateWorkflowStep(userId, workflowId, data);
-   }
-
-   async updateWorkflowStep(
-      userId: string,
-      stepId: string,
-      workflowId: string,
-      data: DWorkflowStepUpdate
-   ): Promise<DWorkflowWithSteps> {
-      // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
-      if (!workflow) {
-         throw new Error("Workflow not found.");
-      }
-
-      // Cycle detection
-      if (data.edges && data.edges.length > 0) {
-         const allSteps =
-            await this.repository.pGetWorkflowStepsForCycleCheck(workflowId);
-         detectCycle(
-            allSteps,
-            stepId,
-            data.edges.map((e) => e.toStepId)
-         );
-      }
-
-      return this.repository.pUpdateWorkflowStep(userId, stepId, data);
-   }
-
-   async deleteWorkflowStep(
-      userId: string,
-      stepId: string,
-      workflowId: string
-   ): Promise<DWorkflowWithSteps> {
-      // Verify ownership
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
-      if (!workflow) {
-         throw new Error("Workflow not found.");
-      }
-      return this.repository.pDeleteWorkflowStep(userId, stepId);
-   }
-
-   async setStartStep(
-      userId: string,
-      workflowId: string,
-      stepId: string
-   ): Promise<void> {
-      const workflow = await this.repository.pGetWorkflow(userId, workflowId);
-      if (!workflow) {
-         throw new Error("Workflow not found.");
-      }
-      await this.repository.pSetStartStep(userId, workflowId, stepId);
    }
 
    async getWorkflowsCount(userId: string): Promise<number> {

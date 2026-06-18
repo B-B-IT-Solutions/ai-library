@@ -28,7 +28,7 @@ exports[`StepItem rendering tests isSelected true - test 1`] = `
         <span
           class="truncate text-sm font-medium"
         >
-          step-title-1
+          step-title-0
         </span>
       </div>
       <div
@@ -186,7 +186,7 @@ exports[`StepItem rendering tests isStart false - test 1`] = `
         <span
           class="truncate text-sm font-medium"
         >
-          step-title-1
+          step-title-0
         </span>
       </div>
       <div
@@ -285,7 +285,7 @@ exports[`StepItem rendering tests isStart true - test 1`] = `
         <span
           class="truncate text-sm font-medium"
         >
-          step-title-1
+          step-title-0
         </span>
       </div>
       <div

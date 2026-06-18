@@ -1046,27 +1046,28 @@ export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
 };
 
 export const dWorkflowStepUpdates = (count = 3): DWorkflowStepUpdate[] => {
-   return range(0, count).map((i) => dWorkflowStepUpdate(i + 1));
+   return range(0, count).map((i) => dWorkflowStepUpdate(i));
 };
 
-export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
+export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
    return {
+      id: `step-id-${index}`,
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       type: "STANDALONE",
       promptId: null,
-      edgeId: `edge-id-${index}`,
+      edgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index}`,
       content: `content-${index}`,
-      isStart: index === 1,
-      position: index - 1,
+      isStart: index === 0,
+      position: index + 1,
       edges: [
          {
-            toStepId: `edge-id-${index + 1}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Weiter",
             order: 0,
          },
          {
-            toStepId: `edge-id-${index + 2}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 2}`,
             label: "Abbrechen",
             order: 1,
          },
@@ -1125,34 +1126,34 @@ export const dWorkflow = (index = 1): DWorkflow => {
 };
 
 export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
-   return range(0, count).map((i) => dWorkflowStep(i + 1));
+   return range(0, count).map((i) => dWorkflowStep(i));
 };
 
-export const dWorkflowStep = (index = 1): DWorkflowStep => {
+export const dWorkflowStep = (index = 0): DWorkflowStep => {
    return {
-      id: `step-id-000${index}`,
+      id: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
       workflowId: `workflow-id-0001`,
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       promptTitle: `prompt-${index}`,
       type: "STANDALONE",
       promptId: null,
-      edgeId: `edge-id-${index}`,
+      edgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index}`,
       content: `content-${index}`,
-      isStart: index === 1,
-      position: index - 1,
+      isStart: index === 0,
+      position: index + 1,
       outgoingEdges: [
          {
             id: "oe-1",
-            fromStepId: "step-id-0001",
-            toStepId: `edge-id-${index + 1}`,
+            fromStepId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Weiter",
             order: 0,
          },
          {
             id: "oe-2",
-            fromStepId: "step-id-0001",
-            toStepId: `edge-id-${index + 2}`,
+            fromStepId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Abbrechen",
             order: 1,
          },
@@ -1171,6 +1172,7 @@ export const dWorkflowStepWithOutgoingEdges = (
 ): DWorkflowStepWithOutgoingEdges => {
    return {
       id: `step-id-000${index}`,
+      edgeId: `edge-id-000${index}`,
       outgoingEdges: [
          {
             toStepId: `step-${index}-1`,

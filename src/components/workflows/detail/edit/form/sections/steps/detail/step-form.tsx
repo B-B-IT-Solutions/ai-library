@@ -22,6 +22,7 @@ import {
 import { Option } from "@/components/shared/widgets/form-select";
 import { infiniteLoadPromptPreviewsPageOptions } from "@/data/ts-queries/prompt";
 import {
+   DWorkflowStepEdgeUpdate,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
@@ -44,8 +45,8 @@ export const StepForm = ({ index, steps, control }: Props) => {
    });
 
    const {
-      fields: edgeFields,
-      append,
+      fields: edges,
+      append: addEdge,
       remove,
    } = useFieldArray({
       name: `steps.${index}.edges`,
@@ -60,6 +61,15 @@ export const StepForm = ({ index, steps, control }: Props) => {
          label: s.title,
       };
    });
+
+   const handleAddEdge = () => {
+      const newEdge: DWorkflowStepEdgeUpdate = {
+         toStepId: "",
+         label: "",
+         order: edges.length + 1,
+      };
+      addEdge(newEdge);
+   };
 
    return (
       <div
@@ -130,15 +140,15 @@ export const StepForm = ({ index, steps, control }: Props) => {
          <div className="space-y-3">
             <h3 className="text-sm font-semibold">Nächste Schritte</h3>
 
-            {edgeFields.length === 0 && (
+            {edges.length === 0 && (
                <p className="text-sm text-muted-foreground">
                   Keine Verbindungen — dieser Schritt beendet den Workflow.
                </p>
             )}
 
-            {edgeFields.map((edgeField, edgeIdx) => (
+            {map(edges, (_, edgeIdx) => (
                <div
-                  key={edgeField.id}
+                  key={edgeIdx}
                   className="flex items-end gap-2 rounded-md border p-3"
                >
                   <FormInput<DWorkflowUpdate>
@@ -172,23 +182,19 @@ export const StepForm = ({ index, steps, control }: Props) => {
                </div>
             ))}
 
-            <Button
-               type="button"
-               variant="outline"
-               size="sm"
-               onClick={() =>
-                  append({
-                     toStepId: "",
-                     label: "",
-                     order: edgeFields.length,
-                  })
-               }
-               className="w-full"
-               data-testid="add-edge-btn"
-            >
-               <Plus className="mr-2 h-4 w-4" />
-               Verbindung hinzufügen
-            </Button>
+            <div className="flex justify-end">
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddEdge}
+                  className="cursor-pointer"
+                  data-testid="add-edge-btn"
+               >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Verbindung hinzufügen
+               </Button>
+            </div>
          </div>
       </div>
    );

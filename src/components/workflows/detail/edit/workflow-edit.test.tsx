@@ -212,10 +212,7 @@ describe("WorkflowEdit functionality tests", () => {
    });
 
    it("edit mode - save clicked - success - test", async () => {
-      const workflow: DWorkflowWithSteps = {
-         ...dtestData.dWorkflow(),
-         steps: [],
-      };
+      const workflow = dtestData.dWorkflowWithSteps();
 
       const result: ActionResult<DWorkflowWithSteps> = {
          success: true,
@@ -240,7 +237,7 @@ describe("WorkflowEdit functionality tests", () => {
       const expectedPayload: DWorkflowUpdate = {
          title: initValue.title + "Mein Workflow",
          description: initValue.description,
-         steps: [],
+         steps: initValue.steps,
       };
 
       await waitFor(() => {
@@ -255,12 +252,7 @@ describe("WorkflowEdit functionality tests", () => {
    });
 
    it("edit mode - save clicked - failed - test", async () => {
-      // const workflow = dtestData.dWorkflowWithSteps();
-
-      const workflow: DWorkflowWithSteps = {
-         ...dtestData.dWorkflow(),
-         steps: [],
-      };
+      const workflow = dtestData.dWorkflowWithSteps();
 
       const result: ActionResult<DWorkflowWithSteps> = {
          success: false,
@@ -284,8 +276,7 @@ describe("WorkflowEdit functionality tests", () => {
       const expectedPayload: DWorkflowUpdate = {
          title: initValue.title + "Mein Workflow",
          description: initValue.description,
-         // steps: initValue.steps,
-         steps: [],
+         steps: initValue.steps,
       };
 
       await waitFor(() => {

@@ -7,13 +7,11 @@ import { formatError } from "@/data/actions/utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import { WorkflowLimitError } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import {
    DWorkflow,
    DWorkflowsPage,
    DWorkflowsPageQuery,
-   DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
@@ -130,142 +128,6 @@ export const deleteWorkflow = async (
       return {
          success: false,
          message: "Workflow konnte nicht gelöscht werden",
-      };
-   }
-};
-
-export const createWorkflowStep = async (
-   workflowId: string,
-   data: DWorkflowStepUpdate
-): Promise<ActionResult<DWorkflowWithSteps>> => {
-   try {
-      if (!isValidUuid(workflowId)) {
-         throw new Error("Invalid Workflow-ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-      const workflow = await service.createWorkflowStep(
-         user.id,
-         workflowId,
-         data
-      );
-      return {
-         success: true,
-         message: "Schritt erfolgreich hinzugefügt",
-         data: workflow,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      if (error instanceof SubscriptionAccessError) {
-         return {
-            success: false,
-            message: error.message,
-            upgradeRequired: true,
-         };
-      }
-      return {
-         success: false,
-         message: "Schritt konnte nicht hinzugefügt werden",
-      };
-   }
-};
-
-export const updateWorkflowStep = async (
-   stepId: string,
-   workflowId: string,
-   data: DWorkflowStepUpdate
-): Promise<ActionResult<DWorkflowWithSteps>> => {
-   try {
-      if (!isValidUuid(stepId)) {
-         throw new Error("Invalid Schritt-ID.");
-      }
-      if (!isValidUuid(workflowId)) {
-         throw new Error("Invalid Workflow-ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-      const workflow = await service.updateWorkflowStep(
-         user.id,
-         stepId,
-         workflowId,
-         data
-      );
-      return {
-         success: true,
-         message: "Schritt erfolgreich aktualisiert",
-         data: workflow,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      const msg = formatError(error);
-      if (msg.includes("Endlosschleife")) {
-         return {
-            success: false,
-            message: "Diese Verbindung erzeugt eine Endlosschleife",
-         };
-      }
-      return {
-         success: false,
-         message: "Schritt konnte nicht aktualisiert werden",
-      };
-   }
-};
-
-export const deleteWorkflowStep = async (
-   stepId: string,
-   workflowId: string
-): Promise<ActionResult<DWorkflowWithSteps>> => {
-   try {
-      if (!isValidUuid(stepId)) {
-         throw new Error("Invalid Schritt-ID.");
-      }
-      if (!isValidUuid(workflowId)) {
-         throw new Error("Invalid Workflow-ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-      const workflow = await service.deleteWorkflowStep(
-         user.id,
-         stepId,
-         workflowId
-      );
-      return {
-         success: true,
-         message: "Schritt erfolgreich gelöscht",
-         data: workflow,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Schritt konnte nicht gelöscht werden",
-      };
-   }
-};
-
-export const setStartStep = async (
-   workflowId: string,
-   stepId: string
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(workflowId)) {
-         throw new Error("Invalid Workflow-ID.");
-      }
-      if (!isValidUuid(stepId)) {
-         throw new Error("Invalid Schritt-ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-      await service.setStartStep(user.id, workflowId, stepId);
-      return {
-         success: true,
-         message: "Startschritt gesetzt",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Startschritt konnte nicht gesetzt werden",
       };
    }
 };
