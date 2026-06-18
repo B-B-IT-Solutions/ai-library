@@ -33,7 +33,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
-      historyStack: startStep ? [startStep.id] : [],
+      historyStack: startStep ? [startStep.edgeId] : [],
       currentIndex: 0,
    }));
 
@@ -41,7 +41,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
       useState<TemplateDataCache>(initialTemplateData);
 
    const currentStepId = state.historyStack[state.currentIndex];
-   const currentStep = workflow.steps.find((s) => s.id === currentStepId);
+   const currentStep = workflow.steps.find((s) => s.edgeId === currentStepId);
    const outgoingEdges = currentStep?.outgoingEdges ?? [];
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
    const canGoBack = state.currentIndex > 0;
@@ -49,7 +49,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
    const handleChooseEdge = async (toStepId: string) => {
       // Load template data lazily if needed
       if (!templateDataCache[toStepId]) {
-         const nextStep = workflow.steps.find((s) => s.id === toStepId);
+         const nextStep = workflow.steps.find((s) => s.edgeId === toStepId);
          if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
             try {
                const data = await getPromptGenerationData(nextStep.promptId);
@@ -79,7 +79,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
 
    const handleRestart = () => {
       setState({
-         historyStack: startStep ? [startStep.id] : [],
+         historyStack: startStep ? [startStep.edgeId] : [],
          currentIndex: 0,
       });
    };
@@ -157,7 +157,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             {state.historyStack
                .slice(0, state.currentIndex + 1)
                .map((stepId, idx) => {
-                  const step = workflow.steps.find((s) => s.id === stepId);
+                  const step = workflow.steps.find((s) => s.edgeId === stepId);
                   const isCurrent = idx === state.currentIndex;
                   return (
                      <span key={stepId} className="flex items-center gap-1">
@@ -183,7 +183,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             {currentStep ? (
                <StepRenderer
                   step={currentStep}
-                  templateData={templateDataCache[currentStep.id] ?? null}
+                  templateData={templateDataCache[currentStep.edgeId] ?? null}
                />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>
@@ -287,7 +287,7 @@ const NextStepButtons = ({ edges, steps, onChoose }: NextStepButtonsProps) => {
             {edges
                .sort((a, b) => a.order - b.order)
                .map((edge) => {
-                  const target = steps.find((s) => s.id === edge.toStepId);
+                  const target = steps.find((s) => s.edgeId === edge.toStepId);
                   return (
                      <Button
                         key={edge.id}

@@ -28,11 +28,11 @@ const RunWorkflowPage = async ({ params }: PageProps) => {
    const startStep = workflow.steps.find((s) => s.isStart);
    if (startStep?.type === "PROMPT_REF" && startStep.promptId) {
       try {
-         initialTemplateData[startStep.id] = await getPromptGenerationData(
+         initialTemplateData[startStep.edgeId] = await getPromptGenerationData(
             startStep.promptId
          );
       } catch {
-         initialTemplateData[startStep.id] = null;
+         initialTemplateData[startStep.edgeId] = null;
       }
    }
 
