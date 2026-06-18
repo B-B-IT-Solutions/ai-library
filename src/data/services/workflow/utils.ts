@@ -6,15 +6,15 @@ import { DWorkflowStepWithOutgoingEdges } from "@/data/types/domain/workflow";
  */
 export const detectCycle = (
    steps: DWorkflowStepWithOutgoingEdges[],
-   fromStepId: string,
+   fromStepEdgeId: string,
    newToStepIds: string[]
 ): void => {
    // Build adjacency map with the proposed new edges merged in
    const adj = new Map<string, string[]>();
    for (const s of steps) {
       adj.set(
-         s.id,
-         s.id === fromStepId
+         s.edgeId,
+         s.edgeId === fromStepEdgeId
             ? newToStepIds
             : s.outgoingEdges.map((e) => e.toStepId)
       );
@@ -46,8 +46,8 @@ export const detectCycle = (
    };
 
    for (const s of steps) {
-      if (!visited.has(s.id)) {
-         if (dfs(s.id)) {
+      if (!visited.has(s.edgeId)) {
+         if (dfs(s.edgeId)) {
             throw new Error("Diese Verbindung erzeugt eine Endlosschleife");
          }
       }

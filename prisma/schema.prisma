@@ -661,7 +661,7 @@ model WorkflowStep {
   type       WorkflowStepType
   promptId   String?          @map("prompt_id") @db.Uuid
   content    String?          @db.Text
-  edgeId     String           @map("edge_id") @db.Uuid
+  edgeId     String           @unique @map("edge_id") @db.Uuid
   isStart    Boolean          @default(false) @map("is_start")
   position   Int              @default(0)
   createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
@@ -685,7 +685,7 @@ model WorkflowStepEdge {
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
   fromStep WorkflowStep @relation("EdgeFrom", fields: [fromStepId], references: [id], onDelete: Cascade)
-  toStep   WorkflowStep @relation("EdgeTo", fields: [toStepId], references: [id], onDelete: Cascade)
+  toStep   WorkflowStep @relation("EdgeTo", fields: [toStepId], references: [edgeId], onDelete: Cascade)
 
   @@unique([fromStepId, toStepId])
   @@index([fromStepId])

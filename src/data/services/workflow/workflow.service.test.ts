@@ -277,8 +277,8 @@ describe("updateWorkflowStep with cycle detection", () => {
       workflowRepoMock.pGetWorkflow.mockResolvedValue(baseWorkflow);
 
       workflowRepoMock.pGetWorkflowStepsForCycleCheck.mockResolvedValue([
-         { id: "step-a", outgoingEdges: [{ toStepId: "step-b" }] },
-         { id: "step-b", outgoingEdges: [] },
+         { id: "step-a", edgeId: "step-a", outgoingEdges: [{ toStepId: "step-b" }] },
+         { id: "step-b", edgeId: "step-b", outgoingEdges: [] },
       ]);
 
       await expect(

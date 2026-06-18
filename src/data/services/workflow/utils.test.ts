@@ -6,7 +6,8 @@ const step = (
    id: string,
    toStepIds: string[] = []
 ): DWorkflowStepWithOutgoingEdges => ({
-   id,
+   id: `db-${id}`,
+   edgeId: id,
    outgoingEdges: toStepIds.map((toStepId) => ({ toStepId })),
 });
 

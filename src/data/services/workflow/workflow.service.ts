@@ -106,11 +106,14 @@ export class WorkflowService {
       if (data.edges && data.edges.length > 0) {
          const allSteps =
             await this.repository.pGetWorkflowStepsForCycleCheck(workflowId);
-         detectCycle(
-            allSteps,
-            stepId,
-            data.edges.map((e) => e.toStepId)
-         );
+         const fromStep = allSteps.find((s) => s.id === stepId);
+         if (fromStep) {
+            detectCycle(
+               allSteps,
+               fromStep.edgeId,
+               data.edges.map((e) => e.toStepId)
+            );
+         }
       }
 
       return this.repository.pUpdateWorkflowStep(userId, stepId, data);
