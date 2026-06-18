@@ -20,6 +20,7 @@ export const initWorkflow = (
 
 export const initWorkflowStep = (step?: DWorkflowStep): DWorkflowStepUpdate => {
    return {
+      id: step?.id,
       title: step?.title ?? "",
       hint: step?.hint ?? "",
       type: step?.type ?? "PROMPT_REF",

@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -19,10 +19,13 @@ import {
    WorkflowFindUniqueArgs,
    WorkflowFindUniqueOrThrowArgs,
    WorkflowStepCreateArgs,
+   WorkflowStepCreateManyArgs,
+   WorkflowStepCreateManyInput,
    WorkflowStepDeleteManyArgs,
    WorkflowStepEdgeCreateWithoutFromStepInput,
    WorkflowStepFindManyArgs,
    WorkflowStepUpdateManyArgs,
+   WorkflowStepUpdateManyMutationInput,
 } from "@/generated/prisma/models";
 
 import { resolveOrderBy, resolveWhereInput } from "./utils";
@@ -178,65 +181,108 @@ export class WorkflowRepository {
       const existingByEdgeId = new Map(
          map(existingSteps, (s) => [s.edgeId, s.id])
       );
-      const updateEdgeIds = new Set(data.steps.map((s) => s.edgeId));
 
-      await this._deleteRemovedSteps(existingSteps, updateEdgeIds);
-      await this._createMissingSteps(workflowId, data.steps, existingByEdgeId);
+      const existingStepIds = map(existingSteps, (s) => s.id);
+
+      const newSteps = filter(data.steps, (s) => !s.id);
+
+      const updatedSteps = filter(data.steps, (s) =>
+         includes(existingStepIds, s.id)
+      );
+      const updatedStepIds = map(updatedSteps, (s) => s.id!);
+
+      const deletedSteps = filter(
+         data.steps,
+         (s) => !includes(existingStepIds, s.id)
+      );
+      const deletedStepIds = map(deletedSteps, (s) => s.id!);
+
+      await this._deleteRemovedSteps(deletedStepIds);
+      await this._createNewWorkflowSteps(workflowId, newSteps);
       await this._enforceStartStep(workflowId, data.steps, existingByEdgeId);
-
-      for (const step of data.steps) {
-         await this._updateStepWithEdges(
-            existingByEdgeId.get(step.edgeId)!,
-            step,
-            existingByEdgeId
-         );
-      }
+      await this._updateWorkflowSteps(updatedSteps);
 
       return toDWorkflow(workflow);
    }
 
-   private async _deleteRemovedSteps(
-      existingSteps: { id: string; edgeId: string }[],
-      updateEdgeIds: Set<string>
-   ): Promise<void> {
-      const idsToDelete = existingSteps
-         .filter((s) => !updateEdgeIds.has(s.edgeId))
-         .map((s) => s.id);
-
-      if (idsToDelete.length > 0) {
+   private async _deleteRemovedSteps(stepIdsToDelete: string[]) {
+      if (!isEmpty(stepIdsToDelete)) {
          const args = {
-            where: { id: { in: idsToDelete } },
+            where: { id: { in: stepIdsToDelete } },
          } satisfies WorkflowStepDeleteManyArgs;
 
          await this.prisma.workflowStep.deleteMany(args);
       }
    }
 
-   private async _createMissingSteps(
+   private async _createNewWorkflowSteps(
       workflowId: string,
-      steps: DWorkflowStepUpdate[],
-      existingByEdgeId: Map<string, string>
-   ): Promise<void> {
-      const stepsToCreate = steps.filter(
-         (s) => !existingByEdgeId.has(s.edgeId)
-      );
-      for (const step of stepsToCreate) {
-         const created = await this.prisma.workflowStep.create({
-            data: {
-               workflowId,
+      steps: DWorkflowStepUpdate[]
+   ) {
+      const inputAgrs = map(steps, (step) => {
+         return {
+            workflowId,
+            title: step.title,
+            hint: step.hint ?? null,
+            type: step.type,
+            promptId: step.promptId ?? null,
+            content: step.content ?? null,
+            edgeId: step.edgeId,
+            isStart: step.isStart,
+            position: step.position,
+         };
+      }) satisfies WorkflowStepCreateManyInput[];
+
+      const createManyArgs = {
+         data: inputAgrs,
+      } satisfies WorkflowStepCreateManyArgs;
+
+      await this.prisma.workflowStep.createMany(createManyArgs);
+   }
+
+   private async _updateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
+      // const whereArgs: WorkflowStepEdgeWhereInput[] = map(steps, (s) => {
+      //    return {
+      //       where: { id: s.id! },
+      //    };
+      // });
+
+      // const deleteEdgeArgs = map(steps, (s) => {
+      //    return {
+      //       where: { stepId: s.id! },
+      //    };
+      // }) satisfies WorkflowStepEdgeDeleteManyArgs;
+
+      // await this.prisma.workflowStepEdge.deleteMany(deleteEdgeArgs);
+
+      const inputAgrs: WorkflowStepUpdateManyMutationInput[] = map(
+         steps,
+         (step) => {
+            return {
                title: step.title,
                hint: step.hint ?? null,
                type: step.type,
                promptId: step.promptId ?? null,
                content: step.content ?? null,
-               edgeId: step.edgeId,
                isStart: step.isStart,
                position: step.position,
-            },
-            select: { id: true, edgeId: true },
-         });
-         existingByEdgeId.set(created.edgeId, created.id);
-      }
+               outgoingEdges: {
+                  create: map(step.edges, (e) => ({
+                     toStepId: e.toStepId,
+                     label: e.label,
+                     order: e.order,
+                  })),
+                  delete: {},
+               },
+            };
+         }
+      );
+
+      const updateManyArgs = {
+         data: inputAgrs,
+      } satisfies WorkflowStepUpdateManyArgs;
+
+      await this.prisma.workflowStep.updateMany(updateManyArgs);
    }
 
    private async _enforceStartStep(
@@ -257,35 +303,6 @@ export class WorkflowRepository {
             data: { isStart: false },
          });
       }
-   }
-
-   private async _updateStepWithEdges(
-      stepId: string,
-      step: DWorkflowStepUpdate,
-      existingByEdgeId: Map<string, string>
-   ): Promise<void> {
-      await this.prisma.workflowStepEdge.deleteMany({
-         where: { fromStepId: stepId },
-      });
-      await this.prisma.workflowStep.update({
-         where: { id: stepId },
-         data: {
-            title: step.title,
-            hint: step.hint ?? null,
-            type: step.type,
-            promptId: step.promptId ?? null,
-            content: step.content ?? null,
-            isStart: step.isStart,
-            position: step.position,
-            outgoingEdges: {
-               create: step.edges.map((e) => ({
-                  toStepId: existingByEdgeId.get(e.toStepId) ?? e.toStepId,
-                  label: e.label,
-                  order: e.order,
-               })),
-            },
-         },
-      });
    }
 
    async pDeleteWorkflow(userId: string, workflowId: string) {

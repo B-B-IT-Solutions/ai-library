@@ -11,6 +11,7 @@ export const updateWorkflowEdgeSchema = z.object({
 
 export const updateWorkflowStepSchema = z
    .object({
+      id: z.uuid().optional(),
       title: z.string().min(1, "Titel ist erforderlich").max(250),
       hint: z.string().max(750).nullish(),
       type: z.enum(["PROMPT_REF", "STANDALONE"]),
