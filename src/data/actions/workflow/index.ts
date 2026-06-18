@@ -5,6 +5,5 @@ export {
    createWorkflow,
    updateWorkflow,
    deleteWorkflow,
-   setStartStep,
    getWorkflowForRunner,
 } from "./workflow.actions";

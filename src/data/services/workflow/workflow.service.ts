@@ -3,15 +3,12 @@ import {
    DWorkflow,
    DWorkflowsPage,
    DWorkflowsPageQuery,
-   DWorkflowStepUpdate,
    DWorkflowsUsage,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { SubscriptionService } from "../subscription";
-
-import { detectCycle } from "./utils";
 
 export class WorkflowService {
    constructor(

@@ -26,19 +26,6 @@ const workflowService = new WorkflowService(
    subscriptionServiceMock
 );
 
-const userId = "334db648-f300-4284-8149-075ff465d750";
-const workflowId = "444db648-f300-4284-8149-075ff465d750";
-
-const baseWorkflow = {
-   id: workflowId,
-   title: "Test Workflow",
-   description: null,
-   stepCount: 0,
-   updatedAt: new Date().toISOString(),
-   createdAt: new Date().toISOString(),
-   steps: [],
-};
-
 describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -130,6 +117,7 @@ describe("updateWorkflow", () => {
    });
 
    it("workflow null - test", async () => {
+      const userId = "user-id-1";
       const workflowId = "workflow-id-1";
       workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
@@ -147,6 +135,7 @@ describe("updateWorkflow", () => {
    });
 
    it("workflow updated - test", async () => {
+      const userId = "user-id-1";
       const workflow = dtestData.dWorkflow();
       workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
 
@@ -180,6 +169,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("workflow null - test", async () => {
+      const userId = "user-id-1";
       const workflowId = "workflow-id-1";
       workflowRepoMock.pGetWorkflow.mockResolvedValue(null);
 
@@ -195,6 +185,7 @@ describe("deleteWorkflow", () => {
    });
 
    it("workflow deleted - test", async () => {
+      const userId = "user-id-1";
       const workflow = dtestData.dWorkflow();
       workflowRepoMock.pGetWorkflow.mockResolvedValue(workflow);
 

@@ -47,11 +47,6 @@ const sUpdateWorkflowMock = sUpdateWorkflow as jest.MockedFunction<
 const sDeleteWorkflowMock = sDeleteWorkflow as jest.MockedFunction<
    typeof sDeleteWorkflow
 >;
-const sCreateWorkflowStepMock = sCreateWorkflowStep as jest.MockedFunction<
-   typeof sCreateWorkflowStep
->;
-
-const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
 describe("getWorkflowsPage tests", () => {
    beforeEach(() => {
@@ -131,6 +126,7 @@ describe("getWorkflowWithSteps tests", () => {
    it("user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
       const result = await getWorkflowWithSteps(workflowId);
 
@@ -146,6 +142,8 @@ describe("getWorkflowWithSteps tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       sGetWorkflowWithStepsMock.mockResolvedValue(null);
+
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
 
       const result = await getWorkflowWithSteps(workflowId);
 
@@ -164,6 +162,7 @@ describe("getWorkflowWithSteps tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sGetWorkflowWithStepsMock.mockResolvedValue(workflow);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowWithSteps(workflowId);
 
       expect(result).toEqual(workflow);
@@ -346,6 +345,7 @@ describe("updateWorkflow tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -368,6 +368,7 @@ describe("updateWorkflow tests", () => {
       sUpdateWorkflowMock.mockRejectedValue(error);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult = {
@@ -393,6 +394,7 @@ describe("updateWorkflow tests", () => {
       sUpdateWorkflowMock.mockResolvedValue(workflow);
 
       const data = dtestData.dWorkflowUpdate();
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await updateWorkflow(workflowId, data);
 
       const expectedResult: ActionResult<DWorkflow> = {
@@ -440,6 +442,7 @@ describe("deleteWorkflow tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -461,6 +464,7 @@ describe("deleteWorkflow tests", () => {
       const error = new Error("db error");
       sDeleteWorkflowMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -480,6 +484,7 @@ describe("deleteWorkflow tests", () => {
 
       sDeleteWorkflowMock.mockResolvedValue();
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await deleteWorkflow(workflowId);
 
       const expectedResult: ActionResult = {
@@ -518,6 +523,7 @@ describe("getWorkflowForRunner tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowForRunner(workflowId);
 
       expect(result).toBeNull();
@@ -534,6 +540,7 @@ describe("getWorkflowForRunner tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       sGetWorkflowWithStepsMock.mockResolvedValue(workflow);
 
+      const workflowId = "444db648-f300-4284-8149-075ff465d750";
       const result = await getWorkflowForRunner(workflowId);
 
       expect(result).toEqual(workflow);
