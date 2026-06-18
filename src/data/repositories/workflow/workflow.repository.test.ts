@@ -6,6 +6,7 @@ import prisma from "@/data/repositories/prisma";
 import {
    DWorkflowsPage,
    DWorkflowsPageQuery,
+   DWorkflowStepUpdate,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
 import {
@@ -14,7 +15,10 @@ import {
    WorkflowDeleteArgs,
    WorkflowFindManyArgs,
    WorkflowFindUniqueArgs,
-   WorkflowStepFindManyArgs,
+   WorkflowStepCreateManyArgs,
+   WorkflowStepDeleteManyArgs,
+   WorkflowStepEdgeDeleteManyArgs,
+   WorkflowStepUpdateArgs,
    WorkflowUpdateArgs,
    WorkflowWhereInput,
 } from "@/generated/prisma/models";
@@ -338,10 +342,12 @@ describe("pCreateWorkflow", () => {
       const workflow = ptestData.pWorkflow(1);
       prismaMock.workflow.create.mockResolvedValue(workflow);
 
-      const createData: DWorkflowUpdate = {
-         title: workflow.title,
-         description: workflow.description,
-      };
+      const createData = dtestData.dWorkflowUpdate();
+      // const createData: DWorkflowUpdate = {
+      //    title: workflow.title,
+      //    description: workflow.description,
+      //    steps: [],
+      // };
 
       const result = await repository.pCreateWorkflow(userId, createData);
 
@@ -372,11 +378,9 @@ describe("pUpdateWorkflow", () => {
       const userId = "user-id-1";
       const workflow = ptestData.pWorkflow(1);
       prismaMock.workflow.update.mockResolvedValue(workflow);
+      prismaMock.workflowStep.findMany.mockResolvedValue([]);
 
-      const updateData: DWorkflowUpdate = {
-         title: workflow.title,
-         description: workflow.description,
-      };
+      const updateData = dtestData.dWorkflowUpdate();
 
       const result = await repository.pUpdateWorkflow(
          userId,
@@ -424,5 +428,136 @@ describe("pDeleteWorkflow", () => {
 
       expect(prismaMock.workflow.delete).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.delete).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pUpdateWorkflow step operations", () => {
+   const userId = "user-id-1";
+
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("creates new steps - test", async () => {
+      const workflow = ptestData.pWorkflow(1);
+      prismaMock.workflow.update.mockResolvedValue(workflow);
+      prismaMock.workflowStep.findMany.mockResolvedValue([]);
+
+      const newStep: DWorkflowStepUpdate = dtestData.dWorkflowStepUpdate(0);
+      const data: DWorkflowUpdate = {
+         title: workflow.title,
+         description: workflow.description,
+         steps: [newStep],
+      };
+
+      await repository.pUpdateWorkflow(userId, workflow.id, data);
+
+      const expectedCreateArgs: WorkflowStepCreateManyArgs = {
+         data: [
+            {
+               workflowId: workflow.id,
+               title: newStep.title,
+               hint: newStep.hint ?? null,
+               type: newStep.type,
+               promptId: newStep.promptId ?? null,
+               content: newStep.content ?? null,
+               edgeId: newStep.edgeId,
+               isStart: newStep.isStart,
+               position: newStep.position,
+            },
+         ],
+      };
+
+      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledWith(
+         expectedCreateArgs
+      );
+      expect(prismaMock.workflowStep.deleteMany).not.toHaveBeenCalled();
+      expect(prismaMock.workflowStep.update).not.toHaveBeenCalled();
+   });
+
+   it("updates existing steps - test", async () => {
+      const workflow = ptestData.pWorkflow(1);
+      const existingStep = ptestData.pWorkflowStep(1);
+      prismaMock.workflow.update.mockResolvedValue(workflow);
+      prismaMock.workflowStep.findMany.mockResolvedValue([existingStep]);
+
+      const updatedStep: DWorkflowStepUpdate = {
+         ...dtestData.dWorkflowStepUpdate(0),
+         id: existingStep.id,
+      };
+      const data: DWorkflowUpdate = {
+         title: workflow.title,
+         description: workflow.description,
+         steps: [updatedStep],
+      };
+
+      await repository.pUpdateWorkflow(userId, workflow.id, data);
+
+      const expectedDeleteEdgesArgs: WorkflowStepEdgeDeleteManyArgs = {
+         where: { fromStepId: existingStep.id },
+      };
+      const expectedUpdateArgs: WorkflowStepUpdateArgs = {
+         where: { id: existingStep.id },
+         data: {
+            title: updatedStep.title,
+            hint: updatedStep.hint ?? null,
+            type: updatedStep.type,
+            promptId: updatedStep.promptId ?? null,
+            content: updatedStep.content ?? null,
+            isStart: updatedStep.isStart,
+            position: updatedStep.position,
+            outgoingEdges: {
+               create: updatedStep.edges.map((e) => ({
+                  toStepId: e.toStepId,
+                  label: e.label,
+                  order: e.order,
+               })),
+            },
+         },
+      };
+
+      expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStepEdge.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteEdgesArgs
+      );
+      expect(prismaMock.workflowStep.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStep.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+      expect(prismaMock.workflowStep.createMany).not.toHaveBeenCalled();
+      expect(prismaMock.workflowStep.deleteMany).not.toHaveBeenCalled();
+   });
+
+   it("deletes removed steps - test", async () => {
+      const workflow = ptestData.pWorkflow(1);
+      const stepToKeep = ptestData.pWorkflowStep(1);
+      const stepToDelete = ptestData.pWorkflowStep(2);
+      prismaMock.workflow.update.mockResolvedValue(workflow);
+      prismaMock.workflowStep.findMany.mockResolvedValue([
+         stepToKeep,
+         stepToDelete,
+      ]);
+
+      const keptStep: DWorkflowStepUpdate = {
+         ...dtestData.dWorkflowStepUpdate(0),
+         id: stepToKeep.id,
+         edges: [],
+      };
+      const data: DWorkflowUpdate = {
+         title: workflow.title,
+         description: workflow.description,
+         steps: [keptStep],
+      };
+
+      await repository.pUpdateWorkflow(userId, workflow.id, data);
+
+      const expectedDeleteArgs: WorkflowStepDeleteManyArgs = {
+         where: { id: { in: [stepToDelete.id] } },
+      };
+
+      expect(prismaMock.workflowStep.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteArgs
+      );
    });
 });
