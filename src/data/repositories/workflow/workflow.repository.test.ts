@@ -426,35 +426,3 @@ describe("pDeleteWorkflow", () => {
       expect(prismaMock.workflow.delete).toHaveBeenCalledWith(expectedArgs);
    });
 });
-
-describe("pGetWorkflowStepsForCycleCheck", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("workflow steps retrieved - test", async () => {
-      const workflowId = "workflow-id-1";
-      const steps = dtestData.dWorkflowStepsWithOutgoingEdges();
-      prismaMock.workflowStep.findMany.mockResolvedValue(steps);
-
-      const result =
-         await repository.pGetWorkflowStepsForCycleCheck(workflowId);
-
-      const expectedArgs: WorkflowStepFindManyArgs = {
-         where: { workflowId },
-         select: {
-            id: true,
-            edgeId: true,
-            outgoingEdges: {
-               select: { toStepId: true },
-            },
-         },
-      };
-
-      expect(result).toEqual(steps);
-      expect(prismaMock.workflowStep.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.workflowStep.findMany).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-});

@@ -280,25 +280,4 @@ export class WorkflowRepository {
          await this.prisma.workflowStep.deleteMany(args);
       }
    }
-
-   async pCountWorkflowSteps(workflowId: string): Promise<number> {
-      return this.prisma.workflowStep.count({ where: { workflowId } });
-   }
-
-   async pGetWorkflowStepsForCycleCheck(
-      workflowId: string
-   ): Promise<DWorkflowStepWithOutgoingEdges[]> {
-      const args = {
-         where: { workflowId },
-         select: {
-            id: true,
-            edgeId: true,
-            outgoingEdges: {
-               select: { toStepId: true },
-            },
-         },
-      } satisfies WorkflowStepFindManyArgs;
-
-      return this.prisma.workflowStep.findMany(args);
-   }
 }
