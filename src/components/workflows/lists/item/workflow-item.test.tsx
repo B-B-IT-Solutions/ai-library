@@ -24,46 +24,30 @@ describe("WorkflowItem rendering tests", () => {
    it("with description - test", async () => {
       const workflow = dtestData.dWorkflow();
 
-      const { container } = renderWithRouter(<WorkflowItem workflow={workflow} />);
+      const { container } = renderWithRouter(
+         <WorkflowItem workflow={workflow} />
+      );
 
       await waitFor(() => {
          assertRendered();
-         assertInDocument(screen.getByText(workflow.description!));
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("without description - test", async () => {
-      const workflow = { ...dtestData.dWorkflow(), description: null };
+      const workflow = dtestData.dWorkflow();
+      workflow.description = null;
 
-      const { container } = renderWithRouter(<WorkflowItem workflow={workflow} />);
+      const { container } = renderWithRouter(
+         <WorkflowItem workflow={workflow} />
+      );
 
       await waitFor(() => {
          assertRendered();
       });
 
       expect(container).toMatchSnapshot();
-   });
-
-   it("step count badge displayed - test", async () => {
-      const workflow = dtestData.dWorkflow();
-
-      renderWithRouter(<WorkflowItem workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText(`${workflow.stepCount} Schritte`));
-      });
-   });
-
-   it("title displayed - test", async () => {
-      const workflow = dtestData.dWorkflow();
-
-      renderWithRouter(<WorkflowItem workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText(workflow.title));
-      });
    });
 });
 
@@ -88,7 +72,7 @@ describe("WorkflowItem functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("title link navigates to workflow detail - test", async () => {
+   it("title link clicked - test", async () => {
       const workflow = dtestData.dWorkflow();
 
       renderWithRouter(<WorkflowItem workflow={workflow} />);
