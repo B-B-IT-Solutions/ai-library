@@ -273,8 +273,14 @@ describe("pGetWorkflowWithSteps", () => {
                include: {
                   prompt: { select: { title: true } },
                   outgoingEdges: {
-                     orderBy: { order: "asc" },
-                     include: { toStep: { select: { edgeId: true } } },
+                     orderBy: {
+                        order: "asc" as const,
+                     },
+                     include: {
+                        toStep: {
+                           select: { edgeId: true },
+                        },
+                     },
                   },
                },
             },
@@ -305,7 +311,11 @@ describe("pGetWorkflowWithSteps", () => {
                   prompt: { select: { title: true } },
                   outgoingEdges: {
                      orderBy: { order: "asc" },
-                     include: { toStep: { select: { edgeId: true } } },
+                     include: {
+                        toStep: {
+                           select: { edgeId: true },
+                        },
+                     },
                   },
                },
             },
