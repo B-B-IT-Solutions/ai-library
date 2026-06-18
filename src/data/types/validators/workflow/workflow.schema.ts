@@ -1,4 +1,3 @@
-import { map } from "es-toolkit/compat";
 import z from "zod";
 
 export const workflowEdgeInputSchema = z.object({
@@ -25,26 +24,16 @@ export const updateWorkflowStepSchema = z
    .superRefine((data, ctx) => {
       if (data.type === "PROMPT_REF" && !data.promptId) {
          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: "Bitte einen Prompt auswählen",
             path: ["promptId"],
          });
       }
       if (data.type === "STANDALONE" && !data.content?.trim()) {
          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: "Prompt-Text darf nicht leer sein",
             path: ["content"],
-         });
-      }
-      // Prüfe auf Duplikat-Zielschritte
-      const toStepIds = map(data.edges, (e) => e.toStepId);
-      const unique = new Set(toStepIds);
-      if (unique.size !== toStepIds.length) {
-         ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Dieser Schritt ist bereits als Ziel eingetragen",
-            path: ["edges"],
          });
       }
    });

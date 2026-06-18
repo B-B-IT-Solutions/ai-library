@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isEmpty } from "es-toolkit/compat";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -36,6 +37,7 @@ type Props = {
 export const WorkflowEdit = ({ workflow }: Props) => {
    const router = useRouter();
    const [isSubmitting, startTransition] = useTransition();
+   const [hasErrors, setErrors] = useState(false);
 
    const isEdit = !!workflow;
 
@@ -85,6 +87,10 @@ export const WorkflowEdit = ({ workflow }: Props) => {
       startTransition(async () => {
          handleSave(data);
       });
+   };
+
+   const onErrors = (errors: FieldErrors) => {
+      setErrors(!isEmpty(errors));
    };
 
    const backUrl = useMemo(
@@ -160,7 +166,10 @@ export const WorkflowEdit = ({ workflow }: Props) => {
          <ItemDetailsEditContent>
             <ItemDetailsEditBody className="max-w-7xl">
                <FormProvider {...form}>
-                  <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+                  <form
+                     id={formId}
+                     onSubmit={form.handleSubmit(onSubmit, onErrors)}
+                  >
                      <WorkflowTabs control={form.control} />
                   </form>
                </FormProvider>
