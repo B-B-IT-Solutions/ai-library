@@ -44,7 +44,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
    });
 
    const {
-      fields: edgeFields,
+      fields: edges,
       append,
       remove,
    } = useFieldArray({
@@ -60,6 +60,8 @@ export const StepForm = ({ index, steps, control }: Props) => {
          label: s.title,
       };
    });
+
+   console.log(edges);
 
    return (
       <div
@@ -130,15 +132,15 @@ export const StepForm = ({ index, steps, control }: Props) => {
          <div className="space-y-3">
             <h3 className="text-sm font-semibold">Nächste Schritte</h3>
 
-            {edgeFields.length === 0 && (
+            {edges.length === 0 && (
                <p className="text-sm text-muted-foreground">
                   Keine Verbindungen — dieser Schritt beendet den Workflow.
                </p>
             )}
 
-            {edgeFields.map((edgeField, edgeIdx) => (
+            {map(edges, (_, edgeIdx) => (
                <div
-                  key={edgeField.id}
+                  key={edgeIdx}
                   className="flex items-end gap-2 rounded-md border p-3"
                >
                   <FormInput<DWorkflowUpdate>
@@ -180,7 +182,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
                   append({
                      toStepId: "",
                      label: "",
-                     order: edgeFields.length,
+                     order: edges.length + 1,
                   })
                }
                className="w-full"

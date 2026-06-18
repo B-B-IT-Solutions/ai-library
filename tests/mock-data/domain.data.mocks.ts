@@ -1125,10 +1125,10 @@ export const dWorkflow = (index = 1): DWorkflow => {
 };
 
 export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
-   return range(0, count).map((i) => dWorkflowStep(i + 1));
+   return range(0, count).map((i) => dWorkflowStep(i));
 };
 
-export const dWorkflowStep = (index = 1): DWorkflowStep => {
+export const dWorkflowStep = (index = 0): DWorkflowStep => {
    return {
       id: `step-id-000${index}`,
       workflowId: `workflow-id-0001`,
@@ -1139,23 +1139,23 @@ export const dWorkflowStep = (index = 1): DWorkflowStep => {
       promptId: null,
       edgeId: `edge-id-${index}`,
       content: `content-${index}`,
-      isStart: index === 1,
-      position: index - 1,
+      isStart: index === 0,
+      position: index + 1,
       outgoingEdges: [
-         {
-            id: "oe-1",
-            fromStepId: "step-id-0001",
-            toStepId: `edge-id-${index + 1}`,
-            label: "Weiter",
-            order: 0,
-         },
-         {
-            id: "oe-2",
-            fromStepId: "step-id-0001",
-            toStepId: `edge-id-${index + 2}`,
-            label: "Abbrechen",
-            order: 1,
-         },
+         // {
+         //    id: "oe-1",
+         //    fromStepId: "step-id-0001",
+         //    toStepId: `edge-id-${index + 1}`,
+         //    label: "Weiter",
+         //    order: 0,
+         // },
+         // {
+         //    id: "oe-2",
+         //    fromStepId: "step-id-0001",
+         //    toStepId: `edge-id-${index + 2}`,
+         //    label: "Abbrechen",
+         //    order: 1,
+         // },
       ],
    };
 };

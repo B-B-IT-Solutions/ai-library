@@ -1,6 +1,6 @@
 "use client";
 
-import { filter, find } from "es-toolkit/compat";
+import { filter, find, map } from "es-toolkit/compat";
 import { ArrowRight, MoreVertical } from "lucide-react";
 import { Control, useWatch } from "react-hook-form";
 
@@ -136,11 +136,11 @@ export const StepItem = ({
 
          {step.edges.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
-               {step.edges.map((edge) => {
+               {map(step.edges, (edge, idx) => {
                   const target = find(steps, (s) => s.edgeId === edge.toStepId);
                   return (
                      <span
-                        key={edge.toStepId}
+                        key={idx}
                         className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
                      >
                         {edge.label}

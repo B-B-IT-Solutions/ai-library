@@ -25,9 +25,15 @@ export const WorkflowView = ({ workflow }: Props) => {
    return (
       <ItemDetailsView data-testid="workflow-view">
          <ItemDetailsViewHeader>
-            <div className="flex items-center" data-testid="workflow-view-header">
+            <div
+               className="flex items-center"
+               data-testid="workflow-view-header"
+            >
                <WorkflowBreadcrumb variant="view" label={workflow.title} />
-               <div className="ml-auto hidden items-center gap-2 lg:flex" data-testid="header-actions">
+               <div
+                  className="ml-auto hidden items-center gap-2 lg:flex"
+                  data-testid="header-actions"
+               >
                   <Button
                      asChild
                      variant="outline"
@@ -69,7 +75,9 @@ const WorkflowInfoCard = ({ workflow }: { workflow: DWorkflowWithSteps }) => {
          <h1 className="text-2xl font-bold text-slate-900">{workflow.title}</h1>
 
          {workflow.description && (
-            <p className="mt-2 text-sm text-slate-600">{workflow.description}</p>
+            <p className="mt-2 text-sm text-slate-600">
+               {workflow.description}
+            </p>
          )}
 
          <Separator className="my-4" />
@@ -146,7 +154,9 @@ const StepCard = ({ step, index, allSteps }: StepCardProps) => {
                         Ende
                      </Badge>
                   )}
-                  <span className="font-medium text-slate-900">{step.title}</span>
+                  <span className="font-medium text-slate-900">
+                     {step.title}
+                  </span>
                </div>
 
                <div className="flex flex-wrap items-center gap-2">
@@ -169,13 +179,13 @@ const StepCard = ({ step, index, allSteps }: StepCardProps) => {
                      {step.outgoingEdges
                         .slice()
                         .sort((a, b) => a.order - b.order)
-                        .map((edge) => {
+                        .map((edge, idx) => {
                            const target = allSteps.find(
                               (s) => s.id === edge.toStepId
                            );
                            return (
                               <span
-                                 key={edge.id}
+                                 key={idx}
                                  className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
                               >
                                  {edge.label}

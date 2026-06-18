@@ -42,9 +42,8 @@ export const WorkflowEdit = ({ workflow }: Props) => {
    const form = useForm<DWorkflowUpdate>({
       resolver: zodResolver(updateWorkflowSchema),
       defaultValues: initWorkflow(workflow),
+      mode: "onBlur",
    });
-
-   console.log(form.formState.errors);
 
    const handleSave = async (data: DWorkflowUpdate) => {
       if (isEdit) {

@@ -43,5 +43,7 @@ export const StepDetail = ({ index, steps, addStep, control }: Props) => {
       );
    }
 
-   return <StepForm index={index} steps={steps} control={control} />;
+   return (
+      <StepForm key={index} index={index} steps={steps} control={control} />
+   );
 };

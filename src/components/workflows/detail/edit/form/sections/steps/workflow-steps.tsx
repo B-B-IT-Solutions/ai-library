@@ -69,6 +69,7 @@ export const WorkflowSteps = ({ control }: Props) => {
 
          <div className="overflow-y-auto bg-white">
             <StepDetail
+               key={selectedStepIndex}
                index={selectedStepIndex}
                steps={steps}
                addStep={handleAddStep}

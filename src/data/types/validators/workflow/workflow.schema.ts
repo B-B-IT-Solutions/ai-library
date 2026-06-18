@@ -1,3 +1,4 @@
+import { map } from "es-toolkit/compat";
 import z from "zod";
 
 export const workflowEdgeInputSchema = z.object({
@@ -25,7 +26,7 @@ export const updateWorkflowStepSchema = z
       if (data.type === "PROMPT_REF" && !data.promptId) {
          ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Bitte ein Template auswählen",
+            message: "Bitte einen Prompt auswählen",
             path: ["promptId"],
          });
       }
@@ -37,7 +38,7 @@ export const updateWorkflowStepSchema = z
          });
       }
       // Prüfe auf Duplikat-Zielschritte
-      const toStepIds = data.edges.map((e) => e.toStepId);
+      const toStepIds = map(data.edges, (e) => e.toStepId);
       const unique = new Set(toStepIds);
       if (unique.size !== toStepIds.length) {
          ctx.addIssue({
