@@ -1051,6 +1051,7 @@ export const dWorkflowStepUpdates = (count = 3): DWorkflowStepUpdate[] => {
 
 export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
    return {
+      id: `step-id-${index}`,
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       type: "STANDALONE",
