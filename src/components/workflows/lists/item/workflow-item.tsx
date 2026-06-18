@@ -1,3 +1,4 @@
+import { GitBranch } from "lucide-react";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
@@ -27,15 +28,21 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
             <Link
                href={viewUrl}
                className="group/title"
-               data-testid="view-details-link-title"
+               data-testid="view-details-link"
             >
-               <h4 className="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
-                  {workflow.title}
-               </h4>
+               <div className="flex items-center gap-2">
+                  <GitBranch className="h-4 w-4 shrink-0 text-slate-400" />
+                  <h4 className="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
+                     {workflow.title}
+                  </h4>
+               </div>
             </Link>
          </CardHeader>
 
-         <CardContent className="flex-1 px-5 pt-0 pb-3">
+         <CardContent
+            className="flex-1 px-5 pt-0 pb-3"
+            data-testid="description"
+         >
             {workflow.description && (
                <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
                   {workflow.description}
