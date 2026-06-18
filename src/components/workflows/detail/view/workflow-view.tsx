@@ -16,6 +16,7 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
+import { RunWorkflowButton } from "../../buttons";
 
 type Props = {
    workflow: DWorkflowWithSteps;
@@ -34,14 +35,9 @@ export const WorkflowView = ({ workflow }: Props) => {
                   className="ml-auto hidden items-center gap-2 lg:flex"
                   data-testid="header-actions"
                >
-                  <Button
-                     asChild
-                     variant="outline"
-                     className="cursor-pointer"
-                     data-testid="run-btn"
-                  >
-                     <Link href={`/workflows/${workflow.id}/run`}>Starten</Link>
-                  </Button>
+                  <RunWorkflowButton workflowId={workflow.id} variant="outline">
+                     Starten
+                  </RunWorkflowButton>
                   <Button
                      asChild
                      className="cursor-pointer bg-blue-700 hover:bg-blue-800"
@@ -181,7 +177,7 @@ const StepCard = ({ step, index, allSteps }: StepCardProps) => {
                         .sort((a, b) => a.order - b.order)
                         .map((edge, idx) => {
                            const target = allSteps.find(
-                              (s) => s.id === edge.toStepId
+                              (s) => s.edgeId === edge.toStepId
                            );
                            return (
                               <span

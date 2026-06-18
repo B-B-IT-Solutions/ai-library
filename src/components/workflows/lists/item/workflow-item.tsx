@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { Edit, MoreVertical, Play } from "lucide-react";
+import { Edit, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -19,7 +19,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DWorkflow } from "@/data/types/domain/workflow";
-import { DeleteWorkflowButton } from "../../buttons";
+import { DeleteWorkflowButton, RunWorkflowButton } from "../../buttons";
 
 type Props = {
    workflow: DWorkflow;
@@ -60,11 +60,15 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                               Bearbeiten
                            </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                           <Link href={`/workflows/${workflow.id}/run`}>
-                              <Play className="mr-2 h-4 w-4" />
+                        <DropdownMenuItem className="p-0">
+                           <RunWorkflowButton
+                              workflowId={workflow.id}
+                              variant="ghost"
+                              size="sm"
+                              className="w-full justify-start px-2 py-1.5 font-normal"
+                           >
                               Ausführen
-                           </Link>
+                           </RunWorkflowButton>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DeleteWorkflowButton
@@ -96,12 +100,13 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
             </CardContent>
 
             <CardFooter>
-               <Button asChild className="w-full" size="sm">
-                  <Link href={`/workflows/${workflow.id}/run`}>
-                     <Play className="mr-2 h-4 w-4" />
-                     Anwenden
-                  </Link>
-               </Button>
+               <RunWorkflowButton
+                  workflowId={workflow.id}
+                  className="w-full"
+                  size="sm"
+               >
+                  Anwenden
+               </RunWorkflowButton>
             </CardFooter>
          </Card>
       </>

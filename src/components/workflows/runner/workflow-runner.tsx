@@ -26,10 +26,15 @@ type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
 type Props = {
    workflow: DWorkflowWithSteps;
-   initialTemplateData: TemplateDataCache;
+   initialTemplateData?: TemplateDataCache;
+   onClose?: () => void;
 };
 
-export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
+export const WorkflowRunner = ({
+   workflow,
+   initialTemplateData = {},
+   onClose,
+}: Props) => {
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
@@ -142,13 +147,11 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
             <Button
                variant="ghost"
                size="sm"
-               asChild
+               onClick={onClose}
                data-testid="runner-close-btn"
             >
-               <Link href="/workflows">
-                  <X className="mr-1 h-4 w-4" />
-                  Beenden
-               </Link>
+               <X className="mr-1 h-4 w-4" />
+               Beenden
             </Button>
          </div>
 
@@ -193,7 +196,7 @@ export const WorkflowRunner = ({ workflow, initialTemplateData }: Props) => {
          {/* Navigation footer */}
          <div className="border-t bg-white px-6 py-4">
             {isCompleted ? (
-               <CompletedState onRestart={handleRestart} />
+               <CompletedState onRestart={handleRestart} onClose={onClose} />
             ) : (
                <NextStepButtons
                   edges={outgoingEdges}
@@ -311,9 +314,10 @@ const NextStepButtons = ({ edges, steps, onChoose }: NextStepButtonsProps) => {
 
 type CompletedStateProps = {
    onRestart: () => void;
+   onClose?: () => void;
 };
 
-const CompletedState = ({ onRestart }: CompletedStateProps) => (
+const CompletedState = ({ onRestart, onClose }: CompletedStateProps) => (
    <div className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex items-center gap-2 text-green-700">
          <span className="text-lg">✓</span>
@@ -327,8 +331,8 @@ const CompletedState = ({ onRestart }: CompletedStateProps) => (
          >
             Von vorne starten
          </Button>
-         <Button asChild data-testid="close-btn">
-            <Link href="/workflows">Schliessen</Link>
+         <Button onClick={onClose} data-testid="close-btn">
+            Schliessen
          </Button>
       </div>
    </div>
