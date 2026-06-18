@@ -28,7 +28,19 @@ export const WorkflowView = ({ workflow }: Props) => {
             <div className="mx-auto max-w-7xl px-6 py-8">
                <div className="grid gap-8 lg:grid-cols-[1fr_260px]">
                   <div className="space-y-6" data-testid="workflow-view-body">
-                     <WorkflowInfoCard workflow={workflow} />
+                     <div
+                        className="rounded-xl bg-white p-6 shadow-sm"
+                        data-testid="workflow-info-card"
+                     >
+                        <h1 className="text-2xl font-bold text-slate-900">
+                           {workflow.title}
+                        </h1>
+                        {workflow.description && (
+                           <p className="mt-2 text-sm text-slate-600">
+                              {workflow.description}
+                           </p>
+                        )}
+                     </div>
                      <WorkflowStepsList workflow={workflow} />
                   </div>
 
@@ -36,22 +48,6 @@ export const WorkflowView = ({ workflow }: Props) => {
                </div>
             </div>
          </div>
-      </div>
-   );
-};
-
-const WorkflowInfoCard = ({ workflow }: { workflow: DWorkflowWithSteps }) => {
-   return (
-      <div
-         className="rounded-xl bg-white p-6 shadow-sm"
-         data-testid="workflow-info-card"
-      >
-         <h1 className="text-2xl font-bold text-slate-900">{workflow.title}</h1>
-         {workflow.description && (
-            <p className="mt-2 text-sm text-slate-600">
-               {workflow.description}
-            </p>
-         )}
       </div>
    );
 };
