@@ -20,6 +20,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { DWorkflow } from "@/data/types/domain/workflow";
 import { DeleteWorkflowButton, RunWorkflowButton } from "../../buttons";
+import { viewWorkflowUrl } from "../../utils";
 
 type Props = {
    workflow: DWorkflow;
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export const WorkflowItem = ({ workflow, ref }: Props) => {
+   const viewUrl = viewWorkflowUrl(workflow);
    return (
       <>
          <Card
@@ -36,12 +38,16 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
          >
             <CardHeader className="pb-2">
                <div className="flex items-start justify-between gap-2">
-                  <h3
-                     className="line-clamp-1 font-semibold text-slate-900"
-                     title={workflow.title}
+                  <Link
+                     href={viewUrl}
+                     className="group/title"
+                     data-testid="view-details-link-title"
                   >
-                     {workflow.title}
-                  </h3>
+                     <h4 className="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
+                        {workflow.title}
+                     </h4>
+                  </Link>
+
                   <DropdownMenu>
                      <DropdownMenuTrigger asChild>
                         <Button
