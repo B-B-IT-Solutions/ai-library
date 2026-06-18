@@ -7,8 +7,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/shadcn/dialog";
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
 import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
-
-import { WorkflowRunner } from "./workflow-runner";
+import { WorkflowRunner } from "../runner/workflow-runner";
 
 type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 

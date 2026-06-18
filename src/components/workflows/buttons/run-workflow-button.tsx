@@ -5,9 +5,9 @@ import { Loader2, Play } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { WorkflowRunnerDialog } from "@/components/workflows/runner/workflow-runner-dialog";
 import { getWorkflowForRunner } from "@/data/actions/workflow";
 import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import { WorkflowRunnerDialog } from "../dialogs/workflow-runner-dialog";
 
 type Props = {
    workflowId: string;
