@@ -154,6 +154,9 @@ export class WorkflowRepository {
       } satisfies WorkflowCreateArgs;
 
       const workflow = await this.prisma.workflow.create(args);
+
+      await this.pCreateWorkflowSteps(workflow.id, data.steps);
+
       return toDWorkflow(workflow);
    }
 
@@ -228,7 +231,7 @@ export class WorkflowRepository {
                edgeId: step.edgeId,
                isStart: step.isStart,
                position: step.position,
-            };
+            } satisfies WorkflowStepCreateManyInput;
          }) satisfies WorkflowStepCreateManyInput[];
 
          await this.prisma.workflowStep.createMany({

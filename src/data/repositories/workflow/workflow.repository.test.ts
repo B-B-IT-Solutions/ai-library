@@ -343,12 +343,11 @@ describe("pCreateWorkflow", () => {
       const workflow = ptestData.pWorkflow(1);
       prismaMock.workflow.create.mockResolvedValue(workflow);
 
+      const newStep = dtestData.dWorkflowStepUpdate(0);
+      newStep.id = undefined;
+
       const createData = dtestData.dWorkflowUpdate();
-      // const createData: DWorkflowUpdate = {
-      //    title: workflow.title,
-      //    description: workflow.description,
-      //    steps: [],
-      // };
+      createData.steps = [newStep];
 
       const result = await repository.pCreateWorkflow(userId, createData);
 
@@ -364,9 +363,29 @@ describe("pCreateWorkflow", () => {
          },
       };
 
+      const expectedCreateStepsArgs: WorkflowStepCreateManyArgs = {
+         data: [
+            {
+               workflowId: workflow.id,
+               content: newStep.content,
+               edgeId: newStep.edgeId,
+               hint: newStep.hint,
+               isStart: newStep.isStart,
+               position: newStep.position,
+               promptId: null,
+               title: newStep.title,
+               type: newStep.type,
+            },
+         ],
+      };
+
       expect(result).toEqual(expectedResult);
       expect(prismaMock.workflow.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.workflow.create).toHaveBeenCalledWith(expectedArgs);
+      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.workflowStep.createMany).toHaveBeenCalledWith(
+         expectedCreateStepsArgs
+      );
    });
 });
 
@@ -424,7 +443,6 @@ describe("pUpdateWorkflow", () => {
                workflowId: workflow.id,
                content: newStep.content,
                edgeId: newStep.edgeId,
-               // edges: newStep.edges,
                hint: newStep.hint,
                isStart: newStep.isStart,
                position: newStep.position,
