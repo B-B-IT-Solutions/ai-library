@@ -19,11 +19,10 @@ import {
    WorkflowFindUniqueArgs,
    WorkflowFindUniqueOrThrowArgs,
    WorkflowStepCreateArgs,
+   WorkflowStepDeleteManyArgs,
    WorkflowStepEdgeCreateWithoutFromStepInput,
    WorkflowStepFindManyArgs,
    WorkflowStepUpdateManyArgs,
-   WorkflowUpdateArgs,
-   WorkflowUpdateInput,
 } from "@/generated/prisma/models";
 
 import { resolveOrderBy, resolveWhereInput } from "./utils";
@@ -163,109 +162,130 @@ export class WorkflowRepository {
       workflowId: string,
       data: DWorkflowUpdate
    ): Promise<DWorkflow> {
-      const workflow = await this.prisma.$transaction(async (tx) => {
-         const updated = await tx.workflow.update({
-            where: { id: workflowId, userId },
-            data: {
-               title: data.title,
-               description: data.description,
-            },
-         });
-
-         // Sync steps
-         const existingSteps = await tx.workflowStep.findMany({
-            where: { workflowId },
-            select: { id: true, edgeId: true },
-         });
-
-         const existingByEdgeId = new Map(
-            existingSteps.map((s) => [s.edgeId, s.id])
-         );
-         const submittedEdgeIds = new Set(data.steps.map((s) => s.edgeId));
-
-         // Delete removed steps (cascade removes their edges)
-         const stepIdsToDelete = existingSteps
-            .filter((s) => !submittedEdgeIds.has(s.edgeId))
-            .map((s) => s.id);
-         if (stepIdsToDelete.length > 0) {
-            await tx.workflowStep.deleteMany({
-               where: { id: { in: stepIdsToDelete } },
-            });
-         }
-
-         // Create new steps first (no edges yet) to get their DB ids
-         const stepsToCreate = data.steps.filter(
-            (s) => !existingByEdgeId.has(s.edgeId)
-         );
-         for (const step of stepsToCreate) {
-            const created = await tx.workflowStep.create({
-               data: {
-                  workflowId,
-                  title: step.title,
-                  hint: step.hint ?? null,
-                  type: step.type,
-                  promptId: step.promptId ?? null,
-                  content: step.content ?? null,
-                  edgeId: step.edgeId,
-                  isStart: step.isStart,
-                  position: step.position,
-               },
-               select: { id: true, edgeId: true },
-            });
-            existingByEdgeId.set(created.edgeId, created.id);
-         }
-
-         // Enforce single start step
-         const startStep = data.steps.find((s) => s.isStart);
-         if (startStep) {
-            const startStepDbId = existingByEdgeId.get(startStep.edgeId);
-            await tx.workflowStep.updateMany({
-               where: { workflowId, id: { not: startStepDbId } },
-               data: { isStart: false },
-            });
-         } else {
-            await tx.workflowStep.updateMany({
-               where: { workflowId },
-               data: { isStart: false },
-            });
-         }
-
-         // Update each step and replace its edges
-         for (const step of data.steps) {
-            const stepId = existingByEdgeId.get(step.edgeId)!;
-
-            await tx.workflowStepEdge.deleteMany({
-               where: { fromStepId: stepId },
-            });
-
-            // Resolve edge toStepId: form uses edgeId as value, DB needs step id
-            const resolvedEdges = step.edges.map((e) => ({
-               toStepId: existingByEdgeId.get(e.toStepId) ?? e.toStepId,
-               label: e.label,
-               order: e.order,
-            }));
-
-            await tx.workflowStep.update({
-               where: { id: stepId },
-               data: {
-                  title: step.title,
-                  hint: step.hint ?? null,
-                  type: step.type,
-                  promptId: step.promptId ?? null,
-                  content: step.content ?? null,
-                  isStart: step.isStart,
-                  position: step.position,
-                  outgoingEdges: {
-                     create: resolvedEdges,
-                  },
-               },
-            });
-         }
-
-         return updated;
+      const workflow = await this.prisma.workflow.update({
+         where: { id: workflowId, userId },
+         data: { title: data.title, description: data.description },
       });
 
+      const existingStepsArgs = {
+         where: { workflowId },
+         select: { id: true, edgeId: true },
+      } satisfies WorkflowStepFindManyArgs;
+
+      const existingSteps =
+         await this.prisma.workflowStep.findMany(existingStepsArgs);
+
+      const existingByEdgeId = new Map(
+         map(existingSteps, (s) => [s.edgeId, s.id])
+      );
+      const updateEdgeIds = new Set(data.steps.map((s) => s.edgeId));
+
+      await this._deleteRemovedSteps(existingSteps, updateEdgeIds);
+      await this._createMissingSteps(workflowId, data.steps, existingByEdgeId);
+      await this._enforceStartStep(workflowId, data.steps, existingByEdgeId);
+
+      for (const step of data.steps) {
+         await this._updateStepWithEdges(
+            existingByEdgeId.get(step.edgeId)!,
+            step,
+            existingByEdgeId
+         );
+      }
+
       return toDWorkflow(workflow);
+   }
+
+   private async _deleteRemovedSteps(
+      existingSteps: { id: string; edgeId: string }[],
+      updateEdgeIds: Set<string>
+   ): Promise<void> {
+      const idsToDelete = existingSteps
+         .filter((s) => !updateEdgeIds.has(s.edgeId))
+         .map((s) => s.id);
+
+      if (idsToDelete.length > 0) {
+         const args = {
+            where: { id: { in: idsToDelete } },
+         } satisfies WorkflowStepDeleteManyArgs;
+
+         await this.prisma.workflowStep.deleteMany(args);
+      }
+   }
+
+   private async _createMissingSteps(
+      workflowId: string,
+      steps: DWorkflowStepUpdate[],
+      existingByEdgeId: Map<string, string>
+   ): Promise<void> {
+      const stepsToCreate = steps.filter(
+         (s) => !existingByEdgeId.has(s.edgeId)
+      );
+      for (const step of stepsToCreate) {
+         const created = await this.prisma.workflowStep.create({
+            data: {
+               workflowId,
+               title: step.title,
+               hint: step.hint ?? null,
+               type: step.type,
+               promptId: step.promptId ?? null,
+               content: step.content ?? null,
+               edgeId: step.edgeId,
+               isStart: step.isStart,
+               position: step.position,
+            },
+            select: { id: true, edgeId: true },
+         });
+         existingByEdgeId.set(created.edgeId, created.id);
+      }
+   }
+
+   private async _enforceStartStep(
+      workflowId: string,
+      steps: DWorkflowStepUpdate[],
+      existingByEdgeId: Map<string, string>
+   ): Promise<void> {
+      const startStep = steps.find((s) => s.isStart);
+      if (startStep) {
+         const startStepDbId = existingByEdgeId.get(startStep.edgeId);
+         await this.prisma.workflowStep.updateMany({
+            where: { workflowId, id: { not: startStepDbId } },
+            data: { isStart: false },
+         });
+      } else {
+         await this.prisma.workflowStep.updateMany({
+            where: { workflowId },
+            data: { isStart: false },
+         });
+      }
+   }
+
+   private async _updateStepWithEdges(
+      stepId: string,
+      step: DWorkflowStepUpdate,
+      existingByEdgeId: Map<string, string>
+   ): Promise<void> {
+      await this.prisma.workflowStepEdge.deleteMany({
+         where: { fromStepId: stepId },
+      });
+      await this.prisma.workflowStep.update({
+         where: { id: stepId },
+         data: {
+            title: step.title,
+            hint: step.hint ?? null,
+            type: step.type,
+            promptId: step.promptId ?? null,
+            content: step.content ?? null,
+            isStart: step.isStart,
+            position: step.position,
+            outgoingEdges: {
+               create: step.edges.map((e) => ({
+                  toStepId: existingByEdgeId.get(e.toStepId) ?? e.toStepId,
+                  label: e.label,
+                  order: e.order,
+               })),
+            },
+         },
+      });
    }
 
    async pDeleteWorkflow(userId: string, workflowId: string) {
