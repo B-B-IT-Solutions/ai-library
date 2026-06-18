@@ -21,24 +21,20 @@ const assertRendered = () => {
 const assertContextMenuRendered = () => {
    const viewBtn = screen.getByTestId("view-workflow-menu-item");
    const editBtn = screen.getByTestId("edit-workflow-menu-item");
-   // const runBtn = screen.getByTestId("run-workflow-menu-item");
    const deleteBtn = screen.getByTestId("delete-workflow-menu-item");
 
    assertInDocument(viewBtn);
    assertInDocument(editBtn);
-   // assertInDocument(runBtn);
    assertInDocument(deleteBtn);
 };
 
 const assertContextMenuNotRendered = () => {
    const viewBtn = screen.queryByTestId("view-workflow-menu-item");
    const editBtn = screen.queryByTestId("edit-workflow-menu-item");
-   // const runBtn = screen.getByTestId("run-workflow-menu-item");
    const deleteBtn = screen.queryByTestId("delete-workflow-menu-item");
 
    assertNotInDocument(viewBtn);
    assertNotInDocument(editBtn);
-   // assertInDocument(runBtn);
    assertNotInDocument(deleteBtn);
 };
 

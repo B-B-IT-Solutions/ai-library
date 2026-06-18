@@ -35,9 +35,7 @@ export const WorkflowView = ({ workflow }: Props) => {
                   className="ml-auto hidden items-center gap-2 lg:flex"
                   data-testid="header-actions"
                >
-                  <RunWorkflowButton workflowId={workflow.id} variant="outline">
-                     Starten
-                  </RunWorkflowButton>
+                  <RunWorkflowButton workflow={workflow} />
                   <Button
                      asChild
                      className="cursor-pointer bg-blue-700 hover:bg-blue-800"

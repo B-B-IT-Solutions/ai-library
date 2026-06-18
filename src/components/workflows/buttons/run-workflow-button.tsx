@@ -6,42 +6,51 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { getWorkflowForRunner } from "@/data/actions/workflow";
-import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import { DWorkflow, DWorkflowWithSteps } from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
 import { WorkflowRunnerDialog } from "../dialogs/workflow-runner-dialog";
 
 type Props = {
-   workflowId: string;
-   variant?: React.ComponentProps<typeof Button>["variant"];
-   size?: React.ComponentProps<typeof Button>["size"];
+   workflow: DWorkflow;
    className?: string;
 };
 
 export const RunWorkflowButton = ({
-   workflowId,
-   variant,
-   size,
+   workflow,
+
    className,
 }: Props) => {
-   const [workflow, setWorkflow] = useState<DWorkflowWithSteps | null>(null);
+   const [workflowWithSteps, setWorkflowWithSteps] =
+      useState<DWorkflowWithSteps | null>(null);
    const [isPending, startTransition] = useTransition();
 
    const handleClick = () => {
       startTransition(async () => {
-         const data = await getWorkflowForRunner(workflowId);
-         if (!data) {
+         const data = await getWorkflowForRunner(workflow.id);
+         if (data) {
+            setWorkflowWithSteps(data);
+         } else {
             toast.error("Workflow konnte nicht geladen werden.");
-            return;
          }
-         setWorkflow(data);
       });
+   };
+
+   const dialog = () => {
+      if (workflowWithSteps) {
+         return (
+            <WorkflowRunnerDialog
+               workflow={workflowWithSteps}
+               onClose={() => setWorkflowWithSteps(null)}
+            />
+         );
+      }
    };
 
    return (
       <>
          <Button
-            variant={variant}
-            size={size}
+            variant="default"
+            size="sm"
             className={cn(
                "cursor-pointer bg-blue-700 text-white hover:bg-blue-800",
                className
@@ -57,13 +66,7 @@ export const RunWorkflowButton = ({
             )}
             Anwenden
          </Button>
-
-         {workflow && (
-            <WorkflowRunnerDialog
-               workflow={workflow}
-               onClose={() => setWorkflow(null)}
-            />
-         )}
+         {dialog()}
       </>
    );
 };

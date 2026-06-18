@@ -52,7 +52,7 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
 
          <div className="flex items-center justify-end border-t border-slate-200 px-5 py-3">
             <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100">
-               <RunWorkflowButton workflowId={workflow.id} size="sm" />
+               <RunWorkflowButton workflow={workflow} />
                <WorkflowMoreOptionsButton workflow={workflow} />
             </div>
          </div>

@@ -40,7 +40,7 @@ export const WorkflowRunnerDialog = ({ workflow, onClose }: Props) => {
    }, [workflow]);
 
    return (
-      <Dialog open onOpenChange={onClose}>
+      <Dialog open onOpenChange={onClose} data-testid="run-workflow-dialog">
          <DialogContent
             showCloseButton={false}
             className="h-screen max-h-screen w-screen gap-0 overflow-hidden p-0 sm:max-w-none"
