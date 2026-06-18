@@ -272,7 +272,10 @@ describe("pGetWorkflowWithSteps", () => {
                orderBy: { position: "asc" },
                include: {
                   prompt: { select: { title: true } },
-                  outgoingEdges: { orderBy: { order: "asc" } },
+                  outgoingEdges: {
+                     orderBy: { order: "asc" },
+                     include: { toStep: { select: { edgeId: true } } },
+                  },
                },
             },
          },
@@ -300,7 +303,10 @@ describe("pGetWorkflowWithSteps", () => {
                orderBy: { position: "asc" },
                include: {
                   prompt: { select: { title: true } },
-                  outgoingEdges: { orderBy: { order: "asc" } },
+                  outgoingEdges: {
+                     orderBy: { order: "asc" },
+                     include: { toStep: { select: { edgeId: true } } },
+                  },
                },
             },
          },
@@ -428,6 +434,7 @@ describe("pGetWorkflowStepsForCycleCheck", () => {
          where: { workflowId },
          select: {
             id: true,
+            edgeId: true,
             outgoingEdges: {
                select: { toStepId: true },
             },

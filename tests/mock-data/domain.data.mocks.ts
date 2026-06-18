@@ -1171,6 +1171,7 @@ export const dWorkflowStepWithOutgoingEdges = (
 ): DWorkflowStepWithOutgoingEdges => {
    return {
       id: `step-id-000${index}`,
+      edgeId: `edge-id-000${index}`,
       outgoingEdges: [
          {
             toStepId: `step-${index}-1`,

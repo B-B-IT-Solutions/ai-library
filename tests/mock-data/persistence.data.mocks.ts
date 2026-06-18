@@ -32,6 +32,7 @@ import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   WorkflowStepEdgeWithTarget,
    WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
    WorkflowWithSteps,
@@ -872,11 +873,13 @@ export const pWorkflow = (index = 1): Workflow => {
    };
 };
 
-export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => {
+export const pWorkflowStepEdge = (index = 1): WorkflowStepEdgeWithTarget => {
+   const toEdgeId = `edge-id-000${index + 1}`;
    return {
       id: `edge-id-000${index}`,
       fromStepId: `step-id-000${index}`,
-      toStepId: `step-id-000${index + 1}`,
+      toStepId: toEdgeId,
+      toStep: { edgeId: toEdgeId },
       label: `label-${index}`,
       order: index - 1,
       createdAt: new Date("2025-09-27"),
@@ -906,6 +909,7 @@ export const pWorkflowStep = (index = 1): WorkflowStep => {
    return {
       id: `step-id-000${index}`,
       workflowId: `workflow-id-0001`,
+      edgeId: `edge-id-000${index}`,
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
       type: "STANDALONE",
