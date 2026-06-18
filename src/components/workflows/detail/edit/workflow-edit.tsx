@@ -89,7 +89,7 @@ export const WorkflowEdit = ({ workflow }: Props) => {
       });
    };
 
-   const onErrors = (errors: FieldErrors) => {
+   const onErrors = (errors: FieldErrors<DWorkflowUpdate>) => {
       setErrors(!isEmpty(errors));
    };
 

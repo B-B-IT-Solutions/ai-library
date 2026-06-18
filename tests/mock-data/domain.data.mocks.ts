@@ -1131,7 +1131,7 @@ export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
 
 export const dWorkflowStep = (index = 0): DWorkflowStep => {
    return {
-      id: `step-id-000${index}`,
+      id: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
       workflowId: `workflow-id-0001`,
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
@@ -1145,14 +1145,14 @@ export const dWorkflowStep = (index = 0): DWorkflowStep => {
       outgoingEdges: [
          {
             id: "oe-1",
-            fromStepId: "step-id-0001",
+            fromStepId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
             toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Weiter",
             order: 0,
          },
          {
             id: "oe-2",
-            fromStepId: "step-id-0001",
+            fromStepId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
             toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Abbrechen",
             order: 1,
