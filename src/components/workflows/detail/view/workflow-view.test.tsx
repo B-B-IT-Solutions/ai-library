@@ -66,7 +66,9 @@ describe("WorkflowView rendering tests", () => {
       render(<WorkflowView workflow={workflow} />);
 
       await waitFor(() => {
-         assertInDocument(screen.getByText(workflow.title));
+         assertInDocument(
+            screen.getByRole("heading", { level: 1, name: workflow.title })
+         );
       });
    });
 
