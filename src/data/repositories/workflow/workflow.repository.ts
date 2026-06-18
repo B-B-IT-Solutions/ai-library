@@ -223,7 +223,7 @@ export class WorkflowRepository {
                title: step.title,
                hint: step.hint ?? null,
                type: step.type,
-               promnptId: step.promptId ?? null,
+               promptId: step.promptId ?? null,
                content: step.content ?? null,
                edgeId: step.edgeId,
                isStart: step.isStart,
