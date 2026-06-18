@@ -6,7 +6,6 @@ import {
    DWorkflowsPage,
    DWorkflowsPageQuery,
    DWorkflowStepUpdate,
-   DWorkflowStepWithOutgoingEdges,
    DWorkflowUpdate,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
@@ -217,25 +216,25 @@ export class WorkflowRepository {
       workflowId: string,
       steps: DWorkflowStepUpdate[]
    ) {
-      if (isEmpty(steps)) return;
+      if (!isEmpty(steps)) {
+         const inputArgs = map(steps, (step) => {
+            return {
+               workflowId,
+               title: step.title,
+               hint: step.hint ?? null,
+               type: step.type,
+               promptId: step.promptId ?? null,
+               content: step.content ?? null,
+               edgeId: step.edgeId,
+               isStart: step.isStart,
+               position: step.position,
+            };
+         }) satisfies WorkflowStepCreateManyInput[];
 
-      const inputArgs = map(steps, (step) => {
-         return {
-            workflowId,
-            title: step.title,
-            hint: step.hint ?? null,
-            type: step.type,
-            promptId: step.promptId ?? null,
-            content: step.content ?? null,
-            edgeId: step.edgeId,
-            isStart: step.isStart,
-            position: step.position,
-         };
-      }) satisfies WorkflowStepCreateManyInput[];
-
-      await this.prisma.workflowStep.createMany({
-         data: inputArgs,
-      } satisfies WorkflowStepCreateManyArgs);
+         await this.prisma.workflowStep.createMany({
+            data: inputArgs,
+         } satisfies WorkflowStepCreateManyArgs);
+      }
    }
 
    private async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
