@@ -14,7 +14,6 @@ type Props = {
    variant?: React.ComponentProps<typeof Button>["variant"];
    size?: React.ComponentProps<typeof Button>["size"];
    className?: string;
-   children?: React.ReactNode;
 };
 
 export const RunWorkflowButton = ({
@@ -22,7 +21,6 @@ export const RunWorkflowButton = ({
    variant,
    size,
    className,
-   children,
 }: Props) => {
    const [workflow, setWorkflow] = useState<DWorkflowWithSteps | null>(null);
    const [isPending, startTransition] = useTransition();
@@ -53,7 +51,7 @@ export const RunWorkflowButton = ({
             ) : (
                <Play className="mr-2 h-4 w-4" />
             )}
-            {children ?? "Starten"}
+            Anwenden
          </Button>
 
          {workflow && (

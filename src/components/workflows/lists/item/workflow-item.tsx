@@ -1,25 +1,14 @@
-import { format } from "date-fns";
-import { de } from "date-fns/locale";
-import { Edit, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import {
    Card,
    CardContent,
    CardFooter,
    CardHeader,
 } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DWorkflow } from "@/data/types/domain/workflow";
-import { DeleteWorkflowButton, RunWorkflowButton } from "../../buttons";
+import { RunWorkflowButton, WorkflowMoreOptionsButton } from "../../buttons";
 import { viewWorkflowUrl } from "../../utils";
 
 type Props = {
@@ -47,42 +36,6 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                         {workflow.title}
                      </h4>
                   </Link>
-
-                  <DropdownMenu>
-                     <DropdownMenuTrigger asChild>
-                        <Button
-                           variant="ghost"
-                           size="icon"
-                           className="h-7 w-7 shrink-0"
-                           data-testid="workflow-card-menu"
-                        >
-                           <MoreVertical className="h-4 w-4" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                           <Link href={`/workflows/${workflow.id}/edit`}>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Bearbeiten
-                           </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="p-0">
-                           <RunWorkflowButton
-                              workflowId={workflow.id}
-                              variant="ghost"
-                              size="sm"
-                              className="w-full justify-start px-2 py-1.5 font-normal"
-                           >
-                              Ausführen
-                           </RunWorkflowButton>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DeleteWorkflowButton
-                           workflow={workflow}
-                           asMenuItem={true}
-                        />
-                     </DropdownMenuContent>
-                  </DropdownMenu>
                </div>
                {workflow.description && (
                   <p className="line-clamp-2 text-sm text-muted-foreground">
@@ -96,23 +49,12 @@ export const WorkflowItem = ({ workflow, ref }: Props) => {
                   <Badge variant="secondary">
                      {workflow.stepCount} Schritte
                   </Badge>
-                  <span>
-                     Zuletzt bearbeitet{" "}
-                     {format(new Date(workflow.updatedAt), "dd. MMM yyyy", {
-                        locale: de,
-                     })}
-                  </span>
                </div>
             </CardContent>
 
             <CardFooter>
-               <RunWorkflowButton
-                  workflowId={workflow.id}
-                  className="w-full"
-                  size="sm"
-               >
-                  Anwenden
-               </RunWorkflowButton>
+               <RunWorkflowButton workflowId={workflow.id} size="sm" />
+               <WorkflowMoreOptionsButton workflow={workflow} />
             </CardFooter>
          </Card>
       </>
