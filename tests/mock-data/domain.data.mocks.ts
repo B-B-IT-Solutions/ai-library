@@ -1061,12 +1061,12 @@ export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
       position: index + 1,
       edges: [
          {
-            toStepId: `edge-id-${index + 1}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Weiter",
             order: 0,
          },
          {
-            toStepId: `edge-id-${index + 2}`,
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 2}`,
             label: "Abbrechen",
             order: 1,
          },
@@ -1142,20 +1142,20 @@ export const dWorkflowStep = (index = 0): DWorkflowStep => {
       isStart: index === 0,
       position: index + 1,
       outgoingEdges: [
-         // {
-         //    id: "oe-1",
-         //    fromStepId: "step-id-0001",
-         //    toStepId: `edge-id-${index + 1}`,
-         //    label: "Weiter",
-         //    order: 0,
-         // },
-         // {
-         //    id: "oe-2",
-         //    fromStepId: "step-id-0001",
-         //    toStepId: `edge-id-${index + 2}`,
-         //    label: "Abbrechen",
-         //    order: 1,
-         // },
+         {
+            id: "oe-1",
+            fromStepId: "step-id-0001",
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            id: "oe-2",
+            fromStepId: "step-id-0001",
+            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            label: "Abbrechen",
+            order: 1,
+         },
       ],
    };
 };

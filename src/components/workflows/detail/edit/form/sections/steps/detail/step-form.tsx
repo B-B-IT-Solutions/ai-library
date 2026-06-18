@@ -182,13 +182,13 @@ export const StepForm = ({ index, steps, control }: Props) => {
                </div>
             ))}
 
-            <div>
+            <div className="flex justify-end">
                <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={handleAddEdge}
-                  className="mx-auto"
+                  className="cursor-pointer"
                   data-testid="add-edge-btn"
                >
                   <Plus className="mr-2 h-4 w-4" />
