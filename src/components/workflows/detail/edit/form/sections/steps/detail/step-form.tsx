@@ -22,6 +22,7 @@ import {
 import { Option } from "@/components/shared/widgets/form-select";
 import { infiniteLoadPromptPreviewsPageOptions } from "@/data/ts-queries/prompt";
 import {
+   DWorkflowStepEdgeUpdate,
    DWorkflowStepUpdate,
    DWorkflowUpdate,
 } from "@/data/types/domain/workflow";
@@ -45,7 +46,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
 
    const {
       fields: edges,
-      append,
+      append: addEdge,
       remove,
    } = useFieldArray({
       name: `steps.${index}.edges`,
@@ -61,7 +62,14 @@ export const StepForm = ({ index, steps, control }: Props) => {
       };
    });
 
-   console.log(edges);
+   const handleAddEdge = () => {
+      const newEdge: DWorkflowStepEdgeUpdate = {
+         toStepId: "",
+         label: "",
+         order: edges.length + 1,
+      };
+      addEdge(newEdge);
+   };
 
    return (
       <div
@@ -174,23 +182,19 @@ export const StepForm = ({ index, steps, control }: Props) => {
                </div>
             ))}
 
-            <Button
-               type="button"
-               variant="outline"
-               size="sm"
-               onClick={() =>
-                  append({
-                     toStepId: "",
-                     label: "",
-                     order: edges.length + 1,
-                  })
-               }
-               className="w-full"
-               data-testid="add-edge-btn"
-            >
-               <Plus className="mr-2 h-4 w-4" />
-               Verbindung hinzufügen
-            </Button>
+            <div>
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddEdge}
+                  className="mx-auto"
+                  data-testid="add-edge-btn"
+               >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Verbindung hinzufügen
+               </Button>
+            </div>
          </div>
       </div>
    );

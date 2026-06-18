@@ -1046,10 +1046,10 @@ export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
 };
 
 export const dWorkflowStepUpdates = (count = 3): DWorkflowStepUpdate[] => {
-   return range(0, count).map((i) => dWorkflowStepUpdate(i + 1));
+   return range(0, count).map((i) => dWorkflowStepUpdate(i));
 };
 
-export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
+export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
    return {
       title: `step-title-${index}`,
       hint: `step-hint-${index}`,
@@ -1057,8 +1057,8 @@ export const dWorkflowStepUpdate = (index = 1): DWorkflowStepUpdate => {
       promptId: null,
       edgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index}`,
       content: `content-${index}`,
-      isStart: index === 1,
-      position: index - 1,
+      isStart: index === 0,
+      position: index + 1,
       edges: [
          {
             toStepId: `edge-id-${index + 1}`,

@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const workflowEdgeInputSchema = z.object({
+export const updateWorkflowEdgeSchema = z.object({
    toStepId: z.uuid("Ungültige Schritt-ID"),
    label: z
       .string()
@@ -19,7 +19,7 @@ export const updateWorkflowStepSchema = z
       isStart: z.boolean(),
       position: z.number().int().min(0),
       edgeId: z.uuid(),
-      edges: z.array(workflowEdgeInputSchema),
+      edges: z.array(updateWorkflowEdgeSchema),
    })
    .superRefine((data, ctx) => {
       if (data.type === "PROMPT_REF" && !data.promptId) {
