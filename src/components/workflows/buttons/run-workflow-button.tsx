@@ -15,11 +15,7 @@ type Props = {
    className?: string;
 };
 
-export const RunWorkflowButton = ({
-   workflow,
-
-   className,
-}: Props) => {
+export const RunWorkflowButton = ({ workflow, className }: Props) => {
    const [workflowWithSteps, setWorkflowWithSteps] =
       useState<DWorkflowWithSteps | null>(null);
    const [isPending, startTransition] = useTransition();
