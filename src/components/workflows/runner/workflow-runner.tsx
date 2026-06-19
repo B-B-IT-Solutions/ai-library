@@ -142,7 +142,7 @@ export const WorkflowRunner = ({
 
    return (
       <div
-         className="flex h-screen flex-col bg-background"
+         className="flex flex-col bg-background"
          data-testid="workflow-runner"
       >
          <RunnerBreadcrumb
