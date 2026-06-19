@@ -36,7 +36,9 @@ export const WorkflowRunner = ({ workflow }: Props) => {
    const [templateDataCache, setTemplateDataCache] =
       useState<TemplateDataCache>({});
 
-   const currentStep = workflow.steps.find((s) => s.edgeId === state.currentEdgeId);
+   const currentStep = workflow.steps.find(
+      (s) => s.edgeId === state.currentEdgeId
+   );
    const outgoingEdges = currentStep?.outgoingEdges ?? [];
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
    const canGoBack = state.previousEdgeIds.length > 0;
