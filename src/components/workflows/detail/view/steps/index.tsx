@@ -1,1 +1,1 @@
-export { WorkflowStepsList } from "./workflow-steps-list";
+export { WorkflowSteps } from "./steps";

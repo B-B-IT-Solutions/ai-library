@@ -7,17 +7,14 @@ import { DWorkflowStep } from "@/data/types/domain/workflow";
 type Props = {
    step: DWorkflowStep;
    index: number;
-   allSteps: DWorkflowStep[];
+   steps: DWorkflowStep[];
 };
 
-export const StepCard = ({ step, index, allSteps }: Props) => {
+export const WorkflowStep = ({ step, index, steps }: Props) => {
    const isEnd = step.outgoingEdges.length === 0;
 
    return (
-      <div
-         className="rounded-xl bg-white p-5 shadow-sm"
-         data-testid="step-card"
-      >
+      <div className="rounded-xl bg-white p-5 shadow-sm" data-testid="step">
          <div className="flex items-start gap-4">
             <span className="mt-0.5 w-5 shrink-0 text-right font-mono text-xs text-slate-400">
                {index + 1}.
@@ -63,7 +60,7 @@ export const StepCard = ({ step, index, allSteps }: Props) => {
                         .slice()
                         .sort((a, b) => a.order - b.order)
                         .map((edge, idx) => {
-                           const target = allSteps.find(
+                           const target = steps.find(
                               (s) => s.edgeId === edge.toStepId
                            );
                            return (

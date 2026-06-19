@@ -2,7 +2,7 @@ import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
 import { WorkflowBreadcrumb } from "../../breadcrumbs";
 
 import { WorkflowSidebar } from "./sidebar";
-import { WorkflowStepsList } from "./steps";
+import { WorkflowSteps } from "./steps";
 
 type Props = {
    workflow: DWorkflowWithSteps;
@@ -24,7 +24,7 @@ export const WorkflowView = ({ workflow }: Props) => {
                   <div className="space-y-6" data-testid="workflow-view-body">
                      <div
                         className="rounded-xl bg-white p-6 shadow-sm"
-                        data-testid="workflow-info-card"
+                        data-testid="workflow-info"
                      >
                         <h1 className="text-2xl font-bold text-slate-900">
                            {workflow.title}
@@ -35,7 +35,7 @@ export const WorkflowView = ({ workflow }: Props) => {
                            </p>
                         )}
                      </div>
-                     <WorkflowStepsList workflow={workflow} />
+                     <WorkflowSteps workflow={workflow} />
                   </div>
 
                   <WorkflowSidebar workflow={workflow} />
