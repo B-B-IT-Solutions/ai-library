@@ -105,7 +105,6 @@ export const WorkflowRunnerDialog = ({ workflow, onClose }: Props) => {
                <WorkflowRunner
                   workflow={workflow}
                   initialTemplateData={templateData}
-                  onClose={onClose}
                />
             )}
          </DialogContent>
