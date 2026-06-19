@@ -9,9 +9,8 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 
-import { CompletedState } from "./completed-state";
 import { NextStepButtons } from "./next-step-buttons";
-import { RunnerEmptyState } from "./runner-empty-state";
+import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
 import { StepRenderer } from "./step-renderer";
 
 type RunnerState = {
@@ -90,8 +89,8 @@ export const WorkflowRunner = ({ workflow }: Props) => {
 
    if (workflow.steps.length === 0) {
       return (
-         <RunnerEmptyState
-            workflowId={workflow.id}
+         <WorklowStepsEmpty
+            workflow={workflow}
             message="Dieser Workflow enthält noch keine Schritte."
          />
       );
@@ -99,8 +98,8 @@ export const WorkflowRunner = ({ workflow }: Props) => {
 
    if (!startStep) {
       return (
-         <RunnerEmptyState
-            workflowId={workflow.id}
+         <WorklowStepsEmpty
+            workflow={workflow}
             message="Kein Startschritt definiert"
          />
       );
@@ -125,7 +124,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
 
          <div className="border-t bg-background px-6 py-4">
             {isCompleted ? (
-               <CompletedState
+               <WorfklowCompleted
                   onRestart={handleRestart}
                   stepCount={state.previousEdgeIds.length + 1}
                />

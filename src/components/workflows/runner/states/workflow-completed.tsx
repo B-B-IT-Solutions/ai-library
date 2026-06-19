@@ -9,8 +9,11 @@ type Props = {
    stepCount: number;
 };
 
-export const CompletedState = ({ onRestart, stepCount }: Props) => (
-   <div className="flex flex-wrap items-center justify-end gap-4">
+export const WorfklowCompleted = ({ onRestart, stepCount }: Props) => (
+   <div
+      className="flex flex-wrap items-center justify-end gap-4"
+      data-testid="workflow-completed"
+   >
       <div className="flex items-center gap-3">
          <CheckCircle2 className="h-5 w-5 animate-in text-green-600 duration-300 zoom-in-50" />
          <div>

@@ -47,7 +47,7 @@ describe("EditWorkflowButton rendering tests", () => {
 
 describe("EditWorkflowButton functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       mockRouter.push("/");
    });
 
