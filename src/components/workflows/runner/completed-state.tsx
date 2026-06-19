@@ -6,12 +6,11 @@ import { Button } from "@/components/shadcn/button";
 
 type Props = {
    onRestart: () => void;
-   onClose?: () => void;
    stepCount: number;
 };
 
-export const CompletedState = ({ onRestart, onClose, stepCount }: Props) => (
-   <div className="flex flex-wrap items-center justify-between gap-4">
+export const CompletedState = ({ onRestart, stepCount }: Props) => (
+   <div className="flex flex-wrap items-center justify-end gap-4">
       <div className="flex items-center gap-3">
          <CheckCircle2 className="h-5 w-5 animate-in text-green-600 duration-300 zoom-in-50" />
          <div>
@@ -27,9 +26,6 @@ export const CompletedState = ({ onRestart, onClose, stepCount }: Props) => (
       <div className="flex gap-3">
          <Button variant="ghost" onClick={onRestart} data-testid="restart-btn">
             Von vorne starten
-         </Button>
-         <Button onClick={onClose} data-testid="close-btn">
-            Schließen
          </Button>
       </div>
    </div>

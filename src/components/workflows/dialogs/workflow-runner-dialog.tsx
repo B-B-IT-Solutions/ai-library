@@ -81,7 +81,7 @@ export const WorkflowRunnerDialog = ({ workflow, onClose }: Props) => {
       <Dialog open onOpenChange={onClose} data-testid="run-workflow-dialog">
          <DialogContent
             showCloseButton={false}
-            className="h-screen max-h-screen w-screen gap-0 overflow-hidden p-0 sm:max-w-none"
+            className="overflow-hidden p-0 sm:max-w-none"
          >
             <DialogTitle className="sr-only">{workflow.title} </DialogTitle>
             <div className="flex items-center justify-between border-b bg-background px-6 py-3">

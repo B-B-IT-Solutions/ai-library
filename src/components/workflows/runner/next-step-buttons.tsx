@@ -25,7 +25,7 @@ export const NextStepButtons = ({
    const isSingleOption = sortedEdges.length === 1;
 
    return (
-      <div className="flex items-start gap-4">
+      <div className="flex items-start justify-end gap-4">
          <Button
             variant="ghost"
             size="sm"
@@ -47,7 +47,7 @@ export const NextStepButtons = ({
                      variant="outline"
                      onClick={() => onChoose(edge.toStepId)}
                      data-testid={`edge-btn-${edge.id}`}
-                     className="group h-auto justify-between px-4 py-3 text-left"
+                     className="group h-auto justify-between text-left"
                   >
                      <div>
                         <span className="text-sm font-semibold">
