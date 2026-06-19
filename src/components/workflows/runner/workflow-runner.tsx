@@ -15,8 +15,8 @@ import { RunnerEmptyState } from "./runner-empty-state";
 import { StepRenderer } from "./step-renderer";
 
 type RunnerState = {
-   historyStack: string[];
-   currentIndex: number;
+   currentEdgeId: string;
+   previousEdgeIds: string[];
 };
 
 type TemplateDataCache = Record<string, DPromptGenerationData | null>;
@@ -29,18 +29,17 @@ export const WorkflowRunner = ({ workflow }: Props) => {
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
-      historyStack: startStep ? [startStep.edgeId] : [],
-      currentIndex: 0,
+      currentEdgeId: startStep?.edgeId ?? "",
+      previousEdgeIds: [],
    }));
 
    const [templateDataCache, setTemplateDataCache] =
       useState<TemplateDataCache>({});
 
-   const currentStepId = state.historyStack[state.currentIndex];
-   const currentStep = workflow.steps.find((s) => s.edgeId === currentStepId);
+   const currentStep = workflow.steps.find((s) => s.edgeId === state.currentEdgeId);
    const outgoingEdges = currentStep?.outgoingEdges ?? [];
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
-   const canGoBack = state.currentIndex > 0;
+   const canGoBack = state.previousEdgeIds.length > 0;
 
    const loadStepData = async (nextStep?: DWorkflowStep) => {
       if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
@@ -66,24 +65,24 @@ export const WorkflowRunner = ({ workflow }: Props) => {
          await loadStepData(nextStep);
       }
 
-      setState((prev) => {
-         const newStack = prev.historyStack.slice(0, prev.currentIndex + 1);
-         newStack.push(toEdgeId);
-         return { historyStack: newStack, currentIndex: prev.currentIndex + 1 };
-      });
+      setState((prev) => ({
+         currentEdgeId: toEdgeId,
+         previousEdgeIds: [...prev.previousEdgeIds, prev.currentEdgeId],
+      }));
    };
 
    const handleBack = () => {
-      setState((prev) => ({
-         ...prev,
-         currentIndex: Math.max(0, prev.currentIndex - 1),
-      }));
+      setState((prev) => {
+         const previousEdgeIds = [...prev.previousEdgeIds];
+         const currentEdgeId = previousEdgeIds.pop() ?? prev.currentEdgeId;
+         return { currentEdgeId, previousEdgeIds };
+      });
    };
 
    const handleRestart = () => {
       setState({
-         historyStack: startStep ? [startStep.edgeId] : [],
-         currentIndex: 0,
+         currentEdgeId: startStep?.edgeId ?? "",
+         previousEdgeIds: [],
       });
    };
 
@@ -110,7 +109,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
          className="flex flex-col bg-background"
          data-testid="workflow-runner"
       >
-         <div key={currentStepId} className="flex-1 overflow-y-auto p-6">
+         <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
             {currentStep ? (
                <StepRenderer
                   step={currentStep}
@@ -126,7 +125,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
             {isCompleted ? (
                <CompletedState
                   onRestart={handleRestart}
-                  stepCount={state.currentIndex + 1}
+                  stepCount={state.previousEdgeIds.length + 1}
                />
             ) : (
                <NextStepButtons
