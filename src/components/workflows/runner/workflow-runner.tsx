@@ -4,13 +4,15 @@ import { useMemo, useState } from "react";
 
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import { DWorkflowStep, DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStep,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 
 import { CompletedState } from "./completed-state";
 import { NextStepButtons } from "./next-step-buttons";
 import { RunnerBreadcrumb } from "./runner-breadcrumb";
 import { RunnerEmptyState } from "./runner-empty-state";
-import { RunnerHeader } from "./runner-header";
 import { StepRenderer } from "./step-renderer";
 
 type RunnerState = {
@@ -143,13 +145,6 @@ export const WorkflowRunner = ({
          className="flex h-screen flex-col bg-background"
          data-testid="workflow-runner"
       >
-         <RunnerHeader
-            title={workflow.title}
-            canGoBack={canGoBack}
-            onBack={handleBack}
-            onClose={onClose}
-         />
-
          <RunnerBreadcrumb
             historyStack={state.historyStack}
             currentIndex={state.currentIndex}
@@ -181,6 +176,8 @@ export const WorkflowRunner = ({
                   edges={outgoingEdges}
                   steps={workflow.steps}
                   onChoose={handleChooseEdge}
+                  canGoBack={canGoBack}
+                  onBack={handleBack}
                />
             )}
          </div>

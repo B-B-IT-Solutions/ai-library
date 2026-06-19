@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertTriangle, RefreshCw } from "lucide-react";
+import { AlertTriangle, RefreshCw, X } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/shadcn/dialog";
@@ -83,7 +83,20 @@ export const WorkflowRunnerDialog = ({ workflow, onClose }: Props) => {
             showCloseButton={false}
             className="h-screen max-h-screen w-screen gap-0 overflow-hidden p-0 sm:max-w-none"
          >
-            <DialogTitle className="sr-only">{workflow.title}</DialogTitle>
+            <DialogTitle className="sr-only">{workflow.title} </DialogTitle>
+            <div className="flex items-center justify-between border-b bg-background px-6 py-3">
+               <h1 className="font-semibold text-foreground">
+                  {workflow.title}
+               </h1>
+               <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onClose}
+                  data-testid="runner-close-btn"
+               >
+                  <X className="mr-1 h-4 w-4" />
+               </Button>
+            </div>
             {status === "loading" && <LoadingWorkflowData />}
             {status === "error" && (
                <ErrorState onRetry={load} onClose={onClose} />
