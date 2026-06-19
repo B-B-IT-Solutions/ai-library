@@ -36,7 +36,6 @@ export const RunnerHeader = ({ title, canGoBack, onBack, onClose }: Props) => {
             data-testid="runner-close-btn"
          >
             <X className="mr-1 h-4 w-4" />
-            Beenden
          </Button>
       </div>
    );
