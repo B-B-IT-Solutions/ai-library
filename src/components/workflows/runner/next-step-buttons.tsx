@@ -25,34 +25,29 @@ export const NextStepButtons = ({
    const isSingleOption = sortedEdges.length === 1;
 
    return (
-      <div className="flex space-y-3 space-x-3">
-         <div className="flex items-center justify-between">
-            <Button
-               variant="ghost"
-               size="sm"
-               onClick={onBack}
-               disabled={!canGoBack}
-               data-testid="runner-back-btn"
-            >
-               <ArrowLeft className="mr-1 h-4 w-4" />
-               Zurück
-            </Button>
-         </div>
+      <div className="flex items-start gap-4">
+         <Button
+            variant="ghost"
+            size="sm"
+            onClick={onBack}
+            disabled={!canGoBack}
+            className="shrink-0"
+            data-testid="runner-back-btn"
+         >
+            <ArrowLeft className="mr-1 h-4 w-4" />
+            Zurück
+         </Button>
 
          <div className="flex flex-col gap-2">
             {sortedEdges.map((edge) => {
                const target = steps.find((s) => s.edgeId === edge.toStepId);
                return (
-                  <button
+                  <Button
                      key={edge.id}
+                     variant="outline"
                      onClick={() => onChoose(edge.toStepId)}
                      data-testid={`edge-btn-${edge.id}`}
-                     className={cn(
-                        "group flex items-center gap-3 rounded-lg border px-4 py-3 text-left transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                        isSingleOption
-                           ? "border-primary bg-primary text-primary-foreground hover:bg-primary/90"
-                           : "border-border bg-background hover:border-primary/50 hover:bg-accent/50"
-                     )}
+                     className="group h-auto justify-between px-4 py-3 text-left"
                   >
                      <div>
                         <span className="text-sm font-semibold">
@@ -61,7 +56,7 @@ export const NextStepButtons = ({
                         {target && (
                            <p
                               className={cn(
-                                 "mt-0.5 text-xs",
+                                 "mt-0.5 text-xs font-normal",
                                  isSingleOption
                                     ? "text-primary-foreground/70"
                                     : "text-muted-foreground"
@@ -73,13 +68,13 @@ export const NextStepButtons = ({
                      </div>
                      <ArrowRight
                         className={cn(
-                           "h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5",
+                           "ml-3 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5",
                            isSingleOption
                               ? "text-primary-foreground/70"
                               : "text-muted-foreground"
                         )}
                      />
-                  </button>
+                  </Button>
                );
             })}
          </div>
