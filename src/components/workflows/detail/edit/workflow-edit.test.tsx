@@ -104,18 +104,24 @@ describe("WorkflowEdit functionality tests", () => {
          assertRendered();
       });
 
-      await typeIntoInput("title", "Mein Workflow");
-
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
       await userEvent.click(saveBtn);
 
+      await waitFor(() => {
+         expect(createWorkflowMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("title", "Mein Workflow");
+
       const initValue = initWorkflow();
       const expectedPayload: DWorkflowUpdate = {
-         title: initValue.title + "Mein Workflow",
+         title: "Mein Workflow",
          description: initValue.description,
          steps: initValue.steps,
       };
+
+      await userEvent.click(saveBtn);
 
       await waitFor(() => {
          expect(createWorkflowMock).toHaveBeenCalledTimes(1);

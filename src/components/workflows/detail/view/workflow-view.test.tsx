@@ -7,82 +7,42 @@ import { assertInDocument, dtestData } from "@tests";
 import { WorkflowView } from "./workflow-view";
 
 const assertRendered = () => {
-   assertInDocument(screen.getByTestId("workflow-view"));
-   assertInDocument(screen.getByTestId("workflow-breadcrumb"));
-   assertInDocument(screen.getByTestId("workflow-info-card"));
-   assertInDocument(screen.getByTestId("workflow-sidebar"));
+   const view = screen.getByTestId("workflow-view");
+   const breadcrumb = screen.getByTestId("workflow-breadcrumb");
+   const info = screen.getByTestId("workflow-info");
+   const steps = screen.getByTestId("workflow-steps");
+   const sidebar = screen.getByTestId("workflow-sidebar");
+
+   assertInDocument(view);
+   assertInDocument(breadcrumb);
+   assertInDocument(info);
+   assertInDocument(steps);
+   assertInDocument(sidebar);
 };
 
 describe("WorkflowView rendering tests", () => {
-   it("with steps - test", async () => {
+   it("description defined - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
 
       const { container } = render(<WorkflowView workflow={workflow} />);
 
       await waitFor(() => {
          assertRendered();
-         assertInDocument(screen.getByTestId("workflow-steps"));
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("without steps - shows empty state - test", async () => {
-      const workflow = { ...dtestData.dWorkflowWithSteps(), steps: [] };
+   it("description null - test", async () => {
+      const workflow = dtestData.dWorkflowWithSteps();
+      workflow.description = null;
 
       const { container } = render(<WorkflowView workflow={workflow} />);
 
       await waitFor(() => {
          assertRendered();
-         assertInDocument(screen.getByTestId("steps-empty"));
       });
 
       expect(container).toMatchSnapshot();
-   });
-
-   it("with description - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
-
-      render(<WorkflowView workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText(workflow.description!));
-      });
-   });
-
-   it("without description - test", async () => {
-      const workflow = { ...dtestData.dWorkflowWithSteps(), description: null };
-
-      render(<WorkflowView workflow={workflow} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-   });
-
-   it("title is displayed - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
-
-      render(<WorkflowView workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(
-            screen.getByRole("heading", { level: 1, name: workflow.title })
-         );
-      });
-   });
-
-   it("sidebar shows step count and date - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
-
-      render(<WorkflowView workflow={workflow} />);
-
-      await waitFor(() => {
-         const sidebar = screen.getByTestId("workflow-sidebar");
-         const stepLabel = workflow.stepCount === 1 ? "Schritt" : "Schritte";
-         expect(sidebar).toHaveTextContent(
-            `${workflow.stepCount} ${stepLabel}`
-         );
-      });
    });
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`WorkflowView rendering tests with steps - test 1`] = `
+exports[`WorkflowView rendering tests description defined - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
@@ -88,7 +88,7 @@ exports[`WorkflowView rendering tests with steps - test 1`] = `
           >
             <div
               class="rounded-xl bg-white p-6 shadow-sm"
-              data-testid="workflow-info-card"
+              data-testid="workflow-info"
             >
               <h1
                 class="text-2xl font-bold text-slate-900"
@@ -103,11 +103,11 @@ exports[`WorkflowView rendering tests with steps - test 1`] = `
             </div>
             <div
               class="space-y-3"
-              data-testid="workflow-steps-list"
+              data-testid="workflow-steps"
             >
               <div
                 class="rounded-xl bg-white p-5 shadow-sm"
-                data-testid="step-card"
+                data-testid="step"
               >
                 <div
                   class="flex items-start gap-4"
@@ -226,7 +226,7 @@ exports[`WorkflowView rendering tests with steps - test 1`] = `
               </div>
               <div
                 class="rounded-xl bg-white p-5 shadow-sm"
-                data-testid="step-card"
+                data-testid="step"
               >
                 <div
                   class="flex items-start gap-4"
@@ -339,7 +339,7 @@ exports[`WorkflowView rendering tests with steps - test 1`] = `
               </div>
               <div
                 class="rounded-xl bg-white p-5 shadow-sm"
-                data-testid="step-card"
+                data-testid="step"
               >
                 <div
                   class="flex items-start gap-4"
@@ -598,7 +598,7 @@ exports[`WorkflowView rendering tests with steps - test 1`] = `
 </div>
 `;
 
-exports[`WorkflowView rendering tests without steps - shows empty state - test 1`] = `
+exports[`WorkflowView rendering tests description null - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
@@ -686,24 +686,363 @@ exports[`WorkflowView rendering tests without steps - shows empty state - test 1
           >
             <div
               class="rounded-xl bg-white p-6 shadow-sm"
-              data-testid="workflow-info-card"
+              data-testid="workflow-info"
             >
               <h1
                 class="text-2xl font-bold text-slate-900"
               >
                 title-1
               </h1>
-              <p
-                class="mt-2 text-sm text-slate-600"
-              >
-                description 1
-              </p>
             </div>
             <div
-              class="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500 shadow-sm"
-              data-testid="steps-empty"
+              class="space-y-3"
+              data-testid="workflow-steps"
             >
-              Dieser Workflow hat noch keine Schritte.
+              <div
+                class="rounded-xl bg-white p-5 shadow-sm"
+                data-testid="step"
+              >
+                <div
+                  class="flex items-start gap-4"
+                >
+                  <span
+                    class="mt-0.5 w-5 shrink-0 text-right font-mono text-xs text-slate-400"
+                  >
+                    1
+                    .
+                  </span>
+                  <div
+                    class="min-w-0 flex-1 space-y-3"
+                  >
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent text-primary-foreground [a&]:hover:bg-primary/90 bg-blue-600 text-xs hover:bg-blue-600"
+                        data-slot="badge"
+                      >
+                        Start
+                      </span>
+                      <span
+                        class="font-medium text-slate-900"
+                      >
+                        step-title-0
+                      </span>
+                    </div>
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                        data-slot="badge"
+                      >
+                        Eigenständig
+                      </span>
+                    </div>
+                    <div
+                      class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                      data-orientation="horizontal"
+                      data-slot="separator"
+                      role="none"
+                    />
+                    <p
+                      class="text-sm text-slate-600"
+                    >
+                      step-hint-0
+                    </p>
+                    <div
+                      class="flex flex-wrap gap-1.5"
+                    >
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Weiter
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          step-title-1
+                        </span>
+                      </span>
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Abbrechen
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          step-title-1
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-white p-5 shadow-sm"
+                data-testid="step"
+              >
+                <div
+                  class="flex items-start gap-4"
+                >
+                  <span
+                    class="mt-0.5 w-5 shrink-0 text-right font-mono text-xs text-slate-400"
+                  >
+                    2
+                    .
+                  </span>
+                  <div
+                    class="min-w-0 flex-1 space-y-3"
+                  >
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="font-medium text-slate-900"
+                      >
+                        step-title-1
+                      </span>
+                    </div>
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                        data-slot="badge"
+                      >
+                        Eigenständig
+                      </span>
+                    </div>
+                    <div
+                      class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                      data-orientation="horizontal"
+                      data-slot="separator"
+                      role="none"
+                    />
+                    <p
+                      class="text-sm text-slate-600"
+                    >
+                      step-hint-1
+                    </p>
+                    <div
+                      class="flex flex-wrap gap-1.5"
+                    >
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Weiter
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          step-title-2
+                        </span>
+                      </span>
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Abbrechen
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          step-title-2
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-white p-5 shadow-sm"
+                data-testid="step"
+              >
+                <div
+                  class="flex items-start gap-4"
+                >
+                  <span
+                    class="mt-0.5 w-5 shrink-0 text-right font-mono text-xs text-slate-400"
+                  >
+                    3
+                    .
+                  </span>
+                  <div
+                    class="min-w-0 flex-1 space-y-3"
+                  >
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="font-medium text-slate-900"
+                      >
+                        step-title-2
+                      </span>
+                    </div>
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+                        data-slot="badge"
+                      >
+                        Eigenständig
+                      </span>
+                    </div>
+                    <div
+                      class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                      data-orientation="horizontal"
+                      data-slot="separator"
+                      role="none"
+                    />
+                    <p
+                      class="text-sm text-slate-600"
+                    >
+                      step-hint-2
+                    </p>
+                    <div
+                      class="flex flex-wrap gap-1.5"
+                    >
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Weiter
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          ?
+                        </span>
+                      </span>
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                      >
+                        Abbrechen
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-arrow-right h-3 w-3 shrink-0"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="m12 5 7 7-7 7"
+                          />
+                        </svg>
+                        <span
+                          class="max-w-24 truncate"
+                        >
+                          ?
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <aside
