@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStep,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 
 import { CompletedState } from "./completed-state";
 import { NextStepButtons } from "./next-step-buttons";
@@ -20,13 +23,9 @@ type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
 type Props = {
    workflow: DWorkflowWithSteps;
-   initialTemplateData?: TemplateDataCache;
 };
 
-export const WorkflowRunner = ({
-   workflow,
-   initialTemplateData = {},
-}: Props) => {
+export const WorkflowRunner = ({ workflow }: Props) => {
    const startStep = workflow.steps.find((s) => s.isStart);
 
    const [state, setState] = useState<RunnerState>(() => ({
@@ -35,7 +34,7 @@ export const WorkflowRunner = ({
    }));
 
    const [templateDataCache, setTemplateDataCache] =
-      useState<TemplateDataCache>(initialTemplateData);
+      useState<TemplateDataCache>({});
 
    const currentStepId = state.historyStack[state.currentIndex];
    const currentStep = workflow.steps.find((s) => s.edgeId === currentStepId);
@@ -43,22 +42,33 @@ export const WorkflowRunner = ({
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
    const canGoBack = state.currentIndex > 0;
 
-   const handleChooseEdge = async (toStepId: string) => {
-      if (!templateDataCache[toStepId]) {
-         const nextStep = workflow.steps.find((s) => s.edgeId === toStepId);
-         if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
-            try {
-               const data = await getPromptGenerationData(nextStep.promptId);
-               setTemplateDataCache((prev) => ({ ...prev, [toStepId]: data }));
-            } catch {
-               // ignore
-            }
+   const loadStepData = async (nextStep?: DWorkflowStep) => {
+      if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
+         try {
+            const data = await getPromptGenerationData(nextStep.promptId);
+            setTemplateDataCache((prev) => ({
+               ...prev,
+               [nextStep.edgeId]: data,
+            }));
+         } catch {
+            // ignore
          }
+      }
+   };
+
+   useEffect(() => {
+      loadStepData(startStep);
+   }, [startStep]);
+
+   const handleChooseEdge = async (toEdgeId: string) => {
+      if (!templateDataCache[toEdgeId]) {
+         const nextStep = workflow.steps.find((s) => s.edgeId === toEdgeId);
+         await loadStepData(nextStep);
       }
 
       setState((prev) => {
          const newStack = prev.historyStack.slice(0, prev.currentIndex + 1);
-         newStack.push(toStepId);
+         newStack.push(toEdgeId);
          return { historyStack: newStack, currentIndex: prev.currentIndex + 1 };
       });
    };
