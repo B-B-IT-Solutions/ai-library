@@ -53,13 +53,6 @@ export const WorkflowMoreOptionsButton = ({ workflow }: Props) => {
          <DropdownMenuContent align="end">
             <ViewWorkflowButton workflow={workflow} />
             <EditWorkflowButton workflow={workflow} asMenuItem={true} />
-            <RunWorkflowButton
-               workflowId={workflow.id}
-               variant="ghost"
-               size="sm"
-               className="w-full justify-start px-2 py-1.5 font-normal"
-            />
-
             <DropdownMenuSeparator />
             <DeleteWorkflowButton workflow={workflow} asMenuItem={true} />
          </DropdownMenuContent>
