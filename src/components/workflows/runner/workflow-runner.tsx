@@ -78,7 +78,9 @@ export const WorkflowRunner = ({
       useState<TemplateDataCache>(initialTemplateData);
 
    const estimatedTotalSteps = useMemo(() => {
-      if (!startStep) return workflow.steps.length;
+      if (!startStep) {
+         return workflow.steps.length;
+      }
       return estimateMinPathLength(workflow.steps, startStep.edgeId);
    }, [workflow.steps, startStep]);
 
@@ -168,7 +170,6 @@ export const WorkflowRunner = ({
             {isCompleted ? (
                <CompletedState
                   onRestart={handleRestart}
-                  onClose={onClose}
                   stepCount={state.currentIndex + 1}
                />
             ) : (

@@ -2,6 +2,7 @@
 
 import { ChevronRight } from "lucide-react";
 
+import { Progress } from "@/components/shadcn/progress";
 import { DWorkflowStep } from "@/data/types/domain/workflow";
 
 type Props = {
@@ -26,17 +27,12 @@ export const RunnerBreadcrumb = ({
    return (
       <div className="border-b bg-muted/50">
          <div className="px-6 pt-2.5 pb-1.5">
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="mb-1.5 flex items-center justify-between">
                <span className="text-xs text-muted-foreground">
-                  Schritt {stepNumber} von ~{estimatedTotalSteps}
+                  Schritt {stepNumber} von {estimatedTotalSteps}
                </span>
             </div>
-            <div className="h-1 w-full rounded-full bg-border overflow-hidden">
-               <div
-                  className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${progressPercent}%` }}
-               />
-            </div>
+            <Progress value={progressPercent} />
          </div>
          <div className="flex items-center gap-1 overflow-x-auto px-6 py-2 text-sm">
             {historyStack.slice(0, currentIndex + 1).map((stepId, idx) => {
@@ -45,7 +41,7 @@ export const RunnerBreadcrumb = ({
                return (
                   <span
                      key={stepId}
-                     className="flex items-center gap-1 shrink-0"
+                     className="flex shrink-0 items-center gap-1"
                   >
                      {idx > 0 && (
                         <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
@@ -53,12 +49,12 @@ export const RunnerBreadcrumb = ({
                      <span
                         className={
                            isCurrent
-                              ? "font-semibold text-primary flex items-center gap-1.5"
+                              ? "flex items-center gap-1.5 font-semibold text-primary"
                               : "text-muted-foreground"
                         }
                      >
                         {isCurrent && (
-                           <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                           <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         )}
                         {step?.title ?? stepId}
                      </span>
