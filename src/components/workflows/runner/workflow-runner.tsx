@@ -115,7 +115,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
                <StepRenderer
                   step={currentStep}
                   templateData={templateDataCache[currentStep.edgeId] ?? null}
-                  workflowId={workflow.id}
+                  workflow={workflow}
                />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>

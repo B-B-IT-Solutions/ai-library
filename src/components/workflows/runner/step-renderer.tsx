@@ -8,17 +8,20 @@ import { Button } from "@/components/shadcn/button";
 import { CopyButton } from "@/components/shared/buttons";
 import { MDRenderer } from "@/components/shared/md";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import { DWorkflowStep } from "@/data/types/domain/workflow";
+import {
+   DWorkflowStep,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 
 type Props = {
    step: DWorkflowStep;
    templateData: DPromptGenerationData | null;
-   workflowId: string;
+   workflow: DWorkflowWithSteps;
 };
 
-export const StepRenderer = ({ step, templateData, workflowId }: Props) => {
+export const StepRenderer = ({ step, templateData, workflow }: Props) => {
    return (
-      <div className="mx-auto max-w-3xl animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2">
+      <div className="animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2">
          <div className="space-y-3 rounded-xl border bg-card p-6">
             <h2 className="text-xl font-bold text-foreground">{step.title}</h2>
             {step.hint && (
@@ -49,7 +52,7 @@ export const StepRenderer = ({ step, templateData, workflowId }: Props) => {
                         kann nicht ausgeführt werden.
                      </p>
                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/workflows/${workflowId}/edit`}>
+                        <Link href={`/workflows/${workflow.id}/edit`}>
                            <Edit className="mr-2 h-4 w-4" />
                            Workflow bearbeiten
                         </Link>
