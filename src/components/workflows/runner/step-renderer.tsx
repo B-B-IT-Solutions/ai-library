@@ -18,8 +18,8 @@ type Props = {
 
 export const StepRenderer = ({ step, templateData, workflowId }: Props) => {
    return (
-      <div className="mx-auto max-w-3xl space-y-5 animate-in fade-in-0 slide-in-from-bottom-2 duration-200">
-         <div className="rounded-xl border bg-card p-6 space-y-3">
+      <div className="mx-auto max-w-3xl animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2">
+         <div className="space-y-3 rounded-xl border bg-card p-6">
             <h2 className="text-xl font-bold text-foreground">{step.title}</h2>
             {step.hint && (
                <div className="flex items-start gap-2 rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
@@ -37,10 +37,12 @@ export const StepRenderer = ({ step, templateData, workflowId }: Props) => {
                      recommendedModel={templateData.template.recommendedModel}
                   />
                ) : (
-                  <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-5 space-y-3">
+                  <div className="space-y-3 rounded-xl border border-destructive/20 bg-destructive/5 p-5">
                      <div className="flex items-start gap-2 text-sm text-destructive">
                         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                        <span className="font-medium">Template nicht verfügbar</span>
+                        <span className="font-medium">
+                           Template nicht verfügbar
+                        </span>
                      </div>
                      <p className="text-sm text-muted-foreground">
                         Das verknüpfte Template wurde gelöscht. Dieser Schritt
@@ -48,7 +50,7 @@ export const StepRenderer = ({ step, templateData, workflowId }: Props) => {
                      </p>
                      <Button variant="outline" size="sm" asChild>
                         <Link href={`/workflows/${workflowId}/edit`}>
-                           <Edit className="h-4 w-4 mr-2" />
+                           <Edit className="mr-2 h-4 w-4" />
                            Workflow bearbeiten
                         </Link>
                      </Button>

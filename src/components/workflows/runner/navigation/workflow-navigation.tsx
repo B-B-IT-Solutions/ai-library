@@ -12,17 +12,17 @@ import { NextStep } from "./workflow-step";
 type Props = {
    edges: DWorkflowStepEdge[];
    allSteps: DWorkflowStep[];
-   onChoose: (toStepId: string) => void;
-   canGoBack: boolean;
-   onBack: () => void;
+   onNextStep: (toStepId: string) => void;
+   onPreviousStep: () => void;
+   previousEnabled: boolean;
 };
 
 export const WorkflowNavigation = ({
    edges,
    allSteps,
-   onChoose,
-   canGoBack,
-   onBack,
+   onNextStep,
+   onPreviousStep,
+   previousEnabled,
 }: Props) => {
    const sortedEdges = sortBy(edges, [(a) => a.order]);
 
@@ -32,7 +32,7 @@ export const WorkflowNavigation = ({
             key={index}
             edge={edge}
             allSteps={allSteps}
-            onSelected={onChoose}
+            onSelected={onNextStep}
          />
       );
    };
@@ -45,8 +45,8 @@ export const WorkflowNavigation = ({
          <Button
             variant="ghost"
             size="sm"
-            onClick={onBack}
-            disabled={!canGoBack}
+            onClick={onPreviousStep}
+            disabled={!previousEnabled}
             className="shrink-0 cursor-pointer"
             data-testid="previous-step-btn"
          >

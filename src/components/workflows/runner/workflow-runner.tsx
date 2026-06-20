@@ -60,7 +60,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       loadStepData(startStep);
    }, [startStep]);
 
-   const handleChooseEdge = async (toEdgeId: string) => {
+   const handleNextStep = async (toEdgeId: string) => {
       if (!templateDataCache[toEdgeId]) {
          const nextStep = workflow.steps.find((s) => s.edgeId === toEdgeId);
          await loadStepData(nextStep);
@@ -72,7 +72,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       }));
    };
 
-   const handleBack = () => {
+   const handlePreviousStep = () => {
       setState((prev) => {
          const previousEdgeIds = [...prev.previousEdgeIds];
          const currentEdgeId = previousEdgeIds.pop() ?? prev.currentEdgeId;
@@ -132,9 +132,9 @@ export const WorkflowRunner = ({ workflow }: Props) => {
                <WorkflowNavigation
                   edges={outgoingEdges}
                   allSteps={workflow.steps}
-                  onChoose={handleChooseEdge}
-                  canGoBack={canGoBack}
-                  onBack={handleBack}
+                  onNextStep={handleNextStep}
+                  onPreviousStep={handlePreviousStep}
+                  previousEnabled={canGoBack}
                />
             )}
          </div>
