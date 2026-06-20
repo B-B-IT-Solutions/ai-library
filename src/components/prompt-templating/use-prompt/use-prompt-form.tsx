@@ -31,12 +31,12 @@ import { AiTool } from "./type";
 import { requiredVariables, requiredVariablesWithValue } from "./utils";
 
 type Props = {
-   templateData: DPromptGenerationData;
+   promptData: DPromptGenerationData;
    recommendedModel?: string;
 };
 
-export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
-   const { template, allFields: fields } = templateData;
+export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
+   const { template, allFields: fields } = promptData;
    const hasFields = fields.length > 0;
 
    const fieldsSchema = buildFieldsSchema(fields);
@@ -178,7 +178,7 @@ export const UsePromptForm = ({ templateData, recommendedModel }: Props) => {
                      </span>
                      <div className="min-h-0 flex-1 overflow-y-auto rounded-md border p-4">
                         <PromptVariablesForm
-                           templateData={templateData}
+                           templateData={promptData}
                            control={form.control}
                         />
                      </div>
