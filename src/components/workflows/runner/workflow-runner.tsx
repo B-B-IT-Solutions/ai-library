@@ -9,7 +9,7 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 
-import { NextStepButtons } from "./next-step-buttons";
+import { WorkflowNavigation } from "./navigation";
 import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
 import { StepRenderer } from "./step-renderer";
 
@@ -129,9 +129,9 @@ export const WorkflowRunner = ({ workflow }: Props) => {
                   stepCount={state.previousEdgeIds.length + 1}
                />
             ) : (
-               <NextStepButtons
+               <WorkflowNavigation
                   edges={outgoingEdges}
-                  steps={workflow.steps}
+                  allSteps={workflow.steps}
                   onChoose={handleChooseEdge}
                   canGoBack={canGoBack}
                   onBack={handleBack}
