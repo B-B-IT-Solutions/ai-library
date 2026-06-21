@@ -116,6 +116,7 @@ describe("WorkflowMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertContextMenuNotRendered();
+         assertDateStateClosed();
          expect(mockRouter.pathname).toEqual(`/workflows/${workflow.id}`);
       });
    });
