@@ -114,7 +114,7 @@ exports[`RunWorkflowDialog rendering tests rendered - test 1`] = `
             >
               <div
                 class="animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2"
-                data-testid="step-renderer"
+                data-testid="step-runner"
               >
                 <div
                   class="space-y-3 rounded-xl border bg-card p-6"
@@ -159,6 +159,7 @@ exports[`RunWorkflowDialog rendering tests rendered - test 1`] = `
                 </div>
                 <div
                   class="space-y-2"
+                  data-testid="standalone-step"
                 >
                   <div
                     class="flex items-center justify-between"
