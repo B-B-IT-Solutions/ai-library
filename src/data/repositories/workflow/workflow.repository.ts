@@ -262,7 +262,7 @@ export class WorkflowRepository {
                position: step.position,
                outgoingEdges: {
                   create: map(step.edges, (e) => ({
-                     // fromStepEdgeId: edgeId,
+                     fromStepEdgeId: edgeId,
                      toStepEdgeId: e.toStepEdgeId,
                      label: e.label,
                      order: e.order,

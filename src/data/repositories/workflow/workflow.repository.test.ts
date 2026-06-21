@@ -467,6 +467,7 @@ describe("pUpdateWorkflow", () => {
             type: updatedStep.type,
             outgoingEdges: {
                create: map(updatedStep.edges, (e) => ({
+                  fromStepEdgeId: updatedStep.edgeId,
                   toStepEdgeId: e.toStepEdgeId,
                   label: e.label,
                   order: e.order,
@@ -631,6 +632,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step1.position,
             outgoingEdges: {
                create: step1.edges.map((e) => ({
+                  fromStepEdgeId: step1.edgeId,
                   toStepEdgeId: e.toStepEdgeId,
                   label: e.label,
                   order: e.order,
@@ -650,6 +652,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step2.position,
             outgoingEdges: {
                create: step2.edges.map((e) => ({
+                  fromStepEdgeId: step2.edgeId,
                   toStepEdgeId: e.toStepEdgeId,
                   label: e.label,
                   order: e.order,
@@ -701,6 +704,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step.position,
             outgoingEdges: {
                create: step.edges.map((e) => ({
+                  fromStepEdgeId: step.edgeId,
                   toStepEdgeId: e.toStepEdgeId,
                   label: e.label,
                   order: e.order,
