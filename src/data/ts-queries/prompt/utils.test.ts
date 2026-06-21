@@ -1,37 +1,39 @@
 import { dtestData } from "@tests";
 
-import { templateCategoriesKeys, templateKeys } from "./utils";
+import { promptKeys, templateCategoriesKeys } from "./utils";
 
 describe("keys tests", () => {
    test("templateKeys - test", async () => {
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort("name", "asc");
+      const promptId = "prompt-id-1";
 
-      expect(templateKeys.all).toEqual(["templates"]);
-      expect(templateKeys.prompts({})).toEqual(["templates", {}]);
-      expect(templateKeys.prompts({ filters, sort })).toEqual([
+      expect(promptKeys.all).toEqual(["templates"]);
+      expect(promptKeys.prompts({})).toEqual(["templates", {}]);
+      expect(promptKeys.prompts({ filters, sort })).toEqual([
          "templates",
          { filters, sort },
       ]);
-      expect(templateKeys.publicPrompts({})).toEqual([
-         "templates",
-         "public",
-         {},
-      ]);
-      expect(templateKeys.publicPrompts({ filters, sort })).toEqual([
+      expect(promptKeys.publicPrompts({})).toEqual(["templates", "public", {}]);
+      expect(promptKeys.publicPrompts({ filters, sort })).toEqual([
          "templates",
          "public",
          { filters, sort },
       ]);
-      expect(templateKeys.promptPreviews({})).toEqual([
+      expect(promptKeys.promptPreviews({})).toEqual([
          "templates",
          "previews",
          {},
       ]);
-      expect(templateKeys.promptPreviews({ filters, sort })).toEqual([
+      expect(promptKeys.promptPreviews({ filters, sort })).toEqual([
          "templates",
          "previews",
          { filters, sort },
+      ]);
+      expect(promptKeys.templatingData({ promptId })).toEqual([
+         "templates",
+         "templatingData",
+         promptId,
       ]);
    });
 

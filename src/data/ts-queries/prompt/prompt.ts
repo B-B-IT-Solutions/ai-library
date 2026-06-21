@@ -38,11 +38,7 @@ import type {
    LoadPromptTemplatingDataParams,
    UpdateIsFavoriteParams,
 } from "./types";
-import {
-   promptGenerationKeys,
-   templateCategoriesKeys,
-   templateKeys,
-} from "./utils";
+import { promptKeys, templateCategoriesKeys } from "./utils";
 
 export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    string[],
@@ -68,7 +64,7 @@ export const infiniteLoadPromptsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.prompts(params),
+      queryKey: promptKeys.prompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
@@ -103,7 +99,7 @@ export const infiniteLoadPromptPreviewsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.promptPreviews(params),
+      queryKey: promptKeys.promptPreviews(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptPreviewsPageQuery = pageQuery(
             pageParam,
@@ -153,8 +149,13 @@ export const loadPromptTemplatingDataOptions = (
 > => {
    const { promptId, enabled } = params;
    return {
-      queryKey: promptGenerationKeys.byId(promptId),
-      queryFn: () => getPromptGenerationData(promptId),
+      queryKey: promptKeys.templatingData(params),
+      queryFn: () => {
+         if (promptId) {
+            return getPromptGenerationData(promptId);
+         }
+         return null;
+      },
       enabled: enabled,
       staleTime: 5 * 60 * 1000,
    };

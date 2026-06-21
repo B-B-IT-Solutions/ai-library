@@ -3,16 +3,19 @@ import { filterQueryKey } from "../utils";
 import type {
    LoadPromptPreviewsPageParams,
    LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
 } from "./types";
 
-export const templateKeys = {
+export const promptKeys = {
    all: ["templates"] as const,
    prompts: ({ filters, sort }: LoadPromptsPageParams) =>
-      [...templateKeys.all, filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, filterQueryKey(filters, sort)] as const,
    publicPrompts: ({ filters, sort }: LoadPromptsPageParams) =>
-      [...templateKeys.all, "public", filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, "public", filterQueryKey(filters, sort)] as const,
    promptPreviews: ({ filters, sort }: LoadPromptPreviewsPageParams) =>
-      [...templateKeys.all, "previews", filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, "previews", filterQueryKey(filters, sort)] as const,
+   templatingData: ({ promptId }: LoadPromptTemplatingDataParams) =>
+      [...promptKeys.all, "templatingData", promptId] as const,
 };
 
 export const templateCategoriesKeys = {
@@ -20,9 +23,4 @@ export const templateCategoriesKeys = {
    categories: () => {
       return [...templateCategoriesKeys.all] as const;
    },
-};
-
-export const promptGenerationKeys = {
-   all: ["prompt-generation"] as const,
-   byId: (promptId: string) => [...promptGenerationKeys.all, promptId] as const,
 };

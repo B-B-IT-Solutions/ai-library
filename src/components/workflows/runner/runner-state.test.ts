@@ -80,10 +80,7 @@ describe("runnerReducer", () => {
       const state = new RunnerState("edge-1")
          .advance("edge-2")
          .advance("edge-3");
-      const next = runnerReducer(state, {
-         type: "RESTART",
-         startEdgeId: "edge-1",
-      });
+      const next = runnerReducer(state, { type: "RESTART" });
       expect(next.currentEdgeId).toBe("edge-1");
       expect(next.previousEdgeIds).toEqual([]);
    });
