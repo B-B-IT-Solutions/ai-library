@@ -467,7 +467,7 @@ describe("pUpdateWorkflow", () => {
             type: updatedStep.type,
             outgoingEdges: {
                create: map(updatedStep.edges, (e) => ({
-                  toStepId: e.toStepId,
+                  toStepEdgeId: e.toStepId,
                   label: e.label,
                   order: e.order,
                })),
@@ -613,10 +613,10 @@ describe("pUpdateWorkflowSteps", () => {
       await repository.pUpdateWorkflowSteps([step1, step2]);
 
       const expectedDeleteEdgesArgs1: WorkflowStepEdgeDeleteManyArgs = {
-         where: { fromStepId: step1.id! },
+         where: { fromStepEdgeId: step1.edgeId },
       };
       const expectedDeleteEdgesArgs2: WorkflowStepEdgeDeleteManyArgs = {
-         where: { fromStepId: step2.id! },
+         where: { fromStepEdgeId: step2.edgeId },
       };
 
       const expectedUpdateArgs1: WorkflowStepUpdateArgs = {
@@ -631,7 +631,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step1.position,
             outgoingEdges: {
                create: step1.edges.map((e) => ({
-                  toStepId: e.toStepId,
+                  toStepEdgeId: e.toStepId,
                   label: e.label,
                   order: e.order,
                })),
@@ -650,7 +650,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step2.position,
             outgoingEdges: {
                create: step2.edges.map((e) => ({
-                  toStepId: e.toStepId,
+                  toStepEdgeId: e.toStepId,
                   label: e.label,
                   order: e.order,
                })),
@@ -687,7 +687,7 @@ describe("pUpdateWorkflowSteps", () => {
       await repository.pUpdateWorkflowSteps([step]);
 
       const expectedDeleteEdgesArgs: WorkflowStepEdgeDeleteManyArgs = {
-         where: { fromStepId: step.id! },
+         where: { fromStepEdgeId: step.edgeId },
       };
       const expectedUpdateArgs: WorkflowStepUpdateArgs = {
          where: { id: step.id! },
@@ -701,7 +701,7 @@ describe("pUpdateWorkflowSteps", () => {
             position: step.position,
             outgoingEdges: {
                create: step.edges.map((e) => ({
-                  toStepId: e.toStepId,
+                  toStepEdgeId: e.toStepId,
                   label: e.label,
                   order: e.order,
                })),
