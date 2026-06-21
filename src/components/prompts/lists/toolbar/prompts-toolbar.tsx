@@ -25,18 +25,24 @@ export const PromptsToolbar = ({
          className="flex flex-col gap-2 border-b bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6"
          data-testid="prompts-toolbar"
       >
-         <div className="sm:w-64">
-            <SearchFilter />
-         </div>
-         <div className="flex items-center justify-between gap-2 sm:gap-3">
-            <div className="flex items-center gap-2">
-               <PromptFilters
-                  categories={categories}
-                  models={models}
-                  collections={collections}
-               />
-               <SortBySelect />
+         <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="sm:w-64">
+               <SearchFilter />
             </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+               <div className="flex-1 sm:flex-none">
+                  <PromptFilters
+                     categories={categories}
+                     models={models}
+                     collections={collections}
+                  />
+               </div>
+               <div className="flex-1 sm:flex-none">
+                  <SortBySelect />
+               </div>
+            </div>
+         </div>
+         <div className="hidden sm:block">
             <ListViewToggle currentView={viewMode} />
          </div>
       </div>
