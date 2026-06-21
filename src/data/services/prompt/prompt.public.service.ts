@@ -52,11 +52,11 @@ export class PublicPromptService {
                prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(prompt, globalFields);
+         const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
          return {
             prompt,
-            allVariables: allFields,
+            allVariables,
          };
       }
 
