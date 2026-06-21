@@ -2,7 +2,6 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { StandaloneStep } from "./standalone-step";
 import { StepRunner } from "./step-runner";
 
 const assertRendered = () => {
@@ -23,12 +22,11 @@ const assertStandaloneStepRendered = () => {
 describe("StepRunner rendering tests", () => {
    it("prompt step - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
-      const promptData = dtestData.dPromptGenerationData();
       const step = dtestData.dWorkflowStep();
       step.type = "PROMPT_REF";
 
       const { container } = render(
-         <StepRunner step={step} promptData={promptData} workflow={workflow} />
+         <StepRunner step={step} workflow={workflow} />
       );
 
       await waitFor(() => {
@@ -45,7 +43,7 @@ describe("StepRunner rendering tests", () => {
       step.type = "STANDALONE";
 
       const { container } = render(
-         <StepRunner step={step} workflow={workflow} promptData={null} />
+         <StepRunner step={step} workflow={workflow} />
       );
 
       await waitFor(() => {

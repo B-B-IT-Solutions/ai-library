@@ -1,27 +1,14 @@
 "use client";
 
-import {
-   useCallback,
-   useEffect,
-   useMemo,
-   useReducer,
-   useRef,
-   useState,
-} from "react";
+import { useCallback, useMemo, useReducer } from "react";
+import { find, isEmpty } from "es-toolkit/compat";
 
-import { getPromptGenerationData } from "@/data/actions/prompt";
-import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import {
-   DWorkflowStep,
-   DWorkflowWithSteps,
-} from "@/data/types/domain/workflow";
+import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
 
 import { WorkflowNavigation } from "./navigation";
 import { runnerReducer, RunnerState } from "./runner-state";
 import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
 import { StepRunner } from "./steps";
-
-type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
 type Props = {
    workflow: DWorkflowWithSteps;
@@ -29,7 +16,7 @@ type Props = {
 
 export const WorkflowRunner = ({ workflow }: Props) => {
    const startStep = useMemo(
-      () => workflow.steps.find((s) => s.isStart),
+      () => find(workflow.steps, (s) => s.isStart),
       [workflow.steps]
    );
 
@@ -39,44 +26,9 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       () => new RunnerState(startStep?.edgeId ?? "")
    );
 
-   const [templateDataCache, setTemplateDataCache] =
-      useState<TemplateDataCache>({});
-   const loadedEdgeIds = useRef(new Set<string>());
-
-   const currentStep = workflow.steps.find(
-      (s) => s.edgeId === state.currentEdgeId
-   );
-   const outgoingEdges = currentStep?.outgoingEdges ?? [];
-   const isCompleted = outgoingEdges.length === 0 && !!currentStep;
-
-   const loadStepData = useCallback(async (step?: DWorkflowStep) => {
-      if (step?.type !== "PROMPT_REF" || !step.promptId) {
-         return;
-      }
-      if (loadedEdgeIds.current.has(step.edgeId)) {
-         return;
-      }
-      loadedEdgeIds.current.add(step.edgeId);
-      try {
-         const data = await getPromptGenerationData(step.promptId);
-         setTemplateDataCache((prev) => ({ ...prev, [step.edgeId]: data }));
-      } catch {
-         loadedEdgeIds.current.delete(step.edgeId);
-      }
+   const handleNextStep = useCallback((toEdgeId: string) => {
+      dispatch({ type: "ADVANCE", toEdgeId });
    }, []);
-
-   useEffect(() => {
-      loadStepData(startStep);
-   }, [startStep, loadStepData]);
-
-   const handleNextStep = useCallback(
-      async (toEdgeId: string) => {
-         const nextStep = workflow.steps.find((s) => s.edgeId === toEdgeId);
-         await loadStepData(nextStep);
-         dispatch({ type: "ADVANCE", toEdgeId });
-      },
-      [workflow.steps, loadStepData]
-   );
 
    const handlePreviousStep = useCallback(() => {
       dispatch({ type: "GO_BACK" });
@@ -86,7 +38,15 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       dispatch({ type: "RESTART", startEdgeId: startStep?.edgeId ?? "" });
    }, [startStep]);
 
-   if (workflow.steps.length === 0) {
+   const currentStep = find(
+      workflow.steps,
+      (s) => s.edgeId === state.currentEdgeId
+   );
+   const outgoingEdges = currentStep?.outgoingEdges ?? [];
+
+   const isCompleted = outgoingEdges.length === 0 && !!currentStep;
+
+   if (isEmpty(workflow.steps)) {
       return (
          <WorklowStepsEmpty
             workflow={workflow}
@@ -111,11 +71,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       >
          <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
             {currentStep ? (
-               <StepRunner
-                  step={currentStep}
-                  promptData={templateDataCache[currentStep.edgeId] ?? null}
-                  workflow={workflow}
-               />
+               <StepRunner step={currentStep} workflow={workflow} />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>
             )}

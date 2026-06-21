@@ -54,9 +54,9 @@ export class PromptService {
 
    async getPromptWithContent(
       userId: string,
-      templateId: string
+      promptId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPromptContent(userId, templateId);
+      return await this.repository.pGetPromptContent(userId, promptId);
    }
 
    async createPrompt(
@@ -110,21 +110,21 @@ export class PromptService {
 
    async getPromptGenerationData(
       userId: string,
-      teamplateId: string
+      promptId: string
    ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPromptWithContent(userId, teamplateId);
+      const prompt = await this.getPromptWithContent(userId, promptId);
 
-      if (template) {
+      if (prompt) {
          const globalFields =
             await this.settingService.getGlobalPromptFieldsByIds(
                userId,
-               template.globalFieldIds
+               prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(template, globalFields);
+         const allFields = resolveAllTemplateFields(prompt, globalFields);
 
          return {
-            template,
+            template: prompt,
             allFields,
          };
       }

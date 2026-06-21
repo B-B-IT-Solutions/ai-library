@@ -124,13 +124,13 @@ describe("getPromptWithContent tests", () => {
 
    it("prompt retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
 
-      const { id } = template;
+      const { id } = prompt;
       const result = await promptService.getPromptWithContent(userId, id);
 
-      expect(result).toEqual(template);
+      expect(result).toEqual(prompt);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
@@ -317,17 +317,17 @@ describe("getPromptGenerationData tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pGetPromptContent.mockResolvedValue(null);
 
-      const templateId = "template-id-1";
+      const promptId = "prompt-id-1";
       const result = await promptService.getPromptGenerationData(
          userId,
-         templateId
+         promptId
       );
 
       expect(result).toBeNull();
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(
          userId,
-         templateId
+         promptId
       );
       expect(
          settingsServiceMock.getGlobalPromptFieldsByIds
@@ -336,21 +336,21 @@ describe("getPromptGenerationData tests", () => {
 
    it("data retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
-      const { id, globalFieldIds } = template;
+      const { id, globalFieldIds } = prompt;
       const result = await promptService.getPromptGenerationData(userId, id);
 
-      const allFields = resolveAllTemplateFields(template, globalFields);
+      const allFields = resolveAllTemplateFields(prompt, globalFields);
 
       const expectedResult: DPromptGenerationData = {
-         template,
+         template: prompt,
          allFields,
       };
 

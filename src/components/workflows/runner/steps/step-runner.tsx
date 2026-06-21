@@ -2,7 +2,6 @@
 
 import { Info } from "lucide-react";
 
-import { DPromptGenerationData } from "@/data/types/domain/prompt";
 import {
    DWorkflowStep,
    DWorkflowWithSteps,
@@ -14,10 +13,9 @@ import { StandaloneStep } from "./standalone-step";
 type Props = {
    workflow: DWorkflowWithSteps;
    step: DWorkflowStep;
-   promptData: DPromptGenerationData | null;
 };
 
-export const StepRunner = ({ step, promptData, workflow }: Props) => {
+export const StepRunner = ({ step, workflow }: Props) => {
    return (
       <div
          className="animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2"
@@ -34,7 +32,7 @@ export const StepRunner = ({ step, promptData, workflow }: Props) => {
          </div>
 
          {step.type === "PROMPT_REF" && (
-            <PromptStep promptData={promptData} workflow={workflow} />
+            <PromptStep step={step} workflow={workflow} />
          )}
 
          {step.type === "STANDALONE" && <StandaloneStep step={step} />}

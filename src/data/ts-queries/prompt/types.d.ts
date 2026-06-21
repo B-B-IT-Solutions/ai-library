@@ -11,6 +11,11 @@ export type LoadPromptPreviewsPageParams = {
    sort?: Sort;
 };
 
+export type LoadPromptTemplatingDataParams = {
+   promptId?: string | null;
+   enabled: boolean;
+};
+
 export type UpdateIsFavoriteParams = {
    promptId: string;
    isFavorite: boolean;

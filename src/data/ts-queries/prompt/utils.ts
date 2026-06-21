@@ -21,3 +21,8 @@ export const templateCategoriesKeys = {
       return [...templateCategoriesKeys.all] as const;
    },
 };
+
+export const promptGenerationKeys = {
+   all: ["prompt-generation"] as const,
+   byId: (promptId: string) => [...promptGenerationKeys.all, promptId] as const,
+};
