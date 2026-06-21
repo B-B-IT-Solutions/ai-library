@@ -20,7 +20,7 @@ export const CollectionItem = ({ collection, ref }: Props) => {
          data-testid="collection-item"
       >
          {/* Actions Menu – only on hover */}
-         <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
+         <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100">
             <MoreOptionsButton collection={collection} size="icon-sm" />
          </div>
 
