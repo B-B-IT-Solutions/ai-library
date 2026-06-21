@@ -40,6 +40,8 @@ const assertMenuItems = () => {
    const groupLibrary = screen.getByTestId("group-library");
    const prompts = screen.getByTestId("menu-item-templates");
    const collections = screen.getByTestId("menu-item-collections");
+   const workflows = screen.getByTestId("menu-item-workflows");
+   const workflowsBadge = screen.getByTestId("menu-item-workflows-badge");
 
    const groupDiscover = screen.getByTestId("group-discover");
    const explore = screen.getByTestId("menu-item-explore");
@@ -53,6 +55,8 @@ const assertMenuItems = () => {
    assertInDocument(groupLibrary);
    assertInDocument(prompts);
    assertInDocument(collections);
+   assertInDocument(workflows);
+   assertInDocument(workflowsBadge);
 
    assertInDocument(groupDiscover);
    assertInDocument(explore);

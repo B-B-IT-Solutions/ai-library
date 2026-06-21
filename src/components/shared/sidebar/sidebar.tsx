@@ -14,6 +14,7 @@ import {
    SidebarGroupLabel,
    SidebarHeader,
    SidebarMenu,
+   SidebarMenuBadge,
    SidebarMenuButton,
    SidebarMenuItem,
    SidebarTrigger,
@@ -50,6 +51,14 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                      <span>{m.title}</span>
                   </Link>
                </SidebarMenuButton>
+               {m.badge && (
+                  <SidebarMenuBadge
+                     className="rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                     data-testid={`menu-item${toTestId(m.id)}-badge`}
+                  >
+                     {m.badge}
+                  </SidebarMenuBadge>
+               )}
             </SidebarMenuItem>
          );
       });
