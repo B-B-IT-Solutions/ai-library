@@ -1,8 +1,16 @@
+jest.mock("@/data/actions/prompt");
+
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
+
+import { getPromptGenerationData } from "@/data/actions/prompt";
 
 import { StepRunner } from "./step-runner";
+
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
+   >;
 
 const assertRendered = () => {
    const step = screen.getByTestId("step-runner");
@@ -21,11 +29,15 @@ const assertStandaloneStepRendered = () => {
 
 describe("StepRunner rendering tests", () => {
    it("prompt step - test", async () => {
+      const promptData = dtestData.dPromptGenerationData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
       const workflow = dtestData.dWorkflowWithSteps();
       const step = dtestData.dWorkflowStep();
       step.type = "PROMPT_REF";
+      step.promptId = promptData.template.id;
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <StepRunner step={step} workflow={workflow} />
       );
 
@@ -42,7 +54,7 @@ describe("StepRunner rendering tests", () => {
       const step = dtestData.dWorkflowStep();
       step.type = "STANDALONE";
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <StepRunner step={step} workflow={workflow} />
       );
 

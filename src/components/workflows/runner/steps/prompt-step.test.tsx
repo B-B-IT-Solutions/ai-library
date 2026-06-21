@@ -1,8 +1,16 @@
+jest.mock("@/data/actions/prompt");
+
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
+
+import { getPromptGenerationData } from "@/data/actions/prompt";
 
 import { PromptStep } from "./prompt-step";
+
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
+   >;
 
 const assertRendered = () => {
    const step = screen.getByTestId("prompt-step");
@@ -16,10 +24,15 @@ const assertPromptDataRendered = () => {
 
 describe("PromptStep rendering tests", () => {
    it("promptData null - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
+      getPromptGenerationDataMock.mockResolvedValue(null);
 
-      const { container } = render(
-         <PromptStep promptData={null} workflow={workflow} />
+      const workflow = dtestData.dWorkflowWithSteps();
+      const step = dtestData.dWorkflowStep();
+      step.type = "PROMPT_REF";
+      step.promptId = "prompt-id-1";
+
+      const { container } = renderWithReactQuery(
+         <PromptStep step={step} workflow={workflow} />
       );
 
       await waitFor(() => {
@@ -29,12 +42,17 @@ describe("PromptStep rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("content defined - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
+   it("promptData retrieved - test", async () => {
       const promptData = dtestData.dPromptGenerationData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
 
-      const { container } = render(
-         <PromptStep promptData={promptData} workflow={workflow} />
+      const workflow = dtestData.dWorkflowWithSteps();
+      const step = dtestData.dWorkflowStep();
+      step.type = "PROMPT_REF";
+      step.promptId = promptData.template.id;
+
+      const { container } = renderWithReactQuery(
+         <PromptStep step={step} workflow={workflow} />
       );
 
       await waitFor(() => {

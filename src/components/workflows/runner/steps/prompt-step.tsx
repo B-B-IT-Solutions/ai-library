@@ -26,7 +26,7 @@ export const PromptStep = ({ step, workflow }: Props) => {
       return (
          <div
             className="flex items-center gap-2 p-5 text-sm text-muted-foreground"
-            data-testid="prompt-step"
+            data-testid="prompt-step-loading"
          >
             <Loader2 className="h-4 w-4 animate-spin" />
             <span>Wird geladen…</span>
