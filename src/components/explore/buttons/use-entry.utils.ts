@@ -1,5 +1,5 @@
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 
 export const toDPrompt = (entry: DCatalogEntryWithContent): DPrompt => {
    return {
@@ -18,7 +18,7 @@ export const toDPrompt = (entry: DCatalogEntryWithContent): DPrompt => {
 
 export const toDPromptGenerationData = (
    entry: DCatalogEntryWithContent
-): DPromptGenerationData => {
+): DPromptTemplatingData => {
    return {
       template: {
          ...toDPrompt(entry),

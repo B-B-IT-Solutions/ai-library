@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { UsePromptDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { getPublicPromptGenerationData } from "@/data/actions/prompt";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -19,7 +19,7 @@ export const PublicUsePromptButton = ({ prompt, className }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const [templateData, setTemplateData] =
-      useState<DPromptGenerationData | null>(null);
+      useState<DPromptTemplatingData | null>(null);
 
    const handleUseTemplate = async () => {
       startTransition(async () => {

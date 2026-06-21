@@ -9,12 +9,12 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
-   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariableValues,
@@ -163,7 +163,7 @@ export const deletePrompt = async (
 
 export const getPromptGenerationData = async (
    promptId: string
-): Promise<DPromptGenerationData | null> => {
+): Promise<DPromptTemplatingData | null> => {
    try {
       const user = await requireUser();
       const service = getService();

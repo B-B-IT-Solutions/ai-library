@@ -20,11 +20,11 @@ import {
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
-   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -262,9 +262,9 @@ describe("loadPromptTemplatingData hooks tests", () => {
       const enabled = true;
 
       const expectedOptions: UndefinedInitialDataOptions<
-         DPromptGenerationData | null,
+         DPromptTemplatingData | null,
          Error,
-         DPromptGenerationData | null
+         DPromptTemplatingData | null
       > = {
          queryKey: ["prompts", "templatingData", promptId],
          queryFn: jest.fn(),

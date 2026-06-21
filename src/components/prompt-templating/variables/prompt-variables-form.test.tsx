@@ -7,7 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariable,
    DPromptVariableType,
 } from "@/data/types/domain/prompt";
@@ -16,7 +16,7 @@ import { PromptVariablesForm } from "./prompt-variables-form";
 import { buildFieldsSchema } from "./variables.schema";
 
 type Props = {
-   templateData: DPromptGenerationData;
+   templateData: DPromptTemplatingData;
 };
 
 const TestWrapper = ({ templateData }: Props) => {

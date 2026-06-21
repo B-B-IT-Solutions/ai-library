@@ -42,7 +42,6 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptGenerationData,
    DPromptPreview,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -50,6 +49,7 @@ import {
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariable,
@@ -578,7 +578,7 @@ export const dPromptsUsage = (index = 1): DPromptsUsage => {
    };
 };
 
-export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
+export const dPromptGenerationData = (index = 1): DPromptTemplatingData => {
    return {
       template: dPromptWithContent(index),
       allFields: dPromptVariables(),

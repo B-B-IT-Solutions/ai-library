@@ -22,11 +22,11 @@ import {
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
-   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
@@ -143,9 +143,9 @@ export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
 export const loadPromptTemplatingDataOptions = (
    params: LoadPromptTemplatingDataParams
 ): UndefinedInitialDataOptions<
-   DPromptGenerationData | null,
+   DPromptTemplatingData | null,
    Error,
-   DPromptGenerationData | null
+   DPromptTemplatingData | null
 > => {
    const { promptId, enabled } = params;
    return {
@@ -163,7 +163,7 @@ export const loadPromptTemplatingDataOptions = (
 
 export const useLoadPromptTemplatingData = (
    params: LoadPromptTemplatingDataParams
-): UseQueryResult<DPromptGenerationData | null> => {
+): UseQueryResult<DPromptTemplatingData | null> => {
    const options = loadPromptTemplatingDataOptions(params);
    return useQuery(options);
 };

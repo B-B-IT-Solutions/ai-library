@@ -7,7 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PublicPromptRepository } from "@/data/repositories/prompt";
-import { DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPromptTemplatingData } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
@@ -152,7 +152,7 @@ describe("getPublicPromptGenerationData tests", () => {
 
       const allFields = resolveAllTemplateFields(template, globalFields);
 
-      const expectedResult: DPromptGenerationData = {
+      const expectedResult: DPromptTemplatingData = {
          template,
          allFields,
       };

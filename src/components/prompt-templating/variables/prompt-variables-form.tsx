@@ -4,7 +4,7 @@ import { map } from "es-toolkit/compat";
 import { Control, FieldValues } from "react-hook-form";
 
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariable,
 } from "@/data/types/domain/prompt";
 
@@ -15,7 +15,7 @@ import { SelectField } from "./variable/field-select";
 import { TextAreaField } from "./variable/field-textarea";
 
 type Props = {
-   templateData: DPromptGenerationData;
+   templateData: DPromptTemplatingData;
    control: Control<FieldValues>;
 };
 

@@ -8,9 +8,9 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
-   DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 
@@ -60,7 +60,7 @@ export const getPublicPromptContent = async (
 
 export const getPublicPromptGenerationData = async (
    promptId: string
-): Promise<DPromptGenerationData | null> => {
+): Promise<DPromptTemplatingData | null> => {
    try {
       if (!isValidUuid(promptId)) {
          throw new Error("Invalid Descriptor ID.");

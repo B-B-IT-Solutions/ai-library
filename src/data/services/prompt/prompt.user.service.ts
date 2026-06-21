@@ -3,12 +3,12 @@
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
-   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariableValues,
@@ -111,7 +111,7 @@ export class PromptService {
    async getPromptGenerationData(
       userId: string,
       promptId: string
-   ): Promise<DPromptGenerationData | null> {
+   ): Promise<DPromptTemplatingData | null> {
       const prompt = await this.getPromptWithContent(userId, promptId);
 
       if (prompt) {

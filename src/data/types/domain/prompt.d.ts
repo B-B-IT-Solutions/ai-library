@@ -33,7 +33,7 @@ export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptGenerationData = {
+export type DPromptTemplatingData = {
    template: DPromptWithContent;
    allFields: DPromptVariable[];
 };

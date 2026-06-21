@@ -17,7 +17,7 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
@@ -31,7 +31,7 @@ import { AiTool } from "./type";
 import { requiredVariables, requiredVariablesWithValue } from "./utils";
 
 type Props = {
-   promptData: DPromptGenerationData;
+   promptData: DPromptTemplatingData;
    recommendedModel?: string;
 };
 

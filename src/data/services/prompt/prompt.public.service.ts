@@ -3,9 +3,9 @@ import { isEmpty } from "es-toolkit/compat";
 import { PublicPromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
-   DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
@@ -43,7 +43,7 @@ export class PublicPromptService {
 
    async getPublicPromptGenerationData(
       teamplateId: string
-   ): Promise<DPromptGenerationData | null> {
+   ): Promise<DPromptTemplatingData | null> {
       const template = await this.getPublicPromptContent(teamplateId);
 
       if (template) {

@@ -12,8 +12,8 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptGenerationData,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -349,7 +349,7 @@ describe("getPromptGenerationData tests", () => {
 
       const allFields = resolveAllTemplateFields(prompt, globalFields);
 
-      const expectedResult: DPromptGenerationData = {
+      const expectedResult: DPromptTemplatingData = {
          template: prompt,
          allFields,
       };
