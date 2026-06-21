@@ -236,6 +236,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1
                           Workflows
                         </span>
                       </a>
+                      <div
+                        class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                        data-sidebar="menu-badge"
+                        data-slot="sidebar-menu-badge"
+                        data-testid="menu-item-workflows-badge"
+                      >
+                        Beta
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -715,6 +723,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`
                           Workflows
                         </span>
                       </a>
+                      <div
+                        class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                        data-sidebar="menu-badge"
+                        data-slot="sidebar-menu-badge"
+                        data-testid="menu-item-workflows-badge"
+                      >
+                        Beta
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -1194,6 +1210,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - te
                           Workflows
                         </span>
                       </a>
+                      <div
+                        class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                        data-sidebar="menu-badge"
+                        data-slot="sidebar-menu-badge"
+                        data-testid="menu-item-workflows-badge"
+                      >
+                        Beta
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -1673,6 +1697,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive false -
                           Workflows
                         </span>
                       </a>
+                      <div
+                        class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                        data-sidebar="menu-badge"
+                        data-slot="sidebar-menu-badge"
+                        data-testid="menu-item-workflows-badge"
+                      >
+                        Beta
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -2152,6 +2184,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive true - 
                           Workflows
                         </span>
                       </a>
+                      <div
+                        class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                        data-sidebar="menu-badge"
+                        data-slot="sidebar-menu-badge"
+                        data-testid="menu-item-workflows-badge"
+                      >
+                        Beta
+                      </div>
                     </li>
                   </ul>
                 </div>
