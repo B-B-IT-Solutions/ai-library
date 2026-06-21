@@ -10,28 +10,21 @@ import {
    DialogContent,
    DialogTitle,
 } from "@/components/shadcn/dialog";
-import { CallbackFn } from "@/data/types/common";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
-import { UsePromptForm } from "../use-prompt";
+import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import { WorkflowRunner } from "../runner/workflow-runner";
 
 type Props = {
-   prompt: DPrompt;
-   generationData: DPromptGenerationData;
-   onCancel: CallbackFn;
+   workflow: DWorkflowWithSteps;
+   onClose: () => void;
 };
 
-export const UsePromptDialog = ({
-   prompt,
-   generationData,
-   onCancel,
-}: Props) => {
+export const RunWorkflowDialog = ({ workflow, onClose }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
-
    return (
       <Dialog
          open={true}
-         onOpenChange={() => onCancel()}
-         data-testid="use-prompt-dialog"
+         onOpenChange={onClose}
+         data-testid="run-workflow-dialog"
       >
          <DialogContent
             showCloseButton={false}
@@ -44,7 +37,7 @@ export const UsePromptDialog = ({
             <div className="flex shrink-0 items-center gap-4 px-6 py-4">
                <div className="min-w-0 flex-1">
                   <DialogTitle className="truncate text-base leading-tight font-semibold">
-                     {prompt.title}
+                     {workflow.title}
                   </DialogTitle>
                </div>
                <div className="flex shrink-0 items-center gap-1">
@@ -77,10 +70,7 @@ export const UsePromptDialog = ({
                </div>
             </div>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-               <UsePromptForm
-                  promptData={generationData}
-                  recommendedModel={prompt.recommendedModel}
-               />
+               <WorkflowRunner workflow={workflow} />
             </div>
          </DialogContent>
       </Dialog>

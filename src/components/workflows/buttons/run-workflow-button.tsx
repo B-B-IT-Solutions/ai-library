@@ -8,7 +8,7 @@ import { Button } from "@/components/shadcn/button";
 import { getWorkflowForRunner } from "@/data/actions/workflow";
 import { DWorkflow, DWorkflowWithSteps } from "@/data/types/domain/workflow";
 import { cn } from "@/lib/utils";
-import { WorkflowRunnerDialog } from "../dialogs/workflow-runner-dialog";
+import { RunWorkflowDialog } from "../dialogs";
 
 type Props = {
    workflow: DWorkflow;
@@ -34,7 +34,7 @@ export const RunWorkflowButton = ({ workflow, className }: Props) => {
    const dialog = () => {
       if (workflowWithSteps) {
          return (
-            <WorkflowRunnerDialog
+            <RunWorkflowDialog
                workflow={workflowWithSteps}
                onClose={() => setWorkflowWithSteps(null)}
             />

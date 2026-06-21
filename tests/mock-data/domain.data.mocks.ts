@@ -98,6 +98,7 @@ import {
    DWorkflowsPage,
    DWorkflowsPageQuery,
    DWorkflowStep,
+   DWorkflowStepEdge,
    DWorkflowStepUpdate,
    DWorkflowStepWithOutgoingEdges,
    DWorkflowsUsage,
@@ -1158,6 +1159,20 @@ export const dWorkflowStep = (index = 0): DWorkflowStep => {
             order: 1,
          },
       ],
+   };
+};
+
+export const dWorkflowStepEdges = (count = 3): DWorkflowStepEdge[] => {
+   return range(0, count).map((i) => dWorkflowStepEdge(i + 1));
+};
+
+export const dWorkflowStepEdge = (index = 0): DWorkflowStepEdge => {
+   return {
+      id: "oe-1",
+      fromStepId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+      toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+      label: "Weiter",
+      order: index,
    };
 };
 

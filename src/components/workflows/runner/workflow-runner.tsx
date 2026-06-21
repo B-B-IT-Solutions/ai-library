@@ -9,9 +9,9 @@ import {
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
 
-import { NextStepButtons } from "./next-step-buttons";
+import { WorkflowNavigation } from "./navigation";
 import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
-import { StepRenderer } from "./step-renderer";
+import { StepRunner } from "./steps";
 
 type RunnerState = {
    currentEdgeId: string;
@@ -60,7 +60,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       loadStepData(startStep);
    }, [startStep]);
 
-   const handleChooseEdge = async (toEdgeId: string) => {
+   const handleNextStep = async (toEdgeId: string) => {
       if (!templateDataCache[toEdgeId]) {
          const nextStep = workflow.steps.find((s) => s.edgeId === toEdgeId);
          await loadStepData(nextStep);
@@ -72,7 +72,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       }));
    };
 
-   const handleBack = () => {
+   const handlePreviousStep = () => {
       setState((prev) => {
          const previousEdgeIds = [...prev.previousEdgeIds];
          const currentEdgeId = previousEdgeIds.pop() ?? prev.currentEdgeId;
@@ -112,10 +112,10 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       >
          <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
             {currentStep ? (
-               <StepRenderer
+               <StepRunner
                   step={currentStep}
-                  templateData={templateDataCache[currentStep.edgeId] ?? null}
-                  workflowId={workflow.id}
+                  promptData={templateDataCache[currentStep.edgeId] ?? null}
+                  workflow={workflow}
                />
             ) : (
                <p className="text-muted-foreground">Schritt nicht gefunden.</p>
@@ -129,12 +129,12 @@ export const WorkflowRunner = ({ workflow }: Props) => {
                   stepCount={state.previousEdgeIds.length + 1}
                />
             ) : (
-               <NextStepButtons
+               <WorkflowNavigation
                   edges={outgoingEdges}
-                  steps={workflow.steps}
-                  onChoose={handleChooseEdge}
-                  canGoBack={canGoBack}
-                  onBack={handleBack}
+                  allSteps={workflow.steps}
+                  onNextStep={handleNextStep}
+                  onPreviousStep={handlePreviousStep}
+                  previousEnabled={canGoBack}
                />
             )}
          </div>
