@@ -233,7 +233,7 @@ describe("getPublicPromptGenerationData tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       sGetPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const templateId = "afa27716-b1e5-4db9-86bc-0efb890ff5d9";

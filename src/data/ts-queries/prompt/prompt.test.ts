@@ -20,11 +20,11 @@ import {
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
-   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -262,9 +262,9 @@ describe("loadPromptTemplatingData hooks tests", () => {
       const enabled = true;
 
       const expectedOptions: UndefinedInitialDataOptions<
-         DPromptGenerationData | null,
+         DPromptTemplatingData | null,
          Error,
-         DPromptGenerationData | null
+         DPromptTemplatingData | null
       > = {
          queryKey: ["prompts", "templatingData", promptId],
          queryFn: jest.fn(),
@@ -279,7 +279,7 @@ describe("loadPromptTemplatingData hooks tests", () => {
    });
 
    test("useLoadPromptTemplatingData  - promptId null - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
       const promptId = null;
@@ -298,10 +298,10 @@ describe("loadPromptTemplatingData hooks tests", () => {
    });
 
    test("useLoadPromptTemplatingData  - promptId defined - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
-      const promptId = promptData.template.id;
+      const promptId = promptData.prompt.id;
       const enabled = true;
 
       const params: LoadPromptTemplatingDataParams = { promptId, enabled };

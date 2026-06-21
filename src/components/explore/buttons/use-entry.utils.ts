@@ -1,5 +1,5 @@
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 
 export const toDPrompt = (entry: DCatalogEntryWithContent): DPrompt => {
    return {
@@ -16,11 +16,11 @@ export const toDPrompt = (entry: DCatalogEntryWithContent): DPrompt => {
    };
 };
 
-export const toDPromptGenerationData = (
+export const toDPromptTemplatingData = (
    entry: DCatalogEntryWithContent
-): DPromptGenerationData => {
+): DPromptTemplatingData => {
    return {
-      template: {
+      prompt: {
          ...toDPrompt(entry),
          content: entry.content,
          fields: entry.fields.map((f) => ({
@@ -28,7 +28,7 @@ export const toDPromptGenerationData = (
             promptId: f.catalogEntryId,
          })),
       },
-      allFields: entry.fields.map((f) => ({
+      allVariables: entry.fields.map((f) => ({
          ...f,
          promptId: f.catalogEntryId,
       })),

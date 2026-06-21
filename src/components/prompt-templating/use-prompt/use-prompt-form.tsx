@@ -17,7 +17,7 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { TemplateEngine } from "@/lib/template";
@@ -31,22 +31,22 @@ import { AiTool } from "./type";
 import { requiredVariables, requiredVariablesWithValue } from "./utils";
 
 type Props = {
-   promptData: DPromptGenerationData;
+   promptData: DPromptTemplatingData;
    recommendedModel?: string;
 };
 
 export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
-   const { template, allFields: fields } = promptData;
-   const hasFields = fields.length > 0;
+   const { prompt, allVariables: variables } = promptData;
+   const hasFields = variables.length > 0;
 
-   const fieldsSchema = buildFieldsSchema(fields);
+   const fieldsSchema = buildFieldsSchema(variables);
 
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
    const form = useForm<DFieldsType>({
       resolver: zodResolver(fieldsSchema),
       defaultValues: reduce(
-         fields,
+         variables,
          (acc, field) => ({
             ...acc,
             [field.name]:
@@ -62,7 +62,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
    }) as DPromptVariableValues;
 
    const resolvedContent = TemplateEngine.replace(
-      template.content,
+      prompt.content,
       currentValues
    );
 
@@ -79,7 +79,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
       [plainContent]
    );
 
-   const requiredFields = requiredVariables(fields);
+   const requiredFields = requiredVariables(variables);
    const requiredFieldsCount = requiredFields.length;
 
    const requiredFieldWithValue = requiredVariablesWithValue(
@@ -186,7 +186,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
                   <div className="flex min-h-0 flex-col gap-3 lg:pl-2">
                      <span className="text-sm font-medium">Vorschau</span>
                      <PromptPreview
-                        template={template}
+                        template={prompt}
                         values={currentValues}
                         resolvedContent={resolvedContent}
                      />
@@ -199,7 +199,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
                      <div className="h-px flex-1 bg-border" />
                   </div>
                   <PromptPreview
-                     template={template}
+                     template={prompt}
                      values={currentValues}
                      resolvedContent={resolvedContent}
                   />

@@ -642,7 +642,7 @@ describe("getPromptGenerationData tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       sGetPromptGenerationDataMock.mockResolvedValue(data);
 
       const promptId = "prompt-template-id";

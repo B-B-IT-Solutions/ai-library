@@ -62,7 +62,7 @@ export const PromptStep = ({ step, workflow }: Props) => {
       <div data-testid="prompt-step">
          <UsePromptForm
             promptData={promptData}
-            recommendedModel={promptData.template.recommendedModel}
+            recommendedModel={promptData.prompt.recommendedModel}
          />
       </div>
    );

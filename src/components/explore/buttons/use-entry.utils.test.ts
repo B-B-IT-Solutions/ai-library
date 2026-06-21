@@ -1,9 +1,9 @@
 import { dtestData } from "@tests";
 
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 
-import { toDPrompt, toDPromptGenerationData } from "./use-entry.utils";
+import { toDPrompt, toDPromptTemplatingData } from "./use-entry.utils";
 
 const toDPromptInternal = (entry: DCatalogEntryWithContent): DPrompt => {
    return {
@@ -20,11 +20,11 @@ const toDPromptInternal = (entry: DCatalogEntryWithContent): DPrompt => {
    };
 };
 
-const toDPromptGenerationDataInternal = (
+const toDPromptTemplatingDataInternal = (
    entry: DCatalogEntryWithContent
-): DPromptGenerationData => {
+): DPromptTemplatingData => {
    return {
-      template: {
+      prompt: {
          ...toDPrompt(entry),
          content: entry.content,
          fields: entry.fields.map((f) => ({
@@ -32,7 +32,7 @@ const toDPromptGenerationDataInternal = (
             promptId: f.catalogEntryId,
          })),
       },
-      allFields: entry.fields.map((f) => ({
+      allVariables: entry.fields.map((f) => ({
          ...f,
          promptId: f.catalogEntryId,
       })),
@@ -53,10 +53,10 @@ describe("utils tests", () => {
       expect(result2).toEqual(expectedResult2);
    });
 
-   it("toDPromptGenerationData test", async () => {
+   it("toDPromptTemplatingData test", async () => {
       const entry = dtestData.dCatalogEntryWithContent();
-      const result = toDPromptGenerationData(entry);
-      const expectedResult = toDPromptGenerationDataInternal(entry);
+      const result = toDPromptTemplatingData(entry);
+      const expectedResult = toDPromptTemplatingDataInternal(entry);
       expect(result).toEqual(expectedResult);
    });
 });

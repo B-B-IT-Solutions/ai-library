@@ -11,12 +11,12 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 import { UsePromptForm } from "../use-prompt";
 
 type Props = {
    prompt: DPrompt;
-   generationData: DPromptGenerationData;
+   generationData: DPromptTemplatingData;
    onCancel: CallbackFn;
 };
 

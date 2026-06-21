@@ -34,13 +34,13 @@ const assertStepNotFoundRendered = () => {
 
 describe("StepRunner rendering tests", () => {
    it("prompt step - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
       const workflow = dtestData.dWorkflowWithSteps();
       const step = dtestData.dWorkflowStep();
       step.type = "PROMPT_REF";
-      step.promptId = promptData.template.id;
+      step.promptId = promptData.prompt.id;
 
       const { container } = renderWithReactQuery(
          <StepRunner step={step} workflow={workflow} />

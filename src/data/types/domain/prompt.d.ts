@@ -33,9 +33,9 @@ export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptGenerationData = {
-   template: DPromptWithContent;
-   allFields: DPromptVariable[];
+export type DPromptTemplatingData = {
+   prompt: DPromptWithContent;
+   allVariables: DPromptVariable[];
 };
 
 export type DPrompt = {
