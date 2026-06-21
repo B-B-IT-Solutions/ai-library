@@ -30,7 +30,7 @@ export const initWorkflowStep = (step?: DWorkflowStep): DWorkflowStepUpdate => {
       isStart: step?.isStart ?? false,
       position: step?.position ?? 0,
       edges: map(step?.outgoingEdges, (e) => ({
-         toStepId: e.toStepEdgeId,
+         toStepEdgeId: e.toStepEdgeId,
          label: e.label,
          order: e.order,
       })),

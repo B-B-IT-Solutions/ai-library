@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 type Props = {
    edge: DWorkflowStepEdge;
    allSteps: DWorkflowStep[];
-   onSelected: (toStepId: string) => void;
+   onSelected: (toStepEdgeId: string) => void;
 };
 
 export const NextStep = ({ edge, allSteps, onSelected }: Props) => {

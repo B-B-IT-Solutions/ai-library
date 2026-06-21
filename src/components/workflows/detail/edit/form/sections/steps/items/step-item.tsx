@@ -42,7 +42,7 @@ export const StepItem = ({
 
    const isEndStep = step.edges.length === 0;
    const incomingEdges = filter(steps, (s) =>
-      s.edges.some((e) => e.toStepId === step.edgeId)
+      s.edges.some((e) => e.toStepEdgeId === step.edgeId)
    );
 
    const isDisconnected = !step.isStart && incomingEdges.length === 0;
@@ -137,7 +137,10 @@ export const StepItem = ({
          {step.edges.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
                {map(step.edges, (edge, idx) => {
-                  const target = find(steps, (s) => s.edgeId === edge.toStepId);
+                  const target = find(
+                     steps,
+                     (s) => s.edgeId === edge.toStepEdgeId
+                  );
                   return (
                      <span
                         key={idx}

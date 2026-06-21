@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const updateWorkflowEdgeSchema = z.object({
-   toStepId: z.uuid("Ungültige Schritt-ID"),
+   toStepEdgeId: z.uuid("Ungültige Schritt-ID"),
    label: z
       .string()
       .min(1, "Bitte ein Label für diese Verbindung eingeben")

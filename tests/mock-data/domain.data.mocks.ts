@@ -1062,12 +1062,12 @@ export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
       position: index + 1,
       edges: [
          {
-            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
             label: "Weiter",
             order: 0,
          },
          {
-            toStepId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 2}`,
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 2}`,
             label: "Abbrechen",
             order: 1,
          },
