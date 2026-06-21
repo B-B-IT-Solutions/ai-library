@@ -7,7 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariable,
    DPromptVariableType,
 } from "@/data/types/domain/prompt";
@@ -16,19 +16,19 @@ import { PromptVariablesForm } from "./prompt-variables-form";
 import { buildFieldsSchema } from "./variables.schema";
 
 type Props = {
-   templateData: DPromptGenerationData;
+   templateData: DPromptTemplatingData;
 };
 
 const TestWrapper = ({ templateData }: Props) => {
-   const { allFields: fields } = templateData;
-   const fieldsSchema = buildFieldsSchema(fields);
+   const { allVariables } = templateData;
+   const fieldsSchema = buildFieldsSchema(allVariables);
 
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
    const form = useForm<DFieldsType>({
       resolver: zodResolver(fieldsSchema),
       defaultValues: reduce(
-         fields,
+         allVariables,
          (acc, field) => ({
             ...acc,
             [field.name]:
@@ -107,8 +107,8 @@ describe("PromptVariablesForm rendering tests", () => {
          country,
       ];
 
-      const templateData = dtestData.dPromptGenerationData();
-      templateData.allFields = fields;
+      const templateData = dtestData.dPromptTemplatingData();
+      templateData.allVariables = fields;
 
       const { container } = render(<TestWrapper templateData={templateData} />);
 

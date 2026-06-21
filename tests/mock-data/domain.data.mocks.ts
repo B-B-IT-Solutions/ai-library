@@ -42,11 +42,14 @@ import {
 import {
    DPrompt,
    DPromptCategory,
-   DPromptGenerationData,
+   DPromptPreview,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsFilter,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariable,
@@ -89,6 +92,18 @@ import {
    DUserUpdate,
    DVerificationToken,
 } from "@/data/types/domain/user";
+import {
+   DWorkflow,
+   DWorkflowsFilter,
+   DWorkflowsPage,
+   DWorkflowsPageQuery,
+   DWorkflowStep,
+   DWorkflowStepEdge,
+   DWorkflowStepUpdate,
+   DWorkflowsUsage,
+   DWorkflowUpdate,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
@@ -562,18 +577,62 @@ export const dPromptsUsage = (index = 1): DPromptsUsage => {
    };
 };
 
-export const dPromptGenerationData = (index = 1): DPromptGenerationData => {
+export const dPromptTemplatingData = (index = 1): DPromptTemplatingData => {
    return {
-      template: dPromptWithContent(index),
-      allFields: dPromptVariables(),
+      prompt: dPromptWithContent(index),
+      allVariables: dPromptVariables(),
+   };
+};
+
+export const dPromptPreviewsPageQuery = (
+   index = 1
+): DPromptPreviewsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dPromptsFilter(index),
+   };
+};
+
+export const dPromptsPageQuery = (index = 1): DPromptsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dPromptsFilter(index),
+   };
+};
+
+export const dPromptsFilter = (index = 1): DPromptsFilter => {
+   return {
+      search: `search ${index}`,
+      categories: ["cat 1", "cat 2", "cat 3"],
+      models: ["mod 1", "mod 2", "mod 3"],
+      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
+      isFavorite: false,
    };
 };
 
 export const dPromptsPage = (count = 3): DPromptsPage => {
-   const descriptors = dPrompts(count);
+   const prompts = dPrompts(count);
    return {
-      content: descriptors,
-      numberOfElements: descriptors.length,
+      content: prompts,
+      numberOfElements: prompts.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
+export const dPromptPreviewsPage = (count = 3): DPromptPreviewsPage => {
+   const prompts = dPromptPreviews(count);
+   return {
+      content: prompts,
+      numberOfElements: prompts.length,
       pageNumber: 1,
       pageSize: 3,
       totalElements: 15,
@@ -604,6 +663,17 @@ export const dPromptWithContent = (index = 1): DPromptWithContent => {
    return {
       ...dPrompt(index),
       content: `content ${index}`,
+   };
+};
+
+export const dPromptPreviews = (count = 3): DPromptPreview[] => {
+   return range(0, count).map((i) => dPromptPreview(i));
+};
+
+export const dPromptPreview = (index = 1): DPromptPreview => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title ${index}`,
    };
 };
 
@@ -693,26 +763,6 @@ export const dPromptCategories = (count = 3): DPromptCategory[] => {
 export const dPromptCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
-   };
-};
-
-export const dPromptsPageQuery = (index = 1): DPromptsPageQuery => {
-   return {
-      pagination: {
-         pageSize: 10,
-         pageNumber: 1,
-      },
-      filter: dPromptsFilter(index),
-   };
-};
-
-export const dPromptsFilter = (index = 1): DPromptsFilter => {
-   return {
-      search: `search ${index}`,
-      categories: ["cat 1", "cat 2", "cat 3"],
-      models: ["mod 1", "mod 2", "mod 3"],
-      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
-      isFavorite: false,
    };
 };
 
@@ -976,6 +1026,151 @@ export const dGlobalPromptFieldUpdate = (
       required: true,
       defaultValue: `defaultValue-${index}`,
       options: [`option ${index}`, `option ${index + 1}`],
+      order: index,
+   };
+};
+
+export const dWorkflowUpdate = (index = 1): DWorkflowUpdate => {
+   return {
+      title: `title-${index}`,
+      description: `description ${index}`,
+      steps: dWorkflowStepUpdates(3),
+   };
+};
+
+export const dWorkflowsUsage = (index = 1): DWorkflowsUsage => {
+   return {
+      current: index,
+      limit: index + 3,
+   };
+};
+
+export const dWorkflowStepUpdates = (count = 3): DWorkflowStepUpdate[] => {
+   return range(0, count).map((i) => dWorkflowStepUpdate(i));
+};
+
+export const dWorkflowStepUpdate = (index = 0): DWorkflowStepUpdate => {
+   return {
+      id: `step-id-${index}`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      edgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index}`,
+      content: `content-${index}`,
+      isStart: index === 0,
+      position: index + 1,
+      edges: [
+         {
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 2}`,
+            label: "Abbrechen",
+            order: 1,
+         },
+      ],
+   };
+};
+
+export const dWorkflowsPageQuery = (index = 1): DWorkflowsPageQuery => {
+   return {
+      pagination: {
+         pageNumber: 1,
+         pageSize: 10,
+      },
+      filter: dWorkflowsFilter(index),
+   };
+};
+
+export const dWorkflowsFilter = (index = 1): DWorkflowsFilter => {
+   return {
+      search: `search-${index}`,
+   };
+};
+
+export const dWorkflowsPage = (count = 3): DWorkflowsPage => {
+   const content = dWorkflows(count);
+   return {
+      content,
+      numberOfElements: content.length,
+      pageNumber: 0,
+      pageSize: 10,
+      totalElements: count,
+      totalPages: 1,
+   };
+};
+
+export const dWorkflows = (count = 3): DWorkflow[] => {
+   return range(0, count).map((i) => dWorkflow(i + 1));
+};
+
+export const dWorkflowWithSteps = (index = 1): DWorkflowWithSteps => {
+   return {
+      ...dWorkflow(index),
+      steps: dWorkflowSteps(),
+   };
+};
+
+export const dWorkflow = (index = 1): DWorkflow => {
+   return {
+      id: `workflow-id-000${index}`,
+      title: `title-${index}`,
+      description: `description ${index}`,
+      stepCount: index + 2,
+      createdAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dWorkflowSteps = (count = 3): DWorkflowStep[] => {
+   return range(0, count).map((i) => dWorkflowStep(i));
+};
+
+export const dWorkflowStep = (index = 0): DWorkflowStep => {
+   return {
+      id: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+      workflowId: `workflow-id-0001`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      promptTitle: `prompt-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      edgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index}`,
+      content: `content-${index}`,
+      isStart: index === 0,
+      position: index + 1,
+      outgoingEdges: [
+         {
+            id: "oe-1",
+            fromStepEdgeId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            label: "Weiter",
+            order: 0,
+         },
+         {
+            id: "oe-2",
+            fromStepEdgeId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+            toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+            label: "Abbrechen",
+            order: 1,
+         },
+      ],
+   };
+};
+
+export const dWorkflowStepEdges = (count = 3): DWorkflowStepEdge[] => {
+   return range(0, count).map((i) => dWorkflowStepEdge(i + 1));
+};
+
+export const dWorkflowStepEdge = (index = 0): DWorkflowStepEdge => {
+   return {
+      id: "oe-1",
+      fromStepEdgeId: `3e91cc43-0245-4c83-84d8-8de9582183d${index}`,
+      toStepEdgeId: `d410c9b7-8ef8-4ffc-8617-00851166313${index + 1}`,
+      label: "Weiter",
       order: index,
    };
 };

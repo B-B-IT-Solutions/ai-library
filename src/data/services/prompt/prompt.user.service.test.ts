@@ -12,8 +12,8 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptGenerationData,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
@@ -76,6 +76,28 @@ describe("getPromptsPage tests", () => {
    });
 });
 
+describe("getPromptPreviewsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("prompts retrieved - test", async () => {
+      const userId = "user-id-1";
+      const page = dtestData.dPromptPreviewsPage();
+      const query = dtestData.dPromptPreviewsPageQuery();
+      promptRepoMock.pGetPromptPreviewsPage.mockResolvedValue(page);
+
+      const result = await promptService.getPromptPreviewsPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(promptRepoMock.pGetPromptPreviewsPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptPreviewsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
+   });
+});
+
 describe("getPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -102,13 +124,13 @@ describe("getPromptWithContent tests", () => {
 
    it("prompt retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
 
-      const { id } = template;
+      const { id } = prompt;
       const result = await promptService.getPromptWithContent(userId, id);
 
-      expect(result).toEqual(template);
+      expect(result).toEqual(prompt);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
    });
@@ -295,17 +317,17 @@ describe("getPromptGenerationData tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pGetPromptContent.mockResolvedValue(null);
 
-      const templateId = "template-id-1";
+      const promptId = "prompt-id-1";
       const result = await promptService.getPromptGenerationData(
          userId,
-         templateId
+         promptId
       );
 
       expect(result).toBeNull();
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(
          userId,
-         templateId
+         promptId
       );
       expect(
          settingsServiceMock.getGlobalPromptFieldsByIds
@@ -314,22 +336,22 @@ describe("getPromptGenerationData tests", () => {
 
    it("data retrieved - test", async () => {
       const userId = "user-id-1";
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
-      const { id, globalFieldIds } = template;
+      const { id, globalFieldIds } = prompt;
       const result = await promptService.getPromptGenerationData(userId, id);
 
-      const allFields = resolveAllTemplateFields(template, globalFields);
+      const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
-      const expectedResult: DPromptGenerationData = {
-         template,
-         allFields,
+      const expectedResult: DPromptTemplatingData = {
+         prompt,
+         allVariables,
       };
 
       expect(result).toEqual(expectedResult);
@@ -566,49 +588,6 @@ describe("togglePromptFavorite tests", () => {
          descriptorId,
          isFavorite
       );
-   });
-});
-
-describe("getPrompts tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getPrompts - params undefined - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const result = await promptService.getPrompts();
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(undefined);
-   });
-
-   it("getPrompts - params empty - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const result = await promptService.getPrompts({});
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith({});
-   });
-
-   it("getPrompts - params defined - test", async () => {
-      const templates = dtestData.dPrompts();
-      promptRepoMock.pGetPrompts.mockResolvedValue(templates);
-
-      const search = "prompt 123";
-      const categories = ["cat 1", "cat2", "cat 3"];
-      const params = { search, categories };
-
-      const result = await promptService.getPrompts(params);
-
-      expect(result).toEqual(templates);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompts).toHaveBeenCalledWith(params);
    });
 });
 

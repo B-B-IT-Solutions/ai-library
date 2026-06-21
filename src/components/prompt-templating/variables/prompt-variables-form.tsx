@@ -4,7 +4,7 @@ import { map } from "es-toolkit/compat";
 import { Control, FieldValues } from "react-hook-form";
 
 import {
-   DPromptGenerationData,
+   DPromptTemplatingData,
    DPromptVariable,
 } from "@/data/types/domain/prompt";
 
@@ -15,34 +15,34 @@ import { SelectField } from "./variable/field-select";
 import { TextAreaField } from "./variable/field-textarea";
 
 type Props = {
-   templateData: DPromptGenerationData;
+   templateData: DPromptTemplatingData;
    control: Control<FieldValues>;
 };
 
 export const PromptVariablesForm = ({ templateData, control }: Props) => {
-   const { allFields: fields } = templateData;
+   const { allVariables: variables } = templateData;
 
-   const renderField = (field: DPromptVariable) => {
-      switch (field.type) {
+   const renderField = (variable: DPromptVariable) => {
+      switch (variable.type) {
          case "TEXTAREA":
-            return <TextAreaField field={field} control={control} />;
+            return <TextAreaField field={variable} control={control} />;
          case "SELECT":
-            return <SelectField field={field} control={control} />;
+            return <SelectField field={variable} control={control} />;
          case "RADIO":
-            return <RadioField field={field} control={control} />;
+            return <RadioField field={variable} control={control} />;
          case "CHECKBOX":
-            return <CheckBoxField field={field} control={control} />;
+            return <CheckBoxField field={variable} control={control} />;
          case "NUMBER":
          case "DATE":
          case "EMAIL":
          case "TEXT":
-            return <GenericField field={field} control={control} />;
+            return <GenericField field={variable} control={control} />;
       }
    };
 
    const renderFields = () => {
-      return map(fields, (field) => {
-         return <div key={field.id}>{renderField(field)}</div>;
+      return map(variables, (variable) => {
+         return <div key={variable.id}>{renderField(variable)}</div>;
       });
    };
 

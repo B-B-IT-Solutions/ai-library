@@ -7,6 +7,9 @@ export type TierFeatures = {
    canPurchaseItems: boolean;
    canExportPrompts: boolean;
    canUseAdvancedFeatures: boolean;
+   canUseWorkflows: boolean;
+   maxWorkflows: number; // -1 for unlimited
+   maxWorkflowSteps: number; // -1 for unlimited
 };
 
 export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
@@ -17,6 +20,9 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canPurchaseItems: false,
       canExportPrompts: false,
       canUseAdvancedFeatures: false,
+      canUseWorkflows: false,
+      maxWorkflows: 0,
+      maxWorkflowSteps: 0,
    },
    BASIC: {
       maxPrompts: 50,
@@ -25,6 +31,9 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canPurchaseItems: true,
       canExportPrompts: true,
       canUseAdvancedFeatures: false,
+      canUseWorkflows: true,
+      maxWorkflows: 5,
+      maxWorkflowSteps: 10,
    },
    PRO: {
       maxPrompts: -1, // unlimited
@@ -33,6 +42,9 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canPurchaseItems: true,
       canExportPrompts: true,
       canUseAdvancedFeatures: true,
+      canUseWorkflows: true,
+      maxWorkflows: -1, // unlimited
+      maxWorkflowSteps: -1, // unlimited
    },
 };
 

@@ -7,7 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PublicPromptRepository } from "@/data/repositories/prompt";
-import { DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPromptTemplatingData } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { PublicSettingsService } from "../settings";
@@ -138,23 +138,23 @@ describe("getPublicPromptGenerationData tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(prompt);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getPublicGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
-      const { id, globalFieldIds } = template;
+      const { id, globalFieldIds } = prompt;
       const result =
          await publicPromptService.getPublicPromptGenerationData(id);
 
-      const allFields = resolveAllTemplateFields(template, globalFields);
+      const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
-      const expectedResult: DPromptGenerationData = {
-         template,
-         allFields,
+      const expectedResult: DPromptTemplatingData = {
+         prompt,
+         allVariables,
       };
 
       expect(result).toEqual(expectedResult);

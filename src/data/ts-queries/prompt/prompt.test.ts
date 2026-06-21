@@ -13,31 +13,57 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import {
+   getPromptGenerationData,
+   getPromptPreviewsPage,
    getPromptsPage,
    getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import {
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptTemplatingData,
+} from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   infiniteLoadPromptPreviewsPageOptions,
    infiniteLoadPromptsPageOptions,
    loadPromptTemplateCategoriesOptions,
+   loadPromptTemplatingDataOptions,
    preloadPromptTemplateCategoriesOptions,
    toggleFavoriteOptions,
+   useInfiniteLoadPromptPreviewsPage,
    useInfiniteLoadPromptsPage,
    useLoadPromptTemplateCategories,
+   useLoadPromptTemplatingData,
    useToggleFavorite,
 } from "./prompt";
-import { LoadTemplateDescriptorsParams, UpdateIsFavoriteParams } from "./types";
+import {
+   LoadPromptPreviewsPageParams,
+   LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
+   UpdateIsFavoriteParams,
+} from "./types";
 
 const getPromptsPageMock = getPromptsPage as jest.MockedFunction<
    typeof getPromptsPage
 >;
 
+const getPromptPreviewsPageMock = getPromptPreviewsPage as jest.MockedFunction<
+   typeof getPromptPreviewsPage
+>;
+
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
+   >;
+
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
    >;
 
 const togglePromptFavoriteMock = togglePromptFavorite as jest.MockedFunction<
@@ -81,7 +107,7 @@ describe("loadPromptsPage hooks tests", () => {
    test("infiniteLoadPromptsPageOptions - test", async () => {
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
+      const params: LoadPromptsPageParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
          DPromptsPage,
@@ -90,7 +116,7 @@ describe("loadPromptsPage hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["templates", { filters, sort }],
+         queryKey: ["prompts", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
@@ -107,7 +133,7 @@ describe("loadPromptsPage hooks tests", () => {
 
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
+      const params: LoadPromptsPageParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
          useInfiniteLoadPromptsPage(params)
@@ -128,6 +154,65 @@ describe("loadPromptsPage hooks tests", () => {
          expect(result.current.data?.pages[0]).toEqual(page);
          expect(getPromptsPageMock).toHaveBeenCalledTimes(1);
          expect(getPromptsPageMock).toHaveBeenCalledWith(expectedQuery);
+      });
+   });
+});
+
+describe("loadPromptPreviewsPage hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("infiniteLoadPromptPreviewsPageOptions - test", async () => {
+      const filters = dtestData.dPromptsFilter();
+      const sort = dtestData.sort();
+      const params: LoadPromptPreviewsPageParams = { filters, sort };
+
+      const expectedOptions: UndefinedInitialDataInfiniteOptions<
+         DPromptPreviewsPage,
+         Error,
+         InfiniteData<DPromptPreviewsPage, unknown>,
+         QueryKey,
+         number
+      > = {
+         queryKey: ["prompts", "previews", { filters, sort }],
+         queryFn: jest.fn(),
+         initialPageParam: 0,
+         getNextPageParam: jest.fn(),
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = infiniteLoadPromptPreviewsPageOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useInfiniteLoadPromptsPage test", async () => {
+      const page = dtestData.dPromptPreviewsPage();
+      getPromptPreviewsPageMock.mockResolvedValue(page);
+
+      const filters = dtestData.dPromptsFilter();
+      const sort = dtestData.sort();
+      const params: LoadPromptPreviewsPageParams = { filters, sort };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useInfiniteLoadPromptPreviewsPage(params)
+      );
+
+      const expectedQuery: DPromptPreviewsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: params.filters,
+         sort: params.sort,
+      };
+
+      await waitFor(() => {
+         expect(result.current.data?.pageParams).toEqual([0]);
+         expect(result.current.data?.pages).toHaveLength(1);
+         expect(result.current.data?.pages[0]).toEqual(page);
+         expect(getPromptPreviewsPageMock).toHaveBeenCalledTimes(1);
+         expect(getPromptPreviewsPageMock).toHaveBeenCalledWith(expectedQuery);
       });
    });
 });
@@ -163,6 +248,74 @@ describe("loadPromptTemplateCategories hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(categories);
          expect(getPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
+describe("loadPromptTemplatingData hooks tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("loadPromptTemplatingDataOptions - test", async () => {
+      const promptId = "prompt-id-1";
+      const enabled = true;
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DPromptTemplatingData | null,
+         Error,
+         DPromptTemplatingData | null
+      > = {
+         queryKey: ["prompts", "templatingData", promptId],
+         queryFn: jest.fn(),
+         enabled,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const options = loadPromptTemplatingDataOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadPromptTemplatingData  - promptId null - test", async () => {
+      const promptData = dtestData.dPromptTemplatingData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
+      const promptId = null;
+      const enabled = true;
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadPromptTemplatingData(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toBeNull();
+         expect(getPromptGenerationDataMock).not.toHaveBeenCalled();
+      });
+   });
+
+   test("useLoadPromptTemplatingData  - promptId defined - test", async () => {
+      const promptData = dtestData.dPromptTemplatingData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
+      const promptId = promptData.prompt.id;
+      const enabled = true;
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadPromptTemplatingData(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(promptData);
+         expect(getPromptGenerationDataMock).toHaveBeenCalledTimes(1);
+         expect(getPromptGenerationDataMock).toHaveBeenCalledWith(
+            params.promptId
+         );
       });
    });
 });

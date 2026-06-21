@@ -17,6 +17,9 @@ const expectFreeTierFeatures: TierFeatures = {
    canPurchaseItems: false,
    canExportPrompts: false,
    canUseAdvancedFeatures: false,
+   canUseWorkflows: false,
+   maxWorkflows: 0,
+   maxWorkflowSteps: 0,
 };
 
 const expectBasicTierFeatures: TierFeatures = {
@@ -26,6 +29,9 @@ const expectBasicTierFeatures: TierFeatures = {
    canPurchaseItems: true,
    canExportPrompts: true,
    canUseAdvancedFeatures: false,
+   canUseWorkflows: true,
+   maxWorkflows: 5,
+   maxWorkflowSteps: 10,
 };
 
 const expectProTierFeatures: TierFeatures = {
@@ -35,6 +41,9 @@ const expectProTierFeatures: TierFeatures = {
    canPurchaseItems: true,
    canExportPrompts: true,
    canUseAdvancedFeatures: true,
+   canUseWorkflows: true,
+   maxWorkflows: -1,
+   maxWorkflowSteps: -1,
 };
 
 describe("TIER_FEATURES", () => {

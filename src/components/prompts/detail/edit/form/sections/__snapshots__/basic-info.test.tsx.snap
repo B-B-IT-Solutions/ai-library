@@ -85,6 +85,7 @@ exports[`BasicInfo rendering tests rendered - test 1`] = `
           data-size="default"
           data-slot="select-trigger"
           data-state="closed"
+          data-testid="recommendedModel-trigger"
           dir="ltr"
           role="combobox"
           type="button"

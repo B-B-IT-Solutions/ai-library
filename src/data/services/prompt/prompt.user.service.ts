@@ -3,10 +3,12 @@
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
-   DPromptGenerationData,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariableValues,
@@ -20,11 +22,6 @@ import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
 import { resolveAllTemplateFields } from "./utils";
-
-type DGetPromptTemplatesDescriptorsParams = {
-   search?: string;
-   categories?: string[];
-};
 
 export class PromptService {
    constructor(
@@ -41,6 +38,13 @@ export class PromptService {
       return await this.repository.pGetPromptsPage(userId, query);
    }
 
+   async getPromptPreviewsPage(
+      userId: string,
+      query?: DPromptPreviewsPageQuery
+   ): Promise<DPromptPreviewsPage> {
+      return await this.repository.pGetPromptPreviewsPage(userId, query);
+   }
+
    async getPrompt(
       userId: string,
       descriptorId: string
@@ -50,9 +54,9 @@ export class PromptService {
 
    async getPromptWithContent(
       userId: string,
-      templateId: string
+      promptId: string
    ): Promise<DPromptWithContent | null> {
-      return await this.repository.pGetPromptContent(userId, templateId);
+      return await this.repository.pGetPromptContent(userId, promptId);
    }
 
    async createPrompt(
@@ -87,8 +91,8 @@ export class PromptService {
       descriptorId: string,
       data: DPromptUpdate
    ) {
-      const descriptor = await this.getPrompt(userId, descriptorId);
-      if (!descriptor) {
+      const prompt = await this.getPrompt(userId, descriptorId);
+      if (!prompt) {
          throw new Error("TemplateDescriptor not found");
       }
 
@@ -96,8 +100,8 @@ export class PromptService {
    }
 
    async deletePrompt(userId: string, descriptorId: string) {
-      const descriptor = await this.getPrompt(userId, descriptorId);
-      if (!descriptor) {
+      const prompt = await this.getPrompt(userId, descriptorId);
+      if (!prompt) {
          throw new Error("TemplateDescriptor not found");
       }
 
@@ -106,22 +110,22 @@ export class PromptService {
 
    async getPromptGenerationData(
       userId: string,
-      teamplateId: string
-   ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPromptWithContent(userId, teamplateId);
+      promptId: string
+   ): Promise<DPromptTemplatingData | null> {
+      const prompt = await this.getPromptWithContent(userId, promptId);
 
-      if (template) {
+      if (prompt) {
          const globalFields =
             await this.settingService.getGlobalPromptFieldsByIds(
                userId,
-               template.globalFieldIds
+               prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(template, globalFields);
+         const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
          return {
-            template,
-            allFields,
+            prompt,
+            allVariables,
          };
       }
 
@@ -201,12 +205,6 @@ export class PromptService {
       isFavorite: boolean
    ) {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
-   }
-
-   async getPrompts(
-      params?: DGetPromptTemplatesDescriptorsParams
-   ): Promise<DPrompt[]> {
-      return await this.repository.pGetPrompts(params);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {

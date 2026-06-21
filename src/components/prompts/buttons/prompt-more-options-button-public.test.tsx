@@ -7,6 +7,7 @@ import {
    dtestData,
    renderWithReactQuery,
 } from "@tests";
+import mockRouter from "next-router-mock";
 
 import { PublicPromptMoreOptionsButton } from "./prompt-more-options-button-public";
 
@@ -18,7 +19,7 @@ const assertRendered = () => {
    assertInDocument(triggerBtn);
 };
 
-const assertMenuItemsRendered = () => {
+const assertContextMenuRendered = () => {
    const viewBtn = screen.getByTestId("view-prompt-menu-item");
    const downloadBtn = screen.getByTestId("download-prompt-menu-item");
 
@@ -26,12 +27,22 @@ const assertMenuItemsRendered = () => {
    assertInDocument(downloadBtn);
 };
 
-const assertMenuItemsNotRendered = () => {
+const assertContextMenuNotRendered = () => {
    const viewBtn = screen.queryByTestId("view-prompt-menu-item");
    const downloadBtn = screen.queryByTestId("download-prompt-menu-item");
 
    assertNotInDocument(viewBtn);
    assertNotInDocument(downloadBtn);
+};
+
+const assertDateStateOpen = () => {
+   const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+   assertHasAttributeWithValue(triggerBtn, "data-state", "open");
+};
+
+const assertDateStateClosed = () => {
+   const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+   assertHasAttributeWithValue(triggerBtn, "data-state", "false");
 };
 
 describe("PublicPromptMoreOptionsButton rendering tests", () => {
@@ -44,7 +55,7 @@ describe("PublicPromptMoreOptionsButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItemsNotRendered();
+         assertContextMenuNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -52,7 +63,12 @@ describe("PublicPromptMoreOptionsButton rendering tests", () => {
 });
 
 describe("PublicPromptMoreOptionsButton functionality tests", () => {
-   it("trigger clicked - menu items visible - test", async () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("trigger clicked - test", async () => {
       const prompt = dtestData.dPrompt();
 
       renderWithReactQuery(
@@ -64,17 +80,47 @@ describe("PublicPromptMoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItemsNotRendered();
-         const triggerBtn = screen.getByTestId("more-options-trigger-btn");
-         assertHasAttributeWithValue(triggerBtn, "data-state", "false");
+         assertContextMenuNotRendered();
+         assertDateStateClosed();
       });
 
       const triggerBtn = screen.getByTestId("more-options-trigger-btn");
       await userEvent.click(triggerBtn);
 
       await waitFor(() => {
-         assertMenuItemsRendered();
-         assertHasAttributeWithValue(triggerBtn, "data-state", "open");
+         assertContextMenuRendered();
+         assertDateStateOpen();
+      });
+   });
+
+   it("view prompt btn clicked - test", async () => {
+      const prompt = dtestData.dPrompt();
+
+      renderWithReactQuery(<PublicPromptMoreOptionsButton prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertContextMenuNotRendered();
+         assertDateStateClosed();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+      await userEvent.click(triggerBtn);
+
+      await waitFor(() => {
+         assertContextMenuRendered();
+         assertDateStateOpen();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const viewBtn = screen.getByTestId("view-prompt-menu-item");
+      await userEvent.click(viewBtn);
+
+      await waitFor(() => {
+         assertContextMenuNotRendered();
+         assertDateStateClosed();
+         expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);
       });
    });
 });

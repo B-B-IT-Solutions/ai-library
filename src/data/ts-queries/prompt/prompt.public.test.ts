@@ -15,7 +15,7 @@ import {
    infiniteLoadPublicTemplateDescriptorsOptions,
    useInfiniteLoadPublicTemplateDescriptors,
 } from "./prompt.public";
-import { LoadTemplateDescriptorsParams } from "./types";
+import { LoadPromptsPageParams } from "./types";
 
 const getPublicPromptsPageMock = getPublicPromptsPage as jest.MockedFunction<
    typeof getPublicPromptsPage
@@ -29,7 +29,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
    test("infiniteLoadPublicTemplateDescriptorsOptions - test", async () => {
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
+      const params: LoadPromptsPageParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
          DPromptsPage,
@@ -38,7 +38,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["templates", "public", { filters, sort }],
+         queryKey: ["prompts", "public", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
@@ -55,7 +55,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
 
       const filters = dtestData.dPromptsFilter();
       const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
+      const params: LoadPromptsPageParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
          useInfiniteLoadPublicTemplateDescriptors(params)

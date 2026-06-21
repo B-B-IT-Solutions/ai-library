@@ -9,6 +9,9 @@ import { Page, PageQuery } from "../common";
 export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
 export type DPromptsPage = Page<DPrompt>;
 
+export type DPromptPreviewsPageQuery = PageQuery<DPromptsFilter>;
+export type DPromptPreviewsPage = Page<DPromptPreview>;
+
 export type DPromptsFilter = {
    search?: string;
    categories?: string[];
@@ -30,9 +33,9 @@ export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptGenerationData = {
-   template: DPromptWithContent;
-   allFields: DPromptVariable[];
+export type DPromptTemplatingData = {
+   prompt: DPromptWithContent;
+   allVariables: DPromptVariable[];
 };
 
 export type DPrompt = {
@@ -51,6 +54,8 @@ export type DPrompt = {
 export type DPromptWithContent = DPrompt & {
    content: string;
 };
+
+export type DPromptPreview = Pick<DPrompt, "id" | "title">;
 
 export type DPromptVariableType =
    | "TEXT"

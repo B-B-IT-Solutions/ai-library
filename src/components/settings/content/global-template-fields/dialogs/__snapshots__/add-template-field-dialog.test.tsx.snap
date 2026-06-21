@@ -155,6 +155,7 @@ exports[`GlobalPromptFieldAddDialog rendering tests GlobalPromptFieldAddDialog -
                   data-size="default"
                   data-slot="select-trigger"
                   data-state="closed"
+                  data-testid="type-trigger"
                   dir="ltr"
                   role="combobox"
                   type="button"

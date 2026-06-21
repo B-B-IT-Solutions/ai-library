@@ -2,17 +2,40 @@
 import { map } from "es-toolkit/compat";
 
 import {
+   PromptPreview,
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
+   DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
+import {
+   toDPrompt,
+   toDPromptPreview,
+   toDPromptPreviews,
+   toDPrompts,
+   toDPromptWithContent,
+} from "./prompt.mapper";
+
+export const toDPromptPreviewsInternal = (
+   pPrompts: PromptPreview[]
+): DPromptPreview[] => {
+   return map(pPrompts, (dbP) => toDPromptPreviewInternal(dbP));
+};
+
+export const toDPromptPreviewInternal = (
+   prompt: PromptPreview
+): DPromptPreview => {
+   return {
+      id: prompt.id,
+      title: prompt.title,
+   };
+};
 
 const toDPromptsInternal = (pPrompts: PromptWithCategories[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPromptInternal(dbP));
@@ -54,35 +77,47 @@ export const toDPromptVariablesInternal = (
 
 export const toDPromptVariableInternal = (
    field: PromptField
-): DPromptVariable => ({
-   id: field.id,
-   promptId: field.promptId,
-   name: field.name,
-   label: field.label,
-   description: field.description,
-   type: field.type,
-   required: field.required,
-   order: field.order,
-   defaultValue: field.defaultValue,
-   options: field.options as string[] | undefined,
-});
+): DPromptVariable => {
+   return {
+      id: field.id,
+      promptId: field.promptId,
+      name: field.name,
+      label: field.label,
+      description: field.description,
+      type: field.type,
+      required: field.required,
+      order: field.order,
+      defaultValue: field.defaultValue,
+      options: field.options as string[] | undefined,
+   };
+};
 
 describe("prompt mappers tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
+   it("toDPromptPreviews test", async () => {
+      const prompts = ptestData.pPromptPreviews();
+      const result = toDPromptPreviews(prompts);
+      const expectedResult = toDPromptPreviewsInternal(prompts);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptPreview test", async () => {
+      const prompt = ptestData.pPromptPreview();
+      const result = toDPromptPreview(prompt);
+      const expectedResult = toDPromptPreviewInternal(prompt);
+      expect(result).toEqual(expectedResult);
    });
 
    it("toDPrompts test", async () => {
-      const descriptors = ptestData.pPromptsWithCategories();
-      const result = toDPrompts(descriptors);
-      const expectedResult = toDPromptsInternal(descriptors);
+      const prompts = ptestData.pPromptsWithCategories();
+      const result = toDPrompts(prompts);
+      const expectedResult = toDPromptsInternal(prompts);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDPrompt test", async () => {
-      const descriptor = ptestData.pPromptWithCategories();
-      const result = toDPrompt(descriptor);
-      const expectedResult = toDPromptInternal(descriptor);
+      const prompt = ptestData.pPromptWithCategories();
+      const result = toDPrompt(prompt);
+      const expectedResult = toDPromptInternal(prompt);
       expect(result).toEqual(expectedResult);
    });
 

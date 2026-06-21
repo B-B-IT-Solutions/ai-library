@@ -102,12 +102,12 @@ export const CollectionEdit = ({ collection }: Props) => {
                Einstellungen
             </TabsTrigger>
             <TabsTrigger
-               value="templates"
+               value="prompts"
                disabled={!isEdit}
                className="rounded-none border-b border-transparent px-4 py-2.5 text-sm shadow-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:rounded-t-sm data-[state=active]:border-b-blue-600 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
-               data-testid="tab-templates-btn"
+               data-testid="tab-prompts-btn"
             >
-               Vorlagen
+               Prompts
             </TabsTrigger>
             <TabsTrigger
                value="other"
@@ -127,7 +127,7 @@ export const CollectionEdit = ({ collection }: Props) => {
          </TabsContent>
          {isEdit && (
             <>
-               <TabsContent value="templates">
+               <TabsContent value="prompts">
                   <CollectionPrompts collectionId={collection.id} />
                </TabsContent>
                <TabsContent value="other">

@@ -14,6 +14,7 @@ import {
    UserRepository,
    VerificationTokenRepository,
 } from "./user";
+import { WorkflowRepository } from "./workflow";
 
 export class RepositoryFactory {
    private prisma: DbClient;
@@ -28,8 +29,9 @@ export class RepositoryFactory {
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private prompt0Repo?: Prompt0Repository;
-   private templateRepo?: PromptRepository;
-   private publicTemplateRepo?: PublicPromptRepository;
+   private promptRepo?: PromptRepository;
+   private publicPromptRepo?: PublicPromptRepository;
+   private workflowRepo?: WorkflowRepository;
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
    private publicSettingsRepo?: PublicSettingsRepository;
@@ -120,17 +122,24 @@ export class RepositoryFactory {
    }
 
    promptRepository(): PromptRepository {
-      if (!this.templateRepo) {
-         this.templateRepo = new PromptRepository(this.prisma);
+      if (!this.promptRepo) {
+         this.promptRepo = new PromptRepository(this.prisma);
       }
-      return this.templateRepo;
+      return this.promptRepo;
    }
 
    publicPromptRepository(): PublicPromptRepository {
-      if (!this.publicTemplateRepo) {
-         this.publicTemplateRepo = new PublicPromptRepository(this.prisma);
+      if (!this.publicPromptRepo) {
+         this.publicPromptRepo = new PublicPromptRepository(this.prisma);
       }
-      return this.publicTemplateRepo;
+      return this.publicPromptRepo;
+   }
+
+   workflowRepository(): WorkflowRepository {
+      if (!this.workflowRepo) {
+         this.workflowRepo = new WorkflowRepository(this.prisma);
+      }
+      return this.workflowRepo;
    }
 
    subscriptionRepository(): SubscriptionRepository {

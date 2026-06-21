@@ -3,9 +3,9 @@ import { isEmpty } from "es-toolkit/compat";
 import { PublicPromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
-   DPromptGenerationData,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptTemplatingData,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PublicCollectionService } from "../collection";
@@ -42,21 +42,21 @@ export class PublicPromptService {
    }
 
    async getPublicPromptGenerationData(
-      teamplateId: string
-   ): Promise<DPromptGenerationData | null> {
-      const template = await this.getPublicPromptContent(teamplateId);
+      promptId: string
+   ): Promise<DPromptTemplatingData | null> {
+      const prompt = await this.getPublicPromptContent(promptId);
 
-      if (template) {
+      if (prompt) {
          const globalFields =
             await this.settingService.getPublicGlobalPromptFieldsByIds(
-               template.globalFieldIds
+               prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(template, globalFields);
+         const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
          return {
-            template,
-            allFields,
+            prompt,
+            allVariables,
          };
       }
 

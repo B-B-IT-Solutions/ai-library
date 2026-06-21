@@ -19,6 +19,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
+import { cn } from "@/lib/utils";
 
 export type Option =
    | string
@@ -33,6 +34,7 @@ type Props<T extends FieldValues> = {
    placeholder?: string;
    description?: string | null;
    required?: boolean;
+   className?: string;
    options: Option[];
    control: Control<T>;
 };
@@ -44,6 +46,7 @@ export const FormSelect = <T extends FieldValues>({
    placeholder,
    required,
    options,
+   className,
    control,
 }: Props<T>) => {
    const getValue = (o: Option) => {
@@ -77,7 +80,7 @@ export const FormSelect = <T extends FieldValues>({
          control={control}
          name={name}
          render={({ field }) => (
-            <FormItem data-testid={name}>
+            <FormItem className={cn(className)} data-testid={name}>
                {renderlabel()}
                {renderDescription()}
                <div className="relative">
@@ -87,7 +90,10 @@ export const FormSelect = <T extends FieldValues>({
                         value={field.value}
                         onValueChange={field.onChange}
                      >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger
+                           className="w-full"
+                           data-testid={`${name}-trigger`}
+                        >
                            <SelectValue placeholder={placeholder} />
                         </SelectTrigger>
                         <SelectContent>

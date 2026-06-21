@@ -39,3 +39,10 @@ export enum DCollectionsSortByMode {
    NAME_DESC = "desc(name)",
    NAME_ASC = "asc(name)",
 }
+
+export enum DWorkflowsSortByMode {
+   DATE_DESC = "desc(createdAt)",
+   DATE_ASC = "asc(createdAt)",
+   TITLE_DESC = "desc(title)",
+   TITLE_ASC = "asc(title)",
+}

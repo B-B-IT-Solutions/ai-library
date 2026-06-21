@@ -9,7 +9,7 @@ import { Button } from "@/components/shadcn/button";
 import { getPublishedCatalogEntryBySlug } from "@/data/actions/catalog";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
-import { toDPrompt, toDPromptGenerationData } from "./use-entry.utils";
+import { toDPrompt, toDPromptTemplatingData } from "./use-entry.utils";
 
 type Props = {
    slug: string;
@@ -37,7 +37,7 @@ export const UseCatalogEntryLazyButton = ({ slug }: Props) => {
          return (
             <UsePromptDialog
                prompt={toDPrompt(entry)}
-               generationData={toDPromptGenerationData(entry)}
+               generationData={toDPromptTemplatingData(entry)}
                onCancel={() => {
                   setIsOpen(false);
                   setEntry(null);

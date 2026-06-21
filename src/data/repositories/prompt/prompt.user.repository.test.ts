@@ -5,6 +5,8 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptVariableType,
@@ -23,7 +25,12 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
+import {
+   toDPrompt,
+   toDPromptPreviews,
+   toDPrompts,
+   toDPromptWithContent,
+} from "./prompt.mapper";
 import { PromptRepository } from "./prompt.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -114,24 +121,36 @@ describe("pGetPromptsPage tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 
    test("sort title asc - test", async () => {
       const userId = "user-id-1";
       const descriptors = ptestData.pPromptsWithCategories();
+      const totalEntries = 0;
       prismaMock.prompt.findMany.mockResolvedValue(descriptors);
-      prismaMock.prompt.count.mockResolvedValue(0);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
 
       const query: DPromptsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          sort: { field: "title", order: "asc" },
       };
 
-      await repository.pGetPromptsPage(userId, query);
+      const result = await repository.pGetPromptsPage(userId, query);
+
+      const expectedResult: DPromptsPage = {
+         content: toDPrompts(descriptors),
+         pageNumber: 0,
+         pageSize: 10,
+         numberOfElements: descriptors.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
 
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: { userId },
@@ -147,29 +166,231 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
       };
 
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 
    test("sort title desc - test", async () => {
       const userId = "user-id-1";
-      const descriptors = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(descriptors);
-      prismaMock.prompt.count.mockResolvedValue(0);
+      const prompts = ptestData.pPromptsWithCategories();
+      const totalEntries = 35;
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
+
+      const query: DPromptsPageQuery = {
+         pagination: { pageNumber: 2, pageSize: 10 },
+         sort: { field: "title", order: "desc" },
+      };
+
+      const result = await repository.pGetPromptsPage(userId, query);
+
+      const expectedResult: DPromptsPage = {
+         content: toDPrompts(prompts),
+         pageNumber: 2,
+         pageSize: 10,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+         orderBy: { title: "desc" },
+         skip: 20,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptFindManyArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
+   });
+});
+
+describe("pGetPromptPreviewsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("query undefined - test", async () => {
+      const userId = "user-id-1";
+      const prompts = ptestData.pPromptPreviews();
+      const totalEntries = 15;
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
+
+      const result = await repository.pGetPromptPreviewsPage(userId);
+
+      const expectedResult: DPromptPreviewsPage = {
+         content: toDPromptPreviews(prompts),
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: { userId },
+         select: {
+            id: true,
+            title: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
+   });
+
+   test("sort createdAt asc - test", async () => {
+      const userId = "user-id-1";
+      const prompts = ptestData.pPromptPreviews();
+      const totalEntries = 25;
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
+
+      const query: DPromptsPageQuery = {
+         pagination: { pageNumber: 2, pageSize: 10 },
+         sort: { field: "createdAt", order: "asc" },
+      };
+
+      const result = await repository.pGetPromptPreviewsPage(userId, query);
+
+      const expectedResult: DPromptPreviewsPage = {
+         content: toDPromptPreviews(prompts),
+         pageNumber: 2,
+         pageSize: 10,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: { userId },
+         select: {
+            id: true,
+            title: true,
+         },
+         orderBy: { createdAt: "asc" },
+         skip: 20,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
+   });
+
+   test("sort title asc - test", async () => {
+      const userId = "user-id-1";
+      const prompts = ptestData.pPromptPreviews();
+      const totalEntries = 0;
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
+
+      const query: DPromptPreviewsPageQuery = {
+         pagination: { pageNumber: 0, pageSize: 10 },
+         sort: { field: "title", order: "asc" },
+      };
+
+      const result = await repository.pGetPromptPreviewsPage(userId, query);
+
+      const expectedResult: DPromptPreviewsPage = {
+         content: toDPromptPreviews(prompts),
+         pageNumber: 0,
+         pageSize: 10,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: { userId },
+         select: {
+            id: true,
+            title: true,
+         },
+         orderBy: { title: "asc" },
+         skip: 0,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptFindManyArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
+   });
+
+   test("sort title desc - test", async () => {
+      const userId = "user-id-1";
+      const prompts = ptestData.pPromptPreviews();
+      const totalEntries = 15;
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(totalEntries);
 
       const query: DPromptsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          sort: { field: "title", order: "desc" },
       };
 
-      await repository.pGetPromptsPage(userId, query);
+      const result = await repository.pGetPromptPreviewsPage(userId, query);
+
+      const expectedResult: DPromptPreviewsPage = {
+         content: toDPromptPreviews(prompts),
+         pageNumber: 0,
+         pageSize: 10,
+         numberOfElements: prompts.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
 
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: { userId },
-         include: {
-            categories: true,
+         select: {
+            id: true,
+            title: true,
          },
          orderBy: { title: "desc" },
          skip: 0,
@@ -180,9 +401,12 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
       };
 
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expectedCountArgs);
    });
 });
@@ -524,194 +748,6 @@ describe("resolveWhereInput tests", () => {
    });
 });
 
-describe("pGetPrompts tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("prompts - params undefined - retrieved - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-
-      const result = await repository.pGetPrompts();
-
-      const expectedResult = toDPrompts(prompts);
-
-      const expectedFindMayArgs: PromptFindManyArgs = {
-         include: {
-            categories: true,
-         },
-         take: 20,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-
-   test("prompts - params empty - retrieved - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-
-      const result = await repository.pGetPrompts({});
-
-      const expectedResult = toDPrompts(prompts);
-
-      const expectedFindMayArgs: PromptFindManyArgs = {
-         include: {
-            categories: true,
-         },
-         take: 20,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-
-   test("prompts - params.search defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-
-      const search = "prompt 1";
-      const result = await repository.pGetPrompts({
-         search,
-         categories: [],
-      });
-
-      const expectedResult = toDPrompts(prompts);
-
-      const expectedFindMayArgs: PromptFindManyArgs = {
-         where: {
-            OR: [
-               {
-                  title: {
-                     contains: search,
-                     mode: "insensitive",
-                  },
-               },
-               {
-                  content: {
-                     content: {
-                        contains: search,
-                        mode: "insensitive",
-                     },
-                  },
-               },
-            ],
-         },
-         include: {
-            categories: true,
-         },
-         take: 20,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-
-   test("prompts - params.categories defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-
-      const categories = ["cat 1", "cat2", "cat 3"];
-      const result = await repository.pGetPrompts({
-         categories,
-      });
-
-      const expectedResult = toDPrompts(prompts);
-
-      const expectedFindMayArgs: PromptFindManyArgs = {
-         where: {
-            AND: [
-               {
-                  categories: {
-                     some: {
-                        name: {
-                           in: categories,
-                        },
-                     },
-                  },
-               },
-            ],
-         },
-         include: {
-            categories: true,
-         },
-         take: 20,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-
-   test("prompts - params defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-
-      const search = "prompt 123";
-      const categories = ["cat 1", "cat2", "cat 3"];
-      const result = await repository.pGetPrompts({
-         search,
-         categories,
-      });
-
-      const expectedResult = toDPrompts(prompts);
-
-      const expectedFindMayArgs: PromptFindManyArgs = {
-         where: {
-            OR: [
-               {
-                  title: {
-                     contains: search,
-                     mode: "insensitive",
-                  },
-               },
-               {
-                  content: {
-                     content: {
-                        contains: search,
-                        mode: "insensitive",
-                     },
-                  },
-               },
-            ],
-            AND: [
-               {
-                  categories: {
-                     some: {
-                        name: {
-                           in: categories,
-                        },
-                     },
-                  },
-               },
-            ],
-         },
-         include: {
-            categories: true,
-         },
-         take: 20,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-});
-
 describe("pGetPrompt tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -839,7 +875,7 @@ describe("pCreatePrompt tests", () => {
       mockReset(prismaMock);
    });
 
-   test("descriptor created - test", async () => {
+   test("prompt created - test", async () => {
       const userId = "user-id-123";
       const data = dtestData.dPromptUpdate();
       const newDescriptor = ptestData.pPromptWithCategories();

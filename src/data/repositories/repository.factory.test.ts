@@ -15,6 +15,7 @@ import {
    UserRepository,
    VerificationTokenRepository,
 } from "./user";
+import { WorkflowRepository } from "./workflow";
 
 describe("RepositoryFactory tests", () => {
    let mockPrisma: PrismaClient;
@@ -190,6 +191,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.publicPromptRepository();
          const repository2 = factory.publicPromptRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("workflowRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.workflowRepository();
+         expect(repository).toBeInstanceOf(WorkflowRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.workflowRepository();
+         const repository2 = factory.workflowRepository();
          expect(repository1).toBe(repository2);
       });
    });

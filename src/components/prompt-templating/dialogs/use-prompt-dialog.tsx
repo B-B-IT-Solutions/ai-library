@@ -11,12 +11,12 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
-import { DPrompt, DPromptGenerationData } from "@/data/types/domain/prompt";
+import { DPrompt, DPromptTemplatingData } from "@/data/types/domain/prompt";
 import { UsePromptForm } from "../use-prompt";
 
 type Props = {
    prompt: DPrompt;
-   generationData: DPromptGenerationData;
+   generationData: DPromptTemplatingData;
    onCancel: CallbackFn;
 };
 
@@ -78,7 +78,7 @@ export const UsePromptDialog = ({
             </div>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UsePromptForm
-                  templateData={generationData}
+                  promptData={generationData}
                   recommendedModel={prompt.recommendedModel}
                />
             </div>

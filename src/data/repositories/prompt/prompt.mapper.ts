@@ -1,15 +1,30 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import {
+   PromptPreview,
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
+   DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
+
+export const toDPromptPreviews = (
+   pPrompts: PromptPreview[]
+): DPromptPreview[] => {
+   return map(pPrompts, (dbP) => toDPromptPreview(dbP));
+};
+
+export const toDPromptPreview = (prompt: PromptPreview): DPromptPreview => {
+   return {
+      id: prompt.id,
+      title: prompt.title,
+   };
+};
 
 export const toDPrompts = (pPrompts: PromptWithCategories[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));

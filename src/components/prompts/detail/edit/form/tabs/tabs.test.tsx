@@ -90,11 +90,6 @@ const assertDetectedVariablesRendered = () => {
    assertInDocument(variables);
 };
 
-const assertDetectedVariablesNotRendered = () => {
-   const variables = screen.queryByTestId("detected-variables");
-   assertNotInDocument(variables);
-};
-
 const assertPromptVariablesEmptyRendered = () => {
    const fieldsEmpty = screen.getByTestId("fields-empty");
    const variable = screen.queryByTestId("prompt-variable");
@@ -116,16 +111,6 @@ const assertPromptVariableRendered = () => {
 
    assertInDocument(variable);
    assertNotInDocument(fieldsEmpty);
-};
-
-const assertGlobalVariablesRendered = () => {
-   const globalFields = screen.getByTestId("prompt-global-variables");
-   assertInDocument(globalFields);
-};
-
-const assertGlobalVariablesNotRendered = () => {
-   const globalFields = screen.queryByTestId("prompt-global-variables");
-   assertNotInDocument(globalFields);
 };
 
 describe("PromptFormTabs rendering tests", () => {

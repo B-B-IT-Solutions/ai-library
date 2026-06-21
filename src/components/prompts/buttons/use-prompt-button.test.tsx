@@ -35,7 +35,7 @@ const assertDialogNotRendered = () => {
 
 describe("UsePromptButton rendering tests", () => {
    it("with fields - rendered test", async () => {
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
@@ -49,8 +49,8 @@ describe("UsePromptButton rendering tests", () => {
    });
 
    it("without fields - rendered test", async () => {
-      const data = dtestData.dPromptGenerationData();
-      data.allFields = [];
+      const data = dtestData.dPromptTemplatingData();
+      data.allVariables = [];
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
@@ -64,7 +64,7 @@ describe("UsePromptButton rendering tests", () => {
    });
 
    it("with className - rendered test", async () => {
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
@@ -114,7 +114,7 @@ describe("UsePromptButton functionality - tests", () => {
    });
 
    it("submit clicked - success - templateData retrieved - test", async () => {
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();
@@ -134,7 +134,7 @@ describe("UsePromptButton functionality - tests", () => {
    });
 
    it("close clicked- test", async () => {
-      const data = dtestData.dPromptGenerationData();
+      const data = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();

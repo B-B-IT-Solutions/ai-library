@@ -1,3 +1,4 @@
 - [App Identity](project_app_identity.md) — Vision Notes: app name, tagline, value prop, core differentiators, 6 user segments
 - [Collections Feature](project_collections.md) — Fully implemented collection management (edit/delete/share) + public share pages
 - [Revenue Model](project_revenue_model.md) — Subscriptions = tiered content access; marketplace = one-time purchase of content beyond subscription tier
+- [Workflows Feature](project_workflows_feature.md) — Branching prompt-chains, BASIC+PRO, copy-paste runner, PROMPT_REF or STANDALONE steps, private MVP

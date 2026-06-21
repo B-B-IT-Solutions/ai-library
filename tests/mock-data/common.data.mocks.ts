@@ -65,9 +65,9 @@ export const useMutationObserverLoadingResult = (
    };
 };
 
-export const uuid = (index = 1) => {
+export const uuid = (index = 1): string => {
    const encoder = new TextEncoder();
-   return encoder.encode(`mock-uuid-${index}`);
+   return String(encoder.encode(`mock-uuid-${index}`));
 };
 
 export const nodemailderSentMessageInfo = (

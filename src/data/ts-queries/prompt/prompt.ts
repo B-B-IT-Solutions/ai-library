@@ -15,20 +15,30 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptGenerationData,
+   getPromptPreviewsPage,
    getPromptsPage,
    getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import {
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
+   DPromptsPage,
+   DPromptsPageQuery,
+   DPromptTemplatingData,
+} from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import type {
-   LoadTemplateDescriptorsParams,
+   LoadPromptPreviewsPageParams,
+   LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
    UpdateIsFavoriteParams,
 } from "./types";
-import { templateCategoriesKeys, templateKeys } from "./utils";
+import { promptKeys, templateCategoriesKeys } from "./utils";
 
 export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    string[],
@@ -44,7 +54,7 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
 };
 
 export const infiniteLoadPromptsPageOptions = (
-   params: LoadTemplateDescriptorsParams
+   params: LoadPromptsPageParams
 ): UndefinedInitialDataInfiniteOptions<
    DPromptsPage,
    Error,
@@ -54,7 +64,7 @@ export const infiniteLoadPromptsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.templates(params),
+      queryKey: promptKeys.prompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
@@ -72,9 +82,44 @@ export const infiniteLoadPromptsPageOptions = (
 };
 
 export const useInfiniteLoadPromptsPage = (
-   props: LoadTemplateDescriptorsParams
+   props: LoadPromptsPageParams
 ): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
    const options = infiniteLoadPromptsPageOptions(props);
+   return useInfiniteQuery(options);
+};
+
+export const infiniteLoadPromptPreviewsPageOptions = (
+   params: LoadPromptPreviewsPageParams
+): UndefinedInitialDataInfiniteOptions<
+   DPromptPreviewsPage,
+   Error,
+   InfiniteData<DPromptPreviewsPage>,
+   QueryKey,
+   number
+> => {
+   const { filters, sort } = params;
+   return {
+      queryKey: promptKeys.promptPreviews(params),
+      queryFn: async ({ pageParam }) => {
+         const query: DPromptPreviewsPageQuery = pageQuery(
+            pageParam,
+            PAGE_SIZE,
+            undefined,
+            filters,
+            sort
+         );
+         return await getPromptPreviewsPage(query);
+      },
+      initialPageParam: INIT_PAGE_NUMBER,
+      getNextPageParam: getNextPageParam,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useInfiniteLoadPromptPreviewsPage = (
+   props: LoadPromptPreviewsPageParams
+): UseInfiniteQueryResult<InfiniteData<DPromptPreviewsPage>, Error> => {
+   const options = infiniteLoadPromptPreviewsPageOptions(props);
    return useInfiniteQuery(options);
 };
 
@@ -93,6 +138,34 @@ export const loadPromptTemplateCategoriesOptions =
 export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
    const options = loadPromptTemplateCategoriesOptions();
    return useQuery<string[]>(options);
+};
+
+export const loadPromptTemplatingDataOptions = (
+   params: LoadPromptTemplatingDataParams
+): UndefinedInitialDataOptions<
+   DPromptTemplatingData | null,
+   Error,
+   DPromptTemplatingData | null
+> => {
+   const { promptId, enabled } = params;
+   return {
+      queryKey: promptKeys.templatingData(params),
+      queryFn: () => {
+         if (promptId) {
+            return getPromptGenerationData(promptId);
+         }
+         return null;
+      },
+      enabled: enabled,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadPromptTemplatingData = (
+   params: LoadPromptTemplatingDataParams
+): UseQueryResult<DPromptTemplatingData | null> => {
+   const options = loadPromptTemplatingDataOptions(params);
+   return useQuery(options);
 };
 
 export const toggleFavoriteOptions = (): UseMutationOptions<

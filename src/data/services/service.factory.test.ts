@@ -16,6 +16,7 @@ import {
    UserService,
    VerificationTokenService,
 } from "./user";
+import { WorkflowService } from "./workflow";
 
 const serviceFactory = new ServiceFactory(prisma);
 
@@ -171,6 +172,19 @@ describe("getPublicPromptService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getPublicPromptService();
       const service2 = serviceFactory.getPublicPromptService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getWorkflowService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getWorkflowService();
+      expect(service).toBeInstanceOf(WorkflowService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getWorkflowService();
+      const service2 = serviceFactory.getWorkflowService();
       expect(service1).toBe(service2);
    });
 });

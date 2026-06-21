@@ -9,10 +9,12 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
-   DPromptGenerationData,
+   DPromptPreviewsPage,
+   DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
    DPromptsUsage,
+   DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
    DPromptVariableValues,
@@ -23,11 +25,6 @@ import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
-type DGetPromptTemplatesParams = {
-   search?: string;
-   categories?: string[];
-};
-
 export const getPromptsPage = async (
    query?: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
@@ -35,6 +32,19 @@ export const getPromptsPage = async (
       const user = await requireUser();
       const service = getService();
       return await service.getPromptsPage(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
+};
+
+export const getPromptPreviewsPage = async (
+   query?: DPromptPreviewsPageQuery
+): Promise<DPromptPreviewsPage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptPreviewsPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
@@ -152,12 +162,12 @@ export const deletePrompt = async (
 };
 
 export const getPromptGenerationData = async (
-   templateId: string
-): Promise<DPromptGenerationData | null> => {
+   promptId: string
+): Promise<DPromptTemplatingData | null> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getPromptGenerationData(user.id, templateId);
+      return await service.getPromptGenerationData(user.id, promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -270,13 +280,6 @@ export const getPromptModels = async (): Promise<string[]> => {
       console.error(formatError(error));
       return [];
    }
-};
-
-export const getPromptTemplates = async (
-   params?: DGetPromptTemplatesParams
-): Promise<DPrompt[]> => {
-   const service = getService();
-   return await service.getPrompts(params);
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {

@@ -24,11 +24,7 @@ export type DCollection = {
    updatedAt: string;
 };
 
-export type DCollectionPreview = {
-   id: string;
-   name: string;
-   color: string;
-};
+export type DCollectionPreview = Pick<DCollection, "id" | "name" | "color">;
 
 export type DCollectionEntry = {
    collectionId: string;

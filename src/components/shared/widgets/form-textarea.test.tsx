@@ -12,6 +12,7 @@ type Props = {
    description?: string | null;
    required?: boolean;
    rows?: number;
+   maxLength?: number;
    className?: string;
 };
 
@@ -22,6 +23,7 @@ const TestWrapper: FC<Props> = ({
    description,
    required,
    rows,
+   maxLength,
    className,
 }) => {
    const form = useForm({
@@ -39,6 +41,7 @@ const TestWrapper: FC<Props> = ({
             description={description}
             required={required}
             rows={rows}
+            maxLength={maxLength}
             className={className}
             control={form.control}
          />
@@ -52,7 +55,7 @@ const assertRendered = (name: string) => {
 };
 
 describe("FormTextArea rendering tests", () => {
-   it("FormTextArea - rows undefined - test", () => {
+   it("rows undefined - test", () => {
       const name = "test-123";
       const { container } = render(
          <TestWrapper
@@ -69,7 +72,7 @@ describe("FormTextArea rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("FormTextArea - rows defined - test", () => {
+   it("rows defined - test", () => {
       const name = "test-789";
       const { container } = render(
          <TestWrapper
@@ -77,6 +80,7 @@ describe("FormTextArea rendering tests", () => {
             label="Label 1"
             placeholder="Placeholder 1"
             rows={5}
+            maxLength={750}
             className="mt-1"
          />
       );

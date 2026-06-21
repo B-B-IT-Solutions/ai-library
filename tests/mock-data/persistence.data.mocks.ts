@@ -23,6 +23,7 @@ import {
    ProductWithItems,
 } from "@/data/types/db/product";
 import {
+   PromptPreview,
    PromptWithCategories,
    PromptWithContent,
    PromptWithRelations,
@@ -30,6 +31,11 @@ import {
 import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
+import {
+   WorkflowStepWithEdgesAndPrompt,
+   WorkflowWithStepCount,
+   WorkflowWithSteps,
+} from "@/data/types/db/workflow";
 import {
    Cart,
    CartItem,
@@ -61,6 +67,9 @@ import {
    SubscriptionPlan,
    User,
    VerificationToken,
+   Workflow,
+   WorkflowStep,
+   WorkflowStepEdge,
 } from "@/generated/prisma/client";
 import {
    Prompt0CreateInput,
@@ -496,6 +505,17 @@ export const pPromptWithCategories = (index = 1): PromptWithCategories => {
    };
 };
 
+export const pPromptPreviews = (count = 3): PromptPreview[] => {
+   return range(0, count).map((i) => pPromptPreview(i));
+};
+
+export const pPromptPreview = (index = 1): PromptPreview => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title ${index}`,
+   };
+};
+
 export const pPrompts = (count = 3): Prompt[] => {
    return range(0, count).map((i) => pPrompt(i));
 };
@@ -816,6 +836,86 @@ export const pCatalogCategory = (index = 1): CatalogCategory => {
       slug: `category-${index}`,
       description: `Description for category ${index}`,
       order: index,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pWorkflowWithStepCounts = (count = 3): WorkflowWithStepCount[] => {
+   return range(0, count).map((i) => pWorkflowWithStepCount(i + 1));
+};
+
+export const pWorkflowWithStepCount = (index = 1): WorkflowWithStepCount => {
+   return {
+      ...pWorkflow(index),
+      _count: {
+         steps: index + 2,
+      },
+   };
+};
+
+export const pWorkflowWithSteps = (index = 1): WorkflowWithSteps => {
+   return {
+      ...pWorkflow(index),
+      steps: pWorkflowStepWithEdgesAndPrompts(),
+   };
+};
+
+export const pWorkflow = (index = 1): Workflow => {
+   return {
+      id: `workflow-id-000${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      title: `title-${index}`,
+      description: `description ${index}`,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pWorkflowStepEdge = (index = 1): WorkflowStepEdge => {
+   const fromEdgeId = `from-edge-id-000${index + 1}`;
+   const toEdgeId = `to-edge-id-000${index + 1}`;
+   return {
+      id: `edge-id-000${index}`,
+      fromStepEdgeId: fromEdgeId,
+      toStepEdgeId: toEdgeId,
+      label: `label-${index}`,
+      order: index - 1,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pWorkflowStepWithEdgesAndPrompts = (
+   count = 3
+): WorkflowStepWithEdgesAndPrompt[] => {
+   return range(0, count).map((i) => pWorkflowStepWithEdgesAndPrompt(i + 1));
+};
+
+export const pWorkflowStepWithEdgesAndPrompt = (
+   index = 1
+): WorkflowStepWithEdgesAndPrompt => {
+   return {
+      ...pWorkflowStep(index),
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      prompt: {
+         title: `prompt-${index}`,
+      },
+      outgoingEdges: [],
+   };
+};
+
+export const pWorkflowStep = (index = 1): WorkflowStep => {
+   return {
+      id: `step-id-000${index}`,
+      workflowId: `workflow-id-0001`,
+      edgeId: `edge-id-000${index}`,
+      title: `step-title-${index}`,
+      hint: `step-hint-${index}`,
+      type: "STANDALONE",
+      promptId: null,
+      content: `content-${index}`,
+      isStart: index === 1,
+      position: index - 1,
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
    };

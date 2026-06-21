@@ -1,9 +1,19 @@
 import { Sort } from "@/data/types/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 
-export type LoadTemplateDescriptorsParams = {
+export type LoadPromptsPageParams = {
    filters?: DPromptsFilter;
    sort?: Sort;
+};
+
+export type LoadPromptPreviewsPageParams = {
+   filters?: DPromptsFilter;
+   sort?: Sort;
+};
+
+export type LoadPromptTemplatingDataParams = {
+   promptId: string | null;
+   enabled?: boolean;
 };
 
 export type UpdateIsFavoriteParams = {
