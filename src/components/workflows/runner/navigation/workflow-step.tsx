@@ -10,15 +10,15 @@ import { cn } from "@/lib/utils";
 type Props = {
    edge: DWorkflowStepEdge;
    allSteps: DWorkflowStep[];
-   onSelected: (toStepId: string) => void;
+   onSelected: (toStepEdgeId: string) => void;
 };
 
 export const NextStep = ({ edge, allSteps, onSelected }: Props) => {
-   const target = find(allSteps, (s) => s.edgeId === edge.toStepId);
+   const target = find(allSteps, (s) => s.edgeId === edge.toStepEdgeId);
    return (
       <Button
          variant="outline"
-         onClick={() => onSelected(edge.toStepId)}
+         onClick={() => onSelected(edge.toStepEdgeId)}
          className="group h-auto cursor-pointer justify-between text-left"
          data-testid="next-step-btn"
       >

@@ -77,24 +77,24 @@ const assertStandaloneRendered = (index: number) => {
 
 const assertEdgeRendered = (stepIdx: number, edgeIdx: number) => {
    const label = screen.getByTestId(`steps.${stepIdx}.edges.${edgeIdx}.label`);
-   const toStepId = screen.getByTestId(
-      `steps.${stepIdx}.edges.${edgeIdx}.toStepId`
+   const toStepEdgeId = screen.getByTestId(
+      `steps.${stepIdx}.edges.${edgeIdx}.toStepEdgeId`
    );
 
    assertInDocument(label);
-   assertInDocument(toStepId);
+   assertInDocument(toStepEdgeId);
 };
 
 const assertEdgeNotRendered = (stepIdx: number, edgeIdx: number) => {
    const label = screen.queryByTestId(
       `steps.${stepIdx}.edges.${edgeIdx}.label`
    );
-   const toStepId = screen.queryByTestId(
-      `steps.${stepIdx}.edges.${edgeIdx}.toStepId`
+   const toStepEdgeId = screen.queryByTestId(
+      `steps.${stepIdx}.edges.${edgeIdx}.toStepEdgeId`
    );
 
    assertNotInDocument(label);
-   assertNotInDocument(toStepId);
+   assertNotInDocument(toStepEdgeId);
 };
 
 describe("StepForm rendering tests", () => {

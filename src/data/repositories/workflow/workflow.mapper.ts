@@ -1,7 +1,6 @@
 import { map } from "es-toolkit/compat";
 
 import {
-   WorkflowStepEdgeWithTarget,
    WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
    WorkflowWithSteps,
@@ -12,7 +11,7 @@ import {
    DWorkflowStepEdge,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { Workflow } from "@/generated/prisma/client";
+import { Workflow, WorkflowStepEdge } from "@/generated/prisma/client";
 
 export const toDWorkflows = (ws: WorkflowWithStepCount[]): DWorkflow[] => {
    return map(ws, toDWorkflowWithStepCount);
@@ -48,18 +47,6 @@ export const toDWorkflow = (w: Workflow): DWorkflow => {
    };
 };
 
-export const toDWorkflowStepEdge = (
-   e: WorkflowStepEdgeWithTarget
-): DWorkflowStepEdge => {
-   return {
-      id: e.id,
-      fromStepId: e.fromStepId,
-      toStepId: e.toStep.edgeId,
-      label: e.label,
-      order: e.order,
-   };
-};
-
 export const toDWorkflowStep = (
    s: WorkflowStepWithEdgesAndPrompt
 ): DWorkflowStep => {
@@ -76,5 +63,15 @@ export const toDWorkflowStep = (
       isStart: s.isStart,
       position: s.position,
       outgoingEdges: map(s.outgoingEdges, toDWorkflowStepEdge),
+   };
+};
+
+export const toDWorkflowStepEdge = (e: WorkflowStepEdge): DWorkflowStepEdge => {
+   return {
+      id: e.id,
+      fromStepEdgeId: e.fromStepEdgeId,
+      toStepEdgeId: e.toStepEdgeId,
+      label: e.label,
+      order: e.order,
    };
 };

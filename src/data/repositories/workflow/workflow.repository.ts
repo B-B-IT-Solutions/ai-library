@@ -118,11 +118,6 @@ export class WorkflowRepository {
                      orderBy: {
                         order: "asc" as const,
                      },
-                     include: {
-                        toStep: {
-                           select: { edgeId: true },
-                        },
-                     },
                   },
                },
             },
@@ -242,9 +237,10 @@ export class WorkflowRepository {
 
    async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
       for (const step of steps) {
-         const stepId = step.id!;
+         const { id: stepId, edgeId } = step;
+
          const deleteEdgesArgs = {
-            where: { fromStepId: stepId },
+            where: { fromStepEdgeId: edgeId },
          } satisfies WorkflowStepEdgeDeleteManyArgs;
 
          await this.prisma.workflowStepEdge.deleteMany(deleteEdgesArgs);
@@ -261,7 +257,8 @@ export class WorkflowRepository {
                position: step.position,
                outgoingEdges: {
                   create: map(step.edges, (e) => ({
-                     toStepId: e.toStepId,
+                     fromStepEdgeId: edgeId,
+                     toStepEdgeId: e.toStepEdgeId,
                      label: e.label,
                      order: e.order,
                   })),

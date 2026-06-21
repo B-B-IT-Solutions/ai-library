@@ -64,7 +64,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
 
    const handleAddEdge = () => {
       const newEdge: DWorkflowStepEdgeUpdate = {
-         toStepId: "",
+         toStepEdgeId: "",
          label: "",
          order: edges.length + 1,
       };
@@ -161,7 +161,7 @@ export const StepForm = ({ index, steps, control }: Props) => {
                   />
 
                   <FormSelect<DWorkflowUpdate>
-                     name={`steps.${index}.edges.${edgeIdx}.toStepId`}
+                     name={`steps.${index}.edges.${edgeIdx}.toStepEdgeId`}
                      label="Zielschritt"
                      placeholder="Schritt…"
                      className="flex-1"

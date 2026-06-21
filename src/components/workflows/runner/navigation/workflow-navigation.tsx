@@ -12,7 +12,7 @@ import { NextStep } from "./workflow-step";
 type Props = {
    edges: DWorkflowStepEdge[];
    allSteps: DWorkflowStep[];
-   onNextStep: (toStepId: string) => void;
+   onNextStep: (toStepEdgeId: string) => void;
    onPreviousStep: () => void;
    previousEnabled: boolean;
 };

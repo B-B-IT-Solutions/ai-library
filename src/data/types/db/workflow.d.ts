@@ -14,11 +14,7 @@ export type WorkflowWithSteps = Workflow & {
    steps: WorkflowStepWithEdgesAndPrompt[];
 };
 
-export type WorkflowStepEdgeWithTarget = WorkflowStepEdge & {
-   toStep: { edgeId: string };
-};
-
 export type WorkflowStepWithEdgesAndPrompt = WorkflowStep & {
-   outgoingEdges: WorkflowStepEdgeWithTarget[];
+   outgoingEdges: WorkflowStepEdge[];
    prompt: { title: string } | null;
 };

@@ -66,7 +66,7 @@ describe("NextStep functionality tests", () => {
 
       await waitFor(() => {
          expect(onSelectedFn).toHaveBeenCalledTimes(1);
-         expect(onSelectedFn).toHaveBeenCalledWith(edge.toStepId);
+         expect(onSelectedFn).toHaveBeenCalledWith(edge.toStepEdgeId);
       });
    });
 });

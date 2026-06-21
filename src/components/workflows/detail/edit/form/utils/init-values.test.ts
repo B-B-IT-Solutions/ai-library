@@ -30,7 +30,7 @@ const expectedInitWorfklowStepExisting = (
       isStart: step.isStart,
       position: step.position,
       edges: map(step.outgoingEdges, (e) => ({
-         toStepId: e.toStepId,
+         toStepEdgeId: e.toStepEdgeId,
          label: e.label,
          order: e.order,
       })),

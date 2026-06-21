@@ -677,18 +677,18 @@ model WorkflowStep {
 }
 
 model WorkflowStepEdge {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  fromStepId String   @map("from_step_id") @db.Uuid
-  toStepId   String   @map("to_step_id") @db.Uuid
-  label      String   @db.VarChar(250)
-  order      Int      @default(0)
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fromStepEdgeId String   @map("from_step_edge_id") @db.Uuid
+  toStepEdgeId   String   @map("to_step_edge_id") @db.Uuid
+  label          String   @db.VarChar(250)
+  order          Int      @default(0)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  fromStep WorkflowStep @relation("EdgeFrom", fields: [fromStepId], references: [id], onDelete: Cascade)
-  toStep   WorkflowStep @relation("EdgeTo", fields: [toStepId], references: [edgeId], onDelete: Cascade)
+  fromStep WorkflowStep @relation("EdgeFrom", fields: [fromStepEdgeId], references: [edgeId], onDelete: Cascade)
+  toStep   WorkflowStep @relation("EdgeTo", fields: [toStepEdgeId], references: [edgeId], onDelete: Cascade)
 
-  @@unique([fromStepId, toStepId])
-  @@index([fromStepId])
-  @@index([toStepId])
+  @@unique([fromStepEdgeId, toStepEdgeId])
+  @@index([fromStepEdgeId])
+  @@index([toStepEdgeId])
   @@map("workflow_step_edge")
 }

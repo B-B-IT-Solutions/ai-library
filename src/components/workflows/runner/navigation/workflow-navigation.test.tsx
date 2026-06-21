@@ -69,7 +69,7 @@ describe("WorkflowNavigation functionality tests", () => {
 
       await waitFor(() => {
          expect(onSelectedFn).toHaveBeenCalledTimes(1);
-         expect(onSelectedFn).toHaveBeenCalledWith(edge1.toStepId);
+         expect(onSelectedFn).toHaveBeenCalledWith(edge1.toStepEdgeId);
       });
    });
 

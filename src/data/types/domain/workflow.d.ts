@@ -46,8 +46,8 @@ export type DWorkflowStep = {
 
 export type DWorkflowStepEdge = {
    id: string;
-   fromStepId: string;
-   toStepId: string;
+   fromStepEdgeId: string;
+   toStepEdgeId: string;
    label: string;
    order: number;
 };
@@ -62,9 +62,3 @@ export type DWorkflowUpdate = z.infer<typeof updateWorkflowSchema>;
 export type DWorkflowStepUpdate = z.infer<typeof updateWorkflowStepSchema>;
 
 export type DWorkflowStepEdgeUpdate = z.infer<typeof updateWorkflowEdgeSchema>;
-
-export type DWorkflowStepWithOutgoingEdges = {
-   id: string;
-   edgeId: string;
-   outgoingEdges: Array<{ toStepId: string }>;
-};

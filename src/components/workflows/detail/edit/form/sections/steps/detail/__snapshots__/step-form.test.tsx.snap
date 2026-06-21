@@ -1051,7 +1051,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
         <div
           class="grid gap-2 flex-1"
           data-slot="form-item"
-          data-testid="steps.1.edges.0.toStepId"
+          data-testid="steps.1.edges.0.toStepEdgeId"
         >
           <label
             class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
@@ -1072,7 +1072,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
               data-size="default"
               data-slot="select-trigger"
               data-state="closed"
-              data-testid="steps.1.edges.0.toStepId-trigger"
+              data-testid="steps.1.edges.0.toStepEdgeId-trigger"
               dir="ltr"
               role="combobox"
               type="button"
@@ -1175,7 +1175,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
         <div
           class="grid gap-2 flex-1"
           data-slot="form-item"
-          data-testid="steps.1.edges.1.toStepId"
+          data-testid="steps.1.edges.1.toStepEdgeId"
         >
           <label
             class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
@@ -1196,7 +1196,7 @@ exports[`StepForm rendering tests type STANDALONE - test 1`] = `
               data-size="default"
               data-slot="select-trigger"
               data-state="closed"
-              data-testid="steps.1.edges.1.toStepId-trigger"
+              data-testid="steps.1.edges.1.toStepEdgeId-trigger"
               dir="ltr"
               role="combobox"
               type="button"

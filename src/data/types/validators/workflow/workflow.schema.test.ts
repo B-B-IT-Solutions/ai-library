@@ -13,7 +13,7 @@ const UUID_4 = "550e8400-e29b-41d4-a716-446655440003";
 const UUID_5 = "550e8400-e29b-41d4-a716-446655440004";
 
 const validEdge = {
-   toStepId: UUID_1,
+   toStepEdgeId: UUID_1,
    label: "Weiter",
    order: 0,
 };
@@ -47,9 +47,12 @@ describe("updateWorkflowEdgeSchema", () => {
       expect(result).toEqual(validEdge);
    });
 
-   it("data invalid - toStepId not a uuid - test", () => {
+   it("data invalid - toStepEdgeId not a uuid - test", () => {
       const fn = () =>
-         updateWorkflowEdgeSchema.parse({ ...validEdge, toStepId: "not-a-uuid" });
+         updateWorkflowEdgeSchema.parse({
+            ...validEdge,
+            toStepEdgeId: "not-a-uuid",
+         });
       expect(fn).toThrow(ZodError);
    });
 
@@ -61,7 +64,10 @@ describe("updateWorkflowEdgeSchema", () => {
 
    it("data invalid - label exceeds max length - test", () => {
       const fn = () =>
-         updateWorkflowEdgeSchema.parse({ ...validEdge, label: "a".repeat(251) });
+         updateWorkflowEdgeSchema.parse({
+            ...validEdge,
+            label: "a".repeat(251),
+         });
       expect(fn).toThrow(ZodError);
    });
 
@@ -127,7 +133,10 @@ describe("updateWorkflowStepSchema", () => {
 
    it("data invalid - type not in enum - test", () => {
       const fn = () =>
-         updateWorkflowStepSchema.parse({ ...validStepPromptRef, type: "UNKNOWN" });
+         updateWorkflowStepSchema.parse({
+            ...validStepPromptRef,
+            type: "UNKNOWN",
+         });
       expect(fn).toThrow(ZodError);
    });
 
@@ -162,7 +171,10 @@ describe("updateWorkflowStepSchema", () => {
 
    it("data invalid - STANDALONE without content - test", () => {
       const fn = () =>
-         updateWorkflowStepSchema.parse({ ...validStepStandalone, content: null });
+         updateWorkflowStepSchema.parse({
+            ...validStepStandalone,
+            content: null,
+         });
       expect(fn).toThrow(ZodError);
 
       try {
@@ -214,7 +226,10 @@ describe("updateWorkflowSchema", () => {
    });
 
    it("data valid - empty steps array - test", () => {
-      const result = updateWorkflowSchema.parse({ ...validWorkflow, steps: [] });
+      const result = updateWorkflowSchema.parse({
+         ...validWorkflow,
+         steps: [],
+      });
       expect(result.steps).toEqual([]);
    });
 
