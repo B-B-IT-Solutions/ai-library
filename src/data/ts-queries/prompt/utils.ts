@@ -7,7 +7,7 @@ import type {
 } from "./types";
 
 export const promptKeys = {
-   all: ["templates"] as const,
+   all: ["prompts"] as const,
    prompts: ({ filters, sort }: LoadPromptsPageParams) =>
       [...promptKeys.all, filterQueryKey(filters, sort)] as const,
    publicPrompts: ({ filters, sort }: LoadPromptsPageParams) =>

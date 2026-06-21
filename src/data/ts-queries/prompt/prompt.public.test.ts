@@ -38,7 +38,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["templates", "public", { filters, sort }],
+         queryKey: ["prompts", "public", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
