@@ -688,3 +688,14 @@ exports[`StepRunner rendering tests standalone step - test 1`] = `
   </div>
 </div>
 `;
+
+exports[`StepRunner rendering tests step not found - test 1`] = `
+<div>
+  <p
+    class="text-muted-foreground"
+    data-testid="step-not-found"
+  >
+    Schritt nicht gefunden.
+  </p>
+</div>
+`;

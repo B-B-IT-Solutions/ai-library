@@ -70,11 +70,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
          data-testid="workflow-runner"
       >
          <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
-            {currentStep ? (
-               <StepRunner step={currentStep} workflow={workflow} />
-            ) : (
-               <p className="text-muted-foreground">Schritt nicht gefunden.</p>
-            )}
+            <StepRunner step={currentStep} workflow={workflow} />
          </div>
 
          <div className="border-t bg-background px-6 py-4">

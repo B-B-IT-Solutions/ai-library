@@ -27,6 +27,11 @@ const assertStandaloneStepRendered = () => {
    assertInDocument(step);
 };
 
+const assertStepNotFoundRendered = () => {
+   const step = screen.getByTestId("step-not-found");
+   assertInDocument(step);
+};
+
 describe("StepRunner rendering tests", () => {
    it("prompt step - test", async () => {
       const promptData = dtestData.dPromptGenerationData();
@@ -61,6 +66,20 @@ describe("StepRunner rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertStandaloneStepRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("step not found - test", async () => {
+      const workflow = dtestData.dWorkflowWithSteps();
+
+      const { container } = renderWithReactQuery(
+         <StepRunner step={undefined} workflow={workflow} />
+      );
+
+      await waitFor(() => {
+         assertStepNotFoundRendered();
       });
 
       expect(container).toMatchSnapshot();

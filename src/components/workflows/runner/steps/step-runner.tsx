@@ -12,10 +12,18 @@ import { StandaloneStep } from "./standalone-step";
 
 type Props = {
    workflow: DWorkflowWithSteps;
-   step: DWorkflowStep;
+   step?: DWorkflowStep;
 };
 
 export const StepRunner = ({ step, workflow }: Props) => {
+   if (!step) {
+      return (
+         <p className="text-muted-foreground" data-testid="step-not-found">
+            Schritt nicht gefunden.
+         </p>
+      );
+   }
+
    return (
       <div
          className="animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2"
