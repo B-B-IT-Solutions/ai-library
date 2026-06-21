@@ -2,7 +2,6 @@ import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
-   WorkflowStepEdgeWithTarget,
    WorkflowStepWithEdgesAndPrompt,
    WorkflowWithStepCount,
    WorkflowWithSteps,
@@ -13,7 +12,7 @@ import {
    DWorkflowStepEdge,
    DWorkflowWithSteps,
 } from "@/data/types/domain/workflow";
-import { Workflow } from "@/generated/prisma/client";
+import { Workflow, WorkflowStepEdge } from "@/generated/prisma/client";
 
 import {
    toDWorkflow,
@@ -44,15 +43,13 @@ const toDWorkflowWithStepCountInternal = (
    };
 };
 
-const toDWorkflowStepEdgeInternal = (
-   e: WorkflowStepEdgeWithTarget
-): DWorkflowStepEdge => {
+const toDWorkflowWithStepsInternal = (
+   w: WorkflowWithSteps
+): DWorkflowWithSteps => {
    return {
-      id: e.id,
-      fromStepId: e.fromStepId,
-      toStepId: e.toStep.edgeId,
-      label: e.label,
-      order: e.order,
+      ...toDWorkflowInternal(w),
+      stepCount: w.steps.length,
+      steps: map(w.steps, toDWorkflowStepInternal),
    };
 };
 
@@ -75,13 +72,15 @@ const toDWorkflowStepInternal = (
    };
 };
 
-const toDWorkflowWithStepsInternal = (
-   w: WorkflowWithSteps
-): DWorkflowWithSteps => {
+const toDWorkflowStepEdgeInternal = (
+   e: WorkflowStepEdge
+): DWorkflowStepEdge => {
    return {
-      ...toDWorkflowInternal(w),
-      stepCount: w.steps.length,
-      steps: map(w.steps, toDWorkflowStepInternal),
+      id: e.id,
+      fromStepId: e.fromStepEdgeId,
+      toStepId: e.toStepEdgeId,
+      label: e.label,
+      order: e.order,
    };
 };
 
