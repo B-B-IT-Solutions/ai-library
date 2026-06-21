@@ -47,7 +47,7 @@ describe("WorkflowRunner rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("start stepn not defined - test", async () => {
+   it("start step not defined - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
       const step = dtestData.dWorkflowStep();
       step.isStart = false;
@@ -80,17 +80,6 @@ describe("WorkflowRunner rendering tests", () => {
 });
 
 describe("WorkflowRunner navigation tests", () => {
-   // step0 (start) → step1 (middle, has edges) → step2 (end, no edges)
-   const buildWorkflow = () => {
-      const step0 = dtestData.dWorkflowStep(0);
-      const step1 = dtestData.dWorkflowStep(1);
-      const step2 = { ...dtestData.dWorkflowStep(2), outgoingEdges: [] };
-      return {
-         ...dtestData.dWorkflowWithSteps(),
-         steps: [step0, step1, step2],
-      };
-   };
-
    it("navigates to next/previous step - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
       const step0 = workflow.steps[0];
@@ -121,16 +110,11 @@ describe("WorkflowRunner navigation tests", () => {
    });
 
    it("navigate to last step/restart - test", async () => {
-      const step0 = dtestData.dWorkflowStep(0);
-      step0.isStart = true;
-      const step1 = dtestData.dWorkflowStep(1);
-      step1.isStart = false;
-      const step2 = dtestData.dWorkflowStep(2);
-      step2.isStart = false;
-      step2.outgoingEdges = [];
-
       const workflow = dtestData.dWorkflowWithSteps();
-      workflow.steps = [step0, step1, step2];
+      const step0 = workflow.steps[0];
+      const step1 = workflow.steps[1];
+      const step2 = workflow.steps[2];
+      step2.outgoingEdges = [];
 
       renderWithRouter(<WorkflowRunner workflow={workflow} />);
 
