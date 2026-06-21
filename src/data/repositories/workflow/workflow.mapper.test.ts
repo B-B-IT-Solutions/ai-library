@@ -77,8 +77,8 @@ const toDWorkflowStepEdgeInternal = (
 ): DWorkflowStepEdge => {
    return {
       id: e.id,
-      fromStepId: e.fromStepEdgeId,
-      toStepId: e.toStepEdgeId,
+      fromStepEdgeId: e.fromStepEdgeId,
+      toStepEdgeId: e.toStepEdgeId,
       label: e.label,
       order: e.order,
    };

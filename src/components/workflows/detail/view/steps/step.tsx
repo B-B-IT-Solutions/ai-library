@@ -61,7 +61,7 @@ export const WorkflowStep = ({ step, index, steps }: Props) => {
                         .sort((a, b) => a.order - b.order)
                         .map((edge, idx) => {
                            const target = steps.find(
-                              (s) => s.edgeId === edge.toStepId
+                              (s) => s.edgeId === edge.toStepEdgeId
                            );
                            return (
                               <span

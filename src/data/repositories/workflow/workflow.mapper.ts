@@ -69,8 +69,8 @@ export const toDWorkflowStep = (
 export const toDWorkflowStepEdge = (e: WorkflowStepEdge): DWorkflowStepEdge => {
    return {
       id: e.id,
-      fromStepId: e.fromStepEdgeId,
-      toStepId: e.fromStepEdgeId,
+      fromStepEdgeId: e.fromStepEdgeId,
+      toStepEdgeId: e.fromStepEdgeId,
       label: e.label,
       order: e.order,
    };

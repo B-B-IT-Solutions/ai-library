@@ -46,8 +46,8 @@ export type DWorkflowStep = {
 
 export type DWorkflowStepEdge = {
    id: string;
-   fromStepId: string;
-   toStepId: string;
+   fromStepEdgeId: string;
+   toStepEdgeId: string;
    label: string;
    order: number;
 };
