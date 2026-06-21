@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+   useCallback,
+   useEffect,
+   useMemo,
+   useReducer,
+   useRef,
+   useState,
+} from "react";
 
 import { getPromptGenerationData } from "@/data/actions/prompt";
 import { DPromptGenerationData } from "@/data/types/domain/prompt";
@@ -10,13 +17,9 @@ import {
 } from "@/data/types/domain/workflow";
 
 import { WorkflowNavigation } from "./navigation";
+import { runnerReducer, RunnerState } from "./runner-state";
 import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
 import { StepRunner } from "./steps";
-
-type RunnerState = {
-   currentEdgeId: string;
-   previousEdgeIds: string[];
-};
 
 type TemplateDataCache = Record<string, DPromptGenerationData | null>;
 
@@ -25,67 +28,63 @@ type Props = {
 };
 
 export const WorkflowRunner = ({ workflow }: Props) => {
-   const startStep = workflow.steps.find((s) => s.isStart);
+   const startStep = useMemo(
+      () => workflow.steps.find((s) => s.isStart),
+      [workflow.steps]
+   );
 
-   const [state, setState] = useState<RunnerState>(() => ({
-      currentEdgeId: startStep?.edgeId ?? "",
-      previousEdgeIds: [],
-   }));
+   const [state, dispatch] = useReducer(
+      runnerReducer,
+      undefined,
+      () => new RunnerState(startStep?.edgeId ?? "")
+   );
 
    const [templateDataCache, setTemplateDataCache] =
       useState<TemplateDataCache>({});
+   const loadedEdgeIds = useRef(new Set<string>());
 
    const currentStep = workflow.steps.find(
       (s) => s.edgeId === state.currentEdgeId
    );
    const outgoingEdges = currentStep?.outgoingEdges ?? [];
    const isCompleted = outgoingEdges.length === 0 && !!currentStep;
-   const canGoBack = state.previousEdgeIds.length > 0;
 
-   const loadStepData = async (nextStep?: DWorkflowStep) => {
-      if (nextStep?.type === "PROMPT_REF" && nextStep.promptId) {
-         try {
-            const data = await getPromptGenerationData(nextStep.promptId);
-            setTemplateDataCache((prev) => ({
-               ...prev,
-               [nextStep.edgeId]: data,
-            }));
-         } catch {
-            // ignore
-         }
+   const loadStepData = useCallback(async (step?: DWorkflowStep) => {
+      if (step?.type !== "PROMPT_REF" || !step.promptId) {
+         return;
       }
-   };
+      if (loadedEdgeIds.current.has(step.edgeId)) {
+         return;
+      }
+      loadedEdgeIds.current.add(step.edgeId);
+      try {
+         const data = await getPromptGenerationData(step.promptId);
+         setTemplateDataCache((prev) => ({ ...prev, [step.edgeId]: data }));
+      } catch {
+         loadedEdgeIds.current.delete(step.edgeId);
+      }
+   }, []);
 
    useEffect(() => {
       loadStepData(startStep);
-   }, [startStep]);
+   }, [startStep, loadStepData]);
 
-   const handleNextStep = async (toEdgeId: string) => {
-      if (!templateDataCache[toEdgeId]) {
+   const handleNextStep = useCallback(
+      async (toEdgeId: string) => {
          const nextStep = workflow.steps.find((s) => s.edgeId === toEdgeId);
          await loadStepData(nextStep);
-      }
+         dispatch({ type: "ADVANCE", toEdgeId });
+      },
+      [workflow.steps, loadStepData]
+   );
 
-      setState((prev) => ({
-         currentEdgeId: toEdgeId,
-         previousEdgeIds: [...prev.previousEdgeIds, prev.currentEdgeId],
-      }));
-   };
+   const handlePreviousStep = useCallback(() => {
+      dispatch({ type: "GO_BACK" });
+   }, []);
 
-   const handlePreviousStep = () => {
-      setState((prev) => {
-         const previousEdgeIds = [...prev.previousEdgeIds];
-         const currentEdgeId = previousEdgeIds.pop() ?? prev.currentEdgeId;
-         return { currentEdgeId, previousEdgeIds };
-      });
-   };
-
-   const handleRestart = () => {
-      setState({
-         currentEdgeId: startStep?.edgeId ?? "",
-         previousEdgeIds: [],
-      });
-   };
+   const handleRestart = useCallback(() => {
+      dispatch({ type: "RESTART", startEdgeId: startStep?.edgeId ?? "" });
+   }, [startStep]);
 
    if (workflow.steps.length === 0) {
       return (
@@ -126,7 +125,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
             {isCompleted ? (
                <WorfklowCompleted
                   onRestart={handleRestart}
-                  stepCount={state.previousEdgeIds.length + 1}
+                  stepCount={state.stepCount}
                />
             ) : (
                <WorkflowNavigation
@@ -134,7 +133,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
                   allSteps={workflow.steps}
                   onNextStep={handleNextStep}
                   onPreviousStep={handlePreviousStep}
-                  previousEnabled={canGoBack}
+                  previousEnabled={state.canGoBack}
                />
             )}
          </div>
