@@ -77,7 +77,7 @@ export const PromptItem = ({ prompt, currentCollection, ref }: Props) => {
             </span>
             <div
                className={cn(
-                  "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100"
+                  "flex items-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 has-[button:disabled]:opacity-100 has-[button[data-state=open]]:opacity-100 [@media(hover:none)]:opacity-100"
                )}
             >
                <UsePromptButton descriptor={prompt} />
