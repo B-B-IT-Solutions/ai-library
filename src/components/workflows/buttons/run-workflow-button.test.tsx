@@ -117,7 +117,7 @@ describe("RunWorkflowButton functionality - tests", () => {
       });
    });
 
-   it("close clicked- test", async () => {
+   it("close clicked - test", async () => {
       const data = dtestData.dWorkflowWithSteps();
       getWorkflowForRunnerMock.mockResolvedValue(data);
 
@@ -136,11 +136,11 @@ describe("RunWorkflowButton functionality - tests", () => {
          assertDialogRendered();
       });
 
-      // const closeBtn = screen.getByTestId("close-btn");
-      // await userEvent.click(closeBtn);
+      const closeBtn = screen.getByTestId("close-btn");
+      await userEvent.click(closeBtn);
 
-      // await waitFor(() => {
-      //    assertDialogNotRendered();
-      // });
+      await waitFor(() => {
+         assertDialogNotRendered();
+      });
    });
 });

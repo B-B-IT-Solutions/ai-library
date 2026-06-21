@@ -7,6 +7,7 @@ import {
    dtestData,
    renderWithReactQuery,
 } from "@tests";
+import mockRouter from "next-router-mock";
 
 import { WorkflowMoreOptionsButton } from "./workflow-more-options-button";
 
@@ -68,6 +69,7 @@ describe("WorkflowMoreOptionsButton rendering tests", () => {
 describe("WorkflowMoreOptionsButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      mockRouter.push("/");
    });
 
    it("trigger clicked - test", async () => {
@@ -86,6 +88,35 @@ describe("WorkflowMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertContextMenuRendered();
          assertDateStateOpen();
+      });
+   });
+
+   it("view workflow btn clicked - test", async () => {
+      const workflow = dtestData.dWorkflow();
+      renderWithReactQuery(<WorkflowMoreOptionsButton workflow={workflow} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertContextMenuNotRendered();
+         assertDateStateClosed();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const triggerBtn = screen.getByTestId("more-options-trigger-btn");
+      await userEvent.click(triggerBtn);
+
+      await waitFor(() => {
+         assertContextMenuRendered();
+         assertDateStateOpen();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const viewBtn = screen.getByTestId("view-workflow-menu-item");
+      await userEvent.click(viewBtn);
+
+      await waitFor(() => {
+         assertContextMenuNotRendered();
+         expect(mockRouter.pathname).toEqual(`/workflows/${workflow.id}`);
       });
    });
 });
