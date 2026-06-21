@@ -39,11 +39,11 @@ describe("RunnerState", () => {
       expect(state.previousEdgeIds).toEqual([]);
    });
 
-   it("restart - resets to new start edge - test", () => {
+   it("restart - returns to original start edge - test", () => {
       const state = new RunnerState("edge-1")
          .advance("edge-2")
          .advance("edge-3")
-         .restart("edge-1");
+         .restart();
       expect(state.currentEdgeId).toBe("edge-1");
       expect(state.previousEdgeIds).toEqual([]);
       expect(state.canGoBack).toBe(false);

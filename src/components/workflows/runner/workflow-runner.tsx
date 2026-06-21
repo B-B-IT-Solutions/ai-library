@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useMemo, useReducer } from "react";
 import { find, isEmpty } from "es-toolkit/compat";
@@ -35,8 +35,8 @@ export const WorkflowRunner = ({ workflow }: Props) => {
    }, []);
 
    const handleRestart = useCallback(() => {
-      dispatch({ type: "RESTART", startEdgeId: startStep?.edgeId ?? "" });
-   }, [startStep]);
+      dispatch({ type: "RESTART" });
+   }, []);
 
    const currentStep = find(
       workflow.steps,
