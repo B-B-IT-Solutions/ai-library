@@ -6,52 +6,66 @@ import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { WorkflowRunner } from "./workflow-runner";
 
+const assertRendered = () => {
+   const workflow = screen.getByTestId("workflow-runner");
+   const step = screen.getByTestId("step-runner");
+   const navigation = screen.getByTestId("workflow-navigation");
+
+   assertInDocument(workflow);
+   assertInDocument(step);
+   assertInDocument(navigation);
+};
+
+const assertStepsEmptyRendered = () => {
+   const stepsEmpty = screen.getByTestId("workflow-steps-empty");
+   assertInDocument(stepsEmpty);
+};
+
 describe("WorkflowRunner rendering tests", () => {
-   it("empty steps - shows empty state - test", async () => {
-      const workflow = { ...dtestData.dWorkflowWithSteps(), steps: [] };
-
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("workflow-steps-empty"));
-      });
-   });
-
-   it("no start step - shows no start step state - test", async () => {
-      const workflow = {
-         ...dtestData.dWorkflowWithSteps(),
-         steps: dtestData.dWorkflowSteps().map((s) => ({ ...s, isStart: false })),
-      };
-
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("workflow-steps-empty"));
-      });
-   });
-
-   it("renders runner and displays first step - test", async () => {
+   it("steps empty - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
-      const startStep = workflow.steps.find((s) => s.isStart)!;
+      workflow.steps = [];
 
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
+      const { container } = renderWithRouter(
+         <WorkflowRunner workflow={workflow} />
+      );
 
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("workflow-runner"));
-         assertInDocument(screen.getByTestId("step-runner"));
-         expect(screen.getByText(startStep.title)).toBeInTheDocument();
+         assertStepsEmptyRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 
-   it("back button disabled on first step - test", async () => {
+   it("start stepn not defined - test", async () => {
+      const workflow = dtestData.dWorkflowWithSteps();
+      const step = dtestData.dWorkflowStep();
+      step.isStart = false;
+      workflow.steps = [step];
+
+      const { container } = renderWithRouter(
+         <WorkflowRunner workflow={workflow} />
+      );
+
+      await waitFor(() => {
+         assertStepsEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("start step - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
 
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
+      const { container } = renderWithRouter(
+         <WorkflowRunner workflow={workflow} />
+      );
 
       await waitFor(() => {
-         const backBtn = screen.getByTestId("previous-step-btn");
-         expect(backBtn).toBeDisabled();
+         assertRendered();
       });
+
+      expect(container).toMatchSnapshot();
    });
 });
 
@@ -61,7 +75,10 @@ describe("WorkflowRunner navigation tests", () => {
       const step0 = dtestData.dWorkflowStep(0);
       const step1 = dtestData.dWorkflowStep(1);
       const step2 = { ...dtestData.dWorkflowStep(2), outgoingEdges: [] };
-      return { ...dtestData.dWorkflowWithSteps(), steps: [step0, step1, step2] };
+      return {
+         ...dtestData.dWorkflowWithSteps(),
+         steps: [step0, step1, step2],
+      };
    };
 
    it("navigates to next step - test", async () => {
