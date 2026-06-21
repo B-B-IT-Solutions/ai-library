@@ -21,6 +21,16 @@ const assertStepsEmptyRendered = () => {
    assertInDocument(stepsEmpty);
 };
 
+const assertWorkflowCompletedRendered = () => {
+   const completed = screen.getByTestId("workflow-completed");
+   assertInDocument(completed);
+};
+
+const assertStepsTitleRendered = (title: string) => {
+   const step = screen.getByText(title);
+   assertInDocument(step);
+};
+
 describe("WorkflowRunner rendering tests", () => {
    it("steps empty - test", async () => {
       const workflow = dtestData.dWorkflowWithSteps();
@@ -81,81 +91,76 @@ describe("WorkflowRunner navigation tests", () => {
       };
    };
 
-   it("navigates to next step - test", async () => {
-      const workflow = buildWorkflow();
+   it("navigates to next/previous step - test", async () => {
+      const workflow = dtestData.dWorkflowWithSteps();
       const step0 = workflow.steps[0];
       const step1 = workflow.steps[1];
 
       renderWithRouter(<WorkflowRunner workflow={workflow} />);
 
       await waitFor(() => {
-         expect(screen.getByText(step0.title)).toBeInTheDocument();
+         assertRendered();
+         assertStepsTitleRendered(step0.title);
       });
 
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
+      const nextStepBtn = screen.getAllByTestId("next-step-btn")[0];
+      await userEvent.click(nextStepBtn);
 
       await waitFor(() => {
-         expect(screen.getByText(step1.title)).toBeInTheDocument();
+         assertRendered();
+         assertStepsTitleRendered(step1.title);
       });
-   });
 
-   it("back button enabled after navigating forward - test", async () => {
-      const workflow = buildWorkflow();
-
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
-
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
+      const previousStepBtn = screen.getByTestId("previous-step-btn");
+      await userEvent.click(previousStepBtn);
 
       await waitFor(() => {
-         expect(screen.getByTestId("previous-step-btn")).not.toBeDisabled();
-      });
-   });
-
-   it("navigates back to previous step - test", async () => {
-      const workflow = buildWorkflow();
-      const step0 = workflow.steps[0];
-
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
-
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
-      await userEvent.click(screen.getByTestId("previous-step-btn"));
-
-      await waitFor(() => {
-         expect(screen.getByText(step0.title)).toBeInTheDocument();
+         assertRendered();
+         assertStepsTitleRendered(step0.title);
       });
    });
 
-   it("shows completed state after last step - test", async () => {
-      const workflow = buildWorkflow();
+   it("navigate to last step/restart - test", async () => {
+      const step0 = dtestData.dWorkflowStep(0);
+      step0.isStart = true;
+      const step1 = dtestData.dWorkflowStep(1);
+      step1.isStart = false;
+      const step2 = dtestData.dWorkflowStep(2);
+      step2.isStart = false;
+      step2.outgoingEdges = [];
+
+      const workflow = dtestData.dWorkflowWithSteps();
+      workflow.steps = [step0, step1, step2];
 
       renderWithRouter(<WorkflowRunner workflow={workflow} />);
 
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
-
       await waitFor(() => {
-         assertInDocument(screen.getByTestId("workflow-completed"));
-      });
-   });
-
-   it("restarts from completed state - test", async () => {
-      const workflow = buildWorkflow();
-      const step0 = workflow.steps[0];
-
-      renderWithRouter(<WorkflowRunner workflow={workflow} />);
-
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
-      await userEvent.click(screen.getAllByTestId("next-step-btn")[0]);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByTestId("workflow-completed"));
+         assertRendered();
+         assertStepsTitleRendered(step0.title);
       });
 
-      await userEvent.click(screen.getByTestId("restart-btn"));
+      const nextStepBtn1 = screen.getAllByTestId("next-step-btn")[0];
+      await userEvent.click(nextStepBtn1);
 
       await waitFor(() => {
-         expect(screen.getByText(step0.title)).toBeInTheDocument();
-         assertInDocument(screen.getByTestId("step-runner"));
+         assertRendered();
+         assertStepsTitleRendered(step1.title);
+      });
+
+      const nextStepBtn2 = screen.getAllByTestId("next-step-btn")[0];
+      await userEvent.click(nextStepBtn2);
+
+      await waitFor(() => {
+         assertStepsTitleRendered(step2.title);
+         assertWorkflowCompletedRendered();
+      });
+
+      const restartBtn = screen.getByTestId("restart-btn");
+      await userEvent.click(restartBtn);
+
+      await waitFor(() => {
+         assertRendered();
+         assertStepsTitleRendered(step0.title);
       });
    });
 });
