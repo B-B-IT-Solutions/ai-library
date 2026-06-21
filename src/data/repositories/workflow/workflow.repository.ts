@@ -237,8 +237,8 @@ export class WorkflowRepository {
 
    async pUpdateWorkflowSteps(steps: DWorkflowStepUpdate[]) {
       for (const step of steps) {
-         const id = step.id!;
-         const edgeId = step.edgeId;
+         const { id: stepId, edgeId } = step;
+
          const deleteEdgesArgs = {
             where: { fromStepEdgeId: edgeId },
          } satisfies WorkflowStepEdgeDeleteManyArgs;
@@ -246,7 +246,7 @@ export class WorkflowRepository {
          await this.prisma.workflowStepEdge.deleteMany(deleteEdgesArgs);
 
          const updateStepsArgs = {
-            where: { id: id },
+            where: { id: stepId },
             data: {
                title: step.title,
                hint: step.hint ?? null,
