@@ -17,11 +17,11 @@ type Props = {
    promptData: DPromptGenerationData | null;
 };
 
-export const StepRenderer = ({ step, promptData, workflow }: Props) => {
+export const StepRunner = ({ step, promptData, workflow }: Props) => {
    return (
       <div
          className="animate-in space-y-5 duration-200 fade-in-0 slide-in-from-bottom-2"
-         data-testid="step-renderer"
+         data-testid="step-runner"
       >
          <div className="space-y-3 rounded-xl border bg-card p-6">
             <h2 className="text-xl font-bold text-foreground">{step.title}</h2>

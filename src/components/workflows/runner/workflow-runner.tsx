@@ -11,7 +11,7 @@ import {
 
 import { WorkflowNavigation } from "./navigation";
 import { WorfklowCompleted, WorklowStepsEmpty } from "./states";
-import { StepRenderer } from "./steps/step-renderer";
+import { StepRunner } from "./steps";
 
 type RunnerState = {
    currentEdgeId: string;
@@ -112,7 +112,7 @@ export const WorkflowRunner = ({ workflow }: Props) => {
       >
          <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
             {currentStep ? (
-               <StepRenderer
+               <StepRunner
                   step={currentStep}
                   promptData={templateDataCache[currentStep.edgeId] ?? null}
                   workflow={workflow}
