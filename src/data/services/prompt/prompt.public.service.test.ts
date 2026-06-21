@@ -150,11 +150,11 @@ describe("getPublicPromptGenerationData tests", () => {
       const result =
          await publicPromptService.getPublicPromptGenerationData(id);
 
-      const allFields = resolveAllTemplateFields(prompt, globalFields);
+      const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
       const expectedResult: DPromptTemplatingData = {
          prompt,
-         allFields,
+         allVariables,
       };
 
       expect(result).toEqual(expectedResult);

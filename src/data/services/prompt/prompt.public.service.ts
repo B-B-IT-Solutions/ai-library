@@ -56,7 +56,7 @@ export class PublicPromptService {
 
          return {
             prompt,
-            allFields,
+            allVariables: allFields,
          };
       }
 

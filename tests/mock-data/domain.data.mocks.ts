@@ -581,7 +581,7 @@ export const dPromptsUsage = (index = 1): DPromptsUsage => {
 export const dPromptTemplatingData = (index = 1): DPromptTemplatingData => {
    return {
       prompt: dPromptWithContent(index),
-      allFields: dPromptVariables(),
+      allVariables: dPromptVariables(),
    };
 };
 

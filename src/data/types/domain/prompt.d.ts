@@ -35,7 +35,7 @@ export type DPromptCategory = {
 
 export type DPromptTemplatingData = {
    prompt: DPromptWithContent;
-   allFields: DPromptVariable[];
+   allVariables: DPromptVariable[];
 };
 
 export type DPrompt = {

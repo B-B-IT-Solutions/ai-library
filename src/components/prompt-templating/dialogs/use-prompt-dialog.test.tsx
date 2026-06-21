@@ -45,7 +45,7 @@ describe("UsePromptDialog rendering tests", () => {
    it("mode fields-form - hasFeilds false - test", async () => {
       const descriptor = dtestData.dPrompt();
       const templateData = dtestData.dPromptTemplatingData();
-      templateData.allFields = [];
+      templateData.allVariables = [];
       const cancelFn = jest.fn();
 
       const { container } = render(

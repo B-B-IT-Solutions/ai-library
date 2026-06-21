@@ -36,17 +36,17 @@ type Props = {
 };
 
 export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
-   const { prompt, allFields: fields } = promptData;
-   const hasFields = fields.length > 0;
+   const { prompt, allVariables: variables } = promptData;
+   const hasFields = variables.length > 0;
 
-   const fieldsSchema = buildFieldsSchema(fields);
+   const fieldsSchema = buildFieldsSchema(variables);
 
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
    const form = useForm<DFieldsType>({
       resolver: zodResolver(fieldsSchema),
       defaultValues: reduce(
-         fields,
+         variables,
          (acc, field) => ({
             ...acc,
             [field.name]:
@@ -79,7 +79,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
       [plainContent]
    );
 
-   const requiredFields = requiredVariables(fields);
+   const requiredFields = requiredVariables(variables);
    const requiredFieldsCount = requiredFields.length;
 
    const requiredFieldWithValue = requiredVariablesWithValue(

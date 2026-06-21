@@ -50,7 +50,7 @@ describe("PublicUsePromptButton rendering tests", () => {
 
    it("without fields - rendered test", async () => {
       const data = dtestData.dPromptTemplatingData();
-      data.allFields = [];
+      data.allVariables = [];
       getPublicPromptGenerationDataMock.mockResolvedValue(data);
 
       const prompt = dtestData.dPrompt();

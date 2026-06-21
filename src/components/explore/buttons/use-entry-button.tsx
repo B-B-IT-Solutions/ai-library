@@ -7,7 +7,7 @@ import { UsePromptDialog } from "@/components/prompt-templating";
 import { Button } from "@/components/shadcn/button";
 import { DCatalogEntryWithContent } from "@/data/types/domain/catalog";
 
-import { toDPrompt, toDPromptGenerationData } from "./use-entry.utils";
+import { toDPrompt, toDPromptTemplatingData } from "./use-entry.utils";
 
 type Props = {
    entry: DCatalogEntryWithContent;
@@ -21,7 +21,7 @@ export const UseCatalogEntryButton = ({ entry }: Props) => {
          return (
             <UsePromptDialog
                prompt={toDPrompt(entry)}
-               generationData={toDPromptGenerationData(entry)}
+               generationData={toDPromptTemplatingData(entry)}
                onCancel={() => setIsOpen(false)}
             />
          );

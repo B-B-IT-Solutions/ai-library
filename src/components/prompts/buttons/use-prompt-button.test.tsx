@@ -50,7 +50,7 @@ describe("UsePromptButton rendering tests", () => {
 
    it("without fields - rendered test", async () => {
       const data = dtestData.dPromptTemplatingData();
-      data.allFields = [];
+      data.allVariables = [];
       getPromptGenerationDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPrompt();

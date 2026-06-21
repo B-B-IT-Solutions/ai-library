@@ -20,15 +20,15 @@ type Props = {
 };
 
 const TestWrapper = ({ templateData }: Props) => {
-   const { allFields: fields } = templateData;
-   const fieldsSchema = buildFieldsSchema(fields);
+   const { allVariables } = templateData;
+   const fieldsSchema = buildFieldsSchema(allVariables);
 
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
    const form = useForm<DFieldsType>({
       resolver: zodResolver(fieldsSchema),
       defaultValues: reduce(
-         fields,
+         allVariables,
          (acc, field) => ({
             ...acc,
             [field.name]:
@@ -108,7 +108,7 @@ describe("PromptVariablesForm rendering tests", () => {
       ];
 
       const templateData = dtestData.dPromptTemplatingData();
-      templateData.allFields = fields;
+      templateData.allVariables = fields;
 
       const { container } = render(<TestWrapper templateData={templateData} />);
 

@@ -121,11 +121,11 @@ export class PromptService {
                prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(prompt, globalFields);
+         const allVariables = resolveAllTemplateFields(prompt, globalFields);
 
          return {
             prompt,
-            allFields,
+            allVariables,
          };
       }
 

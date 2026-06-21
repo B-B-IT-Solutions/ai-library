@@ -16,7 +16,7 @@ export const toDPrompt = (entry: DCatalogEntryWithContent): DPrompt => {
    };
 };
 
-export const toDPromptGenerationData = (
+export const toDPromptTemplatingData = (
    entry: DCatalogEntryWithContent
 ): DPromptTemplatingData => {
    return {
@@ -28,7 +28,7 @@ export const toDPromptGenerationData = (
             promptId: f.catalogEntryId,
          })),
       },
-      allFields: entry.fields.map((f) => ({
+      allVariables: entry.fields.map((f) => ({
          ...f,
          promptId: f.catalogEntryId,
       })),

@@ -81,7 +81,7 @@ const assertRequiredFieldProgressNotRendered = () => {
 describe("UsePromptForm rendering tests", () => {
    it("fields empty - test", async () => {
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.allFields = [];
+      promptData.allVariables = [];
 
       const { container } = render(<UsePromptForm promptData={promptData} />);
 
@@ -100,7 +100,7 @@ describe("UsePromptForm rendering tests", () => {
       const fields = [name];
 
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.allFields = fields;
+      promptData.allVariables = fields;
 
       const { container } = render(<UsePromptForm promptData={promptData} />);
 
@@ -118,7 +118,7 @@ describe("UsePromptForm rendering tests", () => {
       const fields = [name];
 
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.allFields = fields;
+      promptData.allVariables = fields;
 
       const { container } = render(<UsePromptForm promptData={promptData} />);
 
@@ -159,7 +159,7 @@ describe("UsePromptForm rendering tests", () => {
       ];
 
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.allFields = fields;
+      promptData.allVariables = fields;
 
       const { container } = render(<UsePromptForm promptData={promptData} />);
 
@@ -200,7 +200,7 @@ describe("UsePromptForm rendering tests", () => {
       ];
 
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.allFields = fields;
+      promptData.allVariables = fields;
 
       const { container } = render(<UsePromptForm promptData={promptData} />);
 
@@ -223,7 +223,7 @@ describe("UsePromptForm functionality tests", () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
       promptData.prompt.content = "Hello {{name}}";
-      promptData.allFields.push(field);
+      promptData.allVariables.push(field);
 
       render(
          <UsePromptForm promptData={promptData} recommendedModel="chatgpt" />
@@ -257,7 +257,7 @@ describe("UsePromptForm functionality tests", () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
       promptData.prompt.content = "Hello {{name}}";
-      promptData.allFields.push(field);
+      promptData.allVariables.push(field);
 
       render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);
 
@@ -289,7 +289,7 @@ describe("UsePromptForm functionality tests", () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
       promptData.prompt.content = "Hello {{name}}";
-      promptData.allFields.push(field);
+      promptData.allVariables.push(field);
 
       render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);
 
