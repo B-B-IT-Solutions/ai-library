@@ -32,6 +32,7 @@ const expectedNavigationMenu1: DMenuItem[] = [
       title: "Workflows",
       icon: GitBranch,
       url: "/workflows",
+      badge: "Beta",
    },
    // {
    //    id: "/prompts",

@@ -14,6 +14,7 @@ import {
    SidebarGroupLabel,
    SidebarHeader,
    SidebarMenu,
+   SidebarMenuBadge,
    SidebarMenuButton,
    SidebarMenuItem,
    SidebarTrigger,
@@ -48,13 +49,16 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                   <Link href={m.url} data-testid={`menu-item${toTestId(m.id)}`}>
                      <m.icon />
                      <span>{m.title}</span>
-                     {m.badge && (
-                        <span className="ml-auto rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">
-                           {m.badge}
-                        </span>
-                     )}
                   </Link>
                </SidebarMenuButton>
+               {m.badge && (
+                  <SidebarMenuBadge
+                     className="rounded-full bg-primary/10 px-1.5 py-0.5 text-primary"
+                     data-testid={`menu-item${toTestId(m.id)}-badge`}
+                  >
+                     {m.badge}
+                  </SidebarMenuBadge>
+               )}
             </SidebarMenuItem>
          );
       });
