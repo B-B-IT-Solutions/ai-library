@@ -118,11 +118,6 @@ export class WorkflowRepository {
                      orderBy: {
                         order: "asc" as const,
                      },
-                     include: {
-                        toStep: {
-                           select: { edgeId: true },
-                        },
-                     },
                   },
                },
             },
