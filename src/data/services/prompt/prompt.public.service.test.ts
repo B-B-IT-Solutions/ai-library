@@ -138,22 +138,22 @@ describe("getPublicPromptGenerationData tests", () => {
    });
 
    it("data retrieved - test", async () => {
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(template);
+      const prompt = dtestData.dPromptWithContent();
+      promptRepoMock.pGetPublicPromptContent.mockResolvedValue(prompt);
 
       const globalFields = dtestData.dGlobalPromptFields();
       settingsServiceMock.getPublicGlobalPromptFieldsByIds.mockResolvedValue(
          globalFields
       );
 
-      const { id, globalFieldIds } = template;
+      const { id, globalFieldIds } = prompt;
       const result =
          await publicPromptService.getPublicPromptGenerationData(id);
 
-      const allFields = resolveAllTemplateFields(template, globalFields);
+      const allFields = resolveAllTemplateFields(prompt, globalFields);
 
       const expectedResult: DPromptTemplatingData = {
-         template,
+         prompt,
          allFields,
       };
 

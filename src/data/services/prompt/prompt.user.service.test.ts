@@ -350,7 +350,7 @@ describe("getPromptGenerationData tests", () => {
       const allFields = resolveAllTemplateFields(prompt, globalFields);
 
       const expectedResult: DPromptTemplatingData = {
-         template: prompt,
+         prompt,
          allFields,
       };
 

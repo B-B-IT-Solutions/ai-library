@@ -42,20 +42,20 @@ export class PublicPromptService {
    }
 
    async getPublicPromptGenerationData(
-      teamplateId: string
+      promptId: string
    ): Promise<DPromptTemplatingData | null> {
-      const template = await this.getPublicPromptContent(teamplateId);
+      const prompt = await this.getPublicPromptContent(promptId);
 
-      if (template) {
+      if (prompt) {
          const globalFields =
             await this.settingService.getPublicGlobalPromptFieldsByIds(
-               template.globalFieldIds
+               prompt.globalFieldIds
             );
 
-         const allFields = resolveAllTemplateFields(template, globalFields);
+         const allFields = resolveAllTemplateFields(prompt, globalFields);
 
          return {
-            template,
+            prompt,
             allFields,
          };
       }

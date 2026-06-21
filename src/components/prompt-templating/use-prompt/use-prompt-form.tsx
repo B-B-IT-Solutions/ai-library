@@ -36,7 +36,7 @@ type Props = {
 };
 
 export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
-   const { template, allFields: fields } = promptData;
+   const { prompt, allFields: fields } = promptData;
    const hasFields = fields.length > 0;
 
    const fieldsSchema = buildFieldsSchema(fields);
@@ -62,7 +62,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
    }) as DPromptVariableValues;
 
    const resolvedContent = TemplateEngine.replace(
-      template.content,
+      prompt.content,
       currentValues
    );
 
@@ -186,7 +186,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
                   <div className="flex min-h-0 flex-col gap-3 lg:pl-2">
                      <span className="text-sm font-medium">Vorschau</span>
                      <PromptPreview
-                        template={template}
+                        template={prompt}
                         values={currentValues}
                         resolvedContent={resolvedContent}
                      />
@@ -199,7 +199,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
                      <div className="h-px flex-1 bg-border" />
                   </div>
                   <PromptPreview
-                     template={template}
+                     template={prompt}
                      values={currentValues}
                      resolvedContent={resolvedContent}
                   />

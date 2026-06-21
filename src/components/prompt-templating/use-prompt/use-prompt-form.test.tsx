@@ -222,7 +222,7 @@ describe("UsePromptForm functionality tests", () => {
    it("open-in-ai btn clicked - aiModel gpt - test", async () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.template.content = "Hello {{name}}";
+      promptData.prompt.content = "Hello {{name}}";
       promptData.allFields.push(field);
 
       render(
@@ -256,7 +256,7 @@ describe("UsePromptForm functionality tests", () => {
    it("open-in-ai btn clicked - aiModel claude - test", async () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.template.content = "Hello {{name}}";
+      promptData.prompt.content = "Hello {{name}}";
       promptData.allFields.push(field);
 
       render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);
@@ -288,7 +288,7 @@ describe("UsePromptForm functionality tests", () => {
    it("copy btn clicked - test", async () => {
       const field = createVariable("TEXT", "name", "Name", true);
       const promptData = dtestData.dPromptTemplatingData();
-      promptData.template.content = "Hello {{name}}";
+      promptData.prompt.content = "Hello {{name}}";
       promptData.allFields.push(field);
 
       render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);

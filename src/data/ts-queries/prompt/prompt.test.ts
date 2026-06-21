@@ -301,7 +301,7 @@ describe("loadPromptTemplatingData hooks tests", () => {
       const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
-      const promptId = promptData.template.id;
+      const promptId = promptData.prompt.id;
       const enabled = true;
 
       const params: LoadPromptTemplatingDataParams = { promptId, enabled };

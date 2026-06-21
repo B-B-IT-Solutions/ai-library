@@ -20,7 +20,7 @@ export const toDPromptGenerationData = (
    entry: DCatalogEntryWithContent
 ): DPromptTemplatingData => {
    return {
-      template: {
+      prompt: {
          ...toDPrompt(entry),
          content: entry.content,
          fields: entry.fields.map((f) => ({

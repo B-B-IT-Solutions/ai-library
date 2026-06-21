@@ -124,7 +124,7 @@ export class PromptService {
          const allFields = resolveAllTemplateFields(prompt, globalFields);
 
          return {
-            template: prompt,
+            prompt,
             allFields,
          };
       }

@@ -49,7 +49,7 @@ describe("PromptStep rendering tests", () => {
       const workflow = dtestData.dWorkflowWithSteps();
       const step = dtestData.dWorkflowStep();
       step.type = "PROMPT_REF";
-      step.promptId = promptData.template.id;
+      step.promptId = promptData.prompt.id;
 
       const { container } = renderWithReactQuery(
          <PromptStep step={step} workflow={workflow} />
