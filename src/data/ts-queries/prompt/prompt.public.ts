@@ -12,7 +12,7 @@ import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import { LoadPromptsPageParams } from "./types";
-import { templateKeys } from "./utils";
+import { promptKeys } from "./utils";
 
 export const infiniteLoadPublicTemplateDescriptorsOptions = (
    params: LoadPromptsPageParams
@@ -25,7 +25,7 @@ export const infiniteLoadPublicTemplateDescriptorsOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.publicPrompts(params),
+      queryKey: promptKeys.publicPrompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,

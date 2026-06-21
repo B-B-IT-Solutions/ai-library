@@ -14,7 +14,6 @@ import { DWorkflow } from "@/data/types/domain/workflow";
 
 import { DeleteWorkflowButton } from "./delete-workflow-button";
 import { EditWorkflowButton } from "./edit-workflow-button";
-import { RunWorkflowButton } from "./run-workflow-button";
 import { ViewWorkflowButton } from "./view-workflow-button";
 
 type Props = {

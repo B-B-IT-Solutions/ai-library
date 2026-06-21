@@ -162,12 +162,12 @@ export const deletePrompt = async (
 };
 
 export const getPromptGenerationData = async (
-   templateId: string
+   promptId: string
 ): Promise<DPromptGenerationData | null> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getPromptGenerationData(user.id, templateId);
+      return await service.getPromptGenerationData(user.id, promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;

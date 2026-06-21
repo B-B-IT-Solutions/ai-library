@@ -5,6 +5,7 @@ export {
    infiniteLoadPromptPreviewsPageOptions,
    useInfiniteLoadPromptPreviewsPage,
    useLoadPromptTemplateCategories,
+   useLoadPromptTemplatingData,
    useToggleFavorite,
 } from "./prompt";
 

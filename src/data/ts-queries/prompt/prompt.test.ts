@@ -13,12 +13,14 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import {
+   getPromptGenerationData,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
+   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -30,16 +32,19 @@ import {
    infiniteLoadPromptPreviewsPageOptions,
    infiniteLoadPromptsPageOptions,
    loadPromptTemplateCategoriesOptions,
+   loadPromptTemplatingDataOptions,
    preloadPromptTemplateCategoriesOptions,
    toggleFavoriteOptions,
    useInfiniteLoadPromptPreviewsPage,
    useInfiniteLoadPromptsPage,
    useLoadPromptTemplateCategories,
+   useLoadPromptTemplatingData,
    useToggleFavorite,
 } from "./prompt";
 import {
    LoadPromptPreviewsPageParams,
    LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
    UpdateIsFavoriteParams,
 } from "./types";
 
@@ -54,6 +59,11 @@ const getPromptPreviewsPageMock = getPromptPreviewsPage as jest.MockedFunction<
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
+   >;
+
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
    >;
 
 const togglePromptFavoriteMock = togglePromptFavorite as jest.MockedFunction<
@@ -106,7 +116,7 @@ describe("loadPromptsPage hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["templates", { filters, sort }],
+         queryKey: ["prompts", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
@@ -165,7 +175,7 @@ describe("loadPromptPreviewsPage hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["templates", "previews", { filters, sort }],
+         queryKey: ["prompts", "previews", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
@@ -238,6 +248,74 @@ describe("loadPromptTemplateCategories hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(categories);
          expect(getPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
+describe("loadPromptTemplatingData hooks tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("loadPromptTemplatingDataOptions - test", async () => {
+      const promptId = "prompt-id-1";
+      const enabled = true;
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DPromptGenerationData | null,
+         Error,
+         DPromptGenerationData | null
+      > = {
+         queryKey: ["prompts", "templatingData", promptId],
+         queryFn: jest.fn(),
+         enabled,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const options = loadPromptTemplatingDataOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadPromptTemplatingData  - promptId null - test", async () => {
+      const promptData = dtestData.dPromptGenerationData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
+      const promptId = null;
+      const enabled = true;
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadPromptTemplatingData(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toBeNull();
+         expect(getPromptGenerationDataMock).not.toHaveBeenCalled();
+      });
+   });
+
+   test("useLoadPromptTemplatingData  - promptId defined - test", async () => {
+      const promptData = dtestData.dPromptGenerationData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
+      const promptId = promptData.template.id;
+      const enabled = true;
+
+      const params: LoadPromptTemplatingDataParams = { promptId, enabled };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadPromptTemplatingData(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(promptData);
+         expect(getPromptGenerationDataMock).toHaveBeenCalledTimes(1);
+         expect(getPromptGenerationDataMock).toHaveBeenCalledWith(
+            params.promptId
+         );
       });
    });
 });

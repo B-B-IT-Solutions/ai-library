@@ -3,16 +3,19 @@ import { filterQueryKey } from "../utils";
 import type {
    LoadPromptPreviewsPageParams,
    LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
 } from "./types";
 
-export const templateKeys = {
-   all: ["templates"] as const,
+export const promptKeys = {
+   all: ["prompts"] as const,
    prompts: ({ filters, sort }: LoadPromptsPageParams) =>
-      [...templateKeys.all, filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, filterQueryKey(filters, sort)] as const,
    publicPrompts: ({ filters, sort }: LoadPromptsPageParams) =>
-      [...templateKeys.all, "public", filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, "public", filterQueryKey(filters, sort)] as const,
    promptPreviews: ({ filters, sort }: LoadPromptPreviewsPageParams) =>
-      [...templateKeys.all, "previews", filterQueryKey(filters, sort)] as const,
+      [...promptKeys.all, "previews", filterQueryKey(filters, sort)] as const,
+   templatingData: ({ promptId }: LoadPromptTemplatingDataParams) =>
+      [...promptKeys.all, "templatingData", promptId] as const,
 };
 
 export const templateCategoriesKeys = {

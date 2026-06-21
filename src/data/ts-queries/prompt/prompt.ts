@@ -15,12 +15,14 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptGenerationData,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
+   DPromptGenerationData,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -33,9 +35,10 @@ import { getNextPageParam, pageQuery } from "../utils";
 import type {
    LoadPromptPreviewsPageParams,
    LoadPromptsPageParams,
+   LoadPromptTemplatingDataParams,
    UpdateIsFavoriteParams,
 } from "./types";
-import { templateCategoriesKeys, templateKeys } from "./utils";
+import { promptKeys, templateCategoriesKeys } from "./utils";
 
 export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    string[],
@@ -61,7 +64,7 @@ export const infiniteLoadPromptsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.prompts(params),
+      queryKey: promptKeys.prompts(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
@@ -96,7 +99,7 @@ export const infiniteLoadPromptPreviewsPageOptions = (
 > => {
    const { filters, sort } = params;
    return {
-      queryKey: templateKeys.promptPreviews(params),
+      queryKey: promptKeys.promptPreviews(params),
       queryFn: async ({ pageParam }) => {
          const query: DPromptPreviewsPageQuery = pageQuery(
             pageParam,
@@ -135,6 +138,34 @@ export const loadPromptTemplateCategoriesOptions =
 export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
    const options = loadPromptTemplateCategoriesOptions();
    return useQuery<string[]>(options);
+};
+
+export const loadPromptTemplatingDataOptions = (
+   params: LoadPromptTemplatingDataParams
+): UndefinedInitialDataOptions<
+   DPromptGenerationData | null,
+   Error,
+   DPromptGenerationData | null
+> => {
+   const { promptId, enabled } = params;
+   return {
+      queryKey: promptKeys.templatingData(params),
+      queryFn: () => {
+         if (promptId) {
+            return getPromptGenerationData(promptId);
+         }
+         return null;
+      },
+      enabled: enabled,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadPromptTemplatingData = (
+   params: LoadPromptTemplatingDataParams
+): UseQueryResult<DPromptGenerationData | null> => {
+   const options = loadPromptTemplatingDataOptions(params);
+   return useQuery(options);
 };
 
 export const toggleFavoriteOptions = (): UseMutationOptions<

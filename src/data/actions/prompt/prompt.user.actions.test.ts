@@ -628,8 +628,8 @@ describe("getPromptGenerationData tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const templateId = "prompt-template-id";
-      const result = await getPromptGenerationData(templateId);
+      const promptId = "prompt-template-id";
+      const result = await getPromptGenerationData(promptId);
 
       expect(result).toEqual(null);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -645,15 +645,15 @@ describe("getPromptGenerationData tests", () => {
       const data = dtestData.dPromptGenerationData();
       sGetPromptGenerationDataMock.mockResolvedValue(data);
 
-      const templateId = "prompt-template-id";
-      const result = await getPromptGenerationData(templateId);
+      const promptId = "prompt-template-id";
+      const result = await getPromptGenerationData(promptId);
 
       expect(result).toEqual(data);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptGenerationDataMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptGenerationDataMock).toHaveBeenCalledWith(
          user.id,
-         templateId
+         promptId
       );
    });
 });

@@ -1,19 +1,39 @@
 "use client";
 
-import { AlertTriangle, Edit } from "lucide-react";
+import { AlertTriangle, Edit, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { UsePromptForm } from "@/components/prompt-templating/use-prompt/use-prompt-form";
 import { Button } from "@/components/shadcn/button";
-import { DPromptGenerationData } from "@/data/types/domain/prompt";
-import { DWorkflowWithSteps } from "@/data/types/domain/workflow";
+import { useLoadPromptTemplatingData } from "@/data/ts-queries/prompt";
+import {
+   DWorkflowStep,
+   DWorkflowWithSteps,
+} from "@/data/types/domain/workflow";
 
 type Props = {
-   promptData: DPromptGenerationData | null;
+   step: DWorkflowStep;
    workflow: DWorkflowWithSteps;
 };
 
-export const PromptStep = ({ promptData, workflow }: Props) => {
+export const PromptStep = ({ step, workflow }: Props) => {
+   const { data: promptData, isPending } = useLoadPromptTemplatingData({
+      promptId: step.promptId,
+      enabled: !!step.promptId,
+   });
+
+   if (isPending) {
+      return (
+         <div
+            className="flex items-center gap-2 p-5 text-sm text-muted-foreground"
+            data-testid="prompt-step-loading"
+         >
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Wird geladen…</span>
+         </div>
+      );
+   }
+
    if (!promptData) {
       return (
          <div

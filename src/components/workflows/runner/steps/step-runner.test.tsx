@@ -1,9 +1,16 @@
-import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+jest.mock("@/data/actions/prompt");
 
-import { StandaloneStep } from "./standalone-step";
+import { screen, waitFor } from "@testing-library/dom";
+import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
+
+import { getPromptGenerationData } from "@/data/actions/prompt";
+
 import { StepRunner } from "./step-runner";
+
+const getPromptGenerationDataMock =
+   getPromptGenerationData as jest.MockedFunction<
+      typeof getPromptGenerationData
+   >;
 
 const assertRendered = () => {
    const step = screen.getByTestId("step-runner");
@@ -20,15 +27,23 @@ const assertStandaloneStepRendered = () => {
    assertInDocument(step);
 };
 
+const assertStepNotFoundRendered = () => {
+   const step = screen.getByTestId("step-not-found");
+   assertInDocument(step);
+};
+
 describe("StepRunner rendering tests", () => {
    it("prompt step - test", async () => {
-      const workflow = dtestData.dWorkflowWithSteps();
       const promptData = dtestData.dPromptGenerationData();
+      getPromptGenerationDataMock.mockResolvedValue(promptData);
+
+      const workflow = dtestData.dWorkflowWithSteps();
       const step = dtestData.dWorkflowStep();
       step.type = "PROMPT_REF";
+      step.promptId = promptData.template.id;
 
-      const { container } = render(
-         <StepRunner step={step} promptData={promptData} workflow={workflow} />
+      const { container } = renderWithReactQuery(
+         <StepRunner step={step} workflow={workflow} />
       );
 
       await waitFor(() => {
@@ -44,13 +59,27 @@ describe("StepRunner rendering tests", () => {
       const step = dtestData.dWorkflowStep();
       step.type = "STANDALONE";
 
-      const { container } = render(
-         <StepRunner step={step} workflow={workflow} promptData={null} />
+      const { container } = renderWithReactQuery(
+         <StepRunner step={step} workflow={workflow} />
       );
 
       await waitFor(() => {
          assertRendered();
          assertStandaloneStepRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("step not found - test", async () => {
+      const workflow = dtestData.dWorkflowWithSteps();
+
+      const { container } = renderWithReactQuery(
+         <StepRunner step={undefined} workflow={workflow} />
+      );
+
+      await waitFor(() => {
+         assertStepNotFoundRendered();
       });
 
       expect(container).toMatchSnapshot();
