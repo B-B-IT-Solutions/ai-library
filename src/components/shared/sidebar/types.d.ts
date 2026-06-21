@@ -5,6 +5,7 @@ export interface DMenuItem {
    title: string;
    url: string;
    icon: LucideIcon;
+   badge?: string;
    external?: boolean;
    target?: "_self" | "_blank";
 }
