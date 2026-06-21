@@ -107,7 +107,7 @@ describe("PromptVariablesForm rendering tests", () => {
          country,
       ];
 
-      const templateData = dtestData.dPromptGenerationData();
+      const templateData = dtestData.dPromptTemplatingData();
       templateData.allFields = fields;
 
       const { container } = render(<TestWrapper templateData={templateData} />);

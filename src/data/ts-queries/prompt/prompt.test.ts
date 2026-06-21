@@ -279,7 +279,7 @@ describe("loadPromptTemplatingData hooks tests", () => {
    });
 
    test("useLoadPromptTemplatingData  - promptId null - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
       const promptId = null;
@@ -298,7 +298,7 @@ describe("loadPromptTemplatingData hooks tests", () => {
    });
 
    test("useLoadPromptTemplatingData  - promptId defined - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
       const promptId = promptData.template.id;

@@ -43,7 +43,7 @@ describe("PromptStep rendering tests", () => {
    });
 
    it("promptData retrieved - test", async () => {
-      const promptData = dtestData.dPromptGenerationData();
+      const promptData = dtestData.dPromptTemplatingData();
       getPromptGenerationDataMock.mockResolvedValue(promptData);
 
       const workflow = dtestData.dWorkflowWithSteps();
