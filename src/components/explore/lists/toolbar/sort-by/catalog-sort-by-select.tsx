@@ -13,13 +13,6 @@ import {
 import { DListSortByMode } from "@/data/types/domain/common";
 import { sortByParam } from "../../../catalog-search-params";
 
-const SHORT_SORT_LABELS: Record<DListSortByMode, string> = {
-   [DListSortByMode.DATE_DESC]: "Neueste",
-   [DListSortByMode.DATE_ASC]: "Älteste",
-   [DListSortByMode.TITLE_ASC]: "A–Z",
-   [DListSortByMode.TITLE_DESC]: "Z–A",
-};
-
 export const CatalogSortBySelect = () => {
    const [sort, setSort] = useQueryState(
       "sort",
@@ -36,10 +29,7 @@ export const CatalogSortBySelect = () => {
             data-testid="catalog-sort-by-select"
          >
             <span className="flex items-center gap-1.5">
-               <span className="sm:hidden">{SHORT_SORT_LABELS[sort]}</span>
-               <span className="hidden sm:contents">
-                  <SelectValue />
-               </span>
+               <SelectValue />
             </span>
          </SelectTrigger>
          <SelectContent>

@@ -86,9 +86,9 @@ export const CatalogEntriesToolbar = ({ viewMode, categories }: Props) => {
          <div className="hidden items-center justify-between sm:flex">
             <div className="flex items-center gap-3">
                <SearchFilter />
+               <CatalogSortBySelect />
             </div>
             <div className="flex items-center gap-3">
-               <CatalogSortBySelect />
                <ListViewToggle currentView={viewMode} />
             </div>
          </div>
