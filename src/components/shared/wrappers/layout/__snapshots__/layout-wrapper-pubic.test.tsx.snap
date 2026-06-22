@@ -67,7 +67,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
       class="border-t bg-muted/40 py-6"
     >
       <div
-        class="max-w-9xl container mx-auto px-4 sm:px-6"
+        class="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6"
       >
         <p
           class="text-center text-sm text-muted-foreground"
@@ -77,6 +77,35 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
            
           Vision Notes
         </p>
+        <nav
+          class="hidden items-center gap-6 md:flex"
+        >
+          <div
+            class="flex flex-col gap-2"
+          >
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/agb"
+            >
+              AGB
+            </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/privacypolicy"
+            >
+              Datenschutz
+            </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/cookies"
+            >
+              Cookies
+            </a>
+          </div>
+        </nav>
       </div>
     </footer>
   </div>
@@ -138,7 +167,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
       class="border-t bg-muted/40 py-6"
     >
       <div
-        class="max-w-9xl container mx-auto px-4 sm:px-6"
+        class="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6"
       >
         <p
           class="text-center text-sm text-muted-foreground"
@@ -148,6 +177,35 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
            
           Vision Notes
         </p>
+        <nav
+          class="hidden items-center gap-6 md:flex"
+        >
+          <div
+            class="flex flex-col gap-2"
+          >
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/agb"
+            >
+              AGB
+            </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/privacypolicy"
+            >
+              Datenschutz
+            </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/legal/cookies"
+            >
+              Cookies
+            </a>
+          </div>
+        </nav>
       </div>
     </footer>
   </div>
