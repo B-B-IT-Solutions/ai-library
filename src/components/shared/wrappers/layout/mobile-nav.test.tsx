@@ -16,10 +16,12 @@ const assertNavigationRendered = () => {
    const navigation = screen.getByTestId("navigation");
    const explore = screen.getByTestId("explore-nav-item");
    const pricing = screen.getByTestId("pricing-nav-item");
+   const blog = screen.getByTestId("blog-nav-item");
 
    assertInDocument(navigation);
    assertInDocument(explore);
    assertInDocument(pricing);
+   assertInDocument(blog);
 };
 
 const assertNavigationNotRendered = () => {

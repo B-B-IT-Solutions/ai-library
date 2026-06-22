@@ -3,26 +3,33 @@
 exports[`DesktopNav rendering tests authenticated false - test 1`] = `
 <div>
   <div
-    class="hidden items-center gap-6 sm:flex"
+    class="hidden items-center justify-between gap-6 sm:flex"
     data-testid="desktop-nav"
   >
     <nav
-      class="flex items-center gap-6"
+      class="flex items-center gap-1"
       data-testid="navigation"
     >
       <a
-        class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-        data-testid="exlopre-nav-item"
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+        data-testid="explore-nav-item"
         href="/explore"
       >
         Entdecken
       </a>
       <a
-        class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="pricing-nav-item"
         href="http://www.vision-notes.com/pricing"
       >
         Preise
+      </a>
+      <a
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+        data-testid="blog-nav-item"
+        href="http://www.vision-notes.com/blog"
+      >
+        Blog
       </a>
     </nav>
     <div
@@ -52,26 +59,33 @@ exports[`DesktopNav rendering tests authenticated false - test 1`] = `
 exports[`DesktopNav rendering tests authenticated true - test 1`] = `
 <div>
   <div
-    class="hidden items-center gap-6 sm:flex"
+    class="hidden items-center justify-between gap-6 sm:flex"
     data-testid="desktop-nav"
   >
     <nav
-      class="flex items-center gap-6"
+      class="flex items-center gap-1"
       data-testid="navigation"
     >
       <a
-        class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-        data-testid="exlopre-nav-item"
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+        data-testid="explore-nav-item"
         href="/explore"
       >
         Entdecken
       </a>
       <a
-        class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="pricing-nav-item"
         href="http://www.vision-notes.com/pricing"
       >
         Preise
+      </a>
+      <a
+        class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+        data-testid="blog-nav-item"
+        href="http://www.vision-notes.com/blog"
+      >
+        Blog
       </a>
     </nav>
     <div

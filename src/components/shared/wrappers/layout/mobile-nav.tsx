@@ -51,6 +51,14 @@ export const MobileNav = ({ authenticated }: Props) => {
                >
                   Preise
                </Link>
+               <Link
+                  href="http://www.vision-notes.com/blog"
+                  onClick={() => setOpen(false)}
+                  className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="blog-nav-item"
+               >
+                  Blog
+               </Link>
             </nav>
             <div className="mt-auto border-t px-4 py-6">
                {authenticated ? (

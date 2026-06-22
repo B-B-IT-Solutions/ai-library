@@ -12,20 +12,27 @@ export const DesktopNav = ({ authenticated }: Props) => {
          className="hidden items-center justify-between gap-6 sm:flex"
          data-testid="desktop-nav"
       >
-         <nav className="flex items-center gap-6" data-testid="navigation">
+         <nav className="flex items-center gap-1" data-testid="navigation">
             <Link
                href="/explore"
-               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+               className="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
                data-testid="explore-nav-item"
             >
                Entdecken
             </Link>
             <Link
                href="http://www.vision-notes.com/pricing"
-               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+               className="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
                data-testid="pricing-nav-item"
             >
                Preise
+            </Link>
+            <Link
+               href="http://www.vision-notes.com/blog"
+               className="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+               data-testid="blog-nav-item"
+            >
+               Blog
             </Link>
          </nav>
          <div className="flex items-center gap-3">
