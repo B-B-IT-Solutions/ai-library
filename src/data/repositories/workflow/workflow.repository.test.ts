@@ -17,6 +17,7 @@ import {
    WorkflowFindUniqueArgs,
    WorkflowStepCreateManyArgs,
    WorkflowStepDeleteManyArgs,
+   WorkflowStepEdgeCreateWithoutFromStepInput,
    WorkflowStepEdgeDeleteManyArgs,
    WorkflowStepFindManyArgs,
    WorkflowStepUpdateArgs,
@@ -443,6 +444,19 @@ describe("pUpdateWorkflow", () => {
          ],
       };
 
+      const expectedOutgoingEdgesArgs: WorkflowStepEdgeCreateWithoutFromStepInput[] =
+         map(updatedStep.edges, (e) => {
+            return {
+               label: e.label,
+               order: e.order,
+               toStep: {
+                  connect: {
+                     edgeId: e.toStepEdgeId,
+                  },
+               },
+            } as WorkflowStepEdgeCreateWithoutFromStepInput;
+         });
+
       const expectedUpdateStepArgs: WorkflowStepUpdateArgs = {
          where: {
             id: updatedStep.id,
@@ -456,12 +470,7 @@ describe("pUpdateWorkflow", () => {
             title: updatedStep.title,
             type: updatedStep.type,
             outgoingEdges: {
-               create: map(updatedStep.edges, (e) => ({
-                  fromStepEdgeId: updatedStep.edgeId,
-                  toStepEdgeId: e.toStepEdgeId,
-                  label: e.label,
-                  order: e.order,
-               })),
+               create: expectedOutgoingEdgesArgs,
             },
          },
       };
@@ -610,6 +619,19 @@ describe("pUpdateWorkflowSteps", () => {
          where: { fromStepEdgeId: step2.edgeId },
       };
 
+      const expectedOutgoingEdgesArgs1: WorkflowStepEdgeCreateWithoutFromStepInput[] =
+         map(step1.edges, (e) => {
+            return {
+               label: e.label,
+               order: e.order,
+               toStep: {
+                  connect: {
+                     edgeId: e.toStepEdgeId,
+                  },
+               },
+            } as WorkflowStepEdgeCreateWithoutFromStepInput;
+         });
+
       const expectedUpdateArgs1: WorkflowStepUpdateArgs = {
          where: { id: step1.id! },
          data: {
@@ -621,15 +643,23 @@ describe("pUpdateWorkflowSteps", () => {
             isStart: step1.isStart,
             position: step1.position,
             outgoingEdges: {
-               create: step1.edges.map((e) => ({
-                  fromStepEdgeId: step1.edgeId,
-                  toStepEdgeId: e.toStepEdgeId,
-                  label: e.label,
-                  order: e.order,
-               })),
+               create: expectedOutgoingEdgesArgs1,
             },
          },
       };
+
+      const expectedOutgoingEdgesArgs2: WorkflowStepEdgeCreateWithoutFromStepInput[] =
+         map(step2.edges, (e) => {
+            return {
+               label: e.label,
+               order: e.order,
+               toStep: {
+                  connect: {
+                     edgeId: e.toStepEdgeId,
+                  },
+               },
+            } as WorkflowStepEdgeCreateWithoutFromStepInput;
+         });
       const expectedUpdateArgs2: WorkflowStepUpdateArgs = {
          where: { id: step2.id! },
          data: {
@@ -641,12 +671,7 @@ describe("pUpdateWorkflowSteps", () => {
             isStart: step2.isStart,
             position: step2.position,
             outgoingEdges: {
-               create: step2.edges.map((e) => ({
-                  fromStepEdgeId: step2.edgeId,
-                  toStepEdgeId: e.toStepEdgeId,
-                  label: e.label,
-                  order: e.order,
-               })),
+               create: expectedOutgoingEdgesArgs2,
             },
          },
       };
@@ -682,6 +707,20 @@ describe("pUpdateWorkflowSteps", () => {
       const expectedDeleteEdgesArgs: WorkflowStepEdgeDeleteManyArgs = {
          where: { fromStepEdgeId: step.edgeId },
       };
+
+      const expectedOutgoingEdgesArgs: WorkflowStepEdgeCreateWithoutFromStepInput[] =
+         map(step.edges, (e) => {
+            return {
+               label: e.label,
+               order: e.order,
+               toStep: {
+                  connect: {
+                     edgeId: e.toStepEdgeId,
+                  },
+               },
+            } as WorkflowStepEdgeCreateWithoutFromStepInput;
+         });
+
       const expectedUpdateArgs: WorkflowStepUpdateArgs = {
          where: { id: step.id! },
          data: {
@@ -693,12 +732,7 @@ describe("pUpdateWorkflowSteps", () => {
             isStart: step.isStart,
             position: step.position,
             outgoingEdges: {
-               create: step.edges.map((e) => ({
-                  fromStepEdgeId: step.edgeId,
-                  toStepEdgeId: e.toStepEdgeId,
-                  label: e.label,
-                  order: e.order,
-               })),
+               create: expectedOutgoingEdgesArgs,
             },
          },
       };
