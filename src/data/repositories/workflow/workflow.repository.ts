@@ -19,6 +19,7 @@ import {
    WorkflowStepCreateManyArgs,
    WorkflowStepCreateManyInput,
    WorkflowStepDeleteManyArgs,
+   WorkflowStepEdgeCreateWithoutFromStepInput,
    WorkflowStepEdgeDeleteManyArgs,
    WorkflowStepFindManyArgs,
    WorkflowStepUpdateArgs,
@@ -245,6 +246,19 @@ export class WorkflowRepository {
 
          await this.prisma.workflowStepEdge.deleteMany(deleteEdgesArgs);
 
+         const outgoingEdgesArgs: WorkflowStepEdgeCreateWithoutFromStepInput[] =
+            map(step.edges, (e) => {
+               return {
+                  label: e.label,
+                  order: e.order,
+                  toStep: {
+                     connect: {
+                        edgeId: e.toStepEdgeId,
+                     },
+                  },
+               } as WorkflowStepEdgeCreateWithoutFromStepInput;
+            });
+
          const updateStepsArgs = {
             where: { id: stepId },
             data: {
@@ -256,12 +270,7 @@ export class WorkflowRepository {
                isStart: step.isStart,
                position: step.position,
                outgoingEdges: {
-                  create: map(step.edges, (e) => ({
-                     fromStepEdgeId: edgeId,
-                     toStepEdgeId: e.toStepEdgeId,
-                     label: e.label,
-                     order: e.order,
-                  })),
+                  create: outgoingEdgesArgs,
                },
             },
          } satisfies WorkflowStepUpdateArgs;
