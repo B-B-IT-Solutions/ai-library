@@ -68,10 +68,32 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
          <main className="flex-1">{children}</main>
 
          <footer className="border-t bg-muted/40 py-6">
-            <div className="max-w-9xl container mx-auto px-4 sm:px-6">
+            <div className="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6">
                <p className="text-center text-sm text-muted-foreground">
                   © {new Date().getFullYear()} {APP_NAME}
                </p>
+               <nav className="hidden items-center gap-6 md:flex">
+                  <div className="flex flex-col gap-2">
+                     <Link
+                        href="http://www.vision-notes.com/legal/agb"
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        AGB
+                     </Link>
+                     <Link
+                        href="http://www.vision-notes.com/legal/privacypolicy"
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Datenschutz
+                     </Link>
+                     <Link
+                        href="http://www.vision-notes.com/legal/cookies"
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Cookies
+                     </Link>
+                  </div>
+               </nav>
             </div>
          </footer>
       </div>
