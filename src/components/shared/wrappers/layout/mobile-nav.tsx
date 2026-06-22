@@ -30,7 +30,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   aria-label="Menü öffnen"
                   data-testid="mobile-nav-trigger"
                >
-                  <Menu className="h-10 w-10" />
+                  <Menu className="h-7 w-7" />
                </Button>
             </SheetTrigger>
             <SheetContent
@@ -45,7 +45,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   <Link
                      href="/explore"
                      onClick={() => setOpen(false)}
-                     className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="explore-nav-item"
                   >
                      Entdecken
@@ -53,7 +53,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   <Link
                      href="http://www.vision-notes.com/pricing"
                      onClick={() => setOpen(false)}
-                     className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="pricing-nav-item"
                   >
                      Preise
@@ -61,7 +61,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   <Link
                      href="http://www.vision-notes.com/blog"
                      onClick={() => setOpen(false)}
-                     className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="blog-nav-item"
                   >
                      Blog
