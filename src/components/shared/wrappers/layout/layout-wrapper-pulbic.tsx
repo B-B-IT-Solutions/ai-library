@@ -83,8 +83,10 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
                   </nav>
                </div>
                <div className="flex items-center gap-2 sm:gap-3">
-                  {loginBtns()}
-                  <MobileNav />
+                  <div className="hidden sm:flex sm:items-center sm:gap-3">
+                     {loginBtns()}
+                  </div>
+                  <MobileNav authenticated={authenticated} />
                </div>
             </div>
          </header>
