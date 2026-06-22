@@ -19,7 +19,7 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
          className="flex min-h-screen flex-col bg-background"
          data-testid="public-layout-wrapper"
       >
-         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+         <header className="border-b bg-background">
             <div className="mx-auto flex max-w-7xl items-center px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
                <div className="flex-1">
                   <Link
