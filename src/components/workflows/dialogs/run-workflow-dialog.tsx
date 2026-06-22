@@ -31,7 +31,7 @@ export const RunWorkflowDialog = ({ workflow, onClose }: Props) => {
             className={`flex flex-col gap-0 overflow-hidden p-0 transition-all duration-200 ${
                isExpanded
                   ? "h-screen max-h-screen w-screen sm:max-w-none"
-                  : "max-h-[90vh] sm:max-w-5xl"
+                  : "h-[90vh] max-h-[90vh] sm:max-w-5xl"
             }`}
          >
             <div className="flex shrink-0 items-center gap-4 px-6 py-4">
