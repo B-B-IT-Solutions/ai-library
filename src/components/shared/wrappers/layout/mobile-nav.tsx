@@ -39,7 +39,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   href="/explore"
                   onClick={() => setOpen(false)}
                   className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
-                  data-testid="exlopre-nav-item"
+                  data-testid="explore-nav-item"
                >
                   Entdecken
                </Link>

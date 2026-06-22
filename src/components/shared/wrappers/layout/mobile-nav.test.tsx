@@ -14,11 +14,11 @@ const assertRendered = () => {
 
 const assertNavigationRendered = () => {
    const navigation = screen.getByTestId("navigation");
-   const exlopre = screen.getByTestId("exlopre-nav-item");
+   const explore = screen.getByTestId("explore-nav-item");
    const pricing = screen.getByTestId("pricing-nav-item");
 
    assertInDocument(navigation);
-   assertInDocument(exlopre);
+   assertInDocument(explore);
    assertInDocument(pricing);
 };
 

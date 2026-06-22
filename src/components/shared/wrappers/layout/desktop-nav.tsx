@@ -16,7 +16,7 @@ export const DesktopNav = ({ authenticated }: Props) => {
             <Link
                href="/explore"
                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-               data-testid="exlopre-nav-item"
+               data-testid="explore-nav-item"
             >
                Entdecken
             </Link>

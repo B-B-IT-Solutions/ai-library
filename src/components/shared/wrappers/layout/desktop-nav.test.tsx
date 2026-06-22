@@ -6,12 +6,12 @@ import { DesktopNav } from "./desktop-nav";
 const assertRendered = () => {
    const desktopNav = screen.getByTestId("desktop-nav");
    const navigation = screen.getByTestId("navigation");
-   const exlopre = screen.getByTestId("exlopre-nav-item");
+   const explore = screen.getByTestId("explore-nav-item");
    const pricing = screen.getByTestId("pricing-nav-item");
 
    assertInDocument(desktopNav);
    assertInDocument(navigation);
-   assertInDocument(exlopre);
+   assertInDocument(explore);
    assertInDocument(pricing);
 };
 
