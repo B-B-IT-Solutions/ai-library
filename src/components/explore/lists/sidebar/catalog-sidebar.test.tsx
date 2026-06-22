@@ -16,7 +16,7 @@ describe("CatalogSidebar rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogSidebar categories={categories} totalElements={21} />,
+         <CatalogSidebar categories={categories} />,
          "/explore"
       );
 

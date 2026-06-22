@@ -37,11 +37,6 @@ exports[`CatalogEntryFilters rendering tests categories filter - test 1`] = `
           data-testid="category-all"
         >
           Alle
-          <span
-            class="ml-auto text-xs text-slate-400"
-          >
-            20
-          </span>
         </button>
         <button
           class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors bg-primary/10 font-medium text-primary"
@@ -133,11 +128,6 @@ exports[`CatalogEntryFilters rendering tests search filter - test 1`] = `
           data-testid="category-all"
         >
           Alle
-          <span
-            class="ml-auto text-xs text-slate-400"
-          >
-            20
-          </span>
         </button>
         <button
           class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"
@@ -206,11 +196,6 @@ exports[`CatalogEntryFilters rendering tests without filters - test 1`] = `
           data-testid="category-all"
         >
           Alle
-          <span
-            class="ml-auto text-xs text-slate-400"
-          >
-            21
-          </span>
         </button>
         <button
           class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"

@@ -12,15 +12,10 @@ import { CategoriesFilter } from ".";
 
 type Props = {
    categories: DCatalogEntryCategory[];
-   totalElements: number;
    onSelect?: () => void;
 };
 
-export const CatalogEntryFilters = ({
-   categories,
-   totalElements,
-   onSelect,
-}: Props) => {
+export const CatalogEntryFilters = ({ categories, onSelect }: Props) => {
    const [search, setSearch] = useQueryState(
       "f_search",
       f_searchParam.withOptions({ shallow: false })
@@ -51,11 +46,7 @@ export const CatalogEntryFilters = ({
                </button>
             )}
          </div>
-         <CategoriesFilter
-            categories={categories}
-            totalElements={totalElements}
-            onSelect={onSelect}
-         />
+         <CategoriesFilter categories={categories} onSelect={onSelect} />
       </div>
    );
 };

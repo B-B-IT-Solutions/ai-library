@@ -16,7 +16,7 @@ describe("CategoriesFilter rendering tests", () => {
    it("filter not select - test", async () => {
       const categories = dtestData.dCatalogEntryCategories(3);
       const { container } = renderWithRouter(
-         <CategoriesFilter categories={categories} totalElements={10} />,
+         <CategoriesFilter categories={categories} />,
          "/explore"
       );
 
@@ -30,7 +30,7 @@ describe("CategoriesFilter rendering tests", () => {
    it("filter select - test", async () => {
       const categories = dtestData.dCatalogEntryCategories(3);
       const { container } = renderWithRouter(
-         <CategoriesFilter categories={categories} totalElements={42} />,
+         <CategoriesFilter categories={categories} />,
          "/explore",
          "f_categories=category-1"
       );
@@ -55,11 +55,7 @@ describe("CategoriesFilter functionality tests", () => {
       const onSelectFn = jest.fn();
 
       renderWithRouter(
-         <CategoriesFilter
-            categories={categories}
-            totalElements={10}
-            onSelect={onSelectFn}
-         />,
+         <CategoriesFilter categories={categories} onSelect={onSelectFn} />,
          "/explore",
          "",
          onUrlUpdateFn
@@ -101,11 +97,7 @@ describe("CategoriesFilter functionality tests", () => {
       const onSelectFn = jest.fn();
 
       renderWithRouter(
-         <CategoriesFilter
-            categories={categories}
-            totalElements={10}
-            onSelect={onSelectFn}
-         />,
+         <CategoriesFilter categories={categories} onSelect={onSelectFn} />,
          "/explore",
          "f_categories=category-1",
          onUrlUpdateFn
@@ -146,11 +138,7 @@ describe("CategoriesFilter functionality tests", () => {
       const onSelectFn = jest.fn();
 
       renderWithRouter(
-         <CategoriesFilter
-            categories={categories}
-            totalElements={10}
-            onSelect={onSelectFn}
-         />,
+         <CategoriesFilter categories={categories} onSelect={onSelectFn} />,
          "/explore",
          "f_categories=category-1&f_categories=category-2",
          onUrlUpdateFn

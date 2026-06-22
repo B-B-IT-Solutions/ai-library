@@ -46,7 +46,7 @@ export const CatalogEntriesDashboard = async () => {
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div className="flex gap-6" data-testid="catalog-entries-dashboard">
-            <CatalogSidebar categories={categories} totalElements={1} />
+            <CatalogSidebar categories={categories} />
 
             <div className="min-w-0 flex-1">
                <CatalogEntriesToolbar

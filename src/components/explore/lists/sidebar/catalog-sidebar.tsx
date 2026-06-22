@@ -3,20 +3,16 @@ import { CatalogEntryFilters } from "../toolbar/filters";
 
 type Props = {
    categories: DCatalogEntryCategory[];
-   totalElements: number;
 };
 
-export const CatalogSidebar = ({ categories, totalElements }: Props) => {
+export const CatalogSidebar = ({ categories }: Props) => {
    return (
       <aside
          className="hidden w-64 shrink-0 md:block"
          data-testid="catalog-entries-sidebar"
       >
          <div className="rounded-xl border bg-white shadow-sm">
-            <CatalogEntryFilters
-               categories={categories}
-               totalElements={totalElements}
-            />
+            <CatalogEntryFilters categories={categories} />
          </div>
       </aside>
    );
