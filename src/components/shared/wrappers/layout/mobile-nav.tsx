@@ -21,7 +21,7 @@ export const MobileNav = ({ authenticated }: Props) => {
 
    return (
       <Sheet open={open} onOpenChange={setOpen}>
-         <SheetTrigger asChild>
+         <SheetTrigger asChild={true}>
             <Button
                variant="ghost"
                size="icon"
@@ -32,7 +32,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                <Menu className="h-10 w-10" />
             </Button>
          </SheetTrigger>
-         <SheetContent side="left" className="flex w-64 flex-col p-0">
+         <SheetContent side="top" className="flex h-full w-full flex-col p-0">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <nav className="flex flex-col px-4 pt-8">
                <Link
