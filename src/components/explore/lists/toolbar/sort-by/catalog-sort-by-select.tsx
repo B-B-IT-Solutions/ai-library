@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { ArrowDownAZ, ArrowUpAZ, Clock, ClockArrowDown } from "lucide-react";
 import { useQueryState } from "nuqs";
 
@@ -13,13 +12,6 @@ import {
 } from "@/components/shadcn/select";
 import { DListSortByMode } from "@/data/types/domain/common";
 import { sortByParam } from "../../../catalog-search-params";
-
-const SORT_ICONS: Record<DListSortByMode, FC<{ className?: string }>> = {
-   [DListSortByMode.DATE_DESC]: Clock,
-   [DListSortByMode.DATE_ASC]: ClockArrowDown,
-   [DListSortByMode.TITLE_ASC]: ArrowDownAZ,
-   [DListSortByMode.TITLE_DESC]: ArrowUpAZ,
-};
 
 const SHORT_SORT_LABELS: Record<DListSortByMode, string> = {
    [DListSortByMode.DATE_DESC]: "Neueste",
@@ -34,8 +26,6 @@ export const CatalogSortBySelect = () => {
       sortByParam.withOptions({ shallow: false })
    );
 
-   const SortIcon = SORT_ICONS[sort];
-
    return (
       <Select
          value={sort}
@@ -46,10 +36,6 @@ export const CatalogSortBySelect = () => {
             data-testid="catalog-sort-by-select"
          >
             <span className="flex items-center gap-1.5">
-               <SortIcon
-                  className="h-4 w-4 shrink-0"
-                  data-testid="sort-mobile-icon"
-               />
                <span className="sm:hidden">{SHORT_SORT_LABELS[sort]}</span>
                <span className="hidden sm:contents">
                   <SelectValue />
