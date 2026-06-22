@@ -59,6 +59,12 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
                      >
                         Entdecken
                      </Link>
+                     <Link
+                        href="http://www.vision-notes.com/pricing"
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Preise
+                     </Link>
                   </nav>
                </div>
                {loginBtns()}
