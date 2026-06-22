@@ -37,7 +37,11 @@ export const DesktopNav = ({ authenticated }: Props) => {
          </nav>
          <div className="flex items-center gap-3">
             {authenticated ? (
-               <Button asChild variant="outline" data-testid="templates-link">
+               <Button
+                  asChild={true}
+                  variant="outline"
+                  data-testid="templates-link"
+               >
                   <Link href="/">Zur Bibliothek</Link>
                </Button>
             ) : (
