@@ -465,11 +465,60 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1
         </div>
       </div>
       <main
-        class="flex-1"
+        class="flex flex-1 flex-col overflow-hidden"
       >
+        <header
+          class="flex items-center gap-3 border-b bg-white px-4 py-3 sm:hidden"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7 cursor-pointer"
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            data-testid="sidebar-mobile-header"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-left"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M9 3v18"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Toggle Sidebar
+            </span>
+          </button>
+          <span
+            class="text-base font-bold"
+          >
+            Vision Notes
+          </span>
+        </header>
         <div
-          data-testid="test-1"
-        />
+          class="min-h-0 flex-1"
+        >
+          <div
+            data-testid="test-1"
+          />
+        </div>
       </main>
     </div>
   </div>
@@ -952,11 +1001,60 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`
         </div>
       </div>
       <main
-        class="flex-1"
+        class="flex flex-1 flex-col overflow-hidden"
       >
+        <header
+          class="flex items-center gap-3 border-b bg-white px-4 py-3 sm:hidden"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7 cursor-pointer"
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            data-testid="sidebar-mobile-header"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-left"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M9 3v18"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Toggle Sidebar
+            </span>
+          </button>
+          <span
+            class="text-base font-bold"
+          >
+            Vision Notes
+          </span>
+        </header>
         <div
-          data-testid="test-1"
-        />
+          class="min-h-0 flex-1"
+        >
+          <div
+            data-testid="test-1"
+          />
+        </div>
       </main>
     </div>
   </div>
@@ -1439,11 +1537,60 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - te
         </div>
       </div>
       <main
-        class="flex-1"
+        class="flex flex-1 flex-col overflow-hidden"
       >
+        <header
+          class="flex items-center gap-3 border-b bg-white px-4 py-3 sm:hidden"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7 cursor-pointer"
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            data-testid="sidebar-mobile-header"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-left"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M9 3v18"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Toggle Sidebar
+            </span>
+          </button>
+          <span
+            class="text-base font-bold"
+          >
+            Vision Notes
+          </span>
+        </header>
         <div
-          data-testid="test-1"
-        />
+          class="min-h-0 flex-1"
+        >
+          <div
+            data-testid="test-1"
+          />
+        </div>
       </main>
     </div>
   </div>
@@ -1926,11 +2073,60 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive false -
         </div>
       </div>
       <main
-        class="flex-1"
+        class="flex flex-1 flex-col overflow-hidden"
       >
+        <header
+          class="flex items-center gap-3 border-b bg-white px-4 py-3 sm:hidden"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7 cursor-pointer"
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            data-testid="sidebar-mobile-header"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-left"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M9 3v18"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Toggle Sidebar
+            </span>
+          </button>
+          <span
+            class="text-base font-bold"
+          >
+            Vision Notes
+          </span>
+        </header>
         <div
-          data-testid="test-1"
-        />
+          class="min-h-0 flex-1"
+        >
+          <div
+            data-testid="test-1"
+          />
+        </div>
       </main>
     </div>
   </div>
@@ -2413,14 +2609,63 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive true - 
         </div>
       </div>
       <main
-        class="flex-1"
+        class="flex flex-1 flex-col overflow-hidden"
       >
+        <header
+          class="flex items-center gap-3 border-b bg-white px-4 py-3 sm:hidden"
+        >
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7 cursor-pointer"
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            data-testid="sidebar-mobile-header"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-left"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M9 3v18"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Toggle Sidebar
+            </span>
+          </button>
+          <span
+            class="text-base font-bold"
+          >
+            Vision Notes
+          </span>
+        </header>
         <div
           data-testid="trial-banner"
         />
         <div
-          data-testid="test-1"
-        />
+          class="min-h-0 flex-1"
+        >
+          <div
+            data-testid="test-1"
+          />
+        </div>
       </main>
     </div>
   </div>
