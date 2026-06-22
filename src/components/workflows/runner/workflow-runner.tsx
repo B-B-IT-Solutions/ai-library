@@ -66,14 +66,14 @@ export const WorkflowRunner = ({ workflow }: Props) => {
 
    return (
       <div
-         className="flex flex-col bg-background"
+         className="flex h-full flex-col bg-background"
          data-testid="workflow-runner"
       >
-         <div key={state.currentEdgeId} className="flex-1 overflow-y-auto p-6">
+         <div key={state.currentEdgeId} className="min-h-0 flex-1 overflow-y-auto p-6">
             <StepRunner step={currentStep} workflow={workflow} />
          </div>
 
-         <div className="border-t bg-background px-6 py-4">
+         <div className="shrink-0 border-t bg-background px-6 py-4 shadow-[0_-4px_12px_-2px_hsl(var(--border)/0.5)]">
             {isCompleted ? (
                <WorfklowCompleted
                   onRestart={handleRestart}
