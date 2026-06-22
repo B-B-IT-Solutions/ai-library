@@ -13,11 +13,7 @@ import {
    getPublishedCatalogEntriesPage,
 } from "@/data/actions/catalog";
 import { DCatalogEntriesPageQuery } from "@/data/types/domain/catalog";
-import {
-   DListGroupByMode,
-   DListSortByMode,
-   DListViewMode,
-} from "@/data/types/domain/common";
+import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
 import { CatalogEntriesDashboard } from "./catalog-entries-dashboard";
 import {
@@ -66,8 +62,6 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
    switch (key) {
       case "view":
          return DListViewMode.GRID;
-      case "group":
-         return DListGroupByMode.NONE;
       case "sort":
          return DListSortByMode.DATE_DESC;
       case "f_search":

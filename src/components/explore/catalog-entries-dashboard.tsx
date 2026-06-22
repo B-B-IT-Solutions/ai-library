@@ -21,7 +21,6 @@ export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = catalogEntrySearchParamsCache.get("view");
-   const groupBy = catalogEntrySearchParamsCache.get("group");
    const sortBy = catalogEntrySearchParamsCache.get("sort");
 
    const filters: DCatalogEntriesFilter = {
@@ -52,11 +51,9 @@ export const CatalogEntriesDashboard = async () => {
                <CatalogEntriesToolbar
                   viewMode={viewMode}
                   categories={categories}
-                  totalElements={1}
                />
                <CatalogEntryItems
                   viewMode={viewMode}
-                  groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
                   authenticated={authenticated}

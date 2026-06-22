@@ -7,11 +7,7 @@ import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadCatalogEntryDescriptors } from "@/data/ts-queries/catalog";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCatalogEntriesFilter } from "@/data/types/domain/catalog";
-import {
-   DListGroupByMode,
-   DListSortByMode,
-   DListViewMode,
-} from "@/data/types/domain/common";
+import { DListSortByMode, DListViewMode } from "@/data/types/domain/common";
 
 import { CatalogEntriesEmpty } from "./catalog-entries-empty";
 import { CatalogEntriesGrid } from "./catalog-entries-grid";
@@ -19,7 +15,6 @@ import { CatalogEntriesList } from "./catalog-entries-list";
 
 type Props = {
    viewMode: DListViewMode;
-   groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DCatalogEntriesFilter;
    authenticated: boolean;
@@ -27,7 +22,6 @@ type Props = {
 
 export const CatalogEntryItems = ({
    viewMode,
-   groupBy,
    sortBy,
    filters,
    authenticated,
