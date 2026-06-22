@@ -7,13 +7,13 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
     data-testid="public-layout-wrapper"
   >
     <header
-      class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+      class="border-b bg-background"
     >
       <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
+        class="mx-auto flex max-w-7xl items-center px-4 py-3 sm:gap-4 sm:px-6 sm:py-4"
       >
         <div
-          class="flex items-center gap-6 sm:gap-8"
+          class="flex-1"
         >
           <a
             class="text-lg font-bold whitespace-nowrap sm:text-xl"
@@ -22,36 +22,45 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
           >
             Vision Notes
           </a>
-          <nav
-            class="hidden items-center gap-6 sm:flex"
-          >
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="/explore"
-            >
-              Entdecken
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/pricing"
-            >
-              Preise
-            </a>
-          </nav>
         </div>
         <div
-          class="flex items-center gap-2 sm:gap-3"
+          class="flex-2"
         >
           <div
-            class="hidden sm:flex sm:items-center sm:gap-3"
+            class="hidden items-center justify-between gap-6 sm:flex"
+            data-testid="desktop-nav"
           >
-            <div
-              class="flex items-center gap-2 sm:gap-3"
+            <nav
+              class="flex items-center gap-1"
+              data-testid="navigation"
             >
               <a
-                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 sm:h-9 sm:px-4 sm:text-sm"
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="explore-nav-item"
+                href="/explore"
+              >
+                Entdecken
+              </a>
+              <a
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="pricing-nav-item"
+                href="http://www.vision-notes.com/pricing"
+              >
+                Preise
+              </a>
+              <a
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="blog-nav-item"
+                href="http://www.vision-notes.com/blog"
+              >
+                Blog
+              </a>
+            </nav>
+            <div
+              class="flex items-center gap-3"
+            >
+              <a
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
                 data-slot="button"
                 data-testid="sign-in-link"
                 href="/auth/sign-in"
@@ -59,27 +68,18 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
                 Anmelden
               </a>
               <a
-                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 sm:h-9 sm:px-4 sm:text-sm"
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
                 data-slot="button"
                 data-testid="sign-up-link"
                 href="/auth/sign-up"
               >
-                <span
-                  class="sm:hidden"
-                >
-                  Starten
-                </span>
-                <span
-                  class="hidden sm:inline"
-                >
-                  Kostenlos starten
-                </span>
+                Kostenlos starten
               </a>
             </div>
           </div>
           <div
             data-slot="sheet"
-            data-testid="mock-react-dialog-root"
+            data-testid="mobile-nav"
           >
             <button
               aria-label="Menü öffnen"
@@ -89,7 +89,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-menu h-5 w-5"
+                class="lucide lucide-menu h-10 w-10"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -184,13 +184,13 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
     data-testid="public-layout-wrapper"
   >
     <header
-      class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+      class="border-b bg-background"
     >
       <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
+        class="mx-auto flex max-w-7xl items-center px-4 py-3 sm:gap-4 sm:px-6 sm:py-4"
       >
         <div
-          class="flex items-center gap-6 sm:gap-8"
+          class="flex-1"
         >
           <a
             class="text-lg font-bold whitespace-nowrap sm:text-xl"
@@ -199,43 +199,56 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
           >
             Vision Notes
           </a>
-          <nav
-            class="hidden items-center gap-6 sm:flex"
-          >
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="/explore"
-            >
-              Entdecken
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/pricing"
-            >
-              Preise
-            </a>
-          </nav>
         </div>
         <div
-          class="flex items-center gap-2 sm:gap-3"
+          class="flex-2"
         >
           <div
-            class="hidden sm:flex sm:items-center sm:gap-3"
+            class="hidden items-center justify-between gap-6 sm:flex"
+            data-testid="desktop-nav"
           >
-            <a
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
-              data-slot="button"
-              data-testid="templates-link"
-              href="/"
+            <nav
+              class="flex items-center gap-1"
+              data-testid="navigation"
             >
-              Zur Bibliothek
-            </a>
+              <a
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="explore-nav-item"
+                href="/explore"
+              >
+                Entdecken
+              </a>
+              <a
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="pricing-nav-item"
+                href="http://www.vision-notes.com/pricing"
+              >
+                Preise
+              </a>
+              <a
+                class="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
+                data-testid="blog-nav-item"
+                href="http://www.vision-notes.com/blog"
+              >
+                Blog
+              </a>
+            </nav>
+            <div
+              class="flex items-center gap-3"
+            >
+              <a
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                data-slot="button"
+                data-testid="templates-link"
+                href="/"
+              >
+                Zur Bibliothek
+              </a>
+            </div>
           </div>
           <div
             data-slot="sheet"
-            data-testid="mock-react-dialog-root"
+            data-testid="mobile-nav"
           >
             <button
               aria-label="Menü öffnen"
@@ -245,7 +258,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-menu h-5 w-5"
+                class="lucide lucide-menu h-10 w-10"
                 fill="none"
                 height="24"
                 stroke="currentColor"
