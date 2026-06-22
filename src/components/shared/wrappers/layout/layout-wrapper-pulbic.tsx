@@ -40,15 +40,15 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
 
          <footer className="border-t bg-muted/40 py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-               <div className="flex justify-start gap-16">
-                  <div>
+               <div className="flex gap-16">
+                  <div className="flex flex-1 flex-col gap-3">
                      <Link
                         href="/"
                         className="text-lg whitespace-nowrap sm:text-xl"
                      >
                         {APP_NAME}
                      </Link>
-                     <p>
+                     <p className="text-muted-foreground">
                         Große Prompt-Bibliothek. Individuelle Anpassung. Leichte
                         Erstellung. Vision Notes revolutioniert deinen gesamten
                         Prompt-Workflow.
