@@ -20,7 +20,7 @@ export const MobileNav = ({ authenticated }: Props) => {
    const [open, setOpen] = useState(false);
 
    return (
-      <Sheet open={open} onOpenChange={setOpen}>
+      <Sheet open={open} onOpenChange={setOpen} data-testid="mobile-nav">
          <SheetTrigger asChild={true}>
             <Button
                variant="ghost"
@@ -34,11 +34,12 @@ export const MobileNav = ({ authenticated }: Props) => {
          </SheetTrigger>
          <SheetContent side="top" className="flex h-full w-full flex-col p-0">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
-            <nav className="flex flex-col px-4 pt-8">
+            <nav className="flex flex-col px-4 pt-8" data-testid="navigation">
                <Link
                   href="/explore"
                   onClick={() => setOpen(false)}
                   className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="exlopre-nav-item"
                >
                   Entdecken
                </Link>
@@ -46,6 +47,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   href="http://www.vision-notes.com/pricing"
                   onClick={() => setOpen(false)}
                   className="border-b py-4 text-base font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="pricing-nav-item"
                >
                   Preise
                </Link>
@@ -67,10 +69,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                         className="w-full"
                         onClick={() => setOpen(false)}
                      >
-                        <Link
-                           href="/auth/sign-in"
-                           data-testid="mobile-sign-in-link"
-                        >
+                        <Link href="/auth/sign-in" data-testid="sign-in-link">
                            Anmelden
                         </Link>
                      </Button>
@@ -79,10 +78,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                         className="w-full"
                         onClick={() => setOpen(false)}
                      >
-                        <Link
-                           href="/auth/sign-up"
-                           data-testid="mobile-sign-up-link"
-                        >
+                        <Link href="/auth/sign-up" data-testid="sign-up-link">
                            Kostenlos starten
                         </Link>
                      </Button>
