@@ -9,7 +9,7 @@ type Props = {
 export const DesktopNav = ({ authenticated }: Props) => {
    return (
       <div
-         className="hidden items-center gap-6 sm:flex"
+         className="hidden items-center justify-between gap-6 sm:flex"
          data-testid="desktop-nav"
       >
          <nav className="flex items-center gap-6" data-testid="navigation">

@@ -20,15 +20,17 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
          data-testid="public-layout-wrapper"
       >
          <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+            <div className="mx-auto flex max-w-7xl items-center px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
                <Link
                   href="/"
                   className="text-lg font-bold whitespace-nowrap sm:text-xl"
                >
                   {APP_NAME}
                </Link>
-               <DesktopNav authenticated={authenticated} />
-               <MobileNav authenticated={authenticated} />
+               <div className="flex-1">
+                  <DesktopNav authenticated={authenticated} />
+                  <MobileNav authenticated={authenticated} />
+               </div>
             </div>
          </header>
 
