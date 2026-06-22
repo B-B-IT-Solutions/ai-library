@@ -95,7 +95,7 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
                      </nav>
                   </div>
                </div>
-               <div className="mt-10 border-t pt-6">
+               <div className="mt-10">
                   <p className="text-sm text-muted-foreground">
                      © {new Date().getFullYear()} {APP_NAME}
                   </p>
