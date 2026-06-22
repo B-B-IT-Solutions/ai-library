@@ -20,7 +20,7 @@ export const SortBySelect = () => {
          value={sort}
          onValueChange={(value: DWorkflowsSortByMode) => setSort(value)}
       >
-         <SelectTrigger className="h-8 w-40" data-testid="sort-by-select">
+         <SelectTrigger className="h-8 w-full sm:w-40" data-testid="sort-by-select">
             <SelectValue placeholder="Sortierung" />
          </SelectTrigger>
          <SelectContent>

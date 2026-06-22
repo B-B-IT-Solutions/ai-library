@@ -90,15 +90,17 @@ export const PromptFilters = ({ categories, models, collections }: Props) => {
 
    return (
       <Popover open={showFilters} onOpenChange={setShowFilters}>
-         <div className="relative inline-flex">
+         <div className="relative inline-flex w-full sm:w-auto">
             <PopoverTrigger asChild={true}>
                <Button
                   variant="outline"
-                  className="gap-2"
+                  className="w-full justify-between gap-2 sm:w-auto sm:justify-center"
                   data-testid="filters-trigger-btn"
                >
-                  <Filter className="h-4 w-4" />
-                  Filter
+                  <div className="inline-flex items-center gap-2">
+                     <Filter className="h-4 w-4" />
+                     Filter
+                  </div>
                   {triggerBtnIcon()}
                </Button>
             </PopoverTrigger>

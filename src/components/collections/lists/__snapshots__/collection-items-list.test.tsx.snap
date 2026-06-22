@@ -11,7 +11,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
       data-testid="collection-item"
     >
       <div
-        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100"
       >
         <div
           data-slot="dropdown-menu"
@@ -150,7 +150,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
       data-testid="collection-item"
     >
       <div
-        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100"
       >
         <div
           data-slot="dropdown-menu"
@@ -289,7 +289,7 @@ exports[`CollectionItemsList rendering tests rendered - test 1`] = `
       data-testid="collection-item"
     >
       <div
-        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100"
       >
         <div
           data-slot="dropdown-menu"

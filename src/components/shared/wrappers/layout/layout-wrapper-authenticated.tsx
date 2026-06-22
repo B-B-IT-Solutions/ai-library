@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
-import { Sidebar } from "@/components/shared";
+import { Sidebar, SidebarMobileHeader } from "@/components/shared/sidebar";
 import { TrialBanner } from "@/components/subscription";
 import { requireUser } from "@/data/actions/auth-utils";
 import { getTrialStatus } from "@/data/actions/subscription";
@@ -35,9 +35,10 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
             data-testid="sidebar-wrapper"
          >
             <Sidebar user={user} />
-            <main className="flex-1">
+            <main className="flex flex-1 flex-col overflow-hidden">
+               <SidebarMobileHeader />
                {trialBanner()}
-               {children}
+               <div className="min-h-0 flex-1">{children}</div>
             </main>
          </SidebarProvider>
       </div>

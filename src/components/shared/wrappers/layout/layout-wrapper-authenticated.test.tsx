@@ -37,11 +37,13 @@ const assertLayoutRendered = () => {
    const wrapper = screen.getByTestId("authenticated-layout-wrapper");
    const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
    const sidebar = screen.getByTestId("sidebar");
+   const mobileHeader = screen.getByTestId("sidebar-mobile-header");
    const test1 = screen.getByTestId("test-1");
 
    assertInDocument(wrapper);
    assertInDocument(sidebarWrapper);
    assertInDocument(sidebar);
+   assertInDocument(mobileHeader);
    assertInDocument(test1);
 };
 

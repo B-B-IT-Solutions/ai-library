@@ -56,12 +56,12 @@ export const PromptsDashboard = async () => {
             className="flex h-full flex-col bg-slate-50"
             data-testid="prompts-dashboard"
          >
-            <div className="flex items-center justify-between border-b bg-white px-6 py-4">
+            <div className="flex items-center justify-between border-b bg-white px-4 py-3 sm:px-6 sm:py-4">
                <div>
-                  <h1 className="text-2xl font-bold text-slate-900">
+                  <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
                      Meine Prompts
                   </h1>
-                  <p className="mt-1 text-sm text-slate-600">
+                  <p className="mt-0.5 hidden text-sm text-slate-600 sm:mt-1 sm:block">
                      Verwalten Sie Ihre gespeicherten Prompts
                   </p>
                </div>
@@ -78,7 +78,7 @@ export const PromptsDashboard = async () => {
                collections={collections}
             />
 
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
                <PromptItems
                   viewMode={viewMode}
                   groupBy={groupBy}

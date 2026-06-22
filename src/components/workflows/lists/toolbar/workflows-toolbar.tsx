@@ -11,16 +11,22 @@ type Props = {
 export const WorkflowsToolbar = ({ viewMode }: Props) => {
    return (
       <div
-         className="flex items-center justify-between border-b bg-white px-6 py-3"
+         className="flex flex-col gap-2 border-b bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6"
          data-testid="workflows-toolbar"
       >
-         <div className="flex items-center gap-3">
-            <div className="w-64">
+         <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="sm:w-64">
                <SearchFilter />
             </div>
-            <SortBySelect />
+            <div className="flex items-center gap-2 sm:gap-3">
+               <div className="flex-1 sm:flex-none">
+                  <SortBySelect />
+               </div>
+            </div>
          </div>
-         <ListViewToggle currentView={viewMode} />
+         <div className="hidden sm:block">
+            <ListViewToggle currentView={viewMode} />
+         </div>
       </div>
    );
 };

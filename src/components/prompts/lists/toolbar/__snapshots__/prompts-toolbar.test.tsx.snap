@@ -3,14 +3,14 @@
 exports[`PromptsToolbar rendering tests rendered - test 1`] = `
 <div>
   <div
-    class="flex items-center justify-between border-b bg-white px-6 py-3"
+    class="flex flex-col gap-2 border-b bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6"
     data-testid="prompts-toolbar"
   >
     <div
-      class="flex items-center gap-3"
+      class="flex flex-col gap-2 sm:flex-row"
     >
       <div
-        class="w-64"
+        class="sm:w-64"
       >
         <div
           class="relative w-full"
@@ -48,38 +48,94 @@ exports[`PromptsToolbar rendering tests rendered - test 1`] = `
         </div>
       </div>
       <div
-        data-slot="popover"
-        data-testid="mock-react-popover-root"
+        class="flex items-center gap-2 sm:gap-3"
       >
         <div
-          class="relative inline-flex"
+          class="flex-1 sm:flex-none"
+        >
+          <div
+            data-slot="popover"
+            data-testid="mock-react-popover-root"
+          >
+            <div
+              class="relative inline-flex w-full sm:w-auto"
+            >
+              <button
+                class="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between gap-2 sm:w-auto sm:justify-center"
+                data-slot="popover-trigger"
+                data-testid="filters-trigger-btn"
+              >
+                <div
+                  class="inline-flex items-center gap-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-funnel h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"
+                    />
+                  </svg>
+                  Filter
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-chevron-down h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              data-testid="mock-react-popover-portal"
+            />
+          </div>
+        </div>
+        <div
+          class="flex-1 sm:flex-none"
         >
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 gap-2"
-            data-slot="popover-trigger"
-            data-testid="filters-trigger-btn"
+            aria-autocomplete="none"
+            aria-controls="radix-_r_3_"
+            aria-expanded="false"
+            class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 h-8 w-full sm:w-40"
+            data-size="default"
+            data-slot="select-trigger"
+            data-state="closed"
+            data-testid="sort-by-select"
+            dir="ltr"
+            role="combobox"
+            type="button"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-funnel h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+            <span
+              data-slot="select-value"
+              style="pointer-events: none;"
             >
-              <path
-                d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"
-              />
-            </svg>
-            Filter
+              Title A-Z
+            </span>
             <svg
               aria-hidden="true"
-              class="lucide lucide-chevron-down h-4 w-4"
+              class="lucide lucide-chevron-down size-4 opacity-50"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -95,133 +151,97 @@ exports[`PromptsToolbar rendering tests rendered - test 1`] = `
               />
             </svg>
           </button>
-        </div>
-        <div
-          data-testid="mock-react-popover-portal"
-        />
-      </div>
-      <button
-        aria-autocomplete="none"
-        aria-controls="radix-_r_3_"
-        aria-expanded="false"
-        class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 h-8 w-40"
-        data-size="default"
-        data-slot="select-trigger"
-        data-state="closed"
-        data-testid="sort-by-select"
-        dir="ltr"
-        role="combobox"
-        type="button"
-      >
-        <span
-          data-slot="select-value"
-          style="pointer-events: none;"
-        >
-          Title A-Z
-        </span>
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-chevron-down size-4 opacity-50"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m6 9 6 6 6-6"
+          <div
+            data-testid="mock-react-portal"
           />
-        </svg>
-      </button>
-      <div
-        data-testid="mock-react-portal"
-      />
+        </div>
+      </div>
     </div>
     <div
-      class="flex items-center rounded-md border"
-      data-testid="view-toggle"
+      class="hidden sm:block"
     >
-      <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
-        data-slot="button"
-        data-testid="grid-view-btn"
+      <div
+        class="flex items-center rounded-md border"
+        data-testid="view-toggle"
       >
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
+          data-slot="button"
+          data-testid="grid-view-btn"
         >
-          <rect
-            height="18"
-            rx="2"
-            width="18"
-            x="3"
-            y="3"
-          />
-          <path
-            d="M3 9h18"
-          />
-          <path
-            d="M3 15h18"
-          />
-          <path
-            d="M9 3v18"
-          />
-          <path
-            d="M15 3v18"
-          />
-        </svg>
-      </button>
-      <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
-        data-slot="button"
-        data-testid="list-view-btn"
-      >
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-list h-4 w-4"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="18"
+              rx="2"
+              width="18"
+              x="3"
+              y="3"
+            />
+            <path
+              d="M3 9h18"
+            />
+            <path
+              d="M3 15h18"
+            />
+            <path
+              d="M9 3v18"
+            />
+            <path
+              d="M15 3v18"
+            />
+          </svg>
+        </button>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
+          data-slot="button"
+          data-testid="list-view-btn"
         >
-          <path
-            d="M3 5h.01"
-          />
-          <path
-            d="M3 12h.01"
-          />
-          <path
-            d="M3 19h.01"
-          />
-          <path
-            d="M8 5h13"
-          />
-          <path
-            d="M8 12h13"
-          />
-          <path
-            d="M8 19h13"
-          />
-        </svg>
-      </button>
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-list h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 5h.01"
+            />
+            <path
+              d="M3 12h.01"
+            />
+            <path
+              d="M3 19h.01"
+            />
+            <path
+              d="M8 5h13"
+            />
+            <path
+              d="M8 12h13"
+            />
+            <path
+              d="M8 19h13"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
