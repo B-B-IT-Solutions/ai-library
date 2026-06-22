@@ -40,42 +40,42 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
 
          <footer className="border-t bg-muted/40 py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-               <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+               <div className="flex justify-start gap-16">
                   <div className="flex flex-col gap-4">
-                     <p className="text-sm font-semibold">Unternehmen</p>
+                     <p className="text-muted-foreground">Unternehmen</p>
                      <nav className="flex flex-col gap-3">
                         <Link
                            href="http://www.vision-notes.com/blog"
-                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                           className="hover:underline"
                         >
                            Blog
                         </Link>
                      </nav>
                   </div>
                   <div className="flex flex-col gap-4">
-                     <p className="text-sm font-semibold">Rechtliches</p>
+                     <p className="text-muted-foreground">Rechtliches</p>
                      <nav className="flex flex-col gap-3">
                         <Link
                            href="http://www.vision-notes.com/legal/agb"
-                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                           className="hover:underline"
                         >
                            AGB
                         </Link>
                         <Link
                            href="http://www.vision-notes.com/legal/privacypolicy"
-                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                           className="hover:underline"
                         >
                            Datenschutz
                         </Link>
                         <Link
                            href="http://www.vision-notes.com/legal/cookies"
-                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                           className="hover:underline"
                         >
                            Cookies
                         </Link>
                         <Link
                            href="http://www.vision-notes.com/legal/impressum"
-                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                           className="hover:underline"
                         >
                            Impressum
                         </Link>
