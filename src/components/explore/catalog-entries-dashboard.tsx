@@ -21,7 +21,6 @@ export const CatalogEntriesDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = catalogEntrySearchParamsCache.get("view");
-   const groupBy = catalogEntrySearchParamsCache.get("group");
    const sortBy = catalogEntrySearchParamsCache.get("sort");
 
    const filters: DCatalogEntriesFilter = {
@@ -46,17 +45,15 @@ export const CatalogEntriesDashboard = async () => {
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div className="flex gap-6" data-testid="catalog-entries-dashboard">
-            <CatalogSidebar categories={categories} totalElements={1} />
+            <CatalogSidebar categories={categories} />
 
             <div className="min-w-0 flex-1">
                <CatalogEntriesToolbar
                   viewMode={viewMode}
                   categories={categories}
-                  totalElements={1}
                />
                <CatalogEntryItems
                   viewMode={viewMode}
-                  groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
                   authenticated={authenticated}

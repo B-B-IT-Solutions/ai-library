@@ -11,15 +11,10 @@ import { f_categoriesParam } from "../../../../catalog-search-params";
 
 type Props = {
    categories: DCatalogEntryCategory[];
-   totalElements: number;
    onSelect?: CallbackFn;
 };
 
-export const CategoriesFilter = ({
-   categories,
-   totalElements,
-   onSelect,
-}: Props) => {
+export const CategoriesFilter = ({ categories, onSelect }: Props) => {
    const [f_categories, setFCategories] = useQueryState(
       "f_categories",
       f_categoriesParam.withOptions({ shallow: false })
@@ -75,9 +70,6 @@ export const CategoriesFilter = ({
                data-testid="category-all"
             >
                Alle
-               <span className="ml-auto text-xs text-slate-400">
-                  {totalElements}
-               </span>
             </button>
             {categories.map((cat) => category(cat))}
          </div>

@@ -1,6 +1,8 @@
+import { map } from "es-toolkit/compat";
+
 import { DCatalogEntry } from "@/data/types/domain/catalog";
 
-import { CatalogEntryItem } from "./items";
+import { CatalogEntryItem } from "../item";
 
 type Props = {
    entries: DCatalogEntry[];
@@ -8,7 +10,7 @@ type Props = {
    ref?: React.Ref<HTMLDivElement>;
 };
 
-export const CatalogEntriesGrid = ({ entries, authenticated, ref }: Props) => {
+export const CatalogEntriesList = ({ entries, authenticated, ref }: Props) => {
    const item = (entry: DCatalogEntry, index: number) => {
       const isLast = index === entries.length - 1;
       return (
@@ -22,11 +24,8 @@ export const CatalogEntriesGrid = ({ entries, authenticated, ref }: Props) => {
    };
 
    return (
-      <div
-         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-         data-testid="catalog-entries-grid"
-      >
-         {entries.map((e, i) => item(e, i))}
+      <div className="space-y-4" data-testid="catalog-entries-list">
+         {map(entries, (e, i) => item(e, i))}
       </div>
    );
 };

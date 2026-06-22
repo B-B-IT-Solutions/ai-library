@@ -32,7 +32,7 @@ describe("CatalogEntryFilters rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogEntryFilters categories={categories} totalElements={21} />,
+         <CatalogEntryFilters categories={categories} />,
          "/explore"
       );
 
@@ -48,7 +48,7 @@ describe("CatalogEntryFilters rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogEntryFilters categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} />,
          "/explore",
          "f_search=test"
       );
@@ -65,7 +65,7 @@ describe("CatalogEntryFilters rendering tests", () => {
       const categories = dtestData.dCatalogEntryCategories(3);
 
       const { container } = renderWithRouter(
-         <CatalogEntryFilters categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} />,
          "/explore",
          "f_categories=category-1"
       );
@@ -90,7 +90,7 @@ describe("CatalogEntryFilters interaction tests", () => {
       const onUrlUpdateFn = jest.fn();
 
       renderWithRouter(
-         <CatalogEntryFilters categories={categories} totalElements={20} />,
+         <CatalogEntryFilters categories={categories} />,
          "/explore",
          "f_search=test&f_categories=category-1",
          onUrlUpdateFn
@@ -127,11 +127,7 @@ describe("CatalogEntryFilters interaction tests", () => {
       const onSelectFn = jest.fn();
 
       renderWithRouter(
-         <CatalogEntryFilters
-            categories={categories}
-            totalElements={10}
-            onSelect={onSelectFn}
-         />,
+         <CatalogEntryFilters categories={categories} onSelect={onSelectFn} />,
          "/explore"
       );
 

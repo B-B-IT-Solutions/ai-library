@@ -38,11 +38,6 @@ exports[`CatalogSidebar rendering tests render - test 1`] = `
               data-testid="category-all"
             >
               Alle
-              <span
-                class="ml-auto text-xs text-slate-400"
-              >
-                21
-              </span>
             </button>
             <button
               class="flex w-full items-center rounded-lg px-2 py-1.5 text-left text-sm transition-colors text-slate-600 hover:bg-slate-50"

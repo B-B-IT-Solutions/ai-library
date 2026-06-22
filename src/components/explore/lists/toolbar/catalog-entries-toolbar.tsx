@@ -13,22 +13,17 @@ import {
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DCatalogEntryCategory } from "@/data/types/domain/catalog";
 import { DListViewMode } from "@/data/types/domain/common";
-import { CatalogEntryFilters } from "./filters/catalog-entry-filters";
 
 import { SearchFilter } from "./filters";
+import { CatalogEntryFilters } from "./filters/catalog-entry-filters";
 import { CatalogSortBySelect } from "./sort-by";
 
 type Props = {
    viewMode: DListViewMode;
    categories: DCatalogEntryCategory[];
-   totalElements: number;
 };
 
-export const CatalogEntriesToolbar = ({
-   viewMode,
-   categories,
-   totalElements,
-}: Props) => {
+export const CatalogEntriesToolbar = ({ viewMode, categories }: Props) => {
    const [sheetOpen, setSheetOpen] = useState(false);
 
    const filterSheet = () => {
@@ -48,7 +43,6 @@ export const CatalogEntriesToolbar = ({
                <SheetTitle className="sr-only">Filter</SheetTitle>
                <CatalogEntryFilters
                   categories={categories}
-                  totalElements={totalElements}
                   onSelect={() => setSheetOpen(false)}
                />
             </SheetContent>
