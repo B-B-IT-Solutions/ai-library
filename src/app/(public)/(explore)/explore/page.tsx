@@ -28,10 +28,10 @@ export const ExplorePage = async ({ searchParams }: PageProps) => {
       >
          <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-               KI Prompt-Vorlagen entdecken
+               KI Prompts entdecken
             </h1>
             <p className="mt-3 text-base text-slate-500 sm:text-lg">
-               Kuratierte Vorlagen mit strukturierten Feldern – für jeden
+               Kuratierte Prompts mit strukturierten Feldern – für jeden
                Anwendungsfall.
                <br className="hidden sm:block" />
                Übernimm sie in deine Library und passe sie nach Bedarf an.

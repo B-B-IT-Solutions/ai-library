@@ -5,6 +5,8 @@ import { Button } from "@/components/shadcn/button";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 import { APP_NAME } from "@/lib/constants";
 
+import { MobileNav } from "./mobile-nav";
+
 export type Props = {
    children: ReactNode;
 };
@@ -26,15 +28,25 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
          );
       }
       return (
-         <div className="flex items-center gap-3">
-            <Button variant="outline" asChild={true}>
+         <div className="flex items-center gap-2 sm:gap-3">
+            <Button
+               variant="outline"
+               size="sm"
+               className="sm:h-9 sm:px-4 sm:text-sm"
+               asChild={true}
+            >
                <Link href="/auth/sign-in" data-testid="sign-in-link">
                   Anmelden
                </Link>
             </Button>
-            <Button asChild={true}>
+            <Button
+               size="sm"
+               className="sm:h-9 sm:px-4 sm:text-sm"
+               asChild={true}
+            >
                <Link href="/auth/sign-up" data-testid="sign-up-link">
-                  Kostenlos starten
+                  <span className="sm:hidden">Starten</span>
+                  <span className="hidden sm:inline">Kostenlos starten</span>
                </Link>
             </Button>
          </div>
@@ -47,12 +59,15 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
          data-testid="public-layout-wrapper"
       >
          <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-            <div className="max-w-9xl container mx-auto flex items-center justify-between px-4 py-4 sm:px-6">
-               <div className="flex items-center gap-8">
-                  <Link href="/" className="text-xl font-bold">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+               <div className="flex items-center gap-6 sm:gap-8">
+                  <Link
+                     href="/"
+                     className="text-lg font-bold whitespace-nowrap sm:text-xl"
+                  >
                      {APP_NAME}
                   </Link>
-                  <nav className="hidden items-center gap-6 md:flex">
+                  <nav className="hidden items-center gap-6 sm:flex">
                      <Link
                         href="/explore"
                         className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -67,38 +82,39 @@ export const PublicLayoutWrapper = async ({ children }: Props) => {
                      </Link>
                   </nav>
                </div>
-               {loginBtns()}
+               <div className="flex items-center gap-2 sm:gap-3">
+                  {loginBtns()}
+                  <MobileNav />
+               </div>
             </div>
          </header>
 
          <main className="flex-1">{children}</main>
 
          <footer className="border-t bg-muted/40 py-6">
-            <div className="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6">
-               <p className="text-center text-sm text-muted-foreground">
+            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+               <p className="text-sm text-muted-foreground">
                   © {new Date().getFullYear()} {APP_NAME}
                </p>
-               <nav className="hidden items-center gap-6 md:flex">
-                  <div className="flex flex-col gap-2">
-                     <Link
-                        href="http://www.vision-notes.com/legal/agb"
-                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                     >
-                        AGB
-                     </Link>
-                     <Link
-                        href="http://www.vision-notes.com/legal/privacypolicy"
-                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                     >
-                        Datenschutz
-                     </Link>
-                     <Link
-                        href="http://www.vision-notes.com/legal/cookies"
-                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                     >
-                        Cookies
-                     </Link>
-                  </div>
+               <nav className="flex flex-wrap gap-x-6 gap-y-2">
+                  <Link
+                     href="http://www.vision-notes.com/legal/agb"
+                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                     AGB
+                  </Link>
+                  <Link
+                     href="http://www.vision-notes.com/legal/privacypolicy"
+                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                     Datenschutz
+                  </Link>
+                  <Link
+                     href="http://www.vision-notes.com/legal/cookies"
+                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                     Cookies
+                  </Link>
                </nav>
             </div>
          </footer>

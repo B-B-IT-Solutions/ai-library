@@ -10,20 +10,20 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
       class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
       <div
-        class="max-w-9xl container mx-auto flex items-center justify-between px-4 py-4 sm:px-6"
+        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
       >
         <div
-          class="flex items-center gap-8"
+          class="flex items-center gap-4 sm:gap-8"
         >
           <a
-            class="text-xl font-bold"
+            class="text-lg font-bold sm:text-xl"
             data-testid="mock-link"
             href="/"
           >
             Vision Notes
           </a>
           <nav
-            class="hidden items-center gap-6 md:flex"
+            class="hidden items-center gap-6 sm:flex"
           >
             <a
               class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -32,13 +32,20 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
             >
               Entdecken
             </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/pricing"
+            >
+              Preise
+            </a>
           </nav>
         </div>
         <div
-          class="flex items-center gap-3"
+          class="flex items-center gap-2 sm:gap-3"
         >
           <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 sm:h-9 sm:px-4 sm:text-sm"
             data-slot="button"
             data-testid="sign-in-link"
             href="/auth/sign-in"
@@ -46,7 +53,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
             Anmelden
           </a>
           <a
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 sm:h-9 sm:px-4 sm:text-sm"
             data-slot="button"
             data-testid="sign-up-link"
             href="/auth/sign-up"
@@ -67,10 +74,10 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
       class="border-t bg-muted/40 py-6"
     >
       <div
-        class="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6"
+        class="mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
       >
         <p
-          class="text-center text-sm text-muted-foreground"
+          class="text-sm text-muted-foreground"
         >
           © 
           2026
@@ -78,33 +85,29 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
           Vision Notes
         </p>
         <nav
-          class="hidden items-center gap-6 md:flex"
+          class="flex flex-wrap gap-x-6 gap-y-2"
         >
-          <div
-            class="flex flex-col gap-2"
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/agb"
           >
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/agb"
-            >
-              AGB
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/privacypolicy"
-            >
-              Datenschutz
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/cookies"
-            >
-              Cookies
-            </a>
-          </div>
+            AGB
+          </a>
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/privacypolicy"
+          >
+            Datenschutz
+          </a>
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/cookies"
+          >
+            Cookies
+          </a>
         </nav>
       </div>
     </footer>
@@ -122,20 +125,20 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
       class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
       <div
-        class="max-w-9xl container mx-auto flex items-center justify-between px-4 py-4 sm:px-6"
+        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
       >
         <div
-          class="flex items-center gap-8"
+          class="flex items-center gap-4 sm:gap-8"
         >
           <a
-            class="text-xl font-bold"
+            class="text-lg font-bold sm:text-xl"
             data-testid="mock-link"
             href="/"
           >
             Vision Notes
           </a>
           <nav
-            class="hidden items-center gap-6 md:flex"
+            class="hidden items-center gap-6 sm:flex"
           >
             <a
               class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -143,6 +146,13 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
               href="/explore"
             >
               Entdecken
+            </a>
+            <a
+              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="http://www.vision-notes.com/pricing"
+            >
+              Preise
             </a>
           </nav>
         </div>
@@ -167,10 +177,10 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
       class="border-t bg-muted/40 py-6"
     >
       <div
-        class="container mx-auto flex max-w-7xl justify-between px-4 sm:px-6"
+        class="mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
       >
         <p
-          class="text-center text-sm text-muted-foreground"
+          class="text-sm text-muted-foreground"
         >
           © 
           2026
@@ -178,33 +188,29 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
           Vision Notes
         </p>
         <nav
-          class="hidden items-center gap-6 md:flex"
+          class="flex flex-wrap gap-x-6 gap-y-2"
         >
-          <div
-            class="flex flex-col gap-2"
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/agb"
           >
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/agb"
-            >
-              AGB
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/privacypolicy"
-            >
-              Datenschutz
-            </a>
-            <a
-              class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              data-testid="mock-link"
-              href="http://www.vision-notes.com/legal/cookies"
-            >
-              Cookies
-            </a>
-          </div>
+            AGB
+          </a>
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/privacypolicy"
+          >
+            Datenschutz
+          </a>
+          <a
+            class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            data-testid="mock-link"
+            href="http://www.vision-notes.com/legal/cookies"
+          >
+            Cookies
+          </a>
         </nav>
       </div>
     </footer>
