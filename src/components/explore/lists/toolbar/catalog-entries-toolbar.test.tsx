@@ -43,8 +43,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
          <CatalogEntriesToolbar
             viewMode={DListViewMode.GRID}
             categories={categories}
-            totalElements={12}
-         />,
+                     />,
          "/explore"
       );
 
@@ -62,8 +61,7 @@ describe("CatalogEntriesToolbar rendering tests", () => {
          <CatalogEntriesToolbar
             viewMode={DListViewMode.LIST}
             categories={categories}
-            totalElements={12}
-         />,
+                     />,
          "/explore"
       );
 
@@ -87,8 +85,7 @@ describe("CatalogEntriesToolbar mobile funtionality tests", () => {
          <CatalogEntriesToolbar
             viewMode={DListViewMode.GRID}
             categories={categories}
-            totalElements={12}
-         />,
+                     />,
          "/explore"
       );
 
