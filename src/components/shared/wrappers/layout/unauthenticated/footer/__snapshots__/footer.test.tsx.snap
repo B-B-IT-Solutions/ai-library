@@ -3,7 +3,7 @@
 exports[`Footer rendering tests rendered - test 1`] = `
 <div>
   <footer
-    class="border-t bg-muted/40 py-10"
+    class="border-t bg-muted/50 py-10"
     data-testid="footer"
   >
     <div
