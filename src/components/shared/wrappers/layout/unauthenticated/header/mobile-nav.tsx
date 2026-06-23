@@ -22,6 +22,10 @@ export const MobileNav = ({ authenticated }: Props) => {
 
    const landingPageUrl = getLandingPageUrl();
 
+   const handleClick = () => {
+      setOpen(false);
+   };
+
    return (
       <div className="flex justify-end" data-testid="mobile-nav">
          <Sheet open={open} onOpenChange={setOpen}>
@@ -47,7 +51,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                >
                   <Link
                      href="/explore"
-                     onClick={() => setOpen(false)}
+                     onClick={handleClick}
                      className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="explore-nav-item"
                   >
@@ -55,7 +59,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   </Link>
                   <Link
                      href={`${landingPageUrl}/pricing`}
-                     onClick={() => setOpen(false)}
+                     onClick={handleClick}
                      className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="pricing-nav-item"
                   >
@@ -63,7 +67,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                   </Link>
                   <Link
                      href={`${landingPageUrl}/blog`}
-                     onClick={() => setOpen(false)}
+                     onClick={handleClick}
                      className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="blog-nav-item"
                   >
@@ -72,11 +76,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                </nav>
                <div className="mt-auto px-4 py-6">
                   {authenticated ? (
-                     <Button
-                        asChild
-                        className="w-full"
-                        onClick={() => setOpen(false)}
-                     >
+                     <Button asChild className="w-full" onClick={handleClick}>
                         <Link href="/">Zur Bibliothek</Link>
                      </Button>
                   ) : (
@@ -84,7 +84,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                         <Button
                            asChild
                            className="w-full"
-                           onClick={() => setOpen(false)}
+                           onClick={handleClick}
                         >
                            <Link
                               href="/auth/sign-up"
@@ -97,7 +97,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                            asChild
                            variant="outline"
                            className="w-full"
-                           onClick={() => setOpen(false)}
+                           onClick={handleClick}
                         >
                            <Link
                               href="/auth/sign-in"

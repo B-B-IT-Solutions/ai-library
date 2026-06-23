@@ -37,9 +37,6 @@ export const INIT_PAGE_NUMBER = 0;
 export const PAGE_SIZE = 10;
 
 export const getLandingPageUrl = (): string => {
-   if (!LANDING_PAGE_URL) {
-      throw new Error("LANDING_PAGE_URL is not set in environment variables");
-   }
    return LANDING_PAGE_URL;
 };
 
