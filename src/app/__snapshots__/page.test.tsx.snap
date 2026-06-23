@@ -6,7 +6,7 @@ exports[`RootPage rendering tests render - test 1`] = `
     data-testid="public-layout-wrapper"
   >
     <div
-      class="min-h-[calc(100vh-3.5rem)] w-full bg-linear-to-br from-background via-background to-primary/5"
+      class="min-h-[calc(100vh-3.5rem)] w-full"
       data-testid="public-page"
     >
       <div

@@ -139,7 +139,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
       />
     </main>
     <footer
-      class="border-t bg-muted/40 py-10"
+      class="border-t bg-muted/50 py-10"
       data-testid="footer"
     >
       <div
@@ -387,7 +387,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
       />
     </main>
     <footer
-      class="border-t bg-muted/40 py-10"
+      class="border-t bg-muted/50 py-10"
       data-testid="footer"
     >
       <div
