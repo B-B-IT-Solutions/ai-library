@@ -17,10 +17,12 @@ const assertRendered = () => {
    const wrapper = screen.getByTestId("public-layout-wrapper");
    const header = screen.getByTestId("header");
    const test1 = screen.getByTestId("test-1");
+   const footer = screen.getByTestId("footer");
 
    assertInDocument(wrapper);
    assertInDocument(header);
    assertInDocument(test1);
+   assertInDocument(footer);
 };
 
 describe("PublicLayoutWrapper rendering tests", () => {

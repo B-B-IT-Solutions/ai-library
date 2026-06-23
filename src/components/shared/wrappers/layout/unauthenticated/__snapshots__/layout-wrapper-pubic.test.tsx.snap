@@ -140,6 +140,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
     </main>
     <footer
       class="border-t bg-muted/40 py-10"
+      data-testid="footer"
     >
       <div
         class="mx-auto max-w-7xl px-4 sm:px-6"
@@ -152,7 +153,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
           >
             <a
               class="text-lg whitespace-nowrap sm:text-xl"
-              data-testid="mock-link"
+              data-testid="app-link"
               href="/"
             >
               Vision Notes
@@ -168,6 +169,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
           >
             <div
               class="flex flex-col gap-4"
+              data-testid="company-links"
             >
               <p
                 class="text-muted-foreground"
@@ -179,8 +181,8 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
               >
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
-                  href="http://www.vision-notes.com/blog"
+                  data-testid="blog-link"
+                  href="https://www.vision-notes.com/blog"
                 >
                   Blog
                 </a>
@@ -188,6 +190,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
             </div>
             <div
               class="flex flex-col gap-4"
+              data-testid="legal-links"
             >
               <p
                 class="text-muted-foreground"
@@ -199,29 +202,29 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
               >
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="agb-link"
                   href="http://www.vision-notes.com/legal/agb"
                 >
                   AGB
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="privacypolicy-link"
                   href="http://www.vision-notes.com/legal/privacypolicy"
                 >
                   Datenschutz
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="cookies-link"
                   href="http://www.vision-notes.com/legal/cookies"
                 >
                   Cookies
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
-                  href="http://www.vision-notes.com/legal/impressum"
+                  data-testid="impressum-link"
+                  href="https://www.vision-notes.com/legal/impressum"
                 >
                   Impressum
                 </a>
@@ -379,6 +382,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
     </main>
     <footer
       class="border-t bg-muted/40 py-10"
+      data-testid="footer"
     >
       <div
         class="mx-auto max-w-7xl px-4 sm:px-6"
@@ -391,7 +395,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
           >
             <a
               class="text-lg whitespace-nowrap sm:text-xl"
-              data-testid="mock-link"
+              data-testid="app-link"
               href="/"
             >
               Vision Notes
@@ -407,6 +411,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
           >
             <div
               class="flex flex-col gap-4"
+              data-testid="company-links"
             >
               <p
                 class="text-muted-foreground"
@@ -418,8 +423,8 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
               >
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
-                  href="http://www.vision-notes.com/blog"
+                  data-testid="blog-link"
+                  href="https://www.vision-notes.com/blog"
                 >
                   Blog
                 </a>
@@ -427,6 +432,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
             </div>
             <div
               class="flex flex-col gap-4"
+              data-testid="legal-links"
             >
               <p
                 class="text-muted-foreground"
@@ -438,29 +444,29 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
               >
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="agb-link"
                   href="http://www.vision-notes.com/legal/agb"
                 >
                   AGB
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="privacypolicy-link"
                   href="http://www.vision-notes.com/legal/privacypolicy"
                 >
                   Datenschutz
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
+                  data-testid="cookies-link"
                   href="http://www.vision-notes.com/legal/cookies"
                 >
                   Cookies
                 </a>
                 <a
                   class="hover:underline"
-                  data-testid="mock-link"
-                  href="http://www.vision-notes.com/legal/impressum"
+                  data-testid="impressum-link"
+                  href="https://www.vision-notes.com/legal/impressum"
                 >
                   Impressum
                 </a>
