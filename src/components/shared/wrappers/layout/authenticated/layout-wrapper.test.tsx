@@ -22,10 +22,7 @@ import { cookies } from "next/headers";
 import { requireUser } from "@/data/actions/auth-utils";
 import { getTrialStatus } from "@/data/actions/subscription";
 
-import {
-   AuthenticatedLayoutWrapper,
-   Props,
-} from "./layout-wrapper-authenticated";
+import { AuthenticatedLayoutWrapper, Props } from "./layout-wrapper";
 
 const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;

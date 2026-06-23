@@ -39,6 +39,37 @@ describe("constants - static values - tests", () => {
    });
 });
 
+describe("getLandingPageUrl - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getLandingPageUrl - env set - returns env value - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            LANDING_PAGE_URL: "https://lanindg-page.com",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getLandingPageUrl } = require("./constants");
+
+         expect(getLandingPageUrl()).toBe("https://lanindg-page.com");
+      });
+   });
+
+   it("getLandingPageUrl - env not set - returns default fallback - test", () => {
+      jest.isolateModules(() => {
+         process.env = { ...originalEnv, LANDING_PAGE_URL: undefined };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getLandingPageUrl } = require("./constants");
+
+         expect(getLandingPageUrl()).toBe("https://www.vision-notes.com");
+      });
+   });
+});
+
 describe("getAppUrl - tests", () => {
    const originalEnv = process.env;
 

@@ -7,7 +7,7 @@ import mockRouter from "next-router-mock";
 
 import { isAuthenticated } from "@/data/actions/auth-utils";
 
-import { Props, PublicLayoutWrapper } from "./layout-wrapper-pulbic";
+import { Props, PublicLayoutWrapper } from "./layout-wrapper";
 
 const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
    typeof isAuthenticated
@@ -15,10 +15,14 @@ const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
 
 const assertRendered = () => {
    const wrapper = screen.getByTestId("public-layout-wrapper");
+   const header = screen.getByTestId("header");
    const test1 = screen.getByTestId("test-1");
+   const footer = screen.getByTestId("footer");
 
    assertInDocument(wrapper);
+   assertInDocument(header);
    assertInDocument(test1);
+   assertInDocument(footer);
 };
 
 describe("PublicLayoutWrapper rendering tests", () => {

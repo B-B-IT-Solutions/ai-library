@@ -12,12 +12,12 @@ exports[`ExplorePage rendering tests page rendered - test 1`] = `
       <h1
         class="text-3xl font-bold text-slate-900 sm:text-4xl"
       >
-        KI Prompt-Vorlagen entdecken
+        KI Prompts entdecken
       </h1>
       <p
         class="mt-3 text-base text-slate-500 sm:text-lg"
       >
-        Kuratierte Vorlagen mit strukturierten Feldern – für jeden Anwendungsfall.
+        Kuratierte Prompts mit strukturierten Feldern – für jeden Anwendungsfall.
         <br
           class="hidden sm:block"
         />

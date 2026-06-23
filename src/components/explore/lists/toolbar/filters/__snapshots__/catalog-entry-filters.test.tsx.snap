@@ -14,7 +14,7 @@ exports[`CatalogEntryFilters rendering tests categories filter - test 1`] = `
         Filter
       </span>
       <button
-        class="text-xs text-slate-400 transition-colors hover:text-slate-600"
+        class="text-xs font-medium text-primary transition-colors hover:text-primary/70"
         data-testid="reset-filters-btn"
       >
         Zurücksetzen
@@ -105,7 +105,7 @@ exports[`CatalogEntryFilters rendering tests search filter - test 1`] = `
         Filter
       </span>
       <button
-        class="text-xs text-slate-400 transition-colors hover:text-slate-600"
+        class="text-xs font-medium text-primary transition-colors hover:text-primary/70"
         data-testid="reset-filters-btn"
       >
         Zurücksetzen

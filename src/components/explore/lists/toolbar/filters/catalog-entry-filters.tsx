@@ -39,7 +39,7 @@ export const CatalogEntryFilters = ({ categories, onSelect }: Props) => {
             {hasActiveFilters && (
                <button
                   onClick={handleReset}
-                  className="text-xs text-slate-400 transition-colors hover:text-slate-600"
+                  className="text-xs font-medium text-primary transition-colors hover:text-primary/70"
                   data-testid="reset-filters-btn"
                >
                   Zurücksetzen

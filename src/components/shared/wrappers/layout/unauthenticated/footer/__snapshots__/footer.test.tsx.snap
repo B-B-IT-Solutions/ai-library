@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Footer rendering tests rendered - test 1`] = `
+<div>
+  <footer
+    class="border-t bg-muted/40 py-10"
+    data-testid="footer"
+  >
+    <div
+      class="mx-auto max-w-7xl px-4 sm:px-6"
+    >
+      <div
+        class="flex flex-col gap-16 sm:flex-row"
+      >
+        <div
+          class="flex max-w-3xl flex-1 flex-col gap-5"
+        >
+          <a
+            class="text-lg whitespace-nowrap sm:text-xl"
+            data-testid="app-link"
+            href="/"
+          >
+            Vision Notes
+          </a>
+          <p
+            class="text-muted-foreground"
+          >
+            Große Prompt-Bibliothek. Individuelle Anpassung. Leichte Erstellung. Vision Notes revolutioniert deinen gesamten Prompt-Workflow.
+          </p>
+        </div>
+        <div
+          class="flex gap-16"
+        >
+          <div
+            class="flex flex-col gap-4"
+            data-testid="company-links"
+          >
+            <p
+              class="text-muted-foreground"
+            >
+              Unternehmen
+            </p>
+            <nav
+              class="flex flex-col gap-3"
+            >
+              <a
+                class="hover:underline"
+                data-testid="blog-link"
+                href="https://www.vision-notes.com/blog"
+              >
+                Blog
+              </a>
+            </nav>
+          </div>
+          <div
+            class="flex flex-col gap-4"
+            data-testid="legal-links"
+          >
+            <p
+              class="text-muted-foreground"
+            >
+              Rechtliches
+            </p>
+            <nav
+              class="flex flex-col gap-3"
+            >
+              <a
+                class="hover:underline"
+                data-testid="agb-link"
+                href="https://www.iubenda.com/terms-and-conditions/97062585"
+                rel="noopener noreferrer nofollow"
+                target="_blank"
+              >
+                AGB
+              </a>
+              <a
+                class="hover:underline"
+                data-testid="privacypolicy-link"
+                href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                rel="noopener noreferrer nofollow"
+                target="_blank"
+              >
+                Datenschutz
+              </a>
+              <a
+                class="hover:underline"
+                data-testid="cookies-link"
+                href="https://www.iubenda.com/privacy-policy/97062585/cookie-policy"
+                rel="noopener noreferrer nofollow"
+                target="_blank"
+              >
+                Cookies
+              </a>
+              <a
+                class="hover:underline"
+                data-testid="impressum-link"
+                href="https://www.vision-notes.com/legal/impressum"
+              >
+                Impressum
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-10"
+      >
+        <p
+          class="text-sm text-muted-foreground"
+        >
+          © 
+          2026
+           
+          Vision Notes
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>
+`;
