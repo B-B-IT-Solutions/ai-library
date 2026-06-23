@@ -31,6 +31,21 @@ const assertRendered = () => {
       "https://www.vision-notes.com/blog"
    );
    assertHasAttributeWithValue(
+      agbLink,
+      "href",
+      "https://www.iubenda.com/terms-and-conditions/97062585"
+   );
+   assertHasAttributeWithValue(
+      privacyPolicyLink,
+      "href",
+      "https://www.iubenda.com/privacy-policy/97062585/full-legal"
+   );
+   assertHasAttributeWithValue(
+      cookiesLink,
+      "href",
+      "https://www.iubenda.com/privacy-policy/97062585/cookie-policy"
+   );
+   assertHasAttributeWithValue(
       impressumLink,
       "href",
       "https://www.vision-notes.com/legal/impressum"

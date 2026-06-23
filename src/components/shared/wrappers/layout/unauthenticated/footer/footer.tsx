@@ -3,7 +3,7 @@ import Link from "next/link";
 import { APP_NAME, getLandingPageUrl } from "@/lib/constants";
 
 export const Footer = () => {
-   const LANDING_PAGE_URL = getLandingPageUrl();
+   const landingPageUrl = getLandingPageUrl();
 
    return (
       <footer className="border-t bg-muted/40 py-10" data-testid="footer">
@@ -31,7 +31,7 @@ export const Footer = () => {
                      <p className="text-muted-foreground">Unternehmen</p>
                      <nav className="flex flex-col gap-3">
                         <Link
-                           href={`${LANDING_PAGE_URL}/blog`}
+                           href={`${landingPageUrl}/blog`}
                            className="hover:underline"
                            data-testid="blog-link"
                         >
@@ -46,28 +46,34 @@ export const Footer = () => {
                      <p className="text-muted-foreground">Rechtliches</p>
                      <nav className="flex flex-col gap-3">
                         <Link
-                           href="http://www.vision-notes.com/legal/agb"
+                           href="https://www.iubenda.com/terms-and-conditions/97062585"
+                           target="_blank"
+                           rel="noopener noreferrer nofollow"
                            className="hover:underline"
                            data-testid="agb-link"
                         >
                            AGB
                         </Link>
                         <Link
-                           href="http://www.vision-notes.com/legal/privacypolicy"
+                           href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                           target="_blank"
+                           rel="noopener noreferrer nofollow"
                            className="hover:underline"
                            data-testid="privacypolicy-link"
                         >
                            Datenschutz
                         </Link>
                         <Link
-                           href="http://www.vision-notes.com/legal/cookies"
+                           href="https://www.iubenda.com/privacy-policy/97062585/cookie-policy"
+                           target="_blank"
+                           rel="noopener noreferrer nofollow"
                            className="hover:underline"
                            data-testid="cookies-link"
                         >
                            Cookies
                         </Link>
                         <Link
-                           href={`${LANDING_PAGE_URL}/legal/impressum`}
+                           href={`${landingPageUrl}/legal/impressum`}
                            className="hover:underline"
                            data-testid="impressum-link"
                         >

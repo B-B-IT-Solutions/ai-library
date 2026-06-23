@@ -203,21 +203,27 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
                 <a
                   class="hover:underline"
                   data-testid="agb-link"
-                  href="http://www.vision-notes.com/legal/agb"
+                  href="https://www.iubenda.com/terms-and-conditions/97062585"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   AGB
                 </a>
                 <a
                   class="hover:underline"
                   data-testid="privacypolicy-link"
-                  href="http://www.vision-notes.com/legal/privacypolicy"
+                  href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   Datenschutz
                 </a>
                 <a
                   class="hover:underline"
                   data-testid="cookies-link"
-                  href="http://www.vision-notes.com/legal/cookies"
+                  href="https://www.iubenda.com/privacy-policy/97062585/cookie-policy"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   Cookies
                 </a>
@@ -445,21 +451,27 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
                 <a
                   class="hover:underline"
                   data-testid="agb-link"
-                  href="http://www.vision-notes.com/legal/agb"
+                  href="https://www.iubenda.com/terms-and-conditions/97062585"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   AGB
                 </a>
                 <a
                   class="hover:underline"
                   data-testid="privacypolicy-link"
-                  href="http://www.vision-notes.com/legal/privacypolicy"
+                  href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   Datenschutz
                 </a>
                 <a
                   class="hover:underline"
                   data-testid="cookies-link"
-                  href="http://www.vision-notes.com/legal/cookies"
+                  href="https://www.iubenda.com/privacy-policy/97062585/cookie-policy"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
                 >
                   Cookies
                 </a>
