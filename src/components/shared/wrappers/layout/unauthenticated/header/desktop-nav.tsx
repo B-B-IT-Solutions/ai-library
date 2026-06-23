@@ -1,12 +1,15 @@
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
+import { getLandingPageUrl } from "@/lib/constants";
 
 type Props = {
    authenticated: boolean;
 };
 
 export const DesktopNav = ({ authenticated }: Props) => {
+   const landingPageUrl = getLandingPageUrl();
+
    return (
       <div
          className="hidden items-center justify-between gap-6 sm:flex"
@@ -21,14 +24,14 @@ export const DesktopNav = ({ authenticated }: Props) => {
                Entdecken
             </Link>
             <Link
-               href="http://www.vision-notes.com/pricing"
+               href={`${landingPageUrl}/pricing`}
                className="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
                data-testid="pricing-nav-item"
             >
                Preise
             </Link>
             <Link
-               href="http://www.vision-notes.com/blog"
+               href={`${landingPageUrl}/blog`}
                className="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
                data-testid="blog-nav-item"
             >

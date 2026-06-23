@@ -1,20 +1,32 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 
 import { DesktopNav } from "./desktop-nav";
 
 const assertRendered = () => {
    const desktopNav = screen.getByTestId("desktop-nav");
    const navigation = screen.getByTestId("navigation");
-   const explore = screen.getByTestId("explore-nav-item");
-   const pricing = screen.getByTestId("pricing-nav-item");
-   const blog = screen.getByTestId("blog-nav-item");
+   const exploreLink = screen.getByTestId("explore-nav-item");
+   const pricingLink = screen.getByTestId("pricing-nav-item");
+   const blogLink = screen.getByTestId("blog-nav-item");
 
    assertInDocument(desktopNav);
    assertInDocument(navigation);
-   assertInDocument(explore);
-   assertInDocument(pricing);
-   assertInDocument(blog);
+   assertInDocument(exploreLink);
+   assertInDocument(pricingLink);
+   assertInDocument(blogLink);
+
+   assertHasAttributeWithValue(exploreLink, "href", "/explore");
+   assertHasAttributeWithValue(
+      pricingLink,
+      "href",
+      "https://www.vision-notes.com/pricing"
+   );
+   assertHasAttributeWithValue(
+      blogLink,
+      "href",
+      "https://www.vision-notes.com/blog"
+   );
 };
 
 const assertLoginBtnsRendered = () => {

@@ -1,6 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   assertNotInDocument,
+} from "@tests";
 
 import { MobileNav } from "./mobile-nav";
 
@@ -14,14 +18,26 @@ const assertRendered = () => {
 
 const assertNavigationRendered = () => {
    const navigation = screen.getByTestId("navigation");
-   const explore = screen.getByTestId("explore-nav-item");
-   const pricing = screen.getByTestId("pricing-nav-item");
-   const blog = screen.getByTestId("blog-nav-item");
+   const exploreLink = screen.getByTestId("explore-nav-item");
+   const pricingLink = screen.getByTestId("pricing-nav-item");
+   const blogLink = screen.getByTestId("blog-nav-item");
 
    assertInDocument(navigation);
-   assertInDocument(explore);
-   assertInDocument(pricing);
-   assertInDocument(blog);
+   assertInDocument(exploreLink);
+   assertInDocument(pricingLink);
+   assertInDocument(blogLink);
+
+   assertHasAttributeWithValue(exploreLink, "href", "/explore");
+   assertHasAttributeWithValue(
+      pricingLink,
+      "href",
+      "https://www.vision-notes.com/pricing"
+   );
+   assertHasAttributeWithValue(
+      blogLink,
+      "href",
+      "https://www.vision-notes.com/blog"
+   );
 };
 
 const assertNavigationNotRendered = () => {

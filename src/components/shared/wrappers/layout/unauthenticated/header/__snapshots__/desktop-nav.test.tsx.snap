@@ -20,14 +20,14 @@ exports[`DesktopNav rendering tests authenticated false - test 1`] = `
       <a
         class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="pricing-nav-item"
-        href="http://www.vision-notes.com/pricing"
+        href="https://www.vision-notes.com/pricing"
       >
         Preise
       </a>
       <a
         class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="blog-nav-item"
-        href="http://www.vision-notes.com/blog"
+        href="https://www.vision-notes.com/blog"
       >
         Blog
       </a>
@@ -76,14 +76,14 @@ exports[`DesktopNav rendering tests authenticated true - test 1`] = `
       <a
         class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="pricing-nav-item"
-        href="http://www.vision-notes.com/pricing"
+        href="https://www.vision-notes.com/pricing"
       >
         Preise
       </a>
       <a
         class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
         data-testid="blog-nav-item"
-        href="http://www.vision-notes.com/blog"
+        href="https://www.vision-notes.com/blog"
       >
         Blog
       </a>

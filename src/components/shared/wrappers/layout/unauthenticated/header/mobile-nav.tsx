@@ -11,6 +11,7 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@/components/shadcn/sheet";
+import { getLandingPageUrl } from "@/lib/constants";
 
 type Props = {
    authenticated: boolean;
@@ -18,6 +19,8 @@ type Props = {
 
 export const MobileNav = ({ authenticated }: Props) => {
    const [open, setOpen] = useState(false);
+
+   const landingPageUrl = getLandingPageUrl();
 
    return (
       <div className="flex justify-end" data-testid="mobile-nav">
@@ -51,7 +54,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                      Entdecken
                   </Link>
                   <Link
-                     href="http://www.vision-notes.com/pricing"
+                     href={`${landingPageUrl}/pricing`}
                      onClick={() => setOpen(false)}
                      className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="pricing-nav-item"
@@ -59,7 +62,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                      Preise
                   </Link>
                   <Link
-                     href="http://www.vision-notes.com/blog"
+                     href={`${landingPageUrl}/blog`}
                      onClick={() => setOpen(false)}
                      className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
                      data-testid="blog-nav-item"
