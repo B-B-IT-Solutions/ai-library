@@ -1,1 +1,1 @@
-export { PublicLayoutWrapper } from "./layout-wrapper-pulbic";
+export { PublicLayoutWrapper } from "./layout-wrapper";

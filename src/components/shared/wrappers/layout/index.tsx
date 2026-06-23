@@ -1,2 +1,2 @@
-export { PublicLayoutWrapper } from "./unauthenticated/layout-wrapper-pulbic";
-export { AuthenticatedLayoutWrapper } from "./authenticated/layout-wrapper-authenticated";
+export { PublicLayoutWrapper } from "./unauthenticated";
+export { AuthenticatedLayoutWrapper } from "./authenticated";

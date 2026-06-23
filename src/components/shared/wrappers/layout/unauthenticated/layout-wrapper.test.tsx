@@ -7,7 +7,7 @@ import mockRouter from "next-router-mock";
 
 import { isAuthenticated } from "@/data/actions/auth-utils";
 
-import { Props, PublicLayoutWrapper } from "./layout-wrapper-pulbic";
+import { Props, PublicLayoutWrapper } from "./layout-wrapper";
 
 const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
    typeof isAuthenticated
