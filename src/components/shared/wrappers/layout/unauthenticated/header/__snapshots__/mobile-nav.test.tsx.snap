@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MobileNav rendering tests authenticated false - test 1`] = `
+<div>
+  <div
+    class="flex justify-end"
+    data-testid="mobile-nav"
+  >
+    <div
+      data-slot="sheet"
+      data-testid="mock-react-dialog-root"
+    >
+      <button
+        aria-label="Menü öffnen"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 sm:hidden"
+        data-slot="button"
+        data-testid="mobile-nav-trigger"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-menu h-7 w-7"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 5h16"
+          />
+          <path
+            d="M4 12h16"
+          />
+          <path
+            d="M4 19h16"
+          />
+        </svg>
+      </button>
+      <div
+        data-slot="sheet-portal"
+        data-testid="mock-react-dialog-portal"
+      >
+        <div
+          class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+          data-slot="sheet-overlay"
+          data-testid="mock-react-dialog-overlay"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MobileNav rendering tests authenticated true - test 1`] = `
+<div>
+  <div
+    class="flex justify-end"
+    data-testid="mobile-nav"
+  >
+    <div
+      data-slot="sheet"
+      data-testid="mock-react-dialog-root"
+    >
+      <button
+        aria-label="Menü öffnen"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 sm:hidden"
+        data-slot="button"
+        data-testid="mobile-nav-trigger"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-menu h-7 w-7"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 5h16"
+          />
+          <path
+            d="M4 12h16"
+          />
+          <path
+            d="M4 19h16"
+          />
+        </svg>
+      </button>
+      <div
+        data-slot="sheet-portal"
+        data-testid="mock-react-dialog-portal"
+      >
+        <div
+          class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+          data-slot="sheet-overlay"
+          data-testid="mock-react-dialog-overlay"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

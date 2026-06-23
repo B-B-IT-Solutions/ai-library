@@ -15,13 +15,11 @@ const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
 
 const assertRendered = () => {
    const wrapper = screen.getByTestId("public-layout-wrapper");
-   const desktopNav = screen.getByTestId("desktop-nav");
-   const mobileNav = screen.getByTestId("mobile-nav");
+   const header = screen.getByTestId("header");
    const test1 = screen.getByTestId("test-1");
 
    assertInDocument(wrapper);
-   assertInDocument(desktopNav);
-   assertInDocument(mobileNav);
+   assertInDocument(header);
    assertInDocument(test1);
 };
 
