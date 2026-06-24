@@ -231,6 +231,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated false - test 1`] = 
                   class="hover:underline"
                   data-testid="impressum-link"
                   href="https://www.vision-notes.com/legal/impressum"
+                  rel="noopener noreferrer nofollow"
                 >
                   Impressum
                 </a>
@@ -479,6 +480,7 @@ exports[`PublicLayoutWrapper rendering tests isAuthenticated true - test 1`] = `
                   class="hover:underline"
                   data-testid="impressum-link"
                   href="https://www.vision-notes.com/legal/impressum"
+                  rel="noopener noreferrer nofollow"
                 >
                   Impressum
                 </a>

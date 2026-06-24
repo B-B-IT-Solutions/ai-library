@@ -10,7 +10,7 @@ const assertRendered = () => {
    const legalLinks = screen.getByTestId("legal-links");
    const blogLink = screen.getByTestId("blog-link");
    const agbLink = screen.getByTestId("agb-link");
-   const privacyPolicyLink = screen.getByTestId("privacypolicy-link");
+   const ppLink = screen.getByTestId("privacypolicy-link");
    const cookiesLink = screen.getByTestId("cookies-link");
    const impressumLink = screen.getByTestId("impressum-link");
 
@@ -20,7 +20,7 @@ const assertRendered = () => {
    assertInDocument(legalLinks);
    assertInDocument(blogLink);
    assertInDocument(agbLink);
-   assertInDocument(privacyPolicyLink);
+   assertInDocument(ppLink);
    assertInDocument(cookiesLink);
    assertInDocument(impressumLink);
 
@@ -36,7 +36,7 @@ const assertRendered = () => {
       "https://www.iubenda.com/terms-and-conditions/97062585"
    );
    assertHasAttributeWithValue(
-      privacyPolicyLink,
+      ppLink,
       "href",
       "https://www.iubenda.com/privacy-policy/97062585/full-legal"
    );
@@ -49,6 +49,18 @@ const assertRendered = () => {
       impressumLink,
       "href",
       "https://www.vision-notes.com/legal/impressum"
+   );
+   assertHasAttributeWithValue(agbLink, "rel", "noopener noreferrer nofollow");
+   assertHasAttributeWithValue(ppLink, "rel", "noopener noreferrer nofollow");
+   assertHasAttributeWithValue(
+      cookiesLink,
+      "rel",
+      "noopener noreferrer nofollow"
+   );
+   assertHasAttributeWithValue(
+      impressumLink,
+      "rel",
+      "noopener noreferrer nofollow"
    );
 };
 

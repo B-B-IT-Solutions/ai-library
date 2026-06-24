@@ -74,6 +74,7 @@ export const Footer = () => {
                         </Link>
                         <Link
                            href={`${landingPageUrl}/legal/impressum`}
+                           rel="noopener noreferrer nofollow"
                            className="hover:underline"
                            data-testid="impressum-link"
                         >
