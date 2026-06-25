@@ -6,12 +6,12 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PublicProductRepository } from "@/data/repositories/product";
 
-import { ProductPublicService } from "./product.public.service";
+import { PublicProductService } from "./product.public.service";
 
 const productRepo = new PublicProductRepository(prisma);
 const productRepoMock = productRepo as DeepMockProxy<PublicProductRepository>;
 
-const productService = new ProductPublicService(productRepoMock);
+const productService = new PublicProductService(productRepoMock);
 
 describe("getProductsSitemapData tests", () => {
    beforeEach(() => {

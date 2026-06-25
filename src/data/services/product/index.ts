@@ -1,1 +1,1 @@
-export { ProductPublicService } from "./product.public.service";
+export { PublicProductService } from "./product.public.service";
