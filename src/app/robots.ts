@@ -1,16 +1,29 @@
 import type { MetadataRoute } from "next";
 
-import { APP_URL } from "@/lib/constants";
+import { getAppUrl } from "@/lib/constants";
 
 export default function robots(): MetadataRoute.Robots {
    return {
       rules: [
          {
             userAgent: "*",
-            allow: ["/explore"],
-            disallow: ["/auth/*"],
+            disallow: [
+               "/auth/",
+               "/prompts/",
+               "/templates/",
+               "/collections/",
+               "/workflows/",
+               "/settings/",
+               "/subscription/",
+               "/cart",
+               "/checkout",
+               "/marketplace",
+               "/orders/",
+               "/products/",
+               "/api/",
+            ],
          },
       ],
-      sitemap: `${APP_URL}/sitemap.xml`,
+      sitemap: `${getAppUrl()}/sitemap.xml`,
    };
 }
