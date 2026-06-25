@@ -1,1 +1,1 @@
-export { getProducts, getProduct } from "./product.actions";
+export { getProducts, getProduct, getProductsForSitemap } from "./product.actions";

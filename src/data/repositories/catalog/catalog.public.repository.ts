@@ -7,6 +7,7 @@ import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntryCategory,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
@@ -97,6 +98,18 @@ export class PublicCatalogRepository {
          return toDCatalogEntryWithContent(entry);
       }
       return null;
+   }
+
+   async pGetPublishedEntriesSitemapData(): Promise<DCatalogEntrySitemapData[]> {
+      const entries = await this.prisma.catalogEntry.findMany({
+         where: { status: "PUBLISHED" },
+         select: { slug: true, updatedAt: true },
+         orderBy: { createdAt: "asc" },
+      });
+      return entries.map((e) => ({
+         slug: e.slug,
+         updatedAt: e.updatedAt.toISOString(),
+      }));
    }
 
    async pGetCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {

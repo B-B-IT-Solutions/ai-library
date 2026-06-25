@@ -1,22 +1,15 @@
 import type { MetadataRoute } from "next";
 
-import prisma from "@/data/repositories/prisma";
+import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
+import { getProductsForSitemap } from "@/data/actions/product";
 import { getAppUrl } from "@/lib/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
    const appUrl = getAppUrl();
 
    const [catalogEntries, products] = await Promise.all([
-      prisma.catalogEntry.findMany({
-         where: { status: "PUBLISHED" },
-         select: { slug: true, updatedAt: true },
-         orderBy: { createdAt: "asc" },
-      }),
-      prisma.product.findMany({
-         where: { status: "ACTIVE" },
-         select: { id: true, updatedAt: true },
-         orderBy: { createdAt: "asc" },
-      }),
+      getCatalogEntriesForSitemap(),
+      getProductsForSitemap(),
    ]);
 
    const staticRoutes: MetadataRoute.Sitemap = [
@@ -43,14 +36,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
    const catalogRoutes: MetadataRoute.Sitemap = catalogEntries.map((entry) => ({
       url: `${appUrl}/explore/${entry.slug}`,
       lastModified: entry.updatedAt,
-      changeFrequency: "weekly",
+      changeFrequency: "weekly" as const,
       priority: 0.7,
    }));
 
    const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
       url: `${appUrl}/preview/products/${product.id}`,
       lastModified: product.updatedAt,
-      changeFrequency: "weekly",
+      changeFrequency: "weekly" as const,
       priority: 0.6,
    }));
 

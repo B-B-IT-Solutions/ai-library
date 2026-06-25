@@ -54,3 +54,8 @@ export type DCatalogEntryField = {
 export type DCatalogEntryCopyResult = {
    templateId: string;
 };
+
+export type DCatalogEntrySitemapData = {
+   slug: string;
+   updatedAt: string;
+};

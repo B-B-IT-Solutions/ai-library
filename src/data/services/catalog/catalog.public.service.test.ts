@@ -53,6 +53,27 @@ describe("getPublishedEntryBySlug tests", () => {
    });
 });
 
+describe("getPublishedCatalogEntriesSitemapData tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("entries retrieved - test", async () => {
+      const data = [
+         { slug: "entry-1", updatedAt: new Date("2025-09-27").toISOString() },
+      ];
+      catalogRepoMock.pGetPublishedEntriesSitemapData.mockResolvedValue(data);
+
+      const result =
+         await catalogService.getPublishedCatalogEntriesSitemapData();
+
+      expect(result).toEqual(data);
+      expect(
+         catalogRepoMock.pGetPublishedEntriesSitemapData
+      ).toHaveBeenCalledTimes(1);
+   });
+});
+
 describe("getCatalogEntryCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

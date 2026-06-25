@@ -63,3 +63,8 @@ export type DProductItem = {
    template: DPrompt;
    createdAt: string;
 };
+
+export type DProductSitemapData = {
+   id: string;
+   updatedAt: string;
+};

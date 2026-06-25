@@ -12,6 +12,7 @@ import {
 } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
+import { ProductService } from "@/data/services/product";
 import { PromptService, PublicPromptService } from "@/data/services/prompt";
 import { Prompt0Service } from "@/data/services/prompt0";
 import {
@@ -40,6 +41,7 @@ export class ServiceFactory {
    private collectionService?: CollectionService;
    private publicCollectionService?: PublicCollectionService;
    private orderService?: OrderService;
+   private productService?: ProductService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
    private prompt0Service?: Prompt0Service;
@@ -142,6 +144,15 @@ export class ServiceFactory {
          );
       }
       return this.orderService;
+   }
+
+   getProductService(): ProductService {
+      if (!this.productService) {
+         this.productService = new ProductService(
+            this.repositories.productRepository()
+         );
+      }
+      return this.productService;
    }
 
    getPrompt0Service(): Prompt0Service {

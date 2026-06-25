@@ -8,17 +8,26 @@ import {
    ProductWhereUniqueInput,
 } from "@/generated/prisma/models";
 
-import { getProduct, getProducts } from "./product.actions";
+import {
+   getProduct,
+   getProducts,
+   getProductsForSitemap,
+} from "./product.actions";
 import { toDProductsWithItems, toDProductWithDetails } from "./product.mapper";
 
 const pGetProducts = ProductRepository.prototype.pGetProducts;
 const pGetProduct = ProductRepository.prototype.pGetProduct;
+const pGetProductsSitemapData =
+   ProductRepository.prototype.pGetProductsSitemapData;
 
 const pGetProductsMock = pGetProducts as jest.MockedFunction<
    typeof pGetProducts
 >;
-
 const pGetProductMock = pGetProduct as jest.MockedFunction<typeof pGetProduct>;
+const pGetProductsSitemapDataMock =
+   pGetProductsSitemapData as jest.MockedFunction<
+      typeof pGetProductsSitemapData
+   >;
 
 describe("getProducts tests", () => {
    beforeEach(() => {
@@ -81,5 +90,37 @@ describe("getProduct tests", () => {
       expect(result).toEqual(expectedResult);
       expect(pGetProductMock).toHaveBeenCalledTimes(1);
       expect(pGetProductMock).toHaveBeenCalledWith(expectedWhereInput);
+   });
+});
+
+describe("getProductsForSitemap tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("repository error - returns empty array - test", async () => {
+      pGetProductsSitemapDataMock.mockRejectedValue(new Error("DB error"));
+
+      const result = await getProductsForSitemap();
+
+      expect(result).toEqual([]);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("success - test", async () => {
+      const data = [
+         { id: "product-id-1", updatedAt: "2025-09-27T00:00:00.000Z" },
+      ];
+      pGetProductsSitemapDataMock.mockResolvedValue(data);
+
+      const result = await getProductsForSitemap();
+
+      expect(result).toEqual(data);
+      expect(pGetProductsSitemapDataMock).toHaveBeenCalledTimes(1);
    });
 });
