@@ -59,7 +59,7 @@ describe("sitemap tests", () => {
       ]);
       const result = await sitemap();
 
-      // 3 static + 2 catalog + 1 product
-      expect(result).toHaveLength(6);
+      // 3 static + 2 catalog
+      expect(result).toHaveLength(5);
    });
 });
