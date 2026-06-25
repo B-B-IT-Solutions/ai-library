@@ -17,7 +17,6 @@ const pGetProduct = ProductRepository.prototype.pGetProduct;
 const pGetProductsMock = pGetProducts as jest.MockedFunction<
    typeof pGetProducts
 >;
-
 const pGetProductMock = pGetProduct as jest.MockedFunction<typeof pGetProduct>;
 
 describe("getProducts tests", () => {

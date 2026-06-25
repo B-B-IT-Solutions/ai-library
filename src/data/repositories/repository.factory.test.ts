@@ -4,7 +4,7 @@ import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
-import { ProductRepository } from "./product";
+import { ProductRepository, PublicProductRepository } from "./product";
 import { PromptRepository, PublicPromptRepository } from "./prompt";
 import { Prompt0Repository } from "./prompt0";
 import { RepositoryFactory } from "./repository.factory";
@@ -152,6 +152,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.productRepository();
          const repository2 = factory.productRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("publicProductRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.publicProductRepository();
+         expect(repository).toBeInstanceOf(PublicProductRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.publicProductRepository();
+         const repository2 = factory.publicProductRepository();
          expect(repository1).toBe(repository2);
       });
    });

@@ -22,3 +22,5 @@ export type ProductWithDetails = ProductWithItems & {
    examples: ProductExample[];
    instructions: ProductInstruction[];
 };
+
+export type ProductSitemapData = Pick<Product, "id" | "updatedAt">;

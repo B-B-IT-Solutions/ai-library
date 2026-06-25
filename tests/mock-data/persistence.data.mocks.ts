@@ -5,6 +5,7 @@ import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
 import {
+   CatalogEntrySitemapData,
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
 } from "@/data/types/db/catalog";
@@ -19,6 +20,7 @@ import {
 } from "@/data/types/db/order";
 import {
    ProductItemWithTemplate,
+   ProductSitemapData,
    ProductWithDetails,
    ProductWithItems,
 } from "@/data/types/db/product";
@@ -194,6 +196,17 @@ export const pSubscriptionHistory = (index = 1): SubscriptionHistory => {
       stripeEventId: `38d65fc2-7fef-4917-8aae-b47a04d770c${index}`,
       metadata: {},
       createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pProductsSitemapData = (count = 3): ProductSitemapData[] => {
+   return range(0, count).map((i) => pProductSitemapData(i + 1));
+};
+
+export const pProductSitemapData = (index = 1): ProductSitemapData => {
+   return {
+      id: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      updatedAt: new Date("2025-09-27"),
    };
 };
 
@@ -737,6 +750,21 @@ export const pGlobalPromptField = (index = 1): GlobalPromptField => {
       ],
       order: index,
       createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogEntriesSitemapData = (
+   count = 3
+): CatalogEntrySitemapData[] => {
+   return range(0, count).map((i) => pCatalogEntrySitemapData(i + 1));
+};
+
+export const pCatalogEntrySitemapData = (
+   index = 1
+): CatalogEntrySitemapData => {
+   return {
+      slug: `entry-slug-${index}`,
       updatedAt: new Date("2025-09-27"),
    };
 };

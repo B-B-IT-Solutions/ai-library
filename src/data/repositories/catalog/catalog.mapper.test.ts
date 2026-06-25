@@ -2,6 +2,7 @@ import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
+   CatalogEntrySitemapData,
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
 } from "@/data/types/db/catalog";
@@ -9,6 +10,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
@@ -17,11 +19,28 @@ import {
    toDCatalogCategories,
    toDCatalogCategory,
    toDCatalogEntries,
+   toDCatalogEntriesSitemapData,
    toDCatalogEntriesWithContent,
    toDCatalogEntry,
    toDCatalogEntryField,
+   toDCatalogEntrySitemapData,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
+
+const toDCatalogEntriesSitemapDataInternal = (
+   entries: CatalogEntrySitemapData[]
+): DCatalogEntrySitemapData[] => {
+   return map(entries, (e) => toDCatalogEntrySitemapDataInternal(e));
+};
+
+const toDCatalogEntrySitemapDataInternal = (
+   entry: CatalogEntrySitemapData
+): DCatalogEntrySitemapData => {
+   return {
+      slug: entry.slug,
+      updatedAt: entry.updatedAt.toISOString(),
+   };
+};
 
 const toDCatalogEntriesWithContentInternal = (
    entries: CatalogEntryWithContent[]
@@ -101,6 +120,22 @@ const toDCatalogEntryFieldInternal = (
       options: field.options as string[] | undefined,
    };
 };
+
+describe("toDCatalogEntriesSitemapData tests", () => {
+   it("toDCatalogEntriesSitemapData test", async () => {
+      const entries = ptestData.pCatalogEntriesSitemapData();
+      const result = toDCatalogEntriesSitemapData(entries);
+      const expectedResult = toDCatalogEntriesSitemapDataInternal(entries);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDCatalogEntrySitemapData test", async () => {
+      const entry = ptestData.pCatalogEntrySitemapData();
+      const result = toDCatalogEntrySitemapData(entry);
+      const expectedResult = toDCatalogEntrySitemapDataInternal(entry);
+      expect(result).toEqual(expectedResult);
+   });
+});
 
 describe("toDCatalogEntriesWithContent tests", () => {
    it("toDCatalogEntriesWithContent test", async () => {

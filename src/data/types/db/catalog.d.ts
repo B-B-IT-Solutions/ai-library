@@ -13,3 +13,5 @@ export type CatalogEntryWithRelations = CatalogEntry & {
 export type CatalogEntryWithContent = CatalogEntryWithRelations & {
    content: CatalogEntryContent;
 };
+
+export type CatalogEntrySitemapData = Pick<CatalogEntry, "slug" | "updatedAt">;

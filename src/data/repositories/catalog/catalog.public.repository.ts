@@ -7,6 +7,7 @@ import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntryCategory,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
@@ -19,12 +20,27 @@ import {
 import {
    toDCatalogCategories,
    toDCatalogEntries,
+   toDCatalogEntriesSitemapData,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class PublicCatalogRepository {
    constructor(private readonly prisma: DbClient) {}
+
+   async pGetPublishedEntriesSitemapData(): Promise<
+      DCatalogEntrySitemapData[]
+   > {
+      const findManyArgs = {
+         where: { status: "PUBLISHED" },
+         select: { slug: true, updatedAt: true },
+         orderBy: { createdAt: "asc" },
+      } satisfies CatalogEntryFindManyArgs;
+
+      const entries = await this.prisma.catalogEntry.findMany(findManyArgs);
+
+      return toDCatalogEntriesSitemapData(entries);
+   }
 
    async pGetPublishedEntriesPage(
       query?: DCatalogEntriesPageQuery

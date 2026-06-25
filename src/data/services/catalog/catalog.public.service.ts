@@ -3,11 +3,18 @@ import {
    DCatalogEntriesPage,
    DCatalogEntriesPageQuery,
    DCatalogEntryCategory,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 
 export class PublicCatalogService {
    constructor(private readonly catalogRepository: PublicCatalogRepository) {}
+
+   async getPublishedCatalogEntriesSitemapData(): Promise<
+      DCatalogEntrySitemapData[]
+   > {
+      return await this.catalogRepository.pGetPublishedEntriesSitemapData();
+   }
 
    async getPublishedCatalogEntriesPage(
       query?: DCatalogEntriesPageQuery

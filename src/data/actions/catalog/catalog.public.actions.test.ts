@@ -6,11 +6,14 @@ import { PublicCatalogService } from "@/data/services/catalog";
 import { EMPTY_PAGE } from "../utils";
 
 import {
+   getCatalogEntriesForSitemap,
    getCatalogEntryCategories,
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
 } from "./catalog.public.actions";
 
+const sGetPublishedCatalogEntriesSitemapData =
+   PublicCatalogService.prototype.getPublishedCatalogEntriesSitemapData;
 const sGetPublishedEntriesPage =
    PublicCatalogService.prototype.getPublishedCatalogEntriesPage;
 const sGetPublishedEntryBySlug =
@@ -18,6 +21,10 @@ const sGetPublishedEntryBySlug =
 const sGetCatalogEntryCategories =
    PublicCatalogService.prototype.getCatalogEntryCategories;
 
+const sGetPublishedCatalogEntriesSitemapDataMock =
+   sGetPublishedCatalogEntriesSitemapData as jest.MockedFunction<
+      typeof sGetPublishedCatalogEntriesSitemapData
+   >;
 const sGetPublishedEntriesPageMock =
    sGetPublishedEntriesPage as jest.MockedFunction<
       typeof sGetPublishedEntriesPage
@@ -30,6 +37,39 @@ const sGetCatalogEntryCategoriesMock =
    sGetCatalogEntryCategories as jest.MockedFunction<
       typeof sGetCatalogEntryCategories
    >;
+
+describe("getCatalogEntriesForSitemap tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - test", async () => {
+      const error = new Error("DB error");
+      sGetPublishedCatalogEntriesSitemapDataMock.mockRejectedValue(error);
+
+      const result = await getCatalogEntriesForSitemap();
+
+      expect(result).toEqual([]);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("entries retrieved - test", async () => {
+      const entries = dtestData.dCatalogEntriesSitemapData();
+      sGetPublishedCatalogEntriesSitemapDataMock.mockResolvedValue(entries);
+
+      const result = await getCatalogEntriesForSitemap();
+
+      expect(result).toEqual(entries);
+      expect(sGetPublishedCatalogEntriesSitemapDataMock).toHaveBeenCalledTimes(
+         1
+      );
+   });
+});
 
 describe("getPublishedCatalogEntriesPage tests", () => {
    beforeEach(() => {

@@ -1,4 +1,5 @@
 export {
+   getCatalogEntriesForSitemap,
    getPublishedCatalogEntriesPage,
    getPublishedCatalogEntryBySlug,
    getCatalogEntryCategories,

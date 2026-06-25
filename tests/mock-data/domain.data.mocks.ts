@@ -13,6 +13,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
@@ -37,6 +38,7 @@ import {
    DInstruction,
    DProduct,
    DProductItem,
+   DProductSitemapData,
    DUseCase,
 } from "@/data/types/domain/product";
 import {
@@ -485,6 +487,17 @@ export const dOrderItem = (index = 1): DOrderItem => {
    };
 };
 
+export const dProductsSitemapData = (count = 3): DProductSitemapData[] => {
+   return range(0, count).map((i) => dProductSitemapData(i + 1));
+};
+
+export const dProductSitemapData = (index = 1): DProductSitemapData => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
 export const dProducts = (count = 3): DProduct[] => {
    return range(0, count).map((i) => dProduct(i));
 };
@@ -795,6 +808,21 @@ export const dPrompt0 = (index = 1): DPrompt0 => {
       versions: dPrompt0Versions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dCatalogEntriesSitemapData = (
+   count = 3
+): DCatalogEntrySitemapData[] => {
+   return range(0, count).map((i) => dCatalogEntrySitemapData(i + 1));
+};
+
+export const dCatalogEntrySitemapData = (
+   index = 1
+): DCatalogEntrySitemapData => {
+   return {
+      slug: `entry-slug-${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
    };
 };
 

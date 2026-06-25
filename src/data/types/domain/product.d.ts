@@ -63,3 +63,5 @@ export type DProductItem = {
    template: DPrompt;
    createdAt: string;
 };
+
+export type DProductSitemapData = Pick<DProduct, "id" | "updatedAt">;

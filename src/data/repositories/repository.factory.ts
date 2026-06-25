@@ -4,7 +4,7 @@ import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
-import { ProductRepository } from "./product";
+import { ProductRepository, PublicProductRepository } from "./product";
 import { PromptRepository, PublicPromptRepository } from "./prompt";
 import { Prompt0Repository } from "./prompt0";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
@@ -28,6 +28,7 @@ export class RepositoryFactory {
    private publicCollectionRepo?: PublicCollectionRepository;
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
+   private publicProductRepo?: PublicProductRepository;
    private prompt0Repo?: Prompt0Repository;
    private promptRepo?: PromptRepository;
    private publicPromptRepo?: PublicPromptRepository;
@@ -112,6 +113,13 @@ export class RepositoryFactory {
          this.productRepo = new ProductRepository(this.prisma);
       }
       return this.productRepo;
+   }
+
+   publicProductRepository(): PublicProductRepository {
+      if (!this.publicProductRepo) {
+         this.publicProductRepo = new PublicProductRepository(this.prisma);
+      }
+      return this.publicProductRepo;
    }
 
    prompt0Repository(): Prompt0Repository {
