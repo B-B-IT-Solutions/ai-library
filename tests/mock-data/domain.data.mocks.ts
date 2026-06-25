@@ -38,6 +38,7 @@ import {
    DInstruction,
    DProduct,
    DProductItem,
+   DProductSitemapData,
    DUseCase,
 } from "@/data/types/domain/product";
 import {
@@ -483,6 +484,17 @@ export const dOrderItem = (index = 1): DOrderItem => {
       productType: "BUNDLE",
       price: 19.99,
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dProductsSitemapData = (count = 3): DProductSitemapData[] => {
+   return range(0, count).map((i) => dProductSitemapData(i + 1));
+};
+
+export const dProductSitemapData = (index = 1): DProductSitemapData => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
    };
 };
 

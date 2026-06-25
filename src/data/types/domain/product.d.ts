@@ -64,7 +64,4 @@ export type DProductItem = {
    createdAt: string;
 };
 
-export type DProductSitemapData = {
-   id: string;
-   updatedAt: string;
-};
+export type DProductSitemapData = Pick<DProduct, "id" | "updatedAt">;
