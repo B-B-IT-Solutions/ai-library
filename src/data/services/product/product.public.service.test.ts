@@ -5,12 +5,12 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { ProductRepository } from "@/data/repositories/product";
 import prisma from "@/data/repositories/prisma";
 
-import { ProductService } from "./product.service";
+import { ProductPublicService } from "./product.public.service";
 
 const productRepo = new ProductRepository(prisma);
 const productRepoMock = productRepo as DeepMockProxy<ProductRepository>;
 
-const productService = new ProductService(productRepoMock);
+const productService = new ProductPublicService(productRepoMock);
 
 describe("getProductsSitemapData tests", () => {
    beforeEach(() => {
@@ -19,8 +19,14 @@ describe("getProductsSitemapData tests", () => {
 
    it("products retrieved - test", async () => {
       const data = [
-         { id: "product-id-1", updatedAt: new Date("2025-09-27").toISOString() },
-         { id: "product-id-2", updatedAt: new Date("2025-09-27").toISOString() },
+         {
+            id: "product-id-1",
+            updatedAt: new Date("2025-09-27").toISOString(),
+         },
+         {
+            id: "product-id-2",
+            updatedAt: new Date("2025-09-27").toISOString(),
+         },
       ];
       productRepoMock.pGetProductsSitemapData.mockResolvedValue(data);
 

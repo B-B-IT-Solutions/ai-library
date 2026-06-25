@@ -1,7 +1,7 @@
 import { ProductRepository } from "@/data/repositories/product";
 import { DProductSitemapData } from "@/data/types/domain/product";
 
-export class ProductService {
+export class ProductPublicService {
    constructor(private readonly productRepository: ProductRepository) {}
 
    async getProductsSitemapData(): Promise<DProductSitemapData[]> {

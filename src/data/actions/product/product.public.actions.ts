@@ -20,5 +20,5 @@ export const getProductsForSitemap = async (): Promise<
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getProductService();
+   return factory.getProductPublicService();
 };

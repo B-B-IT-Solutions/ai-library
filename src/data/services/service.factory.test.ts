@@ -5,7 +5,7 @@ import { CatalogService, PublicCatalogService } from "./catalog";
 import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
-import { ProductService } from "./product";
+import { ProductPublicService } from "./product";
 import { PromptService, PublicPromptService } from "./prompt";
 import { Prompt0Service } from "./prompt0";
 import { ServiceFactory } from "./service.factory";
@@ -138,15 +138,15 @@ describe("getOrderService tests", () => {
    });
 });
 
-describe("getProductService tests", () => {
+describe("getProductPublicService tests", () => {
    it("new instance - test", () => {
-      const service = serviceFactory.getProductService();
-      expect(service).toBeInstanceOf(ProductService);
+      const service = serviceFactory.getProductPublicService();
+      expect(service).toBeInstanceOf(ProductPublicService);
    });
 
    it("existing instance - test", () => {
-      const service1 = serviceFactory.getProductService();
-      const service2 = serviceFactory.getProductService();
+      const service1 = serviceFactory.getProductPublicService();
+      const service2 = serviceFactory.getProductPublicService();
       expect(service1).toBe(service2);
    });
 });

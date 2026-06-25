@@ -2,11 +2,12 @@ jest.mock("@/data/services/product");
 
 import { dtestData } from "@tests";
 
-import { ProductService } from "@/data/services/product";
+import { ProductPublicService } from "@/data/services/product";
 
 import { getProductsForSitemap } from "./product.public.actions";
 
-const sGetProductsSitemapData = ProductService.prototype.getProductsSitemapData;
+const sGetProductsSitemapData =
+   ProductPublicService.prototype.getProductsSitemapData;
 
 const sGetProductsSitemapDataMock =
    sGetProductsSitemapData as jest.MockedFunction<
