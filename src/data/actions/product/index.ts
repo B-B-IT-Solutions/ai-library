@@ -1,1 +1,3 @@
-export { getProducts, getProduct, getProductsForSitemap } from "./product.actions";
+export { getProductsForSitemap } from "./product.public.actions";
+
+export { getProducts, getProduct } from "./product.actions";
