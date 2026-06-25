@@ -18,15 +18,11 @@ const getCatalogEntriesForSitemapMock =
 const appUrl = getAppUrl();
 
 const toCatalogEntrySiteMapEntry = (entry: DCatalogEntrySitemapData) => {
-   const url = `${appUrl}/explore/${entry.slug}`;
-   const lastModified = entry.updatedAt;
-   const changeFrequency = "weekly" as const;
-   const priority = 7;
    return {
-      url,
-      lastModified,
-      changeFrequency,
-      priority,
+      url: `${appUrl}/explore/${entry.slug}`,
+      lastModified: entry.updatedAt,
+      changeFrequency: "weekly",
+      priority: 7,
    };
 };
 
