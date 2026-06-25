@@ -35,12 +35,12 @@ describe("getProductsForSitemap tests", () => {
    });
 
    it("products retrieved - test", async () => {
-      const data = dtestData.dProductsSitemapData();
-      sGetProductsSitemapDataMock.mockResolvedValue(data);
+      const products = dtestData.dProductsSitemapData();
+      sGetProductsSitemapDataMock.mockResolvedValue(products);
 
       const result = await getProductsForSitemap();
 
-      expect(result).toEqual(data);
+      expect(result).toEqual(products);
       expect(sGetProductsSitemapDataMock).toHaveBeenCalledTimes(1);
    });
 });
