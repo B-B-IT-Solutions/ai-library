@@ -4,12 +4,12 @@ import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { ProductRepository } from "@/data/repositories/product";
+import { PublicProductRepository } from "@/data/repositories/product";
 
 import { ProductPublicService } from "./product.public.service";
 
-const productRepo = new ProductRepository(prisma);
-const productRepoMock = productRepo as DeepMockProxy<ProductRepository>;
+const productRepo = new PublicProductRepository(prisma);
+const productRepoMock = productRepo as DeepMockProxy<PublicProductRepository>;
 
 const productService = new ProductPublicService(productRepoMock);
 

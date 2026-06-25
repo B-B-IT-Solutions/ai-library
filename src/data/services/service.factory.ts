@@ -149,7 +149,7 @@ export class ServiceFactory {
    getProductPublicService(): ProductPublicService {
       if (!this.productService) {
          this.productService = new ProductPublicService(
-            this.repositories.productRepository()
+            this.repositories.publicProductRepository()
          );
       }
       return this.productService;
