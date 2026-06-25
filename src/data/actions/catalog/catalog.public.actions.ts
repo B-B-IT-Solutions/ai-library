@@ -14,6 +14,18 @@ import {
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 
+export const getCatalogEntriesForSitemap = async (): Promise<
+   DCatalogEntrySitemapData[]
+> => {
+   try {
+      const service = getService();
+      return await service.getPublishedCatalogEntriesSitemapData();
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
 export const getPublishedCatalogEntriesPage = async (
    query?: DCatalogEntriesPageQuery
 ): Promise<DCatalogEntriesPage> => {
@@ -47,18 +59,6 @@ export const getCatalogEntryCategories = async (): Promise<
    try {
       const service = getService();
       return await service.getCatalogEntryCategories();
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
-export const getCatalogEntriesForSitemap = async (): Promise<
-   DCatalogEntrySitemapData[]
-> => {
-   try {
-      const service = getService();
-      return await service.getPublishedCatalogEntriesSitemapData();
    } catch (error) {
       console.error(formatError(error));
       return [];

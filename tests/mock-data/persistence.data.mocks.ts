@@ -5,6 +5,7 @@ import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
 import {
+   CatalogEntrySitemapData,
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
 } from "@/data/types/db/catalog";
@@ -737,6 +738,21 @@ export const pGlobalPromptField = (index = 1): GlobalPromptField => {
       ],
       order: index,
       createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCatalogEntriesSitemapData = (
+   count = 3
+): CatalogEntrySitemapData[] => {
+   return range(0, count).map((i) => pCatalogEntrySitemapData(i + 1));
+};
+
+export const pCatalogEntrySitemapData = (
+   index = 1
+): CatalogEntrySitemapData => {
+   return {
+      slug: `entry-slug-${index}`,
       updatedAt: new Date("2025-09-27"),
    };
 };

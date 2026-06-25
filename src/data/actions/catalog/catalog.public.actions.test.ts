@@ -12,15 +12,19 @@ import {
    getPublishedCatalogEntryBySlug,
 } from "./catalog.public.actions";
 
+const sGetPublishedCatalogEntriesSitemapData =
+   PublicCatalogService.prototype.getPublishedCatalogEntriesSitemapData;
 const sGetPublishedEntriesPage =
    PublicCatalogService.prototype.getPublishedCatalogEntriesPage;
 const sGetPublishedEntryBySlug =
    PublicCatalogService.prototype.getPublishedCatalogEntryBySlug;
 const sGetCatalogEntryCategories =
    PublicCatalogService.prototype.getCatalogEntryCategories;
-const sGetPublishedCatalogEntriesSitemapData =
-   PublicCatalogService.prototype.getPublishedCatalogEntriesSitemapData;
 
+const sGetPublishedCatalogEntriesSitemapDataMock =
+   sGetPublishedCatalogEntriesSitemapData as jest.MockedFunction<
+      typeof sGetPublishedCatalogEntriesSitemapData
+   >;
 const sGetPublishedEntriesPageMock =
    sGetPublishedEntriesPage as jest.MockedFunction<
       typeof sGetPublishedEntriesPage
@@ -33,10 +37,39 @@ const sGetCatalogEntryCategoriesMock =
    sGetCatalogEntryCategories as jest.MockedFunction<
       typeof sGetCatalogEntryCategories
    >;
-const sGetPublishedCatalogEntriesSitemapDataMock =
-   sGetPublishedCatalogEntriesSitemapData as jest.MockedFunction<
-      typeof sGetPublishedCatalogEntriesSitemapData
-   >;
+
+describe("getCatalogEntriesForSitemap tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - test", async () => {
+      const error = new Error("DB error");
+      sGetPublishedCatalogEntriesSitemapDataMock.mockRejectedValue(error);
+
+      const result = await getCatalogEntriesForSitemap();
+
+      expect(result).toEqual([]);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("success - test", async () => {
+      const data = dtestData.dCatalogEntriesSitemapData();
+      sGetPublishedCatalogEntriesSitemapDataMock.mockResolvedValue(data);
+
+      const result = await getCatalogEntriesForSitemap();
+
+      expect(result).toEqual(data);
+      expect(sGetPublishedCatalogEntriesSitemapDataMock).toHaveBeenCalledTimes(
+         1
+      );
+   });
+});
 
 describe("getPublishedCatalogEntriesPage tests", () => {
    beforeEach(() => {
@@ -166,39 +199,5 @@ describe("getCatalogEntryCategories tests", () => {
 
       expect(result).toEqual(categories);
       expect(sGetCatalogEntryCategoriesMock).toHaveBeenCalledTimes(1);
-   });
-});
-
-describe("getCatalogEntriesForSitemap tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("service error - returns empty array - test", async () => {
-      sGetPublishedCatalogEntriesSitemapDataMock.mockRejectedValue(
-         new Error("DB error")
-      );
-
-      const result = await getCatalogEntriesForSitemap();
-
-      expect(result).toEqual([]);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("success - test", async () => {
-      const data = [{ slug: "entry-1", updatedAt: "2025-09-27T00:00:00.000Z" }];
-      sGetPublishedCatalogEntriesSitemapDataMock.mockResolvedValue(data);
-
-      const result = await getCatalogEntriesForSitemap();
-
-      expect(result).toEqual(data);
-      expect(
-         sGetPublishedCatalogEntriesSitemapDataMock
-      ).toHaveBeenCalledTimes(1);
    });
 });

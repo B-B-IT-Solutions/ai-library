@@ -10,6 +10,12 @@ import {
 export class PublicCatalogService {
    constructor(private readonly catalogRepository: PublicCatalogRepository) {}
 
+   async getPublishedCatalogEntriesSitemapData(): Promise<
+      DCatalogEntrySitemapData[]
+   > {
+      return await this.catalogRepository.pGetPublishedEntriesSitemapData();
+   }
+
    async getPublishedCatalogEntriesPage(
       query?: DCatalogEntriesPageQuery
    ): Promise<DCatalogEntriesPage> {
@@ -24,9 +30,5 @@ export class PublicCatalogService {
 
    async getCatalogEntryCategories(): Promise<DCatalogEntryCategory[]> {
       return await this.catalogRepository.pGetCatalogEntryCategories();
-   }
-
-   async getPublishedCatalogEntriesSitemapData(): Promise<DCatalogEntrySitemapData[]> {
-      return await this.catalogRepository.pGetPublishedEntriesSitemapData();
    }
 }

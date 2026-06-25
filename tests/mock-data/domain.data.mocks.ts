@@ -13,6 +13,7 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import {
@@ -795,6 +796,21 @@ export const dPrompt0 = (index = 1): DPrompt0 => {
       versions: dPrompt0Versions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dCatalogEntriesSitemapData = (
+   count = 3
+): DCatalogEntrySitemapData[] => {
+   return range(0, count).map((i) => dCatalogEntrySitemapData(i + 1));
+};
+
+export const dCatalogEntrySitemapData = (
+   index = 1
+): DCatalogEntrySitemapData => {
+   return {
+      slug: `entry-slug-${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
    };
 };
 

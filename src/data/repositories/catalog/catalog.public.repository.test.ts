@@ -14,6 +14,7 @@ import {
 import {
    toDCatalogCategories,
    toDCatalogEntries,
+   toDCatalogEntriesSitemapData,
    toDCatalogEntryWithContent,
 } from "./catalog.mapper";
 import { PublicCatalogRepository } from "./catalog.public.repository";
@@ -21,6 +22,33 @@ import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const catalogRepository = new PublicCatalogRepository(prismaMock);
+
+describe("pGetPublishedEntriesSitemapData tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("entries retrieved - test", async () => {
+      const data = ptestData.pCatalogEntriesSitemapData();
+      prismaMock.catalogEntry.findMany.mockResolvedValue(data);
+
+      const result = await catalogRepository.pGetPublishedEntriesSitemapData();
+
+      const expectedResult = toDCatalogEntriesSitemapData(data);
+
+      const expectedFindManyArgs: CatalogEntryFindManyArgs = {
+         where: { status: "PUBLISHED" },
+         select: { slug: true, updatedAt: true },
+         orderBy: { createdAt: "asc" },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
 
 describe("pGetPublishedEntriesPage tests", () => {
    beforeEach(() => {
@@ -181,44 +209,6 @@ describe("pGetPublishedEntryBySlug tests", () => {
       expect(prismaMock.catalogEntry.findFirst).toHaveBeenCalledWith(
          expectedArgs
       );
-   });
-});
-
-describe("pGetPublishedEntriesSitemapData tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("entries retrieved - test", async () => {
-      const rows = [
-         { slug: "entry-slug-1", updatedAt: new Date("2025-09-27") },
-         { slug: "entry-slug-2", updatedAt: new Date("2025-09-27") },
-      ];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      prismaMock.catalogEntry.findMany.mockResolvedValue(rows as any);
-
-      const result = await catalogRepository.pGetPublishedEntriesSitemapData();
-
-      const expectedResult = rows.map((r) => ({
-         slug: r.slug,
-         updatedAt: r.updatedAt.toISOString(),
-      }));
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.catalogEntry.findMany).toHaveBeenCalledWith({
-         where: { status: "PUBLISHED" },
-         select: { slug: true, updatedAt: true },
-         orderBy: { createdAt: "asc" },
-      });
-   });
-
-   it("no entries - returns empty array - test", async () => {
-      prismaMock.catalogEntry.findMany.mockResolvedValue([]);
-
-      const result = await catalogRepository.pGetPublishedEntriesSitemapData();
-
-      expect(result).toEqual([]);
    });
 });
 

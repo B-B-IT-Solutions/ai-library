@@ -1,6 +1,7 @@
 import { map } from "es-toolkit/compat";
 
 import {
+   CatalogEntrySitemapData,
    CatalogEntryWithContent,
    CatalogEntryWithRelations,
 } from "@/data/types/db/catalog";
@@ -8,9 +9,25 @@ import {
    DCatalogEntry,
    DCatalogEntryCategory,
    DCatalogEntryField,
+   DCatalogEntrySitemapData,
    DCatalogEntryWithContent,
 } from "@/data/types/domain/catalog";
 import { CatalogCategory, CatalogEntryField } from "@/generated/prisma/client";
+
+export const toDCatalogEntriesSitemapData = (
+   entries: CatalogEntrySitemapData[]
+): DCatalogEntrySitemapData[] => {
+   return map(entries, (e) => toDCatalogEntrySitemapData(e));
+};
+
+export const toDCatalogEntrySitemapData = (
+   entry: CatalogEntrySitemapData
+): DCatalogEntrySitemapData => {
+   return {
+      slug: entry.slug,
+      updatedAt: entry.updatedAt.toISOString(),
+   };
+};
 
 export const toDCatalogEntriesWithContent = (
    entries: CatalogEntryWithContent[]

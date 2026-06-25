@@ -13,6 +13,25 @@ const catalogRepoMock = catalogRepo as DeepMockProxy<PublicCatalogRepository>;
 
 const catalogService = new PublicCatalogService(catalogRepoMock);
 
+describe("getPublishedCatalogEntriesSitemapData tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("entries retrieved - test", async () => {
+      const data = dtestData.dCatalogEntriesSitemapData();
+      catalogRepoMock.pGetPublishedEntriesSitemapData.mockResolvedValue(data);
+
+      const result =
+         await catalogService.getPublishedCatalogEntriesSitemapData();
+
+      expect(result).toEqual(data);
+      expect(
+         catalogRepoMock.pGetPublishedEntriesSitemapData
+      ).toHaveBeenCalledTimes(1);
+   });
+});
+
 describe("getPublishedEntriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -50,27 +69,6 @@ describe("getPublishedEntryBySlug tests", () => {
       expect(catalogRepoMock.pGetPublishedEntryBySlug).toHaveBeenCalledWith(
          slug
       );
-   });
-});
-
-describe("getPublishedCatalogEntriesSitemapData tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("entries retrieved - test", async () => {
-      const data = [
-         { slug: "entry-1", updatedAt: new Date("2025-09-27").toISOString() },
-      ];
-      catalogRepoMock.pGetPublishedEntriesSitemapData.mockResolvedValue(data);
-
-      const result =
-         await catalogService.getPublishedCatalogEntriesSitemapData();
-
-      expect(result).toEqual(data);
-      expect(
-         catalogRepoMock.pGetPublishedEntriesSitemapData
-      ).toHaveBeenCalledTimes(1);
    });
 });
 
