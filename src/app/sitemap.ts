@@ -1,3 +1,4 @@
+import { map } from "es-toolkit/compat";
 import type { MetadataRoute } from "next";
 
 import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
@@ -23,10 +24,7 @@ const toCatalogEntrySiteMapEntry = (
    entry: DCatalogEntrySitemapData
 ) => {
    const url = `${appUrl}/explore/${entry.slug}`;
-   const lastModified = entry.updatedAt;
-   const frequency = "weekly" as const;
-   const priority = 7;
-   return toSiteMapEntry(url, lastModified, frequency, priority);
+   return toSiteMapEntry(url, entry.updatedAt, "weekly", 7);
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -55,9 +53,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // },
    ];
 
-   const catalogRoutes: MetadataRoute.Sitemap = catalogEntries.map((entry) => {
-      return toCatalogEntrySiteMapEntry(appUrl, entry);
-   });
+   const catalogRoutes: MetadataRoute.Sitemap = map(catalogEntries, (entry) =>
+      toCatalogEntrySiteMapEntry(appUrl, entry)
+   );
 
    return [...staticRoutes, ...catalogRoutes];
 }
