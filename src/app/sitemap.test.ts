@@ -1,6 +1,12 @@
 jest.mock("@/data/actions/catalog");
 
+import { dtestData } from "@tests";
+import MockDate from "mockdate";
+import { MetadataRoute } from "next";
+
 import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
+import { DCatalogEntrySitemapData } from "@/data/types/domain/catalog";
+import { getAppUrl } from "@/lib/constants";
 
 import sitemap from "./sitemap";
 
@@ -9,57 +15,77 @@ const getCatalogEntriesForSitemapMock =
       typeof getCatalogEntriesForSitemap
    >;
 
-const APP_URL = "http://localhost:3000";
+const appUrl = getAppUrl();
+
+const toCatalogEntrySiteMapEntry = (entry: DCatalogEntrySitemapData) => {
+   const url = `${appUrl}/explore/${entry.slug}`;
+   const lastModified = entry.updatedAt;
+   const changeFrequency = "weekly" as const;
+   const priority = 7;
+   return {
+      url,
+      lastModified,
+      changeFrequency,
+      priority,
+   };
+};
+
+const expectedStaticRoutes = (): MetadataRoute.Sitemap => {
+   return [
+      {
+         url: appUrl,
+         lastModified: new Date(),
+         changeFrequency: "weekly",
+         priority: 1.0,
+      },
+      {
+         url: `${appUrl}/explore`,
+         lastModified: new Date(),
+         changeFrequency: "daily",
+         priority: 0.9,
+      },
+      // {
+      //    url: `${appUrl}/preview/marketplace`,
+      //    lastModified: new Date(),
+      //    changeFrequency: "daily",
+      //    priority: 0.8,
+      // },
+   ];
+};
 
 describe("sitemap tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   it("static routes - test", async () => {
       getCatalogEntriesForSitemapMock.mockResolvedValue([]);
+      const map = await sitemap();
+      const expectedMap = expectedStaticRoutes();
+
+      expect(map).toHaveLength(2);
+      expect(map[0]).toMatchObject(expectedMap[0]);
+      expect(map[1]).toMatchObject(expectedMap[1]);
    });
 
-   it("includes homepage as first static route - test", async () => {
-      const result = await sitemap();
+   it("catalog entries routes - test", async () => {
+      const entries = dtestData.dCatalogEntriesSitemapData(3);
+      getCatalogEntriesForSitemapMock.mockResolvedValue(entries);
 
-      expect(result[0]).toMatchObject({
-         url: APP_URL,
-         changeFrequency: "weekly",
-         priority: 1.0,
-      });
-   });
+      const map = await sitemap();
 
-   it("includes explore page as second static route - test", async () => {
-      const result = await sitemap();
+      const expectedMap = expectedStaticRoutes();
 
-      expect(result[1]).toMatchObject({
-         url: `${APP_URL}/explore`,
-         changeFrequency: "daily",
-         priority: 0.9,
-      });
-   });
-
-   it("includes catalog entry routes after static routes - test", async () => {
-      getCatalogEntriesForSitemapMock.mockResolvedValue([
-         { slug: "my-entry", updatedAt: "2025-09-27T00:00:00.000Z" },
-      ]);
-
-      const result = await sitemap();
-
-      expect(result).toContainEqual({
-         url: `${APP_URL}/explore/my-entry`,
-         lastModified: "2025-09-27T00:00:00.000Z",
-         changeFrequency: "weekly",
-         priority: 0.7,
-      });
-   });
-
-   it("has correct total length with dynamic routes - test", async () => {
-      getCatalogEntriesForSitemapMock.mockResolvedValue([
-         { slug: "entry-1", updatedAt: "2025-09-27T00:00:00.000Z" },
-         { slug: "entry-2", updatedAt: "2025-09-27T00:00:00.000Z" },
-      ]);
-      const result = await sitemap();
-
-      // 3 static + 2 catalog
-      expect(result).toHaveLength(5);
+      expect(map).toHaveLength(5);
+      expect(map[0]).toMatchObject(expectedMap[0]);
+      expect(map[1]).toMatchObject(expectedMap[1]);
+      expect(map[2]).toMatchObject(toCatalogEntrySiteMapEntry(entries[0]));
+      expect(map[3]).toMatchObject(toCatalogEntrySiteMapEntry(entries[1]));
+      expect(map[4]).toMatchObject(toCatalogEntrySiteMapEntry(entries[2]));
    });
 });
