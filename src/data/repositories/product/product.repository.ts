@@ -1,6 +1,5 @@
 import { DbClient } from "@/data/types/db/common";
 import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
-import { DProductSitemapData } from "@/data/types/domain/product";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,
@@ -31,18 +30,6 @@ export class ProductRepository {
             createdAt: "desc",
          },
       });
-   }
-
-   async pGetProductsSitemapData(): Promise<DProductSitemapData[]> {
-      const products = await this.prisma.product.findMany({
-         where: { status: "ACTIVE" },
-         select: { id: true, updatedAt: true },
-         orderBy: { createdAt: "asc" },
-      });
-      return products.map((p) => ({
-         id: p.id,
-         updatedAt: p.updatedAt.toISOString(),
-      }));
    }
 
    async pGetProduct(

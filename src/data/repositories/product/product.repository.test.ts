@@ -54,44 +54,6 @@ describe("pGetProducts tests", () => {
    });
 });
 
-describe("pGetProductsSitemapData tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("products retrieved - test", async () => {
-      const rows = [
-         { id: "product-id-1", updatedAt: new Date("2025-09-27") },
-         { id: "product-id-2", updatedAt: new Date("2025-09-27") },
-      ];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      prismaMock.product.findMany.mockResolvedValue(rows as any);
-
-      const result = await productRepository.pGetProductsSitemapData();
-
-      const expectedResult = rows.map((r) => ({
-         id: r.id,
-         updatedAt: r.updatedAt.toISOString(),
-      }));
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.product.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.product.findMany).toHaveBeenCalledWith({
-         where: { status: "ACTIVE" },
-         select: { id: true, updatedAt: true },
-         orderBy: { createdAt: "asc" },
-      });
-   });
-
-   it("no products - returns empty array - test", async () => {
-      prismaMock.product.findMany.mockResolvedValue([]);
-
-      const result = await productRepository.pGetProductsSitemapData();
-
-      expect(result).toEqual([]);
-   });
-});
-
 describe("pGetProduct tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
