@@ -55,7 +55,7 @@ export type DCatalogEntryCopyResult = {
    templateId: string;
 };
 
-export type DCatalogEntrySitemapData = {
-   slug: string;
-   updatedAt: string;
-};
+export type DCatalogEntrySitemapData = Pick<
+   DCatalogEntry,
+   "slug" | "updatedAt"
+>;
