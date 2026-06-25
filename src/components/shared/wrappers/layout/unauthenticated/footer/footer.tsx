@@ -6,7 +6,7 @@ export const Footer = () => {
    const landingPageUrl = getLandingPageUrl();
 
    return (
-      <footer className="border-t bg-muted/40 py-10" data-testid="footer">
+      <footer className="border-t bg-muted/50 py-10" data-testid="footer">
          <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="flex flex-col gap-16 sm:flex-row">
                <div className="flex max-w-3xl flex-1 flex-col gap-5">
@@ -74,6 +74,7 @@ export const Footer = () => {
                         </Link>
                         <Link
                            href={`${landingPageUrl}/legal/impressum`}
+                           rel="noopener noreferrer nofollow"
                            className="hover:underline"
                            data-testid="impressum-link"
                         >

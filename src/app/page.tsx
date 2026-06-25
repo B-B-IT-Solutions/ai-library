@@ -8,7 +8,7 @@ export const RootPage = async () => {
    return (
       <PublicLayoutWrapper>
          <div
-            className="min-h-[calc(100vh-3.5rem)] w-full bg-linear-to-br from-background via-background to-primary/5"
+            className="min-h-[calc(100vh-3.5rem)] w-full"
             data-testid="public-page"
          >
             <div className="container mx-auto px-4 py-16 md:py-24">

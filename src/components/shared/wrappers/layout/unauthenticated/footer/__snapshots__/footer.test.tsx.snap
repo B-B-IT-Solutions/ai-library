@@ -3,7 +3,7 @@
 exports[`Footer rendering tests rendered - test 1`] = `
 <div>
   <footer
-    class="border-t bg-muted/40 py-10"
+    class="border-t bg-muted/50 py-10"
     data-testid="footer"
   >
     <div
@@ -95,6 +95,7 @@ exports[`Footer rendering tests rendered - test 1`] = `
                 class="hover:underline"
                 data-testid="impressum-link"
                 href="https://www.vision-notes.com/legal/impressum"
+                rel="noopener noreferrer nofollow"
               >
                 Impressum
               </a>
