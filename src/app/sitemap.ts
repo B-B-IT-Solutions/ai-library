@@ -1,16 +1,12 @@
 import type { MetadataRoute } from "next";
 
 import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
-import { getProductsForSitemap } from "@/data/actions/product";
 import { getAppUrl } from "@/lib/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
    const appUrl = getAppUrl();
 
-   const [catalogEntries, products] = await Promise.all([
-      getCatalogEntriesForSitemap(),
-      getProductsForSitemap(),
-   ]);
+   const [catalogEntries] = await Promise.all([getCatalogEntriesForSitemap()]);
 
    const staticRoutes: MetadataRoute.Sitemap = [
       {
@@ -40,12 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
    }));
 
-   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
-      url: `${appUrl}/preview/products/${product.id}`,
-      lastModified: product.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-   }));
-
-   return [...staticRoutes, ...catalogRoutes, ...productRoutes];
+   return [...staticRoutes, ...catalogRoutes];
 }
