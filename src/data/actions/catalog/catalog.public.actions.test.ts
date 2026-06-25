@@ -58,13 +58,13 @@ describe("getCatalogEntriesForSitemap tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("success - test", async () => {
-      const data = dtestData.dCatalogEntriesSitemapData();
-      sGetPublishedCatalogEntriesSitemapDataMock.mockResolvedValue(data);
+   it("entries retrieved - test", async () => {
+      const entries = dtestData.dCatalogEntriesSitemapData();
+      sGetPublishedCatalogEntriesSitemapDataMock.mockResolvedValue(entries);
 
       const result = await getCatalogEntriesForSitemap();
 
-      expect(result).toEqual(data);
+      expect(result).toEqual(entries);
       expect(sGetPublishedCatalogEntriesSitemapDataMock).toHaveBeenCalledTimes(
          1
       );

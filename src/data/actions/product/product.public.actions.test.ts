@@ -34,7 +34,7 @@ describe("getProductsForSitemap tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("success - test", async () => {
+   it("products retrieved - test", async () => {
       const data = dtestData.dProductsSitemapData();
       sGetProductsSitemapDataMock.mockResolvedValue(data);
 
