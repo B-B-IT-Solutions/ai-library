@@ -41,7 +41,7 @@ describe("RootLayout rendering tests", () => {
 
 describe("RootLayout functionality tests", () => {
    it("generateMetadata - test", async () => {
-      const appUrl = "http://localhost:3000";
+      const appUrl = "https://app.vision-notes.com";
 
       const metadata = await generateMetadata();
 

@@ -47,7 +47,10 @@ const PublicProductPage = async (props: PageProps) => {
             {/* Zurück-Button */}
             <div className="mb-6">
                <Button variant="ghost" asChild={true}>
-                  <Link href="/preview/marketplace" data-testid="marketplace-link-1">
+                  <Link
+                     href="/preview/marketplace"
+                     data-testid="marketplace-link-1"
+                  >
                      <ArrowLeft className="mr-2 h-4 w-4" />
                      Zurück zur Bibliothek
                   </Link>
@@ -85,7 +88,9 @@ const PublicProductPage = async (props: PageProps) => {
                      asChild
                      className="sm:ml-auto"
                   >
-                     <Link href="/auth/sign-in">Anmelden für vollen Zugriff</Link>
+                     <Link href="/auth/sign-in">
+                        Anmelden für vollen Zugriff
+                     </Link>
                   </Button>
                </div>
             </div>
