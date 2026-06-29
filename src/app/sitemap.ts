@@ -5,6 +5,8 @@ import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
 import { DCatalogEntrySitemapData } from "@/data/types/domain/catalog";
 import { getAppUrl } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 const toSiteMapEntry = (
    url: string,
    lastModified: Date | string,
