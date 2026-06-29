@@ -164,7 +164,7 @@ describe("CatalogEntryPage functionality tests", () => {
       const expectedMetadata: Metadata = {
          title: "Prompt nicht gefunden",
          alternates: {
-            canonical: `slug/${pageParams.slug}`,
+            canonical: `explore/${pageParams.slug}`,
          },
       };
 
@@ -191,7 +191,7 @@ describe("CatalogEntryPage functionality tests", () => {
          title: entry.title,
          description: entry.description,
          alternates: {
-            canonical: `slug/${pageParams.slug}`,
+            canonical: `explore/${pageParams.slug}`,
          },
          openGraph: {
             title: entry.title,
