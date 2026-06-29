@@ -162,7 +162,10 @@ describe("CatalogEntryPage functionality tests", () => {
 
       const metadata = await generateMetadata(props);
       const expectedMetadata: Metadata = {
-         title: "Vorlage nicht gefunden",
+         title: "Prompt nicht gefunden",
+         alternates: {
+            canonical: `slug/${pageParams.slug}`,
+         },
       };
 
       expect(metadata).toEqual(expectedMetadata);
@@ -187,6 +190,9 @@ describe("CatalogEntryPage functionality tests", () => {
       const expectedMetadata: Metadata = {
          title: entry.title,
          description: entry.description,
+         alternates: {
+            canonical: `slug/${pageParams.slug}`,
+         },
          openGraph: {
             title: entry.title,
             description: entry.description,

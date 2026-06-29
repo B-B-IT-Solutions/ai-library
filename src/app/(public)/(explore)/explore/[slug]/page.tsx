@@ -21,12 +21,20 @@ export const generateMetadata = async ({
    const entry = await getPublishedCatalogEntryBySlug(slug);
 
    if (!entry) {
-      return { title: "Vorlage nicht gefunden" };
+      return {
+         title: "Prompt nicht gefunden",
+         alternates: {
+            canonical: `explore/${slug}`,
+         },
+      };
    }
 
    return {
       title: entry.title,
       description: entry.description,
+      alternates: {
+         canonical: `explore/${slug}`,
+      },
       openGraph: {
          title: entry.title,
          description: entry.description,

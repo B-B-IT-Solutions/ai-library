@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 
-import RootLayout, { metadata, RootLayoutProps } from "./layout";
+import RootLayout, { generateMetadata, RootLayoutProps } from "./layout";
 
 jest.mock("@/app/layout", () => ({
    __esModule: true,
@@ -14,14 +14,6 @@ jest.mock("@/app/layout", () => ({
       return <div data-testid="root-layout">{children}</div>;
    },
 }));
-
-const expectedMetadata: Metadata = {
-   title: {
-      template: `%s | ${APP_NAME}`,
-      default: APP_NAME,
-   },
-   description: APP_DESCRIPTION,
-};
 
 const assertRendered = () => {
    const layout = screen.getByTestId("root-layout");
@@ -48,7 +40,26 @@ describe("RootLayout rendering tests", () => {
 });
 
 describe("RootLayout functionality tests", () => {
-   it("RootLayout - metadata - test", async () => {
+   it("generateMetadata - test", async () => {
+      const appUrl = "http://localhost:3000";
+
+      const metadata = await generateMetadata();
+
+      const expectedMetadata: Metadata = {
+         title: {
+            template: `%s | ${APP_NAME}`,
+            default: APP_NAME,
+         },
+         description: APP_DESCRIPTION,
+         metadataBase: new URL(appUrl),
+         alternates: {
+            canonical: "/",
+            languages: {
+               "de-DE": "/de-DE",
+            },
+         },
+      };
+
       expect(metadata).toEqual(expectedMetadata);
    });
 });

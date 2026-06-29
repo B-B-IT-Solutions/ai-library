@@ -12,6 +12,9 @@ export const metadata: Metadata = {
    title: "KI Prompt-Vorlagen entdecken",
    description:
       "Entdecke kuratierte AI-Prompt-Vorlagen mit strukturierten Feldern. Kostenlos durchsuchen, filtern und in deine Library übernehmen.",
+   alternates: {
+      canonical: "/explore",
+   },
 };
 
 export type PageProps = {
