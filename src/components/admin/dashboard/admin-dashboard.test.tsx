@@ -16,7 +16,7 @@ const assertRendered = () => {
    const kpis = screen.getAllByTestId("kpi");
 
    assertInDocument(dashboard);
-   expect(kpis).toHaveLength(4);
+   expect(kpis).toHaveLength(2);
 };
 
 describe("AdminDashboard rendering tests", () => {

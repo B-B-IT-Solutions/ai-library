@@ -1,4 +1,4 @@
-import { FileText, ShoppingBag, TrendingUp, Users } from "lucide-react";
+import { FileText, Users } from "lucide-react";
 
 import { getAdminStats } from "@/data/actions/admin/dashboard";
 
@@ -25,18 +25,6 @@ export const AdminDashboard = async () => {
                   value={stats.totalUsers}
                   subtitle={`+${stats.newUsersLast30Days} letzte 30 Tage`}
                   icon={Users}
-               />
-               <Kpi
-                  title="Umsatz (30 Tage)"
-                  value={`CHF ${stats.revenueLastMonth.toFixed(2)}`}
-                  subtitle="Abgeschlossene Bestellungen"
-                  icon={TrendingUp}
-               />
-               <Kpi
-                  title="Ausstehende Bestellungen"
-                  value={stats.pendingOrders}
-                  subtitle="Status: PENDING"
-                  icon={ShoppingBag}
                />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
