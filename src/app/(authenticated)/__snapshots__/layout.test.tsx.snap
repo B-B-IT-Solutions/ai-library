@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`MainLayout rendering tests MainLayout - rendered - test 1`] = `
-<div>
-  <div
-    data-testid="authenticated-user-layout-wrapper"
-  >
-    <div
-      data-testid="test-1"
-    />
-  </div>
-</div>
-`;
-
 exports[`MainLayout rendering tests rendered - test 1`] = `
 <div>
   <div

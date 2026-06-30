@@ -2,9 +2,8 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
-
-import { AdminSidebar } from "./admin-sidebar";
-import { AdminSidebarMobileHeader } from "./admin-sidebar-mobile-header";
+import { AdminSidebar } from "../../../../admin/layout/admin-sidebar";
+import { AdminSidebarMobileHeader } from "../../../../admin/layout/admin-sidebar-mobile-header";
 
 export type Props = {
    children: ReactNode;

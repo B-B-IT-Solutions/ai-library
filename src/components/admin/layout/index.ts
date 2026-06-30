@@ -1,1 +1,1 @@
-export { AdminLayoutWrapper } from "./admin-layout-wrapper";
+export { AdminLayoutWrapper } from "../../shared/wrappers/layout/authenticated/admin-layout-wrapper";
