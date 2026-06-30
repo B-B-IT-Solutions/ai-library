@@ -26,21 +26,27 @@ export const AdminSidebar = ({ user }: Props) => {
 
    const renderMenu = (menuItems: DMenuItem[]) => {
       return map(menuItems, (item) => {
-         return <SidebarMenuItem menuItem={item} pathName={pathName} />;
+         return (
+            <SidebarMenuItem
+               key={item.id}
+               menuItem={item}
+               pathName={pathName}
+            />
+         );
       });
    };
 
    return (
       <ShadcnSidebar collapsible="icon" data-testid="admin-sidebar">
          <SidebarHeader />
-         <SidebarContent>
-            <SidebarGroup>
+         <SidebarContent data-testid="sidebar-content">
+            <SidebarGroup data-testid="group-administration">
                <SidebarGroupLabel>Administration</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(adminNavigationMenu1)}</SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarGroup>
+            <SidebarGroup data-testid="group-other">
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(adminNavigationMenu2)}</SidebarMenu>
                </SidebarGroupContent>
