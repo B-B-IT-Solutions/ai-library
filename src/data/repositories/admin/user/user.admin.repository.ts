@@ -5,6 +5,7 @@ import {
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/admin";
+import { UserUpdateArgs } from "@/generated/prisma/models";
 
 export class AdminUserRepository {
    constructor(private readonly prisma: DbClient) {}
@@ -148,10 +149,12 @@ export class AdminUserRepository {
       };
    }
 
-   async pUpdateUserRole(userId: string, role: string): Promise<void> {
-      await this.prisma.user.update({
+   async pUpdateUserRole(userId: string, role: string) {
+      const args = {
          where: { id: userId },
          data: { role },
-      });
+      } satisfies UserUpdateArgs;
+
+      await this.prisma.user.update(args);
    }
 }

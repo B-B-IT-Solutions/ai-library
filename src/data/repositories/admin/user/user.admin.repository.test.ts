@@ -3,6 +3,7 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { UserUpdateArgs } from "@/generated/prisma/models";
 
 import { AdminUserRepository } from "./user.admin.repository";
 
@@ -168,15 +169,18 @@ describe("pUpdateUserRole tests", () => {
       mockReset(prismaMock);
    });
 
-   it("updates user role - test", async () => {
+   it("user updated - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.update.mockResolvedValue(user);
 
       await repo.pUpdateUserRole(user.id, "admin");
 
-      expect(prismaMock.user.update).toHaveBeenCalledWith({
+      const expectedArgs: UserUpdateArgs = {
          where: { id: user.id },
          data: { role: "admin" },
-      });
+      };
+
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedArgs);
    });
 });
