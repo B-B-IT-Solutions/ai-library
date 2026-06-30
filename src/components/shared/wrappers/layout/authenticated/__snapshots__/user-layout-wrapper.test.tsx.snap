@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1`] = `
+exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie false - test 1`] = `
 <div>
   <div
     class="h-full"
-    data-testid="authenticated-layout-wrapper"
+    data-testid="authenticated-user-layout-wrapper"
   >
     <div
       class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -525,11 +525,11 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie false - test 1
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`] = `
+exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie true - test 1`] = `
 <div>
   <div
     class="h-full"
-    data-testid="authenticated-layout-wrapper"
+    data-testid="authenticated-user-layout-wrapper"
   >
     <div
       class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -1061,11 +1061,11 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie true - test 1`
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - test 1`] = `
+exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie undefined - test 1`] = `
 <div>
   <div
     class="h-full"
-    data-testid="authenticated-layout-wrapper"
+    data-testid="authenticated-user-layout-wrapper"
   >
     <div
       class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -1597,11 +1597,11 @@ exports[`AuthenticatedLayoutWrapper rendering tests sidebarCookie undefined - te
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive false - test 1`] = `
+exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive false - test 1`] = `
 <div>
   <div
     class="h-full"
-    data-testid="authenticated-layout-wrapper"
+    data-testid="authenticated-user-layout-wrapper"
   >
     <div
       class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -2133,11 +2133,11 @@ exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive false -
 </div>
 `;
 
-exports[`AuthenticatedLayoutWrapper rendering tests trialStatus.isActive true - test 1`] = `
+exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive true - test 1`] = `
 <div>
   <div
     class="h-full"
-    data-testid="authenticated-layout-wrapper"
+    data-testid="authenticated-user-layout-wrapper"
   >
     <div
       class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"

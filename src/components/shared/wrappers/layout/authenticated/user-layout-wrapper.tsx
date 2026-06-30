@@ -11,7 +11,7 @@ export type Props = {
    children: ReactNode;
 };
 
-export const AuthenticatedLayoutWrapper = async (props: Props) => {
+export const AuthenticatedUserLayoutWrapper = async (props: Props) => {
    const { children } = props;
 
    const user = await requireUser();
@@ -29,7 +29,7 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
    };
 
    return (
-      <div className="h-full" data-testid="authenticated-layout-wrapper">
+      <div className="h-full" data-testid="authenticated-user-layout-wrapper">
          <SidebarProvider
             defaultOpen={defaultOpen}
             data-testid="sidebar-wrapper"

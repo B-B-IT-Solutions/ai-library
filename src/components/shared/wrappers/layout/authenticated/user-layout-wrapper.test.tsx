@@ -22,7 +22,7 @@ import { cookies } from "next/headers";
 import { requireUser } from "@/data/actions/auth-utils";
 import { getTrialStatus } from "@/data/actions/subscription";
 
-import { AuthenticatedLayoutWrapper, Props } from "./layout-wrapper";
+import { AuthenticatedUserLayoutWrapper, Props } from "./user-layout-wrapper";
 
 const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -31,7 +31,7 @@ const getTrialStatusMock = getTrialStatus as jest.MockedFunction<
 >;
 
 const assertLayoutRendered = () => {
-   const wrapper = screen.getByTestId("authenticated-layout-wrapper");
+   const wrapper = screen.getByTestId("authenticated-user-layout-wrapper");
    const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
    const sidebar = screen.getByTestId("sidebar");
    const mobileHeader = screen.getByTestId("sidebar-mobile-header");
@@ -66,7 +66,7 @@ const asserTrialBannerNotRendered = () => {
    assertNotInDocument(banner);
 };
 
-describe("AuthenticatedLayoutWrapper rendering tests", () => {
+describe("AuthenticatedUserLayoutWrapper rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       window.matchMedia = ctestData.createMatchMedia(false);
@@ -84,7 +84,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
 
       const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
+         AuthenticatedUserLayoutWrapper,
          props
       );
 
@@ -111,7 +111,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
 
       const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
+         AuthenticatedUserLayoutWrapper,
          props
       );
 
@@ -138,7 +138,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
 
       const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
+         AuthenticatedUserLayoutWrapper,
          props
       );
 
@@ -167,7 +167,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
 
       const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
+         AuthenticatedUserLayoutWrapper,
          props
       );
 
@@ -196,7 +196,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       };
 
       const { container } = await renderAsyncRSC(
-         AuthenticatedLayoutWrapper,
+         AuthenticatedUserLayoutWrapper,
          props
       );
 

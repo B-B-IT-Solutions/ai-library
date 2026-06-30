@@ -4,11 +4,11 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { AdminLayoutWrapper } from "@/components/admin/layout";
 
-export type AdminLayoutProps = {
+export type LayoutProps = {
    children: ReactNode;
 };
 
-const AdminLayout = async (props: Readonly<AdminLayoutProps>) => {
+const AdminLayout = async (props: Readonly<LayoutProps>) => {
    const { children } = props;
    const session = await auth();
 

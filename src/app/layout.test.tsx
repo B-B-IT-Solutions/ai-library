@@ -9,12 +9,12 @@ import {
    getProdAppMetadataUrl,
 } from "@/lib/constants";
 
-import RootLayout, { generateMetadata, RootLayoutProps } from "./layout";
+import RootLayout, { generateMetadata, LayoutProps } from "./layout";
 
 jest.mock("@/app/layout", () => ({
    __esModule: true,
    ...jest.requireActual("@/app/layout"),
-   default: ({ children }: RootLayoutProps) => {
+   default: ({ children }: LayoutProps) => {
       return <div data-testid="root-layout">{children}</div>;
    },
 }));
