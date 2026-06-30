@@ -119,7 +119,7 @@ exports[`AuthenticatedAdminLayoutWrapper rendering tests sidebarCookie false - t
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="mock-link"
-                        href="/admin"
+                        href="/admin/dashboard"
                       >
                         <svg
                           aria-hidden="true"
@@ -543,7 +543,7 @@ exports[`AuthenticatedAdminLayoutWrapper rendering tests sidebarCookie true - te
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="mock-link"
-                        href="/admin"
+                        href="/admin/dashboard"
                       >
                         <svg
                           aria-hidden="true"
@@ -967,7 +967,7 @@ exports[`AuthenticatedAdminLayoutWrapper rendering tests sidebarCookie undefined
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="mock-link"
-                        href="/admin"
+                        href="/admin/dashboard"
                       >
                         <svg
                           aria-hidden="true"

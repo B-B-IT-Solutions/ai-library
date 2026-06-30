@@ -6,19 +6,17 @@ import {
    Users,
 } from "lucide-react";
 
-import { DAdminStats } from "@/data/types/domain/admin";
+import { getAdminStats } from "@/data/actions/admin/dashboard";
 
 import { KpiCard } from "./kpi-card";
 
-type Props = {
-   stats: DAdminStats;
-};
+export const AdminDashboard = async () => {
+   const stats = await getAdminStats();
 
-export const AdminDashboard = ({ stats }: Props) => {
    return (
       <div
          className="container mx-auto max-w-7xl px-4 py-8"
-         data-testid="admin-dashboard-page"
+         data-testid="admin-dashboard"
       >
          <div className="mb-8">
             <h1 className="mb-2 text-3xl font-bold text-slate-900">
@@ -26,7 +24,7 @@ export const AdminDashboard = ({ stats }: Props) => {
             </h1>
             <p className="text-slate-600">Plattformübersicht</p>
          </div>
-         <div className="space-y-6" data-testid="admin-dashboard">
+         <div className="space-y-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                <KpiCard
                   title="Gesamtnutzer"
