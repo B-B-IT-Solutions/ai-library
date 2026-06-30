@@ -9,7 +9,7 @@ import {
    TableHeader,
    TableRow,
 } from "@/components/shadcn/table";
-import { DAdminSubscriptionsPage } from "@/data/types/domain/admin";
+import { DAdminSubscriptionsPage } from "@/data/types/domain/admin/admin";
 
 type Props = {
    subscriptionsPage: DAdminSubscriptionsPage;
@@ -36,24 +36,35 @@ export const AdminSubscriptionsTable = ({ subscriptionsPage }: Props) => {
                      <TableCell>
                         <div>
                            <p className="font-medium">{sub.userName}</p>
-                           <p className="text-xs text-muted-foreground">{sub.userEmail}</p>
+                           <p className="text-xs text-muted-foreground">
+                              {sub.userEmail}
+                           </p>
                         </div>
                      </TableCell>
                      <TableCell>
                         <div>
                            <p className="font-medium">{sub.planName}</p>
-                           <p className="text-xs text-muted-foreground">{sub.planTier}</p>
+                           <p className="text-xs text-muted-foreground">
+                              {sub.planTier}
+                           </p>
                         </div>
                      </TableCell>
                      <TableCell>{sub.billingInterval}</TableCell>
                      <TableCell>
-                        <Badge variant={sub.status === "ACTIVE" ? "default" : "secondary"}>
+                        <Badge
+                           variant={
+                              sub.status === "ACTIVE" ? "default" : "secondary"
+                           }
+                        >
                            {sub.status}
                         </Badge>
                      </TableCell>
                      <TableCell>
                         {sub.currentPeriodEnd
-                           ? format(new Date(sub.currentPeriodEnd), "dd.MM.yyyy")
+                           ? format(
+                                new Date(sub.currentPeriodEnd),
+                                "dd.MM.yyyy"
+                             )
                            : "—"}
                      </TableCell>
                      <TableCell>
@@ -71,7 +82,8 @@ export const AdminSubscriptionsTable = ({ subscriptionsPage }: Props) => {
             </TableBody>
          </Table>
          <div className="mt-4 text-sm text-muted-foreground">
-            {subscriptionsPage.numberOfElements} von {subscriptionsPage.totalElements} Abonnements
+            {subscriptionsPage.numberOfElements} von{" "}
+            {subscriptionsPage.totalElements} Abonnements
          </div>
       </div>
    );

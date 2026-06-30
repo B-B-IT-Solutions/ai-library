@@ -10,7 +10,7 @@ import {
    TableHeader,
    TableRow,
 } from "@/components/shadcn/table";
-import { DAdminUsersPage } from "@/data/types/domain/admin";
+import { DAdminUsersPage } from "@/data/types/domain/admin/admin";
 
 type Props = {
    usersPage: DAdminUsersPage;
@@ -44,7 +44,11 @@ export const AdminUsersTable = ({ usersPage }: Props) => {
                      </TableCell>
                      <TableCell>{user.email}</TableCell>
                      <TableCell>
-                        <Badge variant={user.role === "admin" ? "default" : "secondary"}>
+                        <Badge
+                           variant={
+                              user.role === "admin" ? "default" : "secondary"
+                           }
+                        >
                            {user.role}
                         </Badge>
                      </TableCell>

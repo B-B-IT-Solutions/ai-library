@@ -5,7 +5,10 @@ import { dtestData } from "@tests";
 
 import { requireAdmin } from "@/data/actions/auth-utils";
 import { AdminUserRepository } from "@/data/repositories/admin";
-import { DAdminUserDetail, DAdminUsersPage } from "@/data/types/domain/admin";
+import {
+   DAdminUserDetail,
+   DAdminUsersPage,
+} from "@/data/types/domain/admin/admin";
 import { ActionResult } from "@/data/types/utils";
 
 import {

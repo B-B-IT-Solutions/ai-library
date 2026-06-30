@@ -3,7 +3,7 @@ import {
    DAdminSubscriptionListItem,
    DAdminSubscriptionsPage,
    DAdminSubscriptionsPageQuery,
-} from "@/data/types/domain/admin";
+} from "@/data/types/domain/admin/admin";
 
 export class AdminSubscriptionRepository {
    constructor(private readonly prisma: DbClient) {}
@@ -36,8 +36,9 @@ export class AdminSubscriptionRepository {
          this.prisma.subscription.count({ where }),
       ]);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const content: DAdminSubscriptionListItem[] = (subscriptions as any[]).map((s) => ({
+      const content: DAdminSubscriptionListItem[] = (
+         subscriptions as any[]
+      ).map((s) => ({
          id: s.id,
          userId: s.userId,
          userEmail: s.user.email,

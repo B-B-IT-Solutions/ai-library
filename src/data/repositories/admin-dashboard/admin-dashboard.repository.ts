@@ -1,5 +1,5 @@
 import { DbClient } from "@/data/types/db/common";
-import { DAdminStats } from "@/data/types/domain/admin";
+import { DAdminStats } from "@/data/types/domain/admin/stats";
 
 export class AdminDashboardRepository {
    constructor(private readonly prisma: DbClient) {}
@@ -18,7 +18,9 @@ export class AdminDashboardRepository {
          draftEntries,
       ] = await Promise.all([
          this.prisma.user.count(),
-         this.prisma.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+         this.prisma.user.count({
+            where: { createdAt: { gte: thirtyDaysAgo } },
+         }),
          this.prisma.subscription.groupBy({
             by: ["planId"],
             where: { status: "ACTIVE" },

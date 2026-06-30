@@ -4,7 +4,7 @@ import {
    DAdminUserListItem,
    DAdminUsersPage,
    DAdminUsersPageQuery,
-} from "@/data/types/domain/admin";
+} from "@/data/types/domain/admin/admin";
 
 export class AdminUserRepository {
    constructor(private readonly prisma: DbClient) {}

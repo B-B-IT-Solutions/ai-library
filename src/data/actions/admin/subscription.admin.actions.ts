@@ -6,7 +6,7 @@ import prisma from "@/data/repositories/prisma";
 import {
    DAdminSubscriptionsPage,
    DAdminSubscriptionsPageQuery,
-} from "@/data/types/domain/admin";
+} from "@/data/types/domain/admin/admin";
 
 export const getAdminSubscriptionsPage = async (
    query?: DAdminSubscriptionsPageQuery
