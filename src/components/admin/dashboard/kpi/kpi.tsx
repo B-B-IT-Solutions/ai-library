@@ -14,9 +14,9 @@ type Props = {
    icon: LucideIcon;
 };
 
-export const KpiCard = ({ title, value, subtitle, icon: Icon }: Props) => {
+export const Kpi = ({ title, value, subtitle, icon: Icon }: Props) => {
    return (
-      <Card data-testid="kpi-card">
+      <Card data-testid="kpi">
          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{title}</CardTitle>
             <Icon className="h-4 w-4 text-muted-foreground" />

@@ -8,7 +8,7 @@ import {
 
 import { getAdminStats } from "@/data/actions/admin/dashboard";
 
-import { KpiCard } from "./kpi";
+import { Kpi } from "./kpi";
 
 export const AdminDashboard = async () => {
    const stats = await getAdminStats();
@@ -26,13 +26,13 @@ export const AdminDashboard = async () => {
          </div>
          <div className="space-y-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-               <KpiCard
+               <Kpi
                   title="Gesamtnutzer"
                   value={stats.totalUsers}
                   subtitle={`+${stats.newUsersLast30Days} letzte 30 Tage`}
                   icon={Users}
                />
-               <KpiCard
+               <Kpi
                   title="Aktive Abos"
                   value={
                      stats.activeSubscriptions.BASIC +
@@ -41,13 +41,13 @@ export const AdminDashboard = async () => {
                   subtitle={`FREE: ${stats.activeSubscriptions.FREE} | BASIC: ${stats.activeSubscriptions.BASIC} | PRO: ${stats.activeSubscriptions.PRO}`}
                   icon={CreditCard}
                />
-               <KpiCard
+               <Kpi
                   title="Umsatz (30 Tage)"
                   value={`CHF ${stats.revenueLastMonth.toFixed(2)}`}
                   subtitle="Abgeschlossene Bestellungen"
                   icon={TrendingUp}
                />
-               <KpiCard
+               <Kpi
                   title="Ausstehende Bestellungen"
                   value={stats.pendingOrders}
                   subtitle="Status: PENDING"
@@ -55,7 +55,7 @@ export const AdminDashboard = async () => {
                />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-               <KpiCard
+               <Kpi
                   title="Katalog-Einträge"
                   value={stats.publishedCatalogEntries}
                   subtitle={`${stats.draftCatalogEntries} in Draft`}

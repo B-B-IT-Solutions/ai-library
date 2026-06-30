@@ -1,1 +1,1 @@
-export { KpiCard } from "./kpi-card";
+export { Kpi } from "./kpi";
