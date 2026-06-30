@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AdminSubscriptionPlansPage rendering tests page rendered - test 1`] = `
+<div>
+  <div
+    class="h-full"
+    data-testid="admin-subscription-plans-page"
+  >
+    <div
+      data-testid="admin-subscription-plans"
+    />
+  </div>
+</div>
+`;

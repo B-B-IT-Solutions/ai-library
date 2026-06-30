@@ -13,7 +13,8 @@ export const getAdminSubscriptionPlans = async (): Promise<
    DSubscriptionPlan[]
 > => {
    await requireAdmin();
-   return await getService().getSubscriptionPlans();
+   const service = getService();
+   return await service.getSubscriptionPlans();
 };
 
 export const updateSubscriptionPlan = async (
@@ -22,8 +23,12 @@ export const updateSubscriptionPlan = async (
 ): Promise<ActionResult> => {
    try {
       await requireAdmin();
-      await getService().updateSubscriptionPlan(planId, input);
-      return { success: true, message: "Plan erfolgreich aktualisiert." };
+      const service = getService();
+      await service.updateSubscriptionPlan(planId, input);
+      return {
+         success: true,
+         message: "Plan erfolgreich aktualisiert.",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
@@ -34,5 +39,6 @@ export const updateSubscriptionPlan = async (
 };
 
 const getService = (dbClient: DbClient = prisma) => {
-   return new ServiceFactory(dbClient).getAdminSubscriptionPlanService();
+   const factory = new ServiceFactory(dbClient);
+   return factory.getAdminSubscriptionPlanService();
 };

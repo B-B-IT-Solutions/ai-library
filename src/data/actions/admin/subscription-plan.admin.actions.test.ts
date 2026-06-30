@@ -1,39 +1,71 @@
 jest.mock("@/data/actions/auth-utils");
-jest.mock("@/data/repositories/prisma", () => ({
-   __esModule: true,
-   default: {
-      subscriptionPlan: {
-         update: jest.fn(),
-      },
-   },
-}));
+jest.mock("@/data/services/admin/subscription-plan");
 
 import { dtestData } from "@tests";
 
 import { requireAdmin } from "@/data/actions/auth-utils";
-import prisma from "@/data/repositories/prisma";
+import { AdminSubscriptionPlanService } from "@/data/services/admin/subscription-plan";
+import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
 import { ActionResult } from "@/data/types/utils";
 
-import { updateSubscriptionPlan } from "./subscription-plan.admin.actions";
+import {
+   getAdminSubscriptionPlans,
+   updateSubscriptionPlan,
+} from "./subscription-plan.admin.actions";
 
-const requireAdminUserMock = requireAdmin as jest.MockedFunction<
+const sGetSubscriptionPlans =
+   AdminSubscriptionPlanService.prototype.getSubscriptionPlans;
+
+const sUpdateSubscriptionPlan =
+   AdminSubscriptionPlanService.prototype.updateSubscriptionPlan;
+
+const requireAdminMock = requireAdmin as jest.MockedFunction<
    typeof requireAdmin
 >;
-const prismaMock = prisma as {
-   subscriptionPlan: {
-      update: jest.MockedFunction<typeof prisma.subscriptionPlan.update>;
-   };
-};
+
+const sGetSubscriptionPlansMock = sGetSubscriptionPlans as jest.MockedFunction<
+   typeof sGetSubscriptionPlans
+>;
+const sUpdateSubscriptionPlanMock =
+   sUpdateSubscriptionPlan as jest.MockedFunction<
+      typeof sUpdateSubscriptionPlan
+   >;
 
 const dAdminUser = dtestData.dLoginUser();
 
-const validInput = {
-   name: "Test Plan",
-   description: "Test description",
-   monthlyPrice: 9.99,
-   yearlyPrice: 99.99,
+const validInput: DSubscriptionPlanUpdateInput = {
+   name: "Updated Plan",
+   description: "Updated description",
+   monthlyPrice: 19.9,
+   yearlyPrice: 199.0,
    isActive: true,
 };
+
+describe("getAdminSubscriptionPlans tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("throws when not admin - test", async () => {
+      requireAdminMock.mockRejectedValue(new Error("Forbidden"));
+
+      await expect(getAdminSubscriptionPlans()).rejects.toThrow();
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
+      expect(sGetSubscriptionPlansMock).not.toHaveBeenCalled();
+   });
+
+   it("returns plans - test", async () => {
+      const plans = dtestData.dSubscriptionPlans(2);
+      requireAdminMock.mockResolvedValue(dAdminUser);
+      sGetSubscriptionPlansMock.mockResolvedValue(plans);
+
+      const result = await getAdminSubscriptionPlans();
+
+      expect(result).toEqual(plans);
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
+      expect(sGetSubscriptionPlansMock).toHaveBeenCalledTimes(1);
+   });
+});
 
 describe("updateSubscriptionPlan tests", () => {
    beforeEach(() => {
@@ -46,8 +78,7 @@ describe("updateSubscriptionPlan tests", () => {
    });
 
    it("returns error when not admin - test", async () => {
-      const error = new Error("Forbidden");
-      requireAdminUserMock.mockRejectedValue(error);
+      requireAdminMock.mockRejectedValue(new Error("Forbidden"));
 
       const result = await updateSubscriptionPlan("plan-id-1", validInput);
 
@@ -56,13 +87,13 @@ describe("updateSubscriptionPlan tests", () => {
          message: "Plan konnte nicht aktualisiert werden.",
       };
       expect(result).toEqual(expected);
-      expect(prismaMock.subscriptionPlan.update).not.toHaveBeenCalled();
+      expect(sUpdateSubscriptionPlanMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("updates plan successfully - test", async () => {
-      requireAdminUserMock.mockResolvedValue(dAdminUser);
-      prismaMock.subscriptionPlan.update.mockResolvedValue({} as never);
+      requireAdminMock.mockResolvedValue(dAdminUser);
+      sUpdateSubscriptionPlanMock.mockResolvedValue(undefined);
 
       const result = await updateSubscriptionPlan("plan-id-1", validInput);
 
@@ -71,22 +102,16 @@ describe("updateSubscriptionPlan tests", () => {
          message: "Plan erfolgreich aktualisiert.",
       };
       expect(result).toEqual(expected);
-      expect(prismaMock.subscriptionPlan.update).toHaveBeenCalledWith({
-         where: { id: "plan-id-1" },
-         data: {
-            name: validInput.name,
-            description: validInput.description,
-            monthlyPrice: validInput.monthlyPrice,
-            yearlyPrice: validInput.yearlyPrice,
-            isActive: validInput.isActive,
-         },
-      });
+      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledWith(
+         "plan-id-1",
+         validInput
+      );
    });
 
-   it("returns error on prisma failure - test", async () => {
-      requireAdminUserMock.mockResolvedValue(dAdminUser);
-      const error = new Error("db error");
-      prismaMock.subscriptionPlan.update.mockRejectedValue(error);
+   it("returns error on service failure - test", async () => {
+      requireAdminMock.mockResolvedValue(dAdminUser);
+      sUpdateSubscriptionPlanMock.mockRejectedValue(new Error("db error"));
 
       const result = await updateSubscriptionPlan("plan-id-1", validInput);
 
