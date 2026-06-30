@@ -9,7 +9,7 @@ import {
 } from "@/components/shadcn/card";
 import { DAdminUser } from "@/data/types/domain/admin/user";
 
-import { UserRoleForm } from "./user-role-form";
+import { UserRoleForm } from "./form/user-role-form";
 
 type Props = {
    user: DAdminUser;
