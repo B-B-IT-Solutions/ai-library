@@ -129,21 +129,26 @@ describe("pGetStats tests", () => {
          2,
          expectedNewUsersCountArgs
       );
+      expect(prismaMock.subscription.groupBy).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscription.groupBy).toHaveBeenCalledWith(
          expectedSubscriptionGroupByArgs
       );
+      expect(prismaMock.order.aggregate).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.aggregate).toHaveBeenCalledWith(
          expectedOrderAggregateArgs
       );
+      expect(prismaMock.order.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.count).toHaveBeenCalledWith(
          expectedOrderCountArgs
       );
+      expect(prismaMock.catalogEntry.count).toHaveBeenCalledTimes(2);
       expect(prismaMock.catalogEntry.count).toHaveBeenCalledWith(
          expectedPublishedCountArgs
       );
       expect(prismaMock.catalogEntry.count).toHaveBeenCalledWith(
          expectedDraftCountArgs
       );
+      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(
          expectedPlanFindManyArgs
       );
