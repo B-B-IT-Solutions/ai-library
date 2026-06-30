@@ -1,6 +1,11 @@
 import { LucideIcon } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/card";
+import {
+   Card,
+   CardContent,
+   CardHeader,
+   CardTitle,
+} from "@/components/shadcn/card";
 
 type Props = {
    title: string;
@@ -18,7 +23,9 @@ export const KpiCard = ({ title, value, subtitle, icon: Icon }: Props) => {
          </CardHeader>
          <CardContent>
             <div className="text-2xl font-bold">{value}</div>
-            {subtitle && <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>}
+            {subtitle && (
+               <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
+            )}
          </CardContent>
       </Card>
    );

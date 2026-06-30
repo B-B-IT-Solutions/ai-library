@@ -8,7 +8,7 @@ import {
 
 import { getAdminStats } from "@/data/actions/admin/dashboard";
 
-import { KpiCard } from "./kpi-card";
+import { KpiCard } from "./kpi";
 
 export const AdminDashboard = async () => {
    const stats = await getAdminStats();
