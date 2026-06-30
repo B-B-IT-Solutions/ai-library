@@ -31,20 +31,20 @@ describe("getUsersPage tests", () => {
    });
 });
 
-describe("getUserDetail tests", () => {
+describe("getUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    test("user retrieved - test", async () => {
-      const user = adtestData.dAdminUserDetail();
-      userRepoMock.pGetUserDetail.mockResolvedValue(user);
+      const user = adtestData.dAdminUser();
+      userRepoMock.pGetUser.mockResolvedValue(user);
 
-      const result = await service.getUserDetail(user.id);
+      const result = await service.getUser(user.id);
 
       expect(result).toEqual(user);
-      expect(userRepoMock.pGetUserDetail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserDetail).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pGetUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUser).toHaveBeenCalledWith(user.id);
    });
 });
 

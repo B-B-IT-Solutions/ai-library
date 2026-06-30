@@ -8,7 +8,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DAdminUserDetail,
+   DAdminUser,
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/admin";
@@ -24,14 +24,14 @@ export const getAdminUsersPage = async (
 
 export const getAdminUser = async (
    userId: string
-): Promise<DAdminUserDetail | null> => {
+): Promise<DAdminUser | null> => {
    if (!isValidUuid(userId)) {
       return null;
    }
 
    await requireAdmin();
    const service = getService();
-   return await service.getUserDetail(userId);
+   return await service.getUser(userId);
 };
 
 export const updateUserRole = async (

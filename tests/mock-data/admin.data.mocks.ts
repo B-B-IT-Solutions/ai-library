@@ -1,8 +1,7 @@
 import { range } from "es-toolkit/compat";
 
 import {
-   DAdminUserDetail,
-   DAdminUserListItem,
+   DAdminUser,
    DAdminUsersFilter,
    DAdminUsersPage,
    DAdminUsersPageQuery,
@@ -46,8 +45,8 @@ export const dAdminUsersFilter = (index = 1): DAdminUsersFilter => {
    };
 };
 
-export const dAdminUsersPage = (count = 2): DAdminUsersPage => {
-   const users = dAdminUserListItems(count);
+export const dAdminUsersPage = (count = 3): DAdminUsersPage => {
+   const users = dAdminUsers(count);
    return {
       content: users,
       numberOfElements: users.length,
@@ -58,33 +57,25 @@ export const dAdminUsersPage = (count = 2): DAdminUsersPage => {
    };
 };
 
-export const dAdminUserListItems = (count = 3): DAdminUserListItem[] => {
-   return range(0, count).map((i) => dAdminUserListItem(i));
+export const dAdminUsers = (count = 3): DAdminUser[] => {
+   return range(0, count).map((i) => dAdminUser(i));
 };
 
-export const dAdminUserListItem = (index = 1): DAdminUserListItem => ({
-   id: `user-id-${index}`,
-   name: `User ${index}`,
-   email: `user${index}@example.com`,
-   role: "user",
-   emailVerified: null,
-   subscriptionTier: null,
-   subscriptionStatus: null,
-   createdAt: new Date("2025-01-01").toISOString(),
-});
-
-export const dAdminUserDetails = (count = 3): DAdminUserDetail[] => {
-   return range(0, count).map((i) => dAdminUserDetail(i));
+export const dAdminUser = (index = 1): DAdminUser => {
+   return {
+      id: `user-id-${index}`,
+      name: `User ${index}`,
+      email: `user${index}@example.com`,
+      role: "user",
+      emailVerified: null,
+      subscriptionTier: null,
+      subscriptionStatus: null,
+      stripeCustomerId: null,
+      trialEndsAt: null,
+      updatedAt: new Date("2025-01-01").toISOString(),
+      createdAt: new Date("2025-01-01").toISOString(),
+   };
 };
-
-export const dAdminUserDetail = (index = 1): DAdminUserDetail => ({
-   ...dAdminUserListItem(index),
-   updatedAt: new Date("2025-01-01").toISOString(),
-   stripeCustomerId: null,
-   trialEndsAt: null,
-   subscription: null,
-   subscriptionHistory: [],
-});
 
 export const dSubscriptionPlanUpdate = (index = 1): DSubscriptionPlanUpdate => {
    return {

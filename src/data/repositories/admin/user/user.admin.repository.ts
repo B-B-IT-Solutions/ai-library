@@ -1,7 +1,6 @@
-import { UserWithSubscription } from "@/data/types/db/admin/user";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DAdminUserDetail,
+   DAdminUser,
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/admin";
@@ -12,7 +11,7 @@ import {
    UserUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { toDAdminUserDetail, toDAdminUserListItems } from "./user.admin.mapper";
+import { toDAdminUser, toDAdminUsers } from "./user.admin.mapper";
 import { resolveWhereInput } from "./utils";
 
 export class AdminUserRepository {
@@ -40,12 +39,12 @@ export class AdminUserRepository {
       } satisfies UserCountArgs;
 
       const [users, totalElements] = await Promise.all([
-         this.prisma.user.findMany(args) as Promise<UserWithSubscription[]>,
+         this.prisma.user.findMany(args),
          this.prisma.user.count(countArgs),
       ]);
 
       return {
-         content: toDAdminUserListItems(users),
+         content: toDAdminUsers(users),
          pageNumber,
          pageSize,
          numberOfElements: users.length,
@@ -54,7 +53,7 @@ export class AdminUserRepository {
       };
    }
 
-   async pGetUserDetail(userId: string): Promise<DAdminUserDetail | null> {
+   async pGetUser(userId: string): Promise<DAdminUser | null> {
       const args = {
          where: { id: userId },
          include: {
@@ -66,7 +65,7 @@ export class AdminUserRepository {
       if (!user) {
          return null;
       }
-      return toDAdminUserDetail(user);
+      return toDAdminUser(user);
    }
 
    async pUpdateUserRole(userId: string, role: string) {

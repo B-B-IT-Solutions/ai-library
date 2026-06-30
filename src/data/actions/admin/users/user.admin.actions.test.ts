@@ -14,7 +14,7 @@ import {
 } from "./user.admin.actions";
 
 const sGetUsersPage = AdminUserService.prototype.getUsersPage;
-const sGetUserDetail = AdminUserService.prototype.getUserDetail;
+const sGetUser = AdminUserService.prototype.getUser;
 const sUpdateUserRole = AdminUserService.prototype.updateUserRole;
 
 const requireAdminMock = requireAdmin as jest.MockedFunction<
@@ -24,9 +24,7 @@ const requireAdminMock = requireAdmin as jest.MockedFunction<
 const sGetUsersPageMock = sGetUsersPage as jest.MockedFunction<
    typeof sGetUsersPage
 >;
-const sGetUserDetailMock = sGetUserDetail as jest.MockedFunction<
-   typeof sGetUserDetail
->;
+const sGetUserMock = sGetUser as jest.MockedFunction<typeof sGetUser>;
 const sUpdateUserRoleMock = sUpdateUserRole as jest.MockedFunction<
    typeof sUpdateUserRole
 >;
@@ -75,7 +73,7 @@ describe("getAdminUser tests", () => {
 
       expect(result).toBeNull();
       expect(requireAdminMock).not.toHaveBeenCalled();
-      expect(sGetUserDetailMock).not.toHaveBeenCalled();
+      expect(sGetUserMock).not.toHaveBeenCalled();
    });
 
    test("user not admin - test", async () => {
@@ -88,15 +86,15 @@ describe("getAdminUser tests", () => {
 
       await expect(fn).rejects.toThrow();
       expect(requireAdminMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserDetailMock).not.toHaveBeenCalled();
+      expect(sGetUserMock).not.toHaveBeenCalled();
    });
 
    test("user retrieved - test", async () => {
       const adminUser = dtestData.dLoginUser();
       requireAdminMock.mockResolvedValue(adminUser);
 
-      const user = adtestData.dAdminUserDetail();
-      sGetUserDetailMock.mockResolvedValue(user);
+      const user = adtestData.dAdminUser();
+      sGetUserMock.mockResolvedValue(user);
 
       const userId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -104,8 +102,8 @@ describe("getAdminUser tests", () => {
 
       expect(result).toEqual(user);
       expect(requireAdminMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserDetailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserDetailMock).toHaveBeenCalledWith(userId);
+      expect(sGetUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserMock).toHaveBeenCalledWith(userId);
    });
 });
 

@@ -7,12 +7,12 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { DAdminUserDetail } from "@/data/types/domain/admin/admin";
+import { DAdminUser } from "@/data/types/domain/admin/admin";
 
 import { UserRoleForm } from "./user-role-form";
 
 type Props = {
-   user: DAdminUserDetail;
+   user: DAdminUser;
 };
 
 export const AdminUserEdit = ({ user }: Props) => {
