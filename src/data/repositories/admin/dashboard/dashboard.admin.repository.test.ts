@@ -4,7 +4,7 @@ import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
 
-import { AdminDashboardRepository } from "./admin-dashboard.repository";
+import { AdminDashboardRepository } from "./dashboard.admin.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const repo = new AdminDashboardRepository(prismaMock);

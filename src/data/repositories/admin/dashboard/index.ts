@@ -1,1 +1,1 @@
-export { AdminDashboardRepository } from "./admin-dashboard.repository";
+export { AdminDashboardRepository } from "./dashboard.admin.repository";
