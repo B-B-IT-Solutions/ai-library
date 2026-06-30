@@ -16,6 +16,11 @@ describe("AdminUsers rendering tests", () => {
 
    it("rendered test", async () => {
       const page = adtestData.dAdminUsersPage();
+      const user1 = page.content[0];
+      user1.role = "admin";
+      user1.subscriptionTier = undefined;
+      user1.subscriptionStatus = undefined;
+      user1.emailVerified = undefined;
 
       const { container } = render(<UsersTable users={page} />);
 
