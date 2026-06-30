@@ -16,7 +16,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Textarea } from "@/components/shadcn/textarea";
 import { updateSubscriptionPlan } from "@/data/actions/admin/subscription-plans";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 
 type Props = {

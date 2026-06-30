@@ -1,5 +1,5 @@
 import { AdminSubscriptionPlanRepository } from "@/data/repositories/admin/subscription-plan";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 
 export class AdminSubscriptionPlanService {

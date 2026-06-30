@@ -5,7 +5,7 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 

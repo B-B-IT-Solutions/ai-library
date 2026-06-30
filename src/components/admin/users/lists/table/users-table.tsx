@@ -10,7 +10,7 @@ import {
    TableHeader,
    TableRow,
 } from "@/components/shadcn/table";
-import { DAdminUsersPage } from "@/data/types/domain/admin/admin";
+import { DAdminUsersPage } from "@/data/types/domain/admin/user";
 import { formatDateTime } from "@/lib/utils";
 
 type Props = {

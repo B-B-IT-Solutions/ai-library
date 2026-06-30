@@ -5,7 +5,6 @@ import { adtestData, dtestData } from "@tests";
 
 import { requireAdmin } from "@/data/actions/auth-utils";
 import { AdminSubscriptionPlanService } from "@/data/services/admin/subscription-plan";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { ActionResult } from "@/data/types/utils";
 
 import {

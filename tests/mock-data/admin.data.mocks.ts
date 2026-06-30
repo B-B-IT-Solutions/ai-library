@@ -1,7 +1,7 @@
 import { range } from "es-toolkit/compat";
 
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DAdminStats } from "@/data/types/domain/admin/stats";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import {
    DAdminUser,
    DAdminUsersFilter,
@@ -67,11 +67,11 @@ export const dAdminUser = (index = 1): DAdminUser => {
       name: `User ${index}`,
       email: `user${index}@example.com`,
       role: "user",
-      emailVerified: null,
-      subscriptionTier: null,
-      subscriptionStatus: null,
+      emailVerified: new Date("2025-01-01").toISOString(),
+      subscriptionTier: "pro",
+      subscriptionStatus: "ACTIVE",
       stripeCustomerId: null,
-      trialEndsAt: null,
+      trialEndsAt: new Date("2025-01-15").toISOString(),
       updatedAt: new Date("2025-01-01").toISOString(),
       createdAt: new Date("2025-01-01").toISOString(),
    };

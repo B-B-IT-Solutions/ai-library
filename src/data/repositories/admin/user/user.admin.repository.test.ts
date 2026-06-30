@@ -3,7 +3,7 @@ import { adtestData, aptestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DAdminUsersPage } from "@/data/types/domain/admin/admin";
+import { DAdminUsersPage } from "@/data/types/domain/admin/user";
 import {
    UserCountArgs,
    UserFindFirstArgs,

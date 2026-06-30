@@ -1,4 +1,4 @@
-import { DAdminUsersPageQuery } from "@/data/types/domain/admin/admin";
+import { DAdminUsersPageQuery } from "@/data/types/domain/admin/user";
 import { UserWhereInput } from "@/generated/prisma/models";
 
 import { resolveWhereInput } from "./utils";

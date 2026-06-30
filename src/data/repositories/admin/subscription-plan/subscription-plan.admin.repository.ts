@@ -1,6 +1,6 @@
 import { toDSubscriptionPlans } from "@/data/repositories/subscription/subscription.mapper";
 import { DbClient } from "@/data/types/db/common";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import {
    SubscriptionPlanFindManyArgs,

@@ -5,7 +5,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import { AdminSubscriptionPlanRepository } from "@/data/repositories/admin/subscription-plan";
 import prisma from "@/data/repositories/prisma";
-import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 
 import { AdminSubscriptionPlanService } from "./subscription-plan.admin.service";
 
