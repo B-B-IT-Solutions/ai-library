@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAdminUser } from "@/data/actions/auth-utils";
+import { requireAdmin } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ActionResult } from "@/data/types/utils";
@@ -18,7 +18,7 @@ export const updateSubscriptionPlan = async (
    input: SubscriptionPlanUpdateInput
 ): Promise<ActionResult> => {
    try {
-      await requireAdminUser();
+      await requireAdmin();
 
       await prisma.subscriptionPlan.update({
          where: { id: planId },
@@ -34,6 +34,9 @@ export const updateSubscriptionPlan = async (
       return { success: true, message: "Plan erfolgreich aktualisiert." };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Plan konnte nicht aktualisiert werden." };
+      return {
+         success: false,
+         message: "Plan konnte nicht aktualisiert werden.",
+      };
    }
 };

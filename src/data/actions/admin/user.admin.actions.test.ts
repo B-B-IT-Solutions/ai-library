@@ -3,22 +3,31 @@ jest.mock("@/data/repositories/admin");
 
 import { dtestData } from "@tests";
 
-import { requireAdminUser } from "@/data/actions/auth-utils";
+import { requireAdmin } from "@/data/actions/auth-utils";
 import { AdminUserRepository } from "@/data/repositories/admin";
 import { DAdminUserDetail, DAdminUsersPage } from "@/data/types/domain/admin";
 import { ActionResult } from "@/data/types/utils";
 
-import { getAdminUserDetail, getAdminUsersPage, updateUserRole } from "./user.admin.actions";
+import {
+   getAdminUserDetail,
+   getAdminUsersPage,
+   updateUserRole,
+} from "./user.admin.actions";
 
-const requireAdminUserMock = requireAdminUser as jest.MockedFunction<typeof requireAdminUser>;
+const requireAdminUserMock = requireAdmin as jest.MockedFunction<
+   typeof requireAdmin
+>;
 
-const mockPGetUsersPage = AdminUserRepository.prototype.pGetUsersPage as jest.MockedFunction<
+const mockPGetUsersPage = AdminUserRepository.prototype
+   .pGetUsersPage as jest.MockedFunction<
    typeof AdminUserRepository.prototype.pGetUsersPage
 >;
-const mockPGetUserDetail = AdminUserRepository.prototype.pGetUserDetail as jest.MockedFunction<
+const mockPGetUserDetail = AdminUserRepository.prototype
+   .pGetUserDetail as jest.MockedFunction<
    typeof AdminUserRepository.prototype.pGetUserDetail
 >;
-const mockPUpdateUserRole = AdminUserRepository.prototype.pUpdateUserRole as jest.MockedFunction<
+const mockPUpdateUserRole = AdminUserRepository.prototype
+   .pUpdateUserRole as jest.MockedFunction<
    typeof AdminUserRepository.prototype.pUpdateUserRole
 >;
 
@@ -83,7 +92,10 @@ describe("getAdminUsersPage tests", () => {
       requireAdminUserMock.mockResolvedValue(dAdminUser);
       mockPGetUsersPage.mockResolvedValue(mockUsersPage);
 
-      const query = { search: "test", pagination: { pageNumber: 1, pageSize: 5 } };
+      const query = {
+         search: "test",
+         pagination: { pageNumber: 1, pageSize: 5 },
+      };
       await getAdminUsersPage(query);
 
       expect(mockPGetUsersPage).toHaveBeenCalledWith(query);
@@ -113,7 +125,9 @@ describe("getAdminUserDetail tests", () => {
       requireAdminUserMock.mockResolvedValue(dAdminUser);
       mockPGetUserDetail.mockResolvedValue(null);
 
-      const result = await getAdminUserDetail("123e4567-e89b-12d3-a456-426614174000");
+      const result = await getAdminUserDetail(
+         "123e4567-e89b-12d3-a456-426614174000"
+      );
 
       expect(result).toBeNull();
       expect(mockPGetUserDetail).toHaveBeenCalledTimes(1);
@@ -123,17 +137,23 @@ describe("getAdminUserDetail tests", () => {
       requireAdminUserMock.mockResolvedValue(dAdminUser);
       mockPGetUserDetail.mockResolvedValue(mockUserDetail);
 
-      const result = await getAdminUserDetail("123e4567-e89b-12d3-a456-426614174000");
+      const result = await getAdminUserDetail(
+         "123e4567-e89b-12d3-a456-426614174000"
+      );
 
       expect(result).toEqual(mockUserDetail);
-      expect(mockPGetUserDetail).toHaveBeenCalledWith("123e4567-e89b-12d3-a456-426614174000");
+      expect(mockPGetUserDetail).toHaveBeenCalledWith(
+         "123e4567-e89b-12d3-a456-426614174000"
+      );
    });
 
    it("throws when not admin - test", async () => {
       const error = new Error("Forbidden");
       requireAdminUserMock.mockRejectedValue(error);
 
-      await expect(getAdminUserDetail("123e4567-e89b-12d3-a456-426614174000")).rejects.toThrow();
+      await expect(
+         getAdminUserDetail("123e4567-e89b-12d3-a456-426614174000")
+      ).rejects.toThrow();
    });
 });
 
@@ -165,7 +185,10 @@ describe("updateUserRole tests", () => {
       const error = new Error("Forbidden");
       requireAdminUserMock.mockRejectedValue(error);
 
-      const result = await updateUserRole("123e4567-e89b-12d3-a456-426614174000", "user");
+      const result = await updateUserRole(
+         "123e4567-e89b-12d3-a456-426614174000",
+         "user"
+      );
 
       const expected: ActionResult = {
          success: false,
@@ -179,14 +202,20 @@ describe("updateUserRole tests", () => {
       requireAdminUserMock.mockResolvedValue(dAdminUser);
       mockPUpdateUserRole.mockResolvedValue(undefined);
 
-      const result = await updateUserRole("123e4567-e89b-12d3-a456-426614174000", "admin");
+      const result = await updateUserRole(
+         "123e4567-e89b-12d3-a456-426614174000",
+         "admin"
+      );
 
       const expected: ActionResult = {
          success: true,
          message: "Rolle erfolgreich aktualisiert.",
       };
       expect(result).toEqual(expected);
-      expect(mockPUpdateUserRole).toHaveBeenCalledWith("123e4567-e89b-12d3-a456-426614174000", "admin");
+      expect(mockPUpdateUserRole).toHaveBeenCalledWith(
+         "123e4567-e89b-12d3-a456-426614174000",
+         "admin"
+      );
    });
 
    it("returns error on repository failure - test", async () => {
@@ -194,7 +223,10 @@ describe("updateUserRole tests", () => {
       const error = new Error("db error");
       mockPUpdateUserRole.mockRejectedValue(error);
 
-      const result = await updateUserRole("123e4567-e89b-12d3-a456-426614174000", "user");
+      const result = await updateUserRole(
+         "123e4567-e89b-12d3-a456-426614174000",
+         "user"
+      );
 
       const expected: ActionResult = {
          success: false,

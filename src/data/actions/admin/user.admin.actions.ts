@@ -2,7 +2,7 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { requireAdminUser } from "@/data/actions/auth-utils";
+import { requireAdmin } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import { AdminUserRepository } from "@/data/repositories/admin";
 import prisma from "@/data/repositories/prisma";
@@ -16,7 +16,7 @@ import { ActionResult } from "@/data/types/utils";
 export const getAdminUsersPage = async (
    query?: DAdminUsersPageQuery
 ): Promise<DAdminUsersPage> => {
-   await requireAdminUser();
+   await requireAdmin();
    const repo = new AdminUserRepository(prisma);
    return repo.pGetUsersPage(query);
 };
@@ -24,7 +24,7 @@ export const getAdminUsersPage = async (
 export const getAdminUserDetail = async (
    userId: string
 ): Promise<DAdminUserDetail | null> => {
-   await requireAdminUser();
+   await requireAdmin();
    if (!isValidUuid(userId)) return null;
    const repo = new AdminUserRepository(prisma);
    return repo.pGetUserDetail(userId);
@@ -35,13 +35,16 @@ export const updateUserRole = async (
    role: "user" | "admin"
 ): Promise<ActionResult> => {
    try {
-      await requireAdminUser();
+      await requireAdmin();
       if (!isValidUuid(userId)) throw new Error("Invalid user ID.");
       const repo = new AdminUserRepository(prisma);
       await repo.pUpdateUserRole(userId, role);
       return { success: true, message: "Rolle erfolgreich aktualisiert." };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Rolle konnte nicht aktualisiert werden." };
+      return {
+         success: false,
+         message: "Rolle konnte nicht aktualisiert werden.",
+      };
    }
 };

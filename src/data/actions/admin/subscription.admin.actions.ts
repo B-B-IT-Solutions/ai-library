@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAdminUser } from "@/data/actions/auth-utils";
+import { requireAdmin } from "@/data/actions/auth-utils";
 import { AdminSubscriptionRepository } from "@/data/repositories/admin";
 import prisma from "@/data/repositories/prisma";
 import {
@@ -11,7 +11,7 @@ import {
 export const getAdminSubscriptionsPage = async (
    query?: DAdminSubscriptionsPageQuery
 ): Promise<DAdminSubscriptionsPage> => {
-   await requireAdminUser();
+   await requireAdmin();
    const repo = new AdminSubscriptionRepository(prisma);
    return repo.pGetSubscriptionsPage(query);
 };

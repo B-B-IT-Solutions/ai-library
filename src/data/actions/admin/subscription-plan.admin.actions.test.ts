@@ -10,15 +10,19 @@ jest.mock("@/data/repositories/prisma", () => ({
 
 import { dtestData } from "@tests";
 
-import { requireAdminUser } from "@/data/actions/auth-utils";
+import { requireAdmin } from "@/data/actions/auth-utils";
 import prisma from "@/data/repositories/prisma";
 import { ActionResult } from "@/data/types/utils";
 
 import { updateSubscriptionPlan } from "./subscription-plan.admin.actions";
 
-const requireAdminUserMock = requireAdminUser as jest.MockedFunction<typeof requireAdminUser>;
+const requireAdminUserMock = requireAdmin as jest.MockedFunction<
+   typeof requireAdmin
+>;
 const prismaMock = prisma as {
-   subscriptionPlan: { update: jest.MockedFunction<typeof prisma.subscriptionPlan.update> };
+   subscriptionPlan: {
+      update: jest.MockedFunction<typeof prisma.subscriptionPlan.update>;
+   };
 };
 
 const dAdminUser = dtestData.dLoginUser();
