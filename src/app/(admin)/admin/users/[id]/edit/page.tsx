@@ -1,19 +1,23 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AdminUserDetail } from "@/components/admin/users";
-import { getAdminUserDetail } from "@/data/actions/admin/user.admin.actions";
+import { AdminUserEdit } from "@/components/admin/users";
+import { getAdminUser } from "@/data/actions/admin/user.admin.actions";
 
 export const metadata: Metadata = { title: "Admin – Nutzerdetail" };
 
-type Props = {
-   params: Promise<{ id: string }>;
+type PageParams = {
+   id: string;
 };
 
-const AdminUserDetailPage = async (props: Props) => {
-   const { id } = await props.params;
+type PageProps = {
+   params: Promise<PageParams>;
+};
 
-   const user = await getAdminUserDetail(id);
+export const EditAdminUserPage = async ({ params }: PageProps) => {
+   const { id } = await params;
+
+   const user = await getAdminUser(id);
 
    if (!user) {
       return notFound();
@@ -30,9 +34,9 @@ const AdminUserDetailPage = async (props: Props) => {
             </h1>
             <p className="text-slate-600">{user.email}</p>
          </div>
-         <AdminUserDetail user={user} />
+         <AdminUserEdit user={user} />
       </div>
    );
 };
 
-export default AdminUserDetailPage;
+export default EditAdminUserPage;

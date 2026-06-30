@@ -16,9 +16,9 @@ type Props = {
    usersPage: DAdminUsersPage;
 };
 
-export const AdminUsersTable = ({ usersPage }: Props) => {
+export const UsersTable = ({ usersPage }: Props) => {
    return (
-      <div data-testid="admin-users-table">
+      <div data-testid="users-table">
          <Table>
             <TableHeader>
                <TableRow>
@@ -36,7 +36,7 @@ export const AdminUsersTable = ({ usersPage }: Props) => {
                   <TableRow key={user.id}>
                      <TableCell>
                         <Link
-                           href={`/admin/users/${user.id}`}
+                           href={`/admin/users/${user.id}/edit`}
                            className="font-medium text-primary hover:underline"
                         >
                            {user.name}

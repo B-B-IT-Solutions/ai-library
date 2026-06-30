@@ -1,6 +1,6 @@
 import { getAdminUsersPage } from "@/data/actions/admin/user.admin.actions";
 
-import { AdminUsersTable } from "./admin-users-table";
+import { UsersTable } from "./lists";
 
 export const AdminUsers = async () => {
    const usersPage = await getAdminUsersPage();
@@ -12,9 +12,11 @@ export const AdminUsers = async () => {
       >
          <div className="mb-8">
             <h1 className="mb-2 text-3xl font-bold text-slate-900">Nutzer</h1>
-            <p className="text-slate-600">{usersPage.totalElements} Nutzer gesamt</p>
+            <p className="text-slate-600">
+               {usersPage.totalElements} Nutzer gesamt
+            </p>
          </div>
-         <AdminUsersTable usersPage={usersPage} />
+         <UsersTable usersPage={usersPage} />
       </div>
    );
 };

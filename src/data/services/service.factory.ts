@@ -32,11 +32,13 @@ import { EMAIL_PROVIDER } from "@/lib/constants";
 
 import { AdminDashboardService } from "./admin/dashboard";
 import { AdminSubscriptionPlanService } from "./admin/subscription-plan";
+import { AdminUserService } from "./admin/user";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
    private adminDashboardService?: AdminDashboardService;
    private adminSubscriptionPlanService?: AdminSubscriptionPlanService;
+   private adminUserService?: AdminUserService;
    private catalogService?: CatalogService;
    private publicCatalogService?: PublicCatalogService;
    private userService?: UserService;
@@ -78,6 +80,15 @@ export class ServiceFactory {
          );
       }
       return this.adminSubscriptionPlanService;
+   }
+
+   getAdminUserService(): AdminUserService {
+      if (!this.adminUserService) {
+         this.adminUserService = new AdminUserService(
+            this.repositories.adminUserRepository()
+         );
+      }
+      return this.adminUserService;
    }
 
    getUserService(): UserService {

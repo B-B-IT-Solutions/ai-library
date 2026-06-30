@@ -23,9 +23,9 @@ type Props = {
    user: DAdminUserDetail;
 };
 
-export const AdminUserDetail = ({ user }: Props) => {
+export const AdminUserEdit = ({ user }: Props) => {
    return (
-      <div className="space-y-6" data-testid="admin-user-detail">
+      <div className="space-y-6" data-testid="admin-user-edit">
          {/* User Info */}
          <Card>
             <CardHeader>

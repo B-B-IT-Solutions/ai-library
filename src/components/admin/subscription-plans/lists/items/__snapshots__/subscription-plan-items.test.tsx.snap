@@ -16,7 +16,7 @@ exports[`SubscriptionPlanItems rendering tests subtitle undefined - test 1`] = `
         data-slot="card-header"
       >
         <div
-          class="leading-none font-semibold flex items-center justify-between"
+          class="leading-none font-semibold flex flex-col items-start space-y-2"
           data-slot="card-title"
         >
           <span>
@@ -243,7 +243,7 @@ exports[`SubscriptionPlanItems rendering tests subtitle undefined - test 1`] = `
         data-slot="card-header"
       >
         <div
-          class="leading-none font-semibold flex items-center justify-between"
+          class="leading-none font-semibold flex flex-col items-start space-y-2"
           data-slot="card-title"
         >
           <span>
@@ -470,7 +470,7 @@ exports[`SubscriptionPlanItems rendering tests subtitle undefined - test 1`] = `
         data-slot="card-header"
       >
         <div
-          class="leading-none font-semibold flex items-center justify-between"
+          class="leading-none font-semibold flex flex-col items-start space-y-2"
           data-slot="card-title"
         >
           <span>
