@@ -1,8 +1,6 @@
 "use client";
 
-import { FC } from "react";
 import { map, startsWith } from "es-toolkit/compat";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,11 +26,11 @@ import { navigationMenu1, navigationMenu2, navigationMenu3 } from "./menus";
 import { SidebarFooter } from "./sidebar-footer";
 import { DMenuItem } from "./types";
 
-type SidebarProps = {
+type Props = {
    user: LoginUser;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ user }) => {
+export const Sidebar = ({ user }: Props) => {
    const { open, openMobile } = useSidebar();
 
    const pathName = usePathname();

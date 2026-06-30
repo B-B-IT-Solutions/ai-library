@@ -3,7 +3,11 @@
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
 import { promptsWithFields } from "./seed-data/prompt-fields";
-import { promptsData, SEED_USER_EMAIL } from "./seed-data/prompts";
+import {
+   promptsData,
+   SEED_ADMIN_EMAIL,
+   SEED_USER_EMAIL,
+} from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
 import { seedCatalog } from "./seeds/catalog.seed";
 
@@ -34,8 +38,15 @@ export const main = async () => {
       });
    }
 
-   console.log("\nCreating seed user...");
-   const seedUser = await prisma.user.upsert({
+   console.log("\nCreating admin user...");
+   const adminUser = await prisma.user.upsert({
+      where: { email: SEED_ADMIN_EMAIL },
+      update: {},
+      create: { email: SEED_ADMIN_EMAIL, name: "admin 1", role: "admin" },
+   });
+
+   console.log("\nCreating user...");
+   const user = await prisma.user.upsert({
       where: { email: SEED_USER_EMAIL },
       update: {},
       create: { email: SEED_USER_EMAIL, name: "test 1" },
@@ -44,7 +55,7 @@ export const main = async () => {
    console.log("\nCreating prompt templates...");
 
    const createdTemplateDesciptors = [];
-   for (const pt of promptsData(seedUser.id)) {
+   for (const pt of promptsData(user.id)) {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {
@@ -56,7 +67,7 @@ export const main = async () => {
    }
 
    console.log("\nCreating prompt templates with fields...");
-   for (const pt of promptsWithFields(seedUser.id)) {
+   for (const pt of promptsWithFields(user.id)) {
       const templateDescriptor = await prisma.prompt.create({
          data: pt,
          include: {

@@ -7,6 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { WorkflowRepository } from "@/data/repositories/workflow";
 import { SubscriptionService } from "@/data/services/subscription";
+import { DWorkflowsUsage } from "@/data/types/domain/workflow";
 import { FeatureName } from "@/lib/subscription/access-control";
 import { ServiceFactory } from "../service.factory";
 
@@ -203,5 +204,65 @@ describe("deleteWorkflow", () => {
          userId,
          workflow.id
       );
+   });
+});
+
+describe("getWorkflowsUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("tier FREE - test", async () => {
+      const userId = "user-id-1";
+      const current = 0;
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("FREE");
+      workflowRepoMock.pGetWorkflowsCount.mockResolvedValue(current);
+
+      const result = await workflowService.getWorkflowsUsage(userId);
+
+      const expectedResult: DWorkflowsUsage = { current, limit: 0 };
+
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledWith(userId);
+   });
+
+   test("tier BASIC - test", async () => {
+      const userId = "user-id-1";
+      const current = 3;
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
+      workflowRepoMock.pGetWorkflowsCount.mockResolvedValue(current);
+
+      const result = await workflowService.getWorkflowsUsage(userId);
+
+      const expectedResult: DWorkflowsUsage = { current, limit: 5 };
+
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledWith(userId);
+   });
+
+   test("tier PRO - test", async () => {
+      const userId = "user-id-1";
+      const current = 42;
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("PRO");
+      workflowRepoMock.pGetWorkflowsCount.mockResolvedValue(current);
+
+      const result = await workflowService.getWorkflowsUsage(userId);
+
+      const expectedResult: DWorkflowsUsage = { current, limit: -1 };
+
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getUserTier).toHaveBeenCalledWith(userId);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledTimes(1);
+      expect(workflowRepoMock.pGetWorkflowsCount).toHaveBeenCalledWith(userId);
    });
 });

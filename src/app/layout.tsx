@@ -33,11 +33,11 @@ export async function generateMetadata(): Promise<Metadata> {
    };
 }
 
-export type RootLayoutProps = {
+export type LayoutProps = {
    children: React.ReactNode;
 };
 
-const RootLayout = (props: Readonly<RootLayoutProps>) => {
+const RootLayout = (props: Readonly<LayoutProps>) => {
    const { children } = props;
    return (
       <html lang="de" suppressHydrationWarning={true}>

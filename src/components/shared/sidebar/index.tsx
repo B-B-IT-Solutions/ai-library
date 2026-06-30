@@ -1,2 +1,2 @@
 export { Sidebar } from "./sidebar";
-export { SidebarMobileHeader } from "./sidebar-mobile-header";
+export { SidebarMobileHeader } from "./common";

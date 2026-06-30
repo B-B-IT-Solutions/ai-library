@@ -145,7 +145,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
 });
 
 describe("auth.config - callback.authorized - tests", () => {
-   const protectedPaths = [
+   const userProtectedPaths = [
       "/prompts",
       "/collections",
       "/settings",
@@ -157,8 +157,8 @@ describe("auth.config - callback.authorized - tests", () => {
       "/profile",
       "/user/123",
       "/orders/456",
-      "/admin",
    ];
+   const adminProtectedPaths = ["/admin", "/admin/", "/admin/dashboard"];
    const publicPaths = [
       "/auth/sign-in",
       "/auth/sign-up",
@@ -253,8 +253,8 @@ describe("auth.config - callback.authorized - tests", () => {
       });
    });
 
-   it("authorized - protected path access without authentication blocked- test", () => {
-      forEach(protectedPaths, (path) => {
+   it("authorized - user protected path access without authentication blocked - test", () => {
+      forEach(userProtectedPaths, (path) => {
          const request = {
             nextUrl: { pathname: path },
             cookies: {
@@ -267,11 +267,11 @@ describe("auth.config - callback.authorized - tests", () => {
       });
    });
 
-   it("authorized - protected path access with authentication allowed - test", () => {
+   it("authorized - user protected path access with authentication allowed - test", () => {
       const mockResponse = ntestData.nextResponse();
       nextMock.mockReturnValue(mockResponse);
 
-      forEach(protectedPaths, (path) => {
+      forEach(userProtectedPaths, (path) => {
          nextMock.mockClear();
 
          const request = {
@@ -285,6 +285,85 @@ describe("auth.config - callback.authorized - tests", () => {
 
          const auth = {
             user: { id: "user-1", email: "test@example.com" },
+         } as Session;
+
+         const result = authorized({ request, auth });
+
+         expect(result).toBe(mockResponse);
+         expect(nextMock).toHaveBeenCalledTimes(1);
+         expect(nextMock).toHaveBeenCalledWith();
+      });
+   });
+
+   it("authorized - admin protected path access without authentication blocked - test", () => {
+      forEach(adminProtectedPaths, (path) => {
+         nextMock.mockClear();
+
+         const request = {
+            nextUrl: { pathname: path },
+            cookies: {
+               get: jest.fn().mockReturnValue({ value: "session-id" }),
+               set: jest.fn(),
+            },
+            headers: new Headers(),
+         } as unknown as NextRequest;
+
+         const result = authorized({ request, auth: null });
+         expect(result).toBe(false);
+      });
+   });
+
+   it("authorized - admin protected path access without admin role redirected to /templates  - test", () => {
+      const toPath = "/templates";
+
+      forEach(adminProtectedPaths, (path) => {
+         redirectMock.mockClear();
+
+         const response = ntestData.nextResponse(307);
+         redirectMock.mockReturnValue(response);
+
+         const request = {
+            nextUrl: { pathname: path },
+            url: `http://localhost${path}`,
+            cookies: {
+               get: jest.fn().mockReturnValue({ value: "session-id" }),
+               set: jest.fn(),
+            },
+            headers: new Headers(),
+         } as unknown as NextRequest;
+
+         const auth = {
+            user: { id: "user-1", email: "test@example.com", role: "user" },
+         } as Session;
+
+         const result = authorized({ request, auth });
+
+         const expectUrl = new URL(toPath, `http://localhost${path}`);
+
+         expect(result).toBe(response);
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith(expectUrl);
+      });
+   });
+
+   it("authorized - admin protected path access with authentication allowed - test", () => {
+      const mockResponse = ntestData.nextResponse();
+      nextMock.mockReturnValue(mockResponse);
+
+      forEach(adminProtectedPaths, (path) => {
+         nextMock.mockClear();
+
+         const request = {
+            nextUrl: { pathname: path },
+            cookies: {
+               get: jest.fn().mockReturnValue({ value: "session-id" }),
+               set: jest.fn(),
+            },
+            headers: new Headers(),
+         } as unknown as NextRequest;
+
+         const auth = {
+            user: { id: "user-1", email: "test@example.com", role: "admin" },
          } as Session;
 
          const result = authorized({ request, auth });

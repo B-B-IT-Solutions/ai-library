@@ -1,14 +1,18 @@
 import { ReactNode } from "react";
 
-import { AuthenticatedLayoutWrapper } from "@/components/shared/wrappers/layout";
+import { AuthenticatedUserLayoutWrapper } from "@/components/shared/wrappers/layout";
 
-export type MainLayoutProps = {
+export type LayoutProps = {
    children: ReactNode;
 };
 
-const MainLayout = async (props: Readonly<MainLayoutProps>) => {
+const MainLayout = async (props: Readonly<LayoutProps>) => {
    const { children } = props;
-   return <AuthenticatedLayoutWrapper>{children}</AuthenticatedLayoutWrapper>;
+   return (
+      <AuthenticatedUserLayoutWrapper>
+         {children}
+      </AuthenticatedUserLayoutWrapper>
+   );
 };
 
 export default MainLayout;

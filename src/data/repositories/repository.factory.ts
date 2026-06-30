@@ -1,5 +1,8 @@
 import { DbClient } from "@/data/types/db/common";
 
+import { AdminDashboardRepository } from "./admin/dashboard";
+import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
+import { AdminUserRepository } from "./admin/user";
 import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
@@ -18,6 +21,9 @@ import { WorkflowRepository } from "./workflow";
 
 export class RepositoryFactory {
    private prisma: DbClient;
+   private adminDashboardRepo?: AdminDashboardRepository;
+   private adminUserRepo?: AdminUserRepository;
+   private adminSubscriptionPlanRepo?: AdminSubscriptionPlanRepository;
    private catalogRepo?: CatalogRepository;
    private publicCatalogRepo?: PublicCatalogRepository;
    private userRepo?: UserRepository;
@@ -39,6 +45,29 @@ export class RepositoryFactory {
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
+   }
+
+   adminDashboardRepository(): AdminDashboardRepository {
+      if (!this.adminDashboardRepo) {
+         this.adminDashboardRepo = new AdminDashboardRepository(this.prisma);
+      }
+      return this.adminDashboardRepo;
+   }
+
+   adminSubscriptionPlanRepository(): AdminSubscriptionPlanRepository {
+      if (!this.adminSubscriptionPlanRepo) {
+         this.adminSubscriptionPlanRepo = new AdminSubscriptionPlanRepository(
+            this.prisma
+         );
+      }
+      return this.adminSubscriptionPlanRepo;
+   }
+
+   adminUserRepository(): AdminUserRepository {
+      if (!this.adminUserRepo) {
+         this.adminUserRepo = new AdminUserRepository(this.prisma);
+      }
+      return this.adminUserRepo;
    }
 
    userRepository(): UserRepository {

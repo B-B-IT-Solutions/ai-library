@@ -1,1 +1,2 @@
-export { AuthenticatedLayoutWrapper } from "./layout-wrapper";
+export { AuthenticatedAdminLayoutWrapper } from "./admin-layout-wrapper";
+export { AuthenticatedUserLayoutWrapper } from "./user-layout-wrapper";
