@@ -1,0 +1,12 @@
+"use server";
+
+import { requireAdminUser } from "@/data/actions/auth-utils";
+import { AdminDashboardRepository } from "@/data/repositories/admin-dashboard";
+import prisma from "@/data/repositories/prisma";
+import { DAdminStats } from "@/data/types/domain/admin";
+
+export const getAdminStats = async (): Promise<DAdminStats> => {
+   await requireAdminUser();
+   const repo = new AdminDashboardRepository(prisma);
+   return repo.pGetStats();
+};

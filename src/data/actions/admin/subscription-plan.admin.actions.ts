@@ -1,0 +1,39 @@
+"use server";
+
+import { requireAdminUser } from "@/data/actions/auth-utils";
+import { formatError } from "@/data/actions/utils";
+import prisma from "@/data/repositories/prisma";
+import { ActionResult } from "@/data/types/utils";
+
+type SubscriptionPlanUpdateInput = {
+   name: string;
+   description: string;
+   monthlyPrice: number;
+   yearlyPrice: number;
+   isActive: boolean;
+};
+
+export const updateSubscriptionPlan = async (
+   planId: string,
+   input: SubscriptionPlanUpdateInput
+): Promise<ActionResult> => {
+   try {
+      await requireAdminUser();
+
+      await prisma.subscriptionPlan.update({
+         where: { id: planId },
+         data: {
+            name: input.name,
+            description: input.description,
+            monthlyPrice: input.monthlyPrice,
+            yearlyPrice: input.yearlyPrice,
+            isActive: input.isActive,
+         },
+      });
+
+      return { success: true, message: "Plan erfolgreich aktualisiert." };
+   } catch (error) {
+      console.error(formatError(error));
+      return { success: false, message: "Plan konnte nicht aktualisiert werden." };
+   }
+};
