@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
+import { AdminDashboardRepository } from "./admin/dashboard";
 import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
@@ -24,6 +25,19 @@ describe("RepositoryFactory tests", () => {
    beforeEach(() => {
       mockPrisma = {} as PrismaClient;
       factory = new RepositoryFactory(mockPrisma);
+   });
+
+   describe("adminDashboardRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.adminDashboardRepository();
+         expect(repository).toBeInstanceOf(AdminDashboardRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.adminDashboardRepository();
+         const repository2 = factory.adminDashboardRepository();
+         expect(repository1).toBe(repository2);
+      });
    });
 
    describe("userRepository tests", () => {

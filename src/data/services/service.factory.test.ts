@@ -1,5 +1,6 @@
 import prisma from "@/data/repositories/prisma";
 
+import { AdminDashboardService } from "./admin/dashboard";
 import { CartService } from "./cart";
 import { CatalogService, PublicCatalogService } from "./catalog";
 import { CollectionService, PublicCollectionService } from "./collection";
@@ -20,6 +21,19 @@ import {
 import { WorkflowService } from "./workflow";
 
 const serviceFactory = new ServiceFactory(prisma);
+
+describe("getAdminDashboardService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getAdminDashboardService();
+      expect(service).toBeInstanceOf(AdminDashboardService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getAdminDashboardService();
+      const service2 = serviceFactory.getAdminDashboardService();
+      expect(service1).toBe(service2);
+   });
+});
 
 describe("getUserService tests", () => {
    it("new instance - test", () => {

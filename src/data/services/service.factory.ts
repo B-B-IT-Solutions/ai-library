@@ -30,8 +30,11 @@ import { WorkflowService } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
 
+import { AdminDashboardService } from "./admin/dashboard";
+
 export class ServiceFactory {
    private repositories: RepositoryFactory;
+   private adminDashboardService?: AdminDashboardService;
    private catalogService?: CatalogService;
    private publicCatalogService?: PublicCatalogService;
    private userService?: UserService;
@@ -55,6 +58,15 @@ export class ServiceFactory {
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
+   }
+
+   getAdminDashboardService(): AdminDashboardService {
+      if (!this.adminDashboardService) {
+         this.adminDashboardService = new AdminDashboardService(
+            this.repositories.adminDashboardRepository()
+         );
+      }
+      return this.adminDashboardService;
    }
 
    getUserService(): UserService {
