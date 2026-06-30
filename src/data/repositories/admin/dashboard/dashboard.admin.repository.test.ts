@@ -1,17 +1,26 @@
 import { PrismaClient } from "@prisma/client";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
+import { DAdminStats } from "@/data/types/domain/admin/stats";
+import {
+   CatalogEntryCountArgs,
+   OrderAggregateArgs,
+   OrderCountArgs,
+   SubscriptionGroupByArgs,
+   SubscriptionPlanFindManyArgs,
+   UserCountArgs,
+} from "@/generated/prisma/models";
 
 import { AdminDashboardRepository } from "./dashboard.admin.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
-const repo = new AdminDashboardRepository(prismaMock);
+const repository = new AdminDashboardRepository(prismaMock);
 
 describe("pGetStats tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
       MockDate.set("2025-09-27");
    });
 
@@ -19,7 +28,7 @@ describe("pGetStats tests", () => {
       MockDate.reset();
    });
 
-   it("returns stats with all zeros - test", async () => {
+   test("returns zeros when no data - test", async () => {
       prismaMock.user.count.mockResolvedValue(0);
       prismaMock.subscription.groupBy.mockResolvedValue([]);
       prismaMock.order.aggregate.mockResolvedValue({
@@ -33,18 +42,22 @@ describe("pGetStats tests", () => {
       prismaMock.catalogEntry.count.mockResolvedValue(0);
       prismaMock.subscriptionPlan.findMany.mockResolvedValue([]);
 
-      const result = await repo.pGetStats();
+      const result = await repository.pGetStats();
 
-      expect(result.totalUsers).toBe(0);
-      expect(result.newUsersLast30Days).toBe(0);
-      expect(result.activeSubscriptions).toEqual({ FREE: 0, BASIC: 0, PRO: 0 });
-      expect(result.revenueLastMonth).toBe(0);
-      expect(result.pendingOrders).toBe(0);
-      expect(result.publishedCatalogEntries).toBe(0);
-      expect(result.draftCatalogEntries).toBe(0);
+      const expectedResult: DAdminStats = {
+         totalUsers: 0,
+         newUsersLast30Days: 0,
+         activeSubscriptions: { FREE: 0, BASIC: 0, PRO: 0 },
+         revenueLastMonth: 0,
+         pendingOrders: 0,
+         publishedCatalogEntries: 0,
+         draftCatalogEntries: 0,
+      };
+
+      expect(result).toEqual(expectedResult);
    });
 
-   it("returns correct stats with data - test", async () => {
+   test("returns correct stats with data - test", async () => {
       prismaMock.user.count
          .mockResolvedValueOnce(100)
          .mockResolvedValueOnce(10);
@@ -68,48 +81,71 @@ describe("pGetStats tests", () => {
          { id: "plan-pro-id", tier: "PRO" },
       ] as never);
 
-      const result = await repo.pGetStats();
+      const result = await repository.pGetStats();
 
-      expect(result.totalUsers).toBe(100);
-      expect(result.newUsersLast30Days).toBe(10);
-      expect(result.activeSubscriptions.BASIC).toBe(5);
-      expect(result.activeSubscriptions.PRO).toBe(3);
-      expect(result.activeSubscriptions.FREE).toBe(0);
-      expect(result.revenueLastMonth).toBe(1500);
-      expect(result.pendingOrders).toBe(2);
-      expect(result.publishedCatalogEntries).toBe(50);
-      expect(result.draftCatalogEntries).toBe(5);
-   });
+      const thirtyDaysAgo = new Date("2025-09-27");
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-   it("uses correct date filter for last 30 days - test", async () => {
-      prismaMock.user.count.mockResolvedValue(0);
-      prismaMock.subscription.groupBy.mockResolvedValue([]);
-      prismaMock.order.aggregate.mockResolvedValue({
-         _sum: { totalAmount: null },
-         _count: 0,
-         _avg: { totalAmount: null },
-         _min: { totalAmount: null },
-         _max: { totalAmount: null },
-      });
-      prismaMock.order.count.mockResolvedValue(0);
-      prismaMock.catalogEntry.count.mockResolvedValue(0);
-      prismaMock.subscriptionPlan.findMany.mockResolvedValue([]);
+      const expectedNewUsersCountArgs: UserCountArgs = {
+         where: { createdAt: { gte: thirtyDaysAgo } },
+      };
+      const expectedSubscriptionGroupByArgs: SubscriptionGroupByArgs = {
+         by: ["planId"],
+         where: { status: "ACTIVE" },
+         _count: true,
+      };
+      const expectedOrderAggregateArgs: OrderAggregateArgs = {
+         where: { status: "COMPLETED", createdAt: { gte: thirtyDaysAgo } },
+         _sum: { totalAmount: true },
+      };
+      const expectedOrderCountArgs: OrderCountArgs = {
+         where: { status: "PENDING" },
+      };
+      const expectedPublishedCountArgs: CatalogEntryCountArgs = {
+         where: { status: "PUBLISHED" },
+      };
+      const expectedDraftCountArgs: CatalogEntryCountArgs = {
+         where: { status: "DRAFT" },
+      };
+      const expectedPlanFindManyArgs: SubscriptionPlanFindManyArgs = {
+         where: { id: { in: ["plan-basic-id", "plan-pro-id"] } },
+         select: { id: true, tier: true },
+      };
 
-      await repo.pGetStats();
+      const expectedResult: DAdminStats = {
+         totalUsers: 100,
+         newUsersLast30Days: 10,
+         activeSubscriptions: { FREE: 0, BASIC: 5, PRO: 3 },
+         revenueLastMonth: 1500,
+         pendingOrders: 2,
+         publishedCatalogEntries: 50,
+         draftCatalogEntries: 5,
+      };
 
-      // Verify that user count was called twice (total and new)
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.count).toHaveBeenCalledTimes(2);
-
-      // Second call should have a date filter
-      const secondCall = prismaMock.user.count.mock.calls[1];
-      expect(secondCall[0]).toEqual(
-         expect.objectContaining({
-            where: expect.objectContaining({
-               createdAt: expect.objectContaining({
-                  gte: expect.any(Date),
-               }),
-            }),
-         })
+      expect(prismaMock.user.count).toHaveBeenNthCalledWith(1);
+      expect(prismaMock.user.count).toHaveBeenNthCalledWith(
+         2,
+         expectedNewUsersCountArgs
+      );
+      expect(prismaMock.subscription.groupBy).toHaveBeenCalledWith(
+         expectedSubscriptionGroupByArgs
+      );
+      expect(prismaMock.order.aggregate).toHaveBeenCalledWith(
+         expectedOrderAggregateArgs
+      );
+      expect(prismaMock.order.count).toHaveBeenCalledWith(
+         expectedOrderCountArgs
+      );
+      expect(prismaMock.catalogEntry.count).toHaveBeenCalledWith(
+         expectedPublishedCountArgs
+      );
+      expect(prismaMock.catalogEntry.count).toHaveBeenCalledWith(
+         expectedDraftCountArgs
+      );
+      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(
+         expectedPlanFindManyArgs
       );
    });
 });
