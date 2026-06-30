@@ -1,7 +1,7 @@
 import { map } from "es-toolkit/compat";
 
 import { UserWithSubscription } from "@/data/types/db/admin/user";
-import { DAdminUser } from "@/data/types/domain/admin/admin";
+import { DAdminUser } from "@/data/types/domain/admin/user";
 
 export const toDAdminUsers = (users: UserWithSubscription[]): DAdminUser[] => {
    return map(users, toDAdminUser);

@@ -1,13 +1,13 @@
 import { range } from "es-toolkit/compat";
 
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
+import { DAdminStats } from "@/data/types/domain/admin/stats";
 import {
    DAdminUser,
    DAdminUsersFilter,
    DAdminUsersPage,
    DAdminUsersPageQuery,
-   DSubscriptionPlanUpdate,
-} from "@/data/types/domain/admin/admin";
-import { DAdminStats } from "@/data/types/domain/admin/stats";
+} from "@/data/types/domain/admin/user";
 
 export const dAdminStats = (): DAdminStats => {
    return {

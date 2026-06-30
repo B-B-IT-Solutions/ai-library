@@ -11,7 +11,7 @@ import {
    DAdminUser,
    DAdminUsersPage,
    DAdminUsersPageQuery,
-} from "@/data/types/domain/admin/admin";
+} from "@/data/types/domain/admin/user";
 import { ActionResult } from "@/data/types/utils";
 
 export const getAdminUsersPage = async (

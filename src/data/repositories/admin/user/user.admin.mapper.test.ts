@@ -2,7 +2,7 @@ import { aptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import { UserWithSubscription } from "@/data/types/db/admin/user";
-import { DAdminUser } from "@/data/types/domain/admin/admin";
+import { DAdminUser } from "@/data/types/domain/admin/user";
 
 import { toDAdminUser, toDAdminUsers } from "./user.admin.mapper";
 

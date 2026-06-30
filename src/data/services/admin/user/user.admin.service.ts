@@ -3,7 +3,7 @@ import {
    DAdminUser,
    DAdminUsersPage,
    DAdminUsersPageQuery,
-} from "@/data/types/domain/admin/admin";
+} from "@/data/types/domain/admin/user";
 
 export class AdminUserService {
    constructor(private readonly userRepository: AdminUserRepository) {}

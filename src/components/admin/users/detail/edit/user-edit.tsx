@@ -7,7 +7,7 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { DAdminUser } from "@/data/types/domain/admin/admin";
+import { DAdminUser } from "@/data/types/domain/admin/user";
 
 import { UserRoleForm } from "./user-role-form";
 
