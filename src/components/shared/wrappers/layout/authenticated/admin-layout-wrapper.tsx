@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import {
    AdminSidebar,
-   AdminSidebarMobileHeader,
+   SidebarMobileHeader,
 } from "@/components/shared/sidebar/admin";
 import { requireAdmin } from "@/data/actions/auth-utils";
 
@@ -29,7 +29,7 @@ export const AuthenticatedAdminLayoutWrapper = async (props: Props) => {
          >
             <AdminSidebar user={admin} />
             <main className="flex flex-1 flex-col overflow-hidden">
-               <AdminSidebarMobileHeader />
+               <SidebarMobileHeader />
                <div className="min-h-0 flex-1">{children}</div>
             </main>
          </SidebarProvider>

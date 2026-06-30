@@ -24,7 +24,7 @@ const assertLayoutRendered = () => {
    const wrapper = screen.getByTestId("authenticated-admin-layout-wrapper");
    const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
    const sidebar = screen.getByTestId("admin-sidebar");
-   const mobileHeader = screen.getByTestId("admin-sidebar-mobile-header");
+   const mobileHeader = screen.getByTestId("sidebar-mobile-header");
    const test1 = screen.getByTestId("test-1");
 
    assertInDocument(wrapper);
