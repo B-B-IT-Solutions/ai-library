@@ -1,7 +1,11 @@
+import { range } from "es-toolkit/compat";
+
 import {
    DAdminUserDetail,
    DAdminUserListItem,
+   DAdminUsersFilter,
    DAdminUsersPage,
+   DAdminUsersPageQuery,
    DSubscriptionPlanUpdate,
 } from "@/data/types/domain/admin/admin";
 import { DAdminStats } from "@/data/types/domain/admin/stats";
@@ -22,6 +26,42 @@ export const dAdminStats = (): DAdminStats => {
    };
 };
 
+export const dAdminUsersPageQuery = (index = 1): DAdminUsersPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dAdminUsersFilter(index),
+      sort: {
+         field: "name",
+         order: "asc",
+      },
+   };
+};
+
+export const dAdminUsersFilter = (index = 1): DAdminUsersFilter => {
+   return {
+      search: `search ${index}`,
+   };
+};
+
+export const dAdminUsersPage = (count = 2): DAdminUsersPage => {
+   const users = dAdminUserListItems(count);
+   return {
+      content: users,
+      numberOfElements: users.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
+export const dAdminUserListItems = (count = 3): DAdminUserListItem[] => {
+   return range(0, count).map((i) => dAdminUserListItem(i));
+};
+
 export const dAdminUserListItem = (index = 1): DAdminUserListItem => ({
    id: `user-id-${index}`,
    name: `User ${index}`,
@@ -33,14 +73,9 @@ export const dAdminUserListItem = (index = 1): DAdminUserListItem => ({
    createdAt: new Date("2025-01-01").toISOString(),
 });
 
-export const dAdminUsersPage = (count = 2): DAdminUsersPage => ({
-   content: Array.from({ length: count }, (_, i) => dAdminUserListItem(i + 1)),
-   pageNumber: 0,
-   pageSize: 20,
-   totalElements: count,
-   totalPages: 1,
-   numberOfElements: count,
-});
+export const dAdminUserDetails = (count = 3): DAdminUserDetail[] => {
+   return range(0, count).map((i) => dAdminUserDetail(i));
+};
 
 export const dAdminUserDetail = (index = 1): DAdminUserDetail => ({
    ...dAdminUserListItem(index),

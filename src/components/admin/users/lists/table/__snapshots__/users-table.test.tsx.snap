@@ -66,15 +66,15 @@ exports[`AdminUsers rendering tests rendered test 1`] = `
               <a
                 class="font-medium text-primary hover:underline"
                 data-testid="mock-link"
-                href="/admin/users/user-id-1/edit"
+                href="/admin/users/user-id-0/edit"
               >
-                User 1
+                User 0
               </a>
             </td>
             <td
               class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
             >
-              user1@example.com
+              user0@example.com
             </td>
             <td
               class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
@@ -121,15 +121,15 @@ exports[`AdminUsers rendering tests rendered test 1`] = `
               <a
                 class="font-medium text-primary hover:underline"
                 data-testid="mock-link"
-                href="/admin/users/user-id-2/edit"
+                href="/admin/users/user-id-1/edit"
               >
-                User 2
+                User 1
               </a>
             </td>
             <td
               class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
             >
-              user2@example.com
+              user1@example.com
             </td>
             <td
               class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
@@ -175,7 +175,7 @@ exports[`AdminUsers rendering tests rendered test 1`] = `
     >
       2
        von 
-      2
+      15
        Nutzern
     </div>
   </div>

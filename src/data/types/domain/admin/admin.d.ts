@@ -1,3 +1,13 @@
+import { Page, PageQuery } from "../../common";
+
+export type DAdminUsersPageQuery = PageQuery<DAdminUsersFilter>;
+export type DAdminUsersPage = Page<DAdminUserListItem>;
+
+export type DAdminUsersFilter = {
+   search?: string;
+};
+
+
 export type DAdminUserListItem = {
    id: string;
    name: string;
@@ -9,19 +19,6 @@ export type DAdminUserListItem = {
    createdAt: string;
 };
 
-export type DAdminUsersPage = {
-   content: DAdminUserListItem[];
-   pageNumber: number;
-   pageSize: number;
-   totalElements: number;
-   totalPages: number;
-   numberOfElements: number;
-};
-
-export type DAdminUsersPageQuery = {
-   pagination?: { pageNumber: number; pageSize: number };
-   search?: string;
-};
 
 export type DAdminUserDetail = DAdminUserListItem & {
    stripeCustomerId: string | null;

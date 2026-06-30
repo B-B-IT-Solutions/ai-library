@@ -18,15 +18,20 @@ export const getAdminUsersPage = async (
    query?: DAdminUsersPageQuery
 ): Promise<DAdminUsersPage> => {
    await requireAdmin();
-   return await getService().getUsersPage(query);
+   const service = getService();
+   return await service.getUsersPage(query);
 };
 
 export const getAdminUser = async (
    userId: string
 ): Promise<DAdminUserDetail | null> => {
+   if (!isValidUuid(userId)) {
+      return null;
+   }
+
    await requireAdmin();
-   if (!isValidUuid(userId)) return null;
-   return await getService().getUserDetail(userId);
+   const service = getService();
+   return await service.getUserDetail(userId);
 };
 
 export const updateUserRole = async (
@@ -34,10 +39,17 @@ export const updateUserRole = async (
    role: "user" | "admin"
 ): Promise<ActionResult> => {
    try {
+      if (!isValidUuid(userId)) {
+         throw new Error("Invalid user ID.");
+      }
+
       await requireAdmin();
-      if (!isValidUuid(userId)) throw new Error("Invalid user ID.");
-      await getService().updateUserRole(userId, role);
-      return { success: true, message: "Rolle erfolgreich aktualisiert." };
+      const service = getService();
+      await service.updateUserRole(userId, role);
+      return {
+         success: true,
+         message: "Rolle erfolgreich aktualisiert.",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
@@ -48,5 +60,6 @@ export const updateUserRole = async (
 };
 
 const getService = (dbClient: DbClient = prisma) => {
-   return new ServiceFactory(dbClient).getAdminUserService();
+   const factory = new ServiceFactory(dbClient);
+   return factory.getAdminUserService();
 };

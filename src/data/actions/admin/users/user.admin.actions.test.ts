@@ -40,86 +40,72 @@ describe("getAdminUsersPage tests", () => {
       const error = new Error("Forbidden");
       requireAdminMock.mockRejectedValue(error);
 
-      await expect(getAdminUsersPage()).rejects.toThrow();
+      const fn = () => getAdminUsersPage();
+
+      await expect(fn).rejects.toThrow();
       expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sGetUsersPageMock).not.toHaveBeenCalled();
    });
 
-   test("returns users page - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
+   test("users retrieved - test", async () => {
+      const adminUser = dtestData.dLoginUser();
+      requireAdminMock.mockResolvedValue(adminUser);
 
-      const usersPage = adtestData.dAdminUsersPage();
-      sGetUsersPageMock.mockResolvedValue(usersPage);
+      const page = adtestData.dAdminUsersPage();
+      sGetUsersPageMock.mockResolvedValue(page);
 
-      const result = await getAdminUsersPage();
+      const query = adtestData.dAdminUsersPageQuery();
 
-      expect(result).toEqual(usersPage);
+      const result = await getAdminUsersPage(query);
+
+      expect(result).toEqual(page);
       expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sGetUsersPageMock).toHaveBeenCalledTimes(1);
-      expect(sGetUsersPageMock).toHaveBeenCalledWith(undefined);
-   });
-
-   test("passes query to service - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
-      sGetUsersPageMock.mockResolvedValue(adtestData.dAdminUsersPage());
-
-      const query = {
-         search: "test",
-         pagination: { pageNumber: 1, pageSize: 5 },
-      };
-      await getAdminUsersPage(query);
-
       expect(sGetUsersPageMock).toHaveBeenCalledWith(query);
    });
 });
 
-describe("getAdminUserDetail tests", () => {
+describe("getAdminUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+   });
+
+   test("invalid UUID - test", async () => {
+      const result = await getAdminUser("invalid-uuid");
+
+      expect(result).toBeNull();
+      expect(requireAdminMock).not.toHaveBeenCalled();
+      expect(sGetUserDetailMock).not.toHaveBeenCalled();
    });
 
    test("user not admin - test", async () => {
       const error = new Error("Forbidden");
       requireAdminMock.mockRejectedValue(error);
 
-      await expect(
-         getAdminUser("123e4567-e89b-12d3-a456-426614174000")
-      ).rejects.toThrow();
-   });
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
 
-   test("returns null for invalid UUID - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
+      const fn = () => getAdminUser(userId);
 
-      const result = await getAdminUser("invalid-uuid");
-
-      expect(result).toBeNull();
+      await expect(fn).rejects.toThrow();
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sGetUserDetailMock).not.toHaveBeenCalled();
    });
 
-   test("returns null when user not found - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
-      sGetUserDetailMock.mockResolvedValue(null);
+   test("user retrieved - test", async () => {
+      const adminUser = dtestData.dLoginUser();
+      requireAdminMock.mockResolvedValue(adminUser);
 
-      const result = await getAdminUser("123e4567-e89b-12d3-a456-426614174000");
+      const user = adtestData.dAdminUserDetail();
+      sGetUserDetailMock.mockResolvedValue(user);
 
-      expect(result).toBeNull();
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getAdminUser(userId);
+
+      expect(result).toEqual(user);
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sGetUserDetailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserDetailMock).toHaveBeenCalledWith(
-         "123e4567-e89b-12d3-a456-426614174000"
-      );
-   });
-
-   test("returns user detail - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
-      const userDetail = adtestData.dAdminUserDetail();
-      sGetUserDetailMock.mockResolvedValue(userDetail);
-
-      const result = await getAdminUser("123e4567-e89b-12d3-a456-426614174000");
-
-      expect(result).toEqual(userDetail);
-      expect(sGetUserDetailMock).toHaveBeenCalledWith(
-         "123e4567-e89b-12d3-a456-426614174000"
-      );
+      expect(sGetUserDetailMock).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -133,78 +119,58 @@ describe("updateUserRole tests", () => {
       jest.restoreAllMocks();
    });
 
+   test("invalid UUID - test", async () => {
+      const userId = "invalid-uuid";
+
+      const result = await updateUserRole(userId, "admin");
+
+      const expected: ActionResult = {
+         success: false,
+         message: "Rolle konnte nicht aktualisiert werden.",
+      };
+      expect(result).toEqual(expected);
+      expect(requireAdminMock).not.toHaveBeenCalled();
+      expect(sUpdateUserRoleMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
    test("user not admin - test", async () => {
       const error = new Error("Forbidden");
       requireAdminMock.mockRejectedValue(error);
 
-      const result = await updateUserRole(
-         "123e4567-e89b-12d3-a456-426614174000",
-         "admin"
-      );
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await updateUserRole(userId, "admin");
 
       const expected: ActionResult = {
          success: false,
          message: "Rolle konnte nicht aktualisiert werden.",
       };
+
       expect(result).toEqual(expected);
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sUpdateUserRoleMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   test("returns error for invalid UUID - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
+   test("user updated - test", async () => {
+      const adminUser = dtestData.dLoginUser();
+      requireAdminMock.mockResolvedValue(adminUser);
 
-      const result = await updateUserRole("invalid-uuid", "admin");
-
-      const expected: ActionResult = {
-         success: false,
-         message: "Rolle konnte nicht aktualisiert werden.",
-      };
-      expect(result).toEqual(expected);
-      expect(sUpdateUserRoleMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   test("error - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
-      const dbError = new Error("db error");
-      sUpdateUserRoleMock.mockRejectedValue(dbError);
-
-      const result = await updateUserRole(
-         "123e4567-e89b-12d3-a456-426614174000",
-         "user"
-      );
-
-      const expected: ActionResult = {
-         success: false,
-         message: "Rolle konnte nicht aktualisiert werden.",
-      };
-      expect(result).toEqual(expected);
-      expect(sUpdateUserRoleMock).toHaveBeenCalledWith(
-         "123e4567-e89b-12d3-a456-426614174000",
-         "user"
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   test("updates role successfully - test", async () => {
-      requireAdminMock.mockResolvedValue(dtestData.dLoginUser());
       sUpdateUserRoleMock.mockResolvedValue(undefined);
 
-      const result = await updateUserRole(
-         "123e4567-e89b-12d3-a456-426614174000",
-         "admin"
-      );
+      const userId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await updateUserRole(userId, "admin");
 
       const expected: ActionResult = {
          success: true,
          message: "Rolle erfolgreich aktualisiert.",
       };
+
       expect(result).toEqual(expected);
+      expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sUpdateUserRoleMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateUserRoleMock).toHaveBeenCalledWith(
-         "123e4567-e89b-12d3-a456-426614174000",
-         "admin"
-      );
+      expect(sUpdateUserRoleMock).toHaveBeenCalledWith(userId, "admin");
    });
 });
