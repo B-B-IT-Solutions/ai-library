@@ -1,4 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
@@ -6,6 +7,7 @@ import {
    renderWithSidebar,
 } from "@tests";
 import { LayoutDashboard, Users } from "lucide-react";
+import mockRouter from "next-router-mock";
 
 import { toTestId } from "@/lib/utils";
 import { DMenuItem } from "../types";
@@ -69,5 +71,31 @@ describe("SidebarMenuItem rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("SidebarMenuItem functionality tests", () => {
+   beforeEach(() => {
+      window.matchMedia = ctestData.createMatchMedia(false);
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("menu item clicked - test", async () => {
+      renderWithSidebar(
+         <SidebarMenuItem menuItem={menuItem1} pathName={menuItem1.url} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.asPath).toEqual("/");
+      });
+
+      const link = screen.getByTestId(`menu-item${toTestId(menuItem1.id)}`);
+      await userEvent.click(link);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(menuItem1.url);
+      });
    });
 });
