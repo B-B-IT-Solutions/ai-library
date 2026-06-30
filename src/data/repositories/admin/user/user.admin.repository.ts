@@ -1,7 +1,4 @@
-import {
-   UserWithSubscription,
-   UserWithSubscriptionAndHistory,
-} from "@/data/types/db/admin/user";
+import { UserWithSubscription } from "@/data/types/db/admin/user";
 import { DbClient } from "@/data/types/db/common";
 import {
    DAdminUserDetail,
@@ -62,18 +59,13 @@ export class AdminUserRepository {
          where: { id: userId },
          include: {
             subscription: { include: { plan: true } },
-            subscriptionHistory: {
-               orderBy: { createdAt: "desc" as const },
-               take: 20,
-            },
          },
       } satisfies UserFindFirstArgs;
 
-      const user = (await this.prisma.user.findFirst(
-         args
-      )) as UserWithSubscriptionAndHistory | null;
-      if (!user) return null;
-
+      const user = await this.prisma.user.findFirst(args);
+      if (!user) {
+         return null;
+      }
       return toDAdminUserDetail(user);
    }
 

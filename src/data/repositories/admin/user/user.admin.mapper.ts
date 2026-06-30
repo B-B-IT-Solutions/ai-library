@@ -1,16 +1,10 @@
 import { map } from "es-toolkit/compat";
 
-import { toDSubscription } from "@/data/repositories/subscription/subscription.mapper";
+import { UserWithSubscription } from "@/data/types/db/admin/user";
 import {
-   UserWithSubscription,
-   UserWithSubscriptionAndHistory,
-} from "@/data/types/db/admin/user";
-import {
-   DAdminSubscriptionHistoryItem,
    DAdminUserDetail,
    DAdminUserListItem,
 } from "@/data/types/domain/admin/admin";
-import { SubscriptionHistory } from "@/generated/prisma/client";
 
 export const toDAdminUserListItem = (
    user: UserWithSubscription
@@ -30,7 +24,7 @@ export const toDAdminUserListItems = (
 ): DAdminUserListItem[] => map(users, toDAdminUserListItem);
 
 export const toDAdminUserDetail = (
-   user: UserWithSubscriptionAndHistory
+   user: UserWithSubscription
 ): DAdminUserDetail => ({
    id: user.id,
    name: user.name ?? "",
@@ -43,22 +37,4 @@ export const toDAdminUserDetail = (
    trialEndsAt: user.trialEndsAt?.toISOString() ?? null,
    createdAt: user.createdAt.toISOString(),
    updatedAt: user.updatedAt.toISOString(),
-   subscription: user.subscription ? toDSubscription(user.subscription) : null,
-   subscriptionHistory: map(
-      user.subscriptionHistory,
-      toDAdminSubscriptionHistoryItem
-   ),
-});
-
-const toDAdminSubscriptionHistoryItem = (
-   h: SubscriptionHistory
-): DAdminSubscriptionHistoryItem => ({
-   id: h.id,
-   eventType: h.eventType,
-   fromTier: h.fromTier ?? null,
-   toTier: h.toTier ?? null,
-   fromStatus: h.fromStatus ?? null,
-   toStatus: h.toStatus ?? null,
-   stripeEventId: h.stripeEventId ?? null,
-   createdAt: h.createdAt.toISOString(),
 });

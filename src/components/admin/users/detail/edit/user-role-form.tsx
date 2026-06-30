@@ -11,7 +11,7 @@ type Props = {
    currentRole: string;
 };
 
-export const AdminUserRoleForm = ({ userId, currentRole }: Props) => {
+export const UserRoleForm = ({ userId, currentRole }: Props) => {
    const [role, setRole] = useState<"user" | "admin">(
       currentRole === "admin" ? "admin" : "user"
    );

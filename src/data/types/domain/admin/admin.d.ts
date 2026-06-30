@@ -7,7 +7,6 @@ export type DAdminUsersFilter = {
    search?: string;
 };
 
-
 export type DAdminUserListItem = {
    id: string;
    name: string;
@@ -19,13 +18,10 @@ export type DAdminUserListItem = {
    createdAt: string;
 };
 
-
 export type DAdminUserDetail = DAdminUserListItem & {
    stripeCustomerId: string | null;
    trialEndsAt: string | null;
    updatedAt: string;
-   subscription: import("../subscription").DSubscription | null;
-   subscriptionHistory: DAdminSubscriptionHistoryItem[];
 };
 
 export type DAdminSubscriptionHistoryItem = {
