@@ -56,7 +56,7 @@ export const authConfig: NextAuthConfig = {
             /\/orders\/(.*)/,
             /\/profile/,
             /\/user\/(.*)/,
-            /\/admin/,
+            /\/admin(.*)/,
          ];
 
          const { pathname } = request.nextUrl;
