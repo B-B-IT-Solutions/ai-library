@@ -4,6 +4,7 @@ import {
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/user";
+import { DUserRole } from "@/data/types/domain/user";
 import {
    UserCountArgs,
    UserFindFirstArgs,
@@ -68,7 +69,7 @@ export class AdminUserRepository {
       return toDAdminUser(user);
    }
 
-   async pUpdateUserRole(userId: string, role: string) {
+   async pUpdateUserRole(userId: string, role: DUserRole) {
       const args = {
          where: { id: userId },
          data: { role },

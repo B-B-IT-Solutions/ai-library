@@ -12,6 +12,7 @@ import {
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/user";
+import { DUserRole } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 export const getAdminUsersPage = async (
@@ -36,7 +37,7 @@ export const getAdminUser = async (
 
 export const updateUserRole = async (
    userId: string,
-   role: "user" | "admin"
+   role: DUserRole
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(userId)) {

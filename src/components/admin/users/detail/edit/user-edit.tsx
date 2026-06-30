@@ -125,10 +125,7 @@ export const AdminUserEdit = ({ user }: Props) => {
                         <p className="mb-1 text-sm font-medium text-muted-foreground">
                            Rolle ändern
                         </p>
-                        <UserRoleForm
-                           userId={user.id}
-                           currentRole={user.role}
-                        />
+                        <UserRoleForm user={user} />
                      </div>
                   </div>
                </CardContent>

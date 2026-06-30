@@ -4,6 +4,7 @@ import {
    DAdminUsersPage,
    DAdminUsersPageQuery,
 } from "@/data/types/domain/admin/user";
+import { DUserRole } from "@/data/types/domain/user";
 
 export class AdminUserService {
    constructor(private readonly userRepository: AdminUserRepository) {}
@@ -16,7 +17,7 @@ export class AdminUserService {
       return await this.userRepository.pGetUser(userId);
    }
 
-   async updateUserRole(userId: string, role: string): Promise<void> {
+   async updateUserRole(userId: string, role: DUserRole): Promise<void> {
       await this.userRepository.pUpdateUserRole(userId, role);
    }
 }

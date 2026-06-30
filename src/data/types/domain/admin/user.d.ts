@@ -1,4 +1,5 @@
-import { Page, PageQuery } from "../../common";
+import { Page, PageQuery } from "@/data/types/common";
+import { DUserRole } from "@/data/types/domain/user";
 
 export type DAdminUsersPageQuery = PageQuery<DAdminUsersFilter>;
 export type DAdminUsersPage = Page<DAdminUser>;
@@ -11,7 +12,7 @@ export type DAdminUser = {
    id: string;
    name: string;
    email: string;
-   role: string;
+   role: DUserRole;
    emailVerified?: string;
    subscriptionTier?: string;
    subscriptionStatus?: string;
