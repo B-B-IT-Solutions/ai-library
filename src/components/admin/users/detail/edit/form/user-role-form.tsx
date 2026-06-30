@@ -33,7 +33,11 @@ export const UserRoleForm = ({ userId, currentRole }: Props) => {
    };
 
    return (
-      <form onSubmit={handleSubmit} className="flex items-center gap-3">
+      <form
+         onSubmit={handleSubmit}
+         className="flex items-center gap-3"
+         data-testid="user-role-form"
+      >
          <select
             value={role}
             onChange={(e) => setRole(e.target.value as "user" | "admin")}
