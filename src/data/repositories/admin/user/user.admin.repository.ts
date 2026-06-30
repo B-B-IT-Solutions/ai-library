@@ -15,11 +15,21 @@ export class AdminUserRepository {
       const skip = pageNumber * pageSize;
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const where: any = query?.search
+      const where: any = query?.filter?.search
          ? {
               OR: [
-                 { name: { contains: query.search, mode: "insensitive" } },
-                 { email: { contains: query.search, mode: "insensitive" } },
+                 {
+                    name: {
+                       contains: query.filter.search,
+                       mode: "insensitive",
+                    },
+                 },
+                 {
+                    email: {
+                       contains: query.filter.search,
+                       mode: "insensitive",
+                    },
+                 },
               ],
            }
          : {};

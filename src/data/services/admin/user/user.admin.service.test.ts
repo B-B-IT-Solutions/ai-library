@@ -1,46 +1,33 @@
-jest.mock("@/data/repositories/admin");
+jest.mock("@/data/repositories/admin/user");
 
 import { adtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { AdminUserRepository } from "@/data/repositories/admin";
+import { AdminUserRepository } from "@/data/repositories/admin/user";
 import prisma from "@/data/repositories/prisma";
-import { DAdminUsersPageQuery } from "@/data/types/domain/admin/admin";
 
 import { AdminUserService } from "./user.admin.service";
 
-const repo = new AdminUserRepository(prisma);
-const repoMock = repo as DeepMockProxy<AdminUserRepository>;
+const userRepo = new AdminUserRepository(prisma);
+const userRepoMock = userRepo as DeepMockProxy<AdminUserRepository>;
 
-const service = new AdminUserService(repoMock);
+const service = new AdminUserService(userRepoMock);
 
 describe("getUsersPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("returns users page from repository - test", async () => {
+   test("page retrieved - test", async () => {
       const usersPage = adtestData.dAdminUsersPage();
-      repoMock.pGetUsersPage.mockResolvedValue(usersPage);
+      userRepoMock.pGetUsersPage.mockResolvedValue(usersPage);
 
-      const result = await service.getUsersPage();
+      const query = adtestData.dAdminUsersPageQuery();
+      const result = await service.getUsersPage(query);
 
       expect(result).toEqual(usersPage);
-      expect(repoMock.pGetUsersPage).toHaveBeenCalledTimes(1);
-      expect(repoMock.pGetUsersPage).toHaveBeenCalledWith(undefined);
-   });
-
-   test("passes query to repository - test", async () => {
-      const usersPage = adtestData.dAdminUsersPage();
-      repoMock.pGetUsersPage.mockResolvedValue(usersPage);
-
-      const query: DAdminUsersPageQuery = {
-         search: "test",
-         pagination: { pageNumber: 1, pageSize: 10 },
-      };
-      await service.getUsersPage(query);
-
-      expect(repoMock.pGetUsersPage).toHaveBeenCalledWith(query);
+      expect(userRepoMock.pGetUsersPage).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUsersPage).toHaveBeenCalledWith(query);
    });
 });
 
@@ -49,24 +36,15 @@ describe("getUserDetail tests", () => {
       jest.clearAllMocks();
    });
 
-   test("returns null when user not found - test", async () => {
-      repoMock.pGetUserDetail.mockResolvedValue(null);
+   test("user retrieved - test", async () => {
+      const user = adtestData.dAdminUserDetail();
+      userRepoMock.pGetUserDetail.mockResolvedValue(user);
 
-      const result = await service.getUserDetail("user-id-1");
+      const result = await service.getUserDetail(user.id);
 
-      expect(result).toBeNull();
-      expect(repoMock.pGetUserDetail).toHaveBeenCalledTimes(1);
-      expect(repoMock.pGetUserDetail).toHaveBeenCalledWith("user-id-1");
-   });
-
-   test("returns user detail - test", async () => {
-      const userDetail = adtestData.dAdminUserDetail();
-      repoMock.pGetUserDetail.mockResolvedValue(userDetail);
-
-      const result = await service.getUserDetail("user-id-1");
-
-      expect(result).toEqual(userDetail);
-      expect(repoMock.pGetUserDetail).toHaveBeenCalledWith("user-id-1");
+      expect(result).toEqual(user);
+      expect(userRepoMock.pGetUserDetail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserDetail).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -75,12 +53,17 @@ describe("updateUserRole tests", () => {
       jest.clearAllMocks();
    });
 
-   test("delegates to repository - test", async () => {
-      repoMock.pUpdateUserRole.mockResolvedValue(undefined);
+   test("user updated - test", async () => {
+      userRepoMock.pUpdateUserRole.mockResolvedValue(undefined);
 
-      await service.updateUserRole("user-id-1", "admin");
+      const userId = "user-id-1";
 
-      expect(repoMock.pUpdateUserRole).toHaveBeenCalledTimes(1);
-      expect(repoMock.pUpdateUserRole).toHaveBeenCalledWith("user-id-1", "admin");
+      await service.updateUserRole(userId, "admin");
+
+      expect(userRepoMock.pUpdateUserRole).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUserRole).toHaveBeenCalledWith(
+         userId,
+         "admin"
+      );
    });
 });

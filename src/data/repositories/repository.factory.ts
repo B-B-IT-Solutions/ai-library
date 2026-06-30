@@ -1,8 +1,8 @@
 import { DbClient } from "@/data/types/db/common";
 
-import { AdminSubscriptionRepository, AdminUserRepository } from "./admin";
 import { AdminDashboardRepository } from "./admin/dashboard";
 import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
+import { AdminUserRepository } from "./admin/user";
 import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";

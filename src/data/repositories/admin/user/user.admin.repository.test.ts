@@ -4,7 +4,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 
-import { AdminUserRepository } from "./admin-user.repository";
+import { AdminUserRepository } from "./user.admin.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const repo = new AdminUserRepository(prismaMock);
@@ -62,7 +62,7 @@ describe("pGetUsersPage tests", () => {
       prismaMock.user.findMany.mockResolvedValue([]);
       prismaMock.user.count.mockResolvedValue(0);
 
-      await repo.pGetUsersPage({ search: "test" });
+      await repo.pGetUsersPage({ filter: { search: "test" } });
 
       expect(prismaMock.user.findMany).toHaveBeenCalledWith(
          expect.objectContaining({
