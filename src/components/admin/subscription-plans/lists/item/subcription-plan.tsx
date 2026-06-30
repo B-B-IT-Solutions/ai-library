@@ -16,40 +16,30 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Textarea } from "@/components/shadcn/textarea";
 import { updateSubscriptionPlan } from "@/data/actions/admin/subscription-plans";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 
 type Props = {
-   plans: DSubscriptionPlan[];
-};
-
-type PlanFormValues = {
-   name: string;
-   description: string;
-   monthlyPrice: number;
-   yearlyPrice: number;
-   isActive: boolean;
-};
-
-type PlanCardProps = {
    plan: DSubscriptionPlan;
 };
 
-const PlanCard = ({ plan }: PlanCardProps) => {
+export const SubscriptionPlan = ({ plan }: Props) => {
    const [isPending, setIsPending] = useState(false);
 
-   const { register, handleSubmit, setValue, watch } = useForm<PlanFormValues>({
-      defaultValues: {
-         name: plan.name,
-         description: plan.description,
-         monthlyPrice: plan.monthlyPrice,
-         yearlyPrice: plan.yearlyPrice,
-         isActive: plan.isActive,
-      },
-   });
+   const { register, handleSubmit, setValue, watch } =
+      useForm<DSubscriptionPlanUpdate>({
+         defaultValues: {
+            name: plan.name,
+            description: plan.description,
+            monthlyPrice: plan.monthlyPrice,
+            yearlyPrice: plan.yearlyPrice,
+            isActive: plan.isActive,
+         },
+      });
 
    const isActive = watch("isActive");
 
-   const onSubmit = async (data: PlanFormValues) => {
+   const onSubmit = async (data: DSubscriptionPlanUpdate) => {
       setIsPending(true);
       try {
          const result = await updateSubscriptionPlan(plan.id, data);
@@ -64,9 +54,9 @@ const PlanCard = ({ plan }: PlanCardProps) => {
    };
 
    return (
-      <Card data-testid={`plan-card-${plan.tier}`}>
+      <Card data-testid="subscription-plan">
          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+            <CardTitle className="flex flex-col items-start space-y-2">
                <span>{plan.tier}</span>
                <span className="text-sm font-normal text-muted-foreground">
                   ID: {plan.id}
@@ -164,24 +154,15 @@ const PlanCard = ({ plan }: PlanCardProps) => {
                   </div>
                </div>
 
-               <Button type="submit" disabled={isPending}>
+               <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="cursor-pointer"
+               >
                   {isPending ? "Speichern..." : "Speichern"}
                </Button>
             </form>
          </CardContent>
       </Card>
-   );
-};
-
-export const AdminSubscriptionPlansEditor = ({ plans }: Props) => {
-   return (
-      <div
-         className="grid grid-cols-1 gap-6 lg:grid-cols-3"
-         data-testid="admin-subscription-plans-editor"
-      >
-         {plans.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
-         ))}
-      </div>
    );
 };

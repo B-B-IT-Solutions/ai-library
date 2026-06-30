@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, renderWithReactQuery } from "@tests";
+import { render } from "@testing-library/react";
+import { assertInDocument } from "@tests";
 import { FileText } from "lucide-react";
 
 import { Kpi } from "./kpi";
@@ -11,7 +12,7 @@ const assertRendered = () => {
 
 describe("Kpi rendering tests", () => {
    it("subtitle undefined - test", async () => {
-      const { container } = renderWithReactQuery(
+      const { container } = render(
          <Kpi title="title 1" value={49} icon={FileText} />
       );
 
@@ -23,7 +24,7 @@ describe("Kpi rendering tests", () => {
    });
 
    it("subtitle defined - test", async () => {
-      const { container } = renderWithReactQuery(
+      const { container } = render(
          <Kpi
             title="title 123"
             value="49"

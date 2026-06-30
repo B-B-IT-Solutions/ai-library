@@ -1,0 +1,692 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SubscriptionPlanItems rendering tests subtitle undefined - test 1`] = `
+<div>
+  <div
+    class="grid grid-cols-1 gap-6 lg:grid-cols-3"
+    data-testid="subscription-plan-items"
+  >
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="subscription-plan"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold flex items-center justify-between"
+          data-slot="card-title"
+        >
+          <span>
+            BASIC
+          </span>
+          <span
+            class="text-sm font-normal text-muted-foreground"
+          >
+            ID: 
+            df964a3c-bfa2-4484-97c3-219c21583800
+          </span>
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <form
+          class="space-y-4"
+        >
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="name-df964a3c-bfa2-4484-97c3-219c21583800"
+            >
+              Name
+            </label>
+            <input
+              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              data-slot="input"
+              id="name-df964a3c-bfa2-4484-97c3-219c21583800"
+              name="name"
+            />
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="description-df964a3c-bfa2-4484-97c3-219c21583800"
+            >
+              Beschreibung
+            </label>
+            <textarea
+              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              data-slot="textarea"
+              id="description-df964a3c-bfa2-4484-97c3-219c21583800"
+              name="description"
+              rows="3"
+            />
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583800"
+              >
+                Monatspreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583800"
+                name="monthlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583800"
+              >
+                Jahrespreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583800"
+                name="yearlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2"
+          >
+            <button
+              aria-checked="true"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="checked"
+              id="isActive-df964a3c-bfa2-4484-97c3-219c21583800"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="checked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <input
+              aria-hidden="true"
+              checked=""
+              style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+              tabindex="-1"
+              type="checkbox"
+              value="on"
+            />
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="isActive-df964a3c-bfa2-4484-97c3-219c21583800"
+            >
+              Plan aktiv
+            </label>
+          </div>
+          <div
+            class="space-y-2 rounded-md bg-muted/50 p-3"
+          >
+            <p
+              class="text-xs font-medium text-muted-foreground"
+            >
+              Stripe-Konfiguration (readonly)
+            </p>
+            <div
+              class="grid grid-cols-1 gap-2 text-xs"
+            >
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Product ID: 
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  d48fabe0-8c26-4dcf-959a-f87b15e3efb0
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (monatlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  22a0af93-3fec-41e6-9a4e-96c832d4c400
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (jährlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  9df90f95-b6fb-4774-bd58-04ac40397880
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </form>
+      </div>
+    </div>
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="subscription-plan"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold flex items-center justify-between"
+          data-slot="card-title"
+        >
+          <span>
+            PRO
+          </span>
+          <span
+            class="text-sm font-normal text-muted-foreground"
+          >
+            ID: 
+            df964a3c-bfa2-4484-97c3-219c21583801
+          </span>
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <form
+          class="space-y-4"
+        >
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="name-df964a3c-bfa2-4484-97c3-219c21583801"
+            >
+              Name
+            </label>
+            <input
+              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              data-slot="input"
+              id="name-df964a3c-bfa2-4484-97c3-219c21583801"
+              name="name"
+            />
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="description-df964a3c-bfa2-4484-97c3-219c21583801"
+            >
+              Beschreibung
+            </label>
+            <textarea
+              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              data-slot="textarea"
+              id="description-df964a3c-bfa2-4484-97c3-219c21583801"
+              name="description"
+              rows="3"
+            />
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583801"
+              >
+                Monatspreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583801"
+                name="monthlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583801"
+              >
+                Jahrespreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583801"
+                name="yearlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2"
+          >
+            <button
+              aria-checked="true"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="checked"
+              id="isActive-df964a3c-bfa2-4484-97c3-219c21583801"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="checked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <input
+              aria-hidden="true"
+              checked=""
+              style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+              tabindex="-1"
+              type="checkbox"
+              value="on"
+            />
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="isActive-df964a3c-bfa2-4484-97c3-219c21583801"
+            >
+              Plan aktiv
+            </label>
+          </div>
+          <div
+            class="space-y-2 rounded-md bg-muted/50 p-3"
+          >
+            <p
+              class="text-xs font-medium text-muted-foreground"
+            >
+              Stripe-Konfiguration (readonly)
+            </p>
+            <div
+              class="grid grid-cols-1 gap-2 text-xs"
+            >
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Product ID: 
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  d48fabe0-8c26-4dcf-959a-f87b15e3efb1
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (monatlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  22a0af93-3fec-41e6-9a4e-96c832d4c401
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (jährlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  9df90f95-b6fb-4774-bd58-04ac40397881
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </form>
+      </div>
+    </div>
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="subscription-plan"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold flex items-center justify-between"
+          data-slot="card-title"
+        >
+          <span>
+            BASIC
+          </span>
+          <span
+            class="text-sm font-normal text-muted-foreground"
+          >
+            ID: 
+            df964a3c-bfa2-4484-97c3-219c21583802
+          </span>
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <form
+          class="space-y-4"
+        >
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="name-df964a3c-bfa2-4484-97c3-219c21583802"
+            >
+              Name
+            </label>
+            <input
+              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              data-slot="input"
+              id="name-df964a3c-bfa2-4484-97c3-219c21583802"
+              name="name"
+            />
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="description-df964a3c-bfa2-4484-97c3-219c21583802"
+            >
+              Beschreibung
+            </label>
+            <textarea
+              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              data-slot="textarea"
+              id="description-df964a3c-bfa2-4484-97c3-219c21583802"
+              name="description"
+              rows="3"
+            />
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583802"
+              >
+                Monatspreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="monthlyPrice-df964a3c-bfa2-4484-97c3-219c21583802"
+                name="monthlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+            <div
+              class="space-y-2"
+            >
+              <label
+                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583802"
+              >
+                Jahrespreis (CHF)
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                data-slot="input"
+                id="yearlyPrice-df964a3c-bfa2-4484-97c3-219c21583802"
+                name="yearlyPrice"
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2"
+          >
+            <button
+              aria-checked="true"
+              class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+              data-slot="checkbox"
+              data-state="checked"
+              id="isActive-df964a3c-bfa2-4484-97c3-219c21583802"
+              role="checkbox"
+              type="button"
+              value="on"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="grid place-content-center text-current transition-none"
+                  data-slot="checkbox-indicator"
+                  data-state="checked"
+                  style="pointer-events: none;"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check size-3.5"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <input
+              aria-hidden="true"
+              checked=""
+              style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+              tabindex="-1"
+              type="checkbox"
+              value="on"
+            />
+            <label
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              data-slot="label"
+              for="isActive-df964a3c-bfa2-4484-97c3-219c21583802"
+            >
+              Plan aktiv
+            </label>
+          </div>
+          <div
+            class="space-y-2 rounded-md bg-muted/50 p-3"
+          >
+            <p
+              class="text-xs font-medium text-muted-foreground"
+            >
+              Stripe-Konfiguration (readonly)
+            </p>
+            <div
+              class="grid grid-cols-1 gap-2 text-xs"
+            >
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Product ID: 
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  d48fabe0-8c26-4dcf-959a-f87b15e3efb2
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (monatlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  22a0af93-3fec-41e6-9a4e-96c832d4c402
+                </span>
+              </div>
+              <div>
+                <span
+                  class="font-medium"
+                >
+                  Price ID (jährlich):
+                   
+                </span>
+                <span
+                  class="font-mono"
+                >
+                  9df90f95-b6fb-4774-bd58-04ac40397882
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;

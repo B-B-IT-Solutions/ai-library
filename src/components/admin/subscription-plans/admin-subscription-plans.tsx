@@ -1,6 +1,6 @@
 import { getAdminSubscriptionPlans } from "@/data/actions/admin/subscription-plans";
 
-import { AdminSubscriptionPlansEditor } from "./admin-subscription-plans-editor";
+import { SubscriptionPlanItems } from "./lists";
 
 export const AdminSubscriptionPlans = async () => {
    const plans = await getAdminSubscriptionPlans();
@@ -16,7 +16,7 @@ export const AdminSubscriptionPlans = async () => {
             </h1>
             <p className="text-slate-600">Konfiguriere die Abonnement-Pläne</p>
          </div>
-         <AdminSubscriptionPlansEditor plans={plans} />
+         <SubscriptionPlanItems plans={plans} />
       </div>
    );
 };
