@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -11,12 +11,13 @@ import {
    TableRow,
 } from "@/components/shadcn/table";
 import { DAdminUsersPage } from "@/data/types/domain/admin/admin";
+import { formatDateTime } from "@/lib/utils";
 
 type Props = {
-   usersPage: DAdminUsersPage;
+   users: DAdminUsersPage;
 };
 
-export const UsersTable = ({ usersPage }: Props) => {
+export const UsersTable = ({ users }: Props) => {
    return (
       <div data-testid="users-table">
          <Table>
@@ -32,7 +33,7 @@ export const UsersTable = ({ usersPage }: Props) => {
                </TableRow>
             </TableHeader>
             <TableBody>
-               {usersPage.content.map((user) => (
+               {map(users.content, (user) => (
                   <TableRow key={user.id}>
                      <TableCell>
                         <Link
@@ -62,14 +63,14 @@ export const UsersTable = ({ usersPage }: Props) => {
                         )}
                      </TableCell>
                      <TableCell>
-                        {format(new Date(user.createdAt), "dd.MM.yyyy")}
+                        {formatDateTime(user.createdAt).dateOnly}
                      </TableCell>
                   </TableRow>
                ))}
             </TableBody>
          </Table>
          <div className="mt-4 text-sm text-muted-foreground">
-            {usersPage.numberOfElements} von {usersPage.totalElements} Nutzern
+            {users.numberOfElements} von {users.totalElements} Nutzern
          </div>
       </div>
    );

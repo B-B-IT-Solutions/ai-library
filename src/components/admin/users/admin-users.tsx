@@ -3,7 +3,7 @@ import { getAdminUsersPage } from "@/data/actions/admin/users";
 import { UsersTable } from "./lists";
 
 export const AdminUsers = async () => {
-   const usersPage = await getAdminUsersPage();
+   const users = await getAdminUsersPage();
 
    return (
       <div
@@ -13,10 +13,10 @@ export const AdminUsers = async () => {
          <div className="mb-8">
             <h1 className="mb-2 text-3xl font-bold text-slate-900">Nutzer</h1>
             <p className="text-slate-600">
-               {usersPage.totalElements} Nutzer gesamt
+               {users.totalElements} Nutzer gesamt
             </p>
          </div>
-         <UsersTable usersPage={usersPage} />
+         <UsersTable users={users} />
       </div>
    );
 };
