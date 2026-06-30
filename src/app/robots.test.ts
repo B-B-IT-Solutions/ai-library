@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-import { getAppUrl } from "@/lib/constants";
+import { getProdAppMetadataUrl } from "@/lib/constants";
 
 import robots from "./robots";
 
@@ -12,7 +12,7 @@ const exptectedRobots: MetadataRoute.Robots = {
          disallow: "/",
       },
    ],
-   sitemap: `${getAppUrl()}/sitemap.xml`,
+   sitemap: `${getProdAppMetadataUrl()}/sitemap.xml`,
 };
 
 describe("robots - tests", () => {

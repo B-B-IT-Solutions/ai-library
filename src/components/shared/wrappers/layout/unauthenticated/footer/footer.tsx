@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { APP_NAME, getLandingPageUrl } from "@/lib/constants";
+import { APP_NAME, getProdLandingPageUrl } from "@/lib/constants";
 
 export const Footer = () => {
-   const landingPageUrl = getLandingPageUrl();
+   const landingPageUrl = getProdLandingPageUrl();
 
    return (
       <footer className="border-t bg-muted/50 py-10" data-testid="footer">

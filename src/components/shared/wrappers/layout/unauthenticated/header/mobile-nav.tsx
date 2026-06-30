@@ -11,7 +11,7 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@/components/shadcn/sheet";
-import { getLandingPageUrl } from "@/lib/constants";
+import { getProdLandingPageUrl } from "@/lib/constants";
 
 type Props = {
    authenticated: boolean;
@@ -20,7 +20,7 @@ type Props = {
 export const MobileNav = ({ authenticated }: Props) => {
    const [open, setOpen] = useState(false);
 
-   const landingPageUrl = getLandingPageUrl();
+   const landingPageUrl = getProdLandingPageUrl();
 
    const handleClick = () => {
       setOpen(false);

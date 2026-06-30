@@ -6,16 +6,16 @@ import { MetadataRoute } from "next";
 
 import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
 import { DCatalogEntrySitemapData } from "@/data/types/domain/catalog";
-import { getAppUrl } from "@/lib/constants";
+import { getProdAppMetadataUrl } from "@/lib/constants";
 
-import sitemap from "./sitemap";
+import sitemap, { dynamic } from "./sitemap";
 
 const getCatalogEntriesForSitemapMock =
    getCatalogEntriesForSitemap as jest.MockedFunction<
       typeof getCatalogEntriesForSitemap
    >;
 
-const appUrl = getAppUrl();
+const appUrl = getProdAppMetadataUrl();
 
 const toCatalogEntrySiteMapEntry = (entry: DCatalogEntrySitemapData) => {
    return {
@@ -57,6 +57,10 @@ describe("sitemap tests", () => {
 
    afterEach(() => {
       MockDate.reset();
+   });
+
+   it("dymic - test", async () => {
+      expect(dynamic).toEqual("force-dynamic");
    });
 
    it("static routes - test", async () => {

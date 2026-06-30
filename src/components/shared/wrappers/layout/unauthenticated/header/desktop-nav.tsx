@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { getLandingPageUrl } from "@/lib/constants";
+import { getProdLandingPageUrl } from "@/lib/constants";
 
 type Props = {
    authenticated: boolean;
 };
 
 export const DesktopNav = ({ authenticated }: Props) => {
-   const landingPageUrl = getLandingPageUrl();
+   const landingPageUrl = getProdLandingPageUrl();
 
    return (
       <div

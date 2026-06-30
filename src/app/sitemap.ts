@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 
 import { getCatalogEntriesForSitemap } from "@/data/actions/catalog";
 import { DCatalogEntrySitemapData } from "@/data/types/domain/catalog";
-import { getAppUrl } from "@/lib/constants";
+import { getProdAppMetadataUrl } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +30,7 @@ const toCatalogEntrySiteMapEntry = (
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-   const appUrl = getAppUrl();
+   const appUrl = getProdAppMetadataUrl();
 
    const [catalogEntries] = await Promise.all([getCatalogEntriesForSitemap()]);
 

@@ -39,33 +39,66 @@ describe("constants - static values - tests", () => {
    });
 });
 
-describe("getLandingPageUrl - tests", () => {
+describe("getProdLandingPageUrl - tests", () => {
    const originalEnv = process.env;
 
    afterEach(() => {
       process.env = originalEnv;
    });
 
-   it("getLandingPageUrl - env set - returns env value - test", () => {
+   it("env set - returns env value - test", () => {
       jest.isolateModules(() => {
          process.env = {
             ...originalEnv,
-            LANDING_PAGE_URL: "https://lanindg-page.com",
+            PROD_LANDING_PAGE_URL: "https://lanindg-page.com",
          };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
-         const { getLandingPageUrl } = require("./constants");
+         const { getProdLandingPageUrl } = require("./constants");
 
-         expect(getLandingPageUrl()).toBe("https://lanindg-page.com");
+         expect(getProdLandingPageUrl()).toBe("https://lanindg-page.com");
       });
    });
 
-   it("getLandingPageUrl - env not set - returns default fallback - test", () => {
+   it("env not set - returns default fallback - test", () => {
       jest.isolateModules(() => {
-         process.env = { ...originalEnv, LANDING_PAGE_URL: undefined };
+         process.env = { ...originalEnv, PROD_LANDING_PAGE_URL: undefined };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
-         const { getLandingPageUrl } = require("./constants");
+         const { getProdLandingPageUrl } = require("./constants");
 
-         expect(getLandingPageUrl()).toBe("https://www.vision-notes.com");
+         expect(getProdLandingPageUrl()).toBe("https://www.vision-notes.com");
+      });
+   });
+});
+
+describe("getProdAppMetadataUrl - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("env set - returns env value - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            PROD_APP_METADATA_URL: "https://metadata-test.vision-notes.com",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getProdAppMetadataUrl } = require("./constants");
+
+         expect(getProdAppMetadataUrl()).toBe(
+            "https://metadata-test.vision-notes.com"
+         );
+      });
+   });
+
+   it("env not set - returns default fallback - test", () => {
+      jest.isolateModules(() => {
+         process.env = { ...originalEnv, PROD_APP_METADATA_URL: undefined };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getProdAppMetadataUrl } = require("./constants");
+
+         expect(getProdAppMetadataUrl()).toBe("https://app.vision-notes.com");
       });
    });
 });
@@ -77,7 +110,7 @@ describe("getAppUrl - tests", () => {
       process.env = originalEnv;
    });
 
-   it("getAppUrl - env set - returns env value - test", () => {
+   it("env set - returns env value - test", () => {
       jest.isolateModules(() => {
          process.env = {
             ...originalEnv,
@@ -90,7 +123,7 @@ describe("getAppUrl - tests", () => {
       });
    });
 
-   it("getAppUrl - env not set - returns default fallback - test", () => {
+   it("env not set - returns default fallback - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, APP_URL: undefined };
          // eslint-disable-next-line @typescript-eslint/no-require-imports
