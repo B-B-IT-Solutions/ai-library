@@ -43,10 +43,8 @@ describe("SidebarMenuItem rendering tests", () => {
    });
 
    it("active true - test", async () => {
-      const url = "/prompts";
       const { container } = renderWithSidebar(
-         <SidebarMenuItem menuItem={menuItem1} pathName={menuItem1.url} />,
-         url
+         <SidebarMenuItem menuItem={menuItem1} pathName={menuItem1.url} />
       );
 
       await waitFor(() => {
