@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AdminUserEdit } from "@/components/admin/users";
-import { getAdminUser } from "@/data/actions/admin/user.admin.actions";
+import { getAdminUser } from "@/data/actions/admin/users";
 
 export const metadata: Metadata = { title: "Admin – Nutzerdetail" };
 

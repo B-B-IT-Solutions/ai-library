@@ -1,4 +1,4 @@
-import { getAdminUsersPage } from "@/data/actions/admin/user.admin.actions";
+import { getAdminUsersPage } from "@/data/actions/admin/users";
 
 import { UsersTable } from "./lists";
 

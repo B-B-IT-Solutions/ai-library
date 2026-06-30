@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { updateUserRole } from "@/data/actions/admin/user.admin.actions";
+import { updateUserRole } from "@/data/actions/admin/users/user.admin.actions";
 
 type Props = {
    userId: string;
@@ -37,7 +37,7 @@ export const AdminUserRoleForm = ({ userId, currentRole }: Props) => {
          <select
             value={role}
             onChange={(e) => setRole(e.target.value as "user" | "admin")}
-            className="rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            className="rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-ring focus:outline-none"
             disabled={isPending}
          >
             <option value="user">user</option>
