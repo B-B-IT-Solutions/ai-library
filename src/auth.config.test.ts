@@ -145,7 +145,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
 });
 
 describe("auth.config - callback.authorized - tests", () => {
-   const protectedPaths = [
+   const userProtectedPaths = [
       "/prompts",
       "/collections",
       "/settings",
@@ -157,10 +157,8 @@ describe("auth.config - callback.authorized - tests", () => {
       "/profile",
       "/user/123",
       "/orders/456",
-      "/admin",
-      "/admin/",
-      "/admin/dashboard",
    ];
+   const adminProtectedPaths = ["/admin", "/admin/", "/admin/dashboard"];
    const publicPaths = [
       "/auth/sign-in",
       "/auth/sign-up",
@@ -255,8 +253,8 @@ describe("auth.config - callback.authorized - tests", () => {
       });
    });
 
-   it("authorized - protected path access without authentication blocked- test", () => {
-      forEach(protectedPaths, (path) => {
+   it("authorized - user protected path access without authentication blocked- test", () => {
+      forEach(userProtectedPaths, (path) => {
          const request = {
             nextUrl: { pathname: path },
             cookies: {
@@ -269,11 +267,11 @@ describe("auth.config - callback.authorized - tests", () => {
       });
    });
 
-   it("authorized - protected path access with authentication allowed - test", () => {
+   it("authorized - user protected path access with authentication allowed - test", () => {
       const mockResponse = ntestData.nextResponse();
       nextMock.mockReturnValue(mockResponse);
 
-      forEach(protectedPaths, (path) => {
+      forEach(userProtectedPaths, (path) => {
          nextMock.mockClear();
 
          const request = {

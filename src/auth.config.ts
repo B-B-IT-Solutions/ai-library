@@ -71,16 +71,14 @@ export const authConfig: NextAuthConfig = {
                   new URL("/marketplace", request.url)
                );
             }
+            if (pathname.startsWith("/admin") && auth.user?.role !== "admin") {
+               return NextResponse.redirect(new URL("/templates", request.url));
+            }
          }
 
          // Check if user is not authenticated and accessing a protected path
          if (!auth && protectedPaths.some((p) => p.test(pathname))) {
             return false;
-         }
-
-         // Check if authenticated user is accessing admin paths but is not admin
-         if (auth && /\/admin/.test(pathname) && auth.user?.role !== "admin") {
-            return NextResponse.redirect(new URL("/", request.url));
          }
 
          // Check for session cart cookie
