@@ -1,3 +1,4 @@
+import { DSubscriptionPlanUpdate as DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DAdminStats } from "@/data/types/domain/admin/stats";
 
 export const dAdminStats = (): DAdminStats => {
@@ -13,5 +14,15 @@ export const dAdminStats = (): DAdminStats => {
       pendingOrders: 5,
       publishedCatalogEntries: 150,
       draftCatalogEntries: 51,
+   };
+};
+
+export const dSubscriptionPlanUpdate = (index = 1): DSubscriptionPlanUpdate => {
+   return {
+      name: `Updated Plan ${index}`,
+      description: `Updated description ${index}`,
+      monthlyPrice: 19.9,
+      yearlyPrice: 199.0,
+      isActive: true,
    };
 };

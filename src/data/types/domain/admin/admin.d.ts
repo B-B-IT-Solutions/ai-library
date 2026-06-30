@@ -71,7 +71,7 @@ export type DAdminSubscriptionsPageQuery = {
    status?: string;
 };
 
-export type DSubscriptionPlanUpdateInput = {
+export type DSubscriptionPlanUpdate = {
    name: string;
    description: string;
    monthlyPrice: number;

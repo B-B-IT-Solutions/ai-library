@@ -5,7 +5,7 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 
@@ -19,7 +19,7 @@ export const getAdminSubscriptionPlans = async (): Promise<
 
 export const updateSubscriptionPlan = async (
    planId: string,
-   input: DSubscriptionPlanUpdateInput
+   input: DSubscriptionPlanUpdate
 ): Promise<ActionResult> => {
    try {
       await requireAdmin();

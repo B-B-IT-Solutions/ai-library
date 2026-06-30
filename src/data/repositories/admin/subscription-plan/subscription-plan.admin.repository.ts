@@ -1,8 +1,11 @@
 import { toDSubscriptionPlans } from "@/data/repositories/subscription/subscription.mapper";
 import { DbClient } from "@/data/types/db/common";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
-import { SubscriptionPlanFindManyArgs } from "@/generated/prisma/models";
+import {
+   SubscriptionPlanFindManyArgs,
+   SubscriptionPlanUpdateArgs,
+} from "@/generated/prisma/models";
 
 export class AdminSubscriptionPlanRepository {
    constructor(private readonly prisma: DbClient) {}
@@ -18,17 +21,19 @@ export class AdminSubscriptionPlanRepository {
 
    async pUpdateSubscriptionPlan(
       planId: string,
-      input: DSubscriptionPlanUpdateInput
-   ): Promise<void> {
-      await this.prisma.subscriptionPlan.update({
+      data: DSubscriptionPlanUpdate
+   ) {
+      const args = {
          where: { id: planId },
          data: {
-            name: input.name,
-            description: input.description,
-            monthlyPrice: input.monthlyPrice,
-            yearlyPrice: input.yearlyPrice,
-            isActive: input.isActive,
+            name: data.name,
+            description: data.description,
+            monthlyPrice: data.monthlyPrice,
+            yearlyPrice: data.yearlyPrice,
+            isActive: data.isActive,
          },
-      });
+      } satisfies SubscriptionPlanUpdateArgs;
+
+      await this.prisma.subscriptionPlan.update(args);
    }
 }

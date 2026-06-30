@@ -1,32 +1,35 @@
 jest.mock("@/data/repositories/admin/subscription-plan");
 
-import { dtestData } from "@tests";
+import { adtestData, dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { AdminSubscriptionPlanRepository } from "@/data/repositories/admin/subscription-plan";
 import prisma from "@/data/repositories/prisma";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 
 import { AdminSubscriptionPlanService } from "./subscription-plan.admin.service";
 
-const repo = new AdminSubscriptionPlanRepository(prisma);
-const repoMock = repo as DeepMockProxy<AdminSubscriptionPlanRepository>;
+const subscriptionPlanRepo = new AdminSubscriptionPlanRepository(prisma);
+const subscriptionPlanRepoMock =
+   subscriptionPlanRepo as DeepMockProxy<AdminSubscriptionPlanRepository>;
 
-const service = new AdminSubscriptionPlanService(repoMock);
+const service = new AdminSubscriptionPlanService(subscriptionPlanRepoMock);
 
 describe("getSubscriptionPlans tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("returns plans from repository - test", async () => {
-      const plans = dtestData.dSubscriptionPlans(2);
-      repoMock.pGetSubscriptionPlans.mockResolvedValue(plans);
+   it("plans retrieved - test", async () => {
+      const plans = dtestData.dSubscriptionPlans();
+      subscriptionPlanRepoMock.pGetSubscriptionPlans.mockResolvedValue(plans);
 
       const result = await service.getSubscriptionPlans();
 
       expect(result).toEqual(plans);
-      expect(repoMock.pGetSubscriptionPlans).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionPlanRepoMock.pGetSubscriptionPlans
+      ).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -35,21 +38,19 @@ describe("updateSubscriptionPlan tests", () => {
       jest.clearAllMocks();
    });
 
-   it("delegates to repository - test", async () => {
-      repoMock.pUpdateSubscriptionPlan.mockResolvedValue(undefined);
+   it("plan updated - test", async () => {
+      subscriptionPlanRepoMock.pUpdateSubscriptionPlan.mockResolvedValue();
 
       const planId = "plan-id-1";
-      const input: DSubscriptionPlanUpdateInput = {
-         name: "Updated Plan",
-         description: "Updated description",
-         monthlyPrice: 19.9,
-         yearlyPrice: 199.0,
-         isActive: true,
-      };
+      const data = adtestData.dSubscriptionPlanUpdate();
 
-      await service.updateSubscriptionPlan(planId, input);
+      await service.updateSubscriptionPlan(planId, data);
 
-      expect(repoMock.pUpdateSubscriptionPlan).toHaveBeenCalledTimes(1);
-      expect(repoMock.pUpdateSubscriptionPlan).toHaveBeenCalledWith(planId, input);
+      expect(
+         subscriptionPlanRepoMock.pUpdateSubscriptionPlan
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionPlanRepoMock.pUpdateSubscriptionPlan
+      ).toHaveBeenCalledWith(planId, data);
    });
 });

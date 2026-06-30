@@ -1,5 +1,5 @@
 import { AdminSubscriptionPlanRepository } from "@/data/repositories/admin/subscription-plan";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 
 export class AdminSubscriptionPlanService {
@@ -9,10 +9,7 @@ export class AdminSubscriptionPlanService {
       return await this.repo.pGetSubscriptionPlans();
    }
 
-   async updateSubscriptionPlan(
-      planId: string,
-      input: DSubscriptionPlanUpdateInput
-   ): Promise<void> {
-      await this.repo.pUpdateSubscriptionPlan(planId, input);
+   async updateSubscriptionPlan(planId: string, data: DSubscriptionPlanUpdate) {
+      await this.repo.pUpdateSubscriptionPlan(planId, data);
    }
 }

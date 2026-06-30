@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { adtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { toDSubscriptionPlans } from "@/data/repositories/subscription/subscription.mapper";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
 import {
    SubscriptionPlanFindManyArgs,
    SubscriptionPlanUpdateArgs,
@@ -20,22 +19,8 @@ describe("pGetSubscriptionPlans tests", () => {
       jest.clearAllMocks();
    });
 
-   test("returns empty list when no plans - test", async () => {
-      prismaMock.subscriptionPlan.findMany.mockResolvedValue([]);
-
-      const result = await repository.pGetSubscriptionPlans();
-
-      const expectedArgs: SubscriptionPlanFindManyArgs = {
-         orderBy: { monthlyPrice: "asc" },
-      };
-
-      expect(result).toEqual([]);
-      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(expectedArgs);
-   });
-
-   test("returns mapped plans - test", async () => {
-      const plans = ptestData.pSubscriptionPlans(2);
+   test("plans retrieved - test", async () => {
+      const plans = ptestData.pSubscriptionPlans();
       prismaMock.subscriptionPlan.findMany.mockResolvedValue(plans);
 
       const result = await repository.pGetSubscriptionPlans();
@@ -46,7 +31,10 @@ describe("pGetSubscriptionPlans tests", () => {
       const expectedResult = toDSubscriptionPlans(plans);
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(expectedArgs);
+      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
    });
 });
 
@@ -55,32 +43,28 @@ describe("pUpdateSubscriptionPlan tests", () => {
       jest.clearAllMocks();
    });
 
-   test("calls prisma with correct args - test", async () => {
+   test("plan updated - test", async () => {
       prismaMock.subscriptionPlan.update.mockResolvedValue({} as never);
 
       const planId = "plan-id-1";
-      const input: DSubscriptionPlanUpdateInput = {
-         name: "Updated Plan",
-         description: "Updated description",
-         monthlyPrice: 19.9,
-         yearlyPrice: 199.0,
-         isActive: true,
-      };
+      const data = adtestData.dSubscriptionPlanUpdate();
 
-      await repository.pUpdateSubscriptionPlan(planId, input);
+      await repository.pUpdateSubscriptionPlan(planId, data);
 
       const expectedArgs: SubscriptionPlanUpdateArgs = {
          where: { id: planId },
          data: {
-            name: input.name,
-            description: input.description,
-            monthlyPrice: input.monthlyPrice,
-            yearlyPrice: input.yearlyPrice,
-            isActive: input.isActive,
+            name: data.name,
+            description: data.description,
+            monthlyPrice: data.monthlyPrice,
+            yearlyPrice: data.yearlyPrice,
+            isActive: data.isActive,
          },
       };
 
       expect(prismaMock.subscriptionPlan.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.subscriptionPlan.update).toHaveBeenCalledWith(expectedArgs);
+      expect(prismaMock.subscriptionPlan.update).toHaveBeenCalledWith(
+         expectedArgs
+      );
    });
 });

@@ -1,11 +1,11 @@
 jest.mock("@/data/actions/auth-utils");
 jest.mock("@/data/services/admin/subscription-plan");
 
-import { dtestData } from "@tests";
+import { adtestData, dtestData } from "@tests";
 
 import { requireAdmin } from "@/data/actions/auth-utils";
 import { AdminSubscriptionPlanService } from "@/data/services/admin/subscription-plan";
-import { DSubscriptionPlanUpdateInput } from "@/data/types/domain/admin/admin";
+import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/admin";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -31,32 +31,25 @@ const sUpdateSubscriptionPlanMock =
       typeof sUpdateSubscriptionPlan
    >;
 
-const dAdminUser = dtestData.dLoginUser();
-
-const validInput: DSubscriptionPlanUpdateInput = {
-   name: "Updated Plan",
-   description: "Updated description",
-   monthlyPrice: 19.9,
-   yearlyPrice: 199.0,
-   isActive: true,
-};
-
 describe("getAdminSubscriptionPlans tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("throws when not admin - test", async () => {
-      requireAdminMock.mockRejectedValue(new Error("Forbidden"));
+   it("user not admin - test", async () => {
+      const error = new Error("Forbidden");
+      requireAdminMock.mockRejectedValue(error);
 
       await expect(getAdminSubscriptionPlans()).rejects.toThrow();
       expect(requireAdminMock).toHaveBeenCalledTimes(1);
       expect(sGetSubscriptionPlansMock).not.toHaveBeenCalled();
    });
 
-   it("returns plans - test", async () => {
-      const plans = dtestData.dSubscriptionPlans(2);
+   it("plans retrieved - test", async () => {
+      const dAdminUser = dtestData.dLoginUser();
       requireAdminMock.mockResolvedValue(dAdminUser);
+
+      const plans = dtestData.dSubscriptionPlans();
       sGetSubscriptionPlansMock.mockResolvedValue(plans);
 
       const result = await getAdminSubscriptionPlans();
@@ -77,10 +70,14 @@ describe("updateSubscriptionPlan tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("returns error when not admin - test", async () => {
-      requireAdminMock.mockRejectedValue(new Error("Forbidden"));
+   it("user not admin - test", async () => {
+      const error = new Error("Forbidden");
+      requireAdminMock.mockRejectedValue(error);
 
-      const result = await updateSubscriptionPlan("plan-id-1", validInput);
+      const planId = "plan-id-1";
+      const data = adtestData.dSubscriptionPlanUpdate();
+
+      const result = await updateSubscriptionPlan(planId, data);
 
       const expected: ActionResult = {
          success: false,
@@ -91,11 +88,38 @@ describe("updateSubscriptionPlan tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("updates plan successfully - test", async () => {
+   it("error - test", async () => {
+      const dAdminUser = dtestData.dLoginUser();
       requireAdminMock.mockResolvedValue(dAdminUser);
+
+      const dbError = new Error("db error");
+      sUpdateSubscriptionPlanMock.mockRejectedValue(dbError);
+
+      const planId = "plan-id-111";
+      const data = adtestData.dSubscriptionPlanUpdate();
+
+      const result = await updateSubscriptionPlan(planId, data);
+
+      const expected: ActionResult = {
+         success: false,
+         message: "Plan konnte nicht aktualisiert werden.",
+      };
+      expect(result).toEqual(expected);
+      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledWith(planId, data);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("updates plan successfully - test", async () => {
+      const dAdminUser = dtestData.dLoginUser();
+      requireAdminMock.mockResolvedValue(dAdminUser);
+
       sUpdateSubscriptionPlanMock.mockResolvedValue(undefined);
 
-      const result = await updateSubscriptionPlan("plan-id-1", validInput);
+      const planId = "plan-id-123";
+      const data = adtestData.dSubscriptionPlanUpdate();
+
+      const result = await updateSubscriptionPlan(planId, data);
 
       const expected: ActionResult = {
          success: true,
@@ -103,23 +127,6 @@ describe("updateSubscriptionPlan tests", () => {
       };
       expect(result).toEqual(expected);
       expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledWith(
-         "plan-id-1",
-         validInput
-      );
-   });
-
-   it("returns error on service failure - test", async () => {
-      requireAdminMock.mockResolvedValue(dAdminUser);
-      sUpdateSubscriptionPlanMock.mockRejectedValue(new Error("db error"));
-
-      const result = await updateSubscriptionPlan("plan-id-1", validInput);
-
-      const expected: ActionResult = {
-         success: false,
-         message: "Plan konnte nicht aktualisiert werden.",
-      };
-      expect(result).toEqual(expected);
-      expect(console.error).toHaveBeenCalledWith("db error");
+      expect(sUpdateSubscriptionPlanMock).toHaveBeenCalledWith(planId, data);
    });
 });

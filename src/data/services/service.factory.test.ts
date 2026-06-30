@@ -1,6 +1,7 @@
 import prisma from "@/data/repositories/prisma";
 
 import { AdminDashboardService } from "./admin/dashboard";
+import { AdminSubscriptionPlanService } from "./admin/subscription-plan";
 import { CartService } from "./cart";
 import { CatalogService, PublicCatalogService } from "./catalog";
 import { CollectionService, PublicCollectionService } from "./collection";
@@ -31,6 +32,19 @@ describe("getAdminDashboardService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getAdminDashboardService();
       const service2 = serviceFactory.getAdminDashboardService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getAdminSubscriptionPlanService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getAdminSubscriptionPlanService();
+      expect(service).toBeInstanceOf(AdminSubscriptionPlanService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getAdminSubscriptionPlanService();
+      const service2 = serviceFactory.getAdminSubscriptionPlanService();
       expect(service1).toBe(service2);
    });
 });
