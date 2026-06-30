@@ -110,21 +110,6 @@ export const AdminUserEdit = ({ user }: Props) => {
                <CardContent>
                   <div className="flex items-center gap-4">
                      <div>
-                        <p className="mb-1 text-sm font-medium text-muted-foreground">
-                           Aktuelle Rolle
-                        </p>
-                        <Badge
-                           variant={
-                              user.role === "admin" ? "default" : "secondary"
-                           }
-                        >
-                           {user.role}
-                        </Badge>
-                     </div>
-                     <div>
-                        <p className="mb-1 text-sm font-medium text-muted-foreground">
-                           Rolle ändern
-                        </p>
                         <UserRoleForm user={user} />
                      </div>
                   </div>

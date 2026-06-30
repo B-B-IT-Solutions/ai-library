@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
 import { FormSelect } from "@/components/shared/widgets/form-select";
-import { updateUserRole } from "@/data/actions/admin/users/user.admin.actions";
+import { updateUserRole } from "@/data/actions/admin/users";
 import { DAdminUser } from "@/data/types/domain/admin/user";
 
 const ROLE_OPTIONS = ["user", "admin"];
@@ -49,7 +49,12 @@ export const UserRoleForm = ({ user }: Props) => {
                options={ROLE_OPTIONS}
                control={form.control}
             />
-            <Button type="submit" size="sm" disabled={isPending}>
+            <Button
+               type="submit"
+               size="sm"
+               disabled={isPending}
+               data-testid="save-btn"
+            >
                {isPending ? "Speichern..." : "Speichern"}
             </Button>
          </form>
