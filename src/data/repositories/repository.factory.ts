@@ -23,7 +23,6 @@ export class RepositoryFactory {
    private prisma: DbClient;
    private adminDashboardRepo?: AdminDashboardRepository;
    private adminUserRepo?: AdminUserRepository;
-   private adminSubscriptionRepo?: AdminSubscriptionRepository;
    private adminSubscriptionPlanRepo?: AdminSubscriptionPlanRepository;
    private catalogRepo?: CatalogRepository;
    private publicCatalogRepo?: PublicCatalogRepository;
