@@ -70,3 +70,11 @@ export type DAdminSubscriptionsPageQuery = {
    tier?: string;
    status?: string;
 };
+
+export type DSubscriptionPlanUpdateInput = {
+   name: string;
+   description: string;
+   monthlyPrice: number;
+   yearlyPrice: number;
+   isActive: boolean;
+};

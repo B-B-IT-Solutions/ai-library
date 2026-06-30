@@ -2,6 +2,7 @@ import { DbClient } from "@/data/types/db/common";
 
 import { AdminSubscriptionRepository, AdminUserRepository } from "./admin";
 import { AdminDashboardRepository } from "./admin/dashboard";
+import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
 import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
@@ -23,6 +24,7 @@ export class RepositoryFactory {
    private adminDashboardRepo?: AdminDashboardRepository;
    private adminUserRepo?: AdminUserRepository;
    private adminSubscriptionRepo?: AdminSubscriptionRepository;
+   private adminSubscriptionPlanRepo?: AdminSubscriptionPlanRepository;
    private catalogRepo?: CatalogRepository;
    private publicCatalogRepo?: PublicCatalogRepository;
    private userRepo?: UserRepository;
@@ -67,6 +69,15 @@ export class RepositoryFactory {
          );
       }
       return this.adminSubscriptionRepo;
+   }
+
+   adminSubscriptionPlanRepository(): AdminSubscriptionPlanRepository {
+      if (!this.adminSubscriptionPlanRepo) {
+         this.adminSubscriptionPlanRepo = new AdminSubscriptionPlanRepository(
+            this.prisma
+         );
+      }
+      return this.adminSubscriptionPlanRepo;
    }
 
    userRepository(): UserRepository {

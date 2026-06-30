@@ -31,10 +31,12 @@ import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
 
 import { AdminDashboardService } from "./admin/dashboard";
+import { AdminSubscriptionPlanService } from "./admin/subscription-plan";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
    private adminDashboardService?: AdminDashboardService;
+   private adminSubscriptionPlanService?: AdminSubscriptionPlanService;
    private catalogService?: CatalogService;
    private publicCatalogService?: PublicCatalogService;
    private userService?: UserService;
@@ -67,6 +69,15 @@ export class ServiceFactory {
          );
       }
       return this.adminDashboardService;
+   }
+
+   getAdminSubscriptionPlanService(): AdminSubscriptionPlanService {
+      if (!this.adminSubscriptionPlanService) {
+         this.adminSubscriptionPlanService = new AdminSubscriptionPlanService(
+            this.repositories.adminSubscriptionPlanRepository()
+         );
+      }
+      return this.adminSubscriptionPlanService;
    }
 
    getUserService(): UserService {
