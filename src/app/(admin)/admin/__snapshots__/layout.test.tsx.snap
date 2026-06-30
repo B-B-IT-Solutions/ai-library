@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MainAdminLayout rendering tests rendered - test 1`] = `
+<div>
+  <div
+    data-testid="authenticated-admin-layout-wrapper"
+  >
+    <div
+      data-testid="test-1"
+    />
+  </div>
+</div>
+`;

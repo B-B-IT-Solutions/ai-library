@@ -1,2 +1,5 @@
 export { PublicLayoutWrapper } from "./unauthenticated";
-export { AuthenticatedUserLayoutWrapper } from "./authenticated";
+export {
+   AuthenticatedAdminLayoutWrapper,
+   AuthenticatedUserLayoutWrapper,
+} from "./authenticated";

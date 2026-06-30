@@ -1,25 +1,19 @@
 import { ReactNode } from "react";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
-import { AdminLayoutWrapper } from "@/components/admin/layout";
+import { AuthenticatedAdminLayoutWrapper } from "@/components/shared/wrappers/layout";
 
 export type LayoutProps = {
    children: ReactNode;
 };
 
-const AdminLayout = async (props: Readonly<LayoutProps>) => {
+export const MainAdminLayout = async (props: Readonly<LayoutProps>) => {
    const { children } = props;
-   const session = await auth();
 
-   if (!session?.user?.id) {
-      return redirect("/auth/sign-in");
-   }
-   if (session.user.role !== "admin") {
-      return redirect("/");
-   }
-
-   return <AdminLayoutWrapper>{children}</AdminLayoutWrapper>;
+   return (
+      <AuthenticatedAdminLayoutWrapper>
+         {children}
+      </AuthenticatedAdminLayoutWrapper>
+   );
 };
 
-export default AdminLayout;
+export default MainAdminLayout;

@@ -2,15 +2,17 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
+import {
+   AdminSidebar,
+   AdminSidebarMobileHeader,
+} from "@/components/shared/sidebar/admin";
 import { requireAdmin } from "@/data/actions/auth-utils";
-import { AdminSidebar } from "../../../../admin/layout/admin-sidebar";
-import { AdminSidebarMobileHeader } from "../../../../admin/layout/admin-sidebar-mobile-header";
 
 export type Props = {
    children: ReactNode;
 };
 
-export const AdminLayoutWrapper = async (props: Props) => {
+export const AuthenticatedAdminLayoutWrapper = async (props: Props) => {
    const { children } = props;
 
    const admin = await requireAdmin();
@@ -20,9 +22,12 @@ export const AdminLayoutWrapper = async (props: Props) => {
    const defaultOpen = !sidebarCookie || sidebarCookie.value === "true";
 
    return (
-      <div className="h-full" data-testid="admin-layout-wrapper">
-         <SidebarProvider defaultOpen={defaultOpen}>
-            <AdminSidebar />
+      <div className="h-full" data-testid="authenticated-admin-layout-wrapper">
+         <SidebarProvider
+            defaultOpen={defaultOpen}
+            data-testid="sidebar-wrapper"
+         >
+            <AdminSidebar user={admin} />
             <main className="flex flex-1 flex-col overflow-hidden">
                <AdminSidebarMobileHeader />
                <div className="min-h-0 flex-1">{children}</div>
