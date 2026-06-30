@@ -55,22 +55,6 @@ export class RepositoryFactory {
       return this.adminDashboardRepo;
    }
 
-   adminUserRepository(): AdminUserRepository {
-      if (!this.adminUserRepo) {
-         this.adminUserRepo = new AdminUserRepository(this.prisma);
-      }
-      return this.adminUserRepo;
-   }
-
-   adminSubscriptionRepository(): AdminSubscriptionRepository {
-      if (!this.adminSubscriptionRepo) {
-         this.adminSubscriptionRepo = new AdminSubscriptionRepository(
-            this.prisma
-         );
-      }
-      return this.adminSubscriptionRepo;
-   }
-
    adminSubscriptionPlanRepository(): AdminSubscriptionPlanRepository {
       if (!this.adminSubscriptionPlanRepo) {
          this.adminSubscriptionPlanRepo = new AdminSubscriptionPlanRepository(
@@ -78,6 +62,13 @@ export class RepositoryFactory {
          );
       }
       return this.adminSubscriptionPlanRepo;
+   }
+
+   adminUserRepository(): AdminUserRepository {
+      if (!this.adminUserRepo) {
+         this.adminUserRepo = new AdminUserRepository(this.prisma);
+      }
+      return this.adminUserRepo;
    }
 
    userRepository(): UserRepository {

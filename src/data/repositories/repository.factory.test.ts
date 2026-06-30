@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { AdminDashboardRepository } from "./admin/dashboard";
+import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
 import { CartRepository } from "./cart";
 import { CatalogRepository, PublicCatalogRepository } from "./catalog";
 import { CollectionRepository, PublicCollectionRepository } from "./collection";
@@ -36,6 +37,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.adminDashboardRepository();
          const repository2 = factory.adminDashboardRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("adminSubscriptionPlanRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.adminSubscriptionPlanRepository();
+         expect(repository).toBeInstanceOf(AdminSubscriptionPlanRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.adminSubscriptionPlanRepository();
+         const repository2 = factory.adminSubscriptionPlanRepository();
          expect(repository1).toBe(repository2);
       });
    });

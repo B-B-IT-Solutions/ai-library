@@ -37,13 +37,6 @@ const adminNavItems = [
       exact: false,
    },
    {
-      id: "/admin/subscriptions",
-      title: "Abonnements",
-      icon: CreditCard,
-      url: "/admin/subscriptions",
-      exact: false,
-   },
-   {
       id: "/admin/subscription-plans",
       title: "Abo-Pläne",
       icon: BarChart3,
