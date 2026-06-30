@@ -1,7 +1,6 @@
 "use client";
 
-import { startsWith } from "es-toolkit/compat";
-import { BarChart3, CreditCard, LayoutDashboard, Users } from "lucide-react";
+import { map } from "es-toolkit/compat";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,37 +12,14 @@ import {
    SidebarGroupLabel,
    SidebarHeader,
    SidebarMenu,
-   SidebarMenuButton,
-   SidebarMenuItem,
    SidebarTrigger,
    useSidebar,
 } from "@/components/shadcn/sidebar";
 import { LoginUser } from "@/data/types/next-auth";
 import { APP_NAME } from "@/lib/constants";
+import { SidebarMenuItem } from "../common";
 
-const adminNavItems = [
-   {
-      id: "/admin/dashboard",
-      title: "Dashboard",
-      icon: LayoutDashboard,
-      url: "/admin/dashboard",
-      exact: true,
-   },
-   {
-      id: "/admin/users",
-      title: "Nutzer",
-      icon: Users,
-      url: "/admin/users",
-      exact: false,
-   },
-   {
-      id: "/admin/subscription-plans",
-      title: "Abo-Pläne",
-      icon: BarChart3,
-      url: "/admin/subscription-plans",
-      exact: false,
-   },
-];
+import { adminNavigationMenu1, adminNavigationMenu2 } from "./menus";
 
 type Props = {
    user: LoginUser;
@@ -52,11 +28,6 @@ type Props = {
 export const AdminSidebar = ({ user }: Props) => {
    const { open, openMobile } = useSidebar();
    const pathName = usePathname();
-
-   const isActive = (item: (typeof adminNavItems)[0]) => {
-      if (item.exact) return pathName === item.id;
-      return startsWith(pathName, item.id);
-   };
 
    return (
       <ShadcnSidebar collapsible="icon" data-testid="admin-sidebar">
@@ -84,15 +55,8 @@ export const AdminSidebar = ({ user }: Props) => {
                <SidebarGroupLabel>Administration</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>
-                     {adminNavItems.map((item) => (
-                        <SidebarMenuItem key={item.id}>
-                           <SidebarMenuButton asChild isActive={isActive(item)}>
-                              <Link href={item.url}>
-                                 <item.icon />
-                                 <span>{item.title}</span>
-                              </Link>
-                           </SidebarMenuButton>
-                        </SidebarMenuItem>
+                     {map(adminNavigationMenu1, (item) => (
+                        <SidebarMenuItem menuItem={item} pathName={pathName} />
                      ))}
                   </SidebarMenu>
                </SidebarGroupContent>
@@ -100,13 +64,9 @@ export const AdminSidebar = ({ user }: Props) => {
             <SidebarGroup>
                <SidebarGroupContent>
                   <SidebarMenu>
-                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                           <Link href="/">
-                              <span>← Zurück zur App</span>
-                           </Link>
-                        </SidebarMenuButton>
-                     </SidebarMenuItem>
+                     {map(adminNavigationMenu2, (item) => (
+                        <SidebarMenuItem menuItem={item} pathName={pathName} />
+                     ))}
                   </SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
