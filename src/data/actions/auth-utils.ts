@@ -28,3 +28,10 @@ export const isAuthenticated = async (): Promise<boolean> => {
       return false;
    }
 };
+
+export const requireAdminUser = async (): Promise<LoginUser> => {
+   const session = await auth();
+   if (!session?.user?.id) throw new AiLibAuthenticationError("Authentication required");
+   if (session.user.role !== "admin") throw new AiLibAuthenticationError("Forbidden");
+   return { id: session.user.id, name: session.user.name, email: session.user.email };
+};

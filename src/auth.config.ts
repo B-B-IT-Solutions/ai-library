@@ -78,6 +78,11 @@ export const authConfig: NextAuthConfig = {
             return false;
          }
 
+         // Check if authenticated user is accessing admin paths but is not admin
+         if (auth && /\/admin/.test(pathname) && auth.user?.role !== "admin") {
+            return NextResponse.redirect(new URL("/", request.url));
+         }
+
          // Check for session cart cookie
          if (!request.cookies.get("sessionCartId")) {
             const sessionCartId = crypto.randomUUID();
