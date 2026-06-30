@@ -3,6 +3,7 @@ import { map } from "es-toolkit/compat";
 import { PromptCreateInput } from "@/generated/prisma/models";
 
 export const SEED_USER_EMAIL = "test123@gmail.com";
+export const SEED_ADMIN_EMAIL = "admin123@gmail.com";
 
 const promptCategories = (userId: string, categories: string[]) => {
    return map(categories, (cat: string) => {
