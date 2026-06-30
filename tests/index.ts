@@ -29,6 +29,7 @@ export {
    typeIntoTipTap,
 } from "./test.utils";
 
+export * as adtestData from "./mock-data/admin.data.mocks";
 export * as ptestData from "./mock-data/persistence.data.mocks";
 export * as dtestData from "./mock-data/domain.data.mocks";
 export * as ctestData from "./mock-data/common.data.mocks";
