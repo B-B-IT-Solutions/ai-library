@@ -21,6 +21,8 @@ import { updateSubscriptionPlan } from "@/data/actions/admin/subscription-plans"
 import { DSubscriptionPlanUpdate } from "@/data/types/domain/admin/subscription";
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 
+import { initSubscriptionPlanUpdate } from "./init-values";
+
 type Props = {
    plan: DSubscriptionPlan;
 };
@@ -29,13 +31,7 @@ export const SubscriptionPlan = ({ plan }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const form = useForm<DSubscriptionPlanUpdate>({
-      defaultValues: {
-         name: plan.name,
-         description: plan.description,
-         monthlyPrice: plan.monthlyPrice,
-         yearlyPrice: plan.yearlyPrice,
-         isActive: plan.isActive,
-      },
+      defaultValues: initSubscriptionPlanUpdate(plan),
    });
 
    const onSubmit = async (data: DSubscriptionPlanUpdate) => {
@@ -134,6 +130,7 @@ export const SubscriptionPlan = ({ plan }: Props) => {
                      type="submit"
                      disabled={isPending}
                      className="cursor-pointer"
+                     data-testid="save-btn"
                   >
                      {isPending ? "Speichern..." : "Speichern"}
                   </Button>

@@ -3,7 +3,7 @@
 import { map } from "es-toolkit/compat";
 
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
-import { SubscriptionPlan } from "../item/subcription-plan";
+import { SubscriptionPlan } from "../item/subscription-plan";
 
 type Props = {
    plans: DSubscriptionPlan[];
