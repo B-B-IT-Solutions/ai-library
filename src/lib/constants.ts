@@ -4,8 +4,11 @@ export const APP_DESCRIPTION: string =
    process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
    "Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.";
 
-export const LANDING_PAGE_URL =
-   process.env.LANDING_PAGE_URL || "https://www.vision-notes.com";
+export const PROD_LANDING_PAGE_URL =
+   process.env.PROD_LANDING_PAGE_URL || "https://www.vision-notes.com";
+
+export const PROD_APP_METADATA_URL =
+   process.env.PROD_APP_METADATA_URL || "https://app.vision-notes.com";
 
 export const APP_URL = process.env.APP_URL;
 
@@ -36,8 +39,12 @@ export const STRIPE_PRO_PLAN_ID = process.env.STRIPE_PRO_PLAN_ID;
 export const INIT_PAGE_NUMBER = 0;
 export const PAGE_SIZE = 10;
 
-export const getLandingPageUrl = (): string => {
-   return LANDING_PAGE_URL;
+export const getProdLandingPageUrl = (): string => {
+   return PROD_LANDING_PAGE_URL;
+};
+
+export const getProdAppMetadataUrl = (): string => {
+   return PROD_APP_METADATA_URL;
 };
 
 export const getAppUrl = (): string => {

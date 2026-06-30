@@ -3,7 +3,11 @@ import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { Metadata } from "next";
 
-import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
+import {
+   APP_DESCRIPTION,
+   APP_NAME,
+   getProdAppMetadataUrl,
+} from "@/lib/constants";
 
 import RootLayout, { generateMetadata, RootLayoutProps } from "./layout";
 
@@ -41,7 +45,7 @@ describe("RootLayout rendering tests", () => {
 
 describe("RootLayout functionality tests", () => {
    it("generateMetadata - test", async () => {
-      const appUrl = "https://app.vision-notes.com";
+      const appUrl = getProdAppMetadataUrl();
 
       const metadata = await generateMetadata();
 

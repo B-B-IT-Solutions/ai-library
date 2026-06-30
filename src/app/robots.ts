@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAppUrl } from "@/lib/constants";
-
-export const dynamic = "force-dynamic";
+import { getProdAppMetadataUrl } from "@/lib/constants";
 
 export default function robots(): MetadataRoute.Robots {
    return {
@@ -13,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
             disallow: "/",
          },
       ],
-      sitemap: `${getAppUrl()}/sitemap.xml`,
+      sitemap: `${getProdAppMetadataUrl()}/sitemap.xml`,
    };
 }
