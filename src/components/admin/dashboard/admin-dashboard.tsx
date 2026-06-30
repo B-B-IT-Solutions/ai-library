@@ -1,10 +1,4 @@
-import {
-   CreditCard,
-   FileText,
-   ShoppingBag,
-   TrendingUp,
-   Users,
-} from "lucide-react";
+import { FileText, ShoppingBag, TrendingUp, Users } from "lucide-react";
 
 import { getAdminStats } from "@/data/actions/admin/dashboard";
 
@@ -31,15 +25,6 @@ export const AdminDashboard = async () => {
                   value={stats.totalUsers}
                   subtitle={`+${stats.newUsersLast30Days} letzte 30 Tage`}
                   icon={Users}
-               />
-               <Kpi
-                  title="Aktive Abos"
-                  value={
-                     stats.activeSubscriptions.BASIC +
-                     stats.activeSubscriptions.PRO
-                  }
-                  subtitle={`FREE: ${stats.activeSubscriptions.FREE} | BASIC: ${stats.activeSubscriptions.BASIC} | PRO: ${stats.activeSubscriptions.PRO}`}
-                  icon={CreditCard}
                />
                <Kpi
                   title="Umsatz (30 Tage)"
