@@ -23,10 +23,10 @@ import { APP_NAME } from "@/lib/constants";
 
 const adminNavItems = [
    {
-      id: "/admin",
+      id: "/admin/dashboard",
       title: "Dashboard",
       icon: LayoutDashboard,
-      url: "/admin",
+      url: "/admin/dashboard",
       exact: true,
    },
    {
