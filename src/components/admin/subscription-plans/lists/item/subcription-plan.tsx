@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const SubscriptionPlan = ({ plan }: Props) => {
-   const [isPending, setIsPending] = useState(false);
+   const [isPending, startTransition] = useTransition();
 
    const { register, handleSubmit, setValue, watch } =
       useForm<DSubscriptionPlanUpdate>({
@@ -40,17 +40,14 @@ export const SubscriptionPlan = ({ plan }: Props) => {
    const isActive = watch("isActive");
 
    const onSubmit = async (data: DSubscriptionPlanUpdate) => {
-      setIsPending(true);
-      try {
+      startTransition(async () => {
          const result = await updateSubscriptionPlan(plan.id, data);
          if (result.success) {
             toast.success(result.message);
          } else {
             toast.error(result.message);
          }
-      } finally {
-         setIsPending(false);
-      }
+      });
    };
 
    return (
