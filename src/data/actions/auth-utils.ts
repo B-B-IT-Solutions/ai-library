@@ -5,6 +5,19 @@ import { LoginUser } from "@/data/types/next-auth";
 
 import { AiLibAuthenticationError } from "./types";
 
+export const requireAdminUser = async (): Promise<LoginUser> => {
+   const session = await auth();
+   if (!session?.user?.id)
+      throw new AiLibAuthenticationError("Authentication required");
+   if (session.user.role !== "admin")
+      throw new AiLibAuthenticationError("Forbidden");
+   return {
+      id: session.user.id,
+      name: session.user.name,
+      email: session.user.email,
+   };
+};
+
 export const requireUser = async (): Promise<LoginUser> => {
    const session = await auth();
    if (!session?.user?.id) {
@@ -27,11 +40,4 @@ export const isAuthenticated = async (): Promise<boolean> => {
    } catch {
       return false;
    }
-};
-
-export const requireAdminUser = async (): Promise<LoginUser> => {
-   const session = await auth();
-   if (!session?.user?.id) throw new AiLibAuthenticationError("Authentication required");
-   if (session.user.role !== "admin") throw new AiLibAuthenticationError("Forbidden");
-   return { id: session.user.id, name: session.user.name, email: session.user.email };
 };
