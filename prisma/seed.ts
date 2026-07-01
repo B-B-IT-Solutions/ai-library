@@ -1,4 +1,6 @@
-﻿import { PrismaClient } from "@/generated/prisma/client";
+﻿import { addDays } from "date-fns";
+
+import { PrismaClient } from "@/generated/prisma/client";
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
@@ -49,7 +51,11 @@ export const main = async () => {
    const user = await prisma.user.upsert({
       where: { email: SEED_USER_EMAIL },
       update: {},
-      create: { email: SEED_USER_EMAIL, name: "test 1" },
+      create: {
+         email: SEED_USER_EMAIL,
+         name: "test 1",
+         trialEndsAt: addDays(new Date(), 14),
+      },
    });
 
    console.log("\nCreating prompt templates...");
