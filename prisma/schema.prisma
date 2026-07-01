@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  PROMO_USER
+  ADMIN
+}
+
 model User {
   id                        String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                      String                   @default("NO_NAME") @db.VarChar(250)
@@ -15,7 +21,7 @@ model User {
   emailVerified             DateTime?                @map("email_verified") @db.Timestamp(6)
   image                     String?
   password                  String?                  @db.VarChar(250)
-  role                      String                   @default("user") @db.VarChar(50)
+  role                      UserRole                 @default(USER)
   stripeCustomerId          String?                  @unique @map("stripe_customer_id") @db.VarChar(250)
   legalNoticesAcceptedAt    DateTime?                @map("legal_notices_accepted_at") @db.Timestamp(6)
   iubendaLegalNoticesSynced Boolean                  @default(false) @map("iubenda_legal_notices_synced")

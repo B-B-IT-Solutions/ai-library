@@ -18,7 +18,7 @@ export type DSignUpResult = {
    emailNotVerified: boolean;
 };
 
-export type DUserRole = "admin" | "user";
+export type DUserRole = "ADMIN" | "USER" | "PROMO_USER";
 
 export type DUser = {
    id: string;

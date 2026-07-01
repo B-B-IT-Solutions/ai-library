@@ -59,7 +59,7 @@ export const dAdminUser = (index = 1): DAdminUser => {
       id: `user-id-${index}`,
       name: `User ${index}`,
       email: `user${index}@example.com`,
-      role: "user",
+      role: "USER",
       emailVerified: new Date("2025-01-01").toISOString(),
       subscriptionTier: "pro",
       subscriptionStatus: "ACTIVE",

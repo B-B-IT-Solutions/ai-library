@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`UserRoleForm rendering tests role admin - test 1`] = `
+exports[`UserRoleForm rendering tests role PROMO_USER - test 1`] = `
 <div>
   <form
     class="flex items-end gap-3"
@@ -39,7 +39,7 @@ exports[`UserRoleForm rendering tests role admin - test 1`] = `
             data-slot="select-value"
             style="pointer-events: none;"
           >
-            admin
+            promo user
           </span>
           <svg
             aria-hidden="true"
@@ -69,15 +69,15 @@ exports[`UserRoleForm rendering tests role admin - test 1`] = `
           tabindex="-1"
         >
           <option
-            value="user"
+            value="USER"
           >
             user
           </option>
           <option
             selected=""
-            value="admin"
+            value="PROMO_USER"
           >
-            admin
+            promo user
           </option>
         </select>
       </div>
@@ -94,7 +94,7 @@ exports[`UserRoleForm rendering tests role admin - test 1`] = `
 </div>
 `;
 
-exports[`UserRoleForm rendering tests role user - test 1`] = `
+exports[`UserRoleForm rendering tests role USER - test 1`] = `
 <div>
   <form
     class="flex items-end gap-3"
@@ -164,14 +164,14 @@ exports[`UserRoleForm rendering tests role user - test 1`] = `
         >
           <option
             selected=""
-            value="user"
+            value="USER"
           >
             user
           </option>
           <option
-            value="admin"
+            value="PROMO_USER"
           >
-            admin
+            promo user
           </option>
         </select>
       </div>
