@@ -333,7 +333,7 @@ describe("auth.config - callback.authorized - tests", () => {
          } as unknown as NextRequest;
 
          const auth = {
-            user: { id: "user-1", email: "test@example.com", role: "user" },
+            user: { id: "user-1", email: "test@example.com", role: "USER" },
          } as Session;
 
          const result = authorized({ request, auth });
@@ -363,7 +363,7 @@ describe("auth.config - callback.authorized - tests", () => {
          } as unknown as NextRequest;
 
          const auth = {
-            user: { id: "user-1", email: "test@example.com", role: "admin" },
+            user: { id: "user-1", email: "test@example.com", role: "ADMIN" },
          } as Session;
 
          const result = authorized({ request, auth });
@@ -678,7 +678,7 @@ describe("auth.config - callback.jwt - tests", () => {
       const sessionCartId = "sessionCartId-1";
       const user = {
          id: userId,
-         role: "USER_1",
+         role: "USER",
          name: "User-1 Name",
          email: "test1@email.com",
       } as AdapterUser;
@@ -713,7 +713,7 @@ describe("auth.config - callback.jwt - tests", () => {
       const userId = "user-789";
       const user = {
          id: userId,
-         role: "USER_1",
+         role: "USER",
          name: "User-1 Name",
          email: "test1@email.com",
       } as AdapterUser;

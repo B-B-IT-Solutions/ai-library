@@ -38,7 +38,7 @@ describe("requireAdmin tests", () => {
 
    it("session.user.id defined - role user - test", async () => {
       const session = ntestData.session();
-      session.user.role = "user";
+      session.user.role = "USER";
       authMock.mockResolvedValue(session);
 
       const fn = () => requireAdmin();
@@ -47,7 +47,7 @@ describe("requireAdmin tests", () => {
 
    it("session.user.id defined - role admin - test", async () => {
       const session = ntestData.session();
-      session.user.role = "admin";
+      session.user.role = "ADMIN";
       authMock.mockResolvedValue(session);
 
       const user = await requireAdmin();

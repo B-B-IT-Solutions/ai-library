@@ -24,7 +24,7 @@ export type DUser = {
    id: string;
    name: string;
    email: string;
-   role: string;
+   role: DUserRole;
    updatedAt: string;
    createdAt: string;
 };

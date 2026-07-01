@@ -38,11 +38,11 @@ export const main = async () => {
       });
    }
 
-   console.log("\nCreating admin user...");
+   console.log("\nCreating ADMIN user...");
    const adminUser = await prisma.user.upsert({
       where: { email: SEED_ADMIN_EMAIL },
       update: {},
-      create: { email: SEED_ADMIN_EMAIL, name: "admin 1", role: "admin" },
+      create: { email: SEED_ADMIN_EMAIL, name: "admin 1", role: "ADMIN" },
    });
 
    console.log("\nCreating user...");

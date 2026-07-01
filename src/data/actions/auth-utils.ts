@@ -10,7 +10,7 @@ export const requireAdmin = async (): Promise<LoginUser> => {
    if (!session?.user?.id) {
       throw new AiLibAuthenticationError("Authentication required");
    }
-   if (session.user.role !== "admin") {
+   if (session.user.role !== "ADMIN") {
       throw new AiLibAuthenticationError("Forbidden");
    }
 

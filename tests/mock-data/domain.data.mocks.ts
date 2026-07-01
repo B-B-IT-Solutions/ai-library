@@ -121,7 +121,7 @@ export const dUser = (index = 1): DUser => {
       id: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
       name: `name-${index}`,
       email: "test@email.com",
-      role: `role-${index}`,
+      role: "USER",
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
