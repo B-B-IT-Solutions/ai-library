@@ -84,7 +84,7 @@ export class SubscriptionService {
       });
 
       // subscription active
-      if (this.isSubscriptinoActive(subscription)) {
+      if (this.isSubscriptionActive(subscription)) {
          return subscription!.plan.tier;
       }
 
@@ -94,6 +94,11 @@ export class SubscriptionService {
       }
 
       const user = await this.userService.getUserInternalById(userId);
+
+      // admins and promo users
+      if (user?.role === "ADMIN" || user?.role === "PROMO_USER") {
+         return "PRO";
+      }
 
       // trial active
       if (user?.trialEndsAt && isFuture(user.trialEndsAt)) {
@@ -167,7 +172,7 @@ export class SubscriptionService {
       }
    }
 
-   isSubscriptinoActive(subscription: DSubscription | null): boolean {
+   isSubscriptionActive(subscription: DSubscription | null): boolean {
       return subscription?.status === "ACTIVE";
    }
 

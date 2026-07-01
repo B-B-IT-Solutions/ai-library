@@ -374,6 +374,54 @@ describe("getUserTier tests", () => {
       expect(userServiceMock.getUserInternalById).not.toHaveBeenCalled();
    });
 
+   it("subscription null - user role ADMIN - test", async () => {
+      const userId = "user-id-1";
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+
+      const user = dtestData.dUserInternal();
+      user.role = "ADMIN";
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
+
+      const result = await service.getUserTier(userId);
+      const expectdResult: DSubscriptionTier = "PRO";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
+   });
+
+   it("subscription null - user role PROMO_USER - test", async () => {
+      const userId = "user-id-1";
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+
+      const user = dtestData.dUserInternal();
+      user.role = "PROMO_USER";
+      userServiceMock.getUserInternalById.mockResolvedValue(user);
+
+      const result = await service.getUserTier(userId);
+      const expectdResult: DSubscriptionTier = "PRO";
+
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
+   });
+
    it("subscription null - trial active - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
@@ -620,13 +668,13 @@ describe("requireCountLimit tests", () => {
    });
 });
 
-describe("isSubscriptinoActive tests", () => {
+describe("isSubscriptionActive tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("subscription null - test", async () => {
-      const result = service.isSubscriptinoActive(null);
+      const result = service.isSubscriptionActive(null);
       expect(result).toBe(false);
    });
 
@@ -634,7 +682,7 @@ describe("isSubscriptinoActive tests", () => {
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
 
-      const result = service.isSubscriptinoActive(null);
+      const result = service.isSubscriptionActive(null);
       expect(result).toBe(false);
    });
 
@@ -642,7 +690,7 @@ describe("isSubscriptinoActive tests", () => {
       const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
 
-      const result = service.isSubscriptinoActive(subscription);
+      const result = service.isSubscriptionActive(subscription);
       expect(result).toBe(true);
    });
 });

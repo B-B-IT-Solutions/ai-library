@@ -27,7 +27,7 @@ describe("AdminUserEdit rendering tests", () => {
 
    it("values null - test", async () => {
       const user = adtestData.dAdminUser();
-      user.role = "admin";
+      user.role = "ADMIN";
       user.emailVerified = undefined;
       user.trialEndsAt = undefined;
       user.stripeCustomerId = null;

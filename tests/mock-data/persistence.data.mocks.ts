@@ -86,7 +86,7 @@ export const pUser = (index = 1): User => {
       emailVerified: new Date("2025-09-27"),
       image: "image/1",
       password: "password123",
-      role: "user",
+      role: "USER",
       stripeCustomerId: `86a092fd-1758-45d1-a831-9b26d6eb837${index}`,
       legalNoticesAcceptedAt: new Date("2025-09-27"),
       iubendaLegalNoticesSynced: true,

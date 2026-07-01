@@ -80,7 +80,7 @@ export const session = (): Session => {
          id: "test1@email.com",
          email: "test1@email.com",
          name: "User Name 1",
-         role: "user",
+         role: "USER",
          tier: "FREE",
       },
    };
@@ -91,7 +91,7 @@ export const adapterUser = (): AdapterUser => {
       id: "user-1",
       email: "test1@email.com",
       emailVerified: new Date("2025-09-27"),
-      role: "user",
+      role: "USER",
    };
 };
 
@@ -100,7 +100,7 @@ export const user = (): User => {
       id: "test1@email.com",
       email: "test1@email.com",
       name: "User Name 1",
-      role: "user",
+      role: "USER",
    };
 };
 

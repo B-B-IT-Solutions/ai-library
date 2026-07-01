@@ -242,14 +242,14 @@ exports[`EditPromptPage rendering tests user retrieved - test 1`] = `
                       >
                         <option
                           selected=""
-                          value="user"
+                          value="USER"
                         >
                           user
                         </option>
                         <option
-                          value="admin"
+                          value="PROMO_USER"
                         >
-                          admin
+                          promo user
                         </option>
                       </select>
                     </div>

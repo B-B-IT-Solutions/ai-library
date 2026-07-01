@@ -47,7 +47,7 @@ export const UsersTable = ({ users }: Props) => {
                      <TableCell>
                         <Badge
                            variant={
-                              user.role === "admin" ? "default" : "secondary"
+                              user.role === "ADMIN" ? "default" : "secondary"
                            }
                         >
                            {user.role}

@@ -6,11 +6,14 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
-import { FormSelect } from "@/components/shared/widgets/form-select";
+import { FormSelect, Option } from "@/components/shared/widgets/form-select";
 import { updateUserRole } from "@/data/actions/admin/users";
 import { DAdminUser } from "@/data/types/domain/admin/user";
 
-const ROLE_OPTIONS = ["user", "admin"];
+const ROLE_OPTIONS: Option[] = [
+   { value: "USER", label: "user" },
+   { value: "PROMO_USER", label: "promo user" },
+];
 
 type Props = {
    user: DAdminUser;

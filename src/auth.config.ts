@@ -71,7 +71,7 @@ export const authConfig: NextAuthConfig = {
                   new URL("/marketplace", request.url)
                );
             }
-            if (pathname.startsWith("/admin") && auth.user?.role !== "admin") {
+            if (pathname.startsWith("/admin") && auth.user?.role !== "ADMIN") {
                return NextResponse.redirect(new URL("/templates", request.url));
             }
          }

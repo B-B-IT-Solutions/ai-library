@@ -237,14 +237,14 @@ exports[`AdminUserEdit rendering tests all values -  test 1`] = `
                     >
                       <option
                         selected=""
-                        value="user"
+                        value="USER"
                       >
                         user
                       </option>
                       <option
-                        value="admin"
+                        value="PROMO_USER"
                       >
-                        admin
+                        promo user
                       </option>
                     </select>
                   </div>
@@ -471,9 +471,7 @@ exports[`AdminUserEdit rendering tests values null - test 1`] = `
                       <span
                         data-slot="select-value"
                         style="pointer-events: none;"
-                      >
-                        admin
-                      </span>
+                      />
                       <svg
                         aria-hidden="true"
                         class="lucide lucide-chevron-down size-4 opacity-50"
@@ -502,15 +500,14 @@ exports[`AdminUserEdit rendering tests values null - test 1`] = `
                       tabindex="-1"
                     >
                       <option
-                        value="user"
+                        value="USER"
                       >
                         user
                       </option>
                       <option
-                        selected=""
-                        value="admin"
+                        value="PROMO_USER"
                       >
-                        admin
+                        promo user
                       </option>
                     </select>
                   </div>

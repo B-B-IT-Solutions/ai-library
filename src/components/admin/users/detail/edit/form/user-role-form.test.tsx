@@ -32,9 +32,9 @@ describe("UserRoleForm rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   test("role user - test", async () => {
+   test("role USER - test", async () => {
       const user = adtestData.dAdminUser();
-      user.role = "user";
+      user.role = "USER";
 
       const { container } = render(<UserRoleForm user={user} />);
 
@@ -45,9 +45,9 @@ describe("UserRoleForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   test("role admin - test", async () => {
+   test("role PROMO_USER - test", async () => {
       const user = adtestData.dAdminUser();
-      user.role = "admin";
+      user.role = "PROMO_USER";
 
       const { container } = render(<UserRoleForm user={user} />);
 
@@ -72,7 +72,7 @@ describe("UserRoleForm functionality tests", () => {
       updateUserRoleMock.mockResolvedValue(result);
 
       const user = adtestData.dAdminUser();
-      user.role = "user";
+      user.role = "USER";
 
       render(<UserRoleForm user={user} />);
 
@@ -85,7 +85,7 @@ describe("UserRoleForm functionality tests", () => {
 
       await waitFor(() => {
          expect(updateUserRoleMock).toHaveBeenCalledTimes(1);
-         expect(updateUserRoleMock).toHaveBeenCalledWith(user.id, "user");
+         expect(updateUserRoleMock).toHaveBeenCalledWith(user.id, "USER");
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
       });
@@ -99,7 +99,7 @@ describe("UserRoleForm functionality tests", () => {
       updateUserRoleMock.mockResolvedValue(result);
 
       const user = adtestData.dAdminUser();
-      user.role = "admin";
+      user.role = "PROMO_USER";
 
       render(<UserRoleForm user={user} />);
 
@@ -112,7 +112,7 @@ describe("UserRoleForm functionality tests", () => {
 
       await waitFor(() => {
          expect(updateUserRoleMock).toHaveBeenCalledTimes(1);
-         expect(updateUserRoleMock).toHaveBeenCalledWith(user.id, "admin");
+         expect(updateUserRoleMock).toHaveBeenCalledWith(user.id, "PROMO_USER");
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
       });

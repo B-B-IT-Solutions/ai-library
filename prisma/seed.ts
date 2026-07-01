@@ -1,4 +1,6 @@
-﻿import { PrismaClient } from "@/generated/prisma/client";
+﻿import { addDays } from "date-fns";
+
+import { PrismaClient } from "@/generated/prisma/client";
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
@@ -38,18 +40,22 @@ export const main = async () => {
       });
    }
 
-   console.log("\nCreating admin user...");
+   console.log("\nCreating ADMIN user...");
    const adminUser = await prisma.user.upsert({
       where: { email: SEED_ADMIN_EMAIL },
       update: {},
-      create: { email: SEED_ADMIN_EMAIL, name: "admin 1", role: "admin" },
+      create: { email: SEED_ADMIN_EMAIL, name: "admin 1", role: "ADMIN" },
    });
 
    console.log("\nCreating user...");
    const user = await prisma.user.upsert({
       where: { email: SEED_USER_EMAIL },
       update: {},
-      create: { email: SEED_USER_EMAIL, name: "test 1" },
+      create: {
+         email: SEED_USER_EMAIL,
+         name: "test 1",
+         trialEndsAt: addDays(new Date(), 14),
+      },
    });
 
    console.log("\nCreating prompt templates...");
