@@ -1,17 +1,11 @@
 ﻿import { addDays } from "date-fns";
 
 import { PrismaClient } from "@/generated/prisma/client";
-import { bundlesData } from "../x_utils/data-dev/bundles";
-import { templateProductMetadata } from "../x_utils/data-dev/product-metadata";
-import { promptsWithFields } from "../x_utils/data-dev/prompt-fields";
-import {
-   promptsData,
-   SEED_ADMIN_EMAIL,
-   SEED_USER_EMAIL,
-} from "../x_utils/data-dev/prompts";
 
-import { seedCatalog } from "./seeds/catalog.data";
-import { subscriptionPlansData } from "./seeds/subscription-plans.data";
+import { bundlesData } from "./data/bundles";
+import { templateProductMetadata } from "./data/product-metadata";
+import { promptsWithFields } from "./data/prompt-fields";
+import { promptsData, SEED_ADMIN_EMAIL, SEED_USER_EMAIL } from "./data/prompts";
 
 const prisma = new PrismaClient();
 
@@ -29,16 +23,8 @@ export const main = async () => {
    await prisma.prompt0Content.deleteMany();
    await prisma.prompt0.deleteMany();
    await prisma.prompt0Category.deleteMany();
-   await prisma.subscriptionPlan.deleteMany();
 
    console.log("Starting data inserts...");
-
-   console.log("\nCreating subscription plans...");
-   for (const plan of subscriptionPlansData) {
-      await prisma.subscriptionPlan.create({
-         data: plan,
-      });
-   }
 
    console.log("\nCreating ADMIN user...");
    const adminUser = await prisma.user.upsert({
@@ -151,11 +137,8 @@ export const main = async () => {
       });
    }
 
-   await seedCatalog(prisma);
-
    console.log("\n✅ Data inserts finished successfully!");
    console.log(`\nSummary:`);
-   console.log(`- ${subscriptionPlansData.length} subscription plans`);
    console.log(`- ${createdTemplateDesciptors.length} templates`);
    console.log(`- ${createdTemplateDesciptors.length} individual products`);
 };

@@ -13,6 +13,7 @@
       "db:migrate": "prisma migrate dev",
       "db:reset": "prisma migrate reset",
       "db:datainit": "prisma db seed",
+      "db:devdatainit": "prisma db execute --file ./x_utils/db/seed-dev.ts",
       "db:push": "prisma db push",
       "db:studio": "prisma studio",
       "test": "cross-env TZ=CET jest",
