@@ -36,6 +36,12 @@ async function main() {
       stdio: "inherit",
    });
    log("Migration completed successfully");
+
+   log("Running prisma db seed");
+   execSync("node node_modules/prisma/build/index.js db seed", {
+      stdio: "inherit",
+   });
+   log("Data populated successfully");
 }
 
 main().catch((err) => {

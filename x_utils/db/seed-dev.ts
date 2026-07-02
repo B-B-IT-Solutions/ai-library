@@ -138,9 +138,6 @@ export const main = async () => {
    }
 
    console.log("\n✅ Data inserts finished successfully!");
-   console.log(`\nSummary:`);
-   console.log(`- ${createdTemplateDesciptors.length} templates`);
-   console.log(`- ${createdTemplateDesciptors.length} individual products`);
 };
 
 main()
