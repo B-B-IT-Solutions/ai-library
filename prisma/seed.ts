@@ -1,17 +1,9 @@
-﻿import "dotenv/config";
-
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
-
-import { PrismaClient } from "../src/generated/prisma/client";
-
-const connectionString = `${process.env.DATABASE_URL}`;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+﻿import { PrismaClient } from "../src/generated/prisma/client";
 
 import { initCatalogData } from "./seeds/catalog";
 import { initSubscriptionPlansData } from "./seeds/subscription-plans";
+
+const prisma = new PrismaClient();
 
 export const main = async () => {
    console.log("\nStarting data inserts\n====================================");

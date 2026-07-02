@@ -5,11 +5,12 @@ import path from "node:path";
 const binPath = path.resolve("node_modules/.bin");
 const execOptions = {
    stdio: "inherit",
-   env: { ...process.env, PATH: `${binPath}${path.delimiter}${process.env.PATH}` },
+   env: {
+      ...process.env,
+      PATH: `${binPath}${path.delimiter}${process.env.PATH}`,
+   },
 };
 
-//   Manuell/explizit auszuführen (z.B. `az containerapp job start` oder lokal gegen PROD),
-//   NICHT Teil des automatischen Deploy-/Migrations-Containers.
 //   Benötigte Umgebungsvariablen:
 //   - USE_AZURE_IDENTITY=true
 //   - AZURE_CLIENT_ID=<client-id-der-user-assigned-identity>
