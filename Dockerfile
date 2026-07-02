@@ -25,7 +25,15 @@ COPY scripts/db-migrate.mjs ./scripts/db-migrate.mjs
 CMD ["node", "scripts/db-migrate.mjs"]
 
 # ============================================
-# Stage 3: Build Next.js application in standalone mode
+# Stage 3: DB Data Initialisation Stage
+# ============================================
+
+FROM deps AS dbdatainit
+COPY scripts/db-datainit.mjs ./scripts/db-datainit.mjs
+CMD ["node", "scripts/db-datainit.mjs"]
+
+# ============================================
+# Stage 4: Build Next.js application in standalone mode
 # ============================================
 
 FROM base AS builder
