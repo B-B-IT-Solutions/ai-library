@@ -1,7 +1,5 @@
 import { PrismaClient } from "@/generated/prisma/client";
 
-type PrismaClientType = InstanceType<typeof PrismaClient>;
-
 const catalogCategories = [
    {
       name: "Marketing & Content",
@@ -729,8 +727,8 @@ const catalogEntries = [
    },
 ];
 
-export const seedCatalog = async (prisma: PrismaClientType) => {
-   console.log("\nSeeding catalog categories...");
+export const initCatalogData = async (prisma: PrismaClient) => {
+   console.log("\Creating catalog categories...");
 
    const categoryMap = new Map<string, string>();
 
@@ -750,7 +748,7 @@ export const seedCatalog = async (prisma: PrismaClientType) => {
 
    console.log(`  ✓ ${catalogCategories.length} catalog categories created`);
 
-   console.log("\nSeeding catalog entries...");
+   console.log("\Creating catalog entries...");
 
    for (const entry of catalogEntries) {
       const categoryId = entry.categorySlug
