@@ -1,14 +1,14 @@
 import { Button } from "@/components/shadcn/button";
-import type { Question, Score } from "@/data/services/survey/survey-data";
+import { DSurveyQuestion, DSurveyScore } from "@/data/types/domain/survey";
 
 import { ProgressBar } from "./ProgressBar";
 
 interface QuestionStepProps {
-   question: Question;
+   question: DSurveyQuestion;
    questionIndex: number;
    totalQuestions: number;
-   currentAnswer: Score | undefined;
-   onAnswer: (score: Score) => void;
+   currentAnswer: DSurveyScore | undefined;
+   onAnswer: (score: DSurveyScore) => void;
    onBack: () => void;
 }
 

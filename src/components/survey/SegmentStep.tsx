@@ -1,21 +1,24 @@
-import type { Segment } from "@/data/services/survey/survey-data";
+import { DSurveySegment } from "@/data/types/domain/survey";
 
-interface SegmentStepProps {
+interface DSurveySegmentStepProps {
    segmentLabels: Record<string, string>;
-   onSelect: (segment: Segment) => void;
+   onSelect: (segment: DSurveySegment) => void;
 }
 
-const SEGMENT_OPTIONS: { segment: Segment; emoji: string }[] = [
+const SEGMENT_OPTIONS: { segment: DSurveySegment; emoji: string }[] = [
    { segment: "solo", emoji: "🏢" },
    { segment: "employee", emoji: "💼" },
    { segment: "coach", emoji: "🎯" },
    { segment: "default", emoji: "✨" },
 ];
 
-export const SegmentStep = ({ segmentLabels, onSelect }: SegmentStepProps) => {
+export const SegmentStep = ({
+   segmentLabels,
+   onSelect,
+}: DSurveySegmentStepProps) => {
    return (
       <div data-testid="segment-step">
-         <h2 className="mb-2 text-center text-sm font-semibold uppercase tracking-widest text-blue-600">
+         <h2 className="mb-2 text-center text-sm font-semibold tracking-widest text-blue-600 uppercase">
             Schritt 1
          </h2>
          <p className="mb-8 text-center text-xl font-semibold text-slate-800">

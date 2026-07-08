@@ -5,10 +5,13 @@ import { z } from "zod";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import type { SurveyResult } from "@/data/services/survey/survey.service";
-import type { Question, Segment } from "@/data/services/survey/survey-data";
-
-export type { SurveyResult };
+import type {
+   DSubmitSurveyInput,
+   DSurveyQuestion,
+   DSurveyResult,
+   DSurveySegment,
+} from "@/data/types/domain/survey";
+import type { ActionResult } from "@/data/types/utils";
 
 const ScoreEnum = z.union([
    z.literal(1),
@@ -36,31 +39,42 @@ const SubmitSurveySchema = z.object({
 const SegmentSchema = z.enum(["solo", "employee", "coach", "default"]);
 
 export const getSurveySegmentLabels = async (): Promise<
-   Record<Segment, string>
+   Record<DSurveySegment, string>
 > => {
-   return getService().getSegmentLabels();
+   try {
+      return getService().getSegmentLabels();
+   } catch (error) {
+      console.error(formatError(error));
+      return {} as Record<DSurveySegment, string>;
+   }
 };
 
 export const getSurveyQuestions = async (
-   segment: Segment
-): Promise<Question[]> => {
-   SegmentSchema.parse(segment);
-   return getService().getQuestionsForSegment(segment);
-};
-
-export const submitSurvey = async (raw: unknown): Promise<SurveyResult> => {
+   segment: DSurveySegment
+): Promise<DSurveyQuestion[]> => {
    try {
-      const { email, firstName, segment, answers } =
-         SubmitSurveySchema.parse(raw);
-      return await getService().submitSurvey({
-         email,
-         firstName,
-         segment,
-         answers,
-      });
+      SegmentSchema.parse(segment);
+      return getService().getQuestionsForSegment(segment);
    } catch (error) {
       console.error(formatError(error));
-      throw error;
+      return [];
+   }
+};
+
+export const submitSurvey = async (
+   data: DSubmitSurveyInput
+): Promise<ActionResult<DSurveyResult>> => {
+   try {
+      const validated = SubmitSurveySchema.parse(data);
+      const result = await getService().submitSurvey(validated);
+      return {
+         success: true,
+         message: "Umfrage erfolgreich eingereicht",
+         data: result,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return { success: false, message: "Fehler beim Einreichen der Umfrage" };
    }
 };
 

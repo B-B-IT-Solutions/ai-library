@@ -1,28 +1,14 @@
 import type { SurveyRepository } from "@/data/repositories/survey";
+import {
+   DSubmitSurveyInput,
+   DSurveyQuestion,
+   DSurveyResult,
+   DSurveySegment,
+} from "@/data/types/domain/survey";
 
 import { SEGMENT_LABELS, SURVEY_DATA } from "./survey-data";
-import type { Dimension, Question, Segment, SurveyAnswers } from "./survey-data";
 import { LEVER_TEXTS, STAGE_RESULTS } from "./survey-results";
 import { calculateLevers, calculateStage } from "./survey-scoring";
-
-export interface SubmitSurveyInput {
-   email: string;
-   firstName?: string;
-   segment: Segment;
-   answers: SurveyAnswers;
-}
-
-export interface SurveyResult {
-   stage: 1 | 2 | 3 | 4;
-   total: number;
-   levers: [Dimension, Dimension];
-   stageLabel: string;
-   stageEmoji: string;
-   stageText: string;
-   ctaText: string;
-   ctaHref: string;
-   leverTexts: [string, string];
-}
 
 export class SurveyService {
    private surveyRepository: SurveyRepository;
@@ -31,15 +17,15 @@ export class SurveyService {
       this.surveyRepository = surveyRepository;
    }
 
-   getSegmentLabels(): Record<Segment, string> {
+   getSegmentLabels(): Record<DSurveySegment, string> {
       return SEGMENT_LABELS;
    }
 
-   getQuestionsForSegment(segment: Segment): Question[] {
+   getQuestionsForSegment(segment: DSurveySegment): DSurveyQuestion[] {
       return [...SURVEY_DATA[segment]];
    }
 
-   async submitSurvey(input: SubmitSurveyInput): Promise<SurveyResult> {
+   async submitSurvey(input: DSubmitSurveyInput): Promise<DSurveyResult> {
       const { email, firstName, segment, answers } = input;
       const total = Object.values(answers).reduce((sum, s) => sum + s, 0);
       const stage = calculateStage(total);

@@ -1,10 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { QuestionStep } from "./QuestionStep";
-import type { Question } from "@/data/services/survey/survey-data";
+import { DSurveyQuestion } from "@/data/types/domain/survey";
 
-const mockQuestion: Question = {
+import { QuestionStep } from "./QuestionStep";
+
+const mockQuestion: DSurveyQuestion = {
    id: "freq",
    text: "Wie oft nutzt du KI?",
    answers: [

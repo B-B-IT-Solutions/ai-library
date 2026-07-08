@@ -7,8 +7,13 @@ import {
    getSurveySegmentLabels,
    submitSurvey,
 } from "@/data/actions/survey";
-import type { Question, Score, Segment, SurveyAnswers } from "@/data/services/survey/survey-data";
-import type { SurveyResult } from "@/data/services/survey/survey.service";
+import {
+   DSurveyAnswers,
+   DSurveyQuestion,
+   DSurveyResult,
+   DSurveyScore,
+   DSurveySegment,
+} from "@/data/types/domain/survey";
 
 import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";
@@ -28,11 +33,11 @@ const RESULT_STEP = 12;
 
 interface SurveyState {
    step: number;
-   segment: Segment | null;
-   answers: Partial<SurveyAnswers>;
-   questions: Question[] | null;
-   segmentLabels: Record<Segment, string> | null;
-   result: SurveyResult | null;
+   segment: DSurveySegment | null;
+   answers: Partial<DSurveyAnswers>;
+   questions: DSurveyQuestion[] | null;
+   segmentLabels: Record<DSurveySegment, string> | null;
+   result: DSurveyResult | null;
    isLoading: boolean;
 }
 
@@ -59,12 +64,12 @@ export const SurveyContainer = () => {
       setState((s) => ({ ...s, step: 1 }));
    }, []);
 
-   const handleSegmentSelect = useCallback(async (segment: Segment) => {
+   const handleSegmentSelect = useCallback(async (segment: DSurveySegment) => {
       const questions = await getSurveyQuestions(segment);
       setState((s) => ({ ...s, segment, questions, step: QUESTION_START }));
    }, []);
 
-   const handleAnswer = useCallback((score: Score) => {
+   const handleAnswer = useCallback((score: DSurveyScore) => {
       setState((s) => {
          const questionIndex = s.step - QUESTION_START;
          const dimension = s.questions![questionIndex].id;
@@ -85,20 +90,21 @@ export const SurveyContainer = () => {
    const handleEmailSubmit = useCallback(
       async (email: string, firstName: string) => {
          setState((s) => ({ ...s, isLoading: true }));
-         try {
-            const result = await submitSurvey({
-               email,
-               firstName: firstName || undefined,
-               segment: state.segment,
-               answers: state.answers as SurveyAnswers,
-            });
+         const payload: DSubmitSurveyInput = {
+            email,
+            firstName: firstName || undefined,
+            segment: state.segment!,
+            answers: state.answers as DSurveyAnswers,
+         };
+         const actionResult = await submitSurvey(payload);
+         if (actionResult.success && actionResult.data) {
             setState((s) => ({
                ...s,
-               result,
+               result: actionResult.data!,
                step: RESULT_STEP,
                isLoading: false,
             }));
-         } catch {
+         } else {
             setState((s) => ({ ...s, isLoading: false }));
          }
       },
@@ -109,8 +115,15 @@ export const SurveyContainer = () => {
       setState(INITIAL_STATE);
    }, []);
 
-   const { step, segment, answers, questions, segmentLabels, result, isLoading } =
-      state;
+   const {
+      step,
+      segment,
+      answers,
+      questions,
+      segmentLabels,
+      result,
+      isLoading,
+   } = state;
 
    const renderStep = () => {
       if (step === 0) {
@@ -124,7 +137,12 @@ export const SurveyContainer = () => {
             />
          );
       }
-      if (step >= QUESTION_START && step <= QUESTION_END && segment && questions) {
+      if (
+         step >= QUESTION_START &&
+         step <= QUESTION_END &&
+         segment &&
+         questions
+      ) {
          const questionIndex = step - QUESTION_START;
          const question = questions[questionIndex];
          return (
@@ -142,7 +160,9 @@ export const SurveyContainer = () => {
          return <AnalysisLoader onDone={handleAnalysisDone} />;
       }
       if (step === EMAIL_STEP) {
-         return <EmailGateStep onSubmit={handleEmailSubmit} isLoading={isLoading} />;
+         return (
+            <EmailGateStep onSubmit={handleEmailSubmit} isLoading={isLoading} />
+         );
       }
       if (step === RESULT_STEP && result) {
          return (

@@ -1,36 +1,23 @@
-export type Segment = "solo" | "employee" | "coach" | "default";
-
-export type Dimension =
-   | "freq"
-   | "prompting"
-   | "tooling"
-   | "files"
-   | "automation"
-   | "integration"
-   | "quality"
-   | "timesaving";
-
-export type Score = 1 | 2 | 3 | 4;
-
-export type SurveyAnswers = Record<Dimension, Score>;
-
-export interface AnswerOption {
-   score: Score;
-   label: string;
-}
-
-export interface Question {
-   id: Dimension;
-   text: string;
-   answers: [AnswerOption, AnswerOption, AnswerOption, AnswerOption];
-}
+import type {
+   DSurveyQuestion,
+   DSurveySegment,
+} from "@/data/types/domain/survey";
 
 export type SurveyData = Record<
-   Segment,
-   [Question, Question, Question, Question, Question, Question, Question, Question]
+   DSurveySegment,
+   [
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+      DSurveyQuestion,
+   ]
 >;
 
-export const SEGMENT_LABELS: Record<Segment, string> = {
+export const SEGMENT_LABELS: Record<DSurveySegment, string> = {
    solo: "Ich führe mein eigenes (kleines) Unternehmen",
    employee: "Ich bin angestellt und nutze KI für meinen Job",
    coach: "Ich berate oder coache andere",
@@ -50,8 +37,7 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 3,
-               label:
-                  "Mehrmals pro Woche, z. B. für Angebote, Content, Kundenkommunikation",
+               label: "Mehrmals pro Woche, z. B. für Angebote, Content, Kundenkommunikation",
             },
             {
                score: 4,
@@ -65,23 +51,19 @@ export const SURVEY_DATA: SurveyData = {
          answers: [
             {
                score: 1,
-               label:
-                  'Kurze, allgemeine Anfrage ohne viel Kontext ("Schreib mir ein Angebot")',
+               label: 'Kurze, allgemeine Anfrage ohne viel Kontext ("Schreib mir ein Angebot")',
             },
             {
                score: 2,
-               label:
-                  "Ich gebe manchmal Kontext (z. B. Kundenname), aber nicht systematisch",
+               label: "Ich gebe manchmal Kontext (z. B. Kundenname), aber nicht systematisch",
             },
             {
                score: 3,
-               label:
-                  "Ich gebe meist Kontext zu Kunde, Ziel und gewünschtem Format",
+               label: "Ich gebe meist Kontext zu Kunde, Ziel und gewünschtem Format",
             },
             {
                score: 4,
-               label:
-                  "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
+               label: "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
             },
          ],
       },
@@ -96,13 +78,11 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 3,
-               label:
-                  "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
+               label: "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
             },
             {
                score: 4,
-               label:
-                  "Wechsle bewusst zwischen Chat und automatisierten Workflows, je nach Aufgabe",
+               label: "Wechsle bewusst zwischen Chat und automatisierten Workflows, je nach Aufgabe",
             },
          ],
       },
@@ -113,18 +93,15 @@ export const SURVEY_DATA: SurveyData = {
             { score: 1, label: "Ich lade nie eigene Dateien hoch" },
             {
                score: 2,
-               label:
-                  "Gelegentlich, einzelne Dateien, z. B. mal ein Angebot als Vorlage",
+               label: "Gelegentlich, einzelne Dateien, z. B. mal ein Angebot als Vorlage",
             },
             {
                score: 3,
-               label:
-                  "Regelmäßig, auch strukturiert, z. B. in einem Projekt/Wissensordner",
+               label: "Regelmäßig, auch strukturiert, z. B. in einem Projekt/Wissensordner",
             },
             {
                score: 4,
-               label:
-                  "Systematisch — eigene Wissensbasis mit Preisen, Ton, Vorlagen, wiederverwendbar",
+               label: "Systematisch — eigene Wissensbasis mit Preisen, Ton, Vorlagen, wiederverwendbar",
             },
          ],
       },
@@ -136,8 +113,7 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Idee vorhanden, aber nicht umgesetzt" },
             {
                score: 3,
-               label:
-                  "Ein bis zwei Automatisierungen im Einsatz, z. B. ein wöchentlicher Report",
+               label: "Ein bis zwei Automatisierungen im Einsatz, z. B. ein wöchentlicher Report",
             },
             {
                score: 4,
@@ -176,8 +152,7 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 4,
-               label:
-                  "Habe einen festen Prüf-/Freigabeprozess, bevor etwas rausgeht",
+               label: "Habe einen festen Prüf-/Freigabeprozess, bevor etwas rausgeht",
             },
          ],
       },
@@ -202,8 +177,7 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Ein paar Mal im Monat" },
             {
                score: 3,
-               label:
-                  "Mehrmals pro Woche, z. B. für E-Mails, Recherche, Reports",
+               label: "Mehrmals pro Woche, z. B. für E-Mails, Recherche, Reports",
             },
             {
                score: 4,
@@ -225,13 +199,11 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 3,
-               label:
-                  "Ich gebe meist Kontext zu Empfänger, Ziel und Format",
+               label: "Ich gebe meist Kontext zu Empfänger, Ziel und Format",
             },
             {
                score: 4,
-               label:
-                  "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
+               label: "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
             },
          ],
       },
@@ -243,13 +215,11 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Nutze nur den einfachen Chat" },
             {
                score: 3,
-               label:
-                  "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
+               label: "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
             },
             {
                score: 4,
-               label:
-                  "Wechsle bewusst zwischen Chat und automatisierten Workflows",
+               label: "Wechsle bewusst zwischen Chat und automatisierten Workflows",
             },
          ],
       },
@@ -261,13 +231,11 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Gelegentlich, einzelne Dateien" },
             {
                score: 3,
-               label:
-                  "Regelmäßig, auch strukturiert, z. B. in einem Projekt",
+               label: "Regelmäßig, auch strukturiert, z. B. in einem Projekt",
             },
             {
                score: 4,
-               label:
-                  "Systematisch — eigene Wissensbasis mit Vorlagen und wiederverwendbaren Kontexten",
+               label: "Systematisch — eigene Wissensbasis mit Vorlagen und wiederverwendbaren Kontexten",
             },
          ],
       },
@@ -331,8 +299,7 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Ein paar Mal im Monat" },
             {
                score: 3,
-               label:
-                  "Mehrmals pro Woche, z. B. für Konzepte, Content, Klientenunterlagen",
+               label: "Mehrmals pro Woche, z. B. für Konzepte, Content, Klientenunterlagen",
             },
             {
                score: 4,
@@ -354,13 +321,11 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 3,
-               label:
-                  "Ich gebe meist Kontext zu Zielgruppe, Ziel und Format",
+               label: "Ich gebe meist Kontext zu Zielgruppe, Ziel und Format",
             },
             {
                score: 4,
-               label:
-                  "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
+               label: "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
             },
          ],
       },
@@ -372,13 +337,11 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Nutze nur den einfachen Chat" },
             {
                score: 3,
-               label:
-                  "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
+               label: "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
             },
             {
                score: 4,
-               label:
-                  "Wechsle bewusst zwischen Chat und automatisierten Workflows",
+               label: "Wechsle bewusst zwischen Chat und automatisierten Workflows",
             },
          ],
       },
@@ -390,13 +353,11 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Gelegentlich, einzelne Dateien" },
             {
                score: 3,
-               label:
-                  "Regelmäßig, auch strukturiert, z. B. in einem Projekt",
+               label: "Regelmäßig, auch strukturiert, z. B. in einem Projekt",
             },
             {
                score: 4,
-               label:
-                  "Systematisch — eigene Wissensbasis mit Methoden, Vorlagen, wiederverwendbaren Kontexten",
+               label: "Systematisch — eigene Wissensbasis mit Methoden, Vorlagen, wiederverwendbaren Kontexten",
             },
          ],
       },
@@ -425,8 +386,7 @@ export const SURVEY_DATA: SurveyData = {
             { score: 3, label: "Eine Verbindung eingerichtet" },
             {
                score: 4,
-               label:
-                  "Mehrere Tools verbunden — KI ist Teil meines Beratungssystems",
+               label: "Mehrere Tools verbunden — KI ist Teil meines Beratungssystems",
             },
          ],
       },
@@ -445,8 +405,7 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 4,
-               label:
-                  "Habe einen festen Prüf-/Freigabeprozess, bevor etwas rausgeht",
+               label: "Habe einen festen Prüf-/Freigabeprozess, bevor etwas rausgeht",
             },
          ],
       },
@@ -471,8 +430,7 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Ein paar Mal im Monat" },
             {
                score: 3,
-               label:
-                  "Mehrmals pro Woche, z. B. für Texte, Recherche, Organisation",
+               label: "Mehrmals pro Woche, z. B. für Texte, Recherche, Organisation",
             },
             {
                score: 4,
@@ -498,8 +456,7 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 4,
-               label:
-                  "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
+               label: "Ich gebe klare Rolle, Kontext und Format vor und verfeinere das Ergebnis iterativ",
             },
          ],
       },
@@ -511,13 +468,11 @@ export const SURVEY_DATA: SurveyData = {
             { score: 2, label: "Nutze nur den einfachen Chat" },
             {
                score: 3,
-               label:
-                  "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
+               label: "Kenne den Unterschied, nutze weiterführende Funktionen aber selten",
             },
             {
                score: 4,
-               label:
-                  "Wechsle bewusst zwischen Chat und automatisierten Workflows",
+               label: "Wechsle bewusst zwischen Chat und automatisierten Workflows",
             },
          ],
       },
@@ -533,8 +488,7 @@ export const SURVEY_DATA: SurveyData = {
             },
             {
                score: 4,
-               label:
-                  "Systematisch — eigene Wissensbasis, wiederverwendbare Kontexte",
+               label: "Systematisch — eigene Wissensbasis, wiederverwendbare Kontexte",
             },
          ],
       },

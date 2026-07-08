@@ -17,13 +17,14 @@ import {
 
 import { SurveyContainer } from "./SurveyContainer";
 
-const getSurveySegmentLabelsMock = getSurveySegmentLabels as jest.MockedFunction<
-   typeof getSurveySegmentLabels
->;
+const getSurveySegmentLabelsMock =
+   getSurveySegmentLabels as jest.MockedFunction<typeof getSurveySegmentLabels>;
 const getSurveyQuestionsMock = getSurveyQuestions as jest.MockedFunction<
    typeof getSurveyQuestions
 >;
-const submitSurveyMock = submitSurvey as jest.MockedFunction<typeof submitSurvey>;
+const submitSurveyMock = submitSurvey as jest.MockedFunction<
+   typeof submitSurvey
+>;
 
 const DIMENSIONS = [
    "freq",
@@ -68,10 +69,10 @@ const mockResult = {
    stageText: "Du nutzt KI bereits im Alltag.",
    ctaText: "Zeig mir mehr →",
    ctaHref: "/explore",
-   leverTexts: ["Baue dir eine feste Routine auf", "Nutze konkrete Prompts"] as [
-      string,
-      string,
-   ],
+   leverTexts: [
+      "Baue dir eine feste Routine auf",
+      "Nutze konkrete Prompts",
+   ] as [string, string],
 };
 
 describe("SurveyContainer", () => {
@@ -79,7 +80,11 @@ describe("SurveyContainer", () => {
       jest.clearAllMocks();
       getSurveySegmentLabelsMock.mockResolvedValue(mockSegmentLabels);
       getSurveyQuestionsMock.mockResolvedValue(mockQuestions);
-      submitSurveyMock.mockResolvedValue(mockResult);
+      submitSurveyMock.mockResolvedValue({
+         success: true,
+         message: "Umfrage erfolgreich eingereicht",
+         data: mockResult,
+      });
    });
 
    it("renders intro screen initially", () => {
@@ -158,7 +163,10 @@ describe("SurveyContainer", () => {
          expect(screen.getByTestId("email-gate-step")).toBeInTheDocument();
       });
 
-      await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
+      await userEvent.type(
+         screen.getByTestId("email-input"),
+         "test@example.com"
+      );
       await userEvent.click(screen.getByTestId("consent-checkbox"));
       await userEvent.click(screen.getByTestId("submit-button"));
 
@@ -182,7 +190,10 @@ describe("SurveyContainer", () => {
          expect(screen.getByTestId("email-gate-step")).toBeInTheDocument()
       );
 
-      await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
+      await userEvent.type(
+         screen.getByTestId("email-input"),
+         "test@example.com"
+      );
       await userEvent.click(screen.getByTestId("consent-checkbox"));
       await userEvent.click(screen.getByTestId("submit-button"));
       await waitFor(() =>

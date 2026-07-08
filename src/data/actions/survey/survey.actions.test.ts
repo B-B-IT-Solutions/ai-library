@@ -53,12 +53,12 @@ describe("submitSurvey action", () => {
       jest.restoreAllMocks();
    });
 
-   it("calls SurveyService.submitSurvey and returns the result", async () => {
+   it("calls SurveyService.submitSurvey and returns success result", async () => {
       sSubmitSurvey.mockResolvedValue(mockResult);
 
       const result = await submitSurvey(validInput);
 
-      expect(result).toEqual(mockResult);
+      expect(result).toEqual({ success: true, message: "Umfrage erfolgreich eingereicht", data: mockResult });
       expect(sSubmitSurvey).toHaveBeenCalledTimes(1);
       expect(sSubmitSurvey).toHaveBeenCalledWith({
          email: validInput.email,
@@ -68,29 +68,38 @@ describe("submitSurvey action", () => {
       });
    });
 
-   it("throws a Zod error for invalid email", async () => {
+   it("returns failure for invalid email", async () => {
       const input = { ...validInput, email: "not-an-email" };
-      await expect(submitSurvey(input)).rejects.toThrow();
+      const result = await submitSurvey(input);
+
+      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
+      expect(sSubmitSurvey).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("returns failure for invalid answer score", async () => {
+      const input = { ...validInput, answers: { ...validInput.answers, freq: 5 as never } };
+      const result = await submitSurvey(input);
+
+      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
       expect(sSubmitSurvey).not.toHaveBeenCalled();
    });
 
-   it("throws a Zod error for invalid answer score", async () => {
-      const input = { ...validInput, answers: { ...validInput.answers, freq: 5 } };
-      await expect(submitSurvey(input)).rejects.toThrow();
+   it("returns failure for invalid segment", async () => {
+      const input = { ...validInput, segment: "unknown" as never };
+      const result = await submitSurvey(input);
+
+      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
       expect(sSubmitSurvey).not.toHaveBeenCalled();
    });
 
-   it("throws a Zod error for invalid segment", async () => {
-      const input = { ...validInput, segment: "unknown" };
-      await expect(submitSurvey(input)).rejects.toThrow();
-      expect(sSubmitSurvey).not.toHaveBeenCalled();
-   });
-
-   it("logs and re-throws service errors", async () => {
+   it("logs and returns failure on service errors", async () => {
       const error = new Error("service error");
       sSubmitSurvey.mockRejectedValue(error);
 
-      await expect(submitSurvey(validInput)).rejects.toThrow("service error");
+      const result = await submitSurvey(validInput);
+
+      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 });
@@ -98,6 +107,11 @@ describe("submitSurvey action", () => {
 describe("getSurveySegmentLabels action", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
    });
 
    it("returns segment labels from the service", async () => {
@@ -108,15 +122,28 @@ describe("getSurveySegmentLabels action", () => {
       expect(result).toEqual(labels);
       expect(sGetSegmentLabels).toHaveBeenCalledTimes(1);
    });
+
+   it("returns empty object and logs on service error", async () => {
+      sGetSegmentLabels.mockImplementation(() => { throw new Error("service error"); });
+
+      const result = await getSurveySegmentLabels();
+      expect(result).toEqual({});
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
 });
 
 describe("getSurveyQuestions action", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
    });
 
    it("returns questions for the given segment", async () => {
-      const mockQuestions = [{ id: "freq", text: "Q", answers: [] }] as never;
+      const mockQuestions = [{ id: "freq", text: "Q", answers: [] as never }] as never;
       sGetQuestionsForSegment.mockReturnValue(mockQuestions);
 
       const result = await getSurveyQuestions("solo");
@@ -124,8 +151,10 @@ describe("getSurveyQuestions action", () => {
       expect(sGetQuestionsForSegment).toHaveBeenCalledWith("solo");
    });
 
-   it("throws a Zod error for invalid segment", async () => {
-      await expect(getSurveyQuestions("invalid" as never)).rejects.toThrow();
+   it("returns empty array and logs for invalid segment", async () => {
+      const result = await getSurveyQuestions("invalid" as never);
+      expect(result).toEqual([]);
       expect(sGetQuestionsForSegment).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 });

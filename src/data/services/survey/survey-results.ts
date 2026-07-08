@@ -1,4 +1,4 @@
-import type { Dimension, Segment } from "./survey-data";
+import { DSurveyDimension, DSurveySegment } from "@/data/types/domain/survey";
 
 export interface StageResult {
    stage: 1 | 2 | 3 | 4;
@@ -49,13 +49,15 @@ export const STAGE_RESULTS: Record<1 | 2 | 3 | 4, StageResult> = {
    },
 };
 
-export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
+export const LEVER_TEXTS: Record<
+   DSurveyDimension,
+   Record<DSurveySegment, string>
+> = {
    freq: {
       solo: "Baue dir eine feste Routine auf — z. B. 15 Minuten täglich für eine Business-Aufgabe",
       employee:
          "Baue dir eine feste Routine auf — z. B. 15 Minuten täglich im Job",
-      coach:
-         "Baue dir eine feste Routine auf — z. B. 15 Minuten täglich in der Klientenarbeit",
+      coach: "Baue dir eine feste Routine auf — z. B. 15 Minuten täglich in der Klientenarbeit",
       default:
          "Baue dir eine feste Routine auf — z. B. 15 Minuten täglich mit einer wiederkehrenden Aufgabe",
    },
@@ -63,8 +65,7 @@ export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
       solo: "Nutze konkrete Prompts mit Kontext zu Kunde, Rolle und Format — verbessert deine Ergebnisse sofort spürbar",
       employee:
          "Nutze konkrete Prompts mit Kontext, Rolle und Format — verbessert deine Ergebnisse sofort spürbar",
-      coach:
-         "Nutze konkrete Prompts mit Kontext zu Zielgruppe, Rolle und Format — verbessert deine Ergebnisse sofort spürbar",
+      coach: "Nutze konkrete Prompts mit Kontext zu Zielgruppe, Rolle und Format — verbessert deine Ergebnisse sofort spürbar",
       default:
          "Nutze konkrete Prompts mit Kontext, Rolle und Format — verbessert deine Ergebnisse sofort spürbar",
    },
@@ -72,8 +73,7 @@ export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
       solo: "Lerne den Unterschied zwischen Chat und automatisierten Workflows kennen und nutze bewusst das passende Werkzeug für dein Business",
       employee:
          "Lerne den Unterschied zwischen Chat und automatisierten Workflows kennen und nutze bewusst das passende Werkzeug im Job",
-      coach:
-         "Lerne den Unterschied zwischen Chat und automatisierten Workflows kennen und nutze bewusst das passende Werkzeug in der Beratung",
+      coach: "Lerne den Unterschied zwischen Chat und automatisierten Workflows kennen und nutze bewusst das passende Werkzeug in der Beratung",
       default:
          "Lerne den Unterschied zwischen Chat und automatisierten Workflows kennen und nutze bewusst das passende Werkzeug",
    },
@@ -89,8 +89,7 @@ export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
       solo: "Identifiziere eine wiederkehrende Business-Aufgabe und automatisiere sie testweise",
       employee:
          "Identifiziere eine wiederkehrende Aufgabe in deinem Job und automatisiere sie testweise",
-      coach:
-         "Identifiziere eine wiederkehrende Aufgabe in deiner Beratung und automatisiere sie testweise",
+      coach: "Identifiziere eine wiederkehrende Aufgabe in deiner Beratung und automatisiere sie testweise",
       default:
          "Identifiziere eine wiederkehrende Aufgabe und automatisiere sie testweise",
    },
@@ -98,8 +97,7 @@ export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
       solo: "Verbinde deine KI mit mindestens einem weiteren Business-Tool, um Medienbrüche zu vermeiden",
       employee:
          "Verbinde deine KI mit mindestens einem weiteren Arbeits-Tool, um Medienbrüche zu vermeiden",
-      coach:
-         "Verbinde deine KI mit mindestens einem weiteren Tool (CRM, Kursplattform), um Medienbrüche zu vermeiden",
+      coach: "Verbinde deine KI mit mindestens einem weiteren Tool (CRM, Kursplattform), um Medienbrüche zu vermeiden",
       default:
          "Verbinde deine KI mit mindestens einem weiteren Tool, um Medienbrüche zu vermeiden",
    },
@@ -115,8 +113,7 @@ export const LEVER_TEXTS: Record<Dimension, Record<Segment, string>> = {
       solo: "Tracke bewusst, wo du im Business Zeit sparst — hilft, KI gezielter einzusetzen",
       employee:
          "Tracke bewusst, wo du im Job Zeit sparst — hilft, KI gezielter einzusetzen",
-      coach:
-         "Tracke bewusst, wo du in der Beratung Zeit sparst — hilft, KI gezielter einzusetzen",
+      coach: "Tracke bewusst, wo du in der Beratung Zeit sparst — hilft, KI gezielter einzusetzen",
       default:
          "Tracke bewusst, wo du Zeit sparst — hilft, KI gezielter einzusetzen",
    },
