@@ -8,6 +8,7 @@ import {
    submitSurvey,
 } from "@/data/actions/funnel/survey";
 import {
+   DSubmitSurveyInput,
    DSurveyAnswers,
    DSurveyQuestion,
    DSurveyResult,
