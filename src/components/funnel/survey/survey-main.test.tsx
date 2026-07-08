@@ -13,7 +13,7 @@ import {
 import { DSurveyQuestion } from "@/data/types/domain/funnel/survey";
 
 import { SurveyMain } from "./survey-main";
-import { SurveyContainer } from "./SurveyContainer";
+import { SurveyContainer } from "./survey-container";
 
 const getSurveySegmentsMock = getSurveySegments as jest.MockedFunction<
    typeof getSurveySegments

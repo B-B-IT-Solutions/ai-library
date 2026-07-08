@@ -1,5 +1,5 @@
-﻿import { SURVEY_DATA } from "./survey-data";
-import { SurveyContainer } from "./SurveyContainer";
+﻿import { SurveyContainer } from "./survey-container";
+import { SURVEY_DATA } from "./survey-data";
 
 export const SurveyMain = async () => {
    return (

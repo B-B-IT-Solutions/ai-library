@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ResultScreen } from "./ResultScreen";
+import { ResultScreen } from "./result-screen";
 
 describe("ResultScreen", () => {
    const onRestart = jest.fn();
@@ -32,7 +32,9 @@ describe("ResultScreen", () => {
 
    it("displays the score", () => {
       render(<ResultScreen {...defaultProps} />);
-      expect(screen.getByTestId("result-score")).toHaveTextContent("Dein Score: 17/32");
+      expect(screen.getByTestId("result-score")).toHaveTextContent(
+         "Dein Score: 17/32"
+      );
    });
 
    it("renders result text for the given stage", () => {
@@ -50,8 +52,12 @@ describe("ResultScreen", () => {
 
    it("renders lever texts", () => {
       render(<ResultScreen {...defaultProps} />);
-      expect(screen.getByText("Baue dir eine feste Routine auf")).toBeInTheDocument();
-      expect(screen.getByText("Nutze konkrete Prompts mit Kontext")).toBeInTheDocument();
+      expect(
+         screen.getByText("Baue dir eine feste Routine auf")
+      ).toBeInTheDocument();
+      expect(
+         screen.getByText("Nutze konkrete Prompts mit Kontext")
+      ).toBeInTheDocument();
    });
 
    it("renders CTA button with correct text and link", () => {

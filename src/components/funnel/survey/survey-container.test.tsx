@@ -11,7 +11,7 @@ import userEvent from "@testing-library/user-event";
 
 import { submitSurvey } from "@/data/actions/funnel/survey";
 
-import { SurveyContainer } from "./SurveyContainer";
+import { SurveyContainer } from "./survey-container";
 
 const submitSurveyMock = submitSurvey as jest.MockedFunction<
    typeof submitSurvey

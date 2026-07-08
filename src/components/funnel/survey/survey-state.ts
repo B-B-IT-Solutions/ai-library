@@ -25,17 +25,24 @@ export type State = {
    result: DSurveyResult | null;
 };
 
-export type Action =
+export type SurveyAction =
    | { type: "START" }
    | {
         type: "SEGMENT_SELECTED";
         segment: DSurveySegment;
         questions: DSurveyQuestion[];
      }
-   | { type: "ANSWERED"; dimension: DSurveyDimension; score: DSurveyScore }
+   | {
+        type: "ANSWERED";
+        dimension: DSurveyDimension;
+        score: DSurveyScore;
+     }
    | { type: "BACK" }
    | { type: "ANALYSIS_DONE" }
-   | { type: "SUBMITTED"; result: DSurveyResult }
+   | {
+        type: "SUBMITTED";
+        result: DSurveyResult;
+     }
    | { type: "RESTART" };
 
 export const initialSurveyState: State = {
@@ -46,7 +53,7 @@ export const initialSurveyState: State = {
    result: null,
 };
 
-export const surveyReducer = (state: State, action: Action): State => {
+export const surveyReducer = (state: State, action: SurveyAction): State => {
    switch (action.type) {
       case "START":
          return { ...initialSurveyState, step: { kind: "segment" } };

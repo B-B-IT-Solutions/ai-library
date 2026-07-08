@@ -16,7 +16,7 @@ import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";
 import { IntroScreen } from "./intro-screen";
 import { QuestionStep } from "./QuestionStep";
-import { ResultScreen } from "./ResultScreen";
+import { ResultScreen } from "./result-screen";
 import { SegmentStep } from "./SegmentStep";
 import {
    initialSurveyState,
@@ -36,7 +36,7 @@ export const SurveyContainer = ({ data }: Props) => {
 
    const previousQuestion = useCallback(() => dispatch({ type: "BACK" }), []);
 
-   const handleSegmentSelect = useCallback(
+   const selectSegment = useCallback(
       (selected: DSurveySegment) => {
          dispatch({
             type: "SEGMENT_SELECTED",
@@ -90,9 +90,7 @@ export const SurveyContainer = ({ data }: Props) => {
          data-testid="survey-container"
       >
          {step.kind === "intro" && <IntroScreen onStart={startSurvey} />}
-         {step.kind === "segment" && (
-            <SegmentStep onSelect={handleSegmentSelect} />
-         )}
+         {step.kind === "segment" && <SegmentStep onSelect={selectSegment} />}
          {currentQuestion && questionStep && (
             <QuestionStep
                question={currentQuestion}
