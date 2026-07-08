@@ -13,11 +13,11 @@ import {
 } from "@/data/types/domain/funnel/survey";
 
 import { AnalysisLoader } from "./AnalysisLoader";
-import { EmailGateStep } from "./EmailGateStep";
 import { IntroScreen } from "./intro-screen";
-import { QuestionStep } from "./QuestionStep";
 import { ResultScreen } from "./result-screen";
-import { SegmentStep } from "./SegmentStep";
+import { EmailGateStep } from "./steps/EmailGateStep";
+import { QuestionStep } from "./steps/QuestionStep";
+import { SegmentStep } from "./steps/SegmentStep";
 import {
    initialSurveyState,
    surveyReducer as surveyStateReducer,

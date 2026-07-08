@@ -1,9 +1,11 @@
 ﻿import { FC } from "react";
 
 import { Button } from "@/components/shadcn/button";
-import { DSurveyQuestion, DSurveyScore } from "@/data/types/domain/funnel/survey";
-
-import { ProgressBar } from "./ProgressBar";
+import {
+   DSurveyQuestion,
+   DSurveyScore,
+} from "@/data/types/domain/funnel/survey";
+import { ProgressBar } from "../ProgressBar";
 
 type QuestionStepProps = {
    question: DSurveyQuestion;
