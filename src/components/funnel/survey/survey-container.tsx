@@ -30,11 +30,17 @@ type Props = {
 export const SurveyContainer = ({ data }: Props) => {
    const [state, dispatch] = useReducer(surveyStateReducer, initialSurveyState);
 
-   const startSurvey = useCallback(() => dispatch({ type: "START" }), []);
+   const startSurvey = useCallback(() => {
+      dispatch({ type: "START" });
+   }, []);
 
-   const restartSurvey = useCallback(() => dispatch({ type: "RESTART" }), []);
+   const restartSurvey = useCallback(() => {
+      dispatch({ type: "RESTART" });
+   }, []);
 
-   const previousQuestion = useCallback(() => dispatch({ type: "BACK" }), []);
+   const previousQuestion = useCallback(() => {
+      dispatch({ type: "BACK" });
+   }, []);
 
    const selectSegment = useCallback(
       (selected: DSurveySegment) => {
@@ -49,17 +55,18 @@ export const SurveyContainer = ({ data }: Props) => {
 
    const handleAnswer = useCallback(
       (score: DSurveyScore) => {
-         if (state.step.kind !== "question") return;
+         if (state.step.kind !== "question") {
+            return;
+         }
          const dimension = state.questions[state.step.index].id;
          dispatch({ type: "ANSWERED", dimension, score });
       },
       [state.step, state.questions]
    );
 
-   const handleAnalysisDone = useCallback(
-      () => dispatch({ type: "ANALYSIS_DONE" }),
-      []
-   );
+   const handleAnalysisDone = useCallback(() => {
+      dispatch({ type: "ANALYSIS_DONE" });
+   }, []);
 
    const handleEmailSubmit = useCallback(
       async (email: string, firstName: string) => {
