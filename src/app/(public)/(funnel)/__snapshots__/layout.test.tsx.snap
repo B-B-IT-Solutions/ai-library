@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FunnelLayout rendering tests rendered - test 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-slate-50"
+    data-testid="funnel-layout"
+  >
+    <div
+      data-testid="test-1"
+    />
+  </div>
+</div>
+`;
