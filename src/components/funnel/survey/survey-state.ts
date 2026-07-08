@@ -9,7 +9,7 @@ import {
    DSurveySegment,
 } from "@/data/types/domain/funnel/survey";
 
-export type Step =
+export type DSurveyStep =
    | { kind: "intro" }
    | { kind: "segment" }
    | { kind: "question"; index: number }
@@ -17,15 +17,15 @@ export type Step =
    | { kind: "email" }
    | { kind: "result" };
 
-export type State = {
-   step: Step;
+export type DSurveyState = {
+   step: DSurveyStep;
    segment: DSurveySegment | null;
    questions: DSurveyQuestion[];
    answers: Partial<DSurveyAnswers>;
    result: DSurveyResult | null;
 };
 
-export type SurveyAction =
+export type DSurveyAction =
    | { type: "START" }
    | {
         type: "SEGMENT_SELECTED";
@@ -45,7 +45,7 @@ export type SurveyAction =
      }
    | { type: "RESTART" };
 
-export const initialSurveyState: State = {
+export const initialSurveyState: DSurveyState = {
    step: { kind: "intro" },
    segment: null,
    questions: [],
@@ -53,7 +53,10 @@ export const initialSurveyState: State = {
    result: null,
 };
 
-export const surveyReducer = (state: State, action: SurveyAction): State => {
+export const surveyStateReducer = (
+   state: DSurveyState,
+   action: DSurveyAction
+): DSurveyState => {
    switch (action.type) {
       case "START":
          return { ...initialSurveyState, step: { kind: "segment" } };
@@ -68,10 +71,15 @@ export const surveyReducer = (state: State, action: SurveyAction): State => {
          };
 
       case "ANSWERED": {
-         if (state.step.kind !== "question") return state;
-         const answers = { ...state.answers, [action.dimension]: action.score };
+         if (state.step.kind !== "question") {
+            return state;
+         }
+         const answers = {
+            ...state.answers,
+            [action.dimension]: action.score,
+         };
          const nextIndex = state.step.index + 1;
-         const step: Step =
+         const step: DSurveyStep =
             nextIndex < state.questions.length
                ? { kind: "question", index: nextIndex }
                : { kind: "analysis" };

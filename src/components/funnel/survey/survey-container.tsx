@@ -18,10 +18,7 @@ import { ResultScreen } from "./result-screen";
 import { EmailGateStep } from "./steps/EmailGateStep";
 import { QuestionStep } from "./steps/QuestionStep";
 import { SegmentStep } from "./steps/SegmentStep";
-import {
-   initialSurveyState,
-   surveyReducer as surveyStateReducer,
-} from "./survey-state";
+import { initialSurveyState, surveyStateReducer } from "./survey-state";
 
 type Props = {
    data: DSurveyData;
@@ -70,7 +67,9 @@ export const SurveyContainer = ({ data }: Props) => {
 
    const handleEmailSubmit = useCallback(
       async (email: string, firstName: string) => {
-         if (!state.segment) return;
+         if (!state.segment) {
+            return;
+         }
          const payload: DSubmitSurveyInput = {
             email,
             firstName: firstName || undefined,
