@@ -1,8 +1,7 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import { DSurveySegment } from "@/data/types/domain/funnel/survey";
-
-import { SURVEY_SEGMENTS } from "./survey-data";
+import { SURVEY_SEGMENTS } from "../survey-data";
 
 type Props = {
    onSelect: (segment: DSurveySegment) => void;
