@@ -1,11 +1,11 @@
-﻿import type { DbClient } from "@/data/types/db/common";
-import type { Segment, SurveyAnswers } from "@/data/services/funnel/survey/survey-data";
+import type { DbClient } from "@/data/types/db/common";
+import type { DSurveyAnswers, DSurveySegment } from "@/data/types/domain/funnel/survey";
 
-export interface SurveySubmissionCreateData {
+export interface FunnelSurveyCreateData {
    email: string;
    firstName: string | null;
-   segment: Segment;
-   answers: SurveyAnswers;
+   segment: DSurveySegment;
+   answers: DSurveyAnswers;
    total: number;
    stage: number;
 }
@@ -17,7 +17,7 @@ export class SurveyRepository {
       this.prisma = prisma;
    }
 
-   async pCreate(data: SurveySubmissionCreateData) {
-      return this.prisma.surveySubmission.create({ data });
+   async pCreate(data: FunnelSurveyCreateData) {
+      return this.prisma.funnelSurvey.create({ data });
    }
 }

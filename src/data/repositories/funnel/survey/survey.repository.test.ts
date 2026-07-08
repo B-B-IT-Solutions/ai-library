@@ -1,15 +1,15 @@
-﻿import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import type { SurveyAnswers } from "@/data/services/funnel/survey/survey-data";
+import type { DSurveyAnswers } from "@/data/types/domain/funnel/survey";
 
 import { SurveyRepository } from "./survey.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const surveyRepository = new SurveyRepository(prismaMock);
 
-const makeAnswers = (): SurveyAnswers => ({
+const makeAnswers = (): DSurveyAnswers => ({
    freq: 3,
    prompting: 2,
    tooling: 4,
@@ -25,7 +25,7 @@ describe("SurveyRepository.pCreate", () => {
       mockReset(prismaMock);
    });
 
-   it("calls prisma.surveySubmission.create with the provided data", async () => {
+   it("calls prisma.funnelSurvey.create with the provided data", async () => {
       const data = {
          email: "test@example.com",
          firstName: "Max",
@@ -35,19 +35,19 @@ describe("SurveyRepository.pCreate", () => {
          stage: 3,
       };
       const created = { id: "uuid-1", createdAt: new Date(), ...data };
-      prismaMock.surveySubmission.create.mockResolvedValue(created as never);
+      prismaMock.funnelSurvey.create.mockResolvedValue(created as never);
 
       const result = await surveyRepository.pCreate(data);
 
-      expect(prismaMock.surveySubmission.create).toHaveBeenCalledTimes(1);
-      expect(prismaMock.surveySubmission.create).toHaveBeenCalledWith({
+      expect(prismaMock.funnelSurvey.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.funnelSurvey.create).toHaveBeenCalledWith({
          data,
       });
       expect(result).toEqual(created);
    });
 
    it("propagates errors from prisma", async () => {
-      prismaMock.surveySubmission.create.mockRejectedValue(
+      prismaMock.funnelSurvey.create.mockRejectedValue(
          new Error("DB error")
       );
 

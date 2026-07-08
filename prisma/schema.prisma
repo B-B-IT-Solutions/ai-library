@@ -699,7 +699,7 @@ model WorkflowStepEdge {
   @@map("workflow_step_edge")
 }
 
-model SurveySubmission {
+model FunnelSurvey {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email     String   @db.VarChar(250)
   firstName String?  @map("first_name") @db.VarChar(250)
@@ -709,5 +709,5 @@ model SurveySubmission {
   stage     Int
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  @@map("survey_submission")
+  @@map("funnel_survey")
 }
