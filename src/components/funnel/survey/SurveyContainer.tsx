@@ -15,7 +15,7 @@ import {
 
 import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";
-import { IntroScreen } from "./IntroScreen";
+import { IntroScreen } from "./intro-screen";
 import { QuestionStep } from "./QuestionStep";
 import { ResultScreen } from "./ResultScreen";
 import { SegmentStep } from "./SegmentStep";

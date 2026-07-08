@@ -1,12 +1,10 @@
-﻿import { FC } from "react";
+﻿import { Button } from "@/components/shadcn/button";
 
-import { Button } from "@/components/shadcn/button";
-
-type IntroScreenProps = {
+type Props = {
    onStart: () => void;
 };
 
-export const IntroScreen: FC<IntroScreenProps> = ({ onStart }) => {
+export const IntroScreen = ({ onStart }: Props) => {
    return (
       <div
          className="flex flex-col items-center text-center"
@@ -17,8 +15,8 @@ export const IntroScreen: FC<IntroScreenProps> = ({ onStart }) => {
             Wie gut hast du KI wirklich in deinen Alltag integriert?
          </h1>
          <p className="mb-8 max-w-lg text-lg text-slate-600">
-            Mach den kostenlosen 2-Minuten-Check und erfahre, wo du stehst —
-            und was dein nächster Schritt sein sollte.
+            Mach den kostenlosen 2-Minuten-Check und erfahre, wo du stehst — und
+            was dein nächster Schritt sein sollte.
          </p>
          <Button
             size="lg"
