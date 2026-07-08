@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import type { Segment } from "@/lib/survey-data";
-import type { Dimension } from "@/lib/survey-data";
-import { LEVER_TEXTS, STAGE_RESULTS } from "@/lib/survey-results";
+import type { Segment } from "@/data/services/survey/survey-data";
+import type { Dimension } from "@/data/services/survey/survey-data";
+import { LEVER_TEXTS, STAGE_RESULTS } from "@/data/services/survey/survey-results";
 
 const SCORE_MIN = 8;
 const SCORE_MAX = 32;

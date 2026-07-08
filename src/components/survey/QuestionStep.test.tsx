@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { QuestionStep } from "./QuestionStep";
-import type { Question } from "@/lib/survey-data";
+import type { Question } from "@/data/services/survey/survey-data";
 
 const mockQuestion: Question = {
    id: "freq",

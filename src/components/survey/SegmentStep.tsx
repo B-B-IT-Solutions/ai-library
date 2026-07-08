@@ -1,5 +1,5 @@
-import type { Segment } from "@/lib/survey-data";
-import { SEGMENT_LABELS } from "@/lib/survey-data";
+import type { Segment } from "@/data/services/survey/survey-data";
+import { SEGMENT_LABELS } from "@/data/services/survey/survey-data";
 
 interface SegmentStepProps {
    onSelect: (segment: Segment) => void;

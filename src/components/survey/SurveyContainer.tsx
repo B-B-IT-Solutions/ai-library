@@ -3,8 +3,8 @@
 import { useCallback, useState } from "react";
 
 import { submitSurvey } from "@/data/actions/survey";
-import type { Dimension, Score, Segment, SurveyAnswers } from "@/lib/survey-data";
-import { SURVEY_DATA } from "@/lib/survey-data";
+import type { Dimension, Score, Segment, SurveyAnswers } from "@/data/services/survey/survey-data";
+import { SURVEY_DATA } from "@/data/services/survey/survey-data";
 
 import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";

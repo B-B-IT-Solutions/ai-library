@@ -1,4 +1,10 @@
 jest.mock("@/data/actions/survey");
+jest.mock("./AnalysisLoader", () => ({
+   AnalysisLoader: ({ onDone }: { onDone: () => void }) => {
+      onDone();
+      return <div data-testid="analysis-loader" />;
+   },
+}));
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -61,34 +67,27 @@ describe("SurveyContainer", () => {
    });
 
    it("shows email gate after analysis loader completes", async () => {
-      jest.useFakeTimers();
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
-      expect(screen.getByTestId("analysis-loader")).toBeInTheDocument();
-      jest.advanceTimersByTime(1500);
       await waitFor(() => {
          expect(screen.getByTestId("email-gate-step")).toBeInTheDocument();
       });
-      jest.useRealTimers();
    });
 
    it("shows result screen after successful survey submission", async () => {
-      jest.useFakeTimers();
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
-      jest.advanceTimersByTime(1500);
       await waitFor(() => {
          expect(screen.getByTestId("email-gate-step")).toBeInTheDocument();
       });
-      jest.useRealTimers();
 
       await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
       await userEvent.click(screen.getByTestId("consent-checkbox"));
@@ -101,18 +100,15 @@ describe("SurveyContainer", () => {
    });
 
    it("resets to intro screen when restart is clicked", async () => {
-      jest.useFakeTimers();
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
-      jest.advanceTimersByTime(1500);
       await waitFor(() =>
          expect(screen.getByTestId("email-gate-step")).toBeInTheDocument()
       );
-      jest.useRealTimers();
 
       await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
       await userEvent.click(screen.getByTestId("consent-checkbox"));

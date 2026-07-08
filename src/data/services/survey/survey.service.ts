@@ -1,6 +1,6 @@
 import type { SurveyRepository } from "@/data/repositories/survey";
-import type { Dimension, Segment, SurveyAnswers } from "@/lib/survey-data";
-import { calculateLevers, calculateStage } from "@/lib/survey-scoring";
+import type { Dimension, Segment, SurveyAnswers } from "./survey-data";
+import { calculateLevers, calculateStage } from "./survey-scoring";
 
 export interface SubmitSurveyInput {
    email: string;

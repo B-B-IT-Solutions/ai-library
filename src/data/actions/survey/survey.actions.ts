@@ -5,7 +5,7 @@ import { z } from "zod";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import type { Dimension } from "@/lib/survey-data";
+import type { Dimension } from "@/data/services/survey/survey-data";
 
 const ScoreEnum = z.union([
    z.literal(1),

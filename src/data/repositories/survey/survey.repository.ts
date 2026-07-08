@@ -1,5 +1,5 @@
 import type { DbClient } from "@/data/types/db/common";
-import type { Segment, SurveyAnswers } from "@/lib/survey-data";
+import type { Segment, SurveyAnswers } from "@/data/services/survey/survey-data";
 
 export interface SurveySubmissionCreateData {
    email: string;

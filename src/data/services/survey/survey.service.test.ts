@@ -2,7 +2,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import { mock } from "jest-mock-extended";
 
 import type { SurveyRepository } from "@/data/repositories/survey";
-import type { SurveyAnswers } from "@/lib/survey-data";
+import type { SurveyAnswers } from "./survey-data";
 
 import { SurveyService } from "./survey.service";
 

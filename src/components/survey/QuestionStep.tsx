@@ -1,5 +1,5 @@
 import { Button } from "@/components/shadcn/button";
-import type { Question, Score } from "@/lib/survey-data";
+import type { Question, Score } from "@/data/services/survey/survey-data";
 
 import { ProgressBar } from "./ProgressBar";
 
