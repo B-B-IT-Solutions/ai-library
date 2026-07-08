@@ -49,7 +49,7 @@ export const initialSurveyState: State = {
 export const surveyReducer = (state: State, action: Action): State => {
    switch (action.type) {
       case "START":
-         return { ...initialState, step: { kind: "segment" } };
+         return { ...initialSurveyState, step: { kind: "segment" } };
 
       case "SEGMENT_SELECTED":
          return {
@@ -89,7 +89,7 @@ export const surveyReducer = (state: State, action: Action): State => {
          return { ...state, result: action.result, step: { kind: "result" } };
 
       case "RESTART":
-         return initialState;
+         return initialSurveyState;
 
       default:
          return state;

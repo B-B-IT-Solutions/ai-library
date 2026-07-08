@@ -30,7 +30,11 @@ type Props = {
 export const SurveyContainer = ({ data }: Props) => {
    const [state, dispatch] = useReducer(surveyStateReducer, initialSurveyState);
 
-   const handleStart = useCallback(() => dispatch({ type: "START" }), []);
+   const startSurvey = useCallback(() => dispatch({ type: "START" }), []);
+
+   const restartSurvey = useCallback(() => dispatch({ type: "RESTART" }), []);
+
+   const previousQuestion = useCallback(() => dispatch({ type: "BACK" }), []);
 
    const handleSegmentSelect = useCallback(
       (selected: DSurveySegment) => {
@@ -51,8 +55,6 @@ export const SurveyContainer = ({ data }: Props) => {
       },
       [state.step, state.questions]
    );
-
-   const handleBack = useCallback(() => dispatch({ type: "BACK" }), []);
 
    const handleAnalysisDone = useCallback(
       () => dispatch({ type: "ANALYSIS_DONE" }),
@@ -78,8 +80,6 @@ export const SurveyContainer = ({ data }: Props) => {
       [state.segment, state.answers]
    );
 
-   const handleRestart = useCallback(() => dispatch({ type: "RESTART" }), []);
-
    const { step, questions, answers, result } = state;
    const questionStep = step.kind === "question" ? step : null;
    const currentQuestion = questionStep ? questions[questionStep.index] : null;
@@ -89,7 +89,7 @@ export const SurveyContainer = ({ data }: Props) => {
          className="mx-auto w-full max-w-lg px-4 py-12"
          data-testid="survey-container"
       >
-         {step.kind === "intro" && <IntroScreen onStart={handleStart} />}
+         {step.kind === "intro" && <IntroScreen onStart={startSurvey} />}
          {step.kind === "segment" && (
             <SegmentStep onSelect={handleSegmentSelect} />
          )}
@@ -100,7 +100,7 @@ export const SurveyContainer = ({ data }: Props) => {
                totalQuestions={questions.length}
                currentAnswer={answers[currentQuestion.id]}
                onAnswer={handleAnswer}
-               onBack={handleBack}
+               onBack={previousQuestion}
             />
          )}
          {step.kind === "analysis" && (
@@ -110,17 +110,7 @@ export const SurveyContainer = ({ data }: Props) => {
             <EmailGateStep onSubmit={handleEmailSubmit} />
          )}
          {step.kind === "result" && result && (
-            <ResultScreen
-               stage={result.stage}
-               total={result.total}
-               stageLabel={result.stageLabel}
-               stageEmoji={result.stageEmoji}
-               stageText={result.stageText}
-               ctaText={result.ctaText}
-               ctaHref={result.ctaHref}
-               leverTexts={result.leverTexts}
-               onRestart={handleRestart}
-            />
+            <ResultScreen result={result} onRestart={restartSurvey} />
          )}
       </div>
    );

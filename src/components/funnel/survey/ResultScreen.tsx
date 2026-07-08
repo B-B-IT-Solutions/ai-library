@@ -1,47 +1,33 @@
-﻿import { FC } from "react";
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
+import { DSurveyResult } from "@/data/types/domain/funnel/survey";
 
 const SCORE_MIN = 8;
 const SCORE_MAX = 32;
 
-type ResultScreenProps = {
-   stage: 1 | 2 | 3 | 4;
-   total: number;
-   stageLabel: string;
-   stageEmoji: string;
-   stageText: string;
-   ctaText: string;
-   ctaHref: string;
-   leverTexts: [string, string];
+type Props = {
+   result: DSurveyResult;
    onRestart: () => void;
 };
 
-export const ResultScreen: FC<ResultScreenProps> = ({
-   stage,
-   total,
-   stageLabel,
-   stageEmoji,
-   stageText,
-   ctaText,
-   ctaHref,
-   leverTexts,
-   onRestart,
-}) => {
+export const ResultScreen = ({ result, onRestart }: Props) => {
    const percent = Math.round(
-      ((total - SCORE_MIN) / (SCORE_MAX - SCORE_MIN)) * 100
+      ((result.total - SCORE_MIN) / (SCORE_MAX - SCORE_MIN)) * 100
    );
 
    return (
       <div className="flex flex-col gap-6" data-testid="result-screen">
          <div className="text-center">
-            <span className="text-4xl">{stageEmoji}</span>
+            <span className="text-4xl">{result.stageEmoji}</span>
             <h2 className="mt-2 text-2xl font-bold text-slate-900">
-               {stageLabel}
+               {result.stageLabel}
             </h2>
-            <p className="mt-1 text-sm font-medium text-blue-600" data-testid="result-score">
-               Dein Score: {total}/32
+            <p
+               className="mt-1 text-sm font-medium text-blue-600"
+               data-testid="result-score"
+            >
+               Dein Score: {result.total}/32
             </p>
          </div>
 
@@ -59,8 +45,11 @@ export const ResultScreen: FC<ResultScreenProps> = ({
             </div>
          </div>
 
-         <p className="text-sm leading-relaxed text-slate-700" data-testid="result-text">
-            {stageText}
+         <p
+            className="text-sm leading-relaxed text-slate-700"
+            data-testid="result-text"
+         >
+            {result.stageText}
          </p>
 
          <div className="rounded-xl border border-blue-100 bg-blue-50 p-5">
@@ -68,8 +57,11 @@ export const ResultScreen: FC<ResultScreenProps> = ({
                Deine größten Hebel gerade:
             </p>
             <ul className="flex flex-col gap-2" data-testid="levers-list">
-               {leverTexts.map((text, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+               {result.leverTexts.map((text, i) => (
+                  <li
+                     key={i}
+                     className="flex items-start gap-2 text-sm text-slate-700"
+                  >
                      <span className="mt-0.5 text-blue-500">→</span>
                      {text}
                   </li>
@@ -78,7 +70,7 @@ export const ResultScreen: FC<ResultScreenProps> = ({
          </div>
 
          <Button asChild size="lg" className="w-full" data-testid="cta-button">
-            <Link href={ctaHref}>{ctaText}</Link>
+            <Link href={result.ctaHref}>{result.ctaText}</Link>
          </Button>
 
          <button
