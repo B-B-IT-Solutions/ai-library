@@ -1,10 +1,14 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { submitSurvey } from "@/data/actions/survey";
-import type { Dimension, Score, Segment, SurveyAnswers } from "@/data/services/survey/survey-data";
-import { SURVEY_DATA } from "@/data/services/survey/survey-data";
+import {
+   getSurveyQuestions,
+   getSurveySegmentLabels,
+   submitSurvey,
+} from "@/data/actions/survey";
+import type { Question, Score, Segment, SurveyAnswers } from "@/data/services/survey/survey-data";
+import type { SurveyResult } from "@/data/services/survey/survey.service";
 
 import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";
@@ -26,11 +30,9 @@ interface SurveyState {
    step: number;
    segment: Segment | null;
    answers: Partial<SurveyAnswers>;
-   result: {
-      stage: 1 | 2 | 3 | 4;
-      total: number;
-      levers: [Dimension, Dimension];
-   } | null;
+   questions: Question[] | null;
+   segmentLabels: Record<Segment, string> | null;
+   result: SurveyResult | null;
    isLoading: boolean;
 }
 
@@ -38,6 +40,8 @@ const INITIAL_STATE: SurveyState = {
    step: 0,
    segment: null,
    answers: {},
+   questions: null,
+   segmentLabels: null,
    result: null,
    isLoading: false,
 };
@@ -45,18 +49,25 @@ const INITIAL_STATE: SurveyState = {
 export const SurveyContainer = () => {
    const [state, setState] = useState<SurveyState>(INITIAL_STATE);
 
+   useEffect(() => {
+      getSurveySegmentLabels().then((labels) => {
+         setState((s) => ({ ...s, segmentLabels: labels }));
+      });
+   }, []);
+
    const handleStart = useCallback(() => {
       setState((s) => ({ ...s, step: 1 }));
    }, []);
 
-   const handleSegmentSelect = useCallback((segment: Segment) => {
-      setState((s) => ({ ...s, segment, step: QUESTION_START }));
+   const handleSegmentSelect = useCallback(async (segment: Segment) => {
+      const questions = await getSurveyQuestions(segment);
+      setState((s) => ({ ...s, segment, questions, step: QUESTION_START }));
    }, []);
 
    const handleAnswer = useCallback((score: Score) => {
       setState((s) => {
          const questionIndex = s.step - QUESTION_START;
-         const dimension = SURVEY_DATA[s.segment!][questionIndex].id;
+         const dimension = s.questions![questionIndex].id;
          const newAnswers = { ...s.answers, [dimension]: score };
          const nextStep = s.step < QUESTION_END ? s.step + 1 : ANALYSIS_STEP;
          return { ...s, answers: newAnswers, step: nextStep };
@@ -98,18 +109,24 @@ export const SurveyContainer = () => {
       setState(INITIAL_STATE);
    }, []);
 
-   const { step, segment, answers, result, isLoading } = state;
+   const { step, segment, answers, questions, segmentLabels, result, isLoading } =
+      state;
 
    const renderStep = () => {
       if (step === 0) {
          return <IntroScreen onStart={handleStart} />;
       }
       if (step === 1) {
-         return <SegmentStep onSelect={handleSegmentSelect} />;
+         return (
+            <SegmentStep
+               segmentLabels={segmentLabels ?? {}}
+               onSelect={handleSegmentSelect}
+            />
+         );
       }
-      if (step >= QUESTION_START && step <= QUESTION_END && segment) {
+      if (step >= QUESTION_START && step <= QUESTION_END && segment && questions) {
          const questionIndex = step - QUESTION_START;
-         const question = SURVEY_DATA[segment][questionIndex];
+         const question = questions[questionIndex];
          return (
             <QuestionStep
                question={question}
@@ -127,13 +144,17 @@ export const SurveyContainer = () => {
       if (step === EMAIL_STEP) {
          return <EmailGateStep onSubmit={handleEmailSubmit} isLoading={isLoading} />;
       }
-      if (step === RESULT_STEP && result && segment) {
+      if (step === RESULT_STEP && result) {
          return (
             <ResultScreen
                stage={result.stage}
                total={result.total}
-               levers={result.levers}
-               segment={segment}
+               stageLabel={result.stageLabel}
+               stageEmoji={result.stageEmoji}
+               stageText={result.stageText}
+               ctaText={result.ctaText}
+               ctaHref={result.ctaHref}
+               leverTexts={result.leverTexts}
                onRestart={handleRestart}
             />
          );

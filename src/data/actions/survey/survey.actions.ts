@@ -5,7 +5,10 @@ import { z } from "zod";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import type { Dimension } from "@/data/services/survey/survey-data";
+import type { SurveyResult } from "@/data/services/survey/survey.service";
+import type { Question, Segment } from "@/data/services/survey/survey-data";
+
+export type { SurveyResult };
 
 const ScoreEnum = z.union([
    z.literal(1),
@@ -30,19 +33,26 @@ const SubmitSurveySchema = z.object({
    }),
 });
 
-export interface SurveyResult {
-   stage: 1 | 2 | 3 | 4;
-   total: number;
-   levers: [Dimension, Dimension];
-}
+const SegmentSchema = z.enum(["solo", "employee", "coach", "default"]);
+
+export const getSurveySegmentLabels = async (): Promise<
+   Record<Segment, string>
+> => {
+   return getService().getSegmentLabels();
+};
+
+export const getSurveyQuestions = async (
+   segment: Segment
+): Promise<Question[]> => {
+   SegmentSchema.parse(segment);
+   return getService().getQuestionsForSegment(segment);
+};
 
 export const submitSurvey = async (raw: unknown): Promise<SurveyResult> => {
    try {
       const { email, firstName, segment, answers } =
          SubmitSurveySchema.parse(raw);
-
-      const service = getService();
-      return await service.submitSurvey({
+      return await getService().submitSurvey({
          email,
          firstName,
          segment,

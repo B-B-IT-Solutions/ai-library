@@ -8,8 +8,15 @@ describe("ResultScreen", () => {
    const defaultProps = {
       stage: 2 as const,
       total: 17,
-      levers: ["freq", "prompting"] as ["freq", "prompting"],
-      segment: "solo" as const,
+      stageLabel: "KI-Anwender",
+      stageEmoji: "🚀",
+      stageText: "Du nutzt KI bereits im Alltag — aber eher punktuell.",
+      ctaText: "Zeig mir, wie ich mehr rausholen kann →",
+      ctaHref: "/explore",
+      leverTexts: [
+         "Baue dir eine feste Routine auf",
+         "Nutze konkrete Prompts mit Kontext",
+      ] as [string, string],
       onRestart,
    };
 
@@ -30,7 +37,9 @@ describe("ResultScreen", () => {
 
    it("renders result text for the given stage", () => {
       render(<ResultScreen {...defaultProps} />);
-      expect(screen.getByTestId("result-text")).toBeInTheDocument();
+      expect(screen.getByTestId("result-text")).toHaveTextContent(
+         "Du nutzt KI bereits im Alltag"
+      );
    });
 
    it("renders 2 lever items", () => {
@@ -39,17 +48,17 @@ describe("ResultScreen", () => {
       expect(levers).toHaveLength(2);
    });
 
-   it("renders lever texts for correct segment", () => {
+   it("renders lever texts", () => {
       render(<ResultScreen {...defaultProps} />);
-      // freq lever text for solo segment
-      expect(
-         screen.getByText(/feste Routine.*Business-Aufgabe/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText("Baue dir eine feste Routine auf")).toBeInTheDocument();
+      expect(screen.getByText("Nutze konkrete Prompts mit Kontext")).toBeInTheDocument();
    });
 
-   it("renders CTA button", () => {
+   it("renders CTA button with correct text and link", () => {
       render(<ResultScreen {...defaultProps} />);
-      expect(screen.getByTestId("cta-button")).toBeInTheDocument();
+      const cta = screen.getByTestId("cta-button");
+      expect(cta).toBeInTheDocument();
+      expect(cta).toHaveTextContent("Zeig mir, wie ich mehr rausholen kann →");
    });
 
    it("calls onRestart when restart button is clicked", async () => {
@@ -63,8 +72,12 @@ describe("ResultScreen", () => {
          <ResultScreen
             stage={1}
             total={10}
-            levers={["automation", "integration"]}
-            segment="employee"
+            stageLabel="KI-Neuling"
+            stageEmoji="🌱"
+            stageText="Du stehst noch ganz am Anfang."
+            ctaText="Zeig mir den Einstieg →"
+            ctaHref="/explore"
+            leverTexts={["Lever A", "Lever B"]}
             onRestart={onRestart}
          />
       );
@@ -78,8 +91,12 @@ describe("ResultScreen", () => {
          <ResultScreen
             stage={4}
             total={30}
-            levers={["quality", "timesaving"]}
-            segment="coach"
+            stageLabel="KI-Profi / Automatisierer"
+            stageEmoji="🏆"
+            stageText="Du gehörst zu den Top-Anwendern."
+            ctaText="Sprich mit mir →"
+            ctaHref="/explore"
+            leverTexts={["Lever X", "Lever Y"]}
             onRestart={onRestart}
          />
       );

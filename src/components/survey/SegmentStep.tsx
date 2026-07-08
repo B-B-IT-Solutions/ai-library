@@ -1,7 +1,7 @@
 import type { Segment } from "@/data/services/survey/survey-data";
-import { SEGMENT_LABELS } from "@/data/services/survey/survey-data";
 
 interface SegmentStepProps {
+   segmentLabels: Record<string, string>;
    onSelect: (segment: Segment) => void;
 }
 
@@ -12,7 +12,7 @@ const SEGMENT_OPTIONS: { segment: Segment; emoji: string }[] = [
    { segment: "default", emoji: "✨" },
 ];
 
-export const SegmentStep = ({ onSelect }: SegmentStepProps) => {
+export const SegmentStep = ({ segmentLabels, onSelect }: SegmentStepProps) => {
    return (
       <div data-testid="segment-step">
          <h2 className="mb-2 text-center text-sm font-semibold uppercase tracking-widest text-blue-600">
@@ -31,7 +31,7 @@ export const SegmentStep = ({ onSelect }: SegmentStepProps) => {
                >
                   <span className="text-2xl">{emoji}</span>
                   <span className="text-sm font-medium text-slate-700">
-                     {SEGMENT_LABELS[segment]}
+                     {segmentLabels[segment] ?? segment}
                   </span>
                </button>
             ))}
