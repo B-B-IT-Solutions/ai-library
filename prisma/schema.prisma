@@ -698,3 +698,16 @@ model WorkflowStepEdge {
   @@index([toStepEdgeId])
   @@map("workflow_step_edge")
 }
+
+model FunnelSurvey {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @db.VarChar(250)
+  firstName String?  @map("first_name") @db.VarChar(250)
+  segment   String   @db.VarChar(50)
+  answers   Json     @db.JsonB
+  total     Int
+  stage     Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  @@map("funnel_survey")
+}

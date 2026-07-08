@@ -1,4 +1,4 @@
-import { RepositoryFactory } from "@/data/repositories";
+﻿import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
 import { CatalogService, PublicCatalogService } from "@/data/services/catalog";
 import {
@@ -26,6 +26,7 @@ import {
    UserService,
    VerificationTokenService,
 } from "@/data/services/user";
+import { SurveyService } from "@/data/services/funnel/survey";
 import { WorkflowService } from "@/data/services/workflow";
 import { DbClient } from "@/data/types/db/common";
 import { EMAIL_PROVIDER } from "@/lib/constants";
@@ -59,6 +60,7 @@ export class ServiceFactory {
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
    private emailService?: IEmailService;
+   private surveyService?: SurveyService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -287,5 +289,14 @@ export class ServiceFactory {
          }
       }
       return this.emailService;
+   }
+
+   getSurveyService(): SurveyService {
+      if (!this.surveyService) {
+         this.surveyService = new SurveyService(
+            this.repositories.surveyRepository()
+         );
+      }
+      return this.surveyService;
    }
 }

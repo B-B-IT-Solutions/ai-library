@@ -1,4 +1,4 @@
-import { DbClient } from "@/data/types/db/common";
+﻿import { DbClient } from "@/data/types/db/common";
 
 import { AdminDashboardRepository } from "./admin/dashboard";
 import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
@@ -17,11 +17,13 @@ import {
    UserRepository,
    VerificationTokenRepository,
 } from "./user";
+import { SurveyRepository } from "./funnel/survey";
 import { WorkflowRepository } from "./workflow";
 
 export class RepositoryFactory {
    private prisma: DbClient;
    private adminDashboardRepo?: AdminDashboardRepository;
+   private surveyRepo?: SurveyRepository;
    private adminUserRepo?: AdminUserRepository;
    private adminSubscriptionPlanRepo?: AdminSubscriptionPlanRepository;
    private catalogRepo?: CatalogRepository;
@@ -198,5 +200,12 @@ export class RepositoryFactory {
          this.publicSettingsRepo = new PublicSettingsRepository(this.prisma);
       }
       return this.publicSettingsRepo;
+   }
+
+   surveyRepository(): SurveyRepository {
+      if (!this.surveyRepo) {
+         this.surveyRepo = new SurveyRepository(this.prisma);
+      }
+      return this.surveyRepo;
    }
 }
