@@ -1,4 +1,4 @@
-﻿jest.mock("@/data/actions/funnel/survey");
+jest.mock("@/data/actions/funnel/survey");
 jest.mock("./AnalysisLoader", () => ({
    AnalysisLoader: ({ onDone }: { onDone: () => void }) => {
       setTimeout(onDone, 0);
@@ -9,20 +9,10 @@ jest.mock("./AnalysisLoader", () => ({
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import {
-   getSurveyQuestions,
-   getSurveySegments,
-   submitSurvey,
-} from "@/data/actions/funnel/survey";
+import { submitSurvey } from "@/data/actions/funnel/survey";
 
 import { SurveyContainer } from "./SurveyContainer";
 
-const getSurveySegmentsMock = getSurveySegments as jest.MockedFunction<
-   typeof getSurveySegments
->;
-const getSurveyQuestionsMock = getSurveyQuestions as jest.MockedFunction<
-   typeof getSurveyQuestions
->;
 const submitSurveyMock = submitSurvey as jest.MockedFunction<
    typeof submitSurvey
 >;
@@ -61,6 +51,13 @@ const mockSegmentLabels = {
    default: "Etwas anderes",
 };
 
+const mockQuestionsBySegment = {
+   solo: mockQuestions,
+   employee: mockQuestions,
+   coach: mockQuestions,
+   default: mockQuestions,
+};
+
 const mockResult = {
    stage: 2 as const,
    total: 17,
@@ -76,11 +73,17 @@ const mockResult = {
    ] as [string, string],
 };
 
+const renderContainer = () =>
+   render(
+      <SurveyContainer
+         segments={mockSegmentLabels}
+         questionsBySegment={mockQuestionsBySegment}
+      />
+   );
+
 describe("SurveyContainer", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      getSurveySegmentsMock.mockResolvedValue(mockSegmentLabels);
-      getSurveyQuestionsMock.mockResolvedValue(mockQuestions);
       submitSurveyMock.mockResolvedValue({
          success: true,
          message: "Umfrage erfolgreich eingereicht",
@@ -89,33 +92,28 @@ describe("SurveyContainer", () => {
    });
 
    it("renders intro screen initially", () => {
-      render(<SurveyContainer />);
+      renderContainer();
       expect(screen.getByTestId("intro-screen")).toBeInTheDocument();
    });
 
    it("advances to segment step after clicking start", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       expect(screen.getByTestId("segment-step")).toBeInTheDocument();
    });
 
    it("advances to first question after selecting a segment", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
-      );
+      expect(screen.getByTestId("question-step")).toBeInTheDocument();
       expect(screen.getByText("Frage 1 von 8")).toBeInTheDocument();
    });
 
    it("goes back to previous question when Zurück is clicked", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
-      );
       await userEvent.click(screen.getByTestId("answer-option-3"));
       expect(screen.getByText("Frage 2 von 8")).toBeInTheDocument();
       await userEvent.click(screen.getByTestId("back-button"));
@@ -123,12 +121,9 @@ describe("SurveyContainer", () => {
    });
 
    it("shows analysis loader after answering all 8 questions", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-employee"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
-      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-2"));
       }
@@ -136,12 +131,9 @@ describe("SurveyContainer", () => {
    });
 
    it("shows email gate after analysis loader completes", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
-      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
@@ -151,12 +143,9 @@ describe("SurveyContainer", () => {
    });
 
    it("shows result screen after successful survey submission", async () => {
-      render(<SurveyContainer />);
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
-      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
@@ -177,13 +166,39 @@ describe("SurveyContainer", () => {
       expect(submitSurveyMock).toHaveBeenCalledTimes(1);
    });
 
-   it("resets to intro screen when restart is clicked", async () => {
-      render(<SurveyContainer />);
+   it("shows an error toast and stays on the email step when submission fails", async () => {
+      submitSurveyMock.mockResolvedValue({
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      });
+
+      renderContainer();
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      await waitFor(() =>
-         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      for (let i = 0; i < 8; i++) {
+         await userEvent.click(screen.getByTestId("answer-option-3"));
+      }
+      await waitFor(() => {
+         expect(screen.getByTestId("email-gate-step")).toBeInTheDocument();
+      });
+
+      await userEvent.type(
+         screen.getByTestId("email-input"),
+         "test@example.com"
       );
+      await userEvent.click(screen.getByTestId("consent-checkbox"));
+      await userEvent.click(screen.getByTestId("submit-button"));
+
+      await waitFor(() => {
+         expect(submitSurveyMock).toHaveBeenCalledTimes(1);
+      });
+      expect(screen.getByTestId("email-gate-step")).toBeInTheDocument();
+   });
+
+   it("resets to intro screen when restart is clicked", async () => {
+      renderContainer();
+      await userEvent.click(screen.getByTestId("intro-start-button"));
+      await userEvent.click(screen.getByTestId("segment-option-solo"));
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
