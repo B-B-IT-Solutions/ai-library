@@ -10,6 +10,17 @@ services:
    #       postgres:
    #          condition: service_healthy
    #    restart: on-failure
+   # ai-library-db-dbdatainit:
+   #    build:
+   #       context: ../.
+   #       dockerfile: Dockerfile
+   #       target: dbdatainit
+   #    environment:
+   #       DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
+   #    depends_on:
+   #       ai-library-db-migration:
+   #          condition: service_completed_successfully
+   #    restart: on-failure
 
    # ai-library:
    #    build:

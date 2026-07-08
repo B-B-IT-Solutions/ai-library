@@ -1,14 +1,25 @@
 import { execSync } from "node:child_process";
+import path from "node:path";
 
-//   In der Azure-Infrastruktur muss der Migration-Container folgende Umgebungsvariablen bekommen:
+// node_modules/.bin must be on PATH so Prisma can shell out to `tsx` for the seed script.
+const binPath = path.resolve("node_modules/.bin");
+const execOptions = {
+   stdio: "inherit",
+   env: {
+      ...process.env,
+      PATH: `${binPath}${path.delimiter}${process.env.PATH}`,
+   },
+};
+
+//   Benötigte Umgebungsvariablen:
 //   - USE_AZURE_IDENTITY=true
 //   - AZURE_CLIENT_ID=<client-id-der-user-assigned-identity>
 //   - DATABASE_URL=postgresql://<username>@<server>.postgres.database.azure.com:5432/<dbname>?sslmode=require
 
-const log = (msg) => process.stdout.write(`[db-migrate] ${msg}\n`);
+const log = (msg) => process.stdout.write(`[db-datainit] ${msg}\n`);
 
 async function main() {
-   log("Starting database migration");
+   log("Starting data init");
 
    if (process.env.USE_AZURE_IDENTITY === "true") {
       log("Azure Managed Identity enabled — fetching token");
@@ -31,14 +42,12 @@ async function main() {
       log("Using static DATABASE_URL (no Azure identity)");
    }
 
-   log("Running prisma migrate deploy");
-   execSync("node node_modules/prisma/build/index.js migrate deploy", {
-      stdio: "inherit",
-   });
-   log("Migration completed successfully");
+   log("Running prisma db seed");
+   execSync("node node_modules/prisma/build/index.js db seed", execOptions);
+   log("Data populated successfully");
 }
 
 main().catch((err) => {
-   process.stderr.write(`[db-migrate] FATAL: ${err?.stack ?? err}\n`);
+   process.stderr.write(`[db-datainit] FATAL: ${err?.stack ?? err}\n`);
    process.exit(1);
 });

@@ -1,6 +1,8 @@
+import { PrismaClient } from "@prisma/client";
+
 import { Prisma } from "@/generated/prisma/client";
 
-export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
+const subscriptionPlans: Prisma.SubscriptionPlanCreateInput[] = [
    {
       tier: "FREE",
       name: "Free",
@@ -74,3 +76,17 @@ export const subscriptionPlansData: Prisma.SubscriptionPlanCreateInput[] = [
       isActive: true,
    },
 ];
+
+export const initSubscriptionPlansData = async (prisma: PrismaClient) => {
+   console.log("\Creating subscription plans...");
+
+   for (const plan of subscriptionPlans) {
+      await prisma.subscriptionPlan.upsert({
+         where: { tier: plan.tier },
+         update: {},
+         create: plan,
+      });
+   }
+
+   console.log(`  ✓ ${subscriptionPlans.length} subscription plans created`);
+};

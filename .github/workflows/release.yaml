@@ -59,6 +59,24 @@ jobs:
               cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache
               cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache,mode=max
 
+         - name: Retrieve metadata for DB Data Initialisation Docker Image
+           id: db-datainit-meta
+           uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051
+           with:
+              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-db-datainit
+
+         - name: Build and push DB Data Initialisation Docker Image
+           id: push-dbdatainit
+           uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
+           with:
+              context: .
+              target: dbdatainit
+              push: ${{ github.event_name == 'release' }}
+              tags: ${{ steps.db-datainit-meta.outputs.tags }}
+              labels: ${{ steps.db-datainit-meta.outputs.labels }}
+              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-datainit:cache
+              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-datainit:cache,mode=max
+
          - name: Retrieve metadata for App Docker Image
            id: app-meta
            uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051
