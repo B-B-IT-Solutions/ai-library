@@ -8,9 +8,6 @@ import {
    DSubmitSurveyInput,
    DSurveyAnswers,
    DSurveyData,
-   DSurveyDimension,
-   DSurveyQuestion,
-   DSurveyResult,
    DSurveyScore,
    DSurveySegment,
 } from "@/data/types/domain/funnel/survey";
@@ -21,100 +18,17 @@ import { IntroScreen } from "./intro-screen";
 import { QuestionStep } from "./QuestionStep";
 import { ResultScreen } from "./ResultScreen";
 import { SegmentStep } from "./SegmentStep";
-
-type Step =
-   | { kind: "intro" }
-   | { kind: "segment" }
-   | { kind: "question"; index: number }
-   | { kind: "analysis" }
-   | { kind: "email" }
-   | { kind: "result" };
-
-type State = {
-   step: Step;
-   segment: DSurveySegment | null;
-   questions: DSurveyQuestion[];
-   answers: Partial<DSurveyAnswers>;
-   result: DSurveyResult | null;
-};
-
-type Action =
-   | { type: "START" }
-   | {
-        type: "SEGMENT_SELECTED";
-        segment: DSurveySegment;
-        questions: DSurveyQuestion[];
-     }
-   | { type: "ANSWERED"; dimension: DSurveyDimension; score: DSurveyScore }
-   | { type: "BACK" }
-   | { type: "ANALYSIS_DONE" }
-   | { type: "SUBMITTED"; result: DSurveyResult }
-   | { type: "RESTART" };
-
-const initialState: State = {
-   step: { kind: "intro" },
-   segment: null,
-   questions: [],
-   answers: {},
-   result: null,
-};
-
-const surveyReducer = (state: State, action: Action): State => {
-   switch (action.type) {
-      case "START":
-         return { ...initialState, step: { kind: "segment" } };
-
-      case "SEGMENT_SELECTED":
-         return {
-            ...state,
-            segment: action.segment,
-            questions: action.questions,
-            answers: {},
-            step: { kind: "question", index: 0 },
-         };
-
-      case "ANSWERED": {
-         if (state.step.kind !== "question") return state;
-         const answers = { ...state.answers, [action.dimension]: action.score };
-         const nextIndex = state.step.index + 1;
-         const step: Step =
-            nextIndex < state.questions.length
-               ? { kind: "question", index: nextIndex }
-               : { kind: "analysis" };
-         return { ...state, answers, step };
-      }
-
-      case "BACK": {
-         if (state.step.kind !== "question") return state;
-         return {
-            ...state,
-            step: {
-               kind: "question",
-               index: Math.max(0, state.step.index - 1),
-            },
-         };
-      }
-
-      case "ANALYSIS_DONE":
-         return { ...state, step: { kind: "email" } };
-
-      case "SUBMITTED":
-         return { ...state, result: action.result, step: { kind: "result" } };
-
-      case "RESTART":
-         return initialState;
-
-      default:
-         return state;
-   }
-};
+import {
+   initialSurveyState,
+   surveyReducer as surveyStateReducer,
+} from "./survey-state";
 
 type Props = {
    data: DSurveyData;
 };
 
 export const SurveyContainer = ({ data }: Props) => {
-   const [state, dispatch] = useReducer(surveyReducer, initialState);
+   const [state, dispatch] = useReducer(surveyStateReducer, initialSurveyState);
 
    const handleStart = useCallback(() => dispatch({ type: "START" }), []);
 
