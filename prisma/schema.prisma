@@ -597,6 +597,19 @@ model CatalogEntryContent {
   @@map("catalog_entry_content")
 }
 
+model SurveySubmission {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @db.VarChar(250)
+  firstName String?  @map("first_name") @db.VarChar(250)
+  segment   String   @db.VarChar(50)
+  answers   Json     @db.JsonB
+  total     Int
+  stage     Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  @@map("survey_submission")
+}
+
 model CatalogEntryField {
   id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   catalogEntryId String          @map("catalog_entry_id") @db.Uuid
