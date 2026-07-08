@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
-import { SurveyContainer } from "@/components/survey/SurveyContainer";
+import { SurveyContainer } from "@/components/funnel/survey/SurveyContainer";
 
 export const metadata: Metadata = {
    title: "KI-Readiness-Check — Wie gut hast du KI integriert?",

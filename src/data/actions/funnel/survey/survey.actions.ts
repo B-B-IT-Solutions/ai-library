@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { z } from "zod";
 
@@ -10,7 +10,7 @@ import type {
    DSurveyQuestion,
    DSurveyResult,
    DSurveySegment,
-} from "@/data/types/domain/survey";
+} from "@/data/types/domain/funnel/survey";
 import type { ActionResult } from "@/data/types/utils";
 
 const ScoreEnum = z.union([

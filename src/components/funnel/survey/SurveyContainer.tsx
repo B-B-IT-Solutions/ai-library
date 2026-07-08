@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -6,14 +6,14 @@ import {
    getSurveyQuestions,
    getSurveySegmentLabels,
    submitSurvey,
-} from "@/data/actions/survey";
+} from "@/data/actions/funnel/survey";
 import {
    DSurveyAnswers,
    DSurveyQuestion,
    DSurveyResult,
    DSurveyScore,
    DSurveySegment,
-} from "@/data/types/domain/survey";
+} from "@/data/types/domain/funnel/survey";
 
 import { AnalysisLoader } from "./AnalysisLoader";
 import { EmailGateStep } from "./EmailGateStep";

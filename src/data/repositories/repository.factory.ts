@@ -1,4 +1,4 @@
-import { DbClient } from "@/data/types/db/common";
+﻿import { DbClient } from "@/data/types/db/common";
 
 import { AdminDashboardRepository } from "./admin/dashboard";
 import { AdminSubscriptionPlanRepository } from "./admin/subscription-plan";
@@ -17,7 +17,7 @@ import {
    UserRepository,
    VerificationTokenRepository,
 } from "./user";
-import { SurveyRepository } from "./survey";
+import { SurveyRepository } from "./funnel/survey";
 import { WorkflowRepository } from "./workflow";
 
 export class RepositoryFactory {

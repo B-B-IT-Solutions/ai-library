@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+﻿import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { DSurveyQuestion } from "@/data/types/domain/survey";
+import { DSurveyQuestion } from "@/data/types/domain/funnel/survey";
 
 import { QuestionStep } from "./QuestionStep";
 

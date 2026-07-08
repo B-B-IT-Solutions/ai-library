@@ -1,6 +1,6 @@
-import { mock, mockReset } from "jest-mock-extended";
+﻿import { mock, mockReset } from "jest-mock-extended";
 
-import type { SurveyRepository } from "@/data/repositories/survey";
+import type { SurveyRepository } from "@/data/repositories/funnel/survey";
 
 import { SurveyService } from "./survey.service";
 import type { SurveyAnswers } from "./survey-data";

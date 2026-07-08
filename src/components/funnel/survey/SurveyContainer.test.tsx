@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/survey");
+﻿jest.mock("@/data/actions/funnel/survey");
 jest.mock("./AnalysisLoader", () => ({
    AnalysisLoader: ({ onDone }: { onDone: () => void }) => {
       setTimeout(onDone, 0);
@@ -13,7 +13,7 @@ import {
    getSurveyQuestions,
    getSurveySegmentLabels,
    submitSurvey,
-} from "@/data/actions/survey";
+} from "@/data/actions/funnel/survey";
 
 import { SurveyContainer } from "./SurveyContainer";
 

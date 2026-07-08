@@ -1,7 +1,7 @@
-import type {
+﻿import type {
    DSurveyQuestion,
    DSurveySegment,
-} from "@/data/types/domain/survey";
+} from "@/data/types/domain/funnel/survey";
 
 export type SurveyData = Record<
    DSurveySegment,

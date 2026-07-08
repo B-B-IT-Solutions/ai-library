@@ -1,4 +1,4 @@
-import { DSurveyDimension, DSurveySegment } from "@/data/types/domain/survey";
+﻿import { DSurveyDimension, DSurveySegment } from "@/data/types/domain/funnel/survey";
 
 export interface StageResult {
    stage: 1 | 2 | 3 | 4;

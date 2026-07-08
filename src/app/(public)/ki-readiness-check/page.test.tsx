@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+﻿import { render, screen } from "@testing-library/react";
 
 import KiReadinessCheckPage from "./page";
 
-jest.mock("@/components/survey/SurveyContainer", () => ({
+jest.mock("@/components/funnel/survey/SurveyContainer", () => ({
    SurveyContainer: () => <div data-testid="survey-container-mock" />,
 }));
 

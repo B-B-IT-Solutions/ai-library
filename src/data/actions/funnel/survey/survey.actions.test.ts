@@ -1,6 +1,6 @@
-jest.mock("@/data/services/survey");
+﻿jest.mock("@/data/services/funnel/survey");
 
-import { SurveyService } from "@/data/services/survey";
+import { SurveyService } from "@/data/services/funnel/survey";
 
 import { getSurveyQuestions, getSurveySegmentLabels, submitSurvey } from "./survey.actions";
 

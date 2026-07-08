@@ -1,5 +1,5 @@
-import { Button } from "@/components/shadcn/button";
-import { DSurveyQuestion, DSurveyScore } from "@/data/types/domain/survey";
+﻿import { Button } from "@/components/shadcn/button";
+import { DSurveyQuestion, DSurveyScore } from "@/data/types/domain/funnel/survey";
 
 import { ProgressBar } from "./ProgressBar";
 

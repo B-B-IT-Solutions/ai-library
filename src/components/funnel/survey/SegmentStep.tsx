@@ -1,4 +1,4 @@
-import { DSurveySegment } from "@/data/types/domain/survey";
+﻿import { DSurveySegment } from "@/data/types/domain/funnel/survey";
 
 interface DSurveySegmentStepProps {
    segmentLabels: Record<string, string>;

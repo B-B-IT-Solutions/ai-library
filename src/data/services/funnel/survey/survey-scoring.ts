@@ -1,4 +1,4 @@
-import { DSurveyAnswers, DSurveyDimension } from "@/data/types/domain/survey";
+﻿import { DSurveyAnswers, DSurveyDimension } from "@/data/types/domain/funnel/survey";
 
 const DIMENSION_ORDER: DSurveyDimension[] = [
    "freq",

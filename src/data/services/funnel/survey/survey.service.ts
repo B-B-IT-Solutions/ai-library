@@ -1,10 +1,10 @@
-import type { SurveyRepository } from "@/data/repositories/survey";
+﻿import type { SurveyRepository } from "@/data/repositories/funnel/survey";
 import {
    DSubmitSurveyInput,
    DSurveyQuestion,
    DSurveyResult,
    DSurveySegment,
-} from "@/data/types/domain/survey";
+} from "@/data/types/domain/funnel/survey";
 
 import { SEGMENT_LABELS, SURVEY_DATA } from "./survey-data";
 import { LEVER_TEXTS, STAGE_RESULTS } from "./survey-results";

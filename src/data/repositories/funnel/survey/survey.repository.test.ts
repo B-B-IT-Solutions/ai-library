@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+﻿import { PrismaClient } from "@prisma/client";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import type { SurveyAnswers } from "@/data/services/survey/survey-data";
+import type { SurveyAnswers } from "@/data/services/funnel/survey/survey-data";
 
 import { SurveyRepository } from "./survey.repository";
 
