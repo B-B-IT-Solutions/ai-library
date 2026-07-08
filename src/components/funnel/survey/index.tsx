@@ -1,1 +1,1 @@
-export { SurveyContainer } from "./SurveyContainer";
+export { SurveyMain } from "./survey-main";

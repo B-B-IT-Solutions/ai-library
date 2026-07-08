@@ -2,18 +2,24 @@
 
 import { SurveyService } from "@/data/services/funnel/survey";
 
-import { getSurveyQuestions, getSurveySegmentLabels, submitSurvey } from "./survey.actions";
+import {
+   getSurveyQuestions,
+   getSurveySegments,
+   submitSurvey,
+} from "./survey.actions";
 
-const sSubmitSurvey = SurveyService.prototype.submitSurvey as jest.MockedFunction<
+const sSubmitSurvey = SurveyService.prototype
+   .submitSurvey as jest.MockedFunction<
    typeof SurveyService.prototype.submitSurvey
 >;
-const sGetSegmentLabels = SurveyService.prototype.getSegmentLabels as jest.MockedFunction<
+const sGetSegmentLabels = SurveyService.prototype
+   .getSegmentLabels as jest.MockedFunction<
    typeof SurveyService.prototype.getSegmentLabels
 >;
-const sGetQuestionsForSegment =
-   SurveyService.prototype.getQuestionsForSegment as jest.MockedFunction<
-      typeof SurveyService.prototype.getQuestionsForSegment
-   >;
+const sGetQuestionsForSegment = SurveyService.prototype
+   .getQuestionsForSegment as jest.MockedFunction<
+   typeof SurveyService.prototype.getQuestionsForSegment
+>;
 
 const validInput = {
    email: "test@example.com",
@@ -58,7 +64,11 @@ describe("submitSurvey action", () => {
 
       const result = await submitSurvey(validInput);
 
-      expect(result).toEqual({ success: true, message: "Umfrage erfolgreich eingereicht", data: mockResult });
+      expect(result).toEqual({
+         success: true,
+         message: "Umfrage erfolgreich eingereicht",
+         data: mockResult,
+      });
       expect(sSubmitSurvey).toHaveBeenCalledTimes(1);
       expect(sSubmitSurvey).toHaveBeenCalledWith({
          email: validInput.email,
@@ -72,16 +82,25 @@ describe("submitSurvey action", () => {
       const input = { ...validInput, email: "not-an-email" };
       const result = await submitSurvey(input);
 
-      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
+      expect(result).toEqual({
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      });
       expect(sSubmitSurvey).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("returns failure for invalid answer score", async () => {
-      const input = { ...validInput, answers: { ...validInput.answers, freq: 5 as never } };
+      const input = {
+         ...validInput,
+         answers: { ...validInput.answers, freq: 5 as never },
+      };
       const result = await submitSurvey(input);
 
-      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
+      expect(result).toEqual({
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      });
       expect(sSubmitSurvey).not.toHaveBeenCalled();
    });
 
@@ -89,7 +108,10 @@ describe("submitSurvey action", () => {
       const input = { ...validInput, segment: "unknown" as never };
       const result = await submitSurvey(input);
 
-      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
+      expect(result).toEqual({
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      });
       expect(sSubmitSurvey).not.toHaveBeenCalled();
    });
 
@@ -99,7 +121,10 @@ describe("submitSurvey action", () => {
 
       const result = await submitSurvey(validInput);
 
-      expect(result).toEqual({ success: false, message: "Fehler beim Einreichen der Umfrage" });
+      expect(result).toEqual({
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      });
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 });
@@ -115,18 +140,25 @@ describe("getSurveySegmentLabels action", () => {
    });
 
    it("returns segment labels from the service", async () => {
-      const labels = { solo: "Solo", employee: "Employee", coach: "Coach", default: "Default" };
+      const labels = {
+         solo: "Solo",
+         employee: "Employee",
+         coach: "Coach",
+         default: "Default",
+      };
       sGetSegmentLabels.mockReturnValue(labels);
 
-      const result = await getSurveySegmentLabels();
+      const result = await getSurveySegments();
       expect(result).toEqual(labels);
       expect(sGetSegmentLabels).toHaveBeenCalledTimes(1);
    });
 
    it("returns empty object and logs on service error", async () => {
-      sGetSegmentLabels.mockImplementation(() => { throw new Error("service error"); });
+      sGetSegmentLabels.mockImplementation(() => {
+         throw new Error("service error");
+      });
 
-      const result = await getSurveySegmentLabels();
+      const result = await getSurveySegments();
       expect(result).toEqual({});
       expect(console.error).toHaveBeenCalledTimes(1);
    });
@@ -143,7 +175,9 @@ describe("getSurveyQuestions action", () => {
    });
 
    it("returns questions for the given segment", async () => {
-      const mockQuestions = [{ id: "freq", text: "Q", answers: [] as never }] as never;
+      const mockQuestions = [
+         { id: "freq", text: "Q", answers: [] as never },
+      ] as never;
       sGetQuestionsForSegment.mockReturnValue(mockQuestions);
 
       const result = await getSurveyQuestions("solo");

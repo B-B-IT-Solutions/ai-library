@@ -1,5 +1,5 @@
 export {
-   getSurveySegmentLabels,
+   getSurveySegments,
    getSurveyQuestions,
    submitSurvey,
 } from "./survey.actions";

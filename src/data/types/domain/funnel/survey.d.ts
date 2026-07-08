@@ -1,5 +1,7 @@
 export type DSurveySegment = "solo" | "employee" | "coach" | "default";
 
+export type DSurveySegments = Record<DSurveySegment, string>;
+
 export type DSurveyDimension =
    | "freq"
    | "prompting"

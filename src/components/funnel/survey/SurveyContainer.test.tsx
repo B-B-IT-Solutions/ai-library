@@ -11,14 +11,15 @@ import userEvent from "@testing-library/user-event";
 
 import {
    getSurveyQuestions,
-   getSurveySegmentLabels,
+   getSurveySegments,
    submitSurvey,
 } from "@/data/actions/funnel/survey";
 
 import { SurveyContainer } from "./SurveyContainer";
 
-const getSurveySegmentLabelsMock =
-   getSurveySegmentLabels as jest.MockedFunction<typeof getSurveySegmentLabels>;
+const getSurveySegmentsMock = getSurveySegments as jest.MockedFunction<
+   typeof getSurveySegments
+>;
 const getSurveyQuestionsMock = getSurveyQuestions as jest.MockedFunction<
    typeof getSurveyQuestions
 >;
@@ -78,7 +79,7 @@ const mockResult = {
 describe("SurveyContainer", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      getSurveySegmentLabelsMock.mockResolvedValue(mockSegmentLabels);
+      getSurveySegmentsMock.mockResolvedValue(mockSegmentLabels);
       getSurveyQuestionsMock.mockResolvedValue(mockQuestions);
       submitSurveyMock.mockResolvedValue({
          success: true,

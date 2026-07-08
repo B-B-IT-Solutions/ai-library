@@ -1,6 +1,6 @@
 ﻿import type { Metadata } from "next";
 
-import { SurveyContainer } from "@/components/funnel/survey";
+import { SurveyMain } from "@/components/funnel/survey";
 
 export const metadata: Metadata = {
    title: "KI-Readiness-Check — Wie gut hast du KI integriert?",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const KiReadinessCheckPage = () => {
-   return <SurveyContainer />;
+   return <SurveyMain />;
 };
 
 export default KiReadinessCheckPage;

@@ -1,12 +1,8 @@
 ﻿"use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
-import {
-   getSurveyQuestions,
-   getSurveySegmentLabels,
-   submitSurvey,
-} from "@/data/actions/funnel/survey";
+import { getSurveyQuestions, submitSurvey } from "@/data/actions/funnel/survey";
 import {
    DSubmitSurveyInput,
    DSurveyAnswers,
@@ -14,6 +10,7 @@ import {
    DSurveyResult,
    DSurveyScore,
    DSurveySegment,
+   DSurveySegments,
 } from "@/data/types/domain/funnel/survey";
 
 import { AnalysisLoader } from "./AnalysisLoader";
@@ -32,20 +29,17 @@ const ANALYSIS_STEP = 10;
 const EMAIL_STEP = 11;
 const RESULT_STEP = 12;
 
-export const SurveyContainer = () => {
+type Props = {
+   segments: DSurveySegments;
+};
+
+export const SurveyContainer = ({ segments }: Props) => {
    const [step, setStep] = useState(0);
    const [segment, setSegment] = useState<DSurveySegment | null>(null);
    const [answers, setAnswers] = useState<Partial<DSurveyAnswers>>({});
    const [questions, setQuestions] = useState<DSurveyQuestion[] | null>(null);
-   const [segmentLabels, setSegmentLabels] = useState<Record<
-      DSurveySegment,
-      string
-   > | null>(null);
-   const [result, setResult] = useState<DSurveyResult | null>(null);
 
-   useEffect(() => {
-      getSurveySegmentLabels().then(setSegmentLabels);
-   }, []);
+   const [result, setResult] = useState<DSurveyResult | null>(null);
 
    const handleStart = useCallback(() => setStep(1), []);
 
@@ -112,7 +106,7 @@ export const SurveyContainer = () => {
          {step === 0 && <IntroScreen onStart={handleStart} />}
          {step === 1 && (
             <SegmentStep
-               segmentLabels={segmentLabels ?? {}}
+               segmentLabels={segments}
                onSelect={handleSegmentSelect}
             />
          )}

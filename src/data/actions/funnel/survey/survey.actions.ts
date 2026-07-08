@@ -10,6 +10,7 @@ import type {
    DSurveyQuestion,
    DSurveyResult,
    DSurveySegment,
+   DSurveySegments,
 } from "@/data/types/domain/funnel/survey";
 import type { ActionResult } from "@/data/types/utils";
 
@@ -38,11 +39,10 @@ const SubmitSurveySchema = z.object({
 
 const SegmentSchema = z.enum(["solo", "employee", "coach", "default"]);
 
-export const getSurveySegmentLabels = async (): Promise<
-   Record<DSurveySegment, string>
-> => {
+export const getSurveySegments = async (): Promise<DSurveySegments> => {
    try {
-      return getService().getSegmentLabels();
+      const service = getService();
+      return service.getSegmentLabels();
    } catch (error) {
       console.error(formatError(error));
       return {} as Record<DSurveySegment, string>;
@@ -54,7 +54,8 @@ export const getSurveyQuestions = async (
 ): Promise<DSurveyQuestion[]> => {
    try {
       SegmentSchema.parse(segment);
-      return getService().getQuestionsForSegment(segment);
+      const service = getService();
+      return service.getQuestionsForSegment(segment);
    } catch (error) {
       console.error(formatError(error));
       return [];

@@ -4,6 +4,7 @@ import {
    DSurveyQuestion,
    DSurveyResult,
    DSurveySegment,
+   DSurveySegments,
 } from "@/data/types/domain/funnel/survey";
 
 import { SEGMENT_LABELS, SURVEY_DATA } from "./survey-data";
@@ -17,7 +18,7 @@ export class SurveyService {
       this.surveyRepository = surveyRepository;
    }
 
-   getSegmentLabels(): Record<DSurveySegment, string> {
+   getSegmentLabels(): DSurveySegments {
       return SEGMENT_LABELS;
    }
 
