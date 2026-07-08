@@ -2,6 +2,8 @@ export type DSurveySegment = "solo" | "employee" | "coach" | "default";
 
 export type DSurveySegments = Record<DSurveySegment, string>;
 
+export type DSurveyData = Record<DSurveySegment, DSurveyQuestion[]>;
+
 export type DSurveyDimension =
    | "freq"
    | "prompting"
@@ -31,6 +33,8 @@ export type DSurveyQuestion = {
       DSurveyAnswerOption,
    ];
 };
+
+export type SurveyData = Record<DSurveySegment, DSurveyQuestion[]>;
 
 export type DSubmitSurveyInput = {
    email: string;

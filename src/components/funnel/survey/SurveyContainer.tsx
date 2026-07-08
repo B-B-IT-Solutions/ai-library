@@ -7,12 +7,12 @@ import { submitSurvey } from "@/data/actions/funnel/survey";
 import {
    DSubmitSurveyInput,
    DSurveyAnswers,
+   DSurveyData,
    DSurveyDimension,
    DSurveyQuestion,
    DSurveyResult,
    DSurveyScore,
    DSurveySegment,
-   DSurveySegments,
 } from "@/data/types/domain/funnel/survey";
 
 import { AnalysisLoader } from "./AnalysisLoader";
@@ -40,7 +40,11 @@ type State = {
 
 type Action =
    | { type: "START" }
-   | { type: "SEGMENT_SELECTED"; segment: DSurveySegment; questions: DSurveyQuestion[] }
+   | {
+        type: "SEGMENT_SELECTED";
+        segment: DSurveySegment;
+        questions: DSurveyQuestion[];
+     }
    | { type: "ANSWERED"; dimension: DSurveyDimension; score: DSurveyScore }
    | { type: "BACK" }
    | { type: "ANALYSIS_DONE" }
@@ -84,7 +88,10 @@ const surveyReducer = (state: State, action: Action): State => {
          if (state.step.kind !== "question") return state;
          return {
             ...state,
-            step: { kind: "question", index: Math.max(0, state.step.index - 1) },
+            step: {
+               kind: "question",
+               index: Math.max(0, state.step.index - 1),
+            },
          };
       }
 
@@ -103,11 +110,10 @@ const surveyReducer = (state: State, action: Action): State => {
 };
 
 type Props = {
-   segments: DSurveySegments;
-   questionsBySegment: Record<DSurveySegment, DSurveyQuestion[]>;
+   data: DSurveyData;
 };
 
-export const SurveyContainer = ({ segments, questionsBySegment }: Props) => {
+export const SurveyContainer = ({ data }: Props) => {
    const [state, dispatch] = useReducer(surveyReducer, initialState);
 
    const handleStart = useCallback(() => dispatch({ type: "START" }), []);
@@ -117,10 +123,10 @@ export const SurveyContainer = ({ segments, questionsBySegment }: Props) => {
          dispatch({
             type: "SEGMENT_SELECTED",
             segment: selected,
-            questions: questionsBySegment[selected],
+            questions: data[selected],
          });
       },
-      [questionsBySegment]
+      [data]
    );
 
    const handleAnswer = useCallback(
@@ -171,7 +177,10 @@ export const SurveyContainer = ({ segments, questionsBySegment }: Props) => {
       >
          {step.kind === "intro" && <IntroScreen onStart={handleStart} />}
          {step.kind === "segment" && (
-            <SegmentStep segmentLabels={segments} onSelect={handleSegmentSelect} />
+            <SegmentStep
+               segmentLabels={segments}
+               onSelect={handleSegmentSelect}
+            />
          )}
          {currentQuestion && questionStep && (
             <QuestionStep
@@ -186,7 +195,9 @@ export const SurveyContainer = ({ segments, questionsBySegment }: Props) => {
          {step.kind === "analysis" && (
             <AnalysisLoader onDone={handleAnalysisDone} />
          )}
-         {step.kind === "email" && <EmailGateStep onSubmit={handleEmailSubmit} />}
+         {step.kind === "email" && (
+            <EmailGateStep onSubmit={handleEmailSubmit} />
+         )}
          {step.kind === "result" && result && (
             <ResultScreen
                stage={result.stage}

@@ -2,7 +2,7 @@
 
 import { DSurveySegment } from "@/data/types/domain/funnel/survey";
 
-type SegmentStepProps = {
+type Props = {
    segmentLabels: Record<string, string>;
    onSelect: (segment: DSurveySegment) => void;
 };
@@ -14,7 +14,7 @@ const SEGMENT_OPTIONS: { segment: DSurveySegment; emoji: string }[] = [
    { segment: "default", emoji: "✨" },
 ];
 
-export const SegmentStep: FC<SegmentStepProps> = ({ segmentLabels, onSelect }) => {
+export const SegmentStep = ({ segmentLabels, onSelect }: Props) => {
    return (
       <div data-testid="segment-step">
          <h2 className="mb-2 text-center text-sm font-semibold tracking-widest text-blue-600 uppercase">

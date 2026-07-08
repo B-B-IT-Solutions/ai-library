@@ -1,4 +1,7 @@
-﻿import { DSurveyAnswers, DSurveyDimension } from "@/data/types/domain/funnel/survey";
+﻿import {
+   DSurveyAnswers,
+   DSurveyDimension,
+} from "@/data/types/domain/funnel/survey";
 
 const DIMENSION_ORDER: DSurveyDimension[] = [
    "freq",
@@ -12,9 +15,15 @@ const DIMENSION_ORDER: DSurveyDimension[] = [
 ];
 
 export function calculateStage(total: number): 1 | 2 | 3 | 4 {
-   if (total <= 14) return 1;
-   if (total <= 20) return 2;
-   if (total <= 26) return 3;
+   if (total <= 14) {
+      return 1;
+   }
+   if (total <= 20) {
+      return 2;
+   }
+   if (total <= 26) {
+      return 3;
+   }
    return 4;
 }
 

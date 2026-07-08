@@ -1,5 +1,6 @@
+import type { SurveyAnswers } from "../../../../components/funnel/survey/survey-data";
+
 import { calculateLevers, calculateStage } from "./survey-scoring";
-import type { SurveyAnswers } from "./survey-data";
 
 describe("calculateStage", () => {
    it("returns 1 for score 8 (minimum)", () => {
@@ -44,7 +45,9 @@ describe("calculateStage", () => {
 });
 
 describe("calculateLevers", () => {
-   const makeAnswers = (overrides: Partial<SurveyAnswers> = {}): SurveyAnswers => ({
+   const makeAnswers = (
+      overrides: Partial<SurveyAnswers> = {}
+   ): SurveyAnswers => ({
       freq: 3,
       prompting: 3,
       tooling: 3,

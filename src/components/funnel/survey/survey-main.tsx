@@ -1,30 +1,13 @@
-import { getSurveyQuestions, getSurveySegments } from "@/data/actions/funnel/survey";
-import { DSurveyQuestion, DSurveySegment } from "@/data/types/domain/funnel/survey";
-
+﻿import { SURVEY_DATA } from "./survey-data";
 import { SurveyContainer } from "./SurveyContainer";
 
 export const SurveyMain = async () => {
-   const segments = await getSurveySegments();
-   const segmentKeys = Object.keys(segments) as DSurveySegment[];
-
-   const questionsBySegment = Object.fromEntries(
-      await Promise.all(
-         segmentKeys.map(
-            async (segment) =>
-               [segment, await getSurveyQuestions(segment)] as const
-         )
-      )
-   ) as Record<DSurveySegment, DSurveyQuestion[]>;
-
    return (
       <div
          className="mx-auto w-full max-w-lg px-4 py-12"
          data-testid="survey-start"
       >
-         <SurveyContainer
-            segments={segments}
-            questionsBySegment={questionsBySegment}
-         />
+         <SurveyContainer data={SURVEY_DATA} />
       </div>
    );
 };

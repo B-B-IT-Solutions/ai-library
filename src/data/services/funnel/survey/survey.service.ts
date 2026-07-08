@@ -1,30 +1,14 @@
-﻿import type { SurveyRepository } from "@/data/repositories/funnel/survey";
+﻿import { SurveyRepository } from "@/data/repositories/funnel/survey";
 import {
    DSubmitSurveyInput,
-   DSurveyQuestion,
    DSurveyResult,
-   DSurveySegment,
-   DSurveySegments,
 } from "@/data/types/domain/funnel/survey";
 
-import { SEGMENT_LABELS, SURVEY_DATA } from "./survey-data";
 import { LEVER_TEXTS, STAGE_RESULTS } from "./survey-results";
 import { calculateLevers, calculateStage } from "./survey-scoring";
 
 export class SurveyService {
-   private surveyRepository: SurveyRepository;
-
-   constructor(surveyRepository: SurveyRepository) {
-      this.surveyRepository = surveyRepository;
-   }
-
-   getSegmentLabels(): DSurveySegments {
-      return SEGMENT_LABELS;
-   }
-
-   getQuestionsForSegment(segment: DSurveySegment): DSurveyQuestion[] {
-      return [...SURVEY_DATA[segment]];
-   }
+   constructor(private surveyRepository: SurveyRepository) {}
 
    async submitSurvey(input: DSubmitSurveyInput): Promise<DSurveyResult> {
       const { email, firstName, segment, answers } = input;

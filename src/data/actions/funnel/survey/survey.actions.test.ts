@@ -2,23 +2,11 @@
 
 import { SurveyService } from "@/data/services/funnel/survey";
 
-import {
-   getSurveyQuestions,
-   getSurveySegments,
-   submitSurvey,
-} from "./survey.actions";
+import { submitSurvey } from "./survey.actions";
 
 const sSubmitSurvey = SurveyService.prototype
    .submitSurvey as jest.MockedFunction<
    typeof SurveyService.prototype.submitSurvey
->;
-const sGetSegmentLabels = SurveyService.prototype
-   .getSegmentLabels as jest.MockedFunction<
-   typeof SurveyService.prototype.getSegmentLabels
->;
-const sGetQuestionsForSegment = SurveyService.prototype
-   .getQuestionsForSegment as jest.MockedFunction<
-   typeof SurveyService.prototype.getQuestionsForSegment
 >;
 
 const validInput = {
@@ -125,70 +113,6 @@ describe("submitSurvey action", () => {
          success: false,
          message: "Fehler beim Einreichen der Umfrage",
       });
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-});
-
-describe("getSurveySegmentLabels action", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("returns segment labels from the service", async () => {
-      const labels = {
-         solo: "Solo",
-         employee: "Employee",
-         coach: "Coach",
-         default: "Default",
-      };
-      sGetSegmentLabels.mockReturnValue(labels);
-
-      const result = await getSurveySegments();
-      expect(result).toEqual(labels);
-      expect(sGetSegmentLabels).toHaveBeenCalledTimes(1);
-   });
-
-   it("returns empty object and logs on service error", async () => {
-      sGetSegmentLabels.mockImplementation(() => {
-         throw new Error("service error");
-      });
-
-      const result = await getSurveySegments();
-      expect(result).toEqual({});
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-});
-
-describe("getSurveyQuestions action", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("returns questions for the given segment", async () => {
-      const mockQuestions = [
-         { id: "freq", text: "Q", answers: [] as never },
-      ] as never;
-      sGetQuestionsForSegment.mockReturnValue(mockQuestions);
-
-      const result = await getSurveyQuestions("solo");
-      expect(result).toEqual(mockQuestions);
-      expect(sGetQuestionsForSegment).toHaveBeenCalledWith("solo");
-   });
-
-   it("returns empty array and logs for invalid segment", async () => {
-      const result = await getSurveyQuestions("invalid" as never);
-      expect(result).toEqual([]);
-      expect(sGetQuestionsForSegment).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 });

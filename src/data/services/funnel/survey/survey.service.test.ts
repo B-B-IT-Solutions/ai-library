@@ -1,16 +1,15 @@
 ﻿import { mock, mockReset } from "jest-mock-extended";
 
 import type { SurveyRepository } from "@/data/repositories/funnel/survey";
+import { DSurveyAnswers } from "@/data/types/domain/funnel/survey";
 
 import { SurveyService } from "./survey.service";
-import type { SurveyAnswers } from "./survey-data";
-import { SEGMENT_LABELS, SURVEY_DATA } from "./survey-data";
 import { LEVER_TEXTS, STAGE_RESULTS } from "./survey-results";
 
 const surveyRepoMock = mock<SurveyRepository>();
 const surveyService = new SurveyService(surveyRepoMock);
 
-const makeAnswers = (score: 1 | 2 | 3 | 4 = 3): SurveyAnswers => ({
+const makeAnswers = (score: 1 | 2 | 3 | 4 = 3): DSurveyAnswers => ({
    freq: score,
    prompting: score,
    tooling: score,
@@ -19,40 +18,6 @@ const makeAnswers = (score: 1 | 2 | 3 | 4 = 3): SurveyAnswers => ({
    integration: score,
    quality: score,
    timesaving: score,
-});
-
-describe("SurveyService.getSegmentLabels", () => {
-   it("returns all 4 segment labels", () => {
-      const labels = surveyService.getSegmentLabels();
-      expect(labels).toEqual(SEGMENT_LABELS);
-      expect(Object.keys(labels)).toHaveLength(4);
-   });
-});
-
-describe("SurveyService.getQuestionsForSegment", () => {
-   it("returns 8 questions for solo segment", () => {
-      const questions = surveyService.getQuestionsForSegment("solo");
-      expect(questions).toHaveLength(8);
-   });
-
-   it("returns questions matching the segment data", () => {
-      const questions = surveyService.getQuestionsForSegment("employee");
-      expect(questions).toEqual([...SURVEY_DATA.employee]);
-   });
-
-   it("returns a copy (not the original array)", () => {
-      const questions = surveyService.getQuestionsForSegment("solo");
-      expect(questions).not.toBe(SURVEY_DATA.solo);
-   });
-
-   it("each question has an id, text, and 4 answers", () => {
-      const questions = surveyService.getQuestionsForSegment("coach");
-      questions.forEach((q) => {
-         expect(q).toHaveProperty("id");
-         expect(q).toHaveProperty("text");
-         expect(q.answers).toHaveLength(4);
-      });
-   });
 });
 
 describe("SurveyService.submitSurvey", () => {
@@ -84,7 +49,7 @@ describe("SurveyService.submitSurvey", () => {
    });
 
    it("derives stage 2 for total 15–20", async () => {
-      const answers: SurveyAnswers = {
+      const answers: DSurveyAnswers = {
          ...makeAnswers(2),
          freq: 3,
          prompting: 3,
@@ -118,7 +83,7 @@ describe("SurveyService.submitSurvey", () => {
    });
 
    it("returns 2 levers (lowest-scoring dimensions)", async () => {
-      const answers: SurveyAnswers = {
+      const answers: DSurveyAnswers = {
          ...makeAnswers(4),
          freq: 1,
          prompting: 2,
@@ -148,7 +113,7 @@ describe("SurveyService.submitSurvey", () => {
    });
 
    it("includes leverTexts matching the segment and lowest dimensions", async () => {
-      const answers: SurveyAnswers = {
+      const answers: DSurveyAnswers = {
          ...makeAnswers(4),
          freq: 1,
          prompting: 2,
