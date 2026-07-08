@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+﻿import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { EmailGateStep } from "./EmailGateStep";
@@ -11,7 +11,7 @@ describe("EmailGateStep", () => {
    });
 
    it("renders headline and form fields", () => {
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={false} />);
+      render(<EmailGateStep onSubmit={onSubmit} />);
       expect(screen.getByText("Fast geschafft!")).toBeInTheDocument();
       expect(screen.getByTestId("email-input")).toBeInTheDocument();
       expect(screen.getByTestId("firstname-input")).toBeInTheDocument();
@@ -19,7 +19,7 @@ describe("EmailGateStep", () => {
    });
 
    it("shows email error when submitting with empty email", async () => {
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={false} />);
+      render(<EmailGateStep onSubmit={onSubmit} />);
       await userEvent.click(screen.getByTestId("submit-button"));
       expect(
          screen.getByText("Bitte gib eine gültige E-Mail-Adresse ein.")
@@ -28,7 +28,7 @@ describe("EmailGateStep", () => {
    });
 
    it("shows email error for invalid email format", async () => {
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={false} />);
+      render(<EmailGateStep onSubmit={onSubmit} />);
       await userEvent.type(screen.getByTestId("email-input"), "notanemail");
       await userEvent.click(screen.getByTestId("submit-button"));
       expect(screen.getByTestId("email-error")).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe("EmailGateStep", () => {
    });
 
    it("shows consent error when email is valid but consent is not checked", async () => {
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={false} />);
+      render(<EmailGateStep onSubmit={onSubmit} />);
       await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
       await userEvent.click(screen.getByTestId("submit-button"));
       expect(screen.getByTestId("consent-error")).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe("EmailGateStep", () => {
 
    it("calls onSubmit with email and firstName when form is valid", async () => {
       onSubmit.mockResolvedValue(undefined);
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={false} />);
+      render(<EmailGateStep onSubmit={onSubmit} />);
       await userEvent.type(screen.getByTestId("firstname-input"), "Max");
       await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
       await userEvent.click(screen.getByTestId("consent-checkbox"));
@@ -55,9 +55,25 @@ describe("EmailGateStep", () => {
       });
    });
 
-   it("shows loading state when isLoading is true", () => {
-      render(<EmailGateStep onSubmit={onSubmit} isLoading={true} />);
-      expect(screen.getByTestId("submit-button")).toBeDisabled();
-      expect(screen.getByText("Lädt …")).toBeInTheDocument();
+   it("disables the submit button while submitting", async () => {
+      let resolveSubmit: () => void;
+      onSubmit.mockReturnValue(
+         new Promise<void>((resolve) => {
+            resolveSubmit = resolve;
+         })
+      );
+      render(<EmailGateStep onSubmit={onSubmit} />);
+      await userEvent.type(screen.getByTestId("email-input"), "test@example.com");
+      await userEvent.click(screen.getByTestId("consent-checkbox"));
+
+      const submitBtn = screen.getByTestId("submit-button");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(submitBtn).toBeDisabled();
+         expect(screen.getByText("Lädt …")).toBeInTheDocument();
+      });
+
+      resolveSubmit!();
    });
 });

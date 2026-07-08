@@ -1,25 +1,25 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { FC, useTransition, useState } from "react";
 
 import { Button } from "@/components/shadcn/button";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 
-interface EmailGateStepProps {
+type EmailGateStepProps = {
    onSubmit: (email: string, firstName: string) => Promise<void>;
-   isLoading: boolean;
-}
+};
 
-export const EmailGateStep = ({ onSubmit, isLoading }: EmailGateStepProps) => {
+export const EmailGateStep: FC<EmailGateStepProps> = ({ onSubmit }) => {
+   const [isPending, startTransition] = useTransition();
    const [firstName, setFirstName] = useState("");
    const [email, setEmail] = useState("");
    const [consent, setConsent] = useState(false);
    const [emailError, setEmailError] = useState("");
    const [consentError, setConsentError] = useState("");
 
-   const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       setEmailError("");
       setConsentError("");
@@ -34,7 +34,9 @@ export const EmailGateStep = ({ onSubmit, isLoading }: EmailGateStepProps) => {
          return;
       }
 
-      await onSubmit(email, firstName);
+      startTransition(async () => {
+         await onSubmit(email, firstName);
+      });
    };
 
    return (
@@ -104,11 +106,11 @@ export const EmailGateStep = ({ onSubmit, isLoading }: EmailGateStepProps) => {
             <Button
                type="submit"
                size="lg"
-               disabled={isLoading}
+               disabled={isPending}
                className="mt-2 w-full"
                data-testid="submit-button"
             >
-               {isLoading ? "Lädt …" : "Ergebnis anzeigen →"}
+               {isPending ? "Lädt …" : "Ergebnis anzeigen →"}
             </Button>
             <p className="text-center text-xs text-slate-400">
                Kein Spam. Deine Daten sind sicher.

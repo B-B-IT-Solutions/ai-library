@@ -1,25 +1,27 @@
-﻿import { Button } from "@/components/shadcn/button";
+﻿import { FC } from "react";
+
+import { Button } from "@/components/shadcn/button";
 import { DSurveyQuestion, DSurveyScore } from "@/data/types/domain/funnel/survey";
 
 import { ProgressBar } from "./ProgressBar";
 
-interface QuestionStepProps {
+type QuestionStepProps = {
    question: DSurveyQuestion;
    questionIndex: number;
    totalQuestions: number;
    currentAnswer: DSurveyScore | undefined;
    onAnswer: (score: DSurveyScore) => void;
    onBack: () => void;
-}
+};
 
-export const QuestionStep = ({
+export const QuestionStep: FC<QuestionStepProps> = ({
    question,
    questionIndex,
    totalQuestions,
    currentAnswer,
    onAnswer,
    onBack,
-}: QuestionStepProps) => {
+}) => {
    return (
       <div data-testid="question-step">
          <ProgressBar current={questionIndex + 1} total={totalQuestions} />

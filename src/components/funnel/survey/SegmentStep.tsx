@@ -1,9 +1,11 @@
-﻿import { DSurveySegment } from "@/data/types/domain/funnel/survey";
+﻿import { FC } from "react";
 
-interface DSurveySegmentStepProps {
+import { DSurveySegment } from "@/data/types/domain/funnel/survey";
+
+type SegmentStepProps = {
    segmentLabels: Record<string, string>;
    onSelect: (segment: DSurveySegment) => void;
-}
+};
 
 const SEGMENT_OPTIONS: { segment: DSurveySegment; emoji: string }[] = [
    { segment: "solo", emoji: "🏢" },
@@ -12,10 +14,7 @@ const SEGMENT_OPTIONS: { segment: DSurveySegment; emoji: string }[] = [
    { segment: "default", emoji: "✨" },
 ];
 
-export const SegmentStep = ({
-   segmentLabels,
-   onSelect,
-}: DSurveySegmentStepProps) => {
+export const SegmentStep: FC<SegmentStepProps> = ({ segmentLabels, onSelect }) => {
    return (
       <div data-testid="segment-step">
          <h2 className="mb-2 text-center text-sm font-semibold tracking-widest text-blue-600 uppercase">

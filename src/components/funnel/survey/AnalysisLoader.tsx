@@ -1,12 +1,12 @@
-"use client";
+﻿"use client";
 
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 
-interface AnalysisLoaderProps {
+type AnalysisLoaderProps = {
    onDone: () => void;
-}
+};
 
-export const AnalysisLoader = ({ onDone }: AnalysisLoaderProps) => {
+export const AnalysisLoader: FC<AnalysisLoaderProps> = ({ onDone }) => {
    useEffect(() => {
       const timer = setTimeout(onDone, 1500);
       return () => clearTimeout(timer);

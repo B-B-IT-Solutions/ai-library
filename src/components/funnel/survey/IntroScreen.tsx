@@ -1,10 +1,12 @@
+﻿import { FC } from "react";
+
 import { Button } from "@/components/shadcn/button";
 
-interface IntroScreenProps {
+type IntroScreenProps = {
    onStart: () => void;
-}
+};
 
-export const IntroScreen = ({ onStart }: IntroScreenProps) => {
+export const IntroScreen: FC<IntroScreenProps> = ({ onStart }) => {
    return (
       <div
          className="flex flex-col items-center text-center"

@@ -1,3 +1,4 @@
+﻿import { FC } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -5,7 +6,7 @@ import { Button } from "@/components/shadcn/button";
 const SCORE_MIN = 8;
 const SCORE_MAX = 32;
 
-interface ResultScreenProps {
+type ResultScreenProps = {
    stage: 1 | 2 | 3 | 4;
    total: number;
    stageLabel: string;
@@ -15,9 +16,9 @@ interface ResultScreenProps {
    ctaHref: string;
    leverTexts: [string, string];
    onRestart: () => void;
-}
+};
 
-export const ResultScreen = ({
+export const ResultScreen: FC<ResultScreenProps> = ({
    stage,
    total,
    stageLabel,
@@ -27,7 +28,7 @@ export const ResultScreen = ({
    ctaHref,
    leverTexts,
    onRestart,
-}: ResultScreenProps) => {
+}) => {
    const percent = Math.round(
       ((total - SCORE_MIN) / (SCORE_MAX - SCORE_MIN)) * 100
    );

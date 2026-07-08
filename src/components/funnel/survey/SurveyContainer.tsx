@@ -32,141 +32,105 @@ const ANALYSIS_STEP = 10;
 const EMAIL_STEP = 11;
 const RESULT_STEP = 12;
 
-interface SurveyState {
-   step: number;
-   segment: DSurveySegment | null;
-   answers: Partial<DSurveyAnswers>;
-   questions: DSurveyQuestion[] | null;
-   segmentLabels: Record<DSurveySegment, string> | null;
-   result: DSurveyResult | null;
-   isLoading: boolean;
-}
-
-const INITIAL_STATE: SurveyState = {
-   step: 0,
-   segment: null,
-   answers: {},
-   questions: null,
-   segmentLabels: null,
-   result: null,
-   isLoading: false,
-};
-
 export const SurveyContainer = () => {
-   const [state, setState] = useState<SurveyState>(INITIAL_STATE);
+   const [step, setStep] = useState(0);
+   const [segment, setSegment] = useState<DSurveySegment | null>(null);
+   const [answers, setAnswers] = useState<Partial<DSurveyAnswers>>({});
+   const [questions, setQuestions] = useState<DSurveyQuestion[] | null>(null);
+   const [segmentLabels, setSegmentLabels] = useState<Record<
+      DSurveySegment,
+      string
+   > | null>(null);
+   const [result, setResult] = useState<DSurveyResult | null>(null);
 
    useEffect(() => {
-      getSurveySegmentLabels().then((labels) => {
-         setState((s) => ({ ...s, segmentLabels: labels }));
-      });
+      getSurveySegmentLabels().then(setSegmentLabels);
    }, []);
 
-   const handleStart = useCallback(() => {
-      setState((s) => ({ ...s, step: 1 }));
+   const handleStart = useCallback(() => setStep(1), []);
+
+   const handleSegmentSelect = useCallback(async (selected: DSurveySegment) => {
+      const qs = await getSurveyQuestions(selected);
+      setSegment(selected);
+      setQuestions(qs);
+      setStep(QUESTION_START);
    }, []);
 
-   const handleSegmentSelect = useCallback(async (segment: DSurveySegment) => {
-      const questions = await getSurveyQuestions(segment);
-      setState((s) => ({ ...s, segment, questions, step: QUESTION_START }));
-   }, []);
+   const handleAnswer = useCallback(
+      (score: DSurveyScore) => {
+         const questionIndex = step - QUESTION_START;
+         const dimension = questions![questionIndex].id;
+         setAnswers((prev) => ({ ...prev, [dimension]: score }));
+         setStep((prev) => (prev < QUESTION_END ? prev + 1 : ANALYSIS_STEP));
+      },
+      [step, questions]
+   );
 
-   const handleAnswer = useCallback((score: DSurveyScore) => {
-      setState((s) => {
-         const questionIndex = s.step - QUESTION_START;
-         const dimension = s.questions![questionIndex].id;
-         const newAnswers = { ...s.answers, [dimension]: score };
-         const nextStep = s.step < QUESTION_END ? s.step + 1 : ANALYSIS_STEP;
-         return { ...s, answers: newAnswers, step: nextStep };
-      });
-   }, []);
+   const handleBack = useCallback(
+      () => setStep((prev) => Math.max(QUESTION_START, prev - 1)),
+      []
+   );
 
-   const handleBack = useCallback(() => {
-      setState((s) => ({ ...s, step: Math.max(QUESTION_START, s.step - 1) }));
-   }, []);
-
-   const handleAnalysisDone = useCallback(() => {
-      setState((s) => ({ ...s, step: EMAIL_STEP }));
-   }, []);
+   const handleAnalysisDone = useCallback(() => setStep(EMAIL_STEP), []);
 
    const handleEmailSubmit = useCallback(
       async (email: string, firstName: string) => {
-         setState((s) => ({ ...s, isLoading: true }));
          const payload: DSubmitSurveyInput = {
             email,
             firstName: firstName || undefined,
-            segment: state.segment!,
-            answers: state.answers as DSurveyAnswers,
+            segment: segment!,
+            answers: answers as DSurveyAnswers,
          };
          const actionResult = await submitSurvey(payload);
          if (actionResult.success && actionResult.data) {
-            setState((s) => ({
-               ...s,
-               result: actionResult.data!,
-               step: RESULT_STEP,
-               isLoading: false,
-            }));
-         } else {
-            setState((s) => ({ ...s, isLoading: false }));
+            setResult(actionResult.data);
+            setStep(RESULT_STEP);
          }
       },
-      [state.segment, state.answers]
+      [segment, answers]
    );
 
    const handleRestart = useCallback(() => {
-      setState(INITIAL_STATE);
+      setStep(0);
+      setSegment(null);
+      setAnswers({});
+      setQuestions(null);
+      setResult(null);
    }, []);
 
-   const {
-      step,
-      segment,
-      answers,
-      questions,
-      segmentLabels,
-      result,
-      isLoading,
-   } = state;
+   const questionIndex = step - QUESTION_START;
+   const currentQuestion =
+      step >= QUESTION_START && step <= QUESTION_END && questions
+         ? questions[questionIndex]
+         : null;
 
-   const renderStep = () => {
-      if (step === 0) {
-         return <IntroScreen onStart={handleStart} />;
-      }
-      if (step === 1) {
-         return (
+   return (
+      <div
+         className="mx-auto w-full max-w-lg px-4 py-12"
+         data-testid="survey-container"
+      >
+         {step === 0 && <IntroScreen onStart={handleStart} />}
+         {step === 1 && (
             <SegmentStep
                segmentLabels={segmentLabels ?? {}}
                onSelect={handleSegmentSelect}
             />
-         );
-      }
-      if (
-         step >= QUESTION_START &&
-         step <= QUESTION_END &&
-         segment &&
-         questions
-      ) {
-         const questionIndex = step - QUESTION_START;
-         const question = questions[questionIndex];
-         return (
+         )}
+         {currentQuestion && (
             <QuestionStep
-               question={question}
+               question={currentQuestion}
                questionIndex={questionIndex}
                totalQuestions={TOTAL_QUESTIONS}
-               currentAnswer={answers[question.id]}
+               currentAnswer={answers[currentQuestion.id]}
                onAnswer={handleAnswer}
                onBack={handleBack}
             />
-         );
-      }
-      if (step === ANALYSIS_STEP) {
-         return <AnalysisLoader onDone={handleAnalysisDone} />;
-      }
-      if (step === EMAIL_STEP) {
-         return (
-            <EmailGateStep onSubmit={handleEmailSubmit} isLoading={isLoading} />
-         );
-      }
-      if (step === RESULT_STEP && result) {
-         return (
+         )}
+         {step === ANALYSIS_STEP && (
+            <AnalysisLoader onDone={handleAnalysisDone} />
+         )}
+         {step === EMAIL_STEP && <EmailGateStep onSubmit={handleEmailSubmit} />}
+         {step === RESULT_STEP && result && (
             <ResultScreen
                stage={result.stage}
                total={result.total}
@@ -178,17 +142,7 @@ export const SurveyContainer = () => {
                leverTexts={result.leverTexts}
                onRestart={handleRestart}
             />
-         );
-      }
-      return null;
-   };
-
-   return (
-      <div
-         className="mx-auto w-full max-w-lg px-4 py-12"
-         data-testid="survey-container"
-      >
-         {renderStep()}
+         )}
       </div>
    );
 };
