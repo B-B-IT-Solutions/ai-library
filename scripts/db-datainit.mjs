@@ -3,13 +3,6 @@ import path from "node:path";
 
 // node_modules/.bin must be on PATH so Prisma can shell out to `tsx` for the seed script.
 const binPath = path.resolve("node_modules/.bin");
-const execOptions = {
-   stdio: "inherit",
-   env: {
-      ...process.env,
-      PATH: `${binPath}${path.delimiter}${process.env.PATH}`,
-   },
-};
 
 //   Benötigte Umgebungsvariablen:
 //   - USE_AZURE_IDENTITY=true
@@ -41,6 +34,14 @@ async function main() {
    } else {
       log("Using static DATABASE_URL (no Azure identity)");
    }
+
+   const execOptions = {
+      stdio: "inherit",
+      env: {
+         ...process.env,
+         PATH: `${binPath}${path.delimiter}${process.env.PATH}`,
+      },
+   };
 
    log("Running prisma db seed");
    execSync("node node_modules/prisma/build/index.js db seed", execOptions);
