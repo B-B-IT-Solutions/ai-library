@@ -1,9 +1,10 @@
-﻿import { FC } from "react";
+﻿import { map } from "es-toolkit/compat";
 
 import { DSurveySegment } from "@/data/types/domain/funnel/survey";
 
+import { SURVEY_SEGMENTS } from "./survey-data";
+
 type Props = {
-   segmentLabels: Record<string, string>;
    onSelect: (segment: DSurveySegment) => void;
 };
 
@@ -14,7 +15,7 @@ const SEGMENT_OPTIONS: { segment: DSurveySegment; emoji: string }[] = [
    { segment: "default", emoji: "✨" },
 ];
 
-export const SegmentStep = ({ segmentLabels, onSelect }: Props) => {
+export const SegmentStep = ({ onSelect }: Props) => {
    return (
       <div data-testid="segment-step">
          <h2 className="mb-2 text-center text-sm font-semibold tracking-widest text-blue-600 uppercase">
@@ -24,7 +25,7 @@ export const SegmentStep = ({ segmentLabels, onSelect }: Props) => {
             Was beschreibt deine Situation am besten?
          </p>
          <div className="grid gap-3 sm:grid-cols-2">
-            {SEGMENT_OPTIONS.map(({ segment, emoji }) => (
+            {map(SEGMENT_OPTIONS, ({ segment, emoji }) => (
                <button
                   key={segment}
                   onClick={() => onSelect(segment)}
@@ -33,7 +34,7 @@ export const SegmentStep = ({ segmentLabels, onSelect }: Props) => {
                >
                   <span className="text-2xl">{emoji}</span>
                   <span className="text-sm font-medium text-slate-700">
-                     {segmentLabels[segment] ?? segment}
+                     {SURVEY_SEGMENTS[segment]}
                   </span>
                </button>
             ))}

@@ -177,10 +177,7 @@ export const SurveyContainer = ({ data }: Props) => {
       >
          {step.kind === "intro" && <IntroScreen onStart={handleStart} />}
          {step.kind === "segment" && (
-            <SegmentStep
-               segmentLabels={segments}
-               onSelect={handleSegmentSelect}
-            />
+            <SegmentStep onSelect={handleSegmentSelect} />
          )}
          {currentQuestion && questionStep && (
             <QuestionStep
