@@ -1,7 +1,7 @@
 jest.mock("@/data/actions/survey");
 jest.mock("./AnalysisLoader", () => ({
    AnalysisLoader: ({ onDone }: { onDone: () => void }) => {
-      onDone();
+      setTimeout(onDone, 0);
       return <div data-testid="analysis-loader" />;
    },
 }));
@@ -9,21 +9,76 @@ jest.mock("./AnalysisLoader", () => ({
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { submitSurvey } from "@/data/actions/survey";
+import {
+   getSurveyQuestions,
+   getSurveySegmentLabels,
+   submitSurvey,
+} from "@/data/actions/survey";
 
 import { SurveyContainer } from "./SurveyContainer";
 
+const getSurveySegmentLabelsMock = getSurveySegmentLabels as jest.MockedFunction<
+   typeof getSurveySegmentLabels
+>;
+const getSurveyQuestionsMock = getSurveyQuestions as jest.MockedFunction<
+   typeof getSurveyQuestions
+>;
 const submitSurveyMock = submitSurvey as jest.MockedFunction<typeof submitSurvey>;
+
+const DIMENSIONS = [
+   "freq",
+   "prompting",
+   "tooling",
+   "files",
+   "automation",
+   "integration",
+   "quality",
+   "timesaving",
+] as const;
+
+const mockQuestions = DIMENSIONS.map((id) => ({
+   id,
+   text: `Question ${id}`,
+   answers: [
+      { score: 1 as const, label: "Option 1" },
+      { score: 2 as const, label: "Option 2" },
+      { score: 3 as const, label: "Option 3" },
+      { score: 4 as const, label: "Option 4" },
+   ] as [
+      { score: 1; label: string },
+      { score: 2; label: string },
+      { score: 3; label: string },
+      { score: 4; label: string },
+   ],
+}));
+
+const mockSegmentLabels = {
+   solo: "Ich führe mein eigenes Unternehmen",
+   employee: "Ich bin angestellt",
+   coach: "Ich berate andere",
+   default: "Etwas anderes",
+};
 
 const mockResult = {
    stage: 2 as const,
    total: 17,
    levers: ["freq", "prompting"] as ["freq", "prompting"],
+   stageLabel: "KI-Anwender",
+   stageEmoji: "🚀",
+   stageText: "Du nutzt KI bereits im Alltag.",
+   ctaText: "Zeig mir mehr →",
+   ctaHref: "/explore",
+   leverTexts: ["Baue dir eine feste Routine auf", "Nutze konkrete Prompts"] as [
+      string,
+      string,
+   ],
 };
 
 describe("SurveyContainer", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      getSurveySegmentLabelsMock.mockResolvedValue(mockSegmentLabels);
+      getSurveyQuestionsMock.mockResolvedValue(mockQuestions);
       submitSurveyMock.mockResolvedValue(mockResult);
    });
 
@@ -42,7 +97,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
-      expect(screen.getByTestId("question-step")).toBeInTheDocument();
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       expect(screen.getByText("Frage 1 von 8")).toBeInTheDocument();
    });
 
@@ -50,6 +107,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       await userEvent.click(screen.getByTestId("answer-option-3"));
       expect(screen.getByText("Frage 2 von 8")).toBeInTheDocument();
       await userEvent.click(screen.getByTestId("back-button"));
@@ -60,6 +120,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-employee"));
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-2"));
       }
@@ -70,6 +133,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
@@ -82,6 +148,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
@@ -103,6 +172,9 @@ describe("SurveyContainer", () => {
       render(<SurveyContainer />);
       await userEvent.click(screen.getByTestId("intro-start-button"));
       await userEvent.click(screen.getByTestId("segment-option-solo"));
+      await waitFor(() =>
+         expect(screen.getByTestId("question-step")).toBeInTheDocument()
+      );
       for (let i = 0; i < 8; i++) {
          await userEvent.click(screen.getByTestId("answer-option-3"));
       }
