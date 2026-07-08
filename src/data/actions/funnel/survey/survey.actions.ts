@@ -39,7 +39,8 @@ export const submitSurvey = async (
 ): Promise<ActionResult<DSurveyResult>> => {
    try {
       const validated = SubmitSurveySchema.parse(data);
-      const result = await getService().submitSurvey(validated);
+      const service = getService();
+      const result = await service.submitSurvey(validated);
       return {
          success: true,
          message: "Umfrage erfolgreich eingereicht",
@@ -47,7 +48,10 @@ export const submitSurvey = async (
       };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Fehler beim Einreichen der Umfrage" };
+      return {
+         success: false,
+         message: "Fehler beim Einreichen der Umfrage",
+      };
    }
 };
 
