@@ -3,7 +3,12 @@ import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 
 import { DesktopNav } from "./desktop-nav";
 
-const assertRendered = () => {
+const assertAuthenticatedRendered = () => {
+   const desktopNav = screen.getByTestId("desktop-nav");
+   assertInDocument(desktopNav);
+};
+
+const assertUnauthenticatedRendered = () => {
    const desktopNav = screen.getByTestId("desktop-nav");
    const navigation = screen.getByTestId("navigation");
    const exploreLink = screen.getByTestId("explore-nav-item");
@@ -37,12 +42,18 @@ const assertLoginBtnsRendered = () => {
    assertInDocument(signUp);
 };
 
+const assertLibraryBtnRendered = () => {
+   const libraryLink = screen.getByTestId("to-library-link");
+   assertInDocument(libraryLink);
+};
+
 describe("DesktopNav rendering tests", () => {
    it("authenticated true - test", async () => {
       const { container } = render(<DesktopNav authenticated={true} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertAuthenticatedRendered();
+         assertLibraryBtnRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -52,7 +63,7 @@ describe("DesktopNav rendering tests", () => {
       const { container } = render(<DesktopNav authenticated={false} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertUnauthenticatedRendered();
          assertLoginBtnsRendered();
       });
 
