@@ -8,7 +8,7 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { infiniteLoadPromptCategoriesOptions } from "@/data/ts-queries/prompt";
+import { infiniteLoadPromptCategoriesPageOptions } from "@/data/ts-queries/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const RECOMMENDED_MODELS = [
@@ -52,7 +52,7 @@ export const BasicInfo = ({ control }: Props) => {
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            queryOptions={infiniteLoadPromptCategoriesOptions}
+            queryOptions={infiniteLoadPromptCategoriesPageOptions}
             control={control}
          />
       </section>

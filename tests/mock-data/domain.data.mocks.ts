@@ -43,6 +43,8 @@ import {
 } from "@/data/types/domain/product";
 import {
    DPrompt,
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptCategory,
    DPromptPreview,
    DPromptPreviewsPage,
@@ -650,6 +652,30 @@ export const dPromptPreviewsPage = (count = 3): DPromptPreviewsPage => {
       pageSize: 3,
       totalElements: 15,
       totalPages: 5,
+   };
+};
+
+export const dPromptCategoriesPage = (count = 3): DPromptCategoriesPage => {
+   const categories = range(0, count).map((i) => `category ${i}`);
+   return {
+      content: categories,
+      numberOfElements: categories.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
+export const dPromptCategoriesPageQuery = (
+   index = 1
+): DPromptCategoriesPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: { search: `search ${index}` },
    };
 };
 

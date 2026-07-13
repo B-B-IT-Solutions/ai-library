@@ -23,12 +23,12 @@ import {
    downloadPrompt,
    getPrompt,
    getPromptCategories,
+   getPromptCategoriesPage,
    getPromptGenerationData,
    getPromptModels,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
-   getPromptTemplateCategories,
    getPromptWithContent,
    togglePromptFavorite,
    updatePrompt,
@@ -51,8 +51,8 @@ const sGetPromptCategories = PromptService.prototype.getPromptCategories;
 const sGetPromptModels = PromptService.prototype.getPromptModels;
 const sGetPromptPreviewsPage = PromptService.prototype.getPromptPreviewsPage;
 const sGetPromptWithContent = PromptService.prototype.getPromptWithContent;
-const sGetPromptTemplateCategories =
-   PromptService.prototype.getPromptTemplateCategories;
+const sGetPromptCategoriesPage =
+   PromptService.prototype.getPromptCategoriesPage;
 const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 
 const sGetPromptsPageMock = sGetPromptsPage as jest.MockedFunction<
@@ -94,13 +94,13 @@ const sGetPromptModelsMock = sGetPromptModels as jest.MockedFunction<
 const sGetPromptWithContentMock = sGetPromptWithContent as jest.MockedFunction<
    typeof sGetPromptWithContent
 >;
-const sGetPromptTemplateCategoriesMock =
-   sGetPromptTemplateCategories as jest.MockedFunction<
-      typeof sGetPromptTemplateCategories
-   >;
 const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
    typeof sGetPromptsUsage
 >;
+const sGetPromptCategoriesPageMock =
+   sGetPromptCategoriesPage as jest.MockedFunction<
+      typeof sGetPromptCategoriesPage
+   >;
 
 describe("getPromptsPage tests", () => {
    beforeEach(() => {
@@ -1029,7 +1029,7 @@ describe("getPromptModels tests", () => {
    });
 });
 
-describe("getPromptTemplateCategories tests", () => {
+describe("getPromptCategoriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -1043,27 +1043,29 @@ describe("getPromptTemplateCategories tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getPromptTemplateCategories();
+      const result = await getPromptCategoriesPage();
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(EMPTY_PAGE);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateCategoriesMock).not.toHaveBeenCalled();
+      expect(sGetPromptCategoriesPageMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("test", async () => {
+   it("categories page retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dPrompt0CategoriesString();
-      sGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
+      const page = dtestData.dPromptCategoriesPage();
+      sGetPromptCategoriesPageMock.mockResolvedValue(page);
 
-      const result = await getPromptTemplateCategories();
+      const query = dtestData.dPromptCategoriesPageQuery();
 
-      expect(result).toEqual(categories);
+      const result = await getPromptCategoriesPage(query);
+
+      expect(result).toEqual(page);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledWith(user.id);
+      expect(sGetPromptCategoriesPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesPageMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 

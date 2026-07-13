@@ -29,19 +29,20 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getPromptTemplateCategories } from "@/data/actions/prompt";
+import { getPromptCategoriesPage } from "@/data/actions/prompt";
 
 import { PromptEditForm } from "./prompt-form";
 
 jest.setTimeout(10000);
 
-const getPromptTemplateCategoriesMock =
-   getPromptTemplateCategories as jest.MockedFunction<
-      typeof getPromptTemplateCategories
+const getPromptCategoriesPageMock =
+   getPromptCategoriesPage as jest.MockedFunction<
+      typeof getPromptCategoriesPage
    >;
 
 beforeEach(() => {
-   getPromptTemplateCategoriesMock.mockResolvedValue([]);
+   const page = dtestData.dPromptCategoriesPage();
+   getPromptCategoriesPageMock.mockResolvedValue(page);
 });
 
 const assertRendered = () => {
@@ -169,7 +170,9 @@ describe("PromptEditForm functionality tests", () => {
 
    it("expand btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      renderWithReactQuery(<PromptEditForm globalFields={fields} onSubmit={jest.fn()} />);
+      renderWithReactQuery(
+         <PromptEditForm globalFields={fields} onSubmit={jest.fn()} />
+      );
 
       await waitFor(() => {
          assertRendered();

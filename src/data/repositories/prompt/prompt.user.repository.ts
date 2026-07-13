@@ -7,6 +7,8 @@ import {
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptCategory,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -18,6 +20,9 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
+   PromptCategoryCountArgs,
+   PromptCategoryFindManyArgs,
+   PromptCategoryWhereInput,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -157,15 +162,6 @@ export class PromptRepository {
       return prompt ? toDPromptWithContent(prompt as PromptWithContent) : null;
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
-      return await this.prisma.promptCategory.findMany({
-         where: { userId },
-         select: {
-            name: true,
-         },
-      });
-   }
-
    async pCreatePrompt(userId: string, data: DPromptUpdate): Promise<DPrompt> {
       const input: PromptCreateInput = {
          title: data.title,
@@ -303,6 +299,66 @@ export class PromptRepository {
       };
 
       await this.prisma.prompt.update(args);
+   }
+
+   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
+      return await this.prisma.promptCategory.findMany({
+         where: { userId },
+         select: {
+            name: true,
+         },
+      });
+   }
+
+   async pGetPromptCategoriesPage(
+      userId: string,
+      query?: DPromptCategoriesPageQuery
+   ): Promise<DPromptCategoriesPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where: PromptCategoryWhereInput = { userId };
+
+      if (query?.filter?.search) {
+         where.name = {
+            contains: query.filter.search,
+            mode: "insensitive",
+         };
+      }
+
+      const args: PromptCategoryFindManyArgs = {
+         where,
+         select: {
+            name: true,
+         },
+         orderBy: {
+            name: "asc",
+         },
+         skip,
+         take: pageSize,
+      };
+
+      const countArgs: PromptCategoryCountArgs = {
+         where,
+      };
+
+      const [categories, totalElements] = await Promise.all([
+         this.prisma.promptCategory.findMany(args),
+         this.prisma.promptCategory.count(countArgs),
+      ]);
+
+      const content = map(categories, (c) => c.name);
+
+      return {
+         content,
+         pageNumber,
+         pageSize,
+         numberOfElements: content.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements: totalElements,
+      };
    }
 
    async pGePromptCategories(userId: string): Promise<string[]> {

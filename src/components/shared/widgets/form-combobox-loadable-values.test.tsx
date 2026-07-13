@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
@@ -9,14 +9,17 @@ import { FormComboboxLoadableValues } from "./form-combobox-loadable-values";
 
 jest.mock("@tanstack/react-query", () => ({
    ...jest.requireActual("@tanstack/react-query"),
-   useQuery: jest.fn(),
+   useInfiniteQuery: jest.fn(),
 }));
 
-const mockUseQuery = useQuery as jest.Mock;
+const mockUseInfiniteQuery = useInfiniteQuery as jest.Mock;
 const mockQueryOptions = jest.fn().mockReturnValue({});
 
 const makeQueryResult = (overrides: Record<string, unknown> = {}) => ({
-   data: ["Marketing", "Support"],
+   data: { pages: [{ content: ["Marketing", "Support"] }] },
+   fetchNextPage: jest.fn(),
+   hasNextPage: false,
+   isFetching: false,
    isLoading: false,
    ...overrides,
 });
@@ -83,9 +86,10 @@ const assertValueNotRendered = (value: string) => {
    assertNotInDocument(el);
 };
 
-describe("FormComboboxMultiValues rendering tests", () => {
+describe("FormComboboxLoadableValues rendering tests", () => {
    beforeEach(() => {
-      mockUseQuery.mockReturnValue(makeQueryResult());
+      mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
+      mockQueryOptions.mockClear();
    });
 
    it("init values undefined - test", () => {
@@ -120,9 +124,10 @@ describe("FormComboboxMultiValues rendering tests", () => {
    });
 });
 
-describe("FormComboboxMultiValues functionality tests", () => {
+describe("FormComboboxLoadableValues functionality tests", () => {
    beforeEach(() => {
-      mockUseQuery.mockReturnValue(makeQueryResult());
+      mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
+      mockQueryOptions.mockClear();
    });
 
    it("select existing option from list - test", async () => {
@@ -142,10 +147,31 @@ describe("FormComboboxMultiValues functionality tests", () => {
       await waitFor(() => {
          assertValueRendered("Marketing");
       });
+
+      expect(mockQueryOptions).toHaveBeenCalledWith("");
+   });
+
+   it("search input passed to queryOptions - test", async () => {
+      render(
+         <TestWrapper
+            name="categories"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+         />
+      );
+
+      await openPopover();
+
+      const input = screen.getByTestId("search-input");
+      await userEvent.type(input, "Mark");
+
+      expect(mockQueryOptions).toHaveBeenCalledWith("Mark");
    });
 
    it("create new category when no match exists - test", async () => {
-      mockUseQuery.mockReturnValue(makeQueryResult({ data: ["Marketing"] }));
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
 
       render(
          <TestWrapper
@@ -169,7 +195,9 @@ describe("FormComboboxMultiValues functionality tests", () => {
    });
 
    it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
-      mockUseQuery.mockReturnValue(makeQueryResult({ data: ["Marketing"] }));
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
 
       render(
          <TestWrapper
@@ -196,7 +224,9 @@ describe("FormComboboxMultiValues functionality tests", () => {
    });
 
    it("remove selected value - test", async () => {
-      mockUseQuery.mockReturnValue(makeQueryResult({ data: ["Marketing"] }));
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
 
       render(
          <TestWrapper
@@ -217,7 +247,9 @@ describe("FormComboboxMultiValues functionality tests", () => {
 
    it("max items reached disables trigger and shows hint - test", () => {
       const allCategories = ["Marketing", "Support", "Sales", "HR", "Coding"];
-      mockUseQuery.mockReturnValue(makeQueryResult({ data: allCategories }));
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: allCategories }] } })
+      );
 
       render(
          <TestWrapper
@@ -237,7 +269,9 @@ describe("FormComboboxMultiValues functionality tests", () => {
    });
 
    it("no matching options and no search shows empty state - test", async () => {
-      mockUseQuery.mockReturnValue(makeQueryResult({ data: [] }));
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: [] }] } })
+      );
 
       render(
          <TestWrapper
@@ -253,8 +287,11 @@ describe("FormComboboxMultiValues functionality tests", () => {
    });
 
    it("loading state shows loading indicator - test", async () => {
-      mockUseQuery.mockReturnValue(
-         makeQueryResult({ data: [], isLoading: true })
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({
+            data: { pages: [{ content: [] }] },
+            isLoading: true,
+         })
       );
 
       render(
@@ -268,5 +305,24 @@ describe("FormComboboxMultiValues functionality tests", () => {
       await openPopover();
 
       assertInDocument(screen.getByTestId("command-empty-loading"));
+   });
+
+   it("loads next page on scroll via InfiniteScroll - test", async () => {
+      const fetchNextPage = jest.fn();
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ hasNextPage: true, fetchNextPage })
+      );
+
+      render(
+         <TestWrapper
+            name="categories"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+         />
+      );
+
+      await openPopover();
+
+      assertInDocument(screen.getByText("Marketing"));
    });
 });

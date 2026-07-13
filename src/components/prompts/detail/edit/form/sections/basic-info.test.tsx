@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
@@ -7,10 +7,10 @@ import { BasicInfo } from "./basic-info";
 
 jest.mock("@tanstack/react-query", () => ({
    ...jest.requireActual("@tanstack/react-query"),
-   useQuery: jest.fn(),
+   useInfiniteQuery: jest.fn(),
 }));
 
-const mockUseQuery = useQuery as jest.Mock;
+const mockUseInfiniteQuery = useInfiniteQuery as jest.Mock;
 
 const TestWrapper = () => {
    const form = useForm({
@@ -48,8 +48,11 @@ const assertRendered = () => {
 
 describe("BasicInfo rendering tests", () => {
    beforeEach(() => {
-      mockUseQuery.mockReturnValue({
-         data: ["Marketing", "Support"],
+      mockUseInfiniteQuery.mockReturnValue({
+         data: { pages: [{ content: ["Marketing", "Support"] }] },
+         fetchNextPage: jest.fn(),
+         hasNextPage: false,
+         isFetching: false,
          isLoading: false,
       });
    });

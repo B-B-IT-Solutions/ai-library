@@ -36,7 +36,7 @@ import { Action, ExternalToast, toast } from "sonner";
 
 import {
    createPrompt,
-   getPromptTemplateCategories,
+   getPromptCategoriesPage,
    updatePrompt,
 } from "@/data/actions/prompt";
 import {
@@ -57,14 +57,15 @@ const createPromptMock = createPrompt as jest.MockedFunction<
 const updatePromptMock = updatePrompt as jest.MockedFunction<
    typeof updatePrompt
 >;
-const getPromptTemplateCategoriesMock =
-   getPromptTemplateCategories as jest.MockedFunction<
-      typeof getPromptTemplateCategories
+const getPromptCategoriesPageMock =
+   getPromptCategoriesPage as jest.MockedFunction<
+      typeof getPromptCategoriesPage
    >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 beforeEach(() => {
-   getPromptTemplateCategoriesMock.mockResolvedValue([]);
+   const page = dtestData.dPromptCategoriesPage();
+   getPromptCategoriesPageMock.mockResolvedValue(page);
 });
 
 const assertBtnRendered = () => {
@@ -110,7 +111,9 @@ const assertRendered = () => {
 
 describe("PromptEdit rendering tests", () => {
    it("new entry - collection undefined - test", async () => {
-      const { container } = renderWithReactQuery(<PromptEdit globalFields={[]} />);
+      const { container } = renderWithReactQuery(
+         <PromptEdit globalFields={[]} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -280,7 +283,9 @@ describe("PromptEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      renderWithReactQuery(<PromptEdit prompt={prompt} globalFields={fields} />);
+      renderWithReactQuery(
+         <PromptEdit prompt={prompt} globalFields={fields} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -513,7 +518,9 @@ describe("PromptEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      renderWithReactQuery(<PromptEdit prompt={prompt} globalFields={fields} />);
+      renderWithReactQuery(
+         <PromptEdit prompt={prompt} globalFields={fields} />
+      );
 
       await waitFor(() => {
          assertRendered();

@@ -9,6 +9,8 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -282,14 +284,16 @@ export const getPromptModels = async (): Promise<string[]> => {
    }
 };
 
-export const getPromptTemplateCategories = async (): Promise<string[]> => {
+export const getPromptCategoriesPage = async (
+   query?: DPromptCategoriesPageQuery
+): Promise<DPromptCategoriesPage> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getPromptTemplateCategories(user.id);
+      return await service.getPromptCategoriesPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
-      return [];
+      return EMPTY_PAGE;
    }
 };
 

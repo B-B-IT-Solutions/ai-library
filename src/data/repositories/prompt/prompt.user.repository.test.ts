@@ -5,6 +5,8 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -14,6 +16,8 @@ import {
 } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptCategoryCountArgs,
+   PromptCategoryFindManyArgs,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -866,6 +870,110 @@ describe("pGetPromptCategories queries tests", () => {
       expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
          expectedFindMayArgs
+      );
+   });
+});
+
+describe("pGetPromptCategoriesPage tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("query undefined - test", async () => {
+      const userId = "user-id-1";
+      const categoryNames = ["cat-a", "cat-b", "cat-c"];
+      const categories = categoryNames.map((name) => ({ name }));
+      const totalEntries = 15;
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+      prismaMock.promptCategory.count.mockResolvedValue(totalEntries);
+
+      const result = await repository.pGetPromptCategoriesPage(userId);
+
+      const expectedResult: DPromptCategoriesPage = {
+         content: categoryNames,
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: categoryNames.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptCategoryFindManyArgs = {
+         where: { userId },
+         select: {
+            name: true,
+         },
+         orderBy: { name: "asc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptCategoryCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptCategory.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("query with search and pagination - test", async () => {
+      const userId = "user-id-1";
+      const categoryNames = ["marketing"];
+      const categories = categoryNames.map((name) => ({ name }));
+      const totalEntries = 1;
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+      prismaMock.promptCategory.count.mockResolvedValue(totalEntries);
+
+      const query: DPromptCategoriesPageQuery = {
+         pagination: { pageNumber: 2, pageSize: 10 },
+         filter: { search: "mark" },
+      };
+
+      const result = await repository.pGetPromptCategoriesPage(userId, query);
+
+      const expectedResult: DPromptCategoriesPage = {
+         content: categoryNames,
+         pageNumber: 2,
+         pageSize: 10,
+         numberOfElements: categoryNames.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere = {
+         userId,
+         name: { contains: "mark", mode: "insensitive" },
+      };
+
+      const expectedFindManyArgs: PromptCategoryFindManyArgs = {
+         where: expectedWhere,
+         select: {
+            name: true,
+         },
+         orderBy: { name: "asc" },
+         skip: 20,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptCategoryCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptCategory.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.count).toHaveBeenCalledWith(
+         expectedCountArgs
       );
    });
 });

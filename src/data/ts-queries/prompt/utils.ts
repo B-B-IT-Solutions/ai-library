@@ -20,7 +20,7 @@ export const promptKeys = {
 
 export const templateCategoriesKeys = {
    all: ["prompt-template-categories"],
-   categories: () => {
-      return [...templateCategoriesKeys.all] as const;
+   categories: (search?: string) => {
+      return [...templateCategoriesKeys.all, { search }] as const;
    },
 };

@@ -2,8 +2,7 @@ jest.mock("@/data/actions/prompt");
 
 import {
    InfiniteData,
-   QueryFunction,
-   QueryFunctionContext,
+   keepPreviousData,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
@@ -13,13 +12,15 @@ import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
 import {
+   getPromptCategoriesPage,
    getPromptGenerationData,
    getPromptPreviewsPage,
    getPromptsPage,
-   getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -29,15 +30,14 @@ import {
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   infiniteLoadPromptCategoriesOptions,
+   infiniteLoadPromptCategoriesPageOptions,
    infiniteLoadPromptPreviewsPageOptions,
    infiniteLoadPromptsPageOptions,
    loadPromptTemplatingDataOptions,
-   preloadPromptTemplateCategoriesOptions,
    toggleFavoriteOptions,
+   useInfiniteLoadPromptCategories,
    useInfiniteLoadPromptPreviewsPage,
    useInfiniteLoadPromptsPage,
-   useLoadPromptTemplateCategories,
    useLoadPromptTemplatingData,
    useToggleFavorite,
 } from "./prompt";
@@ -56,9 +56,9 @@ const getPromptPreviewsPageMock = getPromptPreviewsPage as jest.MockedFunction<
    typeof getPromptPreviewsPage
 >;
 
-const getPromptTemplateCategoriesMock =
-   getPromptTemplateCategories as jest.MockedFunction<
-      typeof getPromptTemplateCategories
+const getPromptCategoriesPageMock =
+   getPromptCategoriesPage as jest.MockedFunction<
+      typeof getPromptCategoriesPage
    >;
 
 const getPromptGenerationDataMock =
@@ -69,35 +69,6 @@ const getPromptGenerationDataMock =
 const togglePromptFavoriteMock = togglePromptFavorite as jest.MockedFunction<
    typeof togglePromptFavorite
 >;
-
-describe("prefetch options tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   test("preloadPromptTemplateCategoriesOptions  test", async () => {
-      const categories = ["category 1", "category 2", "category 3"];
-      getPromptTemplateCategoriesMock.mockResolvedValue(categories);
-
-      const expectedOptions: UndefinedInitialDataOptions<
-         string[],
-         Error,
-         string[]
-      > = {
-         queryKey: ["prompt-template-categories"],
-         queryFn: jest.fn(),
-      };
-
-      const options = preloadPromptTemplateCategoriesOptions();
-      const queryFn = options.queryFn as QueryFunction<string[]>;
-      const context = {} as QueryFunctionContext;
-      const fnResult = await queryFn(context);
-
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(fnResult).toEqual(categories);
-   });
-});
 
 describe("loadPromptsPage hooks tests", () => {
    beforeEach(() => {
@@ -223,31 +194,53 @@ describe("loadPromptCategories hooks tests", () => {
    });
 
    test("infiniteLoadPromptCategoriesOptions - test", async () => {
-      const expectedOptions: UndefinedInitialDataOptions<
-         string[],
+      const search = "mark";
+
+      const expectedOptions: UndefinedInitialDataInfiniteOptions<
+         DPromptCategoriesPage,
          Error,
-         string[]
+         InfiniteData<DPromptCategoriesPage, unknown>,
+         QueryKey,
+         number
       > = {
-         queryKey: ["prompt-template-categories"],
+         queryKey: ["prompt-template-categories", { search }],
          queryFn: jest.fn(),
+         initialPageParam: 0,
+         getNextPageParam: jest.fn(),
+         placeholderData: keepPreviousData,
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = infiniteLoadPromptCategoriesOptions();
+      const options = infiniteLoadPromptCategoriesPageOptions(search);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useLoadPromptTemplateCategories test", async () => {
-      const categories = ["category 1", "category 2", "category 3"];
-      getPromptTemplateCategoriesMock.mockResolvedValue(categories);
+   test("useInfiniteLoadPromptCategories test", async () => {
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const search = "mark";
 
       const { result } = renderHookWithReactQuery(() =>
-         useLoadPromptTemplateCategories()
+         useInfiniteLoadPromptCategories(search)
       );
 
+      const expectedQuery: DPromptCategoriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: { search },
+      };
+
       await waitFor(() => {
-         expect(result.current.data).toEqual(categories);
-         expect(getPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(result.current.data?.pageParams).toEqual([0]);
+         expect(result.current.data?.pages).toHaveLength(1);
+         expect(result.current.data?.pages[0]).toEqual(page);
+         expect(getPromptCategoriesPageMock).toHaveBeenCalledTimes(1);
+         expect(getPromptCategoriesPageMock).toHaveBeenCalledWith(
+            expectedQuery
+         );
       });
    });
 });

@@ -15,13 +15,15 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   getPromptCategoriesPage,
    getPromptGenerationData,
    getPromptPreviewsPage,
    getPromptsPage,
-   getPromptTemplateCategories,
    togglePromptFavorite,
 } from "@/data/actions/prompt";
 import {
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -39,19 +41,6 @@ import type {
    UpdateIsFavoriteParams,
 } from "./types";
 import { promptKeys, templateCategoriesKeys } from "./utils";
-
-export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
-   string[],
-   Error,
-   string[]
-> => {
-   return {
-      queryKey: templateCategoriesKeys.categories(),
-      queryFn: async () => {
-         return await getPromptTemplateCategories();
-      },
-   };
-};
 
 export const infiniteLoadPromptsPageOptions = (
    params: LoadPromptsPageParams
@@ -123,21 +112,38 @@ export const useInfiniteLoadPromptPreviewsPage = (
    return useInfiniteQuery(options);
 };
 
-export const infiniteLoadPromptCategoriesOptions =
-   (): UndefinedInitialDataOptions<string[], Error, string[]> => {
-      return {
-         queryKey: templateCategoriesKeys.categories(),
-         queryFn: async () => {
-            return await getPromptTemplateCategories();
-         },
-         placeholderData: keepPreviousData,
-         staleTime: 5 * 60 * 1000,
-      };
+export const infiniteLoadPromptCategoriesPageOptions = (
+   search: string
+): UndefinedInitialDataInfiniteOptions<
+   DPromptCategoriesPage,
+   Error,
+   InfiniteData<DPromptCategoriesPage>,
+   QueryKey,
+   number
+> => {
+   return {
+      queryKey: templateCategoriesKeys.categories(search),
+      queryFn: async ({ pageParam }) => {
+         const query: DPromptCategoriesPageQuery = pageQuery(
+            pageParam,
+            PAGE_SIZE,
+            undefined,
+            { search }
+         );
+         return await getPromptCategoriesPage(query);
+      },
+      initialPageParam: INIT_PAGE_NUMBER,
+      getNextPageParam: getNextPageParam,
+      placeholderData: keepPreviousData,
+      staleTime: 5 * 60 * 1000,
    };
+};
 
-export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
-   const options = infiniteLoadPromptCategoriesOptions();
-   return useQuery<string[]>(options);
+export const useInfiniteLoadPromptCategories = (
+   search: string
+): UseInfiniteQueryResult<InfiniteData<DPromptCategoriesPage>, Error> => {
+   const options = infiniteLoadPromptCategoriesPageOptions(search);
+   return useInfiniteQuery(options);
 };
 
 export const loadPromptTemplatingDataOptions = (

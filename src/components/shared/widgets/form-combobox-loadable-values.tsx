@@ -1,8 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { UndefinedInitialDataOptions, useQuery } from "@tanstack/react-query";
-import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
+import {
+   InfiniteData,
+   QueryKey,
+   UndefinedInitialDataInfiniteOptions,
+   useInfiniteQuery,
+} from "@tanstack/react-query";
+import { filter, flatMap, includes, isEmpty, map, trim } from "es-toolkit/compat";
 import { Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
@@ -16,19 +21,27 @@ import {
    CommandList,
 } from "@/components/shadcn/command";
 import { FormItem, FormLabel } from "@/components/shadcn/form";
+import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
    Popover,
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { Page } from "@/data/types/common";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_MAX_ITEMS = 5;
 const MAX_VALUE_LENGTH = 50;
 
-const normalize = (value: string) => {
-   return trim(value).toLowerCase();
-};
+const normalize = (value: string) => trim(value).toLowerCase();
+
+type LoadableValuesInfiniteOption = UndefinedInitialDataInfiniteOptions<
+   Page<string>,
+   Error,
+   InfiniteData<Page<string>>,
+   QueryKey,
+   number
+>;
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
@@ -37,7 +50,7 @@ type Props<T extends FieldValues> = {
    className?: string;
    control: Control<T>;
    maxItems?: number;
-   queryOptions: () => UndefinedInitialDataOptions<string[], Error, string[]>;
+   queryOptions: (search: string) => LoadableValuesInfiniteOption;
 };
 
 export const FormComboboxLoadableValues = <T extends FieldValues>({
@@ -53,8 +66,13 @@ export const FormComboboxLoadableValues = <T extends FieldValues>({
    const [search, setSearch] = useState("");
    const { field } = useController({ name, control });
 
-   const { data, isLoading } = useQuery(queryOptions());
-   const options: string[] = data ?? [];
+   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+      useInfiniteQuery(queryOptions(search));
+
+   const options = useMemo(
+      () => flatMap(data?.pages, (page) => page.content),
+      [data]
+   );
 
    const values: string[] = field.value ?? [];
    const trimmedSearch = trim(search);
@@ -64,16 +82,9 @@ export const FormComboboxLoadableValues = <T extends FieldValues>({
       values.some((v: string) => normalize(v) === normalize(value));
 
    const filteredOptions = useMemo(
-      () =>
-         filter(
-            options,
-            (option: string) =>
-               !isSelected(option) &&
-               (isEmpty(trimmedSearch) ||
-                  includes(normalize(option), normalize(trimmedSearch)))
-         ),
+      () => filter(options, (option: string) => !isSelected(option)),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [options, trimmedSearch, values]
+      [options, values]
    );
 
    const canCreate =
@@ -202,16 +213,23 @@ export const FormComboboxLoadableValues = <T extends FieldValues>({
                   <CommandList>
                      {renderEmpty()}
                      <CommandGroup>
-                        {map(filteredOptions, (option: string) => (
-                           <CommandItem
-                              key={option}
-                              value={option}
-                              onSelect={() => addValue(option)}
-                              data-testid="option-item"
-                           >
-                              {option}
-                           </CommandItem>
-                        ))}
+                        <InfiniteScroll
+                           hasMore={hasNextPage}
+                           isLoading={isFetching}
+                           next={fetchNextPage}
+                           threshold={0.1}
+                        >
+                           {map(filteredOptions, (option: string) => (
+                              <CommandItem
+                                 key={option}
+                                 value={option}
+                                 onSelect={() => addValue(option)}
+                                 data-testid="option-item"
+                              >
+                                 {option}
+                              </CommandItem>
+                           ))}
+                        </InfiniteScroll>
                         {renderCreateOption()}
                      </CommandGroup>
                   </CommandList>
