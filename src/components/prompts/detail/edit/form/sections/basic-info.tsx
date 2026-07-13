@@ -3,12 +3,12 @@
 import { Control } from "react-hook-form";
 
 import {
-   FormComboboxMultiValues,
+   FormComboboxLoadableValues,
    FormInput,
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { loadPromptTemplateCategoriesOptions } from "@/data/ts-queries/prompt";
+import { infiniteLoadPromptCategoriesOptions } from "@/data/ts-queries/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const RECOMMENDED_MODELS = [
@@ -48,11 +48,11 @@ export const BasicInfo = ({ control }: Props) => {
             options={RECOMMENDED_MODELS}
             control={control}
          />
-         <FormComboboxMultiValues<DPromptUpdate>
+         <FormComboboxLoadableValues<DPromptUpdate>
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            queryOptions={loadPromptTemplateCategoriesOptions}
+            queryOptions={infiniteLoadPromptCategoriesOptions}
             control={control}
          />
       </section>

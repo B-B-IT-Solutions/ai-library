@@ -123,7 +123,7 @@ export const useInfiniteLoadPromptPreviewsPage = (
    return useInfiniteQuery(options);
 };
 
-export const loadPromptTemplateCategoriesOptions =
+export const infiniteLoadPromptCategoriesOptions =
    (): UndefinedInitialDataOptions<string[], Error, string[]> => {
       return {
          queryKey: templateCategoriesKeys.categories(),
@@ -136,7 +136,7 @@ export const loadPromptTemplateCategoriesOptions =
    };
 
 export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
-   const options = loadPromptTemplateCategoriesOptions();
+   const options = infiniteLoadPromptCategoriesOptions();
    return useQuery<string[]>(options);
 };
 

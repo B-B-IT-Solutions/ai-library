@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { FormComboboxMultiValues } from "./form-combobox-multi-values";
+import { FormComboboxLoadableValues } from "./form-combobox-loadable-values";
 
 jest.mock("@tanstack/react-query", () => ({
    ...jest.requireActual("@tanstack/react-query"),
@@ -44,7 +44,7 @@ const TestWrapper: FC<Props> = ({
 
    return (
       <FormProvider {...form}>
-         <FormComboboxMultiValues
+         <FormComboboxLoadableValues
             name={name}
             label={label}
             placeholder={placeholder}

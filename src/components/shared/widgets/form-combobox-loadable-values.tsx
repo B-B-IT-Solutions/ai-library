@@ -1,10 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-   UndefinedInitialDataOptions,
-   useQuery,
-} from "@tanstack/react-query";
+import { UndefinedInitialDataOptions, useQuery } from "@tanstack/react-query";
 import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
 import { Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
@@ -29,7 +26,9 @@ import { cn } from "@/lib/utils";
 const DEFAULT_MAX_ITEMS = 5;
 const MAX_VALUE_LENGTH = 50;
 
-const normalize = (value: string) => trim(value).toLowerCase();
+const normalize = (value: string) => {
+   return trim(value).toLowerCase();
+};
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
@@ -41,7 +40,7 @@ type Props<T extends FieldValues> = {
    queryOptions: () => UndefinedInitialDataOptions<string[], Error, string[]>;
 };
 
-export const FormComboboxMultiValues = <T extends FieldValues>({
+export const FormComboboxLoadableValues = <T extends FieldValues>({
    name,
    label,
    placeholder,

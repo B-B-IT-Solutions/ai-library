@@ -29,9 +29,9 @@ import {
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   infiniteLoadPromptCategoriesOptions,
    infiniteLoadPromptPreviewsPageOptions,
    infiniteLoadPromptsPageOptions,
-   loadPromptTemplateCategoriesOptions,
    loadPromptTemplatingDataOptions,
    preloadPromptTemplateCategoriesOptions,
    toggleFavoriteOptions,
@@ -217,12 +217,12 @@ describe("loadPromptPreviewsPage hooks tests", () => {
    });
 });
 
-describe("loadPromptTemplateCategories hooks tests", () => {
+describe("loadPromptCategories hooks tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   test("loadPromptTemplateCategoriesOptions - test", async () => {
+   test("infiniteLoadPromptCategoriesOptions - test", async () => {
       const expectedOptions: UndefinedInitialDataOptions<
          string[],
          Error,
@@ -233,7 +233,7 @@ describe("loadPromptTemplateCategories hooks tests", () => {
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = loadPromptTemplateCategoriesOptions();
+      const options = infiniteLoadPromptCategoriesOptions();
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 

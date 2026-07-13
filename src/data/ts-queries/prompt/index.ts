@@ -1,6 +1,6 @@
 export {
    preloadPromptTemplateCategoriesOptions,
-   loadPromptTemplateCategoriesOptions,
+   infiniteLoadPromptCategoriesOptions,
    infiniteLoadPromptsPageOptions,
    useInfiniteLoadPromptsPage,
    infiniteLoadPromptPreviewsPageOptions,
