@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { FormComboboxLoadableValues } from "./form-combobox-loadable-values";
+import { FormComboBoxLoadableValues } from "./form-combo-box-loadable-values";
 
 jest.mock("@tanstack/react-query", () => ({
    ...jest.requireActual("@tanstack/react-query"),
@@ -47,7 +47,7 @@ const TestWrapper: FC<Props> = ({
 
    return (
       <FormProvider {...form}>
-         <FormComboboxLoadableValues
+         <FormComboBoxLoadableValues
             name={name}
             label={label}
             placeholder={placeholder}
@@ -86,7 +86,7 @@ const assertValueNotRendered = (value: string) => {
    assertNotInDocument(el);
 };
 
-describe("FormComboboxLoadableValues rendering tests", () => {
+describe("FormComboBoxLoadableValues rendering tests", () => {
    beforeEach(() => {
       mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
       mockQueryOptions.mockClear();
@@ -124,7 +124,7 @@ describe("FormComboboxLoadableValues rendering tests", () => {
    });
 });
 
-describe("FormComboboxLoadableValues functionality tests", () => {
+describe("FormComboBoxLoadableValues functionality tests", () => {
    beforeEach(() => {
       mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
       mockQueryOptions.mockClear();

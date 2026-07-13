@@ -3,7 +3,7 @@
 import { Control } from "react-hook-form";
 
 import {
-   FormComboboxLoadableValues,
+   FormComboBoxLoadableValues,
    FormInput,
    FormSelect,
    FormTextArea,
@@ -48,7 +48,7 @@ export const BasicInfo = ({ control }: Props) => {
             options={RECOMMENDED_MODELS}
             control={control}
          />
-         <FormComboboxLoadableValues<DPromptUpdate>
+         <FormComboBoxLoadableValues<DPromptUpdate>
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"

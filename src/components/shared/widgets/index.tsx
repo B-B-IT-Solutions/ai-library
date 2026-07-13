@@ -1,5 +1,5 @@
 export { FormCheckBox } from "./form-check-box";
-export { FormComboboxLoadableValues } from "./form-combobox-loadable-values";
+export { FormComboBoxLoadableValues } from "./form-combo-box-loadable-values";
 export { FormDynamicValues } from "./form-dynamic-values";
 export { FormInput } from "./form-input";
 export { FormMDEditor } from "./form-md-editor";

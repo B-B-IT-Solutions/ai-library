@@ -7,7 +7,7 @@ import {
    UndefinedInitialDataInfiniteOptions,
    useInfiniteQuery,
 } from "@tanstack/react-query";
-import { filter, flatMap, includes, isEmpty, map, trim } from "es-toolkit/compat";
+import { filter, flatMap, isEmpty, map, trim } from "es-toolkit/compat";
 import { Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
@@ -53,7 +53,7 @@ type Props<T extends FieldValues> = {
    queryOptions: (search: string) => LoadableValuesInfiniteOption;
 };
 
-export const FormComboboxLoadableValues = <T extends FieldValues>({
+export const FormComboBoxLoadableValues = <T extends FieldValues>({
    name,
    label,
    placeholder,
