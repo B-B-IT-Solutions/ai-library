@@ -591,26 +591,6 @@ describe("togglePromptFavorite tests", () => {
    });
 });
 
-describe("getPromptTemplateCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getPromptTemplateCategories test", async () => {
-      const userId = "user-id-1";
-      const categories = ptestData.pPromptCategories();
-      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
-
-      const result = await promptService.getPromptTemplateCategories(userId);
-
-      const expectedResult = map(categories, (c) => c.name);
-
-      expect(result).toEqual(expectedResult);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
-   });
-});
-
 describe("getPromptCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -658,10 +638,7 @@ describe("getPromptCategoriesPage tests", () => {
       const query = dtestData.dPromptCategoriesPageQuery();
       promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
 
-      const result = await promptService.getPromptCategoriesPage(
-         userId,
-         query
-      );
+      const result = await promptService.getPromptCategoriesPage(userId, query);
 
       expect(result).toEqual(page);
       expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
