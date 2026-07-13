@@ -17,6 +17,16 @@ const assertRendered = () => {
    assertInDocument(trigger);
 };
 
+const assertLibraryBtnRendered = () => {
+   const libraryLink = screen.getByTestId("to-library-link");
+   assertInDocument(libraryLink);
+};
+
+const assertLibraryBtnNotRendered = () => {
+   const libraryLink = screen.queryByTestId("to-library-link");
+   assertNotInDocument(libraryLink);
+};
+
 const assertNavigationRendered = () => {
    const navigation = screen.getByTestId("navigation");
    const exploreLink = screen.getByTestId("explore-nav-item");
@@ -60,6 +70,7 @@ describe("MobileNav rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertLibraryBtnNotRendered();
          assertNavigationNotRendered();
       });
 
@@ -71,6 +82,7 @@ describe("MobileNav rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertLibraryBtnNotRendered();
          assertNavigationNotRendered();
       });
 
@@ -81,7 +93,7 @@ describe("MobileNav rendering tests", () => {
 describe("MobileNav functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      mockRouter.push("/");
+      mockRouter.push("/explore");
    });
 
    it("trigger clicked - authenticated true - test", async () => {
@@ -89,8 +101,8 @@ describe("MobileNav functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertNavigationNotRendered();
-         expect(mockRouter.asPath).toEqual("/");
+         assertLibraryBtnNotRendered();
+         expect(mockRouter.asPath).toEqual("/explore");
       });
 
       const triggerBtn = screen.getByTestId("mobile-nav-trigger");
@@ -98,15 +110,15 @@ describe("MobileNav functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertNavigationRendered();
-         expect(mockRouter.asPath).toEqual("/");
+         assertLibraryBtnRendered();
+         expect(mockRouter.asPath).toEqual("/explore");
       });
 
-      const pricingPlink = screen.getByTestId("pricing-nav-item");
-      await userEvent.click(pricingPlink);
+      const libraryLink = screen.getByTestId("to-library-link");
+      await userEvent.click(libraryLink);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(`/pricing`);
+         expect(mockRouter.asPath).toEqual(`/`);
       });
    });
 
@@ -116,7 +128,7 @@ describe("MobileNav functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertNavigationNotRendered();
-         expect(mockRouter.asPath).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/explore");
       });
 
       const triggerBtn = screen.getByTestId("mobile-nav-trigger");
@@ -126,7 +138,7 @@ describe("MobileNav functionality tests", () => {
          assertRendered();
          assertNavigationRendered();
          assertLoginBtnsRendered();
-         expect(mockRouter.asPath).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/explore");
       });
 
       const blogLink = screen.getByTestId("blog-nav-item");
