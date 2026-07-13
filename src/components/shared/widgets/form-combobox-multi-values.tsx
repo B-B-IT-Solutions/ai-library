@@ -1,0 +1,225 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import {
+   UndefinedInitialDataOptions,
+   useQuery,
+} from "@tanstack/react-query";
+import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
+import { Loader, Plus, X } from "lucide-react";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
+
+import { Button } from "@/components/shadcn/button";
+import {
+   Command,
+   CommandEmpty,
+   CommandGroup,
+   CommandInput,
+   CommandItem,
+   CommandList,
+} from "@/components/shadcn/command";
+import { FormItem, FormLabel } from "@/components/shadcn/form";
+import {
+   Popover,
+   PopoverContent,
+   PopoverTrigger,
+} from "@/components/shadcn/popover";
+import { cn } from "@/lib/utils";
+
+const DEFAULT_MAX_ITEMS = 5;
+const MAX_VALUE_LENGTH = 50;
+
+const normalize = (value: string) => trim(value).toLowerCase();
+
+type Props<T extends FieldValues> = {
+   name: Path<T>;
+   label: string;
+   placeholder: string;
+   className?: string;
+   control: Control<T>;
+   maxItems?: number;
+   queryOptions: () => UndefinedInitialDataOptions<string[], Error, string[]>;
+};
+
+export const FormComboboxMultiValues = <T extends FieldValues>({
+   name,
+   label,
+   placeholder,
+   className,
+   control,
+   maxItems = DEFAULT_MAX_ITEMS,
+   queryOptions,
+}: Props<T>) => {
+   const [open, setOpen] = useState(false);
+   const [search, setSearch] = useState("");
+   const { field } = useController({ name, control });
+
+   const { data, isLoading } = useQuery(queryOptions());
+   const options: string[] = data ?? [];
+
+   const values: string[] = field.value ?? [];
+   const trimmedSearch = trim(search);
+   const isAtLimit = values.length >= maxItems;
+
+   const isSelected = (value: string) =>
+      values.some((v: string) => normalize(v) === normalize(value));
+
+   const filteredOptions = useMemo(
+      () =>
+         filter(
+            options,
+            (option: string) =>
+               !isSelected(option) &&
+               (isEmpty(trimmedSearch) ||
+                  includes(normalize(option), normalize(trimmedSearch)))
+         ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [options, trimmedSearch, values]
+   );
+
+   const canCreate =
+      !isEmpty(trimmedSearch) &&
+      trimmedSearch.length <= MAX_VALUE_LENGTH &&
+      !options.some(
+         (option: string) => normalize(option) === normalize(trimmedSearch)
+      ) &&
+      !isSelected(trimmedSearch);
+
+   const addValue = (value: string) => {
+      const newValue = trim(value);
+      if (isEmpty(newValue) || isAtLimit || isSelected(newValue)) {
+         return;
+      }
+      field.onChange([...values, newValue.slice(0, MAX_VALUE_LENGTH)]);
+      setSearch("");
+   };
+
+   const removeValue = (value: string) => {
+      field.onChange(filter(values, (v: string) => v !== value));
+   };
+
+   const renderChips = () => {
+      if (isEmpty(values)) {
+         return;
+      }
+      return (
+         <div className="flex flex-wrap gap-2" data-testid="current-values">
+            {map(values, (value: string, idx: number) => (
+               <div
+                  key={idx}
+                  className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+               >
+                  <span className="text-sm">{value}</span>
+                  <button
+                     type="button"
+                     onClick={() => removeValue(value)}
+                     className="cursor-pointer text-slate-500 hover:text-slate-700"
+                     data-testid="remove-value-btn"
+                  >
+                     <X className="h-3 w-3" />
+                  </button>
+               </div>
+            ))}
+         </div>
+      );
+   };
+
+   const renderEmpty = () => {
+      if (canCreate || !isEmpty(filteredOptions)) {
+         return;
+      }
+      if (isLoading) {
+         return (
+            <CommandEmpty data-testid="command-empty-loading">
+               <Loader className="mx-auto h-4 w-4 animate-spin text-muted-foreground" />
+            </CommandEmpty>
+         );
+      }
+      return (
+         <CommandEmpty data-testid="command-empty">
+            Keine Kategorien gefunden.
+         </CommandEmpty>
+      );
+   };
+
+   const renderCreateOption = () => {
+      if (!canCreate) {
+         return;
+      }
+      return (
+         <CommandItem
+            value={`__create__${trimmedSearch}`}
+            onSelect={() => addValue(trimmedSearch)}
+            data-testid="create-option-item"
+         >
+            <Plus className="h-4 w-4" />
+            &bdquo;{trimmedSearch}&ldquo; als neue Kategorie anlegen
+         </CommandItem>
+      );
+   };
+
+   const renderLimitHint = () => {
+      if (!isAtLimit) {
+         return;
+      }
+      return (
+         <p className="text-xs text-slate-500" data-testid="limit-hint">
+            Maximal {maxItems} Kategorien pro Prompt
+         </p>
+      );
+   };
+
+   return (
+      <FormItem className={cn(className)} data-testid={name}>
+         <FormLabel>{label}</FormLabel>
+         {renderChips()}
+         <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild={true}>
+               <Button
+                  type="button"
+                  variant="outline"
+                  disabled={isAtLimit}
+                  className="w-full justify-start font-normal"
+                  data-testid="combobox-trigger"
+               >
+                  <Plus className="h-4 w-4" />
+                  {placeholder}
+               </Button>
+            </PopoverTrigger>
+            <PopoverContent
+               className="p-0"
+               align="start"
+               style={{
+                  width: "var(--radix-popover-trigger-width)",
+               }}
+            >
+               <Command shouldFilter={false}>
+                  <CommandInput
+                     placeholder={placeholder}
+                     value={search}
+                     onValueChange={setSearch}
+                     data-testid="search-input"
+                  />
+                  <CommandList>
+                     {renderEmpty()}
+                     <CommandGroup>
+                        {map(filteredOptions, (option: string) => (
+                           <CommandItem
+                              key={option}
+                              value={option}
+                              onSelect={() => addValue(option)}
+                              data-testid="option-item"
+                           >
+                              {option}
+                           </CommandItem>
+                        ))}
+                        {renderCreateOption()}
+                     </CommandGroup>
+                  </CommandList>
+               </Command>
+            </PopoverContent>
+         </Popover>
+         {renderLimitHint()}
+      </FormItem>
+   );
+};

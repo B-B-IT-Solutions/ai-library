@@ -91,9 +91,9 @@ Skalierungsproblem.
 
 | | |
 |---|---|
-| **Ist** | Zwei Service-Methoden mit unterschiedlicher Semantik (`getPromptCategories` = tatsächlich genutzt, `getPromptTemplateCategories` = alle je erstellten, inkl. verwaist) ohne erkennbare Namenskonvention, die den Unterschied klarmacht. Verwaiste `PromptCategory`-Zeilen werden nie bereinigt. |
-| **Soll** | (a) Für jedes neue Autocomplete-Feature ausschließlich `getPromptCategories()` (live genutzte Kategorien) verwenden. (b) Methoden umbenennen zur Klarheit, z.B. `getUsedCategoryNames()` vs. `getAllCategoryRecords()`. (c) Optional: Cleanup-Job oder On-Write-Cleanup, der verwaiste `PromptCategory`-Zeilen ohne verknüpfte Prompts entfernt. |
-| **Begründung** | Verwaiste Daten, die in einer künftigen Autocomplete-Liste auftauchen würden, untergraben sofort das Vertrauen in die Vorschläge („warum schlägt es mir eine Kategorie vor, die nirgends verwendet wird?“). |
+| **Ist** | Zwei Service-Methoden mit unterschiedlicher Semantik (`getPromptCategories` = tatsächlich genutzt, `getPromptTemplateCategories` = alle je erstellten, inkl. aktuell an keinem Prompt hängende) ohne erkennbare Namenskonvention, die den Unterschied klarmacht. |
+| **Soll** | **Produktentscheidung (bestätigt):** Für das Autocomplete im Editor bewusst `getPromptTemplateCategories()` verwenden — also **alle** je vom Nutzer angelegten Kategorien, nicht nur die aktuell verknüpften. Begründung: Ein Nutzer, der eine Kategorie vorübergehend von allen Prompts entfernt hat, soll sie trotzdem wieder auswählen können, ohne sie neu zu tippen. Für die Filter-Sidebar (`categories-filter.tsx`) bleibt `getPromptCategories()` (nur tatsächlich verknüpfte) weiterhin die richtige Quelle, da dort nur Kategorien mit Treffern sinnvoll sind. Methoden sollten dennoch zur Klarheit umbenannt werden, z.B. `getAllCategoryNames()` (Editor/Autocomplete) vs. `getUsedCategoryNames()` (Filter). |
+| **Begründung** | Die beiden Quellen haben unterschiedliche, beide legitime Anwendungsfälle — Editor-Autocomplete soll die volle „Gedächtnisliste“ des Nutzers zeigen, die Filter-Sidebar nur, was gerade etwas ergibt. |
 
 ---
 
@@ -229,6 +229,47 @@ aufgebläht wird.
   `prompt-form.tsx` müsste `getPromptCategories()` zusätzlich fetchen und als Prop/Query
   durchreichen).
 - Kein Einfluss auf Collections, Marketplace oder Subscriptions-Subsysteme im MVP-Scope.
+
+### 6.1 Zusätzlicher Fund: Ladehook bereits vorhanden, aber ungenutzt
+
+`src/data/ts-queries/prompt/prompt.ts` enthält bereits `useLoadPromptTemplateCategories()`
+(React-Query-Hook, `staleTime: 5min`, `placeholderData: keepPreviousData`), der auf
+`getPromptTemplateCategories()` zeigt. Der Hook ist vollständig implementiert und getestet
+(`prompt.test.ts:240`), wird aber **von keiner einzigen Komponente importiert** — exakt
+dasselbe Muster wie der ungenutzte Backend-Endpunkt in Abschnitt 0. Nach der
+Produktentscheidung in 2.4 ist das der **richtige** Endpunkt für das Editor-Autocomplete
+(alle je angelegten Kategorien, nicht nur aktuell verknüpfte) — kein Umbiegen nötig.
+
+**Umsetzung im Editor-Formular folgt jedoch nicht dem React-Query-Hook, sondern dem
+bestehenden Muster von `globalFields` in genau diesem Formular:** `templates/new/page.tsx`
+und `templates/[id]/edit/page.tsx` laden Referenzdaten (`getGlobalPromptFields()`) bereits
+serverseitig per `Promise.all` und reichen sie als Prop bis zu `BasicInfo` durch — ohne
+React-Query-Hydration. Für Konsistenz mit diesem Formular wird `getPromptTemplateCategories()`
+ebenso serverseitig geladen und als `categories: string[]`-Prop durchgereicht
+(`page.tsx` → `PromptEdit` → `PromptEditForm` → `BasicInfo`), statt den ungenutzten
+Client-Hook zu aktivieren.
+
+### 6.2 UI-Baustein: `FormSelectLoadableValues` als Vorlage, nicht 1:1 wiederverwendbar
+
+`src/components/shared/widgets/form-select-loadable-values.tsx` ist die einzige bestehende
+Command/Popover-Combobox im Projekt (aktuell genutzt für die Prompt-Auswahl in
+Workflow-Steps, `step-form.tsx`) und liefert die richtige UI-Bausteine (shadcn `Command`,
+`Popover`, `CommandInput` als Such-Feld, Lade-/Empty-State). Für Kategorien passt das Muster
+strukturell, aber **nicht unverändert**, da drei Annahmen dort nicht zutreffen:
+
+| Aspekt | `FormSelectLoadableValues` (Ist) | Kategorien-Feld (Bedarf) |
+|---|---|---|
+| Auswahl | Single-Select (ein `id`-Wert) | Multi-Select (Array von Strings, Chips) |
+| Datenquelle | `useInfiniteQuery` gegen paginierte `Page<T>` (serverseitige Suche/Pagination, für potenziell große Datenmengen wie alle Prompts) | Kleine, vollständig geladene Liste (`getPromptCategories()` liefert bereits alle Namen auf einmal, kein Paging in der Action) → einfacher `useQuery` reicht, clientseitiges Filtern auf `search` genügt, `InfiniteScroll`-Wrapper wird nicht gebraucht |
+| Neuanlage | Nicht vorgesehen (nur Auswahl aus bestehenden Items) | Muss möglich sein: „➕ „Xyz“ anlegen“ als zusätzlicher `CommandItem`, wenn `search` keinen Treffer hat |
+| Item-Typ | `{ id, title }` | einfacher `string` (Name = Wert, kein separates Feld) |
+
+**Empfehlung:** Neue, eigenständige Komponente (Arbeitstitel `form-combobox-multi-values.tsx`)
+bauen, die die UI-Bausteine (`Command`, `Popover`, `CommandInput`) aus
+`form-select-loadable-values.tsx` übernimmt, aber mit `useQuery` (nicht `useInfiniteQuery`)
+gegen den Kategorien-Hook aus 6.1 arbeitet, Werte als Array via `useController` verwaltet
+(wie bisher in `form-dynamic-values.tsx`) und einen zusätzlichen "Neu anlegen"-`CommandItem`
+sowie die Normalisierungs-/Limit-Logik aus Abschnitt 2.2/2.3 in `handleSelect` kapselt.
 
 ---
 
