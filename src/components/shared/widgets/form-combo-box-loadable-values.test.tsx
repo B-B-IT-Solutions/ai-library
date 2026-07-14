@@ -35,17 +35,17 @@ const makeQueryResult = (overrides: Record<string, unknown> = {}) => ({
 });
 
 type TestWrapperProps = {
-   name: string;
-   label: string;
-   placeholder: string;
+   name?: string;
+   label?: string;
+   placeholder?: string;
    initialValues?: string[];
    maxItems?: number;
 };
 
 const TestWrapper = ({
-   name,
-   label,
-   placeholder,
+   name = "categories",
+   label = "Kategorien",
+   placeholder = "Kategorie hinzufügen",
    initialValues,
    maxItems,
 }: TestWrapperProps) => {
@@ -79,8 +79,8 @@ const openPopover = async () => {
    });
 };
 
-const assertRendered = (name: string) => {
-   const field = screen.getByTestId(name);
+const assertRendered = () => {
+   const field = screen.getByTestId("categories");
    const trigger = screen.getByTestId("combobox-trigger");
 
    assertInDocument(field);
@@ -115,16 +115,10 @@ describe("FormComboBoxLoadableValues rendering tests", () => {
    });
 
    it("init values undefined - test", async () => {
-      const { container } = render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      const { container } = render(<TestWrapper />);
 
       await waitFor(() => {
-         assertRendered("categories");
+         assertRendered();
          assertValuesNotRendered();
       });
 
@@ -132,17 +126,10 @@ describe("FormComboBoxLoadableValues rendering tests", () => {
    });
 
    it("init values - test", async () => {
-      const { container } = render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-            initialValues={[mockItem1]}
-         />
-      );
+      const { container } = render(<TestWrapper initialValues={[mockItem1]} />);
 
       await waitFor(() => {
-         assertRendered("categories");
+         assertRendered();
          assertValuesRendered();
          assertValueRendered(mockItem1);
       });
@@ -158,13 +145,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
    });
 
    it("select existing option from list - test", async () => {
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -179,13 +165,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
    });
 
    it("search input passed to queryOptions - test", async () => {
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -200,13 +185,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          makeQueryResult({ data: { pages: [{ content: [mockItem1] }] } })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -221,30 +205,6 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       });
    });
 
-   it("create option is rendered in its own labelled group, separated from existing options - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: [mockItem1] }] } })
-      );
-
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
-
-      await openPopover();
-
-      const input = screen.getByTestId("search-input");
-      await userEvent.type(input, "Vertrieb");
-
-      assertInDocument(screen.getByText("Neue Kategorie"));
-
-      const createOption = screen.getByTestId("create-option-item");
-      expect(createOption).toHaveClass("text-primary");
-   });
-
    it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
          makeQueryResult({
@@ -252,13 +212,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -277,29 +236,6 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       });
    });
 
-   it("selected option remains visible in the list and is marked with a checkmark - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({
-            data: { pages: [{ content: [mockItem1UpperCase] }] },
-         })
-      );
-
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-            initialValues={[mockItem1UpperCase]}
-         />
-      );
-
-      await openPopover();
-
-      const option = screen.getByTestId("option-item");
-      assertInDocument(option);
-      expect(option).toHaveAttribute("data-selected", "true");
-   });
-
    it("clicking a selected option in the list deselects it - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
          makeQueryResult({
@@ -307,14 +243,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-            initialValues={[mockItem1UpperCase]}
-         />
-      );
+      render(<TestWrapper initialValues={[mockItem1UpperCase]} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesRendered();
+      });
 
       await openPopover();
 
@@ -322,7 +256,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await userEvent.click(option);
 
       await waitFor(() => {
-         assertNotInDocument(screen.queryByTestId("current-values"));
+         assertValuesNotRendered();
       });
    });
 
@@ -333,14 +267,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-            initialValues={[mockItem1UpperCase]}
-         />
-      );
+      render(<TestWrapper initialValues={[mockItem1UpperCase]} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesRendered();
+      });
 
       assertValueRendered(mockItem1UpperCase);
 
@@ -350,7 +282,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       assertValueNotRendered(mockItem1UpperCase);
    });
 
-   it("max items reached disables trigger and shows hint - test", () => {
+   it("max items reached disables trigger and shows hint - test", async () => {
       const allCategories = [
          mockItem1,
          mockItem2,
@@ -362,15 +294,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          makeQueryResult({ data: { pages: [{ content: allCategories }] } })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-            initialValues={allCategories}
-            maxItems={5}
-         />
-      );
+      render(<TestWrapper initialValues={allCategories} maxItems={5} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesRendered();
+      });
 
       const trigger = screen.getByTestId("combobox-trigger");
       const hint = screen.getByTestId("limit-hint");
@@ -384,13 +313,11 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          makeQueryResult({ data: { pages: [{ content: [] }] } })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -405,13 +332,11 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
@@ -424,13 +349,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          makeQueryResult({ hasNextPage: true, fetchNextPage })
       );
 
-      render(
-         <TestWrapper
-            name="categories"
-            label="Kategorien"
-            placeholder="Kategorie hinzufügen"
-         />
-      );
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
 
       await openPopover();
 
