@@ -65,6 +65,7 @@ export const infiniteLoadPromptsPageOptions = (
          return await getPromptsPage(query);
       },
       initialPageParam: INIT_PAGE_NUMBER,
+      placeholderData: keepPreviousData,
       getNextPageParam: getNextPageParam,
       staleTime: 5 * 60 * 1000,
    };
@@ -101,6 +102,7 @@ export const infiniteLoadPromptPreviewsPageOptions = (
       },
       initialPageParam: INIT_PAGE_NUMBER,
       getNextPageParam: getNextPageParam,
+      placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
    };
 };

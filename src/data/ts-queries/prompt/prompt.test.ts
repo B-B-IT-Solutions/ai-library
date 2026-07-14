@@ -91,6 +91,7 @@ describe("loadPromptsPage hooks tests", () => {
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
+         placeholderData: keepPreviousData,
          staleTime: 5 * 60 * 1000,
       };
 
@@ -150,6 +151,7 @@ describe("loadPromptPreviewsPage hooks tests", () => {
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
+         placeholderData: keepPreviousData,
          staleTime: 5 * 60 * 1000,
       };
 
@@ -188,18 +190,18 @@ describe("loadPromptPreviewsPage hooks tests", () => {
    });
 });
 
-describe("loadPromptCategories hooks tests", () => {
+describe("loadPromptCategoriesPage hooks tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   test("infiniteLoadPromptCategoriesOptions - test", async () => {
+   test("infiniteLoadPromptCategoriesPageOptions - test", async () => {
       const search = "mark";
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
          DPromptCategoriesPage,
          Error,
-         InfiniteData<DPromptCategoriesPage, unknown>,
+         InfiniteData<DPromptCategoriesPage>,
          QueryKey,
          number
       > = {
@@ -219,7 +221,7 @@ describe("loadPromptCategories hooks tests", () => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
 
-      const search = "mark";
+      const search = "search - 1";
 
       const { result } = renderHookWithReactQuery(() =>
          useInfiniteLoadPromptCategoriesPage(search)
