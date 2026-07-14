@@ -8,7 +8,7 @@ import {
    useInfiniteQuery,
 } from "@tanstack/react-query";
 import { filter, flatMap, isEmpty, map, some, trim } from "es-toolkit/compat";
-import { Check, Loader, Plus, X } from "lucide-react";
+import { Check, ChevronsUpDown, Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -198,12 +198,16 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                <Button
                   type="button"
                   variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
                   disabled={isAtLimit}
-                  className="w-full justify-start font-normal"
+                  className="w-full justify-between font-normal"
                   data-testid="combobox-trigger"
                >
-                  <Plus className="h-4 w-4" />
-                  {placeholder}
+                  <span className="truncate text-muted-foreground">
+                     {placeholder}
+                  </span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -229,7 +233,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                            next={fetchNextPage}
                            threshold={0.1}
                         >
-                           {map(options, (option: string) => {
+                           {map(options, (option) => {
                               const selected = isSelected(option);
                               return (
                                  <CommandItem
