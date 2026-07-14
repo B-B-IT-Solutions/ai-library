@@ -901,7 +901,7 @@ describe("pGetPromptCategoriesPage tests", () => {
       const userId = "user-id-1";
       const categories = dtestData.dPromptCategories(1);
       const categoryNames = map(categories, (c) => c.name);
-      const totalEntries = 1;
+      const totalEntries = 10;
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
       prismaMock.promptCategory.count.mockResolvedValue(totalEntries);
 
@@ -911,7 +911,7 @@ describe("pGetPromptCategoriesPage tests", () => {
 
       const expectedResult: DPromptCategoriesPage = {
          content: categoryNames,
-         pageNumber: 2,
+         pageNumber: 1,
          pageSize: 10,
          numberOfElements: categoryNames.length,
          totalPages: Math.ceil(totalEntries / 10),
@@ -926,7 +926,7 @@ describe("pGetPromptCategoriesPage tests", () => {
             name: true,
          },
          orderBy: { name: "asc" },
-         skip: 20,
+         skip: 10,
          take: 10,
       };
 
