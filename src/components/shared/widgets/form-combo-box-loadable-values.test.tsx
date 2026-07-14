@@ -1,8 +1,8 @@
-import { FC } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
+import { upperCase } from "es-toolkit/compat";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FormComboBoxLoadableValues } from "./form-combo-box-loadable-values";
@@ -13,10 +13,20 @@ jest.mock("@tanstack/react-query", () => ({
 }));
 
 const mockUseInfiniteQuery = useInfiniteQuery as jest.Mock;
+
 const mockQueryOptions = jest.fn().mockReturnValue({});
 
+const mockItem1 = "catagory 1";
+const mockItem1UpperCase = upperCase(mockItem1);
+const mockItem2 = "catagory 2";
+const mockItem3 = "catagory 3";
+const mockItem4 = "catagory 4";
+const mockItem5 = "catagory 5";
+
+const mockItems = [mockItem1UpperCase, mockItem2, mockItem3];
+
 const makeQueryResult = (overrides: Record<string, unknown> = {}) => ({
-   data: { pages: [{ content: ["Marketing", "Support"] }] },
+   data: { pages: [{ content: mockItems }] },
    fetchNextPage: jest.fn(),
    hasNextPage: false,
    isFetching: false,
@@ -24,7 +34,7 @@ const makeQueryResult = (overrides: Record<string, unknown> = {}) => ({
    ...overrides,
 });
 
-type Props = {
+type TestWrapperProps = {
    name: string;
    label: string;
    placeholder: string;
@@ -32,13 +42,13 @@ type Props = {
    maxItems?: number;
 };
 
-const TestWrapper: FC<Props> = ({
+const TestWrapper = ({
    name,
    label,
    placeholder,
    initialValues,
    maxItems,
-}) => {
+}: TestWrapperProps) => {
    const form = useForm({
       defaultValues: {
          [name]: initialValues,
@@ -64,7 +74,8 @@ const openPopover = async () => {
    await userEvent.click(trigger);
 
    await waitFor(() => {
-      assertInDocument(screen.getByTestId("search-input"));
+      const searchInput = screen.getByTestId("search-input");
+      assertInDocument(searchInput);
    });
 };
 
@@ -74,6 +85,16 @@ const assertRendered = (name: string) => {
 
    assertInDocument(field);
    assertInDocument(trigger);
+};
+
+const assertValuesRendered = () => {
+   const values = screen.getByTestId("current-values");
+   assertInDocument(values);
+};
+
+const assertValuesNotRendered = () => {
+   const values = screen.queryByTestId("current-values");
+   assertNotInDocument(values);
 };
 
 const assertValueRendered = (value: string) => {
@@ -93,7 +114,7 @@ describe("FormComboBoxLoadableValues rendering tests", () => {
       mockQueryOptions.mockClear();
    });
 
-   it("init values undefined - test", () => {
+   it("init values undefined - test", async () => {
       const { container } = render(
          <TestWrapper
             name="categories"
@@ -102,24 +123,29 @@ describe("FormComboBoxLoadableValues rendering tests", () => {
          />
       );
 
-      assertRendered("categories");
-      assertNotInDocument(screen.queryByTestId("current-values"));
+      await waitFor(() => {
+         assertRendered("categories");
+         assertValuesNotRendered();
+      });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("init values - test", () => {
+   it("init values - test", async () => {
       const { container } = render(
          <TestWrapper
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            initialValues={["Marketing"]}
+            initialValues={[mockItem1]}
          />
       );
 
-      assertRendered("categories");
-      assertValueRendered("Marketing");
+      await waitFor(() => {
+         assertRendered("categories");
+         assertValuesRendered();
+         assertValueRendered(mockItem1);
+      });
 
       expect(container).toMatchSnapshot();
    });
@@ -142,11 +168,11 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
       await openPopover();
 
-      const option = screen.getByText("Marketing");
+      const option = screen.getByText(mockItem1UpperCase);
       await userEvent.click(option);
 
       await waitFor(() => {
-         assertValueRendered("Marketing");
+         assertValueRendered(mockItem1UpperCase);
       });
 
       expect(mockQueryOptions).toHaveBeenCalledWith("");
@@ -164,14 +190,14 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await openPopover();
 
       const input = screen.getByTestId("search-input");
-      await userEvent.type(input, "Mark");
+      await userEvent.type(input, "cat");
 
-      expect(mockQueryOptions).toHaveBeenCalledWith("Mark");
+      expect(mockQueryOptions).toHaveBeenCalledWith("cat");
    });
 
    it("create new category when no match exists - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({ data: { pages: [{ content: [mockItem1] }] } })
       );
 
       render(
@@ -197,7 +223,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
    it("create option is rendered in its own labelled group, separated from existing options - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({ data: { pages: [{ content: [mockItem1] }] } })
       );
 
       render(
@@ -221,7 +247,9 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
    it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
       );
 
       render(
@@ -235,7 +263,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await openPopover();
 
       const input = screen.getByTestId("search-input");
-      await userEvent.type(input, "marketing");
+      await userEvent.type(input, mockItem1);
 
       assertNotInDocument(screen.queryByTestId("create-option-item"));
 
@@ -244,14 +272,16 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
       await waitFor(() => {
          // option stays visible in the list (marked as selected) in addition to the chip
-         const matches = screen.getAllByText("Marketing");
+         const matches = screen.getAllByText(mockItem1UpperCase);
          expect(matches).toHaveLength(2);
       });
    });
 
    it("selected option remains visible in the list and is marked with a checkmark - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
       );
 
       render(
@@ -259,7 +289,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            initialValues={["Marketing"]}
+            initialValues={[mockItem1UpperCase]}
          />
       );
 
@@ -272,7 +302,9 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
    it("clicking a selected option in the list deselects it - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
       );
 
       render(
@@ -280,7 +312,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            initialValues={["Marketing"]}
+            initialValues={[mockItem1UpperCase]}
          />
       );
 
@@ -296,7 +328,9 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
    it("remove selected value - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
       );
 
       render(
@@ -304,20 +338,26 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
             name="categories"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
-            initialValues={["Marketing"]}
+            initialValues={[mockItem1UpperCase]}
          />
       );
 
-      assertValueRendered("Marketing");
+      assertValueRendered(mockItem1UpperCase);
 
       const removeBtn = screen.getByTestId("remove-value-btn");
       await userEvent.click(removeBtn);
 
-      assertValueNotRendered("Marketing");
+      assertValueNotRendered(mockItem1UpperCase);
    });
 
    it("max items reached disables trigger and shows hint - test", () => {
-      const allCategories = ["Marketing", "Support", "Sales", "HR", "Coding"];
+      const allCategories = [
+         mockItem1,
+         mockItem2,
+         mockItem3,
+         mockItem4,
+         mockItem5,
+      ];
       mockUseInfiniteQuery.mockReturnValue(
          makeQueryResult({ data: { pages: [{ content: allCategories }] } })
       );
@@ -394,6 +434,6 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
       await openPopover();
 
-      assertInDocument(screen.getByText("Marketing"));
+      assertInDocument(screen.getByText(mockItem1UpperCase));
    });
 });
