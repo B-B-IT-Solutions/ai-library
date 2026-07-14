@@ -7,8 +7,8 @@ import {
    UndefinedInitialDataInfiniteOptions,
    useInfiniteQuery,
 } from "@tanstack/react-query";
-import { filter, flatMap, isEmpty, map, trim } from "es-toolkit/compat";
-import { Loader, Plus, X } from "lucide-react";
+import { filter, flatMap, isEmpty, map, some, trim } from "es-toolkit/compat";
+import { Check, Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -81,19 +81,19 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    const isSelected = (value: string) =>
       values.some((v: string) => normalize(v) === normalize(value));
 
-   const filteredOptions = useMemo(
-      () => filter(options, (option: string) => !isSelected(option)),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [options, values]
-   );
+   const canCreateNewCategorey = () => {
+      return (
+         !isEmpty(trimmedSearch) &&
+         trimmedSearch.length <= MAX_VALUE_LENGTH &&
+         !some(
+            options,
+            (option: string) => normalize(option) === normalize(trimmedSearch)
+         ) &&
+         !isSelected(trimmedSearch)
+      );
+   };
 
-   const canCreate =
-      !isEmpty(trimmedSearch) &&
-      trimmedSearch.length <= MAX_VALUE_LENGTH &&
-      !options.some(
-         (option: string) => normalize(option) === normalize(trimmedSearch)
-      ) &&
-      !isSelected(trimmedSearch);
+   const canCreate = canCreateNewCategorey();
 
    const addValue = (value: string) => {
       const newValue = trim(value);
@@ -105,7 +105,17 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    };
 
    const removeValue = (value: string) => {
-      field.onChange(filter(values, (v: string) => v !== value));
+      field.onChange(
+         filter(values, (v: string) => normalize(v) !== normalize(value))
+      );
+   };
+
+   const toggleValue = (value: string) => {
+      if (isSelected(value)) {
+         removeValue(value);
+      } else {
+         addValue(value);
+      }
    };
 
    const renderChips = () => {
@@ -135,7 +145,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    };
 
    const renderEmpty = () => {
-      if (canCreate || !isEmpty(filteredOptions)) {
+      if (canCreate || !isEmpty(options)) {
          return;
       }
       if (isLoading) {
@@ -219,16 +229,27 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                            next={fetchNextPage}
                            threshold={0.1}
                         >
-                           {map(filteredOptions, (option: string) => (
-                              <CommandItem
-                                 key={option}
-                                 value={option}
-                                 onSelect={() => addValue(option)}
-                                 data-testid="option-item"
-                              >
-                                 {option}
-                              </CommandItem>
-                           ))}
+                           {map(options, (option: string) => {
+                              const selected = isSelected(option);
+                              return (
+                                 <CommandItem
+                                    key={option}
+                                    value={option}
+                                    onSelect={() => toggleValue(option)}
+                                    data-testid="option-item"
+                                    data-selected={selected}
+                                 >
+                                    <Check
+                                       className={cn(
+                                          "h-4 w-4",
+                                          selected ? "opacity-100" : "opacity-0"
+                                       )}
+                                       data-testid="option-item-check"
+                                    />
+                                    {option}
+                                 </CommandItem>
+                              );
+                           })}
                         </InfiniteScroll>
                         {renderCreateOption()}
                      </CommandGroup>

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
@@ -77,7 +77,8 @@ const assertRendered = (name: string) => {
 };
 
 const assertValueRendered = (value: string) => {
-   const el = screen.getByText(value);
+   const chips = screen.getByTestId("current-values");
+   const el = within(chips).getByText(value);
    assertInDocument(el);
 };
 
@@ -218,8 +219,54 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await userEvent.click(option);
 
       await waitFor(() => {
+         // option stays visible in the list (marked as selected) in addition to the chip
          const matches = screen.getAllByText("Marketing");
-         expect(matches).toHaveLength(1);
+         expect(matches).toHaveLength(2);
+      });
+   });
+
+   it("selected option remains visible in the list and is marked with a checkmark - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
+
+      render(
+         <TestWrapper
+            name="categories"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+            initialValues={["Marketing"]}
+         />
+      );
+
+      await openPopover();
+
+      const option = screen.getByTestId("option-item");
+      assertInDocument(option);
+      expect(option).toHaveAttribute("data-selected", "true");
+   });
+
+   it("clicking a selected option in the list deselects it - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
+
+      render(
+         <TestWrapper
+            name="categories"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+            initialValues={["Marketing"]}
+         />
+      );
+
+      await openPopover();
+
+      const option = screen.getByTestId("option-item");
+      await userEvent.click(option);
+
+      await waitFor(() => {
+         assertNotInDocument(screen.queryByTestId("current-values"));
       });
    });
 
