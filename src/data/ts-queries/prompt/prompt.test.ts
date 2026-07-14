@@ -35,7 +35,7 @@ import {
    infiniteLoadPromptsPageOptions,
    loadPromptTemplatingDataOptions,
    toggleFavoriteOptions,
-   useInfiniteLoadPromptCategories,
+   useInfiniteLoadPromptCategoriesPage,
    useInfiniteLoadPromptPreviewsPage,
    useInfiniteLoadPromptsPage,
    useLoadPromptTemplatingData,
@@ -215,14 +215,14 @@ describe("loadPromptCategories hooks tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useInfiniteLoadPromptCategories test", async () => {
+   test("useInfiniteLoadPromptCategoriesPage test", async () => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
 
       const search = "mark";
 
       const { result } = renderHookWithReactQuery(() =>
-         useInfiniteLoadPromptCategories(search)
+         useInfiniteLoadPromptCategoriesPage(search)
       );
 
       const expectedQuery: DPromptCategoriesPageQuery = {

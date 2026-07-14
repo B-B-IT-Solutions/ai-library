@@ -139,7 +139,7 @@ export const infiniteLoadPromptCategoriesPageOptions = (
    };
 };
 
-export const useInfiniteLoadPromptCategories = (
+export const useInfiniteLoadPromptCategoriesPage = (
    search: string
 ): UseInfiniteQueryResult<InfiniteData<DPromptCategoriesPage>, Error> => {
    const options = infiniteLoadPromptCategoriesPageOptions(search);
