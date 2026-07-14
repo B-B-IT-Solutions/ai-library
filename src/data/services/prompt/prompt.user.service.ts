@@ -207,15 +207,15 @@ export class PromptService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getPromptCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGePromptCategories(userId);
-   }
-
    async getPromptCategoriesPage(
       userId: string,
       query?: DPromptCategoriesPageQuery
    ): Promise<DPromptCategoriesPage> {
       return await this.repository.pGetPromptCategoriesPage(userId, query);
+   }
+
+   async getPromptCategories(userId: string): Promise<string[]> {
+      return await this.repository.pGePromptCategories(userId);
    }
 
    async getPromptModels(userId: string): Promise<string[]> {
