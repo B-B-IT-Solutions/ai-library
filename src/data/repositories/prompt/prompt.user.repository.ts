@@ -38,7 +38,11 @@ import {
    toDPrompts,
    toDPromptWithContent,
 } from "./prompt.mapper";
-import { resolvePromptOrderBy, resolvePromptWhereInput } from "./utils";
+import {
+   resolveCategoriesWhereInput,
+   resolvePromptOrderBy,
+   resolvePromptWhereInput,
+} from "./utils";
 
 export class PromptRepository {
    private prisma: DbClient;
@@ -310,14 +314,10 @@ export class PromptRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where: PromptCategoryWhereInput = { userId };
-
-      if (query?.filter?.search) {
-         where.name = {
-            contains: query.filter.search,
-            mode: "insensitive",
-         };
-      }
+      const where: PromptCategoryWhereInput = resolveCategoriesWhereInput(
+         userId,
+         query?.filter
+      );
 
       const args = {
          where,

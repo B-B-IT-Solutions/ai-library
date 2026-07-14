@@ -43,6 +43,7 @@ import {
 } from "@/data/types/domain/product";
 import {
    DPrompt,
+   DPromptCategoriesFilter,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
@@ -675,7 +676,13 @@ export const dPromptCategoriesPageQuery = (
          pageSize: 10,
          pageNumber: 1,
       },
-      filter: { search: `search ${index}` },
+      filter: dPromptCategoriesFilter(index),
+   };
+};
+
+export const dPromptCategoriesFilter = (index = 1): DPromptCategoriesFilter => {
+   return {
+      search: `search ${index}`,
    };
 };
 

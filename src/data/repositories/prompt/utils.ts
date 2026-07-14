@@ -1,8 +1,12 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
-import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
+   DPromptCategoriesFilter,
+   DPromptsFilter,
+} from "@/data/types/domain/prompt";
+import {
+   PromptCategoryWhereInput,
    PromptOrderByWithRelationInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
@@ -59,6 +63,20 @@ export const resolvePromptWhereInput = (
       };
    }
 
+   return where;
+};
+
+export const resolveCategoriesWhereInput = (
+   userId: string,
+   filter?: DPromptCategoriesFilter
+) => {
+   const where: PromptCategoryWhereInput = { userId };
+   if (filter?.search) {
+      where.name = {
+         contains: filter.search,
+         mode: "insensitive",
+      };
+   }
    return where;
 };
 

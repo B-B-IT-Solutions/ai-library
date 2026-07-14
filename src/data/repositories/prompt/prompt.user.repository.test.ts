@@ -6,7 +6,6 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    DPromptCategoriesPage,
-   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -36,6 +35,7 @@ import {
    toDPromptWithContent,
 } from "./prompt.mapper";
 import { PromptRepository } from "./prompt.user.repository";
+import { resolveCategoriesWhereInput } from "./utils";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -854,8 +854,8 @@ describe("pGetPromptCategoriesPage tests", () => {
 
    test("query undefined - test", async () => {
       const userId = "user-id-1";
-      const categoryNames = ["cat-a", "cat-b", "cat-c"];
-      const categories = categoryNames.map((name) => ({ name }));
+      const categories = dtestData.dPromptCategories(3);
+      const categoryNames = map(categories, (c) => c.name);
       const totalEntries = 15;
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
       prismaMock.promptCategory.count.mockResolvedValue(totalEntries);
@@ -871,8 +871,9 @@ describe("pGetPromptCategoriesPage tests", () => {
          totalElements: totalEntries,
       };
 
+      const expectedWhere = resolveCategoriesWhereInput(userId);
       const expectedFindManyArgs: PromptCategoryFindManyArgs = {
-         where: { userId },
+         where: expectedWhere,
          select: {
             name: true,
          },
@@ -882,7 +883,7 @@ describe("pGetPromptCategoriesPage tests", () => {
       };
 
       const expectedCountArgs: PromptCategoryCountArgs = {
-         where: { userId },
+         where: expectedWhere,
       };
 
       expect(result).toEqual(expectedResult);
@@ -896,18 +897,15 @@ describe("pGetPromptCategoriesPage tests", () => {
       );
    });
 
-   test("query with search and pagination - test", async () => {
+   test("query defined - test", async () => {
       const userId = "user-id-1";
-      const categoryNames = ["marketing"];
-      const categories = categoryNames.map((name) => ({ name }));
+      const categories = dtestData.dPromptCategories(1);
+      const categoryNames = map(categories, (c) => c.name);
       const totalEntries = 1;
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
       prismaMock.promptCategory.count.mockResolvedValue(totalEntries);
 
-      const query: DPromptCategoriesPageQuery = {
-         pagination: { pageNumber: 2, pageSize: 10 },
-         filter: { search: "mark" },
-      };
+      const query = dtestData.dPromptCategoriesPageQuery();
 
       const result = await repository.pGetPromptCategoriesPage(userId, query);
 
@@ -920,10 +918,7 @@ describe("pGetPromptCategoriesPage tests", () => {
          totalElements: totalEntries,
       };
 
-      const expectedWhere = {
-         userId,
-         name: { contains: "mark", mode: "insensitive" },
-      };
+      const expectedWhere = resolveCategoriesWhereInput(userId, query.filter);
 
       const expectedFindManyArgs: PromptCategoryFindManyArgs = {
          where: expectedWhere,
@@ -951,7 +946,7 @@ describe("pGetPromptCategoriesPage tests", () => {
    });
 });
 
-describe("pGetPromptCategories queries tests", () => {
+describe("pGetPromptCategories tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });

@@ -3,11 +3,16 @@ import { dtestData } from "@tests";
 import { Sort } from "@/data/types/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
+   PromptCategoryWhereInput,
    PromptOrderByWithRelationInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { resolvePromptOrderBy, resolvePromptWhereInput } from "./utils";
+import {
+   resolveCategoriesWhereInput,
+   resolvePromptOrderBy,
+   resolvePromptWhereInput,
+} from "./utils";
 
 describe("resolvePromptWhereInput tests", () => {
    const userId = "user-id-1";
@@ -177,6 +182,36 @@ describe("resolvePromptWhereInput tests", () => {
          },
       };
 
+      expect(result).toEqual(expectedWhere);
+   });
+});
+
+describe("resolveCategoriesWhereInput tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("filter undefined - test", async () => {
+      const userId = "user-id-1";
+      const result = resolveCategoriesWhereInput(userId);
+      const expectedWhere: PromptCategoryWhereInput = {
+         userId,
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+
+   test("filter defined - test", async () => {
+      const userId = "user-id-1";
+
+      const filter = dtestData.dPromptCategoriesFilter();
+      const result = resolveCategoriesWhereInput(userId, filter);
+      const expectedWhere: PromptCategoryWhereInput = {
+         userId,
+         name: {
+            contains: filter.search,
+            mode: "insensitive",
+         },
+      };
       expect(result).toEqual(expectedWhere);
    });
 });

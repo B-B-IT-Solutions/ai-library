@@ -20,12 +20,12 @@ export type DPromptsFilter = {
    collectionIds?: string[];
 };
 
+export type DPromptCategoriesPageQuery = PageQuery<DPromptCategoriesFilter>;
+export type DPromptCategoriesPage = Page<string>;
+
 export type DPromptCategoriesFilter = {
    search?: string;
 };
-
-export type DPromptCategoriesPageQuery = PageQuery<DPromptCategoriesFilter>;
-export type DPromptCategoriesPage = Page<string>;
 
 export type DPromptVariableUpdate = z.infer<typeof promptVariableSchema>;
 
