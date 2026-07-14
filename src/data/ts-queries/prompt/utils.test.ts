@@ -1,6 +1,6 @@
 import { dtestData } from "@tests";
 
-import { promptKeys, templateCategoriesKeys } from "./utils";
+import { promptKeys } from "./utils";
 
 describe("keys tests", () => {
    test("promptKeys - test", async () => {
@@ -35,14 +35,11 @@ describe("keys tests", () => {
          "templatingData",
          promptId,
       ]);
-   });
-
-   test("templateCategoriesKeys test", async () => {
-      expect(templateCategoriesKeys.all).toEqual([
-         "prompt-template-categories",
-      ]);
-      expect(templateCategoriesKeys.categories()).toEqual([
-         "prompt-template-categories",
+      expect(promptKeys.categories()).toEqual(["prompts", "categories", {}]);
+      expect(promptKeys.categories("search-1")).toEqual([
+         "prompts",
+         "categories",
+         { search: "search-1" },
       ]);
    });
 });

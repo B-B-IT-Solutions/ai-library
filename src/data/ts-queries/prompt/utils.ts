@@ -16,11 +16,7 @@ export const promptKeys = {
       [...promptKeys.all, "previews", filterQueryKey(filters, sort)] as const,
    templatingData: ({ promptId }: LoadPromptTemplatingDataParams) =>
       [...promptKeys.all, "templatingData", promptId] as const,
-};
-
-export const templateCategoriesKeys = {
-   all: ["prompt-template-categories"],
    categories: (search?: string) => {
-      return [...templateCategoriesKeys.all, { search }] as const;
+      return [...promptKeys.all, "categories", { search }] as const;
    },
 };

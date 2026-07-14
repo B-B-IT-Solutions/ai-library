@@ -205,7 +205,7 @@ describe("loadPromptCategoriesPage hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["prompt-template-categories", { search }],
+         queryKey: ["prompts", "categories", { search }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),

@@ -1,5 +1,4 @@
 import {
-   FetchQueryOptions,
    InfiniteData,
    keepPreviousData,
    QueryKey,
@@ -40,7 +39,7 @@ import type {
    LoadPromptTemplatingDataParams,
    UpdateIsFavoriteParams,
 } from "./types";
-import { promptKeys, templateCategoriesKeys } from "./utils";
+import { promptKeys } from "./utils";
 
 export const infiniteLoadPromptsPageOptions = (
    params: LoadPromptsPageParams
@@ -124,7 +123,7 @@ export const infiniteLoadPromptCategoriesPageOptions = (
    number
 > => {
    return {
-      queryKey: templateCategoriesKeys.categories(search),
+      queryKey: promptKeys.categories(search),
       queryFn: async ({ pageParam }) => {
          const query: DPromptCategoriesPageQuery = pageQuery(
             pageParam,
