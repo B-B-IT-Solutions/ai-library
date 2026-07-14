@@ -19,6 +19,7 @@ import {
    CommandInput,
    CommandItem,
    CommandList,
+   CommandSeparator,
 } from "@/components/shadcn/command";
 import { FormItem, FormLabel } from "@/components/shadcn/form";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
@@ -167,14 +168,20 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
          return;
       }
       return (
-         <CommandItem
-            value={`__create__${trimmedSearch}`}
-            onSelect={() => addValue(trimmedSearch)}
-            data-testid="create-option-item"
-         >
-            <Plus className="h-4 w-4" />
-            &bdquo;{trimmedSearch}&ldquo; als neue Kategorie anlegen
-         </CommandItem>
+         <>
+            <CommandSeparator />
+            <CommandGroup heading="Neue Kategorie">
+               <CommandItem
+                  value={`__create__${trimmedSearch}`}
+                  onSelect={() => addValue(trimmedSearch)}
+                  className="text-primary font-medium data-[selected=true]:text-primary"
+                  data-testid="create-option-item"
+               >
+                  <Plus className="h-4 w-4" />
+                  &bdquo;{trimmedSearch}&ldquo; als neue Kategorie anlegen
+               </CommandItem>
+            </CommandGroup>
+         </>
       );
    };
 
@@ -255,8 +262,8 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                               );
                            })}
                         </InfiniteScroll>
-                        {renderCreateOption()}
                      </CommandGroup>
+                     {renderCreateOption()}
                   </CommandList>
                </Command>
             </PopoverContent>
