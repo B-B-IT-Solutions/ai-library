@@ -307,6 +307,39 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       assertInDocument(hint);
    });
 
+   it("reaching the limit while popover stays open blocks adding further options - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase, mockItem2] }] },
+         })
+      );
+
+      render(<TestWrapper maxItems={1} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesNotRendered();
+      });
+
+      await openPopover();
+
+      const firstOption = screen.getByText(mockItem1UpperCase);
+      await userEvent.click(firstOption);
+
+      await waitFor(() => {
+         assertValueRendered(mockItem1UpperCase);
+      });
+
+      // popover stays open after reaching the limit - selecting another
+      // still-visible option must not exceed maxItems
+      const secondOption = screen.getByText(mockItem2);
+      await userEvent.click(secondOption);
+
+      const chips = screen.getByTestId("current-values");
+      expect(within(chips).queryByText(mockItem2)).not.toBeInTheDocument();
+      expect(within(chips).getAllByRole("button")).toHaveLength(1);
+   });
+
    it("no matching options and no search shows empty state - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
          makeQueryResult({ data: { pages: [{ content: [] }] } })
