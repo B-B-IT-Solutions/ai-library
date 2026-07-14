@@ -174,7 +174,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                <CommandItem
                   value={`__create__${trimmedSearch}`}
                   onSelect={() => addValue(trimmedSearch)}
-                  className="text-primary font-medium data-[selected=true]:text-primary"
+                  className="font-medium text-primary data-[selected=true]:text-primary"
                   data-testid="create-option-item"
                >
                   <Plus className="h-4 w-4" />

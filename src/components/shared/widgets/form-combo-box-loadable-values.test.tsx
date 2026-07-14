@@ -195,6 +195,30 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       });
    });
 
+   it("create option is rendered in its own labelled group, separated from existing options - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
+      );
+
+      render(
+         <TestWrapper
+            name="categories"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+         />
+      );
+
+      await openPopover();
+
+      const input = screen.getByTestId("search-input");
+      await userEvent.type(input, "Vertrieb");
+
+      assertInDocument(screen.getByText("Neue Kategorie"));
+
+      const createOption = screen.getByTestId("create-option-item");
+      expect(createOption).toHaveClass("text-primary");
+   });
+
    it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
       mockUseInfiniteQuery.mockReturnValue(
          makeQueryResult({ data: { pages: [{ content: ["Marketing"] }] } })
