@@ -76,20 +76,19 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    );
 
    const values: string[] = field.value ?? [];
-   const trimmedSearch = trim(search);
    const isAtLimit = values.length >= maxItems;
 
-   const isSelected = (value: string) =>
-      values.some((v: string) => normalize(v) === normalize(value));
+   const trimmedSearch = trim(search);
+
+   const isSelected = (value: string) => {
+      return some(values, (v) => normalize(v) === normalize(value));
+   };
 
    const canCreateNewCategorey = () => {
       return (
          !isEmpty(trimmedSearch) &&
          trimmedSearch.length <= MAX_VALUE_LENGTH &&
-         !some(
-            options,
-            (option: string) => normalize(option) === normalize(trimmedSearch)
-         ) &&
+         !some(options, (o) => normalize(o) === normalize(trimmedSearch)) &&
          !isSelected(trimmedSearch)
       );
    };
@@ -106,9 +105,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    };
 
    const removeValue = (value: string) => {
-      field.onChange(
-         filter(values, (v: string) => normalize(v) !== normalize(value))
-      );
+      field.onChange(filter(values, (v) => normalize(v) !== normalize(value)));
    };
 
    const toggleValue = (value: string) => {
@@ -125,7 +122,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
       }
       return (
          <div className="flex flex-wrap gap-2" data-testid="current-values">
-            {map(values, (value: string, idx: number) => (
+            {map(values, (value, idx) => (
                <div
                   key={idx}
                   className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
