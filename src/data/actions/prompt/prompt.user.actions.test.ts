@@ -990,45 +990,6 @@ describe("getPromptCategories tests", () => {
    });
 });
 
-describe("getPromptModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getPromptModels();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptModelsMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("models retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const models = dtestData.dTemplateModels();
-      sGetPromptModelsMock.mockResolvedValue(models);
-
-      const result = await getPromptModels();
-
-      expect(result).toEqual(models);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptModelsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptModelsMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
 describe("getPromptCategoriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -1066,6 +1027,45 @@ describe("getPromptCategoriesPage tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesPageMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesPageMock).toHaveBeenCalledWith(user.id, query);
+   });
+});
+
+describe("getPromptModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptModels();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("models retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const models = dtestData.dTemplateModels();
+      sGetPromptModelsMock.mockResolvedValue(models);
+
+      const result = await getPromptModels();
+
+      expect(result).toEqual(models);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsMock).toHaveBeenCalledWith(user.id);
    });
 });
 
