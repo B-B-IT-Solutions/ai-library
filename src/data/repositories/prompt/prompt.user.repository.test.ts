@@ -847,33 +847,6 @@ describe("pGetPromptContent tests", () => {
    });
 });
 
-describe("pGetPromptCategories queries tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("categories retrieved - test", async () => {
-      const userId = "user-id-1";
-      const categories = ptestData.pPromptCategories();
-      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
-
-      const result = await repository.pGetPromptCategories(userId);
-
-      const expectedFindMayArgs: Prisma.PromptCategoryFindManyArgs = {
-         where: { userId },
-         select: {
-            name: true,
-         },
-      };
-
-      expect(result).toEqual(categories);
-      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
-         expectedFindMayArgs
-      );
-   });
-});
-
 describe("pGetPromptCategoriesPage tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -974,6 +947,36 @@ describe("pGetPromptCategoriesPage tests", () => {
       expect(prismaMock.promptCategory.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptCategory.count).toHaveBeenCalledWith(
          expectedCountArgs
+      );
+   });
+});
+
+describe("pGetPromptCategories queries tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("categories retrieved - test", async () => {
+      const userId = "user-id-1";
+      const categories = ptestData.pPromptCategories();
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+
+      const result = await repository.pGetPromptCategories(userId);
+
+      const expectedFindMayArgs: Prisma.PromptCategoryFindManyArgs = {
+         where: { userId },
+         select: {
+            name: true,
+         },
+         orderBy: {
+            name: "asc",
+         },
+      };
+
+      expect(result).toEqual(categories);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+         expectedFindMayArgs
       );
    });
 });

@@ -301,15 +301,6 @@ export class PromptRepository {
       await this.prisma.prompt.update(args);
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
-      return await this.prisma.promptCategory.findMany({
-         where: { userId },
-         select: {
-            name: true,
-         },
-      });
-   }
-
    async pGetPromptCategoriesPage(
       userId: string,
       query?: DPromptCategoriesPageQuery
@@ -328,7 +319,7 @@ export class PromptRepository {
          };
       }
 
-      const args: PromptCategoryFindManyArgs = {
+      const args = {
          where,
          select: {
             name: true,
@@ -338,11 +329,11 @@ export class PromptRepository {
          },
          skip,
          take: pageSize,
-      };
+      } as PromptCategoryFindManyArgs;
 
-      const countArgs: PromptCategoryCountArgs = {
+      const countArgs = {
          where,
-      };
+      } as PromptCategoryCountArgs;
 
       const [categories, totalElements] = await Promise.all([
          this.prisma.promptCategory.findMany(args),
@@ -359,6 +350,18 @@ export class PromptRepository {
          totalPages: Math.ceil(totalElements / pageSize),
          totalElements: totalElements,
       };
+   }
+
+   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
+      return await this.prisma.promptCategory.findMany({
+         where: { userId },
+         select: {
+            name: true,
+         },
+         orderBy: {
+            name: "asc",
+         },
+      });
    }
 
    async pGePromptCategories(userId: string): Promise<string[]> {
