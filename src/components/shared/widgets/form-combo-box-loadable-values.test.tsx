@@ -230,7 +230,6 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await userEvent.click(option);
 
       await waitFor(() => {
-         // option stays visible in the list (marked as selected) in addition to the chip
          const matches = screen.getAllByText(mockItem1UpperCase);
          expect(matches).toHaveLength(2);
       });
@@ -314,6 +313,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       );
 
       render(<TestWrapper />);
+
       await waitFor(() => {
          assertRendered();
          assertValuesNotRendered();
