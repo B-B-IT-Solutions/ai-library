@@ -7,7 +7,7 @@ import {
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-export const resolveWhereInput = (
+export const resolvePromptWhereInput = (
    userId?: string,
    filter?: DPromptsFilter
 ): PromptWhereInput => {
@@ -62,7 +62,9 @@ export const resolveWhereInput = (
    return where;
 };
 
-export const resolveOrderBy = (sort?: Sort): PromptOrderByWithRelationInput => {
+export const resolvePromptOrderBy = (
+   sort?: Sort
+): PromptOrderByWithRelationInput => {
    if (sort) {
       return {
          [sort.field]: sort.order,

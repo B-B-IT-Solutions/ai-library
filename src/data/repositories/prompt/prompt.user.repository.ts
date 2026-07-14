@@ -38,7 +38,7 @@ import {
    toDPrompts,
    toDPromptWithContent,
 } from "./prompt.mapper";
-import { resolveOrderBy, resolveWhereInput } from "./utils";
+import { resolvePromptOrderBy, resolvePromptWhereInput } from "./utils";
 
 export class PromptRepository {
    private prisma: DbClient;
@@ -56,8 +56,8 @@ export class PromptRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where = resolveWhereInput(userId, query?.filter);
-      const orderBy = resolveOrderBy(query?.sort);
+      const where = resolvePromptWhereInput(userId, query?.filter);
+      const orderBy = resolvePromptOrderBy(query?.sort);
 
       const args: PromptFindManyArgs = {
          where,
@@ -97,8 +97,8 @@ export class PromptRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where = resolveWhereInput(userId, query?.filter);
-      const orderBy = resolveOrderBy(query?.sort);
+      const where = resolvePromptWhereInput(userId, query?.filter);
+      const orderBy = resolvePromptOrderBy(query?.sort);
 
       const args = {
          where,
