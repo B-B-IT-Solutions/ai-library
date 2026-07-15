@@ -108,6 +108,16 @@ const assertValueNotRendered = (value: string) => {
    assertNotInDocument(el);
 };
 
+const assertCreateOptionNotRendered = () => {
+   const createItem = screen.queryByTestId("create-option-item");
+   assertNotInDocument(createItem);
+};
+
+const assertEmptyStateRendered = () => {
+   const empty = screen.getByTestId("command-empty");
+   assertInDocument(empty);
+};
+
 describe("FormComboBoxLoadableValues rendering tests", () => {
    beforeEach(() => {
       mockUseInfiniteQuery.mockReturnValue(makeQueryResult());
@@ -144,7 +154,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       mockQueryOptions.mockClear();
    });
 
-   it("select existing option from list - test", async () => {
+   it("select existing option - test", async () => {
       render(<TestWrapper />);
 
       await waitFor(() => {
@@ -158,13 +168,44 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await userEvent.click(option);
 
       await waitFor(() => {
+         assertValuesRendered();
          assertValueRendered(mockItem1UpperCase);
       });
 
       expect(mockQueryOptions).toHaveBeenCalledWith("");
    });
 
-   it("search input passed to queryOptions - test", async () => {
+   it("clicking a selected option deselects it - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
+      );
+
+      render(<TestWrapper initialValues={[mockItem1UpperCase]} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertValuesRendered();
+      });
+
+      await openPopover();
+
+      const option = screen.getByTestId("option-item");
+      await userEvent.click(option);
+
+      await waitFor(() => {
+         assertValuesNotRendered();
+      });
+   });
+
+   it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
+      mockUseInfiniteQuery.mockReturnValue(
+         makeQueryResult({
+            data: { pages: [{ content: [mockItem1UpperCase] }] },
+         })
+      );
+
       render(<TestWrapper />);
 
       await waitFor(() => {
@@ -175,9 +216,17 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await openPopover();
 
       const input = screen.getByTestId("search-input");
-      await userEvent.type(input, "cat");
+      await userEvent.type(input, mockItem1);
 
-      expect(mockQueryOptions).toHaveBeenCalledWith("cat");
+      assertCreateOptionNotRendered();
+
+      const option = screen.getByTestId("option-item");
+      await userEvent.click(option);
+
+      await waitFor(() => {
+         const matches = screen.getAllByText(mockItem1UpperCase);
+         expect(matches).toHaveLength(2);
+      });
    });
 
    it("create new category when no match exists - test", async () => {
@@ -201,17 +250,12 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await userEvent.click(createOption);
 
       await waitFor(() => {
+         assertValuesRendered();
          assertValueRendered("Vertrieb");
       });
    });
 
-   it("selecting existing option reuses exact stored spelling (case-insensitive dedupe) - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({
-            data: { pages: [{ content: [mockItem1UpperCase] }] },
-         })
-      );
-
+   it("search input passed to queryOptions - test", async () => {
       render(<TestWrapper />);
 
       await waitFor(() => {
@@ -222,41 +266,9 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await openPopover();
 
       const input = screen.getByTestId("search-input");
-      await userEvent.type(input, mockItem1);
+      await userEvent.type(input, "cat");
 
-      assertNotInDocument(screen.queryByTestId("create-option-item"));
-
-      const option = screen.getByTestId("option-item");
-      await userEvent.click(option);
-
-      await waitFor(() => {
-         const matches = screen.getAllByText(mockItem1UpperCase);
-         expect(matches).toHaveLength(2);
-      });
-   });
-
-   it("clicking a selected option in the list deselects it - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({
-            data: { pages: [{ content: [mockItem1UpperCase] }] },
-         })
-      );
-
-      render(<TestWrapper initialValues={[mockItem1UpperCase]} />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertValuesRendered();
-      });
-
-      await openPopover();
-
-      const option = screen.getByTestId("option-item");
-      await userEvent.click(option);
-
-      await waitFor(() => {
-         assertValuesNotRendered();
-      });
+      expect(mockQueryOptions).toHaveBeenCalledWith("cat");
    });
 
    it("remove selected value - test", async () => {
@@ -271,17 +283,19 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertValuesRendered();
+         assertValueRendered(mockItem1UpperCase);
       });
-
-      assertValueRendered(mockItem1UpperCase);
 
       const removeBtn = screen.getByTestId("remove-value-btn");
       await userEvent.click(removeBtn);
 
-      assertValueNotRendered(mockItem1UpperCase);
+      await waitFor(() => {
+         assertValuesNotRendered();
+         assertValueNotRendered(mockItem1UpperCase);
+      });
    });
 
-   it("max items reached disables trigger and shows hint - test", async () => {
+   it("max items reached - test", async () => {
       const allCategories = [
          mockItem1,
          mockItem2,
@@ -354,7 +368,9 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
 
       await openPopover();
 
-      assertInDocument(screen.getByTestId("command-empty"));
+      await waitFor(() => {
+         assertEmptyStateRendered();
+      });
    });
 
    it("loading state shows loading indicator - test", async () => {
