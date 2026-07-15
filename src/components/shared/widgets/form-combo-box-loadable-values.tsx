@@ -31,9 +31,6 @@ import {
 import { Page } from "@/data/types/common";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_MAX_ITEMS = 5;
-const MAX_VALUE_LENGTH = 50;
-
 const normalize = (value: string) => trim(value).toLowerCase();
 
 type LoadableValuesInfiniteOption = UndefinedInitialDataInfiniteOptions<
@@ -50,7 +47,6 @@ type Props<T extends FieldValues> = {
    placeholder: string;
    className?: string;
    control: Control<T>;
-   maxItems?: number;
    queryOptions: (search: string) => LoadableValuesInfiniteOption;
 };
 
@@ -60,12 +56,11 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    placeholder,
    className,
    control,
-   maxItems = DEFAULT_MAX_ITEMS,
    queryOptions,
 }: Props<T>) => {
    const [open, setOpen] = useState(false);
    const [search, setSearch] = useState("");
-   const { field } = useController({ name, control });
+   const { field, fieldState } = useController({ name, control });
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteQuery(queryOptions(search));
@@ -76,7 +71,6 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    );
 
    const values: string[] = field.value ?? [];
-   const isAtLimit = values.length >= maxItems;
 
    const trimmedSearch = trim(search);
 
@@ -87,7 +81,6 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    const canCreateNewCategorey = () => {
       return (
          !isEmpty(trimmedSearch) &&
-         trimmedSearch.length <= MAX_VALUE_LENGTH &&
          !some(options, (o) => normalize(o) === normalize(trimmedSearch)) &&
          !isSelected(trimmedSearch)
       );
@@ -97,10 +90,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
 
    const addValue = (value: string) => {
       const newValue = trim(value);
-      if (isEmpty(newValue) || isAtLimit || isSelected(newValue)) {
-         return;
-      }
-      field.onChange([...values, newValue.slice(0, MAX_VALUE_LENGTH)]);
+      field.onChange([...values, newValue]);
       setSearch("");
    };
 
@@ -182,13 +172,14 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
       );
    };
 
-   const renderLimitHint = () => {
-      if (!isAtLimit) {
+   const renderFieldError = () => {
+      const message = fieldState.error?.message;
+      if (!message) {
          return;
       }
       return (
-         <p className="text-xs text-slate-500" data-testid="limit-hint">
-            Maximal {maxItems} Kategorien pro Prompt
+         <p className="text-sm text-destructive" data-testid="field-error">
+            {message}
          </p>
       );
    };
@@ -204,7 +195,6 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  disabled={isAtLimit}
                   className="w-full justify-between font-normal"
                   data-testid="combobox-trigger"
                >
@@ -265,7 +255,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                </Command>
             </PopoverContent>
          </Popover>
-         {renderLimitHint()}
+         {renderFieldError()}
       </FormItem>
    );
 };

@@ -32,7 +32,7 @@ export const categorySchema = z
    .string()
    .trim()
    .min(1, "Kategorie darf nicht leer sein")
-   .max(50, "Kategorie zu lang (maximal 50 Zeichen)");
+   .max(50, `Kategorie zu lang (maximal 50 Zeichen)`);
 
 export const updateTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
@@ -41,7 +41,7 @@ export const updateTemplateSchema = z.object({
    recommendedModel: z.string(),
    categories: z
       .array(categorySchema)
-      .max(5, "Maximal 5 Kategorien pro Prompt"),
+      .max(5, `Maximal 5 Kategorien pro Prompt`),
    fields: z.array(promptVariableSchema),
    globalFieldIds: z.array(z.string()),
 });

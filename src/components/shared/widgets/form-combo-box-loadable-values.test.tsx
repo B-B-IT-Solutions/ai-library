@@ -39,7 +39,7 @@ type TestWrapperProps = {
    label?: string;
    placeholder?: string;
    initialValues?: string[];
-   maxItems?: number;
+   fieldError?: string;
 };
 
 const TestWrapper = ({
@@ -47,11 +47,16 @@ const TestWrapper = ({
    label = "Kategorien",
    placeholder = "Kategorie hinzufügen",
    initialValues,
-   maxItems,
+   fieldError,
 }: TestWrapperProps) => {
    const form = useForm({
       defaultValues: {
          [name]: initialValues,
+      },
+      errors: {
+         [name]: fieldError
+            ? { type: "manual", message: fieldError }
+            : undefined,
       },
    });
 
@@ -62,7 +67,6 @@ const TestWrapper = ({
             label={label}
             placeholder={placeholder}
             control={form.control}
-            maxItems={maxItems}
             queryOptions={mockQueryOptions}
          />
       </FormProvider>
@@ -295,7 +299,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       });
    });
 
-   it("max items reached - test", async () => {
+   it("many selected values keep the trigger enabled - test", async () => {
       const allCategories = [
          mockItem1,
          mockItem2,
@@ -307,7 +311,7 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
          makeQueryResult({ data: { pages: [{ content: allCategories }] } })
       );
 
-      render(<TestWrapper initialValues={allCategories} maxItems={5} />);
+      render(<TestWrapper initialValues={allCategories} />);
 
       await waitFor(() => {
          assertRendered();
@@ -315,43 +319,17 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       });
 
       const trigger = screen.getByTestId("combobox-trigger");
-      const hint = screen.getByTestId("limit-hint");
-
-      expect(trigger).toBeDisabled();
-      assertInDocument(hint);
+      expect(trigger).not.toBeDisabled();
    });
 
-   it("reaching the limit while popover stays open blocks adding further options - test", async () => {
-      mockUseInfiniteQuery.mockReturnValue(
-         makeQueryResult({
-            data: { pages: [{ content: [mockItem1UpperCase, mockItem2] }] },
-         })
-      );
-
-      render(<TestWrapper maxItems={1} />);
+   it("renders schema-driven field error - test", async () => {
+      const errorText = "Kategorie zu lang (maximal 50 Zeichen)";
+      render(<TestWrapper fieldError={errorText} />);
 
       await waitFor(() => {
-         assertRendered();
-         assertValuesNotRendered();
+         const error = screen.getByTestId("field-error");
+         expect(error).toHaveTextContent(errorText);
       });
-
-      await openPopover();
-
-      const firstOption = screen.getByText(mockItem1UpperCase);
-      await userEvent.click(firstOption);
-
-      await waitFor(() => {
-         assertValueRendered(mockItem1UpperCase);
-      });
-
-      // popover stays open after reaching the limit - selecting another
-      // still-visible option must not exceed maxItems
-      const secondOption = screen.getByText(mockItem2);
-      await userEvent.click(secondOption);
-
-      const chips = screen.getByTestId("current-values");
-      expect(within(chips).queryByText(mockItem2)).not.toBeInTheDocument();
-      expect(within(chips).getAllByRole("button")).toHaveLength(1);
    });
 
    it("no matching options and no search shows empty state - test", async () => {
