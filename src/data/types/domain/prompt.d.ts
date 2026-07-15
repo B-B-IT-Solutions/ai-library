@@ -2,6 +2,7 @@
 
 import {
    promptVariableSchema,
+   renameCategorySchema,
    updateTemplateSchema,
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
@@ -45,6 +46,8 @@ export type DPromptCategoryUsage = {
    name: string;
    count: number;
 };
+
+export type DRenameCategory = z.infer<typeof renameCategorySchema>;
 
 export type DPromptTemplatingData = {
    prompt: DPromptWithContent;

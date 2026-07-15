@@ -71,6 +71,105 @@ exports[`Navigation rendering tests Navigation - active account - test 1`] = `
             Vorlagen-Felder
           </span>
         </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="categories-link"
+          href="categories"
+        >
+          <span
+            class="font-medium"
+          >
+            Kategorien
+          </span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+</div>
+`;
+
+exports[`Navigation rendering tests Navigation - active categories - test 1`] = `
+<div>
+  <aside
+    class="lg:col-span-3"
+    data-testid="navigation"
+  >
+    <nav
+      class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
+    >
+      <div
+        data-testid="user-group"
+      >
+        <p
+          class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+        >
+          Konto
+        </p>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="general-link"
+          href="general"
+        >
+          <span
+            class="font-medium"
+          >
+            Allgemein
+          </span>
+        </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="account-link"
+          href="account"
+        >
+          <span
+            class="font-medium"
+          >
+            Konto
+          </span>
+        </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="subscription-link"
+          href="subscription"
+        >
+          <span
+            class="font-medium"
+          >
+            Abrechnung
+          </span>
+        </a>
+      </div>
+      <div
+        class="mt-4"
+        data-testid="content-group"
+      >
+        <p
+          class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+        >
+          Inhalt
+        </p>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="global-template-fields-link"
+          href="global-template-fields"
+        >
+          <span
+            class="font-medium"
+          >
+            Vorlagen-Felder
+          </span>
+        </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+          data-testid="categories-link"
+          href="categories"
+        >
+          <span
+            class="font-medium"
+          >
+            Kategorien
+          </span>
+        </a>
       </div>
     </nav>
   </aside>
@@ -148,6 +247,17 @@ exports[`Navigation rendering tests Navigation - active general - test 1`] = `
             Vorlagen-Felder
           </span>
         </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="categories-link"
+          href="categories"
+        >
+          <span
+            class="font-medium"
+          >
+            Kategorien
+          </span>
+        </a>
       </div>
     </nav>
   </aside>
@@ -223,6 +333,17 @@ exports[`Navigation rendering tests Navigation - active subscription - test 1`] 
             class="font-medium"
           >
             Vorlagen-Felder
+          </span>
+        </a>
+        <a
+          class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          data-testid="categories-link"
+          href="categories"
+        >
+          <span
+            class="font-medium"
+          >
+            Kategorien
           </span>
         </a>
       </div>

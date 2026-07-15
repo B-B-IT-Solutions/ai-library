@@ -7,7 +7,8 @@ export type DSettingsSection =
    | "general"
    | "account"
    | "subscription"
-   | "global-template-fields";
+   | "global-template-fields"
+   | "categories";
 
 export type DGlobalPromptFieldUpdate = z.infer<typeof globalPromptFieldSchema>;
 

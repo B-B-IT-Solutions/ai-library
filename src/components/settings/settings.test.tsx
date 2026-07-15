@@ -15,6 +15,11 @@ jest.mock("./content/global-template-fields", () => {
    return { GlobalPromptFields };
 });
 
+jest.mock("./content/categories", () => {
+   const Categories = () => <div data-testid="categories"></div>;
+   return { Categories };
+});
+
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
@@ -49,6 +54,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
+         assertContentNotRendered("categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -64,6 +70,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
+         assertContentNotRendered("categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -81,6 +88,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("global-template-fields");
+         assertContentNotRendered("categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -98,6 +106,25 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
+         assertContentNotRendered("categories");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("section categories - test", async () => {
+      const user = dtestData.dUser();
+      const { container } = render(
+         <Settings user={user} section="categories" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentRendered("categories");
+         assertContentNotRendered("account-settings");
+         assertContentNotRendered("general-settings");
+         assertContentNotRendered("subscription");
+         assertContentNotRendered("global-template-fields");
       });
 
       expect(container).toMatchSnapshot();

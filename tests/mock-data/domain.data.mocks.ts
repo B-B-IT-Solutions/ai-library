@@ -47,6 +47,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
+   DPromptCategoryUsage,
    DPromptPreview,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -809,6 +810,20 @@ export const dPromptCategories = (count = 3): DPromptCategory[] => {
 export const dPromptCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
+   };
+};
+
+export const dPromptCategoriesUsage = (
+   count = 3
+): DPromptCategoryUsage[] => {
+   return range(0, count).map((i) => dPromptCategoryUsage(i));
+};
+
+export const dPromptCategoryUsage = (index = 1): DPromptCategoryUsage => {
+   return {
+      id: index,
+      name: `category ${index}`,
+      count: index,
    };
 };
 
