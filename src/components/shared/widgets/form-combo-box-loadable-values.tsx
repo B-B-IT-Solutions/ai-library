@@ -7,7 +7,16 @@ import {
    UndefinedInitialDataInfiniteOptions,
    useInfiniteQuery,
 } from "@tanstack/react-query";
-import { filter, flatMap, isEmpty, map, some, trim } from "es-toolkit/compat";
+import {
+   filter,
+   find,
+   flatMap,
+   isArray,
+   isEmpty,
+   map,
+   some,
+   trim,
+} from "es-toolkit/compat";
 import { Check, ChevronsUpDown, Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
@@ -82,7 +91,8 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
       return (
          !isEmpty(trimmedSearch) &&
          !some(options, (o) => normalize(o) === normalize(trimmedSearch)) &&
-         !isSelected(trimmedSearch)
+         !isSelected(trimmedSearch) &&
+         !isFetching
       );
    };
 
@@ -115,7 +125,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
             {map(values, (value, idx) => (
                <div
                   key={idx}
-                  className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                  className="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                >
                   <span className="text-sm">{value}</span>
                   <button
@@ -173,7 +183,12 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
    };
 
    const renderFieldError = () => {
-      const message = fieldState.error?.message;
+      const { error } = fieldState;
+
+      const message = isArray(error)
+         ? find(error, (e) => !isEmpty(e?.message))?.message
+         : error?.message;
+
       if (!message) {
          return;
       }
