@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
-import { upperCase } from "es-toolkit/compat";
+import { isArray, upperCase } from "es-toolkit/compat";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FormComboBoxLoadableValues } from "./form-combo-box-loadable-values";
@@ -39,7 +39,7 @@ type TestWrapperProps = {
    label?: string;
    placeholder?: string;
    initialValues?: string[];
-   fieldError?: string;
+   fieldError?: string | string[];
 };
 
 const TestWrapper = ({
@@ -55,7 +55,9 @@ const TestWrapper = ({
       },
       errors: {
          [name]: fieldError
-            ? { type: "manual", message: fieldError }
+            ? isArray(fieldError)
+               ? [{ type: "manual", message: fieldError[0] }]
+               : { type: "manual", message: fieldError }
             : undefined,
       },
    });
@@ -322,9 +324,19 @@ describe("FormComboBoxLoadableValues functionality tests", () => {
       expect(trigger).not.toBeDisabled();
    });
 
-   it("renders schema-driven field error - test", async () => {
+   it("field error - string - test", async () => {
       const errorText = "Kategorie zu lang (maximal 50 Zeichen)";
       render(<TestWrapper fieldError={errorText} />);
+
+      await waitFor(() => {
+         const error = screen.getByTestId("field-error");
+         expect(error).toHaveTextContent(errorText);
+      });
+   });
+
+   it("field error - string array - test", async () => {
+      const errorText = "Kategorie zu lang (maximal 50 Zeichen)";
+      render(<TestWrapper fieldError={[errorText]} />);
 
       await waitFor(() => {
          const error = screen.getByTestId("field-error");

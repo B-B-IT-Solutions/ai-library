@@ -20,7 +20,7 @@ exports[`FormComboBoxLoadableValues rendering tests init values - test 1`] = `
       data-testid="current-values"
     >
       <div
-        class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+        class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
       >
         <span
           class="text-sm"
