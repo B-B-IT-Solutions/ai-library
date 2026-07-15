@@ -3,13 +3,18 @@ import { dtestData } from "@tests";
 import { Sort } from "@/data/types/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
+   PromptCategoryWhereInput,
    PromptOrderByWithRelationInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
-import { resolveOrderBy, resolveWhereInput } from "./utils";
+import {
+   resolveCategoriesWhereInput,
+   resolvePromptOrderBy,
+   resolvePromptWhereInput,
+} from "./utils";
 
-describe("resolveWhereInput tests", () => {
+describe("resolvePromptWhereInput tests", () => {
    const userId = "user-id-1";
 
    beforeEach(() => {
@@ -17,13 +22,13 @@ describe("resolveWhereInput tests", () => {
    });
 
    test("userId undefined - filter undefined - test", async () => {
-      const result = resolveWhereInput();
+      const result = resolvePromptWhereInput();
       const expectedWhere: PromptWhereInput = {};
       expect(result).toEqual(expectedWhere);
    });
 
    test("filter undefined- test", async () => {
-      const result = resolveWhereInput(userId);
+      const result = resolvePromptWhereInput(userId);
       const expectedWhere: PromptWhereInput = {
          userId,
       };
@@ -36,7 +41,7 @@ describe("resolveWhereInput tests", () => {
          search: "test search",
       };
 
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -63,7 +68,7 @@ describe("resolveWhereInput tests", () => {
       const filter: DPromptsFilter = {
          categories: ["cat1", "cat2"],
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -77,7 +82,7 @@ describe("resolveWhereInput tests", () => {
       const filter: DPromptsFilter = {
          models: ["gpt-4", "claude"],
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -91,7 +96,7 @@ describe("resolveWhereInput tests", () => {
       const filter: DPromptsFilter = {
          isFavorite: true,
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -105,7 +110,7 @@ describe("resolveWhereInput tests", () => {
       const filter: DPromptsFilter = {
          isFavorite: false,
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -119,7 +124,7 @@ describe("resolveWhereInput tests", () => {
       const filter: DPromptsFilter = {
          collectionIds: ["col-1", "col-2"],
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -137,7 +142,7 @@ describe("resolveWhereInput tests", () => {
          models: [],
          collectionIds: [],
       };
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -149,7 +154,7 @@ describe("resolveWhereInput tests", () => {
    test("filter - all fields - test", async () => {
       const filter = dtestData.dPromptsFilter();
 
-      const result = resolveWhereInput(userId, filter);
+      const result = resolvePromptWhereInput(userId, filter);
 
       const expectedWhere: PromptWhereInput = {
          userId,
@@ -181,13 +186,43 @@ describe("resolveWhereInput tests", () => {
    });
 });
 
-describe("resolveOrderBy tests", () => {
+describe("resolveCategoriesWhereInput tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("filter undefined - test", async () => {
+      const userId = "user-id-1";
+      const result = resolveCategoriesWhereInput(userId);
+      const expectedWhere: PromptCategoryWhereInput = {
+         userId,
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+
+   test("filter defined - test", async () => {
+      const userId = "user-id-1";
+
+      const filter = dtestData.dPromptCategoriesFilter();
+      const result = resolveCategoriesWhereInput(userId, filter);
+      const expectedWhere: PromptCategoryWhereInput = {
+         userId,
+         name: {
+            contains: filter.search,
+            mode: "insensitive",
+         },
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+});
+
+describe("resolvePromptOrderBy tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    test("sort undefined - test", async () => {
-      const result = resolveOrderBy();
+      const result = resolvePromptOrderBy();
       const expectedWhere: PromptOrderByWithRelationInput = {
          createdAt: "desc" as const,
       };
@@ -199,7 +234,7 @@ describe("resolveOrderBy tests", () => {
          field: "title",
          order: "asc",
       };
-      const result = resolveOrderBy(sort);
+      const result = resolvePromptOrderBy(sort);
       const expectedWhere: PromptOrderByWithRelationInput = {
          title: "asc" as const,
       };

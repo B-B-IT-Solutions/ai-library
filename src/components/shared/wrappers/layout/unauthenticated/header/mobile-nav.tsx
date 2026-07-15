@@ -26,6 +26,72 @@ export const MobileNav = ({ authenticated }: Props) => {
       setOpen(false);
    };
 
+   const content = () => {
+      if (authenticated) {
+         return (
+            <div className="mt-auto px-4 py-6">
+               <Button
+                  asChild={true}
+                  className="w-full"
+                  onClick={handleClick}
+                  data-testid="to-library-link"
+               >
+                  <Link href="/">Zur Bibliothek</Link>
+               </Button>
+            </div>
+         );
+      }
+      return (
+         <>
+            <nav className="flex flex-col px-4 pt-8" data-testid="navigation">
+               <Link
+                  href="/explore"
+                  onClick={handleClick}
+                  className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="explore-nav-item"
+               >
+                  Entdecken
+               </Link>
+               <Link
+                  href={`${landingPageUrl}/pricing`}
+                  onClick={handleClick}
+                  className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="pricing-nav-item"
+               >
+                  Preise
+               </Link>
+               <Link
+                  href={`${landingPageUrl}/blog`}
+                  onClick={handleClick}
+                  className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                  data-testid="blog-nav-item"
+               >
+                  Blog
+               </Link>
+            </nav>
+            <div className="mt-auto px-4 py-6">
+               <div className="flex flex-col gap-3">
+                  <Button asChild className="w-full" onClick={handleClick}>
+                     <Link href="/auth/sign-up" data-testid="sign-up-link">
+                        Kostenlos starten
+                     </Link>
+                  </Button>
+                  <Button
+                     asChild
+                     variant="outline"
+                     className="w-full"
+                     onClick={handleClick}
+                  >
+                     <Link href="/auth/sign-in" data-testid="sign-in-link">
+                        Anmelden
+                     </Link>
+                  </Button>
+               </div>
+            </div>
+         </>
+      );
+   };
+
    return (
       <div className="flex justify-end" data-testid="mobile-nav">
          <Sheet open={open} onOpenChange={setOpen}>
@@ -45,70 +111,7 @@ export const MobileNav = ({ authenticated }: Props) => {
                className="flex h-screen w-screen flex-col p-0"
             >
                <SheetTitle className="sr-only">Navigation</SheetTitle>
-               <nav
-                  className="flex flex-col px-4 pt-8"
-                  data-testid="navigation"
-               >
-                  <Link
-                     href="/explore"
-                     onClick={handleClick}
-                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
-                     data-testid="explore-nav-item"
-                  >
-                     Entdecken
-                  </Link>
-                  <Link
-                     href={`${landingPageUrl}/pricing`}
-                     onClick={handleClick}
-                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
-                     data-testid="pricing-nav-item"
-                  >
-                     Preise
-                  </Link>
-                  <Link
-                     href={`${landingPageUrl}/blog`}
-                     onClick={handleClick}
-                     className="py-4 text-sm font-medium text-foreground transition-colors hover:text-primary"
-                     data-testid="blog-nav-item"
-                  >
-                     Blog
-                  </Link>
-               </nav>
-               <div className="mt-auto px-4 py-6">
-                  {authenticated ? (
-                     <Button asChild className="w-full" onClick={handleClick}>
-                        <Link href="/">Zur Bibliothek</Link>
-                     </Button>
-                  ) : (
-                     <div className="flex flex-col gap-3">
-                        <Button
-                           asChild
-                           className="w-full"
-                           onClick={handleClick}
-                        >
-                           <Link
-                              href="/auth/sign-up"
-                              data-testid="sign-up-link"
-                           >
-                              Kostenlos starten
-                           </Link>
-                        </Button>
-                        <Button
-                           asChild
-                           variant="outline"
-                           className="w-full"
-                           onClick={handleClick}
-                        >
-                           <Link
-                              href="/auth/sign-in"
-                              data-testid="sign-in-link"
-                           >
-                              Anmelden
-                           </Link>
-                        </Button>
-                     </div>
-                  )}
-               </div>
+               {content()}
             </SheetContent>
          </Sheet>
       </div>

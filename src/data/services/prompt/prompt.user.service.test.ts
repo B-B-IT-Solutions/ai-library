@@ -5,8 +5,7 @@ jest.mock("@/data/services/collection");
 jest.mock("@/lib/template");
 jest.mock("@/lib/subscription/server-guards");
 
-import { dtestData, ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -591,23 +590,26 @@ describe("togglePromptFavorite tests", () => {
    });
 });
 
-describe("getPromptTemplateCategories tests", () => {
+describe("getPromptCategoriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getPromptTemplateCategories test", async () => {
+   it("categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = ptestData.pPromptCategories();
-      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
-      const result = await promptService.getPromptTemplateCategories(userId);
+      const page = dtestData.dPromptCategoriesPage();
+      promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
 
-      const expectedResult = map(categories, (c) => c.name);
+      const query = dtestData.dPromptCategoriesPageQuery();
+      const result = await promptService.getPromptCategoriesPage(userId, query);
 
-      expect(result).toEqual(expectedResult);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
+      expect(result).toEqual(page);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 

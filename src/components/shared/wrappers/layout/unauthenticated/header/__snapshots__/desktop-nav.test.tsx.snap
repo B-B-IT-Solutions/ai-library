@@ -59,47 +59,17 @@ exports[`DesktopNav rendering tests authenticated false - test 1`] = `
 exports[`DesktopNav rendering tests authenticated true - test 1`] = `
 <div>
   <div
-    class="hidden items-center justify-between gap-6 sm:flex"
+    class="hidden items-center justify-end gap-6 sm:flex"
     data-testid="desktop-nav"
   >
-    <nav
-      class="flex items-center gap-1"
-      data-testid="navigation"
+    <a
+      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+      data-slot="button"
+      data-testid="to-library-link"
+      href="/"
     >
-      <a
-        class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
-        data-testid="explore-nav-item"
-        href="/explore"
-      >
-        Entdecken
-      </a>
-      <a
-        class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
-        data-testid="pricing-nav-item"
-        href="https://www.vision-notes.com/pricing"
-      >
-        Preise
-      </a>
-      <a
-        class="rounded-md px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-accent hover:text-foreground"
-        data-testid="blog-nav-item"
-        href="https://www.vision-notes.com/blog"
-      >
-        Blog
-      </a>
-    </nav>
-    <div
-      class="flex items-center gap-3"
-    >
-      <a
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
-        data-slot="button"
-        data-testid="templates-link"
-        href="/"
-      >
-        Zur Bibliothek
-      </a>
-    </div>
+      Zur Bibliothek
+    </a>
   </div>
 </div>
 `;

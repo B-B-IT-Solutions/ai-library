@@ -21,12 +21,12 @@ jest.mock("@/components/shared/md", () => {
 
 import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
 import { getByTestId, screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
    dtestData,
+   renderWithReactQuery,
    typeIntoInput,
    typeIntoTextArea,
    typeIntoTipTap,
@@ -34,7 +34,11 @@ import {
 import mockRouter from "next-router-mock";
 import { Action, ExternalToast, toast } from "sonner";
 
-import { createPrompt, updatePrompt } from "@/data/actions/prompt";
+import {
+   createPrompt,
+   getPromptCategoriesPage,
+   updatePrompt,
+} from "@/data/actions/prompt";
 import {
    DPrompt,
    DPromptUpdate,
@@ -53,6 +57,10 @@ const createPromptMock = createPrompt as jest.MockedFunction<
 const updatePromptMock = updatePrompt as jest.MockedFunction<
    typeof updatePrompt
 >;
+const getPromptCategoriesPageMock =
+   getPromptCategoriesPage as jest.MockedFunction<
+      typeof getPromptCategoriesPage
+   >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertBtnRendered = () => {
@@ -97,8 +105,15 @@ const assertRendered = () => {
 };
 
 describe("PromptEdit rendering tests", () => {
+   beforeEach(() => {
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
+   });
+
    it("new entry - collection undefined - test", async () => {
-      const { container } = render(<PromptEdit globalFields={[]} />);
+      const { container } = renderWithReactQuery(
+         <PromptEdit globalFields={[]} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -111,7 +126,7 @@ describe("PromptEdit rendering tests", () => {
    it("new entry - collection defined - test", async () => {
       const collection = dtestData.dCollectionPreview();
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <PromptEdit globalFields={[]} currentCollection={collection} />
       );
 
@@ -127,7 +142,7 @@ describe("PromptEdit rendering tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <PromptEdit prompt={prompt} globalFields={fields} />
       );
 
@@ -144,7 +159,7 @@ describe("PromptEdit rendering tests", () => {
       const fields = dtestData.dGlobalPromptFields();
       const collection = dtestData.dCollectionPreview();
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <PromptEdit
             prompt={prompt}
             globalFields={fields}
@@ -167,6 +182,9 @@ describe("PromptEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
+
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
    });
 
    it("new entry - save btn clicked - success - test", async () => {
@@ -179,7 +197,7 @@ describe("PromptEdit functionality tests", () => {
       createPromptMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalPromptFields();
-      render(<PromptEdit globalFields={fields} />);
+      renderWithReactQuery(<PromptEdit globalFields={fields} />);
 
       await waitFor(() => {
          assertRendered();
@@ -233,7 +251,7 @@ describe("PromptEdit functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(
+      renderWithReactQuery(
          <PromptEdit globalFields={fields} currentCollection={collection} />
       );
 
@@ -268,7 +286,9 @@ describe("PromptEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<PromptEdit prompt={prompt} globalFields={fields} />);
+      renderWithReactQuery(
+         <PromptEdit prompt={prompt} globalFields={fields} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -319,7 +339,7 @@ describe("PromptEdit functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(
+      renderWithReactQuery(
          <PromptEdit
             prompt={prompt}
             currentCollection={collection}
@@ -377,7 +397,7 @@ describe("PromptEdit functionality tests", () => {
       const collection = dtestData.dCollectionPreview();
 
       const fields = dtestData.dGlobalPromptFields();
-      render(
+      renderWithReactQuery(
          <PromptEdit globalFields={fields} currentCollection={collection} />
       );
 
@@ -445,7 +465,7 @@ describe("PromptEdit functionality tests", () => {
       const fields = dtestData.dGlobalPromptFields();
       const collection = dtestData.dCollectionPreview();
 
-      render(
+      renderWithReactQuery(
          <PromptEdit globalFields={fields} currentCollection={collection} />
       );
 
@@ -501,7 +521,9 @@ describe("PromptEdit functionality tests", () => {
       const prompt = dtestData.dPromptWithContent();
       const fields = dtestData.dGlobalPromptFields();
 
-      render(<PromptEdit prompt={prompt} globalFields={fields} />);
+      renderWithReactQuery(
+         <PromptEdit prompt={prompt} globalFields={fields} />
+      );
 
       await waitFor(() => {
          assertRendered();

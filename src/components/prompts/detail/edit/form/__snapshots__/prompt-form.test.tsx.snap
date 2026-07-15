@@ -180,7 +180,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -215,7 +215,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -250,7 +250,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -286,24 +286,25 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
               </div>
             </div>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -315,14 +316,16 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>
@@ -630,7 +633,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -665,7 +668,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -700,7 +703,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -736,24 +739,25 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
               </div>
             </div>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -765,14 +769,16 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>
@@ -1907,7 +1913,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -1942,7 +1948,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -1977,7 +1983,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2013,24 +2019,25 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               </div>
             </div>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -2042,14 +2049,16 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>
@@ -2358,7 +2367,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2393,7 +2402,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2428,7 +2437,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2464,24 +2473,25 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               </div>
             </div>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -2493,14 +2503,16 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>
@@ -3871,24 +3883,25 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 1`] = `
               Kategorien
             </label>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -3900,14 +3913,16 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>
@@ -4207,24 +4222,25 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 2`] = `
               Kategorien
             </label>
             <div
-              class="flex gap-2"
+              data-slot="popover"
+              data-testid="mock-react-popover-root"
             >
-              <input
-                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="input"
-                data-testid="input"
-                placeholder="Fügen Sie Kategorie hinzu"
-                value=""
-              />
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-                data-slot="button"
-                data-testid="add-value-btn"
+                aria-expanded="false"
+                class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                data-slot="popover-trigger"
+                data-testid="combobox-trigger"
+                role="combobox"
                 type="button"
               >
+                <span
+                  class="truncate text-muted-foreground"
+                >
+                  Kategorie hinzufügen
+                </span>
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-plus h-4 w-4"
+                  class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -4236,14 +4252,16 @@ exports[`PromptEditForm rendering tests new entry - rendered - test 2`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 12h14"
+                    d="m7 15 5 5 5-5"
                   />
                   <path
-                    d="M12 5v14"
+                    d="m7 9 5-5 5 5"
                   />
                 </svg>
-                Hinzufügen
               </button>
+              <div
+                data-testid="mock-react-popover-portal"
+              />
             </div>
           </div>
         </section>

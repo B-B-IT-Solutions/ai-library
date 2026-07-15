@@ -10,6 +10,19 @@ type Props = {
 export const DesktopNav = ({ authenticated }: Props) => {
    const landingPageUrl = getProdLandingPageUrl();
 
+   if (authenticated) {
+      return (
+         <div
+            className="hidden items-center justify-end gap-6 sm:flex"
+            data-testid="desktop-nav"
+         >
+            <Button asChild={true} data-testid="to-library-link">
+               <Link href="/">Zur Bibliothek</Link>
+            </Button>
+         </div>
+      );
+   }
+
    return (
       <div
          className="hidden items-center justify-between gap-6 sm:flex"
@@ -39,24 +52,18 @@ export const DesktopNav = ({ authenticated }: Props) => {
             </Link>
          </nav>
          <div className="flex items-center gap-3">
-            {authenticated ? (
-               <Button asChild={true} data-testid="templates-link">
-                  <Link href="/">Zur Bibliothek</Link>
+            <>
+               <Button asChild={true} variant="outline">
+                  <Link href="/auth/sign-in" data-testid="sign-in-link">
+                     Anmelden
+                  </Link>
                </Button>
-            ) : (
-               <>
-                  <Button asChild={true} variant="outline">
-                     <Link href="/auth/sign-in" data-testid="sign-in-link">
-                        Anmelden
-                     </Link>
-                  </Button>
-                  <Button asChild={true}>
-                     <Link href="/auth/sign-up" data-testid="sign-up-link">
-                        Kostenlos starten
-                     </Link>
-                  </Button>
-               </>
-            )}
+               <Button asChild={true}>
+                  <Link href="/auth/sign-up" data-testid="sign-up-link">
+                     Kostenlos starten
+                  </Link>
+               </Button>
+            </>
          </div>
       </div>
    );

@@ -1,8 +1,8 @@
-﻿import { map } from "es-toolkit/compat";
-
-import { PromptRepository } from "@/data/repositories/prompt";
+﻿import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
+   DPromptCategoriesPage,
+   DPromptCategoriesPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -207,9 +207,11 @@ export class PromptService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getPromptTemplateCategories(userId: string): Promise<string[]> {
-      const categories = await this.repository.pGetPromptCategories(userId);
-      return map(categories, (c) => c.name);
+   async getPromptCategoriesPage(
+      userId: string,
+      query?: DPromptCategoriesPageQuery
+   ): Promise<DPromptCategoriesPage> {
+      return await this.repository.pGetPromptCategoriesPage(userId, query);
    }
 
    async getPromptCategories(userId: string): Promise<string[]> {

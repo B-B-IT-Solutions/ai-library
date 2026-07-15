@@ -16,7 +16,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { toDPrompt, toDPrompts, toDPromptWithContent } from "./prompt.mapper";
-import { resolveOrderBy, resolveWhereInput } from "./utils";
+import { resolvePromptOrderBy, resolvePromptWhereInput } from "./utils";
 
 export class PublicPromptRepository {
    private prisma: DbClient;
@@ -33,8 +33,8 @@ export class PublicPromptRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where = resolveWhereInput(undefined, query.filter);
-      const orderBy = resolveOrderBy(query.sort);
+      const where = resolvePromptWhereInput(undefined, query.filter);
+      const orderBy = resolvePromptOrderBy(query.sort);
 
       const args: PromptFindManyArgs = {
          where,

@@ -1,10 +1,10 @@
 export {
-   preloadPromptTemplateCategoriesOptions,
+   infiniteLoadPromptCategoriesPageOptions,
+   useInfiniteLoadPromptCategoriesPage,
    infiniteLoadPromptsPageOptions,
    useInfiniteLoadPromptsPage,
    infiniteLoadPromptPreviewsPageOptions,
    useInfiniteLoadPromptPreviewsPage,
-   useLoadPromptTemplateCategories,
    useLoadPromptTemplatingData,
    useToggleFavorite,
 } from "./prompt";
