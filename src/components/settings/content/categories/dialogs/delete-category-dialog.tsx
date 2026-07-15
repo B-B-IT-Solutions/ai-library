@@ -15,7 +15,7 @@ import {
    AlertDialogHeader,
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
-import { deleteCategory } from "@/data/actions/prompt";
+import { deletePromptCategory } from "@/data/actions/prompt";
 import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
 
 type Props = {
@@ -40,7 +40,7 @@ export const DeleteCategoryDialog = ({ open, onClose, category }: Props) => {
 
    const handleDeleteConfirm = async () => {
       startTransition(async () => {
-         const result = await deleteCategory(category.id);
+         const result = await deletePromptCategory(category.id);
          if (result.success) {
             toast.success(result.message);
             router.refresh();
@@ -70,8 +70,8 @@ export const DeleteCategoryDialog = ({ open, onClose, category }: Props) => {
                <AlertDialogTitle>Kategorie löschen?</AlertDialogTitle>
                <AlertDialogDescription>
                   Möchtest du die Kategorie <strong>{category.name}</strong>{" "}
-                  wirklich löschen? {affectedPromptsLabel(category.count)}{" "}
-                  Diese Aktion kann nicht rückgängig gemacht werden.
+                  wirklich löschen? {affectedPromptsLabel(category.count)} Diese
+                  Aktion kann nicht rückgängig gemacht werden.
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

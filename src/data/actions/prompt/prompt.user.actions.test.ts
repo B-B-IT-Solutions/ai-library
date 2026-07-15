@@ -19,10 +19,11 @@ import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
 import {
+   checkCategoryNameAvailable,
    composePromptFromTemplate,
    createPrompt,
-   deleteCategory,
    deletePrompt,
+   deletePromptCategory,
    downloadPrompt,
    getCategoriesWithUsage,
    getPrompt,
@@ -34,7 +35,7 @@ import {
    getPromptsPage,
    getPromptsUsage,
    getPromptWithContent,
-   renameCategory,
+   renamePromptCategory,
    togglePromptFavorite,
    updatePrompt,
 } from "./prompt.user.actions";
@@ -110,6 +111,8 @@ const sGetPromptCategoriesPageMock =
 const sGetCategoriesWithUsage = PromptService.prototype.getCategoriesWithUsage;
 const sRenameCategory = PromptService.prototype.renameCategory;
 const sDeleteCategory = PromptService.prototype.deleteCategory;
+const sIsCategoryNameAvailable =
+   PromptService.prototype.isCategoryNameAvailable;
 
 const sGetCategoriesWithUsageMock =
    sGetCategoriesWithUsage as jest.MockedFunction<
@@ -121,6 +124,10 @@ const sRenameCategoryMock = sRenameCategory as jest.MockedFunction<
 const sDeleteCategoryMock = sDeleteCategory as jest.MockedFunction<
    typeof sDeleteCategory
 >;
+const sIsCategoryNameAvailableMock =
+   sIsCategoryNameAvailable as jest.MockedFunction<
+      typeof sIsCategoryNameAvailable
+   >;
 
 describe("getPromptsPage tests", () => {
    beforeEach(() => {
@@ -1203,7 +1210,7 @@ describe("renameCategory tests", () => {
    });
 
    it("invalid name - too long - test", async () => {
-      const result = await renameCategory(1, "a".repeat(51));
+      const result = await renamePromptCategory(1, "a".repeat(51));
 
       const expectedResult: ActionResult = {
          success: false,
@@ -1216,7 +1223,7 @@ describe("renameCategory tests", () => {
    });
 
    it("invalid name - empty - test", async () => {
-      const result = await renameCategory(1, "   ");
+      const result = await renamePromptCategory(1, "   ");
 
       expect(result).toEqual({
          success: false,
@@ -1230,7 +1237,7 @@ describe("renameCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
       sRenameCategoryMock.mockResolvedValue(undefined);
 
-      const result = await renameCategory(1, "Vertrieb");
+      const result = await renamePromptCategory(1, "Vertrieb");
 
       const expectedResult: ActionResult = {
          success: true,
@@ -1250,7 +1257,7 @@ describe("renameCategory tests", () => {
       const error = new CategoryNameConflictError("Support");
       sRenameCategoryMock.mockRejectedValue(error);
 
-      const result = await renameCategory(1, "Support");
+      const result = await renamePromptCategory(1, "Support");
 
       const expectedResult: ActionResult = {
          success: false,
@@ -1266,7 +1273,7 @@ describe("renameCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
       sRenameCategoryMock.mockRejectedValue(new Error("db down"));
 
-      const result = await renameCategory(1, "Vertrieb");
+      const result = await renamePromptCategory(1, "Vertrieb");
 
       expect(result).toEqual({
          success: false,
@@ -1290,7 +1297,7 @@ describe("deleteCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
       sDeleteCategoryMock.mockResolvedValue(undefined);
 
-      const result = await deleteCategory(1);
+      const result = await deletePromptCategory(1);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -1308,11 +1315,80 @@ describe("deleteCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
       sDeleteCategoryMock.mockRejectedValue(new Error("db down"));
 
-      const result = await deleteCategory(1);
+      const result = await deletePromptCategory(1);
 
       expect(result).toEqual({
          success: false,
          message: "Kategorie konnte nicht gelöscht werden",
       });
+   });
+});
+
+describe("checkCategoryNameAvailable tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("name available - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsCategoryNameAvailableMock.mockResolvedValue(true);
+
+      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+
+      expect(result).toBe(true);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsCategoryNameAvailableMock).toHaveBeenCalledTimes(1);
+      expect(sIsCategoryNameAvailableMock).toHaveBeenCalledWith(
+         user.id,
+         1,
+         "Vertrieb"
+      );
+   });
+
+   it("name already taken - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsCategoryNameAvailableMock.mockResolvedValue(false);
+
+      const result = await checkCategoryNameAvailable(1, "Support");
+
+      expect(result).toBe(false);
+   });
+
+   it("invalid name - fails open - test", async () => {
+      const result = await checkCategoryNameAvailable(1, "");
+
+      expect(result).toBe(true);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sIsCategoryNameAvailableMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("user undefined - fails open - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+
+      expect(result).toBe(true);
+      expect(sIsCategoryNameAvailableMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("unexpected error - fails open - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsCategoryNameAvailableMock.mockRejectedValue(new Error("db down"));
+
+      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+
+      expect(result).toBe(true);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 });

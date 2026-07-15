@@ -841,3 +841,43 @@ describe("deleteCategory tests", () => {
       );
    });
 });
+
+describe("isCategoryNameAvailable tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("name not taken - returns true - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pCategoryNameExists.mockResolvedValue(false);
+
+      const result = await promptService.isCategoryNameAvailable(
+         userId,
+         categoryId,
+         " Vertrieb "
+      );
+
+      expect(result).toBe(true);
+      expect(promptRepoMock.pCategoryNameExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pCategoryNameExists).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb",
+         categoryId
+      );
+   });
+
+   it("name already taken - returns false - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pCategoryNameExists.mockResolvedValue(true);
+
+      const result = await promptService.isCategoryNameAvailable(
+         userId,
+         categoryId,
+         "Support"
+      );
+
+      expect(result).toBe(false);
+   });
+});

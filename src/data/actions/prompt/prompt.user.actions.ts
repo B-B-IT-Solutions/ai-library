@@ -26,7 +26,10 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import { renameCategorySchema } from "@/data/types/validators/template";
+import {
+   categorySchema,
+   renameCategorySchema,
+} from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -335,7 +338,7 @@ export const getCategoriesWithUsage = async (): Promise<
    }
 };
 
-export const renameCategory = async (
+export const renamePromptCategory = async (
    categoryId: number,
    newName: string
 ): Promise<ActionResult> => {
@@ -367,7 +370,30 @@ export const renameCategory = async (
    }
 };
 
-export const deleteCategory = async (
+export const checkCategoryNameAvailable = async (
+   categoryId: number,
+   name: string
+): Promise<boolean> => {
+   try {
+      const parsedName = categorySchema.parse(name);
+
+      const user = await requireUser();
+      const service = getService();
+      return await service.isCategoryNameAvailable(
+         user.id,
+         categoryId,
+         parsedName
+      );
+   } catch (error) {
+      console.error(formatError(error));
+      // Fail open: a transient/network error here must not block the user
+      // from typing. The authoritative uniqueness check still runs
+      // server-side in `renameCategory` on actual submit.
+      return true;
+   }
+};
+
+export const deletePromptCategory = async (
    categoryId: number
 ): Promise<ActionResult> => {
    try {

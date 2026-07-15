@@ -24,6 +24,7 @@ import {
 import {
    PromptCategoryCountArgs,
    PromptCategoryDeleteArgs,
+   PromptCategoryFindFirstArgs,
    PromptCategoryFindManyArgs,
    PromptCategoryUpdateArgs,
    PromptCategoryWhereInput,
@@ -432,5 +433,23 @@ export class PromptRepository {
       };
 
       await this.prisma.promptCategory.delete(args);
+   }
+
+   async pCategoryNameExists(
+      userId: string,
+      name: string,
+      excludeCategoryId: number
+   ): Promise<boolean> {
+      const args: PromptCategoryFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: { not: excludeCategoryId },
+         },
+         select: { id: true },
+      };
+
+      const existing = await this.prisma.promptCategory.findFirst(args);
+      return existing !== null;
    }
 }

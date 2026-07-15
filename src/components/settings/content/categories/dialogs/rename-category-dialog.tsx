@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -17,12 +17,12 @@ import {
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
-import { renameCategory } from "@/data/actions/prompt";
+import { renamePromptCategory } from "@/data/actions/prompt";
 import {
    DPromptCategoryUsage,
    DRenameCategory,
 } from "@/data/types/domain/prompt";
-import { renameCategorySchema } from "@/data/types/validators/template";
+import { buildRenameCategorySchema } from "@/data/types/validators/template";
 
 type Props = {
    open: boolean;
@@ -33,8 +33,13 @@ type Props = {
 export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
    const router = useRouter();
 
+   const renameSchema = useMemo(
+      () => buildRenameCategorySchema(category.id),
+      [category.id]
+   );
+
    const form = useForm<DRenameCategory>({
-      resolver: zodResolver(renameCategorySchema),
+      resolver: zodResolver(renameSchema),
       defaultValues: { name: category.name },
    });
 
@@ -47,7 +52,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
    const { isSubmitting } = form.formState;
 
    const onSubmit: SubmitHandler<DRenameCategory> = async (data) => {
-      const result = await renameCategory(category.id, data.name);
+      const result = await renamePromptCategory(category.id, data.name);
       if (result.success) {
          toast.success(result.message);
          router.refresh();

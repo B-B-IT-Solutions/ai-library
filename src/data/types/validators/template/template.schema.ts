@@ -1,3 +1,4 @@
+import { toLower, trim } from "es-toolkit/compat";
 import { z } from "zod";
 
 export const promptVariableTypeSchema = z.enum([
@@ -49,3 +50,5 @@ export const updateTemplateSchema = z.object({
 export const renameCategorySchema = z.object({
    name: categorySchema,
 });
+
+export const normalizeCategoryName = (value: string) => toLower(trim(value));

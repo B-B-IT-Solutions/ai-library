@@ -7,13 +7,13 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteCategory } from "@/data/actions/prompt";
+import { deletePromptCategory } from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { DeleteCategoryDialog } from "./delete-category-dialog";
 
-const deleteCategoryMock = deleteCategory as jest.MockedFunction<
-   typeof deleteCategory
+const deletePromptCategoryMock = deletePromptCategory as jest.MockedFunction<
+   typeof deletePromptCategory
 >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -135,7 +135,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
          success: true,
          message: "Kategorie gelöscht",
       };
-      deleteCategoryMock.mockResolvedValue(result);
+      deletePromptCategoryMock.mockResolvedValue(result);
 
       const category = dtestData.dPromptCategoryUsage();
       const onClose = jest.fn();
@@ -149,15 +149,15 @@ describe("DeleteCategoryDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(deleteCategoryMock).not.toHaveBeenCalled();
+         expect(deletePromptCategoryMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteCategoryMock).toHaveBeenCalledTimes(1);
-         expect(deleteCategoryMock).toHaveBeenCalledWith(category.id);
+         expect(deletePromptCategoryMock).toHaveBeenCalledTimes(1);
+         expect(deletePromptCategoryMock).toHaveBeenCalledWith(category.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
@@ -170,7 +170,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
          success: false,
          message: "Kategorie konnte nicht gelöscht werden",
       };
-      deleteCategoryMock.mockResolvedValue(result);
+      deletePromptCategoryMock.mockResolvedValue(result);
 
       const category = dtestData.dPromptCategoryUsage();
       const onClose = jest.fn();
@@ -190,7 +190,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteCategoryMock).toHaveBeenCalledTimes(1);
+         expect(deletePromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
@@ -217,7 +217,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(deleteCategoryMock).not.toHaveBeenCalled();
+         expect(deletePromptCategoryMock).not.toHaveBeenCalled();
          expect(onClose).toHaveBeenCalledTimes(1);
       });
    });

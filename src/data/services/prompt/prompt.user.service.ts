@@ -1,4 +1,4 @@
-﻿import { toLower, trim } from "es-toolkit/compat";
+﻿import { trim } from "es-toolkit/compat";
 
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
@@ -18,6 +18,7 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
+import { normalizeCategoryName } from "@/data/types/validators/template";
 import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
 import { TemplateEngine } from "@/lib/template";
 import { CollectionService } from "../collection";
@@ -26,8 +27,6 @@ import { SubscriptionService } from "../subscription";
 
 import { CategoryNameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
-
-const normalizeCategoryName = (value: string) => toLower(trim(value));
 
 export class PromptService {
    constructor(
@@ -274,5 +273,19 @@ export class PromptService {
 
    async deleteCategory(userId: string, categoryId: number): Promise<void> {
       await this.repository.pDeleteCategory(userId, categoryId);
+   }
+
+   async isCategoryNameAvailable(
+      userId: string,
+      categoryId: number,
+      name: string
+   ): Promise<boolean> {
+      const trimmedName = trim(name);
+      const exists = await this.repository.pCategoryNameExists(
+         userId,
+         trimmedName,
+         categoryId
+      );
+      return !exists;
    }
 }
