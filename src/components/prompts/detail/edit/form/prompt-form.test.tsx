@@ -40,11 +40,6 @@ const getPromptCategoriesPageMock =
       typeof getPromptCategoriesPage
    >;
 
-beforeEach(() => {
-   const page = dtestData.dPromptCategoriesPage();
-   getPromptCategoriesPageMock.mockResolvedValue(page);
-});
-
 const assertRendered = () => {
    const form = screen.getByTestId("prompt-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
@@ -81,6 +76,11 @@ const assertDetectedVariablesNotRendered = () => {
 };
 
 describe("PromptEditForm rendering tests", () => {
+   beforeEach(() => {
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
+   });
+
    it("new entry - rendered - test", async () => {
       const { container } = renderWithReactQuery(
          <PromptEditForm globalFields={[]} onSubmit={jest.fn()} />
