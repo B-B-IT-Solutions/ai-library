@@ -63,11 +63,6 @@ const getPromptCategoriesPageMock =
    >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-beforeEach(() => {
-   const page = dtestData.dPromptCategoriesPage();
-   getPromptCategoriesPageMock.mockResolvedValue(page);
-});
-
 const assertBtnRendered = () => {
    const headerActions = screen.getByTestId("header-actions");
    const headerCancelBtn = getByTestId(headerActions, "cancel-btn");
@@ -110,6 +105,11 @@ const assertRendered = () => {
 };
 
 describe("PromptEdit rendering tests", () => {
+   beforeEach(() => {
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
+   });
+
    it("new entry - collection undefined - test", async () => {
       const { container } = renderWithReactQuery(
          <PromptEdit globalFields={[]} />
@@ -182,6 +182,9 @@ describe("PromptEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
+
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
    });
 
    it("new entry - save btn clicked - success - test", async () => {
