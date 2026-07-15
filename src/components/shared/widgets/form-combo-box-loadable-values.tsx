@@ -13,12 +13,14 @@ import {
    flatMap,
    isArray,
    isEmpty,
+   isEqual,
    map,
    some,
    trim,
 } from "es-toolkit/compat";
 import { Check, ChevronsUpDown, Loader, Plus, X } from "lucide-react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -69,19 +71,31 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
 }: Props<T>) => {
    const [open, setOpen] = useState(false);
    const [search, setSearch] = useState("");
+   const [searchFilter, setFilterSearch] = useState("");
+
    const { field, fieldState } = useController({ name, control });
 
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-      useInfiniteQuery(queryOptions(search));
+      useInfiniteQuery(queryOptions(searchFilter));
 
    const options = useMemo(
       () => flatMap(data?.pages, (page) => page.content),
       [data]
    );
 
+   const updateSearch = (value: string) => {
+      setSearch(value);
+      updateFilterSearch(value);
+   };
+
+   const updateFilterSearch = useDebouncedCallback((value: string) => {
+      setFilterSearch(value);
+   }, 300);
+
    const values: string[] = field.value ?? [];
 
    const trimmedSearch = trim(search);
+   const isFilterSearchDebounced = !isEqual(search, searchFilter);
 
    const isSelected = (value: string) => {
       return some(values, (v) => normalize(v) === normalize(value));
@@ -92,6 +106,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
          !isEmpty(trimmedSearch) &&
          !some(options, (o) => normalize(o) === normalize(trimmedSearch)) &&
          !isSelected(trimmedSearch) &&
+         !isFilterSearchDebounced &&
          !isFetching
       );
    };
@@ -230,7 +245,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
                   <CommandInput
                      placeholder={placeholder}
                      value={search}
-                     onValueChange={setSearch}
+                     onValueChange={updateSearch}
                      data-testid="search-input"
                   />
                   <CommandList>

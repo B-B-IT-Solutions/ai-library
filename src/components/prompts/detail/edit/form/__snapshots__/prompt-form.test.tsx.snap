@@ -180,7 +180,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -215,7 +215,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -250,7 +250,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 1`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -633,7 +633,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -668,7 +668,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -703,7 +703,7 @@ exports[`PromptEditForm rendering tests existing entry - rendered - test 2`] = `
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -1913,7 +1913,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -1948,7 +1948,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -1983,7 +1983,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2367,7 +2367,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
               data-testid="current-values"
             >
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2402,7 +2402,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"
@@ -2437,7 +2437,7 @@ exports[`PromptEditForm rendering tests existing entry - variables detected in c
                 </button>
               </div>
               <div
-                class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
               >
                 <span
                   class="text-sm"

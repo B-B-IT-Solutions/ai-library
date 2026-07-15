@@ -12,6 +12,14 @@ jest.mock("@tanstack/react-query", () => ({
    useInfiniteQuery: jest.fn(),
 }));
 
+jest.mock("use-debounce", () => ({
+   useDebouncedCallback: <T extends (...args: unknown[]) => unknown>(
+      callback: T
+   ) => {
+      return (...args: Parameters<T>) => callback(...args);
+   },
+}));
+
 const mockUseInfiniteQuery = useInfiniteQuery as jest.Mock;
 
 const mockQueryOptions = jest.fn().mockReturnValue({});

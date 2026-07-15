@@ -283,7 +283,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                     data-testid="current-values"
                   >
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
@@ -318,7 +318,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                       </button>
                     </div>
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
@@ -353,7 +353,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                       </button>
                     </div>
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
@@ -869,7 +869,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                     data-testid="current-values"
                   >
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
@@ -904,7 +904,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                       </button>
                     </div>
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
@@ -939,7 +939,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                       </button>
                     </div>
                     <div
-                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                      class="flex flex-wrap items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                     >
                       <span
                         class="text-sm"
