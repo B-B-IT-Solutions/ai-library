@@ -4,6 +4,7 @@ import {
    categorySchema,
    promptVariableSchema,
    promptVariableTypeSchema,
+   renameCategorySchema,
    updateTemplateSchema,
 } from "./template.schema";
 
@@ -937,5 +938,37 @@ describe("updateTemplateSchema - tests", () => {
          const validatedValues = updateTemplateSchema.parse(minimalTemplate);
          expect(validatedValues).toEqual(minimalTemplate);
       });
+   });
+});
+
+describe("renameCategorySchema - tests", () => {
+   it("valid name - test", () => {
+      const validatedValues = renameCategorySchema.parse({
+         name: "Marketing",
+      });
+      expect(validatedValues.name).toBe("Marketing");
+   });
+
+   it("trims whitespace - test", () => {
+      const validatedValues = renameCategorySchema.parse({
+         name: "  Marketing  ",
+      });
+      expect(validatedValues.name).toBe("Marketing");
+   });
+
+   it("empty name invalid - test", () => {
+      const fn = () => renameCategorySchema.parse({ name: "" });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name exceeding max length invalid - test", () => {
+      const fn = () =>
+         renameCategorySchema.parse({ name: "a".repeat(51) });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing name invalid - test", () => {
+      const fn = () => renameCategorySchema.parse({});
+      expect(fn).toThrow(ZodError);
    });
 });

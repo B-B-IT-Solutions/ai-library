@@ -6,16 +6,20 @@ import {
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
+import { PromptCategoryWithCount } from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
+import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
 import {
    toDPrompt,
+   toDPromptCategoryUsage,
+   toDPromptCategoryUsages,
    toDPromptPreview,
    toDPromptPreviews,
    toDPrompts,
@@ -125,6 +129,39 @@ describe("prompt mappers tests", () => {
       const prompt = ptestData.pPromptWithContent();
       const result = toDPromptWithContent(prompt);
       const expectedResult = toDPromptWithContentInternal(prompt);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptCategoryUsage test", async () => {
+      const category: PromptCategoryWithCount = {
+         id: 1,
+         userId: "user-id-1",
+         name: "Marketing",
+         _count: { prompts: 3 },
+      };
+
+      const result = toDPromptCategoryUsage(category);
+
+      const expectedResult: DPromptCategoryUsage = {
+         id: 1,
+         name: "Marketing",
+         count: 3,
+      };
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptCategoryUsages test", async () => {
+      const categories: PromptCategoryWithCount[] = [
+         { id: 1, userId: "user-id-1", name: "Marketing", _count: { prompts: 3 } },
+         { id: 2, userId: "user-id-1", name: "Support", _count: { prompts: 0 } },
+      ];
+
+      const result = toDPromptCategoryUsages(categories);
+
+      const expectedResult: DPromptCategoryUsage[] = [
+         { id: 1, name: "Marketing", count: 3 },
+         { id: 2, name: "Support", count: 0 },
+      ];
       expect(result).toEqual(expectedResult);
    });
 });

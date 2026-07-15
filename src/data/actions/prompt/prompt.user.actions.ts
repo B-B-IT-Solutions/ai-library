@@ -6,11 +6,13 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
+import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -24,6 +26,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
+import { renameCategorySchema } from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -316,6 +319,72 @@ export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
          const fallback: DPromptsUsage = { current: 0, limit: -1 };
          return fallback;
       }
+   }
+};
+
+export const getCategoriesWithUsage = async (): Promise<
+   DPromptCategoryUsage[]
+> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCategoriesWithUsage(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const renameCategory = async (
+   categoryId: number,
+   newName: string
+): Promise<ActionResult> => {
+   try {
+      const { name } = renameCategorySchema.parse({ name: newName });
+
+      const user = await requireUser();
+      const service = getService();
+      await service.renameCategory(user.id, categoryId, name);
+
+      return {
+         success: true,
+         message: "Kategorie erfolgreich umbenannt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+
+      if (error instanceof CategoryNameConflictError) {
+         return {
+            success: false,
+            message: error.message,
+         };
+      }
+
+      return {
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      };
+   }
+};
+
+export const deleteCategory = async (
+   categoryId: number
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      await service.deleteCategory(user.id, categoryId);
+
+      return {
+         success: true,
+         message: "Kategorie erfolgreich gelöscht",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Kategorie konnte nicht gelöscht werden",
+      };
    }
 };
 

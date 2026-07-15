@@ -1,8 +1,11 @@
-﻿import { PromptRepository } from "@/data/repositories/prompt";
+﻿import { toLower, trim } from "es-toolkit/compat";
+
+import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -21,7 +24,10 @@ import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
+import { CategoryNameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
+
+const normalizeCategoryName = (value: string) => toLower(trim(value));
 
 export class PromptService {
    constructor(
@@ -237,5 +243,36 @@ export class PromptService {
 
    async getPromptsCount(userId: string): Promise<number> {
       return await this.repository.pGetPromptsCount(userId);
+   }
+
+   async getCategoriesWithUsage(
+      userId: string
+   ): Promise<DPromptCategoryUsage[]> {
+      return await this.repository.pGetCategoriesWithUsage(userId);
+   }
+
+   async renameCategory(
+      userId: string,
+      categoryId: number,
+      newName: string
+   ): Promise<void> {
+      const trimmedName = trim(newName);
+      const categories = await this.getCategoriesWithUsage(userId);
+
+      const conflict = categories.find(
+         (c) =>
+            c.id !== categoryId &&
+            normalizeCategoryName(c.name) === normalizeCategoryName(trimmedName)
+      );
+
+      if (conflict) {
+         throw new CategoryNameConflictError(conflict.name);
+      }
+
+      await this.repository.pRenameCategory(userId, categoryId, trimmedName);
+   }
+
+   async deleteCategory(userId: string, categoryId: number): Promise<void> {
+      await this.repository.pDeleteCategory(userId, categoryId);
    }
 }

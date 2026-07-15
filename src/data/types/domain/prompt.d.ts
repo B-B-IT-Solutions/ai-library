@@ -40,6 +40,12 @@ export type DPromptCategory = {
    name: string;
 };
 
+export type DPromptCategoryUsage = {
+   id: number;
+   name: string;
+   count: number;
+};
+
 export type DPromptTemplatingData = {
    prompt: DPromptWithContent;
    allVariables: DPromptVariable[];

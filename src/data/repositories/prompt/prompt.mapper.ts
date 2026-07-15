@@ -1,12 +1,14 @@
 ﻿import { map } from "es-toolkit/compat";
 
 import {
+   PromptCategoryWithCount,
    PromptPreview,
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
 import {
    DPrompt,
+   DPromptCategoryUsage,
    DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
@@ -74,5 +76,21 @@ export const toDPromptVariable = (field: PromptField): DPromptVariable => {
       order: field.order,
       defaultValue: field.defaultValue,
       options: field.options as string[] | undefined,
+   };
+};
+
+export const toDPromptCategoryUsages = (
+   categories: PromptCategoryWithCount[]
+): DPromptCategoryUsage[] => {
+   return map(categories, toDPromptCategoryUsage);
+};
+
+export const toDPromptCategoryUsage = (
+   category: PromptCategoryWithCount
+): DPromptCategoryUsage => {
+   return {
+      id: category.id,
+      name: category.name,
+      count: category._count.prompts,
    };
 };

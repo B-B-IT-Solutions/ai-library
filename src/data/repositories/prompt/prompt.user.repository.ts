@@ -2,6 +2,7 @@
 
 import { DbClient } from "@/data/types/db/common";
 import {
+   PromptCategoryWithCount,
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
@@ -10,6 +11,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
+   DPromptCategoryUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -21,7 +23,9 @@ import {
 } from "@/data/types/domain/prompt";
 import {
    PromptCategoryCountArgs,
+   PromptCategoryDeleteArgs,
    PromptCategoryFindManyArgs,
+   PromptCategoryUpdateArgs,
    PromptCategoryWhereInput,
    PromptCountArgs,
    PromptCreateArgs,
@@ -34,6 +38,7 @@ import {
 
 import {
    toDPrompt,
+   toDPromptCategoryUsages,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -388,5 +393,44 @@ export class PromptRepository {
 
       const models = map(descriptors, (d) => d.recommendedModel);
       return uniq(models).sort();
+   }
+
+   async pGetCategoriesWithUsage(
+      userId: string
+   ): Promise<DPromptCategoryUsage[]> {
+      const categories = (await this.prisma.promptCategory.findMany({
+         where: { userId },
+         select: {
+            id: true,
+            name: true,
+            _count: {
+               select: { prompts: true },
+            },
+         },
+         orderBy: { name: "asc" },
+      })) as PromptCategoryWithCount[];
+
+      return toDPromptCategoryUsages(categories);
+   }
+
+   async pRenameCategory(
+      userId: string,
+      categoryId: number,
+      name: string
+   ): Promise<void> {
+      const args: PromptCategoryUpdateArgs = {
+         where: { id: categoryId, userId },
+         data: { name },
+      };
+
+      await this.prisma.promptCategory.update(args);
+   }
+
+   async pDeleteCategory(userId: string, categoryId: number): Promise<void> {
+      const args: PromptCategoryDeleteArgs = {
+         where: { id: categoryId, userId },
+      };
+
+      await this.prisma.promptCategory.delete(args);
    }
 }
