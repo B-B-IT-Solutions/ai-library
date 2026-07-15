@@ -1,16 +1,17 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+jest.mock("@/data/actions/prompt");
+
+import { screen } from "@testing-library/react";
+import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
+
+import { getPromptCategoriesPage } from "@/data/actions/prompt";
 
 import { BasicInfo } from "./basic-info";
 
-jest.mock("@tanstack/react-query", () => ({
-   ...jest.requireActual("@tanstack/react-query"),
-   useInfiniteQuery: jest.fn(),
-}));
-
-const mockUseInfiniteQuery = useInfiniteQuery as jest.Mock;
+const getPromptCategoriesPageMock =
+   getPromptCategoriesPage as jest.MockedFunction<
+      typeof getPromptCategoriesPage
+   >;
 
 const TestWrapper = () => {
    const form = useForm({
@@ -48,17 +49,12 @@ const assertRendered = () => {
 
 describe("BasicInfo rendering tests", () => {
    beforeEach(() => {
-      mockUseInfiniteQuery.mockReturnValue({
-         data: { pages: [{ content: ["Marketing", "Support"] }] },
-         fetchNextPage: jest.fn(),
-         hasNextPage: false,
-         isFetching: false,
-         isLoading: false,
-      });
+      const page = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(page);
    });
 
    it("rendered - test", () => {
-      const { container } = render(<TestWrapper />);
+      const { container } = renderWithReactQuery(<TestWrapper />);
 
       assertRendered();
 
