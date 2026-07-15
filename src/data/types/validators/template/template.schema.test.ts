@@ -1,6 +1,7 @@
 import { ZodError } from "zod";
 
 import {
+   categorySchema,
    promptVariableSchema,
    promptVariableTypeSchema,
    updateTemplateSchema,
@@ -416,6 +417,63 @@ describe("promptVariableSchema - tests", () => {
    });
 });
 
+describe("categorySchema - tests", () => {
+   it("valid category - test", () => {
+      const validatedValue = categorySchema.parse("Marketing");
+      expect(validatedValue).toBe("Marketing");
+   });
+
+   it("trims leading and trailing whitespace - test", () => {
+      const validatedValue = categorySchema.parse("  Marketing  ");
+      expect(validatedValue).toBe("Marketing");
+   });
+
+   it("single character valid - test", () => {
+      const validatedValue = categorySchema.parse("A");
+      expect(validatedValue).toBe("A");
+   });
+
+   it("empty string invalid - test", () => {
+      const result = categorySchema.safeParse("");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie darf nicht leer sein"
+      );
+   });
+
+   it("whitespace only string invalid - test", () => {
+      const result = categorySchema.safeParse("   ");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie darf nicht leer sein"
+      );
+   });
+
+   it("at max length (50 chars) valid - test", () => {
+      const validatedValue = categorySchema.parse("a".repeat(50));
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("exceeds max length (51 chars) invalid - test", () => {
+      const result = categorySchema.safeParse("a".repeat(51));
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie zu lang (maximal 50 Zeichen)"
+      );
+   });
+
+   it("length check applies after trimming - test", () => {
+      const paddedValue = ` ${"a".repeat(50)} `;
+      const validatedValue = categorySchema.parse(paddedValue);
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("non-string value invalid - test", () => {
+      const fn = () => categorySchema.parse(123);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
 describe("updateTemplateSchema - tests", () => {
    const validField = {
       name: "email",
@@ -678,6 +736,78 @@ describe("updateTemplateSchema - tests", () => {
 
          const validatedValues = updateTemplateSchema.parse(templateData);
          expect(validatedValues.categories).toEqual(["Marketing"]);
+      });
+
+      it("exactly 5 categories valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["A", "B", "C", "D", "E"],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toHaveLength(5);
+      });
+
+      it("more than 5 categories invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["A", "B", "C", "D", "E", "F"],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Maximal 5 Kategorien pro Prompt"
+         );
+      });
+
+      it("category exceeding max length invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["a".repeat(51)],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Kategorie zu lang (maximal 50 Zeichen)"
+         );
+      });
+
+      it("empty string category invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: [""],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Kategorie darf nicht leer sein"
+         );
+      });
+
+      it("category values are trimmed - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["  Marketing  ", "Sales "],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual(["Marketing", "Sales"]);
+      });
+
+      it("duplicate categories are not deduplicated by the schema - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["Marketing", "Marketing"],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual([
+            "Marketing",
+            "Marketing",
+         ]);
       });
    });
 
