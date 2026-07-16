@@ -12,8 +12,10 @@ import {
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createPromptCategory } from "@/data/actions/prompt";
-import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
+import {
+   createPromptCategory,
+   isConflictingPromptCategoryName,
+} from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { initPromptCategory } from "../utils";
 
@@ -22,6 +24,11 @@ import { CreateCategoryDialog } from "./create-category-dialog";
 const createPromptCategoryMock = createPromptCategory as jest.MockedFunction<
    typeof createPromptCategory
 >;
+
+const isConflictingPromptCategoryNameMock =
+   isConflictingPromptCategoryName as jest.MockedFunction<
+      typeof isConflictingPromptCategoryName
+   >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -74,6 +81,7 @@ describe("CreateCategoryDialog functionality tests", () => {
          message: "Kategorie erfolgreich erstellt",
       };
       createPromptCategoryMock.mockResolvedValue(result);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
 
       const onCloseFn = jest.fn();
 
@@ -92,6 +100,11 @@ describe("CreateCategoryDialog functionality tests", () => {
       const expectedPayload = initPromptCategory(category);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            undefined,
+            category.name
+         );
          expect(createPromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(createPromptCategoryMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -108,6 +121,7 @@ describe("CreateCategoryDialog functionality tests", () => {
          message: "Kategorie konnte nicht erstellt werden",
       };
       createPromptCategoryMock.mockResolvedValue(result);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
 
       const onCloseFn = jest.fn();
 
@@ -125,11 +139,44 @@ describe("CreateCategoryDialog functionality tests", () => {
       const expectedPayload = initPromptCategory(category);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            undefined,
+            category.name
+         );
          expect(createPromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(createPromptCategoryMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
+         expect(onCloseFn).not.toHaveBeenCalled();
+      });
+   });
+
+   it("submit btn clicked - isConflict true - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(true);
+
+      const category = dtestData.dPromptCategoryWithUsage();
+      const onCloseFn = jest.fn();
+
+      render(<CreateCategoryDialog open={true} onClose={onCloseFn} />);
+
+      await waitFor(() => {
+         assertDialogRendered();
+      });
+
+      await typeIntoInput("name", category.name);
+
+      const submitBtn = screen.getByTestId("submit-btn");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            undefined,
+            category.name
+         );
+         expect(createPromptCategoryMock).not.toHaveBeenCalled();
          expect(onCloseFn).not.toHaveBeenCalled();
       });
    });
@@ -147,12 +194,18 @@ describe("CreateCategoryDialog functionality tests", () => {
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            undefined,
+            ""
+         );
          expect(createPromptCategoryMock).not.toHaveBeenCalled();
          expect(onCloseFn).not.toHaveBeenCalled();
       });
    });
 
    it("cancel btn clicked - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
       const onCloseFn = jest.fn();
 
       render(<CreateCategoryDialog open={true} onClose={onCloseFn} />);
@@ -165,6 +218,7 @@ describe("CreateCategoryDialog functionality tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
          expect(createPromptCategoryMock).not.toHaveBeenCalled();
          expect(onCloseFn).toHaveBeenCalledTimes(1);
       });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useTransition } from "react";
+import { useEffect, useMemo, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -20,8 +20,9 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
 import { createPromptCategory } from "@/data/actions/prompt";
 import { DPromptCategoryUpdate } from "@/data/types/domain/prompt";
-import { updatePromptCategorySchema } from "@/data/types/validators/template";
 import { initPromptCategory } from "../utils";
+
+import { updateCategorySchemaBackendValidation } from "./update-category.schema";
 
 type Props = {
    open: boolean;
@@ -32,8 +33,13 @@ export const CreateCategoryDialog = ({ open, onClose }: Props) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
+   const createSchema = useMemo(
+      () => updateCategorySchemaBackendValidation(),
+      []
+   );
+
    const form = useForm<DPromptCategoryUpdate>({
-      resolver: zodResolver(updatePromptCategorySchema),
+      resolver: zodResolver(createSchema),
       defaultValues: initPromptCategory(),
    });
 

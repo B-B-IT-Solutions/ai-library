@@ -60,4 +60,31 @@ describe("updateCategorySchemaBackendValidation - tests", () => {
 
       await expect(fn).rejects.toThrow(ZodError);
    });
+
+   it("categoryId omitted - isConflict false - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
+      const schema = updateCategorySchemaBackendValidation();
+
+      const result = await schema.parseAsync({ name: "Vertrieb" });
+
+      expect(result.name).toBe("Vertrieb");
+      expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         undefined,
+         "Vertrieb"
+      );
+   });
+
+   it("categoryId omitted - isConflict true - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(true);
+      const schema = updateCategorySchemaBackendValidation();
+
+      const fn = () => schema.parseAsync({ name: "Support" });
+
+      await expect(fn).rejects.toThrow(ZodError);
+      expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         undefined,
+         "Support"
+      );
+   });
 });
