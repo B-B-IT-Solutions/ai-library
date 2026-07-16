@@ -15,6 +15,7 @@ import {
 } from "@/data/types/domain/prompt";
 import {
    PromptCategoryCountArgs,
+   PromptCategoryCreateArgs,
    PromptCategoryDeleteArgs,
    PromptCategoryFindFirstArgs,
    PromptCategoryFindManyArgs,
@@ -33,6 +34,7 @@ import {
 import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
+   toDPromptCategoryWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -1224,6 +1226,78 @@ describe("pGetCategoriesWithUsage tests", () => {
    });
 });
 
+describe("pCreatePromptCategory tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("category created - test", async () => {
+      const userId = "user-id-1";
+
+      const update = dtestData.dPromptCategoryWithUsage();
+
+      await repository.pCreatePromptCategory(userId, update);
+
+      const expectedArgs: PromptCategoryCreateArgs = {
+         data: {
+            userId,
+            name: update.name,
+         },
+      };
+
+      expect(prismaMock.promptCategory.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.create).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pUpdatePromptCategory tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("category renamed - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+
+      const update = dtestData.dPromptCategoryUpdate();
+      await repository.pUpdatePromptCategory(userId, categoryId, update);
+
+      const expectedArgs: PromptCategoryUpdateArgs = {
+         where: { id: categoryId, userId },
+         data: { name: update.name },
+      };
+
+      expect(prismaMock.promptCategory.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.update).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pDeletePromptCategory tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("category deleted - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+
+      await repository.pDeletePromptCategory(userId, categoryId);
+
+      const expectedArgs: PromptCategoryDeleteArgs = {
+         where: { id: categoryId, userId },
+      };
+
+      expect(prismaMock.promptCategory.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.delete).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
 describe("pPromptCategoryExists tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -1287,49 +1361,26 @@ describe("pPromptCategoryExists tests", () => {
          expectedArgs
       );
    });
-});
 
-describe("pUpdatePromptCategory tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("category renamed - test", async () => {
+   test("excludeCategoryId not provided - id filter omitted - test", async () => {
       const userId = "user-id-1";
-      const categoryId = 1;
+      const name = "category 1";
 
-      const update = dtestData.dPromptCategoryUpdate();
-      await repository.pUpdatePromptCategory(userId, categoryId, update);
+      prismaMock.promptCategory.findFirst.mockResolvedValue(null);
 
-      const expectedArgs: PromptCategoryUpdateArgs = {
-         where: { id: categoryId, userId },
-         data: { name: update.name },
+      const result = await repository.pPromptCategoryExists(userId, name);
+
+      const expectedArgs: PromptCategoryFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+         },
+         select: { id: true },
       };
 
-      expect(prismaMock.promptCategory.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.update).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-});
-
-describe("pDeletePromptCategory tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("category deleted - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
-
-      await repository.pDeletePromptCategory(userId, categoryId);
-
-      const expectedArgs: PromptCategoryDeleteArgs = {
-         where: { id: categoryId, userId },
-      };
-
-      expect(prismaMock.promptCategory.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.delete).toHaveBeenCalledWith(
+      expect(result).toBe(false);
+      expect(prismaMock.promptCategory.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findFirst).toHaveBeenCalledWith(
          expectedArgs
       );
    });

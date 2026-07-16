@@ -11,7 +11,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptTemplatingData,
    DPromptVariableValues,
@@ -750,48 +749,41 @@ describe("getPromptCategoriesWithUsage tests", () => {
    });
 });
 
-describe("isConflictingPromptCategoryName tests", () => {
+describe("createPromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("isConlficting false - test", async () => {
+   it("isConflict true - test", async () => {
       const userId = "user-id-1";
-      const categoryId = 1;
-      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
-
-      const result = await promptService.isConflictingPromptCategoryName(
-         userId,
-         categoryId,
-         " Vertrieb "
-      );
-
-      expect(result).toBe(false);
-      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
-         userId,
-         "Vertrieb",
-         categoryId
-      );
-   });
-
-   it("isConlficting true - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
-      const result = await promptService.isConflictingPromptCategoryName(
-         userId,
-         categoryId,
-         "Support"
-      );
+      const data = dtestData.dPromptCategoryUpdate();
 
-      expect(result).toBe(true);
+      const fn = () => promptService.createPromptCategory(userId, data);
+
+      await expect(fn).rejects.toThrow(CategoryNameConflictError);
+      expect(promptRepoMock.pCreatePromptCategory).not.toHaveBeenCalled();
+   });
+
+   it("category created - test", async () => {
+      const userId = "user-id-1";
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const data = dtestData.dPromptCategoryUpdate();
+
+      await promptService.createPromptCategory(userId, data);
+
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
          userId,
-         "Support",
-         categoryId
+         data.name,
+         undefined
+      );
+      expect(promptRepoMock.pCreatePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pCreatePromptCategory).toHaveBeenCalledWith(
+         userId,
+         data
       );
    });
 });
@@ -844,6 +836,52 @@ describe("deletePromptCategory tests", () => {
       expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledWith(
          userId,
+         categoryId
+      );
+   });
+});
+
+describe("isConflictingPromptCategoryName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isConlficting false - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const result = await promptService.isConflictingPromptCategoryName(
+         userId,
+         categoryId,
+         " Vertrieb "
+      );
+
+      expect(result).toBe(false);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb",
+         categoryId
+      );
+   });
+
+   it("isConlficting true - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
+
+      const result = await promptService.isConflictingPromptCategoryName(
+         userId,
+         categoryId,
+         "Support"
+      );
+
+      expect(result).toBe(true);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Support",
          categoryId
       );
    });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
+exports[`CreateCategoryDialog rendering tests open true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -18,7 +18,7 @@ exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
       <div
         class="fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg"
         data-slot="dialog-content"
-        data-testid="update-category-dialog"
+        data-testid="create-category-dialog"
       >
         <div
           class="flex flex-col gap-2 text-center sm:text-left"
@@ -29,18 +29,14 @@ exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
             data-slot="dialog-title"
             data-testid="mock-react-dialog-title"
           >
-            Kategorie umbenennen
+            Neue Kategorie erstellen
           </div>
           <div
             class="text-sm text-muted-foreground"
             data-slot="dialog-description"
             data-testid="mock-react-dialog-description"
           >
-            Benenne die Kategorie 
-            <strong>
-              category 1
-            </strong>
-             um. Die Änderung wirkt sich auf alle Prompts aus, die dieser Kategorie zugeordnet sind.
+            Erstelle eine neue Kategorie, um deine Prompts zu organisieren.
           </div>
         </div>
         <form
@@ -68,7 +64,7 @@ exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
               id="_r_0_-form-item"
               name="name"
               placeholder="Kategorie-Name"
-              value="category 1"
+              value=""
             />
           </div>
           <div
@@ -89,7 +85,7 @@ exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
               data-testid="submit-btn"
               type="submit"
             >
-              Speichern
+              Erstellen
             </button>
           </div>
         </form>
