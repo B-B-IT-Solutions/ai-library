@@ -1259,6 +1259,22 @@ describe("deletePromptCategory tests", () => {
       jest.restoreAllMocks();
    });
 
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await deletePromptCategory(1);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
    it("category deleted - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
@@ -1275,19 +1291,6 @@ describe("deletePromptCategory tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptCategoryMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptCategoryMock).toHaveBeenCalledWith(user.id, 1);
-   });
-
-   it("unexpected error - generic message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sDeletePromptCategoryMock.mockRejectedValue(new Error("db down"));
-
-      const result = await deletePromptCategory(1);
-
-      expect(result).toEqual({
-         success: false,
-         message: "Kategorie konnte nicht gelöscht werden",
-      });
    });
 });
 
