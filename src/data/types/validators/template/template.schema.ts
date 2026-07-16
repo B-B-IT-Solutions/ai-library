@@ -47,8 +47,6 @@ export const updateTemplateSchema = z.object({
    globalFieldIds: z.array(z.string()),
 });
 
-export const renameCategorySchema = z.object({
+export const updateCategorySchema = z.object({
    name: categorySchema,
 });
-
-export const normalizeCategoryName = (value: string) => toLower(trim(value));

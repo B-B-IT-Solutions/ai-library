@@ -2,9 +2,7 @@ export {
    updateTemplateSchema,
    promptVariableSchema,
    promptVariableTypeSchema,
-   categorySchema,
-   renameCategorySchema,
-   normalizeCategoryName,
+   updateCategorySchema,
 } from "./template.schema";
 
 export { buildRenameCategorySchema } from "./rename-category.schema";

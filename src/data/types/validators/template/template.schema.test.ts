@@ -4,7 +4,7 @@ import {
    categorySchema,
    promptVariableSchema,
    promptVariableTypeSchema,
-   renameCategorySchema,
+   updateCategorySchema,
    updateTemplateSchema,
 } from "./template.schema";
 
@@ -805,10 +805,7 @@ describe("updateTemplateSchema - tests", () => {
          };
 
          const validatedValues = updateTemplateSchema.parse(templateData);
-         expect(validatedValues.categories).toEqual([
-            "Marketing",
-            "Marketing",
-         ]);
+         expect(validatedValues.categories).toEqual(["Marketing", "Marketing"]);
       });
    });
 
@@ -943,32 +940,31 @@ describe("updateTemplateSchema - tests", () => {
 
 describe("renameCategorySchema - tests", () => {
    it("valid name - test", () => {
-      const validatedValues = renameCategorySchema.parse({
+      const validatedValues = updateCategorySchema.parse({
          name: "Marketing",
       });
       expect(validatedValues.name).toBe("Marketing");
    });
 
    it("trims whitespace - test", () => {
-      const validatedValues = renameCategorySchema.parse({
+      const validatedValues = updateCategorySchema.parse({
          name: "  Marketing  ",
       });
       expect(validatedValues.name).toBe("Marketing");
    });
 
    it("empty name invalid - test", () => {
-      const fn = () => renameCategorySchema.parse({ name: "" });
+      const fn = () => updateCategorySchema.parse({ name: "" });
       expect(fn).toThrow(ZodError);
    });
 
    it("name exceeding max length invalid - test", () => {
-      const fn = () =>
-         renameCategorySchema.parse({ name: "a".repeat(51) });
+      const fn = () => updateCategorySchema.parse({ name: "a".repeat(51) });
       expect(fn).toThrow(ZodError);
    });
 
    it("missing name invalid - test", () => {
-      const fn = () => renameCategorySchema.parse({});
+      const fn = () => updateCategorySchema.parse({});
       expect(fn).toThrow(ZodError);
    });
 });

@@ -26,7 +26,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import { renameCategorySchema } from "@/data/types/validators/template";
+import { updateCategorySchema } from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -328,7 +328,7 @@ export const updatePromptCategory = async (
    newName: string
 ): Promise<ActionResult> => {
    try {
-      const { name } = renameCategorySchema.parse({ name: newName });
+      const { name } = updateCategorySchema.parse({ name: newName });
 
       const user = await requireUser();
       const service = getService();

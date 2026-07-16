@@ -1,6 +1,6 @@
 import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
-import { renameCategorySchema } from "./template.schema";
+import { updateCategorySchema } from "./template.schema";
 
 /**
  * Rename-category schema that additionally validates, against the backend,
@@ -15,7 +15,7 @@ import { renameCategorySchema } from "./template.schema";
  * this file directly wherever the rename dialog needs it.
  */
 export const buildRenameCategorySchema = (categoryId: number) => {
-   return renameCategorySchema.refine(
+   return updateCategorySchema.refine(
       async (data) =>
          await isConflictingPromptCategoryName(categoryId, data.name),
       {
