@@ -10,7 +10,7 @@ export const initPromptTemplate = (
       title: prompt?.title ?? "",
       description: prompt?.description ?? "",
       content: prompt?.content ?? "",
-      recommendedModel: prompt?.recommendedModel ?? "Claude",
+      recommendedModel: prompt?.recommendedModel ?? "",
       categories: map(prompt?.categories, "name"),
       fields: map(prompt?.fields, existingTemplateFieldInitValues),
       globalFieldIds: prompt?.globalFieldIds ?? [],

@@ -4,7 +4,10 @@ import { screen } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { getPromptCategoriesPage } from "@/data/actions/prompt";
+import {
+   getPromptCategoriesPage,
+   getPromptModelsPage,
+} from "@/data/actions/prompt";
 
 import { BasicInfo } from "./basic-info";
 
@@ -12,6 +15,9 @@ const getPromptCategoriesPageMock =
    getPromptCategoriesPage as jest.MockedFunction<
       typeof getPromptCategoriesPage
    >;
+const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
+   typeof getPromptModelsPage
+>;
 
 const TestWrapper = () => {
    const form = useForm({
@@ -51,6 +57,9 @@ describe("BasicInfo rendering tests", () => {
    beforeEach(() => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("rendered - test", () => {

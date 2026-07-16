@@ -8,6 +8,7 @@ import {
    UserUpdateArgs,
    UserWhereInput,
 } from "@/generated/prisma/models";
+import { DEFAULT_PROMPT_MODEL_NAMES } from "@/lib/constants";
 
 import { toDUserInternal } from "./user.mapper";
 
@@ -54,6 +55,9 @@ export class UserRepository {
          password: data.hashedPassword,
          legalNoticesAcceptedAt: data.legalNoticesAcceptedAt,
          trialEndsAt: data.trialEndsAt,
+         promptModels: {
+            create: DEFAULT_PROMPT_MODEL_NAMES.map((name) => ({ name })),
+         },
       };
 
       const newUser = await this.prisma.user.create({

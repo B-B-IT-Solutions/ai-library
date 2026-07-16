@@ -1,5 +1,5 @@
 ﻿import { trim } from "es-toolkit";
-import { map, uniq } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -12,6 +12,10 @@ import {
    DPromptCategoriesPageQuery,
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
+   DPromptModelUpdate,
+   DPromptModelWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -34,6 +38,13 @@ import {
    PromptCreateInput,
    PromptDeleteArgs,
    PromptFindManyArgs,
+   PromptModelCountArgs,
+   PromptModelCreateArgs,
+   PromptModelDeleteArgs,
+   PromptModelFindFirstArgs,
+   PromptModelFindManyArgs,
+   PromptModelUpdateArgs,
+   PromptModelWhereInput,
    PromptUpdateArgs,
    PromptUpdateInput,
 } from "@/generated/prisma/models";
@@ -41,12 +52,14 @@ import {
 import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
+   toDPromptModelsWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
 } from "./prompt.mapper";
 import {
    resolveCategoriesWhereInput,
+   resolveModelsWhereInput,
    resolvePromptOrderBy,
    resolvePromptWhereInput,
 } from "./utils";
@@ -74,6 +87,7 @@ export class PromptRepository {
          where,
          include: {
             categories: true,
+            model: true,
          },
          orderBy,
          skip,
@@ -147,6 +161,7 @@ export class PromptRepository {
             where: { id, userId },
             include: {
                categories: true,
+               model: true,
             },
          });
 
@@ -165,6 +180,7 @@ export class PromptRepository {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },
@@ -177,7 +193,17 @@ export class PromptRepository {
       const input: PromptCreateInput = {
          title: data.title,
          description: data.description,
-         recommendedModel: data.recommendedModel,
+         model: {
+            connectOrCreate: {
+               where: {
+                  userId_name: { userId, name: data.recommendedModel },
+               },
+               create: {
+                  name: data.recommendedModel,
+                  userId,
+               },
+            },
+         },
          categories: {
             connectOrCreate: map(data.categories, (catName) => ({
                where: {
@@ -223,6 +249,7 @@ export class PromptRepository {
          data: input,
          include: {
             categories: true,
+            model: true,
          },
       };
       const newEntry = await this.prisma.prompt.create(args);
@@ -237,7 +264,12 @@ export class PromptRepository {
       const input: PromptUpdateInput = {
          title: data.title,
          description: data.description,
-         recommendedModel: data.recommendedModel,
+         model: {
+            connectOrCreate: {
+               where: { userId_name: { userId, name: data.recommendedModel } },
+               create: { name: data.recommendedModel, userId },
+            },
+         },
          categories: {
             set: [],
             connectOrCreate: map(data.categories, (catName) => ({
@@ -459,14 +491,143 @@ export class PromptRepository {
    }
 
    async pGetPromptModels(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.prompt.findMany({
+      const args = {
          where: { userId },
          select: {
-            recommendedModel: true,
+            name: true,
          },
-      });
+         orderBy: {
+            name: "asc",
+         },
+      } satisfies PromptModelFindManyArgs;
 
-      const models = map(descriptors, (d) => d.recommendedModel);
-      return uniq(models).sort();
+      const models = await this.prisma.promptModel.findMany(args);
+      return map(models, (m) => m.name);
+   }
+
+   async pGetPromptModelsPage(
+      userId: string,
+      query?: DPromptModelsPageQuery
+   ): Promise<DPromptModelsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where: PromptModelWhereInput = resolveModelsWhereInput(
+         userId,
+         query?.filter
+      );
+
+      const args = {
+         where,
+         select: {
+            name: true,
+         },
+         orderBy: {
+            name: "asc",
+         },
+         skip,
+         take: pageSize,
+      } as PromptModelFindManyArgs;
+
+      const countArgs = {
+         where,
+      } as PromptModelCountArgs;
+
+      const [models, totalElements] = await Promise.all([
+         this.prisma.promptModel.findMany(args),
+         this.prisma.promptModel.count(countArgs),
+      ]);
+
+      const content = map(models, (m) => m.name);
+
+      return {
+         content,
+         pageNumber,
+         pageSize,
+         numberOfElements: content.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements: totalElements,
+      };
+   }
+
+   async pGetPromptModelsWithUsage(
+      userId: string
+   ): Promise<DPromptModelWithUsage[]> {
+      const args = {
+         where: { userId },
+         select: {
+            id: true,
+            name: true,
+            _count: {
+               select: { prompts: true },
+            },
+         },
+         orderBy: { name: "asc" },
+      } satisfies PromptModelFindManyArgs;
+
+      const models = await this.prisma.promptModel.findMany(args);
+      return toDPromptModelsWithUsage(models);
+   }
+
+   async pCreatePromptModel(
+      userId: string,
+      update: DPromptModelUpdate
+   ): Promise<void> {
+      const args = {
+         data: {
+            userId,
+            name: trim(update.name),
+         },
+      } satisfies PromptModelCreateArgs;
+
+      await this.prisma.promptModel.create(args);
+   }
+
+   async pUpdatePromptModel(
+      userId: string,
+      modelId: number,
+      update: DPromptModelUpdate
+   ): Promise<void> {
+      const args = {
+         where: {
+            id: modelId,
+            userId,
+         },
+         data: {
+            name: trim(update.name),
+         },
+      } satisfies PromptModelUpdateArgs;
+
+      await this.prisma.promptModel.update(args);
+   }
+
+   async pDeletePromptModel(userId: string, modelId: number): Promise<void> {
+      const args = {
+         where: { id: modelId, userId },
+      } satisfies PromptModelDeleteArgs;
+
+      await this.prisma.promptModel.delete(args);
+   }
+
+   async pPromptModelExists(
+      userId: string,
+      name: string,
+      excludeModelId?: number
+   ): Promise<boolean> {
+      const idWhere = excludeModelId ? { not: excludeModelId } : undefined;
+
+      const args = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: idWhere,
+         },
+         select: { id: true },
+      } satisfies PromptModelFindFirstArgs;
+
+      const existing = await this.prisma.promptModel.findFirst(args);
+      return existing !== null;
    }
 }

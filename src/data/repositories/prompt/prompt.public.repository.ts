@@ -40,6 +40,7 @@ export class PublicPromptRepository {
          where,
          include: {
             categories: true,
+            model: true,
          },
          orderBy,
          skip,
@@ -70,6 +71,7 @@ export class PublicPromptRepository {
          where: { id: promptId },
          include: {
             categories: true,
+            model: true,
          },
       } satisfies PromptFindFirstArgs;
 
@@ -87,6 +89,7 @@ export class PublicPromptRepository {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },

@@ -37,6 +37,10 @@ const groups: NavigationGroup[] = [
             section: "prompt-categories",
             label: "Prompts Kategorien",
          },
+         {
+            section: "prompt-models",
+            label: "Modelle",
+         },
       ],
    },
 ];

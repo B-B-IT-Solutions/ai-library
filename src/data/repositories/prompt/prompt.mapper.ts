@@ -2,6 +2,7 @@
 
 import {
    PromptCategoryWithUsage,
+   PromptModelWithUsage,
    PromptPreview,
    PromptWithCategories,
    PromptWithContent,
@@ -9,6 +10,7 @@ import {
 import {
    DPrompt,
    DPromptCategoryWithUsage,
+   DPromptModelWithUsage,
    DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
@@ -37,7 +39,7 @@ export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      recommendedModel: prompt.recommendedModel,
+      recommendedModel: prompt.model?.name ?? "",
       isFavorite: prompt.isFavorite,
       categories: prompt.categories,
       fields: [],
@@ -92,5 +94,21 @@ export const toDPromptCategoryWithUsage = (
       id: category.id,
       name: category.name,
       count: category._count.prompts,
+   };
+};
+
+export const toDPromptModelsWithUsage = (
+   models: PromptModelWithUsage[]
+): DPromptModelWithUsage[] => {
+   return map(models, toDPromptModelWithUsage);
+};
+
+export const toDPromptModelWithUsage = (
+   model: PromptModelWithUsage
+): DPromptModelWithUsage => {
+   return {
+      id: model.id,
+      name: model.name,
+      count: model._count.prompts,
    };
 };

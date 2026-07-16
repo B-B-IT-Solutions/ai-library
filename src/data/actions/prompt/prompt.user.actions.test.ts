@@ -6,7 +6,10 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import { CategoryNameConflictError } from "@/data/services/prompt/errors";
+import {
+   CategoryNameConflictError,
+   ModelNameConflictError,
+} from "@/data/services/prompt/errors";
 import {
    DPrompt,
    DPromptCategoryWithUsage,
@@ -22,8 +25,10 @@ import {
    composePromptFromTemplate,
    createPrompt,
    createPromptCategory,
+   createPromptModel,
    deletePrompt,
    deletePromptCategory,
+   deletePromptModel,
    downloadPrompt,
    getPrompt,
    getPromptCategories,
@@ -31,14 +36,18 @@ import {
    getPromptCategoriesWithUsage,
    getPromptGenerationData,
    getPromptModels,
+   getPromptModelsPage,
+   getPromptModelsWithUsage,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
    getPromptWithContent,
    isConflictingPromptCategoryName,
+   isConflictingPromptModelName,
    togglePromptFavorite,
    updatePrompt,
    updatePromptCategory,
+   updatePromptModel,
 } from "./prompt.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -133,6 +142,36 @@ const sDeletePromptCategoryMock = sDeletePromptCategory as jest.MockedFunction<
 const sIsConflictingPromptCategoryNameMock =
    sIsConflictingPromptCategoryName as jest.MockedFunction<
       typeof sIsConflictingPromptCategoryName
+   >;
+
+const sGetPromptModelsPage = PromptService.prototype.getPromptModelsPage;
+const sGetPromptModelsWithUsage =
+   PromptService.prototype.getPromptModelsWithUsage;
+const sCreatePromptModel = PromptService.prototype.createPromptModel;
+const sUpdatePromptModel = PromptService.prototype.updatePromptModel;
+const sDeletePromptModel = PromptService.prototype.deletePromptModel;
+const sIsConflictingPromptModelName =
+   PromptService.prototype.isConflictingPromptModelName;
+
+const sGetPromptModelsPageMock = sGetPromptModelsPage as jest.MockedFunction<
+   typeof sGetPromptModelsPage
+>;
+const sGetPromptModelsWithUsageMock =
+   sGetPromptModelsWithUsage as jest.MockedFunction<
+      typeof sGetPromptModelsWithUsage
+   >;
+const sCreatePromptModelMock = sCreatePromptModel as jest.MockedFunction<
+   typeof sCreatePromptModel
+>;
+const sUpdatePromptModelMock = sUpdatePromptModel as jest.MockedFunction<
+   typeof sUpdatePromptModel
+>;
+const sDeletePromptModelMock = sDeletePromptModel as jest.MockedFunction<
+   typeof sDeletePromptModel
+>;
+const sIsConflictingPromptModelNameMock =
+   sIsConflictingPromptModelName as jest.MockedFunction<
+      typeof sIsConflictingPromptModelName
    >;
 
 describe("getPromptsPage tests", () => {
@@ -1432,6 +1471,365 @@ describe("getPromptModels tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptModelsMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptModelsMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getPromptModelsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptModelsPage();
+
+      expect(result).toEqual(EMPTY_PAGE);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsPageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("models page retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const page = dtestData.dPromptModelsPage();
+      sGetPromptModelsPageMock.mockResolvedValue(page);
+
+      const query = dtestData.dPromptModelsPageQuery();
+
+      const result = await getPromptModelsPage(query);
+
+      expect(result).toEqual(page);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsPageMock).toHaveBeenCalledWith(user.id, query);
+   });
+});
+
+describe("getPromptModelsWithUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptModelsWithUsage();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsWithUsageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("models retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const models = dtestData.dPromptModelsWithUsage();
+      sGetPromptModelsWithUsageMock.mockResolvedValue(models);
+
+      const result = await getPromptModelsWithUsage();
+
+      expect(result).toEqual(models);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsWithUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptModelsWithUsageMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("createPromptModel tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - invalid name - test", async () => {
+      const data = dtestData.dPromptModelUpdate();
+      data.name = "a".repeat(51);
+
+      const result = await createPromptModel(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Modell konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sCreatePromptModelMock).not.toHaveBeenCalled();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const data = dtestData.dPromptModelUpdate();
+      const result = await createPromptModel(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Modell konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptModelMock).not.toHaveBeenCalled();
+   });
+
+   it("error - name conflict - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data = dtestData.dPromptModelUpdate();
+
+      const error = new ModelNameConflictError(data.name);
+      sCreatePromptModelMock.mockRejectedValue(error);
+
+      const result = await createPromptModel(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptModelMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptModelMock).toHaveBeenCalledWith(user.id, data);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("model created - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sCreatePromptModelMock.mockResolvedValue(undefined);
+
+      const data = dtestData.dPromptModelUpdate();
+
+      const result = await createPromptModel(data);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Modell erfolgreich erstellt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptModelMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptModelMock).toHaveBeenCalledWith(user.id, data);
+   });
+});
+
+describe("updatePromptModel tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - invalid name - test", async () => {
+      const update = dtestData.dPromptModelUpdate();
+      update.name = "a".repeat(51);
+
+      const result = await updatePromptModel(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Modell konnte nicht umbenannt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptModelMock).not.toHaveBeenCalled();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const update = dtestData.dPromptModelUpdate();
+      const result = await updatePromptModel(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Modell konnte nicht umbenannt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptModelMock).not.toHaveBeenCalled();
+   });
+
+   it("error - name conflict  - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const update = dtestData.dPromptModelUpdate();
+
+      const error = new ModelNameConflictError(update.name);
+      sUpdatePromptModelMock.mockRejectedValue(error);
+
+      const result = await updatePromptModel(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptModelMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptModelMock).toHaveBeenCalledWith(user.id, 1, update);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("model renamed - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sUpdatePromptModelMock.mockResolvedValue(undefined);
+
+      const update = dtestData.dPromptModelUpdate();
+
+      const result = await updatePromptModel(1, update);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Modell erfolgreich umbenannt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptModelMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptModelMock).toHaveBeenCalledWith(user.id, 1, update);
+   });
+});
+
+describe("deletePromptModel tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await deletePromptModel(1);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Modell konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsConflictingPromptModelNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("model deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sDeletePromptModelMock.mockResolvedValue(undefined);
+
+      const result = await deletePromptModel(1);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Modell erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptModelMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptModelMock).toHaveBeenCalledWith(user.id, 1);
+   });
+});
+
+describe("isConflictingPromptModelName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await isConflictingPromptModelName(1, "Claude");
+
+      expect(result).toBe(false);
+      expect(sIsConflictingPromptModelNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("isConflict false - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptModelNameMock.mockResolvedValue(false);
+
+      const modelId = 1;
+      const modelName = "model 1";
+      const result = await isConflictingPromptModelName(modelId, modelName);
+
+      expect(result).toBe(false);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptModelNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptModelNameMock).toHaveBeenCalledWith(
+         user.id,
+         modelId,
+         modelName
+      );
+   });
+
+   it("isConflict true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptModelNameMock.mockResolvedValue(true);
+
+      const modelId = 1;
+      const modelName = "model 123";
+
+      const result = await isConflictingPromptModelName(modelId, modelName);
+
+      expect(result).toBe(true);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptModelNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptModelNameMock).toHaveBeenCalledWith(
+         user.id,
+         modelId,
+         modelName
+      );
    });
 });
 

@@ -3,10 +3,12 @@ import { isEmpty } from "es-toolkit/compat";
 import { Sort } from "@/data/types/common";
 import {
    DPromptCategoriesFilter,
+   DPromptModelsFilter,
    DPromptsFilter,
 } from "@/data/types/domain/prompt";
 import {
    PromptCategoryWhereInput,
+   PromptModelWhereInput,
    PromptOrderByWithRelationInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
@@ -42,8 +44,10 @@ export const resolvePromptWhereInput = (
 
    // Models
    if (!isEmpty(filter.models)) {
-      where.recommendedModel = {
-         in: filter.models,
+      where.model = {
+         name: {
+            in: filter.models,
+         },
       };
    }
 
@@ -71,6 +75,20 @@ export const resolveCategoriesWhereInput = (
    filter?: DPromptCategoriesFilter
 ) => {
    const where: PromptCategoryWhereInput = { userId };
+   if (filter?.search) {
+      where.name = {
+         contains: filter.search,
+         mode: "insensitive",
+      };
+   }
+   return where;
+};
+
+export const resolveModelsWhereInput = (
+   userId: string,
+   filter?: DPromptModelsFilter
+) => {
+   const where: PromptModelWhereInput = { userId };
    if (filter?.search) {
       where.name = {
          contains: filter.search,

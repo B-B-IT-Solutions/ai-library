@@ -20,7 +20,7 @@ jest.mock("@/components/shared/md", () => {
 });
 
 import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
-import { getByTestId, screen, waitFor } from "@testing-library/dom";
+import { getByTestId, screen, waitFor, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
@@ -37,6 +37,7 @@ import { Action, ExternalToast, toast } from "sonner";
 import {
    createPrompt,
    getPromptCategoriesPage,
+   getPromptModelsPage,
    updatePrompt,
 } from "@/data/actions/prompt";
 import {
@@ -61,6 +62,9 @@ const getPromptCategoriesPageMock =
    getPromptCategoriesPage as jest.MockedFunction<
       typeof getPromptCategoriesPage
    >;
+const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
+   typeof getPromptModelsPage
+>;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertBtnRendered = () => {
@@ -92,6 +96,15 @@ const assertCancelBtnHref = (href: string) => {
    assertHasAttributeWithValue(footerCancelBtn, "href", href);
 };
 
+const selectRecommendedModel = async (modelName: string) => {
+   const modelField = screen.getByTestId("recommendedModel");
+   const trigger = within(modelField).getByTestId("combobox-trigger");
+   await userEvent.click(trigger);
+
+   const option = await within(modelField).findByText(modelName);
+   await userEvent.click(option);
+};
+
 const assertRendered = () => {
    const editEntry = screen.getByTestId("prompt-edit");
    const breadcrumbs = screen.getByTestId("template-breadcrumb");
@@ -108,6 +121,9 @@ describe("PromptEdit rendering tests", () => {
    beforeEach(() => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("new entry - collection undefined - test", async () => {
@@ -185,6 +201,9 @@ describe("PromptEdit functionality tests", () => {
 
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("new entry - save btn clicked - success - test", async () => {
@@ -213,6 +232,7 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+      await selectRecommendedModel("model 0");
 
       await userEvent.click(saveBtn);
 
@@ -223,7 +243,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         recommendedModel: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -262,6 +282,7 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+      await selectRecommendedModel("model 0");
 
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
@@ -408,6 +429,7 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+      await selectRecommendedModel("model 0");
 
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
@@ -420,7 +442,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         recommendedModel: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -484,6 +506,7 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoTextArea("description", "Test Description");
 
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
+      await selectRecommendedModel("model 0");
 
       await userEvent.click(saveBtn);
 
@@ -494,7 +517,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         recommendedModel: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {

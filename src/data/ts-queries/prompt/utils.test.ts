@@ -41,5 +41,11 @@ describe("keys tests", () => {
          "categories",
          { search: "search-1" },
       ]);
+      expect(promptKeys.models()).toEqual(["prompts", "models", {}]);
+      expect(promptKeys.models("search-1")).toEqual([
+         "prompts",
+         "models",
+         { search: "search-1" },
+      ]);
    });
 });

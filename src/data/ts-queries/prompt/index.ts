@@ -1,6 +1,8 @@
 export {
    infiniteLoadPromptCategoriesPageOptions,
    useInfiniteLoadPromptCategoriesPage,
+   infiniteLoadPromptModelsPageOptions,
+   useInfiniteLoadPromptModelsPage,
    infiniteLoadPromptsPageOptions,
    useInfiniteLoadPromptsPage,
    infiniteLoadPromptPreviewsPageOptions,

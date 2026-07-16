@@ -52,6 +52,7 @@ describe("pGetPublicPromptsPage tests", () => {
          },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "asc" },
          skip: 0,
@@ -94,6 +95,7 @@ describe("pGetPublicPromptsPage tests", () => {
          },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { title: "asc" },
          skip: 0,
@@ -135,6 +137,7 @@ describe("pGetPublicPromptsPage tests", () => {
          },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { title: "desc" },
          skip: 20,
@@ -171,6 +174,7 @@ describe("pGetPublicPrompt tests", () => {
          where: { id },
          include: {
             categories: true,
+            model: true,
          },
       };
       expect(result).toBeNull();
@@ -190,6 +194,7 @@ describe("pGetPublicPrompt tests", () => {
          where: { id },
          include: {
             categories: true,
+            model: true,
          },
       };
       expect(result).toEqual(expectedResult);
@@ -214,6 +219,7 @@ describe("pGetPublicPromptContent tests", () => {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },
@@ -236,6 +242,7 @@ describe("pGetPublicPromptContent tests", () => {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },

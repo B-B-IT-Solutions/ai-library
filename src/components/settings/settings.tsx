@@ -1,7 +1,7 @@
 import { DSettingsSection } from "@/data/types/domain/settings";
 import { DUser } from "@/data/types/domain/user";
 
-import { Categories, GlobalPromptFields } from "./content";
+import { Categories, GlobalPromptFields, Models } from "./content";
 import { Navigation } from "./navigation";
 import { AccountSettings, GeneralSettings, Subscription } from "./user";
 
@@ -23,6 +23,9 @@ export const Settings = ({ user, section }: Props) => {
       }
       if (section === "prompt-categories") {
          return <Categories />;
+      }
+      if (section === "prompt-models") {
+         return <Models />;
       }
       return <GeneralSettings user={user} />;
    };

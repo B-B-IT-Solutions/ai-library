@@ -86,7 +86,7 @@ describe("resolvePromptWhereInput tests", () => {
 
       const expectedWhere: PromptWhereInput = {
          userId,
-         recommendedModel: { in: ["gpt-4", "claude"] },
+         model: { name: { in: ["gpt-4", "claude"] } },
       };
 
       expect(result).toEqual(expectedWhere);
@@ -175,7 +175,7 @@ describe("resolvePromptWhereInput tests", () => {
          categories: {
             some: { name: { in: filter.categories } },
          },
-         recommendedModel: { in: filter.models },
+         model: { name: { in: filter.models } },
          isFavorite: filter.isFavorite,
          collectionEntries: {
             some: { collectionId: { in: filter.collectionIds } },

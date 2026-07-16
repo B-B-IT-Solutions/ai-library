@@ -2,9 +2,11 @@ import { ZodError } from "zod";
 
 import {
    categorySchema,
+   modelSchema,
    promptVariableSchema,
    promptVariableTypeSchema,
    updatePromptCategorySchema,
+   updatePromptModelSchema,
    updateTemplateSchema,
 } from "./prompt.schema";
 
@@ -475,6 +477,59 @@ describe("categorySchema - tests", () => {
    });
 });
 
+describe("modelSchema - tests", () => {
+   it("valid model - test", () => {
+      const validatedValue = modelSchema.parse("Claude");
+      expect(validatedValue).toBe("Claude");
+   });
+
+   it("trims leading and trailing whitespace - test", () => {
+      const validatedValue = modelSchema.parse("  Claude  ");
+      expect(validatedValue).toBe("Claude");
+   });
+
+   it("single character valid - test", () => {
+      const validatedValue = modelSchema.parse("A");
+      expect(validatedValue).toBe("A");
+   });
+
+   it("empty string invalid - test", () => {
+      const result = modelSchema.safeParse("");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe("Modell darf nicht leer sein");
+   });
+
+   it("whitespace only string invalid - test", () => {
+      const result = modelSchema.safeParse("   ");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe("Modell darf nicht leer sein");
+   });
+
+   it("at max length (50 chars) valid - test", () => {
+      const validatedValue = modelSchema.parse("a".repeat(50));
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("exceeds max length (51 chars) invalid - test", () => {
+      const result = modelSchema.safeParse("a".repeat(51));
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Modell zu lang (maximal 50 Zeichen)"
+      );
+   });
+
+   it("length check applies after trimming - test", () => {
+      const paddedValue = ` ${"a".repeat(50)} `;
+      const validatedValue = modelSchema.parse(paddedValue);
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("non-string value invalid - test", () => {
+      const fn = () => modelSchema.parse(123);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
 describe("updateTemplateSchema - tests", () => {
    const validField = {
       name: "email",
@@ -667,14 +722,17 @@ describe("updateTemplateSchema - tests", () => {
    });
 
    describe("Recommended model validation", () => {
-      it("empty recommendedModel valid - test", () => {
+      it("empty recommendedModel invalid - test", () => {
          const templateData = {
             ...validTemplateData,
             recommendedModel: "",
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
-         expect(validatedValues).toEqual(templateData);
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Modell darf nicht leer sein"
+         );
       });
 
       it("missing recommendedModel invalid - test", () => {
@@ -966,6 +1024,38 @@ describe("updatePromptCategorySchema - tests", () => {
 
    it("missing name invalid - test", () => {
       const fn = () => updatePromptCategorySchema.parse({});
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("updatePromptModelSchema - tests", () => {
+   it("valid name - test", () => {
+      const validatedValues = updatePromptModelSchema.parse({
+         name: "Claude",
+      });
+      expect(validatedValues.name).toBe("Claude");
+   });
+
+   it("trims whitespace - test", () => {
+      const validatedValues = updatePromptModelSchema.parse({
+         name: "  Claude  ",
+      });
+      expect(validatedValues.name).toBe("Claude");
+   });
+
+   it("empty name invalid - test", () => {
+      const fn = () => updatePromptModelSchema.parse({ name: "" });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name exceeding max length invalid - test", () => {
+      const fn = () =>
+         updatePromptModelSchema.parse({ name: "a".repeat(51) });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing name invalid - test", () => {
+      const fn = () => updatePromptModelSchema.parse({});
       expect(fn).toThrow(ZodError);
    });
 });

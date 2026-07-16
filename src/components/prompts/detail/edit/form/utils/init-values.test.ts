@@ -33,7 +33,7 @@ const expectedInitPromptTempalteNew: DPromptUpdate = {
    description: "",
    content: "",
 
-   recommendedModel: "Claude",
+   recommendedModel: "",
    categories: [],
    fields: [],
    globalFieldIds: [],
