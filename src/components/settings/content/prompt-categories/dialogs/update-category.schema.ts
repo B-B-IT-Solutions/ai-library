@@ -11,8 +11,13 @@ import { updatePromptCategorySchema } from "@/data/types/validators/template";
  */
 export const updateCategorySchemaBackendValidation = (categoryId: number) => {
    return updatePromptCategorySchema.refine(
-      async (data) =>
-         await isConflictingPromptCategoryName(categoryId, data.name),
+      async (data) => {
+         const isConflict = await isConflictingPromptCategoryName(
+            categoryId,
+            data.name
+         );
+         return !isConflict;
+      },
       {
          message: "Es existiert bereits eine Kategorie mit diesem Namen",
          path: ["name"],

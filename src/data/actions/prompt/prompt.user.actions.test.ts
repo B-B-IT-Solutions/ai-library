@@ -1111,7 +1111,7 @@ describe("isConflictingPromptCategoryName tests", () => {
 
       const result = await isConflictingPromptCategoryName(1, "Vertrieb");
 
-      expect(result).toBe(true);
+      expect(result).toBe(false);
       expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });

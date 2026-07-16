@@ -317,10 +317,7 @@ export const isConflictingPromptCategoryName = async (
       );
    } catch (error) {
       console.error(formatError(error));
-      // Fail open: a transient/network error here must not block the user
-      // from typing. The authoritative uniqueness check still runs
-      // server-side in `renameCategory` on actual submit.
-      return true;
+      return false;
    }
 };
 

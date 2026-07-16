@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -34,14 +34,15 @@ type Props = {
 
 export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
    const router = useRouter();
+   const [isPending, startTransition] = useTransition();
 
-   const renameSchema = useMemo(
+   const updateSchema = useMemo(
       () => updateCategorySchemaBackendValidation(category.id),
       [category.id]
    );
 
    const form = useForm<DPromptCategoryUpdate>({
-      resolver: zodResolver(renameSchema),
+      resolver: zodResolver(updateSchema),
       defaultValues: initPromptCategory(category),
    });
 
@@ -51,21 +52,21 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
       }
    }, [open, category, form]);
 
-   const { isSubmitting } = form.formState;
-
    const onSubmit: SubmitHandler<DPromptCategoryUpdate> = async (data) => {
-      const result = await updatePromptCategory(category.id, data);
-      if (result.success) {
-         toast.success(result.message);
-         router.refresh();
-         onClose();
-      } else {
-         toast.error(result.message);
-      }
+      startTransition(async () => {
+         const result = await updatePromptCategory(category.id, data);
+         if (result.success) {
+            toast.success(result.message);
+            router.refresh();
+            onClose();
+         } else {
+            toast.error(result.message);
+         }
+      });
    };
 
    const confirmBtnLabel = () => {
-      if (isSubmitting) {
+      if (isPending) {
          return (
             <>
                <Loader className="h-4 w-4" />
@@ -98,7 +99,7 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
                         type="button"
                         variant="outline"
                         onClick={onClose}
-                        disabled={isSubmitting}
+                        disabled={isPending}
                         className="cursor-pointer"
                         data-testid="cancel-btn"
                      >
@@ -106,7 +107,7 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
                      </Button>
                      <Button
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isPending}
                         className="cursor-pointer"
                         data-testid="submit-btn"
                      >
