@@ -420,13 +420,13 @@ describe("promptVariableSchema - tests", () => {
 
 describe("categorySchema - tests", () => {
    it("valid category - test", () => {
-      const validatedValue = categorySchema.parse("Marketing");
-      expect(validatedValue).toBe("Marketing");
+      const validatedValue = categorySchema.parse("Vertrieb");
+      expect(validatedValue).toBe("Vertrieb");
    });
 
    it("trims leading and trailing whitespace - test", () => {
-      const validatedValue = categorySchema.parse("  Marketing  ");
-      expect(validatedValue).toBe("Marketing");
+      const validatedValue = categorySchema.parse("  Vertrieb  ");
+      expect(validatedValue).toBe("Vertrieb");
    });
 
    it("single character valid - test", () => {
@@ -489,7 +489,7 @@ describe("updateTemplateSchema - tests", () => {
       description: "A test template description",
       content: "Hello {{email}}, welcome to {{company}}!",
       recommendedModel: "gpt-4",
-      categories: ["Marketing", "Sales"],
+      categories: ["Vertrieb", "Sales"],
       fields: [validField],
       globalFieldIds: [],
    };
@@ -523,12 +523,12 @@ describe("updateTemplateSchema - tests", () => {
       it("multiple categories valid - test", () => {
          const templateData = {
             ...validTemplateData,
-            categories: ["Marketing", "Sales", "Support", "HR"],
+            categories: ["Vertrieb", "Sales", "Support", "HR"],
          };
 
          const validatedValues = updateTemplateSchema.parse(templateData);
          expect(validatedValues.categories).toEqual([
-            "Marketing",
+            "Vertrieb",
             "Sales",
             "Support",
             "HR",
@@ -722,7 +722,7 @@ describe("updateTemplateSchema - tests", () => {
       it("categories must be array - test", () => {
          const templateData = {
             ...validTemplateData,
-            categories: "Marketing",
+            categories: "Vertrieb",
          };
 
          const fn = () => updateTemplateSchema.parse(templateData);
@@ -732,11 +732,11 @@ describe("updateTemplateSchema - tests", () => {
       it("single category valid - test", () => {
          const templateData = {
             ...validTemplateData,
-            categories: ["Marketing"],
+            categories: ["Vertrieb"],
          };
 
          const validatedValues = updateTemplateSchema.parse(templateData);
-         expect(validatedValues.categories).toEqual(["Marketing"]);
+         expect(validatedValues.categories).toEqual(["Vertrieb"]);
       });
 
       it("exactly 5 categories valid - test", () => {
@@ -791,21 +791,21 @@ describe("updateTemplateSchema - tests", () => {
       it("category values are trimmed - test", () => {
          const templateData = {
             ...validTemplateData,
-            categories: ["  Marketing  ", "Sales "],
+            categories: ["  Vertrieb  ", "Sales "],
          };
 
          const validatedValues = updateTemplateSchema.parse(templateData);
-         expect(validatedValues.categories).toEqual(["Marketing", "Sales"]);
+         expect(validatedValues.categories).toEqual(["Vertrieb", "Sales"]);
       });
 
       it("duplicate categories are not deduplicated by the schema - test", () => {
          const templateData = {
             ...validTemplateData,
-            categories: ["Marketing", "Marketing"],
+            categories: ["Vertrieb", "Vertrieb"],
          };
 
          const validatedValues = updateTemplateSchema.parse(templateData);
-         expect(validatedValues.categories).toEqual(["Marketing", "Marketing"]);
+         expect(validatedValues.categories).toEqual(["Vertrieb", "Vertrieb"]);
       });
    });
 
@@ -875,12 +875,12 @@ describe("updateTemplateSchema - tests", () => {
    describe("Complex scenarios", () => {
       it("real world template data - test", () => {
          const realWorldTemplate = {
-            title: "Marketing Email Campaign",
-            description: "Create personalized marketing emails",
+            title: "Vertrieb Email Campaign",
+            description: "Create personalized Vertrieb emails",
             content:
                "Dear {{firstName}} {{lastName}},\n\nWe are excited to offer you {{offer}}.\n\nBest regards,\n{{company}}",
             recommendedModel: "gpt-4-turbo",
-            categories: ["Marketing", "Email", "Sales"],
+            categories: ["Vertrieb", "Email", "Sales"],
             globalFieldIds: [],
             fields: [
                {
@@ -916,7 +916,7 @@ describe("updateTemplateSchema - tests", () => {
          };
 
          const validatedValues = updateTemplateSchema.parse(realWorldTemplate);
-         expect(validatedValues.title).toBe("Marketing Email Campaign");
+         expect(validatedValues.title).toBe("Vertrieb Email Campaign");
          expect(validatedValues.fields).toHaveLength(4);
          expect(validatedValues.categories).toHaveLength(3);
       });
@@ -941,16 +941,16 @@ describe("updateTemplateSchema - tests", () => {
 describe("updatePromptCategorySchema - tests", () => {
    it("valid name - test", () => {
       const validatedValues = updatePromptCategorySchema.parse({
-         name: "Marketing",
+         name: "Vertrieb",
       });
-      expect(validatedValues.name).toBe("Marketing");
+      expect(validatedValues.name).toBe("Vertrieb");
    });
 
    it("trims whitespace - test", () => {
       const validatedValues = updatePromptCategorySchema.parse({
-         name: "  Marketing  ",
+         name: "  Vertrieb  ",
       });
-      expect(validatedValues.name).toBe("Marketing");
+      expect(validatedValues.name).toBe("Vertrieb");
    });
 
    it("empty name invalid - test", () => {
