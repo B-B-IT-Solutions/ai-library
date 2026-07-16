@@ -399,7 +399,6 @@ export class PromptRepository {
       } satisfies PromptCategoryFindManyArgs;
 
       const categories = await this.prisma.promptCategory.findMany(args);
-
       return toDPromptCategoriesWithUsage(categories);
    }
 
