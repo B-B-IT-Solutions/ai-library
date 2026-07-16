@@ -634,25 +634,6 @@ describe("getPromptCategories tests", () => {
    });
 });
 
-describe("getPromptModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("model retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const models = dtestData.dTemplateModels();
-      promptRepoMock.pGetPromptModels.mockResolvedValue(models);
-
-      const result = await promptService.getPromptModels(userId);
-
-      expect(result).toEqual(models);
-      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledWith(userId);
-   });
-});
-
 describe("getPromptsUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -885,5 +866,24 @@ describe("isCategoryNameAvailable tests", () => {
       );
 
       expect(result).toBe(false);
+   });
+});
+
+describe("getPromptModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("model retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const models = dtestData.dTemplateModels();
+      promptRepoMock.pGetPromptModels.mockResolvedValue(models);
+
+      const result = await promptService.getPromptModels(userId);
+
+      expect(result).toEqual(models);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledWith(userId);
    });
 });

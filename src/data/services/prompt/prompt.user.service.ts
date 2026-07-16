@@ -223,10 +223,6 @@ export class PromptService {
       return await this.repository.pGetPromptCategories(userId);
    }
 
-   async getPromptModels(userId: string): Promise<string[]> {
-      return await this.repository.pGetPromptModels(userId);
-   }
-
    async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
       const [current, tier] = await Promise.all([
          this.getPromptsCount(userId),
@@ -291,5 +287,9 @@ export class PromptService {
          categoryId
       );
       return !exists;
+   }
+
+   async getPromptModels(userId: string): Promise<string[]> {
+      return await this.repository.pGetPromptModels(userId);
    }
 }
