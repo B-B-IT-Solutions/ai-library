@@ -31,6 +31,13 @@ exports[`CreateCategoryDialog rendering tests open true - test 1`] = `
           >
             Neue Kategorie erstellen
           </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Erstelle eine neue Kategorie, um deine Prompts zu organisieren.
+          </div>
         </div>
         <form
           class="space-y-4"

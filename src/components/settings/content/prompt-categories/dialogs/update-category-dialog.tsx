@@ -11,6 +11,7 @@ import { Button } from "@/components/shadcn/button";
 import {
    Dialog,
    DialogContent,
+   DialogDescription,
    DialogFooter,
    DialogHeader,
    DialogTitle,
@@ -82,6 +83,11 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
          <DialogContent data-testid="update-category-dialog">
             <DialogHeader>
                <DialogTitle>Kategorie umbenennen</DialogTitle>
+               <DialogDescription>
+                  Benenne die Kategorie <strong>{category.name}</strong> um.
+                  Die Änderung wirkt sich auf alle Prompts aus, die dieser
+                  Kategorie zugeordnet sind.
+               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
                <form

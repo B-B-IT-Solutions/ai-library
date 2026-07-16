@@ -11,6 +11,7 @@ import { Button } from "@/components/shadcn/button";
 import {
    Dialog,
    DialogContent,
+   DialogDescription,
    DialogFooter,
    DialogHeader,
    DialogTitle,
@@ -72,6 +73,10 @@ export const CreateCategoryDialog = ({ open, onClose }: Props) => {
          <DialogContent data-testid="create-category-dialog">
             <DialogHeader>
                <DialogTitle>Neue Kategorie erstellen</DialogTitle>
+               <DialogDescription>
+                  Erstelle eine neue Kategorie, um deine Prompts zu
+                  organisieren.
+               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
                <form

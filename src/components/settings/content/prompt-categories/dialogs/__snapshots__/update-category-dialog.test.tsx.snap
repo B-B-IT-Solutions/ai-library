@@ -31,6 +31,17 @@ exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
           >
             Kategorie umbenennen
           </div>
+          <div
+            class="text-sm text-muted-foreground"
+            data-slot="dialog-description"
+            data-testid="mock-react-dialog-description"
+          >
+            Benenne die Kategorie 
+            <strong>
+              category 1
+            </strong>
+             um. Die Änderung wirkt sich auf alle Prompts aus, die dieser Kategorie zugeordnet sind.
+          </div>
         </div>
         <form
           class="space-y-4"
