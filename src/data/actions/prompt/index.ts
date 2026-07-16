@@ -9,7 +9,7 @@ export {
    getPromptGenerationData,
    composePromptFromTemplate,
    downloadPrompt,
-   renamePromptCategory,
+   updatePromptCategory,
    deletePromptCategory,
    togglePromptFavorite,
    getPromptCategories,

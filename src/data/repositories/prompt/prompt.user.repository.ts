@@ -409,7 +409,7 @@ export class PromptRepository {
       return existing !== null;
    }
 
-   async pRenamePromptCategory(
+   async pUpdatePromptCategory(
       userId: string,
       categoryId: number,
       name: string

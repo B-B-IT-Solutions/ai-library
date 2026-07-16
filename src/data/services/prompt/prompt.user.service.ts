@@ -18,7 +18,6 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
-import { normalizeCategoryName } from "@/data/types/validators/template";
 import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
 import { TemplateEngine } from "@/lib/template";
 import { CollectionService } from "../collection";
@@ -259,7 +258,7 @@ export class PromptService {
       );
    }
 
-   async renamePromptCategory(
+   async updatePromptCategory(
       userId: string,
       categoryId: number,
       newName: string
@@ -275,7 +274,7 @@ export class PromptService {
          throw new CategoryNameConflictError(newName);
       }
 
-      await this.repository.pRenamePromptCategory(
+      await this.repository.pUpdatePromptCategory(
          userId,
          categoryId,
          trimmedName

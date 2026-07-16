@@ -17,7 +17,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
-import { renamePromptCategory } from "@/data/actions/prompt";
+import { updatePromptCategory } from "@/data/actions/prompt";
 import {
    DPromptCategoryWithUsage,
    DRenameCategory,
@@ -52,7 +52,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
    const { isSubmitting } = form.formState;
 
    const onSubmit: SubmitHandler<DRenameCategory> = async (data) => {
-      const result = await renamePromptCategory(category.id, data.name);
+      const result = await updatePromptCategory(category.id, data.name);
       if (result.success) {
          toast.success(result.message);
          router.refresh();

@@ -9,14 +9,14 @@ import { toast } from "sonner";
 
 import {
    isConflictingPromptCategoryName,
-   renamePromptCategory,
+   updatePromptCategory,
 } from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import { RenameCategoryDialog } from "./rename-category-dialog";
 
-const renamePromptCategoryMock = renamePromptCategory as jest.MockedFunction<
-   typeof renamePromptCategory
+const updatePromptCategoryMock = updatePromptCategory as jest.MockedFunction<
+   typeof updatePromptCategory
 >;
 
 const checkCategoryNameAvailableMock =
@@ -92,7 +92,7 @@ describe("RenameCategoryDialog functionality tests", () => {
          success: true,
          message: "Kategorie erfolgreich umbenannt",
       };
-      renamePromptCategoryMock.mockResolvedValue(result);
+      updatePromptCategoryMock.mockResolvedValue(result);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
@@ -107,7 +107,7 @@ describe("RenameCategoryDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(renamePromptCategoryMock).not.toHaveBeenCalled();
+         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
       });
 
       await userEvent.clear(getNameInput());
@@ -117,8 +117,8 @@ describe("RenameCategoryDialog functionality tests", () => {
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(renamePromptCategoryMock).toHaveBeenCalledTimes(1);
-         expect(renamePromptCategoryMock).toHaveBeenCalledWith(
+         expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptCategoryMock).toHaveBeenCalledWith(
             category.id,
             "Vertrieb"
          );
@@ -134,7 +134,7 @@ describe("RenameCategoryDialog functionality tests", () => {
          success: false,
          message: "Eine Kategorie mit diesem Namen existiert bereits",
       };
-      renamePromptCategoryMock.mockResolvedValue(result);
+      updatePromptCategoryMock.mockResolvedValue(result);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
@@ -158,7 +158,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(renamePromptCategoryMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
@@ -200,7 +200,7 @@ describe("RenameCategoryDialog functionality tests", () => {
                "Es existiert bereits eine Kategorie mit diesem Namen"
             )
          );
-         expect(renamePromptCategoryMock).not.toHaveBeenCalled();
+         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
          expect(onClose).not.toHaveBeenCalled();
       });
    });
@@ -224,7 +224,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(renamePromptCategoryMock).not.toHaveBeenCalled();
+         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
          expect(onClose).toHaveBeenCalledTimes(1);
       });
    });
@@ -251,7 +251,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(renamePromptCategoryMock).not.toHaveBeenCalled();
+         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
       });
    });
 });

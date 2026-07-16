@@ -323,7 +323,7 @@ export const isConflictingPromptCategoryName = async (
    }
 };
 
-export const renamePromptCategory = async (
+export const updatePromptCategory = async (
    categoryId: number,
    newName: string
 ): Promise<ActionResult> => {
@@ -332,7 +332,7 @@ export const renamePromptCategory = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.renamePromptCategory(user.id, categoryId, name);
+      await service.updatePromptCategory(user.id, categoryId, name);
 
       return {
          success: true,

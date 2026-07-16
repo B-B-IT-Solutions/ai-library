@@ -796,7 +796,7 @@ describe("isConflictingPromptCategoryName tests", () => {
    });
 });
 
-describe("renamePromptCategory tests", () => {
+describe("updatePromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -805,10 +805,10 @@ describe("renamePromptCategory tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
-      await promptService.renamePromptCategory(userId, 1, " Vertrieb ");
+      await promptService.updatePromptCategory(userId, 1, " Vertrieb ");
 
-      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
+      expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledWith(
          userId,
          1,
          "Vertrieb"
@@ -820,10 +820,10 @@ describe("renamePromptCategory tests", () => {
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
       const fn = () =>
-         promptService.renamePromptCategory(userId, 1, "  support  ");
+         promptService.updatePromptCategory(userId, 1, "  support  ");
 
       await expect(fn).rejects.toThrow(CategoryNameConflictError);
-      expect(promptRepoMock.pRenamePromptCategory).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePromptCategory).not.toHaveBeenCalled();
    });
 });
 

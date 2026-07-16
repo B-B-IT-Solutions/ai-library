@@ -1290,7 +1290,7 @@ describe("pPromptCategoryExists tests", () => {
    });
 });
 
-describe("pRenamePromptCategory tests", () => {
+describe("pUpdatePromptCategory tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -1300,7 +1300,7 @@ describe("pRenamePromptCategory tests", () => {
       const categoryId = 1;
       const name = "Vertrieb";
 
-      await repository.pRenamePromptCategory(userId, categoryId, name);
+      await repository.pUpdatePromptCategory(userId, categoryId, name);
 
       const expectedArgs: PromptCategoryUpdateArgs = {
          where: { id: categoryId, userId },
