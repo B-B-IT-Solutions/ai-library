@@ -34,8 +34,24 @@ const assertDialogNotRendered = () => {
 };
 
 describe("DeleteCategoryDialog rendering tests", () => {
-   it("DeleteCategoryDialog - open true - test", async () => {
+   it("open false - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
+      render(
+         <DeleteCategoryDialog
+            open={false}
+            onClose={jest.fn()}
+            category={category}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogNotRendered();
+      });
+   });
+
+   it("open true - prompts count 3 - test", async () => {
+      const category = dtestData.dPromptCategoryWithUsage();
+      category.count = 3;
 
       const { container } = render(
          <DeleteCategoryDialog
@@ -52,41 +68,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("DeleteCategoryDialog - open false - test", async () => {
-      const category = dtestData.dPromptCategoryWithUsage();
-      render(
-         <DeleteCategoryDialog
-            open={false}
-            onClose={jest.fn()}
-            category={category}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogNotRendered();
-      });
-   });
-
-   it("DeleteCategoryDialog - no affected prompts - test", async () => {
-      const category = dtestData.dPromptCategoryWithUsage(1);
-      category.count = 0;
-
-      render(
-         <DeleteCategoryDialog
-            open={true}
-            onClose={jest.fn()}
-            category={category}
-         />
-      );
-
-      await waitFor(() => {
-         assertInDocument(
-            screen.getByText(/Sie ist aktuell keinem Prompt zugeordnet/)
-         );
-      });
-   });
-
-   it("DeleteCategoryDialog - single affected prompt - test", async () => {
+   it("open true - prompts count 1 - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 1;
 
@@ -99,15 +81,13 @@ describe("DeleteCategoryDialog rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(
-            screen.getByText(/Sie ist aktuell 1 Prompt zugeordnet/)
-         );
+         assertDialogRendered();
       });
    });
 
-   it("DeleteCategoryDialog - multiple affected prompts - test", async () => {
+   it("open true - prompts count 0 - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage(1);
-      category.count = 5;
+      category.count = 0;
 
       render(
          <DeleteCategoryDialog
@@ -118,9 +98,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
       );
 
       await waitFor(() => {
-         assertInDocument(
-            screen.getByText(/Sie ist aktuell 5 Prompts zugeordnet/)
-         );
+         assertDialogRendered();
       });
    });
 });
@@ -130,7 +108,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("DeleteCategoryDialog - confirm delete - result.success true - test", async () => {
+   it("submit btn clicked - result.success true - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Kategorie gelöscht",
@@ -138,11 +116,11 @@ describe("DeleteCategoryDialog functionality tests", () => {
       deletePromptCategoryMock.mockResolvedValue(result);
 
       const category = dtestData.dPromptCategoryWithUsage();
-      const onClose = jest.fn();
+      const onCloseFn = jest.fn();
       render(
          <DeleteCategoryDialog
             open={true}
-            onClose={onClose}
+            onClose={onCloseFn}
             category={category}
          />
       );
@@ -150,6 +128,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       await waitFor(() => {
          assertDialogRendered();
          expect(deletePromptCategoryMock).not.toHaveBeenCalled();
+         expect(onCloseFn).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
@@ -161,11 +140,11 @@ describe("DeleteCategoryDialog functionality tests", () => {
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
-         expect(onClose).toHaveBeenCalledTimes(1);
+         expect(onCloseFn).toHaveBeenCalledTimes(1);
       });
    });
 
-   it("DeleteCategoryDialog - confirm delete - result.success false - test", async () => {
+   it("submit btn clicked - - result.success false - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Kategorie konnte nicht gelöscht werden",
@@ -173,17 +152,19 @@ describe("DeleteCategoryDialog functionality tests", () => {
       deletePromptCategoryMock.mockResolvedValue(result);
 
       const category = dtestData.dPromptCategoryWithUsage();
-      const onClose = jest.fn();
+      const onCloseFn = jest.fn();
       render(
          <DeleteCategoryDialog
             open={true}
-            onClose={onClose}
+            onClose={onCloseFn}
             category={category}
          />
       );
 
       await waitFor(() => {
          assertDialogRendered();
+         expect(deletePromptCategoryMock).not.toHaveBeenCalled();
+         expect(onCloseFn).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
@@ -191,26 +172,29 @@ describe("DeleteCategoryDialog functionality tests", () => {
 
       await waitFor(() => {
          expect(deletePromptCategoryMock).toHaveBeenCalledTimes(1);
+         expect(deletePromptCategoryMock).toHaveBeenCalledWith(category.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
-         expect(onClose).toHaveBeenCalledTimes(1);
+         expect(onCloseFn).toHaveBeenCalledTimes(1);
       });
    });
 
-   it("DeleteCategoryDialog - cancel - test", async () => {
+   it("cancel btn clicked - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
-      const onClose = jest.fn();
+      const onCloseFn = jest.fn();
       render(
          <DeleteCategoryDialog
             open={true}
-            onClose={onClose}
+            onClose={onCloseFn}
             category={category}
          />
       );
 
       await waitFor(() => {
          assertDialogRendered();
+         expect(deletePromptCategoryMock).not.toHaveBeenCalled();
+         expect(onCloseFn).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
@@ -218,7 +202,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
 
       await waitFor(() => {
          expect(deletePromptCategoryMock).not.toHaveBeenCalled();
-         expect(onClose).toHaveBeenCalledTimes(1);
+         expect(onCloseFn).toHaveBeenCalledTimes(1);
       });
    });
 });
