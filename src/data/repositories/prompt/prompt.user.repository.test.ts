@@ -1260,13 +1260,13 @@ describe("pPromptCategoryExists tests", () => {
       mockReset(prismaMock);
    });
 
-   test("name exists - returns true - test", async () => {
+   test("name exists - true - test", async () => {
       const userId = "user-id-1";
-      const name = "Marketing";
+      const name = "category 1";
       const excludeCategoryId = 1;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      prismaMock.promptCategory.findFirst.mockResolvedValue({ id: 2 } as any);
+      const category = ptestData.pPromptCategory();
+      prismaMock.promptCategory.findFirst.mockResolvedValue(category);
 
       const result = await repository.pPromptCategoryExists(
          userId,
@@ -1290,7 +1290,7 @@ describe("pPromptCategoryExists tests", () => {
       );
    });
 
-   test("name does not exist - returns false - test", async () => {
+   test("name exists - false - test", async () => {
       const userId = "user-id-1";
       const name = "Vertrieb";
       const excludeCategoryId = 1;
@@ -1303,7 +1303,20 @@ describe("pPromptCategoryExists tests", () => {
          excludeCategoryId
       );
 
+      const expectedArgs: PromptCategoryFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: { not: excludeCategoryId },
+         },
+         select: { id: true },
+      };
+
       expect(result).toBe(false);
+      expect(prismaMock.promptCategory.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findFirst).toHaveBeenCalledWith(
+         expectedArgs
+      );
    });
 });
 

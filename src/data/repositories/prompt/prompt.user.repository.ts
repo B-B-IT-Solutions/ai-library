@@ -407,14 +407,14 @@ export class PromptRepository {
       name: string,
       excludeCategoryId: number
    ): Promise<boolean> {
-      const args: PromptCategoryFindFirstArgs = {
+      const args = {
          where: {
             userId,
             name: { equals: name, mode: "insensitive" },
             id: { not: excludeCategoryId },
          },
          select: { id: true },
-      };
+      } satisfies PromptCategoryFindFirstArgs;
 
       const existing = await this.prisma.promptCategory.findFirst(args);
       return existing !== null;
