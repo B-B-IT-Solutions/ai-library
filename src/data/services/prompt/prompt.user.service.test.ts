@@ -11,7 +11,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptTemplatingData,
    DPromptVariableValues,
@@ -771,14 +770,10 @@ describe("createPromptCategory tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
-      const created = dtestData.dPromptCategoryWithUsage();
-      promptRepoMock.pCreatePromptCategory.mockResolvedValue(created);
-
       const data = dtestData.dPromptCategoryUpdate();
 
-      const result = await promptService.createPromptCategory(userId, data);
+      await promptService.createPromptCategory(userId, data);
 
-      expect(result).toEqual(created);
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
          userId,

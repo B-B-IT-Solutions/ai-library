@@ -1234,28 +1234,17 @@ describe("pCreatePromptCategory tests", () => {
    test("category created - test", async () => {
       const userId = "user-id-1";
 
-      const category = ptestData.pPromptCategoryWithUsage();
-      prismaMock.promptCategory.create.mockResolvedValue(category);
-
       const update = dtestData.dPromptCategoryWithUsage();
 
-      const result = await repository.pCreatePromptCategory(userId, update);
-
-      const expectedResult = toDPromptCategoryWithUsage(category);
+      await repository.pCreatePromptCategory(userId, update);
 
       const expectedArgs: PromptCategoryCreateArgs = {
          data: {
             userId,
-            name: category.name,
-         },
-         select: {
-            id: true,
-            name: true,
-            _count: { select: { prompts: true } },
+            name: update.name,
          },
       };
 
-      expect(result).toEqual(expectedResult);
       expect(prismaMock.promptCategory.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptCategory.create).toHaveBeenCalledWith(
          expectedArgs

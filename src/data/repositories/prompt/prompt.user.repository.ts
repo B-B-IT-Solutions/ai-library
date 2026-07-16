@@ -1,5 +1,5 @@
 ﻿import { trim } from "es-toolkit";
-import { flatMap, map, uniq } from "es-toolkit/compat";
+import { map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -10,7 +10,6 @@ import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
-   DPromptCategory,
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
    DPromptPreviewsPage,
@@ -42,7 +41,6 @@ import {
 import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
-   toDPromptCategoryWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -398,21 +396,15 @@ export class PromptRepository {
    async pCreatePromptCategory(
       userId: string,
       update: DPromptCategoryUpdate
-   ): Promise<DPromptCategoryWithUsage> {
+   ): Promise<void> {
       const args = {
          data: {
             userId,
-            name: update.name,
-         },
-         select: {
-            id: true,
-            name: true,
-            _count: { select: { prompts: true } },
+            name: trim(update.name),
          },
       } satisfies PromptCategoryCreateArgs;
 
-      const category = await this.prisma.promptCategory.create(args);
-      return toDPromptCategoryWithUsage(category);
+      await this.prisma.promptCategory.create(args);
    }
 
    async pUpdatePromptCategory(

@@ -1172,15 +1172,12 @@ describe("createPromptCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const data = dtestData.dPromptCategoryUpdate();
-      const created = dtestData.dPromptCategoryWithUsage();
-      sCreatePromptCategoryMock.mockResolvedValue(created);
 
       const result = await createPromptCategory(data);
 
-      const expectedResult: ActionResult<DPromptCategoryWithUsage> = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Kategorie erfolgreich erstellt",
-         data: created,
       };
 
       expect(result).toEqual(expectedResult);

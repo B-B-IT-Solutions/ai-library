@@ -69,10 +69,9 @@ describe("CreateCategoryDialog functionality tests", () => {
 
    it("submit btn clicked - result.success true - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
-      const result: ActionResult<DPromptCategoryWithUsage> = {
+      const result: ActionResult = {
          success: true,
          message: "Kategorie erfolgreich erstellt",
-         data: category,
       };
       createPromptCategoryMock.mockResolvedValue(result);
 
@@ -104,7 +103,7 @@ describe("CreateCategoryDialog functionality tests", () => {
 
    it("submit btn clicked - result.success false - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
-      const result: ActionResult<DPromptCategoryWithUsage> = {
+      const result: ActionResult = {
          success: false,
          message: "Kategorie konnte nicht erstellt werden",
       };

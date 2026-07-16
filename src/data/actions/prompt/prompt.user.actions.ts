@@ -305,18 +305,17 @@ export const getPromptCategoriesWithUsage = async (): Promise<
 
 export const createPromptCategory = async (
    data: DPromptCategoryUpdate
-): Promise<ActionResult<DPromptCategoryWithUsage>> => {
+): Promise<ActionResult> => {
    try {
       const vData = updatePromptCategorySchema.parse(data);
 
       const user = await requireUser();
       const service = getService();
-      const category = await service.createPromptCategory(user.id, vData);
+      await service.createPromptCategory(user.id, vData);
 
       return {
          success: true,
          message: "Kategorie erfolgreich erstellt",
-         data: category,
       };
    } catch (error) {
       console.error(formatError(error));
