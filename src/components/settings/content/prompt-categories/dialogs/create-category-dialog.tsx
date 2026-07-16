@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,7 @@ type Props = {
 
 export const CreateCategoryDialog = ({ open, onClose }: Props) => {
    const router = useRouter();
+   const [isPending, startTransition] = useTransition();
 
    const form = useForm<DPromptCategoryUpdate>({
       resolver: zodResolver(updatePromptCategorySchema),
@@ -41,21 +42,21 @@ export const CreateCategoryDialog = ({ open, onClose }: Props) => {
       }
    }, [open, form]);
 
-   const { isSubmitting } = form.formState;
-
    const onSubmit: SubmitHandler<DPromptCategoryUpdate> = async (data) => {
-      const result = await createPromptCategory(data);
-      if (result.success) {
-         toast.success(result.message);
-         router.refresh();
-         onClose();
-      } else {
-         toast.error(result.message);
-      }
+      startTransition(async () => {
+         const result = await createPromptCategory(data);
+         if (result.success) {
+            toast.success(result.message);
+            router.refresh();
+            onClose();
+         } else {
+            toast.error(result.message);
+         }
+      });
    };
 
    const confirmBtnLabel = () => {
-      if (isSubmitting) {
+      if (isPending) {
          return (
             <>
                <Loader className="h-4 w-4" />
@@ -88,7 +89,7 @@ export const CreateCategoryDialog = ({ open, onClose }: Props) => {
                         type="button"
                         variant="outline"
                         onClick={onClose}
-                        disabled={isSubmitting}
+                        disabled={isPending}
                         className="cursor-pointer"
                         data-testid="cancel-btn"
                      >
@@ -96,7 +97,7 @@ export const CreateCategoryDialog = ({ open, onClose }: Props) => {
                      </Button>
                      <Button
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isPending}
                         className="cursor-pointer"
                         data-testid="submit-btn"
                      >

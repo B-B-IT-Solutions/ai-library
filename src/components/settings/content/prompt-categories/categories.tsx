@@ -35,25 +35,27 @@ export const Categories = async () => {
    };
 
    const renderCategories = () => {
-      if (isEmpty(categories)) {
-         return;
-      }
-      return <div className="space-y-2">{map(categories, renderCategory)}</div>;
+      return (
+         <div className="space-y-4">
+            <div className="flex justify-end">
+               <CreateCategoryButton />
+            </div>
+
+            <div className="space-y-2">{map(categories, renderCategory)}</div>
+         </div>
+      );
    };
 
    return (
-      <div className="space-y-6" data-testid="prompt-categories">
-         <div className="flex items-start justify-between gap-4">
-            <div>
-               <h2 className="text-xl font-semibold text-slate-900">
-                  Prompts Kategorien
-               </h2>
-               <p className="mt-1 text-sm text-slate-500">
-                  Verwalte deine Prompts Kategorien. Änderungen wirken sich
-                  auf alle verknüpften Prompts aus.
-               </p>
-            </div>
-            <CreateCategoryButton />
+      <div className="space-y-4" data-testid="prompt-categories">
+         <div>
+            <h2 className="text-xl font-semibold text-slate-900">
+               Prompts Kategorien
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+               Verwalte deine Prompts Kategorien. Änderungen wirken sich auf
+               alle verknüpften Prompts aus.
+            </p>
          </div>
 
          {renderCategories()}
