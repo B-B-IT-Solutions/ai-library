@@ -11,7 +11,7 @@ type Props = {
    category: DPromptCategoryWithUsage;
 };
 
-export const RenameCategoryButton = ({ category }: Props) => {
+export const UpdateCategoryButton = ({ category }: Props) => {
    const [open, setOpen] = useState(false);
 
    const openDialog = () => {
@@ -29,7 +29,7 @@ export const RenameCategoryButton = ({ category }: Props) => {
             variant="ghost"
             size="sm"
             onClick={openDialog}
-            data-testid="rename-category-btn"
+            data-testid="update-category-btn"
          >
             <Pencil className="h-4 w-4" />
          </Button>

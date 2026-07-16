@@ -25,7 +25,7 @@ const assertDialogNotRendered = () => {
 };
 
 describe("DeleteCategoryButton rendering tests", () => {
-   it("DeleteCategoryButton rendered test", async () => {
+   it("rendered test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
       const { container } = renderWithRouter(
@@ -42,7 +42,7 @@ describe("DeleteCategoryButton rendering tests", () => {
 });
 
 describe("DeleteCategoryButton functionality tests", () => {
-   it("DeleteCategoryButton - delete btn clicked - test", async () => {
+   it("delete btn clicked - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
       renderWithRouter(<DeleteCategoryButton category={category} />);

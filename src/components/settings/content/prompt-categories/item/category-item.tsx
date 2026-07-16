@@ -1,6 +1,6 @@
 import { Badge } from "@/components/shadcn/badge";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
-import { DeleteCategoryButton, RenameCategoryButton } from "../buttons";
+import { DeleteCategoryButton, UpdateCategoryButton } from "../buttons";
 
 type Props = {
    category: DPromptCategoryWithUsage;
@@ -26,7 +26,7 @@ export const CategoryItem = ({ category }: Props) => {
             </Badge>
          </div>
          <div className="flex items-center gap-1">
-            <RenameCategoryButton category={category} />
+            <UpdateCategoryButton category={category} />
             <DeleteCategoryButton category={category} />
          </div>
       </div>

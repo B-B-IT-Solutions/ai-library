@@ -5,11 +5,11 @@ import { CategoryItem } from "./category-item";
 
 const assertRendered = () => {
    const item = screen.getByTestId("category-item");
-   const renameBtn = screen.getByTestId("rename-category-btn");
+   const updateBtn = screen.getByTestId("update-category-btn");
    const deleteBtn = screen.getByTestId("delete-category-btn");
 
    assertInDocument(item);
-   assertInDocument(renameBtn);
+   assertInDocument(updateBtn);
    assertInDocument(deleteBtn);
 };
 

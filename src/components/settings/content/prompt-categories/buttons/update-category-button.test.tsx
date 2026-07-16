@@ -7,10 +7,10 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { RenameCategoryButton } from "./rename-category-button";
+import { UpdateCategoryButton } from "./update-category-button";
 
 const assertRendered = () => {
-   const renameBtn = screen.getByTestId("rename-category-btn");
+   const renameBtn = screen.getByTestId("update-category-btn");
    assertInDocument(renameBtn);
 };
 
@@ -24,12 +24,12 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("RenameCategoryButton rendering tests", () => {
-   it("RenameCategoryButton rendered test", async () => {
+describe("UpdateCategoryButton rendering tests", () => {
+   it("rendered test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
       const { container } = renderWithRouter(
-         <RenameCategoryButton category={category} />
+         <UpdateCategoryButton category={category} />
       );
 
       await waitFor(() => {
@@ -41,18 +41,18 @@ describe("RenameCategoryButton rendering tests", () => {
    });
 });
 
-describe("RenameCategoryButton functionality tests", () => {
-   it("RenameCategoryButton - rename btn clicked - test", async () => {
+describe("UpdateCategoryButton functionality tests", () => {
+   it("update btn clicked - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
-      renderWithRouter(<RenameCategoryButton category={category} />);
+      renderWithRouter(<UpdateCategoryButton category={category} />);
 
       await waitFor(() => {
          assertRendered();
          assertDialogNotRendered();
       });
 
-      const renameBtn = screen.getByTestId("rename-category-btn");
+      const renameBtn = screen.getByTestId("update-category-btn");
       await userEvent.click(renameBtn);
 
       await waitFor(() => {
