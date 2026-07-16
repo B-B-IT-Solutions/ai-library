@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Categories rendering tests Categories - categories empty - test 1`] = `
+exports[`Categories rendering tests categories empty - test 1`] = `
 <div>
   <div
     class="space-y-6"
-    data-testid="categories"
+    data-testid="prompt-categories"
   >
     <div>
       <h2
         class="text-xl font-semibold text-slate-900"
       >
-        Kategorien
+        Prompts Kategorien
       </h2>
       <p
         class="mt-1 text-sm text-slate-500"
       >
-        Benenne Kategorien um oder lösche sie. Änderungen wirken sich auf alle verknüpften Prompts aus.
+        Verwalte deine Prompts Kategorien. Änderungen wirken sich auf alle verknüpften Prompts aus.
       </p>
     </div>
     <div
@@ -60,22 +60,22 @@ exports[`Categories rendering tests Categories - categories empty - test 1`] = `
 </div>
 `;
 
-exports[`Categories rendering tests Categories - categories retrieved - test 1`] = `
+exports[`Categories rendering tests categories retrieved - test 1`] = `
 <div>
   <div
     class="space-y-6"
-    data-testid="categories"
+    data-testid="prompt-categories"
   >
     <div>
       <h2
         class="text-xl font-semibold text-slate-900"
       >
-        Kategorien
+        Prompts Kategorien
       </h2>
       <p
         class="mt-1 text-sm text-slate-500"
       >
-        Benenne Kategorien um oder lösche sie. Änderungen wirken sich auf alle verknüpften Prompts aus.
+        Verwalte deine Prompts Kategorien. Änderungen wirken sich auf alle verknüpften Prompts aus.
       </p>
     </div>
     <div

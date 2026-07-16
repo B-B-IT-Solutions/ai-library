@@ -1,7 +1,6 @@
 import { Badge } from "@/components/shadcn/badge";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
-
-import { DeleteCategoryButton, RenameCategoryButton } from "./buttons";
+import { DeleteCategoryButton, RenameCategoryButton } from "../buttons";
 
 type Props = {
    category: DPromptCategoryWithUsage;

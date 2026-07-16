@@ -4,7 +4,7 @@ import { Tag } from "lucide-react";
 import { getPromptCategoriesWithUsage } from "@/data/actions/prompt";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
-import { CategoryItem } from "./category-item";
+import { CategoryItem } from "./item";
 
 export const Categories = async () => {
    const categories = await getPromptCategoriesWithUsage();

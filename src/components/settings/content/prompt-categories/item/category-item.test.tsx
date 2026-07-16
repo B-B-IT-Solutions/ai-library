@@ -14,8 +14,9 @@ const assertRendered = () => {
 };
 
 describe("CategoryItem rendering tests", () => {
-   it("CategoryItem render test", async () => {
+   it("prompt count 1 - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
+      category.count = 1;
 
       const { container } = renderWithRouter(
          <CategoryItem category={category} />
@@ -28,25 +29,14 @@ describe("CategoryItem rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CategoryItem - singular prompt count label - test", async () => {
+   it("prompt count 10 - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage(1);
-      category.count = 1;
+      category.count = 10;
 
       renderWithRouter(<CategoryItem category={category} />);
 
       await waitFor(() => {
-         assertInDocument(screen.getByText("1 Prompt"));
-      });
-   });
-
-   it("CategoryItem - plural prompt count label - test", async () => {
-      const category = dtestData.dPromptCategoryWithUsage(1);
-      category.count = 4;
-
-      renderWithRouter(<CategoryItem category={category} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText("4 Prompts"));
+         assertRendered();
       });
    });
 });

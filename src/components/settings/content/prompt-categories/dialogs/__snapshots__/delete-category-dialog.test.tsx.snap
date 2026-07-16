@@ -43,8 +43,7 @@ exports[`DeleteCategoryDialog rendering tests DeleteCategoryDialog - open true -
              
             wirklich löschen? 
             Sie ist aktuell 1 Prompt zugeordnet. Dieser Prompt behält alle anderen Kategorien.
-             
-            Diese Aktion kann nicht rückgängig gemacht werden.
+             Diese Aktion kann nicht rückgängig gemacht werden.
           </div>
         </div>
         <div

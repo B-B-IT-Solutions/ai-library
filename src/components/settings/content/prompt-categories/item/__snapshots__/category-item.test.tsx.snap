@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CategoryItem rendering tests CategoryItem render test 1`] = `
+exports[`CategoryItem rendering tests prompt count 1 - test 1`] = `
 <div>
   <div
     class="flex items-center justify-between rounded-lg border bg-card px-4 py-3 shadow-sm"
