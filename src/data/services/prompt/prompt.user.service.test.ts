@@ -592,48 +592,6 @@ describe("togglePromptFavorite tests", () => {
    });
 });
 
-describe("getPromptCategoriesPage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("categories retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const page = dtestData.dPromptCategoriesPage();
-      promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
-
-      const query = dtestData.dPromptCategoriesPageQuery();
-      const result = await promptService.getPromptCategoriesPage(userId, query);
-
-      expect(result).toEqual(page);
-      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledWith(
-         userId,
-         query
-      );
-   });
-});
-
-describe("getPromptCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("categories - retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const categories = dtestData.dTemplateCategories();
-      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
-
-      const result = await promptService.getPromptCategories(userId);
-
-      expect(result).toEqual(categories);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
-   });
-});
-
 describe("getPromptsUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -723,6 +681,48 @@ describe("getPromptsCount tests", () => {
       expect(result).toBe(count);
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getPromptCategoriesPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("categories retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const page = dtestData.dPromptCategoriesPage();
+      promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
+
+      const query = dtestData.dPromptCategoriesPageQuery();
+      const result = await promptService.getPromptCategoriesPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
+   });
+});
+
+describe("getPromptCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("categories - retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const categories = dtestData.dTemplateCategories();
+      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
+
+      const result = await promptService.getPromptCategories(userId);
+
+      expect(result).toEqual(categories);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
    });
 });
 

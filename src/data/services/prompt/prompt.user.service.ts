@@ -212,17 +212,6 @@ export class PromptService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getPromptCategoriesPage(
-      userId: string,
-      query?: DPromptCategoriesPageQuery
-   ): Promise<DPromptCategoriesPage> {
-      return await this.repository.pGetPromptCategoriesPage(userId, query);
-   }
-
-   async getPromptCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGetPromptCategories(userId);
-   }
-
    async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
       const [current, tier] = await Promise.all([
          this.getPromptsCount(userId),
@@ -238,6 +227,17 @@ export class PromptService {
 
    async getPromptsCount(userId: string): Promise<number> {
       return await this.repository.pGetPromptsCount(userId);
+   }
+
+   async getPromptCategoriesPage(
+      userId: string,
+      query?: DPromptCategoriesPageQuery
+   ): Promise<DPromptCategoriesPage> {
+      return await this.repository.pGetPromptCategoriesPage(userId, query);
+   }
+
+   async getPromptCategories(userId: string): Promise<string[]> {
+      return await this.repository.pGetPromptCategories(userId);
    }
 
    async getCategoriesWithUsage(
