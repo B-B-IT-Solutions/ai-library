@@ -357,8 +357,8 @@ export class PromptRepository {
       };
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
-      return await this.prisma.promptCategory.findMany({
+   async pGetPromptCategories(userId: string): Promise<string[]> {
+      const args = {
          where: { userId },
          select: {
             name: true,
@@ -366,21 +366,10 @@ export class PromptRepository {
          orderBy: {
             name: "asc",
          },
-      });
-   }
+      } satisfies PromptCategoryFindManyArgs;
 
-   async pGePromptCategories(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.prompt.findMany({
-         where: { userId },
-         include: {
-            categories: true,
-         },
-      });
-
-      const categories = flatMap(descriptors, (d) =>
-         map(d.categories, (cat) => cat.name)
-      );
-      return uniq(categories).sort();
+      const categories = await this.prisma.promptCategory.findMany(args);
+      return map(categories, (c) => c.name);
    }
 
    async pGetPromptCategoriesWithUsage(

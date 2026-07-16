@@ -624,13 +624,13 @@ describe("getPromptCategories tests", () => {
       const userId = "user-id-1";
 
       const categories = dtestData.dTemplateCategories();
-      promptRepoMock.pGePromptCategories.mockResolvedValue(categories);
+      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
       const result = await promptService.getPromptCategories(userId);
 
       expect(result).toEqual(categories);
-      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledWith(userId);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
    });
 });
 

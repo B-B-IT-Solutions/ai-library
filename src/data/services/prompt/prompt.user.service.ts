@@ -220,7 +220,7 @@ export class PromptService {
    }
 
    async getPromptCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGePromptCategories(userId);
+      return await this.repository.pGetPromptCategories(userId);
    }
 
    async getPromptModels(userId: string): Promise<string[]> {
