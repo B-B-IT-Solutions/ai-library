@@ -41,11 +41,13 @@ export const Categories = async () => {
    };
 
    return (
-      <div className="space-y-6" data-testid="categories">
+      <div className="space-y-6" data-testid="prompt-categories">
          <div>
-            <h2 className="text-xl font-semibold text-slate-900">Kategorien</h2>
+            <h2 className="text-xl font-semibold text-slate-900">
+               Prompts Kategorien
+            </h2>
             <p className="mt-1 text-sm text-slate-500">
-               Benenne Kategorien um oder lösche sie. Änderungen wirken sich auf
+               Verwalte deine Prompts Kategorien. Änderungen wirken sich auf
                alle verknüpften Prompts aus.
             </p>
          </div>

@@ -1,2 +1,2 @@
 export { GlobalPromptFields } from "./global-template-fields";
-export { Categories } from "./categories";
+export { Categories } from "./prompt-categories";

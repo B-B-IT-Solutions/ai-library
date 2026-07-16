@@ -18,7 +18,7 @@ const getCategoriesWithUsageMock =
    >;
 
 const assertRendered = () => {
-   const categories = screen.getByTestId("categories");
+   const categories = screen.getByTestId("prompt-categories");
    assertInDocument(categories);
 };
 
@@ -42,7 +42,7 @@ describe("Categories rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("Categories - categories empty - test", async () => {
+   it("categories empty - test", async () => {
       getCategoriesWithUsageMock.mockResolvedValue([]);
 
       const { container } = await renderAsyncRSC(Categories, {});
@@ -55,7 +55,7 @@ describe("Categories rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Categories - categories retrieved - test", async () => {
+   it("categories retrieved - test", async () => {
       const categories = dtestData.dPromptCategoriesWithUsage();
       getCategoriesWithUsageMock.mockResolvedValue(categories);
 
