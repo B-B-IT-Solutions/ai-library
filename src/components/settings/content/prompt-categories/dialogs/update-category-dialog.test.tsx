@@ -20,7 +20,7 @@ const updatePromptCategoryMock = updatePromptCategory as jest.MockedFunction<
    typeof updatePromptCategory
 >;
 
-const checkCategoryNameAvailableMock =
+const isConflictingPromptCategoryNameMock =
    isConflictingPromptCategoryName as jest.MockedFunction<
       typeof isConflictingPromptCategoryName
    >;
@@ -85,7 +85,7 @@ describe("UpdateCategoryDialog rendering tests", () => {
 describe("UpdateCategoryDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      checkCategoryNameAvailableMock.mockResolvedValue(true);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
    });
 
    it("submit btn clicked - result.success true - test", async () => {
@@ -179,8 +179,8 @@ describe("UpdateCategoryDialog functionality tests", () => {
       });
    });
 
-   it("submit btn clicked - name taken - rejected client-side without server round-trip - test", async () => {
-      checkCategoryNameAvailableMock.mockResolvedValue(false);
+   it("submit btn clicked - isConflict true - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(true);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
@@ -208,41 +208,13 @@ describe("UpdateCategoryDialog functionality tests", () => {
       expectedPayload.name = updatedName;
 
       await waitFor(() => {
-         expect(checkCategoryNameAvailableMock).toHaveBeenCalledWith(
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
             category.id,
             updatedName
          );
-         assertInDocument(
-            screen.getByText(
-               "Es existiert bereits eine Kategorie mit diesem Namen"
-            )
-         );
          expect(updatePromptCategoryMock).not.toHaveBeenCalled();
          expect(onClose).not.toHaveBeenCalled();
-      });
-   });
-
-   it("cancel btn clicked - test", async () => {
-      const onClose = jest.fn();
-      const category = dtestData.dPromptCategoryWithUsage();
-      render(
-         <UpdateCategoryDialog
-            category={category}
-            open={true}
-            onClose={onClose}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-      });
-
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
-         expect(onClose).toHaveBeenCalledTimes(1);
       });
    });
 
@@ -269,6 +241,30 @@ describe("UpdateCategoryDialog functionality tests", () => {
 
       await waitFor(() => {
          expect(updatePromptCategoryMock).not.toHaveBeenCalled();
+      });
+   });
+
+   it("cancel btn clicked - test", async () => {
+      const onClose = jest.fn();
+      const category = dtestData.dPromptCategoryWithUsage();
+      render(
+         <UpdateCategoryDialog
+            category={category}
+            open={true}
+            onClose={onClose}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+      });
+
+      const cancelBtn = screen.getByTestId("cancel-btn");
+      await userEvent.click(cancelBtn);
+
+      await waitFor(() => {
+         expect(updatePromptCategoryMock).not.toHaveBeenCalled();
+         expect(onClose).toHaveBeenCalledTimes(1);
       });
    });
 });

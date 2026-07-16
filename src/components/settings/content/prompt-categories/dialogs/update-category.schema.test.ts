@@ -6,7 +6,7 @@ import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
 import { updateCategorySchemaBackendValidation } from "./update-category.schema";
 
-const checkCategoryNameAvailableMock =
+const isConflictingPromptCategoryNameMock =
    isConflictingPromptCategoryName as jest.MockedFunction<
       typeof isConflictingPromptCategoryName
    >;
@@ -16,22 +16,22 @@ describe("updateCategorySchemaBackendValidation - tests", () => {
       jest.clearAllMocks();
    });
 
-   it("name available - valid - test", async () => {
-      checkCategoryNameAvailableMock.mockResolvedValue(true);
+   it("isConflict false - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
       const schema = updateCategorySchemaBackendValidation(1);
 
       const result = await schema.parseAsync({ name: "Vertrieb" });
 
       expect(result.name).toBe("Vertrieb");
-      expect(checkCategoryNameAvailableMock).toHaveBeenCalledTimes(1);
-      expect(checkCategoryNameAvailableMock).toHaveBeenCalledWith(
+      expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
          1,
          "Vertrieb"
       );
    });
 
-   it("name already taken - invalid - test", async () => {
-      checkCategoryNameAvailableMock.mockResolvedValue(false);
+   it("isConflict true - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(true);
       const schema = updateCategorySchemaBackendValidation(1);
 
       const fn = () => schema.parseAsync({ name: "Support" });
@@ -39,8 +39,8 @@ describe("updateCategorySchemaBackendValidation - tests", () => {
       await expect(fn).rejects.toThrow(ZodError);
    });
 
-   it("name already taken - error message on name path - test", async () => {
-      checkCategoryNameAvailableMock.mockResolvedValue(false);
+   it("isConflict true - error message on name path - test", async () => {
+      isConflictingPromptCategoryNameMock.mockResolvedValue(true);
       const schema = updateCategorySchemaBackendValidation(1);
 
       const result = await schema.safeParseAsync({ name: "Support" });
@@ -53,7 +53,7 @@ describe("updateCategorySchemaBackendValidation - tests", () => {
    });
 
    it("empty name invalid - test", async () => {
-      checkCategoryNameAvailableMock.mockResolvedValue(true);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
       const schema = updateCategorySchemaBackendValidation(1);
 
       const fn = () => schema.parseAsync({ name: "" });
