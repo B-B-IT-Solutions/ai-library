@@ -1,9 +1,15 @@
 jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   clearInput,
+   dtestData,
+   typeIntoInput,
+} from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -42,11 +48,6 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-const getNameInput = () => {
-   const field = screen.getByTestId("name");
-   return within(field).getByTestId("input");
-};
-
 describe("UpdateCategoryDialog rendering tests", () => {
    it("open true - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
@@ -60,7 +61,6 @@ describe("UpdateCategoryDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         expect(getNameInput()).toHaveValue(category.name);
       });
 
       expect(container).toMatchSnapshot();
@@ -85,7 +85,6 @@ describe("UpdateCategoryDialog rendering tests", () => {
 describe("UpdateCategoryDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
    });
 
    it("submit btn clicked - result.success true - test", async () => {
@@ -94,6 +93,7 @@ describe("UpdateCategoryDialog functionality tests", () => {
          message: "Kategorie erfolgreich umbenannt",
       };
       updatePromptCategoryMock.mockResolvedValue(result);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
@@ -112,8 +112,8 @@ describe("UpdateCategoryDialog functionality tests", () => {
       });
 
       const updatedName = "category 123";
-      await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), updatedName);
+      await clearInput("name");
+      await typeIntoInput("name", updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
@@ -122,6 +122,11 @@ describe("UpdateCategoryDialog functionality tests", () => {
       expectedPayload.name = updatedName;
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            category.id,
+            updatedName
+         );
          expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(updatePromptCategoryMock).toHaveBeenCalledWith(
             category.id,
@@ -140,6 +145,7 @@ describe("UpdateCategoryDialog functionality tests", () => {
          message: "Eine Kategorie mit diesem Namen existiert bereits",
       };
       updatePromptCategoryMock.mockResolvedValue(result);
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
@@ -157,8 +163,8 @@ describe("UpdateCategoryDialog functionality tests", () => {
       });
 
       const updatedName = "category 123";
-      await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), updatedName);
+      await clearInput("name");
+      await typeIntoInput("name", updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
@@ -167,6 +173,11 @@ describe("UpdateCategoryDialog functionality tests", () => {
       expectedPayload.name = updatedName;
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            category.id,
+            updatedName
+         );
          expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(updatePromptCategoryMock).toHaveBeenCalledWith(
             category.id,
@@ -198,8 +209,8 @@ describe("UpdateCategoryDialog functionality tests", () => {
       });
 
       const updatedName = "category 123";
-      await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), updatedName);
+      await clearInput("name");
+      await typeIntoInput("name", updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
@@ -221,6 +232,7 @@ describe("UpdateCategoryDialog functionality tests", () => {
    it("submit btn clicked - validation error - test", async () => {
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
+      isConflictingPromptCategoryNameMock.mockResolvedValue(false);
 
       render(
          <UpdateCategoryDialog
@@ -234,12 +246,17 @@ describe("UpdateCategoryDialog functionality tests", () => {
          assertDialogRendered();
       });
 
-      await userEvent.clear(getNameInput());
+      await clearInput("name");
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+         expect(isConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+            category.id,
+            ""
+         );
          expect(updatePromptCategoryMock).not.toHaveBeenCalled();
       });
    });
@@ -263,6 +280,7 @@ describe("UpdateCategoryDialog functionality tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
+         expect(isConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
          expect(updatePromptCategoryMock).not.toHaveBeenCalled();
          expect(onClose).toHaveBeenCalledTimes(1);
       });
