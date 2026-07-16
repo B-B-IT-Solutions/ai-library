@@ -9,7 +9,6 @@ import { PromptService } from "@/data/services/prompt";
 import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import {
    DPrompt,
-   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
@@ -19,22 +18,22 @@ import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
 import {
-   isConflictingPromptCategoryName,
    composePromptFromTemplate,
    createPrompt,
    deletePrompt,
    deletePromptCategory,
    downloadPrompt,
-   getCategoriesWithUsage,
    getPrompt,
    getPromptCategories,
    getPromptCategoriesPage,
+   getPromptCategoriesWithUsage,
    getPromptGenerationData,
    getPromptModels,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
    getPromptWithContent,
+   isConflictingPromptCategoryName,
    renamePromptCategory,
    togglePromptFavorite,
    updatePrompt,
@@ -108,26 +107,26 @@ const sGetPromptCategoriesPageMock =
       typeof sGetPromptCategoriesPage
    >;
 
-const sGetCategoriesWithUsage =
+const sGetPromptCategoriesWithUsage =
    PromptService.prototype.getPromptCategoriesWithUsage;
-const sRenameCategory = PromptService.prototype.renamePromptCategory;
-const sDeleteCategory = PromptService.prototype.deletePromptCategory;
-const sIsCategoryNameAvailable =
+const sRenamePromptCategory = PromptService.prototype.renamePromptCategory;
+const sDeletePromptCategory = PromptService.prototype.deletePromptCategory;
+const sIsConflictingPromptCategoryName =
    PromptService.prototype.isConflictingPromptCategoryName;
 
-const sGetCategoriesWithUsageMock =
-   sGetCategoriesWithUsage as jest.MockedFunction<
-      typeof sGetCategoriesWithUsage
+const sGetPromptCategoriesWithUsageMock =
+   sGetPromptCategoriesWithUsage as jest.MockedFunction<
+      typeof sGetPromptCategoriesWithUsage
    >;
-const sRenameCategoryMock = sRenameCategory as jest.MockedFunction<
-   typeof sRenameCategory
+const sRenamePromptCategoryMock = sRenamePromptCategory as jest.MockedFunction<
+   typeof sRenamePromptCategory
 >;
-const sDeleteCategoryMock = sDeleteCategory as jest.MockedFunction<
-   typeof sDeleteCategory
+const sDeletePromptCategoryMock = sDeletePromptCategory as jest.MockedFunction<
+   typeof sDeletePromptCategory
 >;
-const sIsCategoryNameAvailableMock =
-   sIsCategoryNameAvailable as jest.MockedFunction<
-      typeof sIsCategoryNameAvailable
+const sIsConflictingPromptCategoryNameMock =
+   sIsConflictingPromptCategoryName as jest.MockedFunction<
+      typeof sIsConflictingPromptCategoryName
    >;
 
 describe("getPromptsPage tests", () => {
@@ -1058,6 +1057,240 @@ describe("getPromptCategories tests", () => {
    });
 });
 
+describe("getPromptCategoriesWithUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptCategoriesWithUsage();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("categories retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dPromptCategoriesWithUsage();
+      sGetPromptCategoriesWithUsageMock.mockResolvedValue(categories);
+
+      const result = await getPromptCategoriesWithUsage();
+
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("isConflictingPromptCategoryName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
+
+      expect(result).toBe(true);
+      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("isConflict false - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(false);
+
+      const catagoryId = 1;
+      const catagoryName = "category 1";
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(false);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
+   });
+
+   it("isConflict true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(true);
+
+      const catagoryId = 1;
+      const catagoryName = "category 123";
+
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(true);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
+   });
+});
+
+describe("renamePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid name - too long - test", async () => {
+      const result = await renamePromptCategory(1, "a".repeat(51));
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sRenamePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("invalid name - empty - test", async () => {
+      const result = await renamePromptCategory(1, "   ");
+
+      expect(result).toEqual({
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      });
+      expect(sRenamePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("category renamed - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sRenamePromptCategoryMock.mockResolvedValue(undefined);
+
+      const result = await renamePromptCategory(1, "Vertrieb");
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Kategorie erfolgreich umbenannt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sRenamePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sRenamePromptCategoryMock).toHaveBeenCalledWith(
+         user.id,
+         1,
+         "Vertrieb"
+      );
+   });
+
+   it("name conflict - surfaces specific message - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new CategoryNameConflictError("Support");
+      sRenamePromptCategoryMock.mockRejectedValue(error);
+
+      const result = await renamePromptCategory(1, "Support");
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("unexpected error - generic message - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sRenamePromptCategoryMock.mockRejectedValue(new Error("db down"));
+
+      const result = await renamePromptCategory(1, "Vertrieb");
+
+      expect(result).toEqual({
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      });
+   });
+});
+
+describe("deletePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("category deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sDeletePromptCategoryMock.mockResolvedValue(undefined);
+
+      const result = await deletePromptCategory(1);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Kategorie erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptCategoryMock).toHaveBeenCalledWith(user.id, 1);
+   });
+
+   it("unexpected error - generic message - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sDeletePromptCategoryMock.mockRejectedValue(new Error("db down"));
+
+      const result = await deletePromptCategory(1);
+
+      expect(result).toEqual({
+         success: false,
+         message: "Kategorie konnte nicht gelöscht werden",
+      });
+   });
+});
+
 describe("getPromptModels tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -1157,239 +1390,5 @@ describe("getPromptsUsage tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsUsageMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptsUsageMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("getCategoriesWithUsage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getCategoriesWithUsage();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCategoriesWithUsageMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("categories with usage retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const categories: DPromptCategoryWithUsage[] = [
-         { id: 1, name: "Marketing", count: 3 },
-      ];
-      sGetCategoriesWithUsageMock.mockResolvedValue(categories);
-
-      const result = await getCategoriesWithUsage();
-
-      expect(result).toEqual(categories);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetCategoriesWithUsageMock).toHaveBeenCalledTimes(1);
-      expect(sGetCategoriesWithUsageMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("renameCategory tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid name - too long - test", async () => {
-      const result = await renamePromptCategory(1, "a".repeat(51));
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Kategorie konnte nicht umbenannt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sRenameCategoryMock).not.toHaveBeenCalled();
-   });
-
-   it("invalid name - empty - test", async () => {
-      const result = await renamePromptCategory(1, "   ");
-
-      expect(result).toEqual({
-         success: false,
-         message: "Kategorie konnte nicht umbenannt werden",
-      });
-      expect(sRenameCategoryMock).not.toHaveBeenCalled();
-   });
-
-   it("category renamed - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sRenameCategoryMock.mockResolvedValue(undefined);
-
-      const result = await renamePromptCategory(1, "Vertrieb");
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Kategorie erfolgreich umbenannt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sRenameCategoryMock).toHaveBeenCalledTimes(1);
-      expect(sRenameCategoryMock).toHaveBeenCalledWith(user.id, 1, "Vertrieb");
-   });
-
-   it("name conflict - surfaces specific message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new CategoryNameConflictError("Support");
-      sRenameCategoryMock.mockRejectedValue(error);
-
-      const result = await renamePromptCategory(1, "Support");
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: error.message,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("unexpected error - generic message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sRenameCategoryMock.mockRejectedValue(new Error("db down"));
-
-      const result = await renamePromptCategory(1, "Vertrieb");
-
-      expect(result).toEqual({
-         success: false,
-         message: "Kategorie konnte nicht umbenannt werden",
-      });
-   });
-});
-
-describe("deleteCategory tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("category deleted - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sDeleteCategoryMock.mockResolvedValue(undefined);
-
-      const result = await deletePromptCategory(1);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Kategorie erfolgreich gelöscht",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCategoryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCategoryMock).toHaveBeenCalledWith(user.id, 1);
-   });
-
-   it("unexpected error - generic message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sDeleteCategoryMock.mockRejectedValue(new Error("db down"));
-
-      const result = await deletePromptCategory(1);
-
-      expect(result).toEqual({
-         success: false,
-         message: "Kategorie konnte nicht gelöscht werden",
-      });
-   });
-});
-
-describe("checkCategoryNameAvailable tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("name available - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sIsCategoryNameAvailableMock.mockResolvedValue(true);
-
-      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
-
-      expect(result).toBe(true);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sIsCategoryNameAvailableMock).toHaveBeenCalledTimes(1);
-      expect(sIsCategoryNameAvailableMock).toHaveBeenCalledWith(
-         user.id,
-         1,
-         "Vertrieb"
-      );
-   });
-
-   it("name already taken - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sIsCategoryNameAvailableMock.mockResolvedValue(false);
-
-      const result = await isConflictingPromptCategoryName(1, "Support");
-
-      expect(result).toBe(false);
-   });
-
-   it("invalid name - fails open - test", async () => {
-      const result = await isConflictingPromptCategoryName(1, "");
-
-      expect(result).toBe(true);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sIsCategoryNameAvailableMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("user undefined - fails open - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
-
-      expect(result).toBe(true);
-      expect(sIsCategoryNameAvailableMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("unexpected error - fails open - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sIsCategoryNameAvailableMock.mockRejectedValue(new Error("db down"));
-
-      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
-
-      expect(result).toBe(true);
-      expect(console.error).toHaveBeenCalledTimes(1);
    });
 });

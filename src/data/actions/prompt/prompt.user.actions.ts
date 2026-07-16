@@ -26,10 +26,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import {
-   categorySchema,
-   renameCategorySchema,
-} from "@/data/types/validators/template";
+import { renameCategorySchema } from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -292,40 +289,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    }
 };
 
-export const getPromptModels = async (): Promise<string[]> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.getPromptModels(user.id);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
-export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.getPromptsUsage(user.id);
-   } catch (error) {
-      if (error instanceof AiLibAuthenticationError) {
-         console.error(formatError(error));
-         const fallback: DPromptsUsage = { current: 0, limit: 0 };
-         return fallback;
-      } else {
-         console.error(
-            "DPromptUsage can't be retrieved, falling back to unlimited",
-            formatError(error)
-         );
-
-         const fallback: DPromptsUsage = { current: 0, limit: -1 };
-         return fallback;
-      }
-   }
-};
-
-export const getCategoriesWithUsage = async (): Promise<
+export const getPromptCategoriesWithUsage = async (): Promise<
    DPromptCategoryWithUsage[]
 > => {
    try {
@@ -335,6 +299,27 @@ export const getCategoriesWithUsage = async (): Promise<
    } catch (error) {
       console.error(formatError(error));
       return [];
+   }
+};
+
+export const isConflictingPromptCategoryName = async (
+   categoryId: number,
+   name: string
+): Promise<boolean> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.isConflictingPromptCategoryName(
+         user.id,
+         categoryId,
+         name
+      );
+   } catch (error) {
+      console.error(formatError(error));
+      // Fail open: a transient/network error here must not block the user
+      // from typing. The authoritative uniqueness check still runs
+      // server-side in `renameCategory` on actual submit.
+      return true;
    }
 };
 
@@ -370,29 +355,6 @@ export const renamePromptCategory = async (
    }
 };
 
-export const isConflictingPromptCategoryName = async (
-   categoryId: number,
-   name: string
-): Promise<boolean> => {
-   try {
-      const parsedName = categorySchema.parse(name);
-
-      const user = await requireUser();
-      const service = getService();
-      return await service.isConflictingPromptCategoryName(
-         user.id,
-         categoryId,
-         parsedName
-      );
-   } catch (error) {
-      console.error(formatError(error));
-      // Fail open: a transient/network error here must not block the user
-      // from typing. The authoritative uniqueness check still runs
-      // server-side in `renameCategory` on actual submit.
-      return true;
-   }
-};
-
 export const deletePromptCategory = async (
    categoryId: number
 ): Promise<ActionResult> => {
@@ -411,6 +373,39 @@ export const deletePromptCategory = async (
          success: false,
          message: "Kategorie konnte nicht gelöscht werden",
       };
+   }
+};
+
+export const getPromptModels = async (): Promise<string[]> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptModels(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptsUsage(user.id);
+   } catch (error) {
+      if (error instanceof AiLibAuthenticationError) {
+         console.error(formatError(error));
+         const fallback: DPromptsUsage = { current: 0, limit: 0 };
+         return fallback;
+      } else {
+         console.error(
+            "DPromptUsage can't be retrieved, falling back to unlimited",
+            formatError(error)
+         );
+
+         const fallback: DPromptsUsage = { current: 0, limit: -1 };
+         return fallback;
+      }
    }
 };
 

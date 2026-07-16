@@ -1,7 +1,7 @@
 export class CategoryNameConflictError extends Error {
-   constructor(public readonly conflictingCategoryName: string) {
+   constructor(public readonly categoryName: string) {
       super(
-         `Eine Kategorie mit dem Namen "${conflictingCategoryName}" existiert bereits. ` +
+         `Eine Kategorie mit dem Namen "${categoryName}" existiert bereits. ` +
             `Bitte wähle einen anderen Namen.`
       );
       this.name = "CategoryNameConflictError";

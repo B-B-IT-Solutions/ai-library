@@ -8,12 +8,14 @@ import {
    renderAsyncRSC,
 } from "@tests";
 
-import { getCategoriesWithUsage } from "@/data/actions/prompt";
+import { getPromptCategoriesWithUsage } from "@/data/actions/prompt";
 
 import { Categories } from "./categories";
 
 const getCategoriesWithUsageMock =
-   getCategoriesWithUsage as jest.MockedFunction<typeof getCategoriesWithUsage>;
+   getPromptCategoriesWithUsage as jest.MockedFunction<
+      typeof getPromptCategoriesWithUsage
+   >;
 
 const assertRendered = () => {
    const categories = screen.getByTestId("categories");

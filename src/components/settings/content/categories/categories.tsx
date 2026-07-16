@@ -1,13 +1,13 @@
 import { isEmpty, map } from "es-toolkit/compat";
 import { Tag } from "lucide-react";
 
-import { getCategoriesWithUsage } from "@/data/actions/prompt";
+import { getPromptCategoriesWithUsage } from "@/data/actions/prompt";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
 import { CategoryItem } from "./category-item";
 
 export const Categories = async () => {
-   const categories = await getCategoriesWithUsage();
+   const categories = await getPromptCategoriesWithUsage();
 
    const emptyState = () => {
       if (isEmpty(categories)) {
