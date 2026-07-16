@@ -15,8 +15,8 @@ jest.mock("./content/global-template-fields", () => {
    return { GlobalPromptFields };
 });
 
-jest.mock("./content/categories", () => {
-   const Categories = () => <div data-testid="categories"></div>;
+jest.mock("./content/prompt-categories", () => {
+   const Categories = () => <div data-testid="prompt-categories"></div>;
    return { Categories };
 });
 
@@ -54,7 +54,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
-         assertContentNotRendered("categories");
+         assertContentNotRendered("prompt-categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -70,7 +70,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
-         assertContentNotRendered("categories");
+         assertContentNotRendered("prompt-categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -88,7 +88,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("global-template-fields");
-         assertContentNotRendered("categories");
+         assertContentNotRendered("prompt-categories");
       });
 
       expect(container).toMatchSnapshot();
@@ -106,21 +106,21 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
-         assertContentNotRendered("categories");
+         assertContentNotRendered("prompt-categories");
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("section categories - test", async () => {
+   it("section prompt-categories - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(
-         <Settings user={user} section="categories" />
+         <Settings user={user} section="prompt-categories" />
       );
 
       await waitFor(() => {
          assertRendered();
-         assertContentRendered("categories");
+         assertContentRendered("prompt-categories");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
