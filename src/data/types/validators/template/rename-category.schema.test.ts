@@ -2,13 +2,13 @@ jest.mock("@/data/actions/prompt");
 
 import { ZodError } from "zod";
 
-import { checkCategoryNameAvailable } from "@/data/actions/prompt";
+import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
 import { buildRenameCategorySchema } from "./rename-category.schema";
 
 const checkCategoryNameAvailableMock =
-   checkCategoryNameAvailable as jest.MockedFunction<
-      typeof checkCategoryNameAvailable
+   isConflictingPromptCategoryName as jest.MockedFunction<
+      typeof isConflictingPromptCategoryName
    >;
 
 describe("buildRenameCategorySchema - tests", () => {

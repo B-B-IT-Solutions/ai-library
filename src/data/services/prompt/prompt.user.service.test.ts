@@ -731,7 +731,7 @@ describe("getPromptCategoriesWithUsage tests", () => {
       jest.clearAllMocks();
    });
 
-   it("categories with usage retrieved - test", async () => {
+   it("categories retrieved - test", async () => {
       const userId = "user-id-1";
       const categories = dtestData.dPromptCategoriesWithUsage();
       promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
@@ -750,23 +750,23 @@ describe("getPromptCategoriesWithUsage tests", () => {
    });
 });
 
-describe("promptCategoryExists tests", () => {
+describe("isConflictingPromptCategoryName tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("name not taken - returns true - test", async () => {
+   it("isConlficting false - test", async () => {
       const userId = "user-id-1";
       const categoryId = 1;
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
-      const result = await promptService.promptCategoryExists(
+      const result = await promptService.isConflictingPromptCategoryName(
          userId,
          categoryId,
          " Vertrieb "
       );
 
-      expect(result).toBe(true);
+      expect(result).toBe(false);
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
          userId,
@@ -775,18 +775,24 @@ describe("promptCategoryExists tests", () => {
       );
    });
 
-   it("name already taken - returns false - test", async () => {
+   it("isConlficting true - test", async () => {
       const userId = "user-id-1";
       const categoryId = 1;
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
-      const result = await promptService.promptCategoryExists(
+      const result = await promptService.isConflictingPromptCategoryName(
          userId,
          categoryId,
          "Support"
       );
 
-      expect(result).toBe(false);
+      expect(result).toBe(true);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Support",
+         categoryId
+      );
    });
 });
 
@@ -795,15 +801,9 @@ describe("renamePromptCategory tests", () => {
       jest.clearAllMocks();
    });
 
-   it("category renamed - no conflict - test", async () => {
+   it("isConflict false - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryWithUsage[] = [
-         { id: 1, name: "Marketing", count: 3 },
-         { id: 2, name: "Support", count: 0 },
-      ];
-      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
-         categories
-      );
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
       await promptService.renamePromptCategory(userId, 1, " Vertrieb ");
 
@@ -815,33 +815,9 @@ describe("renamePromptCategory tests", () => {
       );
    });
 
-   it("renaming to its own current name is not a conflict - test", async () => {
+   it("isConflict true - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryWithUsage[] = [
-         { id: 1, name: "Marketing", count: 3 },
-      ];
-      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
-         categories
-      );
-
-      await promptService.renamePromptCategory(userId, 1, "Marketing");
-
-      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
-         userId,
-         1,
-         "Marketing"
-      );
-   });
-
-   it("name conflicts case-insensitively with another category - throws - test", async () => {
-      const userId = "user-id-1";
-      const categories: DPromptCategoryWithUsage[] = [
-         { id: 1, name: "Marketing", count: 3 },
-         { id: 2, name: "Support", count: 0 },
-      ];
-      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
-         categories
-      );
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
       const fn = () =>
          promptService.renamePromptCategory(userId, 1, "  support  ");

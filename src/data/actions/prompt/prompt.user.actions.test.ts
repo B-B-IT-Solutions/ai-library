@@ -19,7 +19,7 @@ import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
 import {
-   checkCategoryNameAvailable,
+   isConflictingPromptCategoryName,
    composePromptFromTemplate,
    createPrompt,
    deletePrompt,
@@ -112,7 +112,8 @@ const sGetCategoriesWithUsage =
    PromptService.prototype.getPromptCategoriesWithUsage;
 const sRenameCategory = PromptService.prototype.renamePromptCategory;
 const sDeleteCategory = PromptService.prototype.deletePromptCategory;
-const sIsCategoryNameAvailable = PromptService.prototype.promptCategoryExists;
+const sIsCategoryNameAvailable =
+   PromptService.prototype.isConflictingPromptCategoryName;
 
 const sGetCategoriesWithUsageMock =
    sGetCategoriesWithUsage as jest.MockedFunction<
@@ -1339,7 +1340,7 @@ describe("checkCategoryNameAvailable tests", () => {
       requireUserMock.mockResolvedValue(user);
       sIsCategoryNameAvailableMock.mockResolvedValue(true);
 
-      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
 
       expect(result).toBe(true);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -1356,13 +1357,13 @@ describe("checkCategoryNameAvailable tests", () => {
       requireUserMock.mockResolvedValue(user);
       sIsCategoryNameAvailableMock.mockResolvedValue(false);
 
-      const result = await checkCategoryNameAvailable(1, "Support");
+      const result = await isConflictingPromptCategoryName(1, "Support");
 
       expect(result).toBe(false);
    });
 
    it("invalid name - fails open - test", async () => {
-      const result = await checkCategoryNameAvailable(1, "");
+      const result = await isConflictingPromptCategoryName(1, "");
 
       expect(result).toBe(true);
       expect(requireUserMock).not.toHaveBeenCalled();
@@ -1374,7 +1375,7 @@ describe("checkCategoryNameAvailable tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
 
       expect(result).toBe(true);
       expect(sIsCategoryNameAvailableMock).not.toHaveBeenCalled();
@@ -1386,7 +1387,7 @@ describe("checkCategoryNameAvailable tests", () => {
       requireUserMock.mockResolvedValue(user);
       sIsCategoryNameAvailableMock.mockRejectedValue(new Error("db down"));
 
-      const result = await checkCategoryNameAvailable(1, "Vertrieb");
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
 
       expect(result).toBe(true);
       expect(console.error).toHaveBeenCalledTimes(1);

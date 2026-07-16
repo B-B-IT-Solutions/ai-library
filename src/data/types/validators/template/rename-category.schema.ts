@@ -1,4 +1,4 @@
-import { checkCategoryNameAvailable } from "@/data/actions/prompt";
+import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
 import { renameCategorySchema } from "./template.schema";
 
@@ -16,7 +16,8 @@ import { renameCategorySchema } from "./template.schema";
  */
 export const buildRenameCategorySchema = (categoryId: number) => {
    return renameCategorySchema.refine(
-      async (data) => await checkCategoryNameAvailable(categoryId, data.name),
+      async (data) =>
+         await isConflictingPromptCategoryName(categoryId, data.name),
       {
          message: "Es existiert bereits eine Kategorie mit diesem Namen",
          path: ["name"],

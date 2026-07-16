@@ -370,7 +370,7 @@ export const renamePromptCategory = async (
    }
 };
 
-export const checkCategoryNameAvailable = async (
+export const isConflictingPromptCategoryName = async (
    categoryId: number,
    name: string
 ): Promise<boolean> => {
@@ -379,7 +379,7 @@ export const checkCategoryNameAvailable = async (
 
       const user = await requireUser();
       const service = getService();
-      return await service.promptCategoryExists(
+      return await service.isConflictingPromptCategoryName(
          user.id,
          categoryId,
          parsedName

@@ -8,7 +8,7 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import {
-   checkCategoryNameAvailable,
+   isConflictingPromptCategoryName,
    renamePromptCategory,
 } from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -20,8 +20,8 @@ const renamePromptCategoryMock = renamePromptCategory as jest.MockedFunction<
 >;
 
 const checkCategoryNameAvailableMock =
-   checkCategoryNameAvailable as jest.MockedFunction<
-      typeof checkCategoryNameAvailable
+   isConflictingPromptCategoryName as jest.MockedFunction<
+      typeof isConflictingPromptCategoryName
    >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;

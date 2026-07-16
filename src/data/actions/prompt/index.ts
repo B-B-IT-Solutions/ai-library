@@ -4,7 +4,7 @@ export {
    createPrompt,
    updatePrompt,
    deletePrompt,
-   checkCategoryNameAvailable,
+   isConflictingPromptCategoryName,
    getCategoriesWithUsage,
    getPromptGenerationData,
    composePromptFromTemplate,
