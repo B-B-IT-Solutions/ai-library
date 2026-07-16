@@ -395,32 +395,15 @@ export class PromptRepository {
       return toDPromptCategoriesWithUsage(categories);
    }
 
-   async pPromptCategoryExists(
-      userId: string,
-      name: string,
-      excludeCategoryId?: number
-   ): Promise<boolean> {
-      const args = {
-         where: {
-            userId,
-            name: { equals: name, mode: "insensitive" },
-            ...(excludeCategoryId !== undefined && {
-               id: { not: excludeCategoryId },
-            }),
-         },
-         select: { id: true },
-      } satisfies PromptCategoryFindFirstArgs;
-
-      const existing = await this.prisma.promptCategory.findFirst(args);
-      return existing !== null;
-   }
-
    async pCreatePromptCategory(
       userId: string,
       update: DPromptCategoryUpdate
    ): Promise<DPromptCategoryWithUsage> {
       const args = {
-         data: { userId, name: update.name },
+         data: {
+            userId,
+            name: update.name,
+         },
          select: {
             id: true,
             name: true,
@@ -459,6 +442,28 @@ export class PromptRepository {
       } satisfies PromptCategoryDeleteArgs;
 
       await this.prisma.promptCategory.delete(args);
+   }
+
+   async pPromptCategoryExists(
+      userId: string,
+      name: string,
+      excludeCategoryId?: number
+   ): Promise<boolean> {
+      const idWhere = excludeCategoryId
+         ? { not: excludeCategoryId }
+         : undefined;
+
+      const args = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: idWhere,
+         },
+         select: { id: true },
+      } satisfies PromptCategoryFindFirstArgs;
+
+      const existing = await this.prisma.promptCategory.findFirst(args);
+      return existing !== null;
    }
 
    async pGetPromptModels(userId: string): Promise<string[]> {
