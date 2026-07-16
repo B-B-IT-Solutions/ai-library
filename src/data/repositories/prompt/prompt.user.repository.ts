@@ -24,6 +24,7 @@ import {
 } from "@/data/types/domain/prompt";
 import {
    PromptCategoryCountArgs,
+   PromptCategoryCreateArgs,
    PromptCategoryDeleteArgs,
    PromptCategoryFindFirstArgs,
    PromptCategoryFindManyArgs,
@@ -41,6 +42,7 @@ import {
 import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
+   toDPromptCategoryWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -396,19 +398,38 @@ export class PromptRepository {
    async pPromptCategoryExists(
       userId: string,
       name: string,
-      excludeCategoryId: number
+      excludeCategoryId?: number
    ): Promise<boolean> {
       const args = {
          where: {
             userId,
             name: { equals: name, mode: "insensitive" },
-            id: { not: excludeCategoryId },
+            ...(excludeCategoryId !== undefined && {
+               id: { not: excludeCategoryId },
+            }),
          },
          select: { id: true },
       } satisfies PromptCategoryFindFirstArgs;
 
       const existing = await this.prisma.promptCategory.findFirst(args);
       return existing !== null;
+   }
+
+   async pCreatePromptCategory(
+      userId: string,
+      name: string
+   ): Promise<DPromptCategoryWithUsage> {
+      const args = {
+         data: { userId, name },
+         select: {
+            id: true,
+            name: true,
+            _count: { select: { prompts: true } },
+         },
+      } satisfies PromptCategoryCreateArgs;
+
+      const category = await this.prisma.promptCategory.create(args);
+      return toDPromptCategoryWithUsage(category);
    }
 
    async pUpdatePromptCategory(

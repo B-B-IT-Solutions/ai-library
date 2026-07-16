@@ -4,6 +4,7 @@ import { Tag } from "lucide-react";
 import { getPromptCategoriesWithUsage } from "@/data/actions/prompt";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
+import { CreateCategoryButton } from "./buttons";
 import { CategoryItem } from "./item";
 
 export const Categories = async () => {
@@ -21,8 +22,8 @@ export const Categories = async () => {
                   Noch keine Kategorien
                </p>
                <p className="mt-1 text-sm text-slate-400">
-                  Kategorien werden automatisch angelegt, sobald du sie einem
-                  Prompt zuweist
+                  Erstelle deine erste Kategorie oder weise sie direkt einem
+                  Prompt zu
                </p>
             </div>
          );
@@ -42,14 +43,17 @@ export const Categories = async () => {
 
    return (
       <div className="space-y-6" data-testid="prompt-categories">
-         <div>
-            <h2 className="text-xl font-semibold text-slate-900">
-               Prompts Kategorien
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-               Verwalte deine Prompts Kategorien. Änderungen wirken sich auf
-               alle verknüpften Prompts aus.
-            </p>
+         <div className="flex items-start justify-between gap-4">
+            <div>
+               <h2 className="text-xl font-semibold text-slate-900">
+                  Prompts Kategorien
+               </h2>
+               <p className="mt-1 text-sm text-slate-500">
+                  Verwalte deine Prompts Kategorien. Änderungen wirken sich
+                  auf alle verknüpften Prompts aus.
+               </p>
+            </div>
+            <CreateCategoryButton />
          </div>
 
          {renderCategories()}

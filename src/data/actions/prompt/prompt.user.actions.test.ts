@@ -20,6 +20,7 @@ import { AiLibAuthenticationError } from "../types";
 import {
    composePromptFromTemplate,
    createPrompt,
+   createPromptCategory,
    deletePrompt,
    deletePromptCategory,
    downloadPrompt,
@@ -109,6 +110,7 @@ const sGetPromptCategoriesPageMock =
 
 const sGetPromptCategoriesWithUsage =
    PromptService.prototype.getPromptCategoriesWithUsage;
+const sCreatePromptCategory = PromptService.prototype.createPromptCategory;
 const sUpdatePromptCategory = PromptService.prototype.updatePromptCategory;
 const sDeletePromptCategory = PromptService.prototype.deletePromptCategory;
 const sIsConflictingPromptCategoryName =
@@ -118,6 +120,9 @@ const sGetPromptCategoriesWithUsageMock =
    sGetPromptCategoriesWithUsage as jest.MockedFunction<
       typeof sGetPromptCategoriesWithUsage
    >;
+const sCreatePromptCategoryMock = sCreatePromptCategory as jest.MockedFunction<
+   typeof sCreatePromptCategory
+>;
 const sUpdatePromptCategoryMock = sUpdatePromptCategory as jest.MockedFunction<
    typeof sUpdatePromptCategory
 >;
@@ -1159,6 +1164,95 @@ describe("isConflictingPromptCategoryName tests", () => {
          catagoryId,
          catagoryName
       );
+   });
+});
+
+describe("createPromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - invalid name - test", async () => {
+      const data = dtestData.dPromptCategoryUpdate();
+      data.name = "a".repeat(51);
+
+      const result = await createPromptCategory(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sCreatePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const data = dtestData.dPromptCategoryUpdate();
+      const result = await createPromptCategory(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("error - name conflict - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data = dtestData.dPromptCategoryUpdate();
+
+      const error = new CategoryNameConflictError(data.name);
+      sCreatePromptCategoryMock.mockRejectedValue(error);
+
+      const result = await createPromptCategory(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptCategoryMock).toHaveBeenCalledWith(user.id, data);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("category created - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data = dtestData.dPromptCategoryUpdate();
+      const created = dtestData.dPromptCategoryWithUsage();
+      sCreatePromptCategoryMock.mockResolvedValue(created);
+
+      const result = await createPromptCategory(data);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Kategorie erfolgreich erstellt",
+         data: created,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptCategoryMock).toHaveBeenCalledWith(user.id, data);
    });
 });
 

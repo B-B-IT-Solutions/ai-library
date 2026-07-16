@@ -248,7 +248,7 @@ export class PromptService {
 
    async isConflictingPromptCategoryName(
       userId: string,
-      categoryId: number,
+      categoryId: number | undefined,
       name: string
    ): Promise<boolean> {
       const trimmedName = trim(name);
@@ -256,6 +256,27 @@ export class PromptService {
          userId,
          trimmedName,
          categoryId
+      );
+   }
+
+   async createPromptCategory(
+      userId: string,
+      data: DPromptCategoryUpdate
+   ): Promise<DPromptCategoryWithUsage> {
+      const trimmedName = trim(data.name);
+      const isConflict = await this.isConflictingPromptCategoryName(
+         userId,
+         undefined,
+         trimmedName
+      );
+
+      if (isConflict) {
+         throw new CategoryNameConflictError(trimmedName);
+      }
+
+      return await this.repository.pCreatePromptCategory(
+         userId,
+         trimmedName
       );
    }
 

@@ -796,6 +796,50 @@ describe("isConflictingPromptCategoryName tests", () => {
    });
 });
 
+describe("createPromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isConflict false - category created - test", async () => {
+      const userId = "user-id-1";
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const created = dtestData.dPromptCategoryWithUsage();
+      promptRepoMock.pCreatePromptCategory.mockResolvedValue(created);
+
+      const data = dtestData.dPromptCategoryUpdate();
+      data.name = " Vertrieb ";
+
+      const result = await promptService.createPromptCategory(userId, data);
+
+      expect(result).toEqual(created);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb",
+         undefined
+      );
+      expect(promptRepoMock.pCreatePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pCreatePromptCategory).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb"
+      );
+   });
+
+   it("isConflict true - throws CategoryNameConflictError - test", async () => {
+      const userId = "user-id-1";
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
+
+      const data = dtestData.dPromptCategoryUpdate();
+
+      const fn = () => promptService.createPromptCategory(userId, data);
+
+      await expect(fn).rejects.toThrow(CategoryNameConflictError);
+      expect(promptRepoMock.pCreatePromptCategory).not.toHaveBeenCalled();
+   });
+});
+
 describe("updatePromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

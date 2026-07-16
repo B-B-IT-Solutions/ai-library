@@ -9,6 +9,7 @@ export {
    downloadPrompt,
    isConflictingPromptCategoryName,
    getPromptCategoriesWithUsage,
+   createPromptCategory,
    updatePromptCategory,
    deletePromptCategory,
    togglePromptFavorite,

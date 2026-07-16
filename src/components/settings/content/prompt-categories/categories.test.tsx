@@ -19,7 +19,10 @@ const getCategoriesWithUsageMock =
 
 const assertRendered = () => {
    const categories = screen.getByTestId("prompt-categories");
+   const createBtn = screen.getByTestId("create-category-btn");
+
    assertInDocument(categories);
+   assertInDocument(createBtn);
 };
 
 const assertCategoriesRendered = () => {
