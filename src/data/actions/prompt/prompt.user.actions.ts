@@ -303,24 +303,6 @@ export const getPromptCategoriesWithUsage = async (): Promise<
    }
 };
 
-export const isConflictingPromptCategoryName = async (
-   categoryId: number | undefined,
-   name: string
-): Promise<boolean> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.isConflictingPromptCategoryName(
-         user.id,
-         categoryId,
-         name
-      );
-   } catch (error) {
-      console.error(formatError(error));
-      return false;
-   }
-};
-
 export const createPromptCategory = async (
    data: DPromptCategoryUpdate
 ): Promise<ActionResult<DPromptCategoryWithUsage>> => {
@@ -403,6 +385,24 @@ export const deletePromptCategory = async (
          success: false,
          message: "Kategorie konnte nicht gelöscht werden",
       };
+   }
+};
+
+export const isConflictingPromptCategoryName = async (
+   categoryId: number | undefined,
+   name: string
+): Promise<boolean> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.isConflictingPromptCategoryName(
+         user.id,
+         categoryId,
+         name
+      );
+   } catch (error) {
+      console.error(formatError(error));
+      return false;
    }
 };
 

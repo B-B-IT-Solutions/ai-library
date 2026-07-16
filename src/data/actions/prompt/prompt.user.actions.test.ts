@@ -9,6 +9,7 @@ import { PromptService } from "@/data/services/prompt";
 import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import {
    DPrompt,
+   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
@@ -1100,73 +1101,6 @@ describe("getPromptCategoriesWithUsage tests", () => {
    });
 });
 
-describe("isConflictingPromptCategoryName tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
-
-      expect(result).toBe(false);
-      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("isConflict false - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sIsConflictingPromptCategoryNameMock.mockResolvedValue(false);
-
-      const catagoryId = 1;
-      const catagoryName = "category 1";
-      const result = await isConflictingPromptCategoryName(
-         catagoryId,
-         catagoryName
-      );
-
-      expect(result).toBe(false);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
-      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
-         user.id,
-         catagoryId,
-         catagoryName
-      );
-   });
-
-   it("isConflict true - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sIsConflictingPromptCategoryNameMock.mockResolvedValue(true);
-
-      const catagoryId = 1;
-      const catagoryName = "category 123";
-
-      const result = await isConflictingPromptCategoryName(
-         catagoryId,
-         catagoryName
-      );
-
-      expect(result).toBe(true);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
-      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
-         user.id,
-         catagoryId,
-         catagoryName
-      );
-   });
-});
-
 describe("createPromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -1243,7 +1177,7 @@ describe("createPromptCategory tests", () => {
 
       const result = await createPromptCategory(data);
 
-      const expectedResult: ActionResult = {
+      const expectedResult: ActionResult<DPromptCategoryWithUsage> = {
          success: true,
          message: "Kategorie erfolgreich erstellt",
          data: created,
@@ -1393,6 +1327,73 @@ describe("deletePromptCategory tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptCategoryMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptCategoryMock).toHaveBeenCalledWith(user.id, 1);
+   });
+});
+
+describe("isConflictingPromptCategoryName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
+
+      expect(result).toBe(false);
+      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("isConflict false - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(false);
+
+      const catagoryId = 1;
+      const catagoryName = "category 1";
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(false);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
+   });
+
+   it("isConflict true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(true);
+
+      const catagoryId = 1;
+      const catagoryName = "category 123";
+
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(true);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
    });
 });
 
