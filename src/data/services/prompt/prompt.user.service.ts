@@ -246,6 +246,20 @@ export class PromptService {
       return await this.repository.pGetPromptCategoriesWithUsage(userId);
    }
 
+   async promptCategoryExists(
+      userId: string,
+      categoryId: number,
+      name: string
+   ): Promise<boolean> {
+      const trimmedName = trim(name);
+      const exists = await this.repository.pPromptCategoryExists(
+         userId,
+         trimmedName,
+         categoryId
+      );
+      return !exists;
+   }
+
    async renamePromptCategory(
       userId: string,
       categoryId: number,
@@ -276,20 +290,6 @@ export class PromptService {
       categoryId: number
    ): Promise<void> {
       await this.repository.pDeletePromptCategory(userId, categoryId);
-   }
-
-   async promptCategoryExists(
-      userId: string,
-      categoryId: number,
-      name: string
-   ): Promise<boolean> {
-      const trimmedName = trim(name);
-      const exists = await this.repository.pPromptCategoryExists(
-         userId,
-         trimmedName,
-         categoryId
-      );
-      return !exists;
    }
 
    async getPromptModels(userId: string): Promise<string[]> {

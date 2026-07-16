@@ -750,6 +750,46 @@ describe("getPromptCategoriesWithUsage tests", () => {
    });
 });
 
+describe("promptCategoryExists tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("name not taken - returns true - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const result = await promptService.promptCategoryExists(
+         userId,
+         categoryId,
+         " Vertrieb "
+      );
+
+      expect(result).toBe(true);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb",
+         categoryId
+      );
+   });
+
+   it("name already taken - returns false - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
+
+      const result = await promptService.promptCategoryExists(
+         userId,
+         categoryId,
+         "Support"
+      );
+
+      expect(result).toBe(false);
+   });
+});
+
 describe("renamePromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -827,46 +867,6 @@ describe("deletePromptCategory tests", () => {
          userId,
          categoryId
       );
-   });
-});
-
-describe("promptCategoryExists tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("name not taken - returns true - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
-      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
-
-      const result = await promptService.promptCategoryExists(
-         userId,
-         categoryId,
-         " Vertrieb "
-      );
-
-      expect(result).toBe(true);
-      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
-         userId,
-         "Vertrieb",
-         categoryId
-      );
-   });
-
-   it("name already taken - returns false - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
-      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
-
-      const result = await promptService.promptCategoryExists(
-         userId,
-         categoryId,
-         "Support"
-      );
-
-      expect(result).toBe(false);
    });
 });
 
