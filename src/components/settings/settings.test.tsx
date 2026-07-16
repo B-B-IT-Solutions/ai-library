@@ -20,6 +20,11 @@ jest.mock("./content/prompt-categories", () => {
    return { Categories };
 });
 
+jest.mock("./content/prompt-models", () => {
+   const Models = () => <div data-testid="prompt-models"></div>;
+   return { Models };
+});
+
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
@@ -55,6 +60,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
          assertContentNotRendered("prompt-categories");
+         assertContentNotRendered("prompt-models");
       });
 
       expect(container).toMatchSnapshot();
@@ -71,6 +77,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
          assertContentNotRendered("prompt-categories");
+         assertContentNotRendered("prompt-models");
       });
 
       expect(container).toMatchSnapshot();
@@ -89,6 +96,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("general-settings");
          assertContentNotRendered("global-template-fields");
          assertContentNotRendered("prompt-categories");
+         assertContentNotRendered("prompt-models");
       });
 
       expect(container).toMatchSnapshot();
@@ -107,6 +115,7 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("prompt-categories");
+         assertContentNotRendered("prompt-models");
       });
 
       expect(container).toMatchSnapshot();
@@ -125,6 +134,26 @@ describe("Settings rendering tests", () => {
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
          assertContentNotRendered("global-template-fields");
+         assertContentNotRendered("prompt-models");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("section prompt-models - test", async () => {
+      const user = dtestData.dUser();
+      const { container } = render(
+         <Settings user={user} section="prompt-models" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentRendered("prompt-models");
+         assertContentNotRendered("account-settings");
+         assertContentNotRendered("general-settings");
+         assertContentNotRendered("subscription");
+         assertContentNotRendered("global-template-fields");
+         assertContentNotRendered("prompt-categories");
       });
 
       expect(container).toMatchSnapshot();
