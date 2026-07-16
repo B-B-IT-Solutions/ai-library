@@ -4,14 +4,14 @@ import { ZodError } from "zod";
 
 import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
-import { updateCategorySchemaBackendValidation } from "./prompt.backend.validation.schema";
+import { updateCategorySchemaBackendValidation } from "./update-category.schema";
 
 const checkCategoryNameAvailableMock =
    isConflictingPromptCategoryName as jest.MockedFunction<
       typeof isConflictingPromptCategoryName
    >;
 
-describe("buildRenameCategorySchema - tests", () => {
+describe("updateCategorySchemaBackendValidation - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

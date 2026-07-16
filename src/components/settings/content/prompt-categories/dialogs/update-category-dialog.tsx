@@ -22,7 +22,9 @@ import {
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
 } from "@/data/types/domain/prompt";
-import { updateCategorySchemaBackendValidation } from "@/data/types/validators/template";
+import { initPromptCategory } from "../utils";
+
+import { updateCategorySchemaBackendValidation } from "./update-category.schema";
 
 type Props = {
    open: boolean;
@@ -40,19 +42,19 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
 
    const form = useForm<DPromptCategoryUpdate>({
       resolver: zodResolver(renameSchema),
-      defaultValues: { name: category.name },
+      defaultValues: initPromptCategory(category),
    });
 
    useEffect(() => {
       if (open) {
-         form.reset({ name: category.name });
+         form.reset(initPromptCategory(category));
       }
    }, [open, category, form]);
 
    const { isSubmitting } = form.formState;
 
    const onSubmit: SubmitHandler<DPromptCategoryUpdate> = async (data) => {
-      const result = await updatePromptCategory(category.id, data.name);
+      const result = await updatePromptCategory(category.id, data);
       if (result.success) {
          toast.success(result.message);
          router.refresh();

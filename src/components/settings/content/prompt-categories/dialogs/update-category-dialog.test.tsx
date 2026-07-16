@@ -12,6 +12,7 @@ import {
    updatePromptCategory,
 } from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
+import { initPromptCategory } from "../utils";
 
 import { UpdateCategoryDialog } from "./update-category-dialog";
 
@@ -110,17 +111,21 @@ describe("UpdateCategoryDialog functionality tests", () => {
          expect(updatePromptCategoryMock).not.toHaveBeenCalled();
       });
 
+      const updatedName = "category 123";
       await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), "Vertrieb");
+      await userEvent.type(getNameInput(), updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
+
+      const expectedPayload = initPromptCategory(category);
+      expectedPayload.name = updatedName;
 
       await waitFor(() => {
          expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
          expect(updatePromptCategoryMock).toHaveBeenCalledWith(
             category.id,
-            "Vertrieb"
+            expectedPayload
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
@@ -151,14 +156,22 @@ describe("UpdateCategoryDialog functionality tests", () => {
          assertDialogRendered();
       });
 
+      const updatedName = "category 123";
       await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), "Support");
+      await userEvent.type(getNameInput(), updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
+      const expectedPayload = initPromptCategory(category);
+      expectedPayload.name = updatedName;
+
       await waitFor(() => {
          expect(updatePromptCategoryMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptCategoryMock).toHaveBeenCalledWith(
+            category.id,
+            expectedPayload
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).not.toHaveBeenCalled();
@@ -184,16 +197,20 @@ describe("UpdateCategoryDialog functionality tests", () => {
          assertDialogRendered();
       });
 
+      const updatedName = "category 123";
       await userEvent.clear(getNameInput());
-      await userEvent.type(getNameInput(), "Support");
+      await userEvent.type(getNameInput(), updatedName);
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
+      const expectedPayload = initPromptCategory(category);
+      expectedPayload.name = updatedName;
+
       await waitFor(() => {
          expect(checkCategoryNameAvailableMock).toHaveBeenCalledWith(
             category.id,
-            "Support"
+            updatedName
          );
          assertInDocument(
             screen.getByText(
