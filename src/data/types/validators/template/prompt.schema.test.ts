@@ -6,7 +6,7 @@ import {
    promptVariableTypeSchema,
    updateCategorySchema,
    updateTemplateSchema,
-} from "./template.schema";
+} from "./prompt.schema";
 
 describe("templateFieldTypeSchema - tests", () => {
    it("TEXT type valid - test", () => {

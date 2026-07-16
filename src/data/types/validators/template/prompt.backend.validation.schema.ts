@@ -1,6 +1,6 @@
 import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
-import { updateCategorySchema } from "./template.schema";
+import { updateCategorySchema } from "./prompt.schema";
 
 /**
  * Rename-category schema that additionally validates, against the backend,
