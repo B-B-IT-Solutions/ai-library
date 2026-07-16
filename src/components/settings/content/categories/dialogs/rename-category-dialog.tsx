@@ -22,7 +22,7 @@ import {
    DPromptCategoryWithUsage,
    DRenameCategory,
 } from "@/data/types/domain/prompt";
-import { buildRenameCategorySchema } from "@/data/types/validators/template";
+import { updateCategorySchemaBackendValidation } from "@/data/types/validators/template";
 
 type Props = {
    open: boolean;
@@ -34,7 +34,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
    const router = useRouter();
 
    const renameSchema = useMemo(
-      () => buildRenameCategorySchema(category.id),
+      () => updateCategorySchemaBackendValidation(category.id),
       [category.id]
    );
 

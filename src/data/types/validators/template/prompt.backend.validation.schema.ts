@@ -14,7 +14,7 @@ import { updateCategorySchema } from "./template.schema";
  * itself imports schemas from that barrel - a circular dependency. Import
  * this file directly wherever the rename dialog needs it.
  */
-export const buildRenameCategorySchema = (categoryId: number) => {
+export const updateCategorySchemaBackendValidation = (categoryId: number) => {
    return updateCategorySchema.refine(
       async (data) =>
          await isConflictingPromptCategoryName(categoryId, data.name),

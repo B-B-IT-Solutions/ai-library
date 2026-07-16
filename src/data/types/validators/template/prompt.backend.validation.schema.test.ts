@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 
 import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
 
-import { buildRenameCategorySchema } from "./rename-category.schema";
+import { updateCategorySchemaBackendValidation } from "./prompt.backend.validation.schema";
 
 const checkCategoryNameAvailableMock =
    isConflictingPromptCategoryName as jest.MockedFunction<
@@ -18,7 +18,7 @@ describe("buildRenameCategorySchema - tests", () => {
 
    it("name available - valid - test", async () => {
       checkCategoryNameAvailableMock.mockResolvedValue(true);
-      const schema = buildRenameCategorySchema(1);
+      const schema = updateCategorySchemaBackendValidation(1);
 
       const result = await schema.parseAsync({ name: "Vertrieb" });
 
@@ -32,7 +32,7 @@ describe("buildRenameCategorySchema - tests", () => {
 
    it("name already taken - invalid - test", async () => {
       checkCategoryNameAvailableMock.mockResolvedValue(false);
-      const schema = buildRenameCategorySchema(1);
+      const schema = updateCategorySchemaBackendValidation(1);
 
       const fn = () => schema.parseAsync({ name: "Support" });
 
@@ -41,7 +41,7 @@ describe("buildRenameCategorySchema - tests", () => {
 
    it("name already taken - error message on name path - test", async () => {
       checkCategoryNameAvailableMock.mockResolvedValue(false);
-      const schema = buildRenameCategorySchema(1);
+      const schema = updateCategorySchemaBackendValidation(1);
 
       const result = await schema.safeParseAsync({ name: "Support" });
 
@@ -54,7 +54,7 @@ describe("buildRenameCategorySchema - tests", () => {
 
    it("empty name invalid - test", async () => {
       checkCategoryNameAvailableMock.mockResolvedValue(true);
-      const schema = buildRenameCategorySchema(1);
+      const schema = updateCategorySchemaBackendValidation(1);
 
       const fn = () => schema.parseAsync({ name: "" });
 

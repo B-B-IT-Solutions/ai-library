@@ -5,4 +5,4 @@ export {
    updateCategorySchema,
 } from "./template.schema";
 
-export { buildRenameCategorySchema } from "./rename-category.schema";
+export { updateCategorySchemaBackendValidation } from "./prompt.backend.validation.schema";
