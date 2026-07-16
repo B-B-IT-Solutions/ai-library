@@ -48,6 +48,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
+   DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
    DPromptPreview,
    DPromptPreviewsPage,
@@ -841,6 +842,12 @@ export const dPromptCategoryWithUsage = (
       id: index,
       name: `category ${index}`,
       count: index,
+   };
+};
+
+export const dPromptCategoryUpdate = (index = 1): DPromptCategoryUpdate => {
+   return {
+      name: `category ${index}`,
    };
 };
 

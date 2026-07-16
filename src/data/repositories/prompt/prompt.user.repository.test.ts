@@ -13,7 +13,6 @@ import {
    DPromptVariableType,
    DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
-import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCategoryCountArgs,
    PromptCategoryDeleteArgs,
@@ -1298,13 +1297,13 @@ describe("pUpdatePromptCategory tests", () => {
    test("category renamed - test", async () => {
       const userId = "user-id-1";
       const categoryId = 1;
-      const name = "Vertrieb";
 
-      await repository.pUpdatePromptCategory(userId, categoryId, name);
+      const update = dtestData.dPromptCategoryUpdate();
+      await repository.pUpdatePromptCategory(userId, categoryId, update);
 
       const expectedArgs: PromptCategoryUpdateArgs = {
          where: { id: categoryId, userId },
-         data: { name },
+         data: { name: update.name },
       };
 
       expect(prismaMock.promptCategory.update).toHaveBeenCalledTimes(1);

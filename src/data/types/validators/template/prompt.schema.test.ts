@@ -4,7 +4,7 @@ import {
    categorySchema,
    promptVariableSchema,
    promptVariableTypeSchema,
-   updateCategorySchema,
+   updatePromptCategorySchema,
    updateTemplateSchema,
 } from "./prompt.schema";
 
@@ -940,31 +940,32 @@ describe("updateTemplateSchema - tests", () => {
 
 describe("renameCategorySchema - tests", () => {
    it("valid name - test", () => {
-      const validatedValues = updateCategorySchema.parse({
+      const validatedValues = updatePromptCategorySchema.parse({
          name: "Marketing",
       });
       expect(validatedValues.name).toBe("Marketing");
    });
 
    it("trims whitespace - test", () => {
-      const validatedValues = updateCategorySchema.parse({
+      const validatedValues = updatePromptCategorySchema.parse({
          name: "  Marketing  ",
       });
       expect(validatedValues.name).toBe("Marketing");
    });
 
    it("empty name invalid - test", () => {
-      const fn = () => updateCategorySchema.parse({ name: "" });
+      const fn = () => updatePromptCategorySchema.parse({ name: "" });
       expect(fn).toThrow(ZodError);
    });
 
    it("name exceeding max length invalid - test", () => {
-      const fn = () => updateCategorySchema.parse({ name: "a".repeat(51) });
+      const fn = () =>
+         updatePromptCategorySchema.parse({ name: "a".repeat(51) });
       expect(fn).toThrow(ZodError);
    });
 
    it("missing name invalid - test", () => {
-      const fn = () => updateCategorySchema.parse({});
+      const fn = () => updatePromptCategorySchema.parse({});
       expect(fn).toThrow(ZodError);
    });
 });

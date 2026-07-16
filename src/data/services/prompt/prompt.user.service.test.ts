@@ -805,13 +805,15 @@ describe("updatePromptCategory tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
-      await promptService.updatePromptCategory(userId, 1, " Vertrieb ");
+      const update = dtestData.dPromptCategoryUpdate();
+
+      await promptService.updatePromptCategory(userId, 1, update);
 
       expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledWith(
          userId,
          1,
-         "Vertrieb"
+         update
       );
    });
 
@@ -819,8 +821,9 @@ describe("updatePromptCategory tests", () => {
       const userId = "user-id-1";
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
-      const fn = () =>
-         promptService.updatePromptCategory(userId, 1, "  support  ");
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const fn = () => promptService.updatePromptCategory(userId, 1, update);
 
       await expect(fn).rejects.toThrow(CategoryNameConflictError);
       expect(promptRepoMock.pUpdatePromptCategory).not.toHaveBeenCalled();

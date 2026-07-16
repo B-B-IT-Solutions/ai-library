@@ -47,6 +47,6 @@ export const updateTemplateSchema = z.object({
    globalFieldIds: z.array(z.string()),
 });
 
-export const updateCategorySchema = z.object({
+export const updatePromptCategorySchema = z.object({
    name: categorySchema,
 });

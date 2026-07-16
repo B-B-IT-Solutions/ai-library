@@ -5,6 +5,7 @@ import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -261,24 +262,20 @@ export class PromptService {
    async updatePromptCategory(
       userId: string,
       categoryId: number,
-      newName: string
+      data: DPromptCategoryUpdate
    ): Promise<void> {
-      const trimmedName = trim(newName);
+      const { name } = data;
       const isConflict = await this.isConflictingPromptCategoryName(
          userId,
          categoryId,
-         newName
+         name
       );
 
       if (isConflict) {
-         throw new CategoryNameConflictError(newName);
+         throw new CategoryNameConflictError(name);
       }
 
-      await this.repository.pUpdatePromptCategory(
-         userId,
-         categoryId,
-         trimmedName
-      );
+      await this.repository.pUpdatePromptCategory(userId, categoryId, data);
    }
 
    async deletePromptCategory(

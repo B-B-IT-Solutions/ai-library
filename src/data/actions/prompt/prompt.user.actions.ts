@@ -12,6 +12,7 @@ import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -26,7 +27,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import { updateCategorySchema } from "@/data/types/validators/template";
+import { updatePromptCategorySchema } from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -325,14 +326,14 @@ export const isConflictingPromptCategoryName = async (
 
 export const updatePromptCategory = async (
    categoryId: number,
-   newName: string
+   update: DPromptCategoryUpdate
 ): Promise<ActionResult> => {
    try {
-      const { name } = updateCategorySchema.parse({ name: newName });
+      const vUpdate = updatePromptCategorySchema.parse(update);
 
       const user = await requireUser();
       const service = getService();
-      await service.updatePromptCategory(user.id, categoryId, name);
+      await service.updatePromptCategory(user.id, categoryId, vUpdate);
 
       return {
          success: true,

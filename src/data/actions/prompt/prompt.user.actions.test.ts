@@ -1172,8 +1172,11 @@ describe("updatePromptCategory tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("invalid name - too long - test", async () => {
-      const result = await updatePromptCategory(1, "a".repeat(51));
+   it("error - invalid name - test", async () => {
+      const update = dtestData.dPromptCategoryUpdate();
+      update.name = "a".repeat(51);
+
+      const result = await updatePromptCategory(1, update);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -1185,14 +1188,48 @@ describe("updatePromptCategory tests", () => {
       expect(sUpdatePromptCategoryMock).not.toHaveBeenCalled();
    });
 
-   it("invalid name - empty - test", async () => {
-      const result = await updatePromptCategory(1, "   ");
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
 
-      expect(result).toEqual({
+      const update = dtestData.dPromptCategoryUpdate();
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
          success: false,
          message: "Kategorie konnte nicht umbenannt werden",
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdatePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("error - name conflict  - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const error = new CategoryNameConflictError(update.name);
+      sUpdatePromptCategoryMock.mockRejectedValue(error);
+
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledWith(
+         user.id,
+         1,
+         update
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("category renamed - test", async () => {
@@ -1200,7 +1237,9 @@ describe("updatePromptCategory tests", () => {
       requireUserMock.mockResolvedValue(user);
       sUpdatePromptCategoryMock.mockResolvedValue(undefined);
 
-      const result = await updatePromptCategory(1, "Vertrieb");
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const result = await updatePromptCategory(1, update);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -1213,39 +1252,8 @@ describe("updatePromptCategory tests", () => {
       expect(sUpdatePromptCategoryMock).toHaveBeenCalledWith(
          user.id,
          1,
-         "Vertrieb"
+         update
       );
-   });
-
-   it("name conflict - surfaces specific message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new CategoryNameConflictError("Support");
-      sUpdatePromptCategoryMock.mockRejectedValue(error);
-
-      const result = await updatePromptCategory(1, "Support");
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: error.message,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("unexpected error - generic message - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sUpdatePromptCategoryMock.mockRejectedValue(new Error("db down"));
-
-      const result = await updatePromptCategory(1, "Vertrieb");
-
-      expect(result).toEqual({
-         success: false,
-         message: "Kategorie konnte nicht umbenannt werden",
-      });
    });
 });
 

@@ -19,8 +19,8 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
 import { updatePromptCategory } from "@/data/actions/prompt";
 import {
+   DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
-   DRenameCategory,
 } from "@/data/types/domain/prompt";
 import { updateCategorySchemaBackendValidation } from "@/data/types/validators/template";
 
@@ -38,7 +38,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
       [category.id]
    );
 
-   const form = useForm<DRenameCategory>({
+   const form = useForm<DPromptCategoryUpdate>({
       resolver: zodResolver(renameSchema),
       defaultValues: { name: category.name },
    });
@@ -51,7 +51,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DRenameCategory> = async (data) => {
+   const onSubmit: SubmitHandler<DPromptCategoryUpdate> = async (data) => {
       const result = await updatePromptCategory(category.id, data.name);
       if (result.success) {
          toast.success(result.message);
@@ -85,7 +85,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <FormInput<DRenameCategory>
+                  <FormInput<DPromptCategoryUpdate>
                      name="name"
                      label="Name"
                      placeholder="Kategorie-Name"

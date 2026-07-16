@@ -2,7 +2,7 @@ export {
    updateTemplateSchema,
    promptVariableSchema,
    promptVariableTypeSchema,
-   updateCategorySchema,
+   updatePromptCategorySchema,
 } from "./prompt.schema";
 
 export { updateCategorySchemaBackendValidation } from "./prompt.backend.validation.schema";

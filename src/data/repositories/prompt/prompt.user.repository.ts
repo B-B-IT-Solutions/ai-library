@@ -1,4 +1,5 @@
-﻿import { flatMap, map, uniq } from "es-toolkit/compat";
+﻿import { trim } from "es-toolkit";
+import { flatMap, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -10,6 +11,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
+   DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -412,11 +414,16 @@ export class PromptRepository {
    async pUpdatePromptCategory(
       userId: string,
       categoryId: number,
-      name: string
+      update: DPromptCategoryUpdate
    ): Promise<void> {
       const args = {
-         where: { id: categoryId, userId },
-         data: { name },
+         where: {
+            id: categoryId,
+            userId,
+         },
+         data: {
+            name: trim(update.name),
+         },
       } satisfies PromptCategoryUpdateArgs;
 
       await this.prisma.promptCategory.update(args);
