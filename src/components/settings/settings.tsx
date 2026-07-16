@@ -21,7 +21,7 @@ export const Settings = ({ user, section }: Props) => {
       if (section === "global-template-fields") {
          return <GlobalPromptFields />;
       }
-      if (section === "categories") {
+      if (section === "prompt-categories") {
          return <Categories />;
       }
       return <GeneralSettings user={user} />;

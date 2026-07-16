@@ -34,8 +34,8 @@ const groups: NavigationGroup[] = [
             label: "Vorlagen-Felder",
          },
          {
-            section: "categories",
-            label: "Kategorien",
+            section: "prompt-categories",
+            label: "Prompts Kategorien",
          },
       ],
    },
