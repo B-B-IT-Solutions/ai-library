@@ -13,7 +13,7 @@ import {
 } from "@/data/actions/prompt";
 import { ActionResult } from "@/data/types/utils";
 
-import { RenameCategoryDialog } from "./rename-category-dialog";
+import { UpdateCategoryDialog } from "./update-category-dialog";
 
 const updatePromptCategoryMock = updatePromptCategory as jest.MockedFunction<
    typeof updatePromptCategory
@@ -27,7 +27,7 @@ const checkCategoryNameAvailableMock =
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("category-rename-dialog");
+   const dialog = screen.getByTestId("update-category-dialog");
    const cancelBtn = screen.getByTestId("cancel-btn");
    const submitBtn = screen.getByTestId("submit-btn");
 
@@ -37,7 +37,7 @@ const assertDialogRendered = () => {
 };
 
 const assertDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("category-rename-dialog");
+   const dialog = screen.queryByTestId("update-category-dialog");
    assertNotInDocument(dialog);
 };
 
@@ -46,11 +46,11 @@ const getNameInput = () => {
    return within(field).getByTestId("input");
 };
 
-describe("RenameCategoryDialog rendering tests", () => {
-   it("RenameCategoryDialog - open true - test", async () => {
+describe("UpdateCategoryDialog rendering tests", () => {
+   it("open true - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
       const { container } = render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={jest.fn()}
@@ -65,10 +65,10 @@ describe("RenameCategoryDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("RenameCategoryDialog - open false - test", async () => {
+   it("open false - test", async () => {
       const category = dtestData.dPromptCategoryWithUsage();
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={false}
             onClose={jest.fn()}
@@ -81,13 +81,13 @@ describe("RenameCategoryDialog rendering tests", () => {
    });
 });
 
-describe("RenameCategoryDialog functionality tests", () => {
+describe("UpdateCategoryDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       checkCategoryNameAvailableMock.mockResolvedValue(true);
    });
 
-   it("RenameCategoryDialog - submit btn clicked - result.success true - test", async () => {
+   it("submit btn clicked - result.success true - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Kategorie erfolgreich umbenannt",
@@ -98,7 +98,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={onClose}
@@ -129,7 +129,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       });
    });
 
-   it("RenameCategoryDialog - submit btn clicked - result.success false - test", async () => {
+   it("submit btn clicked - result.success false - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Eine Kategorie mit diesem Namen existiert bereits",
@@ -140,7 +140,7 @@ describe("RenameCategoryDialog functionality tests", () => {
       const category = dtestData.dPromptCategoryWithUsage();
 
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={onClose}
@@ -166,14 +166,14 @@ describe("RenameCategoryDialog functionality tests", () => {
       });
    });
 
-   it("RenameCategoryDialog - submit btn clicked - name taken - rejected client-side without server round-trip - test", async () => {
+   it("submit btn clicked - name taken - rejected client-side without server round-trip - test", async () => {
       checkCategoryNameAvailableMock.mockResolvedValue(false);
 
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
 
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={onClose}
@@ -205,11 +205,11 @@ describe("RenameCategoryDialog functionality tests", () => {
       });
    });
 
-   it("RenameCategoryDialog - cancel btn clicked - test", async () => {
+   it("cancel btn clicked - test", async () => {
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={onClose}
@@ -229,12 +229,12 @@ describe("RenameCategoryDialog functionality tests", () => {
       });
    });
 
-   it("RenameCategoryDialog - submit btn clicked - validation error - test", async () => {
+   it("submit btn clicked - validation error - test", async () => {
       const onClose = jest.fn();
       const category = dtestData.dPromptCategoryWithUsage();
 
       render(
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             category={category}
             open={true}
             onClose={onClose}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`RenameCategoryDialog rendering tests RenameCategoryDialog - open true - test 1`] = `
+exports[`UpdateCategoryDialog rendering tests open true - test 1`] = `
 <div>
   <div
     data-slot="dialog"

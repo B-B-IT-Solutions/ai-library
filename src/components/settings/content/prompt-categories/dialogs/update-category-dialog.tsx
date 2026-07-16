@@ -30,7 +30,7 @@ type Props = {
    category: DPromptCategoryWithUsage;
 };
 
-export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
+export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
    const router = useRouter();
 
    const renameSchema = useMemo(
@@ -76,7 +76,7 @@ export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {
 
    return (
       <Dialog open={open} onOpenChange={onClose}>
-         <DialogContent data-testid="category-rename-dialog">
+         <DialogContent data-testid="update-category-dialog">
             <DialogHeader>
                <DialogTitle>Kategorie umbenennen</DialogTitle>
             </DialogHeader>

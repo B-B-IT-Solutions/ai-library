@@ -5,7 +5,7 @@ import { Pencil } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
-import { RenameCategoryDialog } from "../dialogs";
+import { UpdateCategoryDialog } from "../dialogs";
 
 type Props = {
    category: DPromptCategoryWithUsage;
@@ -33,7 +33,7 @@ export const UpdateCategoryButton = ({ category }: Props) => {
          >
             <Pencil className="h-4 w-4" />
          </Button>
-         <RenameCategoryDialog
+         <UpdateCategoryDialog
             open={open}
             onClose={closeDialog}
             category={category}

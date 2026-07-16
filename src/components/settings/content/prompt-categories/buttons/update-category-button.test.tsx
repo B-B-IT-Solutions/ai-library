@@ -15,12 +15,12 @@ const assertRendered = () => {
 };
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("category-rename-dialog");
+   const dialog = screen.getByTestId("update-category-dialog");
    assertInDocument(dialog);
 };
 
 const assertDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("category-rename-dialog");
+   const dialog = screen.queryByTestId("update-category-dialog");
    assertNotInDocument(dialog);
 };
 
