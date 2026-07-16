@@ -1171,6 +1171,8 @@ describe("createPromptCategory tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
+      sCreatePromptCategoryMock.mockResolvedValue(undefined);
+
       const data = dtestData.dPromptCategoryUpdate();
 
       const result = await createPromptCategory(data);
