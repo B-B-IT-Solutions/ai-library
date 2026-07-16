@@ -1233,7 +1233,6 @@ describe("pCreatePromptCategory tests", () => {
 
    test("category created - test", async () => {
       const userId = "user-id-1";
-      const name = "Vertrieb";
 
       const category = ptestData.pPromptCategoryWithUsage();
       prismaMock.promptCategory.create.mockResolvedValue(category);
@@ -1245,7 +1244,10 @@ describe("pCreatePromptCategory tests", () => {
       const expectedResult = toDPromptCategoryWithUsage(category);
 
       const expectedArgs: PromptCategoryCreateArgs = {
-         data: { userId, name },
+         data: {
+            userId,
+            name: category.name,
+         },
          select: {
             id: true,
             name: true,
