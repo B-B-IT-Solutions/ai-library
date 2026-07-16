@@ -938,7 +938,7 @@ describe("updateTemplateSchema - tests", () => {
    });
 });
 
-describe("renameCategorySchema - tests", () => {
+describe("updatePromptCategorySchema - tests", () => {
    it("valid name - test", () => {
       const validatedValues = updatePromptCategorySchema.parse({
          name: "Marketing",

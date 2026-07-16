@@ -1,4 +1,3 @@
-import { toLower, trim } from "es-toolkit/compat";
 import { z } from "zod";
 
 export const promptVariableTypeSchema = z.enum([
