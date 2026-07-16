@@ -9,7 +9,7 @@ import { PromptService } from "@/data/services/prompt";
 import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import {
    DPrompt,
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
@@ -1185,7 +1185,7 @@ describe("getCategoriesWithUsage tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories: DPromptCategoryUsage[] = [
+      const categories: DPromptCategoryWithUsage[] = [
          { id: 1, name: "Marketing", count: 3 },
       ];
       sGetCategoriesWithUsageMock.mockResolvedValue(categories);

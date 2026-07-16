@@ -25,6 +25,7 @@ import {
    ProductWithItems,
 } from "@/data/types/db/product";
 import {
+   PromptCategoryWithUsage,
    PromptPreview,
    PromptWithCategories,
    PromptWithContent,
@@ -584,6 +585,24 @@ export const pPromptField = (index = 1): PromptField => {
       order: index,
       options: ["option 1", "option 2", "option 3"],
       defaultValue: "option 1",
+   };
+};
+
+export const pPromptCategoriesWithUsage = (
+   count = 3
+): PromptCategoryWithUsage[] => {
+   return range(0, count).map((i) => pPromptCategoryWithUsage(i));
+};
+
+export const pPromptCategoryWithUsage = (
+   index = 1
+): PromptCategoryWithUsage => {
+   return {
+      id: Math.random(),
+      name: `category ${index}`,
+      _count: {
+         prompts: index + 10,
+      },
    };
 };
 

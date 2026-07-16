@@ -19,7 +19,7 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
 import { renamePromptCategory } from "@/data/actions/prompt";
 import {
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DRenameCategory,
 } from "@/data/types/domain/prompt";
 import { buildRenameCategorySchema } from "@/data/types/validators/template";
@@ -27,7 +27,7 @@ import { buildRenameCategorySchema } from "@/data/types/validators/template";
 type Props = {
    open: boolean;
    onClose: () => void;
-   category: DPromptCategoryUsage;
+   category: DPromptCategoryWithUsage;
 };
 
 export const RenameCategoryDialog = ({ open, onClose, category }: Props) => {

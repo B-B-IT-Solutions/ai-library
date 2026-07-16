@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
+import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 import { RenameCategoryDialog } from "../dialogs";
 
 type Props = {
-   category: DPromptCategoryUsage;
+   category: DPromptCategoryWithUsage;
 };
 
 export const RenameCategoryButton = ({ category }: Props) => {

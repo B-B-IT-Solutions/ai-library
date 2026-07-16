@@ -15,7 +15,7 @@ const assertRendered = () => {
 
 describe("CategoryItem rendering tests", () => {
    it("CategoryItem render test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
 
       const { container } = renderWithRouter(
          <CategoryItem category={category} />
@@ -29,7 +29,7 @@ describe("CategoryItem rendering tests", () => {
    });
 
    it("CategoryItem - singular prompt count label - test", async () => {
-      const category = dtestData.dPromptCategoryUsage(1);
+      const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 1;
 
       renderWithRouter(<CategoryItem category={category} />);
@@ -40,7 +40,7 @@ describe("CategoryItem rendering tests", () => {
    });
 
    it("CategoryItem - plural prompt count label - test", async () => {
-      const category = dtestData.dPromptCategoryUsage(1);
+      const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 4;
 
       renderWithRouter(<CategoryItem category={category} />);

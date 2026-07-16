@@ -2,7 +2,6 @@
 
 import { DbClient } from "@/data/types/db/common";
 import {
-   PromptCategoryWithCount,
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
@@ -11,7 +10,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -39,7 +38,7 @@ import {
 
 import {
    toDPrompt,
-   toDPromptCategoryUsages,
+   toDPromptCategoriesWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -384,22 +383,10 @@ export class PromptRepository {
       return uniq(categories).sort();
    }
 
-   async pGetPromptModels(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.prompt.findMany({
-         where: { userId },
-         select: {
-            recommendedModel: true,
-         },
-      });
-
-      const models = map(descriptors, (d) => d.recommendedModel);
-      return uniq(models).sort();
-   }
-
-   async pGetCategoriesWithUsage(
+   async pGetPromptCategoriesWithUsage(
       userId: string
-   ): Promise<DPromptCategoryUsage[]> {
-      const categories = (await this.prisma.promptCategory.findMany({
+   ): Promise<DPromptCategoryWithUsage[]> {
+      const args = {
          where: { userId },
          select: {
             id: true,
@@ -409,33 +396,14 @@ export class PromptRepository {
             },
          },
          orderBy: { name: "asc" },
-      })) as PromptCategoryWithCount[];
+      } satisfies PromptCategoryFindManyArgs;
 
-      return toDPromptCategoryUsages(categories);
+      const categories = await this.prisma.promptCategory.findMany(args);
+
+      return toDPromptCategoriesWithUsage(categories);
    }
 
-   async pRenameCategory(
-      userId: string,
-      categoryId: number,
-      name: string
-   ): Promise<void> {
-      const args: PromptCategoryUpdateArgs = {
-         where: { id: categoryId, userId },
-         data: { name },
-      };
-
-      await this.prisma.promptCategory.update(args);
-   }
-
-   async pDeleteCategory(userId: string, categoryId: number): Promise<void> {
-      const args: PromptCategoryDeleteArgs = {
-         where: { id: categoryId, userId },
-      };
-
-      await this.prisma.promptCategory.delete(args);
-   }
-
-   async pCategoryNameExists(
+   async pPromptCategoryExists(
       userId: string,
       name: string,
       excludeCategoryId: number
@@ -451,5 +419,41 @@ export class PromptRepository {
 
       const existing = await this.prisma.promptCategory.findFirst(args);
       return existing !== null;
+   }
+
+   async pRenamePromptCategory(
+      userId: string,
+      categoryId: number,
+      name: string
+   ): Promise<void> {
+      const args = {
+         where: { id: categoryId, userId },
+         data: { name },
+      } satisfies PromptCategoryUpdateArgs;
+
+      await this.prisma.promptCategory.update(args);
+   }
+
+   async pDeletePromptCategory(
+      userId: string,
+      categoryId: number
+   ): Promise<void> {
+      const args = {
+         where: { id: categoryId, userId },
+      } satisfies PromptCategoryDeleteArgs;
+
+      await this.prisma.promptCategory.delete(args);
+   }
+
+   async pGetPromptModels(userId: string): Promise<string[]> {
+      const descriptors = await this.prisma.prompt.findMany({
+         where: { userId },
+         select: {
+            recommendedModel: true,
+         },
+      });
+
+      const models = map(descriptors, (d) => d.recommendedModel);
+      return uniq(models).sort();
    }
 }

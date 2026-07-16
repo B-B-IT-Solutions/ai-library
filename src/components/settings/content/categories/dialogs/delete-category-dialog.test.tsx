@@ -35,7 +35,7 @@ const assertDialogNotRendered = () => {
 
 describe("DeleteCategoryDialog rendering tests", () => {
    it("DeleteCategoryDialog - open true - test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
 
       const { container } = render(
          <DeleteCategoryDialog
@@ -53,7 +53,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
    });
 
    it("DeleteCategoryDialog - open false - test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
       render(
          <DeleteCategoryDialog
             open={false}
@@ -68,7 +68,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
    });
 
    it("DeleteCategoryDialog - no affected prompts - test", async () => {
-      const category = dtestData.dPromptCategoryUsage(1);
+      const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 0;
 
       render(
@@ -87,7 +87,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
    });
 
    it("DeleteCategoryDialog - single affected prompt - test", async () => {
-      const category = dtestData.dPromptCategoryUsage(1);
+      const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 1;
 
       render(
@@ -106,7 +106,7 @@ describe("DeleteCategoryDialog rendering tests", () => {
    });
 
    it("DeleteCategoryDialog - multiple affected prompts - test", async () => {
-      const category = dtestData.dPromptCategoryUsage(1);
+      const category = dtestData.dPromptCategoryWithUsage(1);
       category.count = 5;
 
       render(
@@ -137,7 +137,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       };
       deletePromptCategoryMock.mockResolvedValue(result);
 
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
       const onClose = jest.fn();
       render(
          <DeleteCategoryDialog
@@ -172,7 +172,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
       };
       deletePromptCategoryMock.mockResolvedValue(result);
 
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
       const onClose = jest.fn();
       render(
          <DeleteCategoryDialog
@@ -199,7 +199,7 @@ describe("DeleteCategoryDialog functionality tests", () => {
    });
 
    it("DeleteCategoryDialog - cancel - test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
       const onClose = jest.fn();
       render(
          <DeleteCategoryDialog

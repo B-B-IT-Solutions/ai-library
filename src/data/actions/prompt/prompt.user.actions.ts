@@ -12,7 +12,7 @@ import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -326,7 +326,7 @@ export const getPromptsUsage = async (): Promise<DPromptsUsage> => {
 };
 
 export const getCategoriesWithUsage = async (): Promise<
-   DPromptCategoryUsage[]
+   DPromptCategoryWithUsage[]
 > => {
    try {
       const user = await requireUser();

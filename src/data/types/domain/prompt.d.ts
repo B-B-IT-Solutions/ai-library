@@ -41,7 +41,7 @@ export type DPromptCategory = {
    name: string;
 };
 
-export type DPromptCategoryUsage = {
+export type DPromptCategoryWithUsage = {
    id: number;
    name: string;
    count: number;

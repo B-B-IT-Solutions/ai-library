@@ -12,9 +12,8 @@ import { getCategoriesWithUsage } from "@/data/actions/prompt";
 
 import { Categories } from "./categories";
 
-const getCategoriesWithUsageMock = getCategoriesWithUsage as jest.MockedFunction<
-   typeof getCategoriesWithUsage
->;
+const getCategoriesWithUsageMock =
+   getCategoriesWithUsage as jest.MockedFunction<typeof getCategoriesWithUsage>;
 
 const assertRendered = () => {
    const categories = screen.getByTestId("categories");
@@ -55,7 +54,7 @@ describe("Categories rendering tests", () => {
    });
 
    it("Categories - categories retrieved - test", async () => {
-      const categories = dtestData.dPromptCategoriesUsage();
+      const categories = dtestData.dPromptCategoriesWithUsage();
       getCategoriesWithUsageMock.mockResolvedValue(categories);
 
       const { container } = await renderAsyncRSC(Categories, {});

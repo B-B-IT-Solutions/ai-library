@@ -11,7 +11,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptTemplatingData,
    DPromptVariableValues,
@@ -752,17 +752,18 @@ describe("getCategoriesWithUsage tests", () => {
 
    it("categories with usage retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryUsage[] = [
-         { id: 1, name: "Marketing", count: 3 },
-         { id: 2, name: "Support", count: 0 },
-      ];
-      promptRepoMock.pGetCategoriesWithUsage.mockResolvedValue(categories);
+      const categories = dtestData.dPromptCategoriesWithUsage();
+      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
+         categories
+      );
 
       const result = await promptService.getCategoriesWithUsage(userId);
 
       expect(result).toEqual(categories);
-      expect(promptRepoMock.pGetCategoriesWithUsage).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetCategoriesWithUsage).toHaveBeenCalledWith(
+      expect(
+         promptRepoMock.pGetPromptCategoriesWithUsage
+      ).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategoriesWithUsage).toHaveBeenCalledWith(
          userId
       );
    });
@@ -775,16 +776,18 @@ describe("renameCategory tests", () => {
 
    it("category renamed - no conflict - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryUsage[] = [
+      const categories: DPromptCategoryWithUsage[] = [
          { id: 1, name: "Marketing", count: 3 },
          { id: 2, name: "Support", count: 0 },
       ];
-      promptRepoMock.pGetCategoriesWithUsage.mockResolvedValue(categories);
+      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
+         categories
+      );
 
       await promptService.renameCategory(userId, 1, " Vertrieb ");
 
-      expect(promptRepoMock.pRenameCategory).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pRenameCategory).toHaveBeenCalledWith(
+      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
          userId,
          1,
          "Vertrieb"
@@ -793,14 +796,16 @@ describe("renameCategory tests", () => {
 
    it("renaming to its own current name is not a conflict - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryUsage[] = [
+      const categories: DPromptCategoryWithUsage[] = [
          { id: 1, name: "Marketing", count: 3 },
       ];
-      promptRepoMock.pGetCategoriesWithUsage.mockResolvedValue(categories);
+      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
+         categories
+      );
 
       await promptService.renameCategory(userId, 1, "Marketing");
 
-      expect(promptRepoMock.pRenameCategory).toHaveBeenCalledWith(
+      expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
          userId,
          1,
          "Marketing"
@@ -809,17 +814,18 @@ describe("renameCategory tests", () => {
 
    it("name conflicts case-insensitively with another category - throws - test", async () => {
       const userId = "user-id-1";
-      const categories: DPromptCategoryUsage[] = [
+      const categories: DPromptCategoryWithUsage[] = [
          { id: 1, name: "Marketing", count: 3 },
          { id: 2, name: "Support", count: 0 },
       ];
-      promptRepoMock.pGetCategoriesWithUsage.mockResolvedValue(categories);
+      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
+         categories
+      );
 
-      const fn = () =>
-         promptService.renameCategory(userId, 1, "  support  ");
+      const fn = () => promptService.renameCategory(userId, 1, "  support  ");
 
       await expect(fn).rejects.toThrow(CategoryNameConflictError);
-      expect(promptRepoMock.pRenameCategory).not.toHaveBeenCalled();
+      expect(promptRepoMock.pRenamePromptCategory).not.toHaveBeenCalled();
    });
 });
 
@@ -834,8 +840,8 @@ describe("deleteCategory tests", () => {
 
       await promptService.deleteCategory(userId, categoryId);
 
-      expect(promptRepoMock.pDeleteCategory).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeleteCategory).toHaveBeenCalledWith(
+      expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledWith(
          userId,
          categoryId
       );
@@ -850,7 +856,7 @@ describe("isCategoryNameAvailable tests", () => {
    it("name not taken - returns true - test", async () => {
       const userId = "user-id-1";
       const categoryId = 1;
-      promptRepoMock.pCategoryNameExists.mockResolvedValue(false);
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
       const result = await promptService.isCategoryNameAvailable(
          userId,
@@ -859,8 +865,8 @@ describe("isCategoryNameAvailable tests", () => {
       );
 
       expect(result).toBe(true);
-      expect(promptRepoMock.pCategoryNameExists).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pCategoryNameExists).toHaveBeenCalledWith(
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
          userId,
          "Vertrieb",
          categoryId
@@ -870,7 +876,7 @@ describe("isCategoryNameAvailable tests", () => {
    it("name already taken - returns false - test", async () => {
       const userId = "user-id-1";
       const categoryId = 1;
-      promptRepoMock.pCategoryNameExists.mockResolvedValue(true);
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
       const result = await promptService.isCategoryNameAvailable(
          userId,

@@ -6,7 +6,6 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    DPromptCategoriesPage,
-   DPromptCategoryUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -34,7 +33,7 @@ import {
 
 import {
    toDPrompt,
-   toDPromptCategoryUsages,
+   toDPromptCategoriesWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -1221,54 +1220,20 @@ describe("pGetTemplateCategories tests", () => {
    });
 });
 
-describe("pGetTemplateModels tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("models retrieved - test", async () => {
-      const userId = "user-id-1";
-      const descriptors = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(descriptors);
-
-      const result = await repository.pGetPromptModels(userId);
-
-      const expecteModels = map(descriptors, (d) => d.recommendedModel);
-      const expectedResult = uniq(expecteModels).sort();
-
-      const expectedFindManyArgs: PromptFindManyArgs = {
-         where: { userId },
-         select: {
-            recommendedModel: true,
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
-         expectedFindManyArgs
-      );
-   });
-});
-
 describe("pGetCategoriesWithUsage tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("categories with usage retrieved - test", async () => {
+   test("categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = [
-         { id: 1, name: "Marketing", _count: { prompts: 3 } },
-         { id: 2, name: "Support", _count: { prompts: 0 } },
-      ];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      prismaMock.promptCategory.findMany.mockResolvedValue(categories as any);
+      const categories = ptestData.pPromptCategoriesWithUsage();
 
-      const result = await repository.pGetCategoriesWithUsage(userId);
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
-      const expectedResult: DPromptCategoryUsage[] =
-         toDPromptCategoryUsages(categories);
+      const result = await repository.pGetPromptCategoriesWithUsage(userId);
+
+      const expectedResult = toDPromptCategoriesWithUsage(categories);
 
       const expectedArgs: PromptCategoryFindManyArgs = {
          where: { userId },
@@ -1290,53 +1255,7 @@ describe("pGetCategoriesWithUsage tests", () => {
    });
 });
 
-describe("pRenameCategory tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("category renamed - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
-      const name = "Vertrieb";
-
-      await repository.pRenameCategory(userId, categoryId, name);
-
-      const expectedArgs: PromptCategoryUpdateArgs = {
-         where: { id: categoryId, userId },
-         data: { name },
-      };
-
-      expect(prismaMock.promptCategory.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.update).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-});
-
-describe("pDeleteCategory tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("category deleted - test", async () => {
-      const userId = "user-id-1";
-      const categoryId = 1;
-
-      await repository.pDeleteCategory(userId, categoryId);
-
-      const expectedArgs: PromptCategoryDeleteArgs = {
-         where: { id: categoryId, userId },
-      };
-
-      expect(prismaMock.promptCategory.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptCategory.delete).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-});
-
-describe("pCategoryNameExists tests", () => {
+describe("pPromptCategoryExists tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -1349,7 +1268,7 @@ describe("pCategoryNameExists tests", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       prismaMock.promptCategory.findFirst.mockResolvedValue({ id: 2 } as any);
 
-      const result = await repository.pCategoryNameExists(
+      const result = await repository.pPromptCategoryExists(
          userId,
          name,
          excludeCategoryId
@@ -1378,12 +1297,88 @@ describe("pCategoryNameExists tests", () => {
 
       prismaMock.promptCategory.findFirst.mockResolvedValue(null);
 
-      const result = await repository.pCategoryNameExists(
+      const result = await repository.pPromptCategoryExists(
          userId,
          name,
          excludeCategoryId
       );
 
       expect(result).toBe(false);
+   });
+});
+
+describe("pRenamePromptCategory tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("category renamed - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      const name = "Vertrieb";
+
+      await repository.pRenamePromptCategory(userId, categoryId, name);
+
+      const expectedArgs: PromptCategoryUpdateArgs = {
+         where: { id: categoryId, userId },
+         data: { name },
+      };
+
+      expect(prismaMock.promptCategory.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.update).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pDeletePromptCategory tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("category deleted - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+
+      await repository.pDeletePromptCategory(userId, categoryId);
+
+      const expectedArgs: PromptCategoryDeleteArgs = {
+         where: { id: categoryId, userId },
+      };
+
+      expect(prismaMock.promptCategory.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.delete).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pGetTemplateModels tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("models retrieved - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptsWithCategories();
+      prismaMock.prompt.findMany.mockResolvedValue(descriptors);
+
+      const result = await repository.pGetPromptModels(userId);
+
+      const expecteModels = map(descriptors, (d) => d.recommendedModel);
+      const expectedResult = uniq(expecteModels).sort();
+
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: { userId },
+         select: {
+            recommendedModel: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
    });
 });

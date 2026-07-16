@@ -26,7 +26,7 @@ const assertDialogNotRendered = () => {
 
 describe("RenameCategoryButton rendering tests", () => {
    it("RenameCategoryButton rendered test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
 
       const { container } = renderWithRouter(
          <RenameCategoryButton category={category} />
@@ -43,7 +43,7 @@ describe("RenameCategoryButton rendering tests", () => {
 
 describe("RenameCategoryButton functionality tests", () => {
    it("RenameCategoryButton - rename btn clicked - test", async () => {
-      const category = dtestData.dPromptCategoryUsage();
+      const category = dtestData.dPromptCategoryWithUsage();
 
       renderWithRouter(<RenameCategoryButton category={category} />);
 

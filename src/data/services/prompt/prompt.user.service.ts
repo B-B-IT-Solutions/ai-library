@@ -5,7 +5,7 @@ import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -246,8 +246,8 @@ export class PromptService {
 
    async getCategoriesWithUsage(
       userId: string
-   ): Promise<DPromptCategoryUsage[]> {
-      return await this.repository.pGetCategoriesWithUsage(userId);
+   ): Promise<DPromptCategoryWithUsage[]> {
+      return await this.repository.pGetPromptCategoriesWithUsage(userId);
    }
 
    async renameCategory(
@@ -268,11 +268,15 @@ export class PromptService {
          throw new CategoryNameConflictError(conflict.name);
       }
 
-      await this.repository.pRenameCategory(userId, categoryId, trimmedName);
+      await this.repository.pRenamePromptCategory(
+         userId,
+         categoryId,
+         trimmedName
+      );
    }
 
    async deleteCategory(userId: string, categoryId: number): Promise<void> {
-      await this.repository.pDeleteCategory(userId, categoryId);
+      await this.repository.pDeletePromptCategory(userId, categoryId);
    }
 
    async isCategoryNameAvailable(
@@ -281,7 +285,7 @@ export class PromptService {
       name: string
    ): Promise<boolean> {
       const trimmedName = trim(name);
-      const exists = await this.repository.pCategoryNameExists(
+      const exists = await this.repository.pPromptCategoryExists(
          userId,
          trimmedName,
          categoryId

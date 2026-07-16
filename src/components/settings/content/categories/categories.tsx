@@ -2,7 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 import { Tag } from "lucide-react";
 
 import { getCategoriesWithUsage } from "@/data/actions/prompt";
-import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
+import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
 import { CategoryItem } from "./category-item";
 
@@ -29,7 +29,7 @@ export const Categories = async () => {
       }
    };
 
-   const renderCategory = (category: DPromptCategoryUsage) => {
+   const renderCategory = (category: DPromptCategoryWithUsage) => {
       return <CategoryItem category={category} key={category.id} />;
    };
 
@@ -43,12 +43,10 @@ export const Categories = async () => {
    return (
       <div className="space-y-6" data-testid="categories">
          <div>
-            <h2 className="text-xl font-semibold text-slate-900">
-               Kategorien
-            </h2>
+            <h2 className="text-xl font-semibold text-slate-900">Kategorien</h2>
             <p className="mt-1 text-sm text-slate-500">
-               Benenne Kategorien um oder lösche sie. Änderungen wirken sich
-               auf alle verknüpften Prompts aus.
+               Benenne Kategorien um oder lösche sie. Änderungen wirken sich auf
+               alle verknüpften Prompts aus.
             </p>
          </div>
 

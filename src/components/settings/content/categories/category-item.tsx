@@ -1,10 +1,10 @@
 import { Badge } from "@/components/shadcn/badge";
-import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
+import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
 import { DeleteCategoryButton, RenameCategoryButton } from "./buttons";
 
 type Props = {
-   category: DPromptCategoryUsage;
+   category: DPromptCategoryWithUsage;
 };
 
 const promptsLabel = (count: number) => {

@@ -16,12 +16,12 @@ import {
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
 import { deletePromptCategory } from "@/data/actions/prompt";
-import { DPromptCategoryUsage } from "@/data/types/domain/prompt";
+import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 
 type Props = {
    open: boolean;
    onClose: () => void;
-   category: DPromptCategoryUsage;
+   category: DPromptCategoryWithUsage;
 };
 
 const affectedPromptsLabel = (count: number) => {

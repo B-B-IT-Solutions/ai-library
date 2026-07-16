@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 
 import { VariableStatus } from "@/components/prompts/detail/edit/form/utils/variables";
 import { Sort, SortOrder } from "@/data/types/common";
+import { PromptCategoryWithUsage } from "@/data/types/db/prompt";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DCatalogEntriesFilter,
@@ -47,7 +48,7 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
-   DPromptCategoryUsage,
+   DPromptCategoryWithUsage,
    DPromptPreview,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -799,8 +800,22 @@ export const dVariableStatus = (index = 1): VariableStatus => {
    };
 };
 
-export const dPromptCategoriesString = (count = 3): string[] => {
-   return map(dPromptCategories(count), (c) => c.name);
+export const pPromptCategoriesWithUsage = (
+   count = 3
+): PromptCategoryWithUsage[] => {
+   return range(0, count).map((i) => pPromptCategoryWithUsage(i));
+};
+
+export const pPromptCategoryWithUsage = (
+   index = 1
+): PromptCategoryWithUsage => {
+   return {
+      id: Math.random(),
+      name: `category ${index}`,
+      _count: {
+         prompts: index + 10,
+      },
+   };
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {
@@ -813,13 +828,15 @@ export const dPromptCategory = (index = 1): DPromptCategory => {
    };
 };
 
-export const dPromptCategoriesUsage = (
+export const dPromptCategoriesWithUsage = (
    count = 3
-): DPromptCategoryUsage[] => {
-   return range(0, count).map((i) => dPromptCategoryUsage(i));
+): DPromptCategoryWithUsage[] => {
+   return range(0, count).map((i) => dPromptCategoryWithUsage(i));
 };
 
-export const dPromptCategoryUsage = (index = 1): DPromptCategoryUsage => {
+export const dPromptCategoryWithUsage = (
+   index = 1
+): DPromptCategoryWithUsage => {
    return {
       id: index,
       name: `category ${index}`,
