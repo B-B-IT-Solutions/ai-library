@@ -108,11 +108,11 @@ const sGetPromptCategoriesPageMock =
       typeof sGetPromptCategoriesPage
    >;
 
-const sGetCategoriesWithUsage = PromptService.prototype.getCategoriesWithUsage;
-const sRenameCategory = PromptService.prototype.renameCategory;
-const sDeleteCategory = PromptService.prototype.deleteCategory;
-const sIsCategoryNameAvailable =
-   PromptService.prototype.isCategoryNameAvailable;
+const sGetCategoriesWithUsage =
+   PromptService.prototype.getPromptCategoriesWithUsage;
+const sRenameCategory = PromptService.prototype.renamePromptCategory;
+const sDeleteCategory = PromptService.prototype.deletePromptCategory;
+const sIsCategoryNameAvailable = PromptService.prototype.promptCategoryExists;
 
 const sGetCategoriesWithUsageMock =
    sGetCategoriesWithUsage as jest.MockedFunction<

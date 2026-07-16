@@ -240,19 +240,19 @@ export class PromptService {
       return await this.repository.pGetPromptCategories(userId);
    }
 
-   async getCategoriesWithUsage(
+   async getPromptCategoriesWithUsage(
       userId: string
    ): Promise<DPromptCategoryWithUsage[]> {
       return await this.repository.pGetPromptCategoriesWithUsage(userId);
    }
 
-   async renameCategory(
+   async renamePromptCategory(
       userId: string,
       categoryId: number,
       newName: string
    ): Promise<void> {
       const trimmedName = trim(newName);
-      const categories = await this.getCategoriesWithUsage(userId);
+      const categories = await this.getPromptCategoriesWithUsage(userId);
 
       const conflict = categories.find(
          (c) =>
@@ -271,11 +271,14 @@ export class PromptService {
       );
    }
 
-   async deleteCategory(userId: string, categoryId: number): Promise<void> {
+   async deletePromptCategory(
+      userId: string,
+      categoryId: number
+   ): Promise<void> {
       await this.repository.pDeletePromptCategory(userId, categoryId);
    }
 
-   async isCategoryNameAvailable(
+   async promptCategoryExists(
       userId: string,
       categoryId: number,
       name: string

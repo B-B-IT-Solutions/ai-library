@@ -726,7 +726,7 @@ describe("getPromptCategories tests", () => {
    });
 });
 
-describe("getCategoriesWithUsage tests", () => {
+describe("getPromptCategoriesWithUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -738,7 +738,7 @@ describe("getCategoriesWithUsage tests", () => {
          categories
       );
 
-      const result = await promptService.getCategoriesWithUsage(userId);
+      const result = await promptService.getPromptCategoriesWithUsage(userId);
 
       expect(result).toEqual(categories);
       expect(
@@ -750,7 +750,7 @@ describe("getCategoriesWithUsage tests", () => {
    });
 });
 
-describe("renameCategory tests", () => {
+describe("renamePromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -765,7 +765,7 @@ describe("renameCategory tests", () => {
          categories
       );
 
-      await promptService.renameCategory(userId, 1, " Vertrieb ");
+      await promptService.renamePromptCategory(userId, 1, " Vertrieb ");
 
       expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
@@ -784,7 +784,7 @@ describe("renameCategory tests", () => {
          categories
       );
 
-      await promptService.renameCategory(userId, 1, "Marketing");
+      await promptService.renamePromptCategory(userId, 1, "Marketing");
 
       expect(promptRepoMock.pRenamePromptCategory).toHaveBeenCalledWith(
          userId,
@@ -803,14 +803,15 @@ describe("renameCategory tests", () => {
          categories
       );
 
-      const fn = () => promptService.renameCategory(userId, 1, "  support  ");
+      const fn = () =>
+         promptService.renamePromptCategory(userId, 1, "  support  ");
 
       await expect(fn).rejects.toThrow(CategoryNameConflictError);
       expect(promptRepoMock.pRenamePromptCategory).not.toHaveBeenCalled();
    });
 });
 
-describe("deleteCategory tests", () => {
+describe("deletePromptCategory tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -819,7 +820,7 @@ describe("deleteCategory tests", () => {
       const userId = "user-id-1";
       const categoryId = 1;
 
-      await promptService.deleteCategory(userId, categoryId);
+      await promptService.deletePromptCategory(userId, categoryId);
 
       expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledWith(
@@ -829,7 +830,7 @@ describe("deleteCategory tests", () => {
    });
 });
 
-describe("isCategoryNameAvailable tests", () => {
+describe("promptCategoryExists tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -839,7 +840,7 @@ describe("isCategoryNameAvailable tests", () => {
       const categoryId = 1;
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
 
-      const result = await promptService.isCategoryNameAvailable(
+      const result = await promptService.promptCategoryExists(
          userId,
          categoryId,
          " Vertrieb "
@@ -859,7 +860,7 @@ describe("isCategoryNameAvailable tests", () => {
       const categoryId = 1;
       promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
 
-      const result = await promptService.isCategoryNameAvailable(
+      const result = await promptService.promptCategoryExists(
          userId,
          categoryId,
          "Support"

@@ -331,7 +331,7 @@ export const getCategoriesWithUsage = async (): Promise<
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getCategoriesWithUsage(user.id);
+      return await service.getPromptCategoriesWithUsage(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
@@ -347,7 +347,7 @@ export const renamePromptCategory = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.renameCategory(user.id, categoryId, name);
+      await service.renamePromptCategory(user.id, categoryId, name);
 
       return {
          success: true,
@@ -379,7 +379,7 @@ export const checkCategoryNameAvailable = async (
 
       const user = await requireUser();
       const service = getService();
-      return await service.isCategoryNameAvailable(
+      return await service.promptCategoryExists(
          user.id,
          categoryId,
          parsedName
@@ -399,7 +399,7 @@ export const deletePromptCategory = async (
    try {
       const user = await requireUser();
       const service = getService();
-      await service.deleteCategory(user.id, categoryId);
+      await service.deletePromptCategory(user.id, categoryId);
 
       return {
          success: true,
