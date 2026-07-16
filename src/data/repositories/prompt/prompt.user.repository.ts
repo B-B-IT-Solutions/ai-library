@@ -417,10 +417,10 @@ export class PromptRepository {
 
    async pCreatePromptCategory(
       userId: string,
-      name: string
+      update: DPromptCategoryUpdate
    ): Promise<DPromptCategoryWithUsage> {
       const args = {
-         data: { userId, name },
+         data: { userId, name: update.name },
          select: {
             id: true,
             name: true,
