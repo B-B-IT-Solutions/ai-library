@@ -11,6 +11,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
+   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptTemplatingData,
    DPromptVariableValues,
@@ -24,6 +25,7 @@ import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
+import { CategoryNameConflictError } from "./errors";
 import { PromptService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
@@ -590,67 +592,6 @@ describe("togglePromptFavorite tests", () => {
    });
 });
 
-describe("getPromptCategoriesPage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("categories retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const page = dtestData.dPromptCategoriesPage();
-      promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
-
-      const query = dtestData.dPromptCategoriesPageQuery();
-      const result = await promptService.getPromptCategoriesPage(userId, query);
-
-      expect(result).toEqual(page);
-      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledWith(
-         userId,
-         query
-      );
-   });
-});
-
-describe("getPromptCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("categories - retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const categories = dtestData.dTemplateCategories();
-      promptRepoMock.pGePromptCategories.mockResolvedValue(categories);
-
-      const result = await promptService.getPromptCategories(userId);
-
-      expect(result).toEqual(categories);
-      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGePromptCategories).toHaveBeenCalledWith(userId);
-   });
-});
-
-describe("getPromptModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("model retrieved - test", async () => {
-      const userId = "user-id-1";
-
-      const models = dtestData.dTemplateModels();
-      promptRepoMock.pGetPromptModels.mockResolvedValue(models);
-
-      const result = await promptService.getPromptModels(userId);
-
-      expect(result).toEqual(models);
-      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledWith(userId);
-   });
-});
-
 describe("getPromptsUsage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -740,5 +681,189 @@ describe("getPromptsCount tests", () => {
       expect(result).toBe(count);
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptsCount).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getPromptCategoriesPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("categories retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const page = dtestData.dPromptCategoriesPage();
+      promptRepoMock.pGetPromptCategoriesPage.mockResolvedValue(page);
+
+      const query = dtestData.dPromptCategoriesPageQuery();
+      const result = await promptService.getPromptCategoriesPage(userId, query);
+
+      expect(result).toEqual(page);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategoriesPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
+   });
+});
+
+describe("getPromptCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("categories - retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const categories = dtestData.dTemplateCategories();
+      promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
+
+      const result = await promptService.getPromptCategories(userId);
+
+      expect(result).toEqual(categories);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getPromptCategoriesWithUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("categories retrieved - test", async () => {
+      const userId = "user-id-1";
+      const categories = dtestData.dPromptCategoriesWithUsage();
+      promptRepoMock.pGetPromptCategoriesWithUsage.mockResolvedValue(
+         categories
+      );
+
+      const result = await promptService.getPromptCategoriesWithUsage(userId);
+
+      expect(result).toEqual(categories);
+      expect(
+         promptRepoMock.pGetPromptCategoriesWithUsage
+      ).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptCategoriesWithUsage).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
+describe("isConflictingPromptCategoryName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isConlficting false - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const result = await promptService.isConflictingPromptCategoryName(
+         userId,
+         categoryId,
+         " Vertrieb "
+      );
+
+      expect(result).toBe(false);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Vertrieb",
+         categoryId
+      );
+   });
+
+   it("isConlficting true - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
+
+      const result = await promptService.isConflictingPromptCategoryName(
+         userId,
+         categoryId,
+         "Support"
+      );
+
+      expect(result).toBe(true);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pPromptCategoryExists).toHaveBeenCalledWith(
+         userId,
+         "Support",
+         categoryId
+      );
+   });
+});
+
+describe("updatePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isConflict false - test", async () => {
+      const userId = "user-id-1";
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(false);
+
+      const update = dtestData.dPromptCategoryUpdate();
+
+      await promptService.updatePromptCategory(userId, 1, update);
+
+      expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePromptCategory).toHaveBeenCalledWith(
+         userId,
+         1,
+         update
+      );
+   });
+
+   it("isConflict true - test", async () => {
+      const userId = "user-id-1";
+      promptRepoMock.pPromptCategoryExists.mockResolvedValue(true);
+
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const fn = () => promptService.updatePromptCategory(userId, 1, update);
+
+      await expect(fn).rejects.toThrow(CategoryNameConflictError);
+      expect(promptRepoMock.pUpdatePromptCategory).not.toHaveBeenCalled();
+   });
+});
+
+describe("deletePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("category deleted - test", async () => {
+      const userId = "user-id-1";
+      const categoryId = 1;
+
+      await promptService.deletePromptCategory(userId, categoryId);
+
+      expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePromptCategory).toHaveBeenCalledWith(
+         userId,
+         categoryId
+      );
+   });
+});
+
+describe("getPromptModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("model retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      const models = dtestData.dTemplateModels();
+      promptRepoMock.pGetPromptModels.mockResolvedValue(models);
+
+      const result = await promptService.getPromptModels(userId);
+
+      expect(result).toEqual(models);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptModels).toHaveBeenCalledWith(userId);
    });
 });

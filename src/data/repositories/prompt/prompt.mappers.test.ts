@@ -6,16 +6,20 @@ import {
    PromptWithCategories,
    PromptWithContent,
 } from "@/data/types/db/prompt";
+import { PromptCategoryWithUsage } from "@/data/types/db/prompt";
 import {
    DPrompt,
    DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
+import { DPromptCategoryWithUsage } from "@/data/types/domain/prompt";
 import { PromptField } from "@/generated/prisma/client";
 
 import {
    toDPrompt,
+   toDPromptCategoriesWithUsage,
+   toDPromptCategoryWithUsage,
    toDPromptPreview,
    toDPromptPreviews,
    toDPrompts,
@@ -92,6 +96,22 @@ export const toDPromptVariableInternal = (
    };
 };
 
+export const toDPromptCategoriesWithUsageInternal = (
+   categories: PromptCategoryWithUsage[]
+): DPromptCategoryWithUsage[] => {
+   return map(categories, toDPromptCategoryWithUsageInternal);
+};
+
+export const toDPromptCategoryWithUsageInternal = (
+   category: PromptCategoryWithUsage
+): DPromptCategoryWithUsage => {
+   return {
+      id: category.id,
+      name: category.name,
+      count: category._count.prompts,
+   };
+};
+
 describe("prompt mappers tests", () => {
    it("toDPromptPreviews test", async () => {
       const prompts = ptestData.pPromptPreviews();
@@ -125,6 +145,20 @@ describe("prompt mappers tests", () => {
       const prompt = ptestData.pPromptWithContent();
       const result = toDPromptWithContent(prompt);
       const expectedResult = toDPromptWithContentInternal(prompt);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptCategoriesWithUsages test", async () => {
+      const categories = ptestData.pPromptCategoriesWithUsage();
+      const result = toDPromptCategoriesWithUsage(categories);
+      const expectedResult = toDPromptCategoriesWithUsageInternal(categories);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptCategoryWithUsage test", async () => {
+      const category = ptestData.pPromptCategoryWithUsage();
+      const result = toDPromptCategoryWithUsage(category);
+      const expectedResult = toDPromptCategoryWithUsageInternal(category);
       expect(result).toEqual(expectedResult);
    });
 });

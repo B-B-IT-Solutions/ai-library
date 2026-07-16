@@ -24,6 +24,7 @@ export {
    renderHookWithReactQuery,
    renderWithReactQuery,
    getElementById,
+   clearInput,
    typeIntoInput,
    typeIntoTextArea,
    typeIntoTipTap,

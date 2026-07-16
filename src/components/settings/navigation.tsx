@@ -33,6 +33,10 @@ const groups: NavigationGroup[] = [
             section: "global-template-fields",
             label: "Vorlagen-Felder",
          },
+         {
+            section: "prompt-categories",
+            label: "Prompts Kategorien",
+         },
       ],
    },
 ];

@@ -10,6 +10,10 @@ export type PromptWithCategories = Prompt & {
    categories: PromptCategory[];
 };
 
+export type PromptCategoryWithUsage = Pick<PromptCategory, "id" | "name"> & {
+   _count: { prompts: number };
+};
+
 export type PromptWithRelations = PromptWithCategories & {
    fields: PromptField[];
    globalFields: PromptGlobalField[];

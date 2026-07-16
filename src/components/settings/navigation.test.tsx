@@ -33,9 +33,11 @@ const assertContentGroupRendered = () => {
    const globalPromptFieldsLink = screen.getByTestId(
       "global-template-fields-link"
    );
+   const categoriesLink = screen.getByTestId("prompt-categories-link");
 
    assertInDocument(contentGroup);
    assertInDocument(globalPromptFieldsLink);
+   assertInDocument(categoriesLink);
 };
 
 describe("Navigation rendering tests", () => {
@@ -67,6 +69,17 @@ describe("Navigation rendering tests", () => {
 
    it("Navigation - active subscription - test", async () => {
       const { container } = render(<Navigation active="subscription" />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertGroupsRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("Navigation - active prompt-categories - test", async () => {
+      const { container } = render(<Navigation active="prompt-categories" />);
 
       await waitFor(() => {
          assertRendered();

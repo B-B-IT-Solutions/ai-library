@@ -6,6 +6,7 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
+import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import {
    DPrompt,
    DPromptsUsage,
@@ -20,18 +21,22 @@ import {
    composePromptFromTemplate,
    createPrompt,
    deletePrompt,
+   deletePromptCategory,
    downloadPrompt,
    getPrompt,
    getPromptCategories,
    getPromptCategoriesPage,
+   getPromptCategoriesWithUsage,
    getPromptGenerationData,
    getPromptModels,
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
    getPromptWithContent,
+   isConflictingPromptCategoryName,
    togglePromptFavorite,
    updatePrompt,
+   updatePromptCategory,
 } from "./prompt.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -100,6 +105,28 @@ const sGetPromptsUsageMock = sGetPromptsUsage as jest.MockedFunction<
 const sGetPromptCategoriesPageMock =
    sGetPromptCategoriesPage as jest.MockedFunction<
       typeof sGetPromptCategoriesPage
+   >;
+
+const sGetPromptCategoriesWithUsage =
+   PromptService.prototype.getPromptCategoriesWithUsage;
+const sUpdatePromptCategory = PromptService.prototype.updatePromptCategory;
+const sDeletePromptCategory = PromptService.prototype.deletePromptCategory;
+const sIsConflictingPromptCategoryName =
+   PromptService.prototype.isConflictingPromptCategoryName;
+
+const sGetPromptCategoriesWithUsageMock =
+   sGetPromptCategoriesWithUsage as jest.MockedFunction<
+      typeof sGetPromptCategoriesWithUsage
+   >;
+const sUpdatePromptCategoryMock = sUpdatePromptCategory as jest.MockedFunction<
+   typeof sUpdatePromptCategory
+>;
+const sDeletePromptCategoryMock = sDeletePromptCategory as jest.MockedFunction<
+   typeof sDeletePromptCategory
+>;
+const sIsConflictingPromptCategoryNameMock =
+   sIsConflictingPromptCategoryName as jest.MockedFunction<
+      typeof sIsConflictingPromptCategoryName
    >;
 
 describe("getPromptsPage tests", () => {
@@ -1027,6 +1054,251 @@ describe("getPromptCategories tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getPromptCategoriesWithUsage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptCategoriesWithUsage();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("categories retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dPromptCategoriesWithUsage();
+      sGetPromptCategoriesWithUsageMock.mockResolvedValue(categories);
+
+      const result = await getPromptCategoriesWithUsage();
+
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesWithUsageMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("isConflictingPromptCategoryName tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await isConflictingPromptCategoryName(1, "Vertrieb");
+
+      expect(result).toBe(false);
+      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("isConflict false - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(false);
+
+      const catagoryId = 1;
+      const catagoryName = "category 1";
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(false);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
+   });
+
+   it("isConflict true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sIsConflictingPromptCategoryNameMock.mockResolvedValue(true);
+
+      const catagoryId = 1;
+      const catagoryName = "category 123";
+
+      const result = await isConflictingPromptCategoryName(
+         catagoryId,
+         catagoryName
+      );
+
+      expect(result).toBe(true);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledTimes(1);
+      expect(sIsConflictingPromptCategoryNameMock).toHaveBeenCalledWith(
+         user.id,
+         catagoryId,
+         catagoryName
+      );
+   });
+});
+
+describe("updatePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("error - invalid name - test", async () => {
+      const update = dtestData.dPromptCategoryUpdate();
+      update.name = "a".repeat(51);
+
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const update = dtestData.dPromptCategoryUpdate();
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).not.toHaveBeenCalled();
+   });
+
+   it("error - name conflict  - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const error = new CategoryNameConflictError(update.name);
+      sUpdatePromptCategoryMock.mockRejectedValue(error);
+
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledWith(
+         user.id,
+         1,
+         update
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("category renamed - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sUpdatePromptCategoryMock.mockResolvedValue(undefined);
+
+      const update = dtestData.dPromptCategoryUpdate();
+
+      const result = await updatePromptCategory(1, update);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Kategorie erfolgreich umbenannt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptCategoryMock).toHaveBeenCalledWith(
+         user.id,
+         1,
+         update
+      );
+   });
+});
+
+describe("deletePromptCategory tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await deletePromptCategory(1);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Kategorie konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsConflictingPromptCategoryNameMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("category deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sDeletePromptCategoryMock.mockResolvedValue(undefined);
+
+      const result = await deletePromptCategory(1);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Kategorie erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptCategoryMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptCategoryMock).toHaveBeenCalledWith(user.id, 1);
    });
 });
 

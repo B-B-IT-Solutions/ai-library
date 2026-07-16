@@ -2,4 +2,5 @@ export {
    updateTemplateSchema,
    promptVariableSchema,
    promptVariableTypeSchema,
-} from "./template.schema";
+   updatePromptCategorySchema,
+} from "./prompt.schema";

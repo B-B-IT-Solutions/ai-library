@@ -6,11 +6,14 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
+import { CategoryNameConflictError } from "@/data/services/prompt/errors";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUpdate,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -24,6 +27,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
+import { updatePromptCategorySchema } from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -283,6 +287,90 @@ export const getPromptCategories = async (): Promise<string[]> => {
    } catch (error) {
       console.error(formatError(error));
       return [];
+   }
+};
+
+export const getPromptCategoriesWithUsage = async (): Promise<
+   DPromptCategoryWithUsage[]
+> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptCategoriesWithUsage(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const isConflictingPromptCategoryName = async (
+   categoryId: number,
+   name: string
+): Promise<boolean> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.isConflictingPromptCategoryName(
+         user.id,
+         categoryId,
+         name
+      );
+   } catch (error) {
+      console.error(formatError(error));
+      return false;
+   }
+};
+
+export const updatePromptCategory = async (
+   categoryId: number,
+   update: DPromptCategoryUpdate
+): Promise<ActionResult> => {
+   try {
+      const vUpdate = updatePromptCategorySchema.parse(update);
+
+      const user = await requireUser();
+      const service = getService();
+      await service.updatePromptCategory(user.id, categoryId, vUpdate);
+
+      return {
+         success: true,
+         message: "Kategorie erfolgreich umbenannt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+
+      if (error instanceof CategoryNameConflictError) {
+         return {
+            success: false,
+            message: error.message,
+         };
+      }
+
+      return {
+         success: false,
+         message: "Kategorie konnte nicht umbenannt werden",
+      };
+   }
+};
+
+export const deletePromptCategory = async (
+   categoryId: number
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      await service.deletePromptCategory(user.id, categoryId);
+
+      return {
+         success: true,
+         message: "Kategorie erfolgreich gelöscht",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Kategorie konnte nicht gelöscht werden",
+      };
    }
 };
 

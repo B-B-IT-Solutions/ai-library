@@ -1,8 +1,12 @@
-﻿import { PromptRepository } from "@/data/repositories/prompt";
+﻿import { trim } from "es-toolkit/compat";
+
+import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPrompt,
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptCategoryUpdate,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -21,6 +25,7 @@ import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
+import { CategoryNameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
 
 export class PromptService {
@@ -207,21 +212,6 @@ export class PromptService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getPromptCategoriesPage(
-      userId: string,
-      query?: DPromptCategoriesPageQuery
-   ): Promise<DPromptCategoriesPage> {
-      return await this.repository.pGetPromptCategoriesPage(userId, query);
-   }
-
-   async getPromptCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGePromptCategories(userId);
-   }
-
-   async getPromptModels(userId: string): Promise<string[]> {
-      return await this.repository.pGetPromptModels(userId);
-   }
-
    async getPromptsUsage(userId: string): Promise<DPromptsUsage> {
       const [current, tier] = await Promise.all([
          this.getPromptsCount(userId),
@@ -237,5 +227,65 @@ export class PromptService {
 
    async getPromptsCount(userId: string): Promise<number> {
       return await this.repository.pGetPromptsCount(userId);
+   }
+
+   async getPromptCategoriesPage(
+      userId: string,
+      query?: DPromptCategoriesPageQuery
+   ): Promise<DPromptCategoriesPage> {
+      return await this.repository.pGetPromptCategoriesPage(userId, query);
+   }
+
+   async getPromptCategories(userId: string): Promise<string[]> {
+      return await this.repository.pGetPromptCategories(userId);
+   }
+
+   async getPromptCategoriesWithUsage(
+      userId: string
+   ): Promise<DPromptCategoryWithUsage[]> {
+      return await this.repository.pGetPromptCategoriesWithUsage(userId);
+   }
+
+   async isConflictingPromptCategoryName(
+      userId: string,
+      categoryId: number,
+      name: string
+   ): Promise<boolean> {
+      const trimmedName = trim(name);
+      return await this.repository.pPromptCategoryExists(
+         userId,
+         trimmedName,
+         categoryId
+      );
+   }
+
+   async updatePromptCategory(
+      userId: string,
+      categoryId: number,
+      data: DPromptCategoryUpdate
+   ): Promise<void> {
+      const { name } = data;
+      const isConflict = await this.isConflictingPromptCategoryName(
+         userId,
+         categoryId,
+         name
+      );
+
+      if (isConflict) {
+         throw new CategoryNameConflictError(name);
+      }
+
+      await this.repository.pUpdatePromptCategory(userId, categoryId, data);
+   }
+
+   async deletePromptCategory(
+      userId: string,
+      categoryId: number
+   ): Promise<void> {
+      await this.repository.pDeletePromptCategory(userId, categoryId);
+   }
+
+   async getPromptModels(userId: string): Promise<string[]> {
+      return await this.repository.pGetPromptModels(userId);
    }
 }

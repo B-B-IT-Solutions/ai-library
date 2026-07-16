@@ -18,6 +18,12 @@ import {
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { TooltipProvider } from "@/components/shadcn/tooltip";
 
+export const clearInput = async (testId: string) => {
+   const field = screen.getByTestId(testId);
+   const input = within(field).getByTestId("input");
+   await userEvent.clear(input);
+};
+
 export const typeIntoInput = async (testId: string, value: string) => {
    const field = screen.getByTestId(testId);
    const input = within(field).getByTestId("input");

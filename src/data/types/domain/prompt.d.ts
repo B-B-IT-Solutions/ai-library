@@ -2,6 +2,7 @@
 
 import {
    promptVariableSchema,
+   updatePromptCategorySchema,
    updateTemplateSchema,
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
@@ -39,6 +40,14 @@ export type DPromptUpdateCrate = {
 export type DPromptCategory = {
    name: string;
 };
+
+export type DPromptCategoryWithUsage = {
+   id: number;
+   name: string;
+   count: number;
+};
+
+export type DPromptCategoryUpdate = z.infer<typeof updatePromptCategorySchema>;
 
 export type DPromptTemplatingData = {
    prompt: DPromptWithContent;

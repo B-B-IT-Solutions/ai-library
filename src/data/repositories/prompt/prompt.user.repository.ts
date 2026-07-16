@@ -1,4 +1,5 @@
-﻿import { flatMap, map, uniq } from "es-toolkit/compat";
+﻿import { trim } from "es-toolkit";
+import { flatMap, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -10,6 +11,8 @@ import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
    DPromptCategory,
+   DPromptCategoryUpdate,
+   DPromptCategoryWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -21,7 +24,10 @@ import {
 } from "@/data/types/domain/prompt";
 import {
    PromptCategoryCountArgs,
+   PromptCategoryDeleteArgs,
+   PromptCategoryFindFirstArgs,
    PromptCategoryFindManyArgs,
+   PromptCategoryUpdateArgs,
    PromptCategoryWhereInput,
    PromptCountArgs,
    PromptCreateArgs,
@@ -34,6 +40,7 @@ import {
 
 import {
    toDPrompt,
+   toDPromptCategoriesWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
@@ -352,8 +359,8 @@ export class PromptRepository {
       };
    }
 
-   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
-      return await this.prisma.promptCategory.findMany({
+   async pGetPromptCategories(userId: string): Promise<string[]> {
+      const args = {
          where: { userId },
          select: {
             name: true,
@@ -361,21 +368,76 @@ export class PromptRepository {
          orderBy: {
             name: "asc",
          },
-      });
+      } satisfies PromptCategoryFindManyArgs;
+
+      const categories = await this.prisma.promptCategory.findMany(args);
+      return map(categories, (c) => c.name);
    }
 
-   async pGePromptCategories(userId: string): Promise<string[]> {
-      const descriptors = await this.prisma.prompt.findMany({
+   async pGetPromptCategoriesWithUsage(
+      userId: string
+   ): Promise<DPromptCategoryWithUsage[]> {
+      const args = {
          where: { userId },
-         include: {
-            categories: true,
+         select: {
+            id: true,
+            name: true,
+            _count: {
+               select: { prompts: true },
+            },
          },
-      });
+         orderBy: { name: "asc" },
+      } satisfies PromptCategoryFindManyArgs;
 
-      const categories = flatMap(descriptors, (d) =>
-         map(d.categories, (cat) => cat.name)
-      );
-      return uniq(categories).sort();
+      const categories = await this.prisma.promptCategory.findMany(args);
+      return toDPromptCategoriesWithUsage(categories);
+   }
+
+   async pPromptCategoryExists(
+      userId: string,
+      name: string,
+      excludeCategoryId: number
+   ): Promise<boolean> {
+      const args = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: { not: excludeCategoryId },
+         },
+         select: { id: true },
+      } satisfies PromptCategoryFindFirstArgs;
+
+      const existing = await this.prisma.promptCategory.findFirst(args);
+      return existing !== null;
+   }
+
+   async pUpdatePromptCategory(
+      userId: string,
+      categoryId: number,
+      update: DPromptCategoryUpdate
+   ): Promise<void> {
+      const args = {
+         where: {
+            id: categoryId,
+            userId,
+         },
+         data: {
+            name: trim(update.name),
+         },
+      } satisfies PromptCategoryUpdateArgs;
+
+      await this.prisma.promptCategory.update(args);
+   }
+
+   async pDeletePromptCategory(
+      userId: string,
+      categoryId: number
+   ): Promise<void> {
+      const args = {
+         where: { id: categoryId, userId },
+      } satisfies PromptCategoryDeleteArgs;
+
+      await this.prisma.promptCategory.delete(args);
    }
 
    async pGetPromptModels(userId: string): Promise<string[]> {
