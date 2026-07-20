@@ -24,7 +24,7 @@ import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { ModelNameConflictError, NameConflictError } from "./errors";
+import { NameConflictError } from "./errors";
 import { PromptService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
@@ -962,7 +962,7 @@ describe("createPromptModel tests", () => {
 
       const fn = () => promptService.createPromptModel(userId, data);
 
-      await expect(fn).rejects.toThrow(ModelNameConflictError);
+      await expect(fn).rejects.toThrow(NameConflictError);
       expect(promptRepoMock.pCreatePromptModel).not.toHaveBeenCalled();
    });
 
@@ -1017,7 +1017,7 @@ describe("updatePromptModel tests", () => {
 
       const fn = () => promptService.updatePromptModel(userId, 1, update);
 
-      await expect(fn).rejects.toThrow(ModelNameConflictError);
+      await expect(fn).rejects.toThrow(NameConflictError);
       expect(promptRepoMock.pUpdatePromptModel).not.toHaveBeenCalled();
    });
 });

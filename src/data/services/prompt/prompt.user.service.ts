@@ -29,7 +29,7 @@ import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { ModelNameConflictError, NameConflictError } from "./errors";
+import { NameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
 
 export class PromptService {
@@ -336,7 +336,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new ModelNameConflictError(name);
+         throw new NameConflictError("Modell", name);
       }
 
       await this.repository.pCreatePromptModel(userId, data);
@@ -355,7 +355,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new ModelNameConflictError(name);
+         throw new NameConflictError("Modell", name);
       }
 
       await this.repository.pUpdatePromptModel(userId, modelId, data);

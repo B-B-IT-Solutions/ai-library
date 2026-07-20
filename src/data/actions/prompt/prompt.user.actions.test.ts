@@ -6,10 +6,7 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
-import {
-   ModelNameConflictError,
-   NameConflictError,
-} from "@/data/services/prompt/errors";
+import { NameConflictError } from "@/data/services/prompt/errors";
 import {
    DPrompt,
    DPromptsUsage,
@@ -1600,7 +1597,7 @@ describe("createPromptModel tests", () => {
 
       const data = dtestData.dPromptModelUpdate();
 
-      const error = new ModelNameConflictError(data.name);
+      const error = new NameConflictError("Modell", data.name);
       sCreatePromptModelMock.mockRejectedValue(error);
 
       const result = await createPromptModel(data);
@@ -1688,7 +1685,7 @@ describe("updatePromptModel tests", () => {
 
       const update = dtestData.dPromptModelUpdate();
 
-      const error = new ModelNameConflictError(update.name);
+      const error = new NameConflictError("Modell", update.name);
       sUpdatePromptModelMock.mockRejectedValue(error);
 
       const result = await updatePromptModel(1, update);

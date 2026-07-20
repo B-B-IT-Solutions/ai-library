@@ -6,10 +6,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import {
-   ModelNameConflictError,
-   NameConflictError,
-} from "@/data/services/prompt/errors";
+import { NameConflictError } from "@/data/services/prompt/errors";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
@@ -469,7 +466,7 @@ export const createPromptModel = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof ModelNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
@@ -501,7 +498,7 @@ export const updatePromptModel = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof ModelNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
