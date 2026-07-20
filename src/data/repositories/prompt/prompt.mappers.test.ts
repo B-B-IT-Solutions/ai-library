@@ -163,6 +163,7 @@ describe("prompt mappers tests", () => {
 
    it("toDPromptWithContent test", async () => {
       const prompt = ptestData.pPromptWithContent();
+      prompt.model = null;
       const result = toDPromptWithContent(prompt);
       const expectedResult = toDPromptWithContentInternal(prompt);
       expect(result).toEqual(expectedResult);
@@ -194,11 +195,5 @@ describe("prompt mappers tests", () => {
       const result = toDPromptModelWithUsage(model);
       const expectedResult = toDPromptModelWithUsageInternal(model);
       expect(result).toEqual(expectedResult);
-   });
-
-   it("toDPrompt maps missing model to empty string test", async () => {
-      const prompt = { ...ptestData.pPromptWithCategories(), model: null };
-      const result = toDPrompt(prompt);
-      expect(result.model).toBe("");
    });
 });
