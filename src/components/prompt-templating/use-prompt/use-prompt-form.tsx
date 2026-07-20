@@ -32,10 +32,10 @@ import { requiredVariables, requiredVariablesWithValue } from "./utils";
 
 type Props = {
    promptData: DPromptTemplatingData;
-   recommendedModel?: string;
+   model?: string;
 };
 
-export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
+export const UsePromptForm = ({ promptData, model }: Props) => {
    const { prompt, allVariables: variables } = promptData;
    const hasFields = variables.length > 0;
 
@@ -68,7 +68,7 @@ export const UsePromptForm = ({ promptData, recommendedModel }: Props) => {
 
    const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
 
-   const recommended = getRecommendedAiTool(recommendedModel);
+   const recommended = getRecommendedAiTool(model);
    const otherServices = getOtherAiTools(recommended);
 
    const openInService = useCallback(
