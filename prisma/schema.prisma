@@ -165,15 +165,15 @@ model Prompt0FollowUp {
 }
 
 model Prompt {
-  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId           String           @map("user_id") @db.Uuid
-  title            String           @db.VarChar(250)
-  description      String           @db.VarChar(750)
-  categories       PromptCategory[]
-  modelId          Int?             @map("model_id")
-  isFavorite       Boolean          @default(false) @map("is_favorite")
-  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime         @updatedAt @map("updated_at")
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String           @map("user_id") @db.Uuid
+  title       String           @db.VarChar(250)
+  description String           @db.VarChar(750)
+  categories  PromptCategory[]
+  modelId     Int?             @map("model_id")
+  isFavorite  Boolean          @default(false) @map("is_favorite")
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime         @updatedAt @map("updated_at")
 
   user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   model             PromptModel?             @relation(fields: [modelId], references: [id], onDelete: SetNull)
@@ -185,7 +185,6 @@ model Prompt {
   workflowSteps     WorkflowStep[]
 
   @@index([userId])
-  @@index([modelId])
   @@map("prompt")
 }
 
