@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `recommended_model` on the `prompt` table. All the data in the column will be lost.
-
-*/
 -- AlterTable
 ALTER TABLE "prompt" DROP COLUMN "recommended_model",
 ADD COLUMN     "model_id" INTEGER;
