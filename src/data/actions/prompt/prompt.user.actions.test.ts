@@ -7,12 +7,11 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
 import {
-   CategoryNameConflictError,
    ModelNameConflictError,
+   NameConflictError,
 } from "@/data/services/prompt/errors";
 import {
    DPrompt,
-   DPromptCategoryWithUsage,
    DPromptsUsage,
    DPromptVariableValues,
 } from "@/data/types/domain/prompt";
@@ -1189,7 +1188,7 @@ describe("createPromptCategory tests", () => {
 
       const data = dtestData.dPromptCategoryUpdate();
 
-      const error = new CategoryNameConflictError(data.name);
+      const error = new NameConflictError("Kategorie", data.name);
       sCreatePromptCategoryMock.mockRejectedValue(error);
 
       const result = await createPromptCategory(data);
@@ -1277,7 +1276,7 @@ describe("updatePromptCategory tests", () => {
 
       const update = dtestData.dPromptCategoryUpdate();
 
-      const error = new CategoryNameConflictError(update.name);
+      const error = new NameConflictError("Kategorie", update.name);
       sUpdatePromptCategoryMock.mockRejectedValue(error);
 
       const result = await updatePromptCategory(1, update);

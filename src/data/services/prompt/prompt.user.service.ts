@@ -29,7 +29,7 @@ import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { CategoryNameConflictError, ModelNameConflictError } from "./errors";
+import { ModelNameConflictError, NameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
 
 export class PromptService {
@@ -262,7 +262,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new CategoryNameConflictError(name);
+         throw new NameConflictError("Kategorie", name);
       }
 
       await this.repository.pCreatePromptCategory(userId, data);
@@ -281,7 +281,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new CategoryNameConflictError(name);
+         throw new NameConflictError("Kategorie", name);
       }
 
       await this.repository.pUpdatePromptCategory(userId, categoryId, data);

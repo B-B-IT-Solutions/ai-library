@@ -24,7 +24,7 @@ import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { CategoryNameConflictError, ModelNameConflictError } from "./errors";
+import { ModelNameConflictError, NameConflictError } from "./errors";
 import { PromptService } from "./prompt.user.service";
 import { resolveAllTemplateFields } from "./utils";
 
@@ -762,7 +762,7 @@ describe("createPromptCategory tests", () => {
 
       const fn = () => promptService.createPromptCategory(userId, data);
 
-      await expect(fn).rejects.toThrow(CategoryNameConflictError);
+      await expect(fn).rejects.toThrow(NameConflictError);
       expect(promptRepoMock.pCreatePromptCategory).not.toHaveBeenCalled();
    });
 
@@ -817,7 +817,7 @@ describe("updatePromptCategory tests", () => {
 
       const fn = () => promptService.updatePromptCategory(userId, 1, update);
 
-      await expect(fn).rejects.toThrow(CategoryNameConflictError);
+      await expect(fn).rejects.toThrow(NameConflictError);
       expect(promptRepoMock.pUpdatePromptCategory).not.toHaveBeenCalled();
    });
 });

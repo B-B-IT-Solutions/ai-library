@@ -7,8 +7,8 @@ import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import {
-   CategoryNameConflictError,
    ModelNameConflictError,
+   NameConflictError,
 } from "@/data/services/prompt/errors";
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -330,7 +330,7 @@ export const createPromptCategory = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof CategoryNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
@@ -362,7 +362,7 @@ export const updatePromptCategory = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof CategoryNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
@@ -543,11 +543,7 @@ export const isConflictingPromptModelName = async (
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.isConflictingPromptModelName(
-         user.id,
-         modelId,
-         name
-      );
+      return await service.isConflictingPromptModelName(user.id, modelId, name);
    } catch (error) {
       console.error(formatError(error));
       return false;
