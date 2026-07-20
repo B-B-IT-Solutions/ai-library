@@ -243,7 +243,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "model 0",
+         model: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -334,7 +334,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {
@@ -391,7 +391,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {
@@ -442,7 +442,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "model 0",
+         model: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -517,7 +517,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "model 0",
+         model: "model 0",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -570,7 +570,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {

@@ -772,7 +772,7 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       description: `updated description ${index}`,
       content: `updated content ${index}`,
       categories: ["category 1"],
-      recommendedModel: `model ${index}`,
+      model: `model ${index}`,
       fields: dPromptVariableUpdates(),
       globalFieldIds: dGlobalPromptFieldIds(),
    };

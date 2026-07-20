@@ -44,7 +44,7 @@ export const updateTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string(),
    content: z.string(),
-   recommendedModel: modelSchema,
+   model: modelSchema,
    categories: z
       .array(categorySchema)
       .max(5, `Maximal 5 Kategorien pro Prompt`),

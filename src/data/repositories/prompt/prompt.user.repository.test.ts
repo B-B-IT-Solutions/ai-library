@@ -898,10 +898,10 @@ describe("pCreatePrompt tests", () => {
          model: {
             connectOrCreate: {
                where: {
-                  userId_name: { userId, name: data.recommendedModel },
+                  userId_name: { userId, name: data.model },
                },
                create: {
-                  name: data.recommendedModel,
+                  name: data.model,
                   userId,
                },
             },
@@ -978,8 +978,8 @@ describe("pUpdatePrompt tests", () => {
          description: data.description,
          model: {
             connectOrCreate: {
-               where: { userId_name: { userId, name: data.recommendedModel } },
-               create: { name: data.recommendedModel, userId },
+               where: { userId_name: { userId, name: data.model } },
+               create: { name: data.model, userId },
             },
          },
          categories: {
@@ -1613,9 +1613,7 @@ describe("pCreatePromptModel tests", () => {
       };
 
       expect(prismaMock.promptModel.create).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptModel.create).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.promptModel.create).toHaveBeenCalledWith(expectedArgs);
    });
 });
 
@@ -1637,9 +1635,7 @@ describe("pUpdatePromptModel tests", () => {
       };
 
       expect(prismaMock.promptModel.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptModel.update).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.promptModel.update).toHaveBeenCalledWith(expectedArgs);
    });
 });
 
@@ -1659,9 +1655,7 @@ describe("pDeletePromptModel tests", () => {
       };
 
       expect(prismaMock.promptModel.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.promptModel.delete).toHaveBeenCalledWith(
-         expectedArgs
-      );
+      expect(prismaMock.promptModel.delete).toHaveBeenCalledWith(expectedArgs);
    });
 });
 

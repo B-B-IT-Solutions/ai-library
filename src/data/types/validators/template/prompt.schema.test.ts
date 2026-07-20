@@ -496,13 +496,17 @@ describe("modelSchema - tests", () => {
    it("empty string invalid - test", () => {
       const result = modelSchema.safeParse("");
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe("Modell darf nicht leer sein");
+      expect(result.error?.issues[0].message).toBe(
+         "Modell darf nicht leer sein"
+      );
    });
 
    it("whitespace only string invalid - test", () => {
       const result = modelSchema.safeParse("   ");
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe("Modell darf nicht leer sein");
+      expect(result.error?.issues[0].message).toBe(
+         "Modell darf nicht leer sein"
+      );
    });
 
    it("at max length (50 chars) valid - test", () => {
@@ -758,7 +762,7 @@ describe("updateTemplateSchema - tests", () => {
             };
 
             const validatedValues = updateTemplateSchema.parse(templateData);
-            expect(validatedValues.recommendedModel).toBe(model);
+            expect(validatedValues.model).toBe(model);
          });
       });
    });
@@ -1049,8 +1053,7 @@ describe("updatePromptModelSchema - tests", () => {
    });
 
    it("name exceeding max length invalid - test", () => {
-      const fn = () =>
-         updatePromptModelSchema.parse({ name: "a".repeat(51) });
+      const fn = () => updatePromptModelSchema.parse({ name: "a".repeat(51) });
       expect(fn).toThrow(ZodError);
    });
 

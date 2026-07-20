@@ -196,10 +196,10 @@ export class PromptRepository {
          model: {
             connectOrCreate: {
                where: {
-                  userId_name: { userId, name: data.recommendedModel },
+                  userId_name: { userId, name: data.model },
                },
                create: {
-                  name: data.recommendedModel,
+                  name: data.model,
                   userId,
                },
             },
@@ -266,8 +266,8 @@ export class PromptRepository {
          description: data.description,
          model: {
             connectOrCreate: {
-               where: { userId_name: { userId, name: data.recommendedModel } },
-               create: { name: data.recommendedModel, userId },
+               where: { userId_name: { userId, name: data.model } },
+               create: { name: data.model, userId },
             },
          },
          categories: {

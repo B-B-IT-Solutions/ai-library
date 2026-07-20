@@ -12,7 +12,7 @@ const expectedInitPromptTempalteExisting = (
       title: prompt.title,
       description: prompt.description,
       content: prompt.content,
-      recommendedModel: prompt.model,
+      model: prompt.model,
       categories: prompt.categories.map((c) => c.name),
       fields: map(prompt.fields, (f) => ({
          name: f.name,
@@ -33,7 +33,7 @@ const expectedInitPromptTempalteNew: DPromptUpdate = {
    description: "",
    content: "",
 
-   recommendedModel: "",
+   model: "",
    categories: [],
    fields: [],
    globalFieldIds: [],
