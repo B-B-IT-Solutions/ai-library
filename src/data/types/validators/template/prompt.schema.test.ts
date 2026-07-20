@@ -547,7 +547,7 @@ describe("updateTemplateSchema - tests", () => {
       title: "Test Template",
       description: "A test template description",
       content: "Hello {{email}}, welcome to {{company}}!",
-      recommendedModel: "gpt-4",
+      model: "gpt-4",
       categories: ["Vertrieb", "Sales"],
       fields: [validField],
       globalFieldIds: [],
@@ -643,7 +643,7 @@ describe("updateTemplateSchema - tests", () => {
          const templateData = {
             description: "A test description",
             content: "Content",
-            recommendedModel: "gpt-4",
+            model: "gpt-4",
             categories: [],
             fields: [],
          };
@@ -678,7 +678,7 @@ describe("updateTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             content: "Content",
-            recommendedModel: "gpt-4",
+            model: "gpt-4",
             categories: [],
             fields: [],
          };
@@ -703,7 +703,7 @@ describe("updateTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            recommendedModel: "gpt-4",
+            model: "gpt-4",
             categories: [],
             fields: [],
          };
@@ -729,7 +729,7 @@ describe("updateTemplateSchema - tests", () => {
       it("empty recommendedModel invalid - test", () => {
          const templateData = {
             ...validTemplateData,
-            recommendedModel: "",
+            model: "",
          };
 
          const result = updateTemplateSchema.safeParse(templateData);
@@ -758,7 +758,7 @@ describe("updateTemplateSchema - tests", () => {
          models.forEach((model) => {
             const templateData = {
                ...validTemplateData,
-               recommendedModel: model,
+               model: model,
             };
 
             const validatedValues = updateTemplateSchema.parse(templateData);
@@ -773,7 +773,7 @@ describe("updateTemplateSchema - tests", () => {
             title: "Test",
             description: "Description",
             content: "Content",
-            recommendedModel: "gpt-4",
+            model: "gpt-4",
             fields: [],
          };
 
@@ -877,7 +877,7 @@ describe("updateTemplateSchema - tests", () => {
             title: "Test",
             description: "Description",
             content: "Content",
-            recommendedModel: "gpt-4",
+            model: "gpt-4",
             categories: [],
          };
 
@@ -941,7 +941,7 @@ describe("updateTemplateSchema - tests", () => {
             description: "Create personalized Vertrieb emails",
             content:
                "Dear {{firstName}} {{lastName}},\n\nWe are excited to offer you {{offer}}.\n\nBest regards,\n{{company}}",
-            recommendedModel: "gpt-4-turbo",
+            model: "gpt-4-turbo",
             categories: ["Vertrieb", "Email", "Sales"],
             globalFieldIds: [],
             fields: [
@@ -988,7 +988,7 @@ describe("updateTemplateSchema - tests", () => {
             title: "T",
             description: "D",
             content: "C",
-            recommendedModel: "M",
+            model: "M",
             categories: [],
             fields: [],
             globalFieldIds: [],
