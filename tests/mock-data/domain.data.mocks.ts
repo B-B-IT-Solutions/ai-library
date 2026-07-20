@@ -706,9 +706,7 @@ export const dPromptModelsPage = (count = 3): DPromptModelsPage => {
    };
 };
 
-export const dPromptModelsPageQuery = (
-   index = 1
-): DPromptModelsPageQuery => {
+export const dPromptModelsPageQuery = (index = 1): DPromptModelsPageQuery => {
    return {
       pagination: {
          pageSize: 10,
@@ -736,7 +734,7 @@ export const dPrompt = (index = 1): DPrompt => {
       categories: dPromptCategories(),
       fields: dPromptVariables(),
       globalFieldIds: dGlobalPromptFieldIds(),
-      recommendedModel: `model ${index}`,
+      model: `model ${index}`,
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
@@ -886,15 +884,11 @@ export const dPromptCategoryUpdate = (index = 1): DPromptCategoryUpdate => {
    };
 };
 
-export const dPromptModelsWithUsage = (
-   count = 3
-): DPromptModelWithUsage[] => {
+export const dPromptModelsWithUsage = (count = 3): DPromptModelWithUsage[] => {
    return range(0, count).map((i) => dPromptModelWithUsage(i));
 };
 
-export const dPromptModelWithUsage = (
-   index = 1
-): DPromptModelWithUsage => {
+export const dPromptModelWithUsage = (index = 1): DPromptModelWithUsage => {
    return {
       id: index,
       name: `model ${index}`,

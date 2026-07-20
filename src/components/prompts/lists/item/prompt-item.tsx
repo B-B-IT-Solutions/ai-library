@@ -73,7 +73,7 @@ export const PromptItem = ({ prompt, currentCollection, ref }: Props) => {
                className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-700"
                title="Empfohlenes KI-Modell"
             >
-               {prompt.recommendedModel}
+               {prompt.model}
             </span>
             <div
                className={cn(

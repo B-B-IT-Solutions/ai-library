@@ -130,12 +130,12 @@ export const CollectionPrompts = ({ collectionId }: Props) => {
                   {prompt.title}
                </p>
             </div>
-            {prompt.recommendedModel && (
+            {prompt.model && (
                <Badge
                   variant="secondary"
                   className="hidden shrink-0 text-xs sm:inline-flex"
                >
-                  {prompt.recommendedModel}
+                  {prompt.model}
                </Badge>
             )}
             {rowControlBtn(prompt, isIn)}

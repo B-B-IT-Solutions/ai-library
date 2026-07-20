@@ -74,7 +74,7 @@ export type DPrompt = {
    id: string;
    title: string;
    description: string;
-   recommendedModel: string;
+   model: string;
    isFavorite: boolean;
    categories: DPromptCategory[];
    fields: DPromptVariable[];

@@ -39,7 +39,7 @@ export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      recommendedModel: prompt.model?.name ?? "",
+      model: prompt.model?.name ?? "",
       isFavorite: prompt.isFavorite,
       categories: prompt.categories,
       fields: [],

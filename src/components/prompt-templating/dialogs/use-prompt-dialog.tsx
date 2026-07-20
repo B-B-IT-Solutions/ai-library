@@ -79,7 +79,7 @@ export const UsePromptDialog = ({
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                <UsePromptForm
                   promptData={generationData}
-                  recommendedModel={prompt.recommendedModel}
+                  recommendedModel={prompt.model}
                />
             </div>
          </DialogContent>

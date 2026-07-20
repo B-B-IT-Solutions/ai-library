@@ -54,7 +54,7 @@ const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      recommendedModel: prompt.model?.name ?? "",
+      model: prompt.model?.name ?? "",
       isFavorite: prompt.isFavorite,
       categories: prompt.categories,
       fields: [],
@@ -199,6 +199,6 @@ describe("prompt mappers tests", () => {
    it("toDPrompt maps missing model to empty string test", async () => {
       const prompt = { ...ptestData.pPromptWithCategories(), model: null };
       const result = toDPrompt(prompt);
-      expect(result.recommendedModel).toBe("");
+      expect(result.model).toBe("");
    });
 });

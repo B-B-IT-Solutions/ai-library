@@ -476,7 +476,7 @@ describe("composePromptFromTemplate tests", () => {
       const expectedResult: DPrompt0Update = {
          content: content,
          title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
+         recommendedModel: descriptor.model,
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
@@ -552,7 +552,7 @@ describe("downloadPrompt tests", () => {
             title: descriptor.title,
             content: template.content,
             categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
+            recommendedModel: descriptor.model,
          },
          null,
          2
@@ -942,9 +942,7 @@ describe("getPromptModelsWithUsage tests", () => {
       const result = await promptService.getPromptModelsWithUsage(userId);
 
       expect(result).toEqual(models);
-      expect(promptRepoMock.pGetPromptModelsWithUsage).toHaveBeenCalledTimes(
-         1
-      );
+      expect(promptRepoMock.pGetPromptModelsWithUsage).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptModelsWithUsage).toHaveBeenCalledWith(
          userId
       );

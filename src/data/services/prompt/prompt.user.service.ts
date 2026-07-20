@@ -173,7 +173,7 @@ export class PromptService {
       return {
          content: content,
          title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
+         recommendedModel: descriptor.model,
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
@@ -199,7 +199,7 @@ export class PromptService {
             title: descriptor.title,
             content: template.content,
             categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
+            recommendedModel: descriptor.model,
          },
          null,
          2
