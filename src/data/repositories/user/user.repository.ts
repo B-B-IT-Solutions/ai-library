@@ -8,8 +8,8 @@ import {
    UserUpdateArgs,
    UserWhereInput,
 } from "@/generated/prisma/models";
-import { DEFAULT_PROMPT_MODEL_NAMES } from "@/lib/constants";
 
+import { DEFAULT_PROMPT_MODEL_NAMES } from "./constants";
 import { toDUserInternal } from "./user.mapper";
 
 type PGeUserParams = {

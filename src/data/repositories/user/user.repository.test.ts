@@ -13,8 +13,8 @@ import {
    UserFindFirstArgs,
    UserUpdateArgs,
 } from "@/generated/prisma/models";
-import { DEFAULT_PROMPT_MODEL_NAMES } from "@/lib/constants";
 
+import { DEFAULT_PROMPT_MODEL_NAMES } from "./constants";
 import { toDUserInternal } from "./user.mapper";
 import { UserRepository } from "./user.repository";
 

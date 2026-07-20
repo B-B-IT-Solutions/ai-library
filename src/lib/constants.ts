@@ -39,14 +39,6 @@ export const STRIPE_PRO_PLAN_ID = process.env.STRIPE_PRO_PLAN_ID;
 export const INIT_PAGE_NUMBER = 0;
 export const PAGE_SIZE = 10;
 
-export const DEFAULT_PROMPT_MODEL_NAMES = [
-   "Claude",
-   "ChatGPT",
-   "Gemini",
-   "Perplexity",
-   "Midjourney",
-];
-
 export const getProdLandingPageUrl = (): string => {
    return PROD_LANDING_PAGE_URL;
 };
