@@ -67,6 +67,23 @@ const sGetPromptCategoriesPage =
    PromptService.prototype.getPromptCategoriesPage;
 const sGetPromptsUsage = PromptService.prototype.getPromptsUsage;
 
+const sGetPromptCategoriesWithUsage =
+   PromptService.prototype.getPromptCategoriesWithUsage;
+const sCreatePromptCategory = PromptService.prototype.createPromptCategory;
+const sUpdatePromptCategory = PromptService.prototype.updatePromptCategory;
+const sDeletePromptCategory = PromptService.prototype.deletePromptCategory;
+const sIsConflictingPromptCategoryName =
+   PromptService.prototype.isConflictingPromptCategoryName;
+
+const sGetPromptModelsPage = PromptService.prototype.getPromptModelsPage;
+const sGetPromptModelsWithUsage =
+   PromptService.prototype.getPromptModelsWithUsage;
+const sCreatePromptModel = PromptService.prototype.createPromptModel;
+const sUpdatePromptModel = PromptService.prototype.updatePromptModel;
+const sDeletePromptModel = PromptService.prototype.deletePromptModel;
+const sIsConflictingPromptModelName =
+   PromptService.prototype.isConflictingPromptModelName;
+
 const sGetPromptsPageMock = sGetPromptsPage as jest.MockedFunction<
    typeof sGetPromptsPage
 >;
@@ -114,14 +131,6 @@ const sGetPromptCategoriesPageMock =
       typeof sGetPromptCategoriesPage
    >;
 
-const sGetPromptCategoriesWithUsage =
-   PromptService.prototype.getPromptCategoriesWithUsage;
-const sCreatePromptCategory = PromptService.prototype.createPromptCategory;
-const sUpdatePromptCategory = PromptService.prototype.updatePromptCategory;
-const sDeletePromptCategory = PromptService.prototype.deletePromptCategory;
-const sIsConflictingPromptCategoryName =
-   PromptService.prototype.isConflictingPromptCategoryName;
-
 const sGetPromptCategoriesWithUsageMock =
    sGetPromptCategoriesWithUsage as jest.MockedFunction<
       typeof sGetPromptCategoriesWithUsage
@@ -139,15 +148,6 @@ const sIsConflictingPromptCategoryNameMock =
    sIsConflictingPromptCategoryName as jest.MockedFunction<
       typeof sIsConflictingPromptCategoryName
    >;
-
-const sGetPromptModelsPage = PromptService.prototype.getPromptModelsPage;
-const sGetPromptModelsWithUsage =
-   PromptService.prototype.getPromptModelsWithUsage;
-const sCreatePromptModel = PromptService.prototype.createPromptModel;
-const sUpdatePromptModel = PromptService.prototype.updatePromptModel;
-const sDeletePromptModel = PromptService.prototype.deletePromptModel;
-const sIsConflictingPromptModelName =
-   PromptService.prototype.isConflictingPromptModelName;
 
 const sGetPromptModelsPageMock = sGetPromptModelsPage as jest.MockedFunction<
    typeof sGetPromptModelsPage
