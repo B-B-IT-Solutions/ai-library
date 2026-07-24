@@ -38,8 +38,8 @@ export const BasicInfo = ({ control }: Props) => {
             control={control}
          />
          <FormComboBoxLoadableValue<DPromptUpdate>
-            name="recommendedModel"
-            label="Empfohlenes Modell"
+            name="model"
+            label="KI Modell"
             placeholder="Modell auswählen oder erstellen"
             required={true}
             queryOptions={infiniteLoadPromptModelsPageOptions}

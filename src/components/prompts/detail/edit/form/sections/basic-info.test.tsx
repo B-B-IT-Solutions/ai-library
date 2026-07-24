@@ -25,7 +25,7 @@ const TestWrapper = () => {
          title: "",
          description: "",
          content: "",
-         recommendedModel: "Claude",
+         model: "Claude",
          categories: [],
          fields: [],
          globalFieldIds: [],
@@ -43,13 +43,13 @@ const assertRendered = () => {
    const field = screen.getByTestId("basic-info");
    const title = screen.getByTestId("title");
    const description = screen.getByTestId("description");
-   const recommendedModel = screen.getByTestId("recommendedModel");
+   const model = screen.getByTestId("model");
    const categories = screen.getByTestId("categories");
 
    assertInDocument(field);
    assertInDocument(title);
    assertInDocument(description);
-   assertInDocument(recommendedModel);
+   assertInDocument(model);
    assertInDocument(categories);
 };
 

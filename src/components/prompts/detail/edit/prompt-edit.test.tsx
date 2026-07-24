@@ -20,7 +20,7 @@ jest.mock("@/components/shared/md", () => {
 });
 
 import { DetailedHTMLProps, InputHTMLAttributes, MouseEvent } from "react";
-import { getByTestId, screen, waitFor, within } from "@testing-library/dom";
+import { getByTestId, screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
@@ -94,15 +94,6 @@ const assertCancelBtnHref = (href: string) => {
 
    assertHasAttributeWithValue(headerCancelBtn, "href", href);
    assertHasAttributeWithValue(footerCancelBtn, "href", href);
-};
-
-const selectRecommendedModel = async (modelName: string) => {
-   const modelField = screen.getByTestId("recommendedModel");
-   const trigger = within(modelField).getByTestId("combobox-trigger");
-   await userEvent.click(trigger);
-
-   const option = await within(modelField).findByText(modelName);
-   await userEvent.click(option);
 };
 
 const assertRendered = () => {
@@ -232,7 +223,6 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-      await selectRecommendedModel("model 0");
 
       await userEvent.click(saveBtn);
 
@@ -243,7 +233,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         model: "model 0",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -282,7 +272,6 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-      await selectRecommendedModel("model 0");
 
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
@@ -429,7 +418,6 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-      await selectRecommendedModel("model 0");
 
       const headerActions = screen.getByTestId("header-actions");
       const saveBtn = getByTestId(headerActions, "save-btn");
@@ -442,7 +430,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         model: "model 0",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -506,7 +494,6 @@ describe("PromptEdit functionality tests", () => {
       await typeIntoTextArea("description", "Test Description");
 
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
-      await selectRecommendedModel("model 0");
 
       await userEvent.click(saveBtn);
 
@@ -517,7 +504,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         model: "model 0",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {

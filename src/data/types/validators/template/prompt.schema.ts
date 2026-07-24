@@ -37,7 +37,6 @@ export const categorySchema = z
 export const modelSchema = z
    .string()
    .trim()
-   .min(1, "Modell darf nicht leer sein")
    .max(50, `Modell zu lang (maximal 50 Zeichen)`);
 
 export const updateTemplateSchema = z.object({

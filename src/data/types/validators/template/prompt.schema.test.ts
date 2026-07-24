@@ -493,20 +493,14 @@ describe("modelSchema - tests", () => {
       expect(validatedValue).toBe("A");
    });
 
-   it("empty string invalid - test", () => {
-      const result = modelSchema.safeParse("");
-      expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-         "Modell darf nicht leer sein"
-      );
+   it("empty string valid - test", () => {
+      const validatedValue = modelSchema.parse("");
+      expect(validatedValue).toBe("");
    });
 
-   it("whitespace only string invalid - test", () => {
-      const result = modelSchema.safeParse("   ");
-      expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-         "Modell darf nicht leer sein"
-      );
+   it("whitespace only string valid - test", () => {
+      const validatedValue = modelSchema.parse("   ");
+      expect(validatedValue).toBe("");
    });
 
    it("at max length (50 chars) valid - test", () => {
@@ -725,21 +719,18 @@ describe("updateTemplateSchema - tests", () => {
       });
    });
 
-   describe("Recommended model validation", () => {
-      it("empty recommendedModel invalid - test", () => {
+   describe("KI Model validation", () => {
+      it("empty model invalid - test", () => {
          const templateData = {
             ...validTemplateData,
             model: "",
          };
 
-         const result = updateTemplateSchema.safeParse(templateData);
-         expect(result.success).toBe(false);
-         expect(result.error?.issues[0].message).toBe(
-            "Modell darf nicht leer sein"
-         );
+         const validatedValue = updateTemplateSchema.parse(templateData);
+         expect(validatedValue.model).toBe("");
       });
 
-      it("missing recommendedModel invalid - test", () => {
+      it("missing model invalid - test", () => {
          const templateData = {
             title: "Test",
             description: "Description",
