@@ -90,7 +90,7 @@ exports[`Navigation rendering tests Navigation - active account - test 1`] = `
           <span
             class="font-medium"
           >
-            Modelle
+            Prompts Modelle
           </span>
         </a>
       </div>
@@ -189,7 +189,7 @@ exports[`Navigation rendering tests Navigation - active general - test 1`] = `
           <span
             class="font-medium"
           >
-            Modelle
+            Prompts Modelle
           </span>
         </a>
       </div>
@@ -288,7 +288,7 @@ exports[`Navigation rendering tests Navigation - active prompt-categories - test
           <span
             class="font-medium"
           >
-            Modelle
+            Prompts Modelle
           </span>
         </a>
       </div>
@@ -387,7 +387,7 @@ exports[`Navigation rendering tests Navigation - active prompt-models - test 1`]
           <span
             class="font-medium"
           >
-            Modelle
+            Prompts Modelle
           </span>
         </a>
       </div>
@@ -486,7 +486,7 @@ exports[`Navigation rendering tests Navigation - active subscription - test 1`] 
           <span
             class="font-medium"
           >
-            Modelle
+            Prompts Modelle
           </span>
         </a>
       </div>
