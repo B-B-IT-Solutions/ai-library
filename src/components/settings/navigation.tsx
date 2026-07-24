@@ -39,7 +39,7 @@ const groups: NavigationGroup[] = [
          },
          {
             section: "prompt-models",
-            label: "Modelle",
+            label: "Prompts Modelle",
          },
       ],
    },

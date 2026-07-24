@@ -64,7 +64,7 @@ exports[`BasicInfo rendering tests rendered - test 1`] = `
     <div
       class="grid gap-2"
       data-slot="form-item"
-      data-testid="recommendedModel"
+      data-testid="model"
     >
       <label
         class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
@@ -72,7 +72,7 @@ exports[`BasicInfo rendering tests rendered - test 1`] = `
         data-slot="form-label"
         for="_r_2_-form-item"
       >
-        Empfohlenes Modell
+        KI Modell
         <span
           class="text-destructive"
         >
