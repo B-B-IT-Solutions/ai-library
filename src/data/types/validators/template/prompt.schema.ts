@@ -56,5 +56,5 @@ export const updatePromptCategorySchema = z.object({
 });
 
 export const updatePromptModelSchema = z.object({
-   name: modelSchema,
+   name: modelSchema.min(1, "Modell darf nicht leer sein"),
 });
