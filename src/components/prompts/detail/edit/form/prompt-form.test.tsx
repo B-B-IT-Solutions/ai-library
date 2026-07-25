@@ -1,5 +1,4 @@
 jest.mock("@/data/actions/prompt");
-jest.mock("sonner");
 
 jest.mock("@/components/shared/md", () => {
    const MDEditor = (
@@ -19,8 +18,14 @@ jest.mock("@/components/shared/md", () => {
    return { MDEditor };
 });
 
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
-import { screen, waitFor } from "@testing-library/react";
+import {
+   BaseSyntheticEvent,
+   DetailedHTMLProps,
+   InputHTMLAttributes,
+   useState,
+} from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
@@ -28,11 +33,16 @@ import {
    dtestData,
    renderWithReactQuery,
 } from "@tests";
+import { FormProvider, useForm } from "react-hook-form";
 
 import {
    getPromptCategoriesPage,
    getPromptModelsPage,
 } from "@/data/actions/prompt";
+import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
+import { initPromptTemplate } from "./utils";
 
 import { PromptEditForm } from "./prompt-form";
 
@@ -45,6 +55,38 @@ const getPromptCategoriesPageMock =
 const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
    typeof getPromptModelsPage
 >;
+
+type TestWrapperProps = {
+   prompt?: DPromptWithContent;
+   globalFields?: DGlobalPromptField[];
+   onSubmit?: () => void;
+};
+
+const TestWrapper = ({
+   prompt,
+   globalFields = [],
+   onSubmit = jest.fn(),
+}: TestWrapperProps) => {
+   const form = useForm<DPromptUpdate>({
+      defaultValues: initPromptTemplate(prompt),
+      resolver: zodResolver(updatePromptSchema),
+      mode: "all",
+   });
+   const [versionNote, setVersionNote] = useState("");
+
+   return (
+      <FormProvider {...form}>
+         <PromptEditForm
+            form={form}
+            globalFields={globalFields}
+            isEdit={!!prompt}
+            versionNote={versionNote}
+            onVersionNoteChange={setVersionNote}
+            onSubmit={onSubmit}
+         />
+      </FormProvider>
+   );
+};
 
 const assertRendered = () => {
    const form = screen.getByTestId("prompt-edit-form");
@@ -91,9 +133,7 @@ describe("PromptEditForm rendering tests", () => {
    });
 
    it("new entry - rendered - test", async () => {
-      const { container } = renderWithReactQuery(
-         <PromptEditForm globalFields={[]} onSubmit={jest.fn()} />
-      );
+      const { container } = renderWithReactQuery(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
@@ -117,11 +157,7 @@ describe("PromptEditForm rendering tests", () => {
       const fields = dtestData.dGlobalPromptFields();
 
       const { container } = renderWithReactQuery(
-         <PromptEditForm
-            prompt={prompt}
-            globalFields={fields}
-            onSubmit={jest.fn()}
-         />
+         <TestWrapper prompt={prompt} globalFields={fields} />
       );
 
       await waitFor(() => {
@@ -147,11 +183,7 @@ describe("PromptEditForm rendering tests", () => {
       prompt.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = renderWithReactQuery(
-         <PromptEditForm
-            prompt={prompt}
-            globalFields={fields}
-            onSubmit={jest.fn()}
-         />
+         <TestWrapper prompt={prompt} globalFields={fields} />
       );
 
       await waitFor(() => {
@@ -179,9 +211,7 @@ describe("PromptEditForm functionality tests", () => {
 
    it("expand btn clicked - test", async () => {
       const fields = dtestData.dGlobalPromptFields();
-      renderWithReactQuery(
-         <PromptEditForm globalFields={fields} onSubmit={jest.fn()} />
-      );
+      renderWithReactQuery(<TestWrapper globalFields={fields} />);
 
       await waitFor(() => {
          assertRendered();
@@ -202,15 +232,7 @@ describe("PromptEditForm functionality tests", () => {
    });
 
    it("new entry - variables detected in content - test", async () => {
-      const collection = dtestData.dCollectionPreview();
-
-      renderWithReactQuery(
-         <PromptEditForm
-            globalFields={[]}
-            currentCollection={collection}
-            onSubmit={jest.fn()}
-         />
-      );
+      renderWithReactQuery(<TestWrapper globalFields={[]} />);
 
       await waitFor(() => {
          assertRendered();
@@ -245,6 +267,27 @@ describe("PromptEditForm functionality tests", () => {
       await waitFor(() => {
          assertDetectedVariablesRendered();
          assertPromptVariablesRendered();
+      });
+   });
+
+   it("native form submit (e.g. Enter key) calls onSubmit - test", async () => {
+      const onSubmit = jest.fn((e?: BaseSyntheticEvent) =>
+         e?.preventDefault()
+      );
+
+      renderWithReactQuery(<TestWrapper onSubmit={onSubmit} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const form = screen
+         .getByTestId("prompt-edit-form")
+         .querySelector("form")!;
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+         expect(onSubmit).toHaveBeenCalledTimes(1);
       });
    });
 });

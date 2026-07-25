@@ -6,8 +6,8 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
-import mockRouter from "next-router-mock";
 import { useSession } from "next-auth/react";
+import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import {

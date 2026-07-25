@@ -8,10 +8,11 @@ describe("PromptSaveSplitButton rendering tests", () => {
    it("create mode - only primary button rendered - test", () => {
       render(
          <PromptSaveSplitButton
-            formId="test-form"
             isEdit={false}
             isSubmitting={false}
             canAccessVersionHistory={false}
+            onSave={jest.fn()}
+            onSaveAsVersion={jest.fn()}
          />
       );
 
@@ -26,10 +27,11 @@ describe("PromptSaveSplitButton rendering tests", () => {
    it("edit mode - split button with chevron rendered - test", () => {
       render(
          <PromptSaveSplitButton
-            formId="test-form"
             isEdit={true}
             isSubmitting={false}
             canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={jest.fn()}
          />
       );
 
@@ -43,10 +45,11 @@ describe("PromptSaveSplitButton rendering tests", () => {
    it("isSubmitting true - primary button shows loading label and is disabled - test", () => {
       render(
          <PromptSaveSplitButton
-            formId="test-form"
             isEdit={true}
             isSubmitting={true}
             canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={jest.fn()}
          />
       );
 
@@ -55,13 +58,46 @@ describe("PromptSaveSplitButton rendering tests", () => {
       expect(saveBtn).toBeDisabled();
    });
 
-   it("canAccessVersionHistory true - menu item enabled, click submits hidden version button - test", async () => {
-      render(
+   it("isSubmitting true - chevron trigger and version menu item are disabled - test", async () => {
+      const onSaveAsVersion = jest.fn();
+
+      const { rerender } = render(
          <PromptSaveSplitButton
-            formId="test-form"
             isEdit={true}
             isSubmitting={false}
             canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={onSaveAsVersion}
+         />
+      );
+
+      await userEvent.click(screen.getByTestId("save-split-btn-trigger"));
+      const menuItem = screen.getByTestId("save-as-version-menu-item");
+      assertInDocument(menuItem);
+
+      rerender(
+         <PromptSaveSplitButton
+            isEdit={true}
+            isSubmitting={true}
+            canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={onSaveAsVersion}
+         />
+      );
+
+      expect(screen.getByTestId("save-split-btn-trigger")).toBeDisabled();
+   });
+
+   it("canAccessVersionHistory true - menu item enabled, click calls onSaveAsVersion - test", async () => {
+      const onSaveAsVersion = jest.fn();
+
+      render(
+         <PromptSaveSplitButton
+            isEdit={true}
+            isSubmitting={false}
+            canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={onSaveAsVersion}
          />
       );
 
@@ -71,62 +107,70 @@ describe("PromptSaveSplitButton rendering tests", () => {
       assertInDocument(menuItem);
       expect(menuItem).toHaveTextContent("Speichern als neue Version");
 
-      const hiddenSubmit = screen.getByTestId(
-         "save-as-version-submit"
-      ) as HTMLButtonElement;
-      const clickSpy = jest.spyOn(hiddenSubmit, "click");
-
       await userEvent.click(menuItem);
 
-      expect(clickSpy).toHaveBeenCalledTimes(1);
+      expect(onSaveAsVersion).toHaveBeenCalledTimes(1);
    });
 
-   it("canAccessVersionHistory false - menu item shows lock hint and tooltip - test", async () => {
+   it("primary button clicked - calls onSave - test", async () => {
+      const onSave = jest.fn();
+
       render(
          <PromptSaveSplitButton
-            formId="test-form"
+            isEdit={true}
+            isSubmitting={false}
+            canAccessVersionHistory={true}
+            onSave={onSave}
+            onSaveAsVersion={jest.fn()}
+         />
+      );
+
+      await userEvent.click(screen.getByTestId("save-btn"));
+
+      expect(onSave).toHaveBeenCalledTimes(1);
+   });
+
+   it("canAccessVersionHistory false - menu item shows lock hint and tooltip, click does not call onSaveAsVersion - test", async () => {
+      const onSaveAsVersion = jest.fn();
+
+      render(
+         <PromptSaveSplitButton
             isEdit={true}
             isSubmitting={false}
             canAccessVersionHistory={false}
+            onSave={jest.fn()}
+            onSaveAsVersion={onSaveAsVersion}
          />
       );
 
       await userEvent.click(screen.getByTestId("save-split-btn-trigger"));
 
       assertInDocument(screen.getByText("Ab BASIC verfügbar"));
+
+      const menuItem = screen.getByTestId("save-as-version-menu-item");
+      await userEvent.click(menuItem);
+
+      expect(onSaveAsVersion).not.toHaveBeenCalled();
    });
 
-   it("hidden submit button has name=intent value=version and references formId - test", () => {
+   it("both save buttons are plain type=button (no native form submission) - test", () => {
       render(
          <PromptSaveSplitButton
-            formId="my-form-id"
             isEdit={true}
             isSubmitting={false}
             canAccessVersionHistory={true}
+            onSave={jest.fn()}
+            onSaveAsVersion={jest.fn()}
          />
       );
 
-      const hiddenSubmit = screen.getByTestId("save-as-version-submit");
-      expect(hiddenSubmit).toHaveAttribute("form", "my-form-id");
-      expect(hiddenSubmit).toHaveAttribute("name", "intent");
-      expect(hiddenSubmit).toHaveAttribute("value", "version");
-      expect(hiddenSubmit).toHaveAttribute("type", "submit");
-   });
-
-   it("primary submit button has name=intent value=normal and references formId - test", () => {
-      render(
-         <PromptSaveSplitButton
-            formId="my-form-id"
-            isEdit={true}
-            isSubmitting={false}
-            canAccessVersionHistory={true}
-         />
+      expect(screen.getByTestId("save-btn")).toHaveAttribute(
+         "type",
+         "button"
       );
-
-      const primarySubmit = screen.getByTestId("save-btn");
-      expect(primarySubmit).toHaveAttribute("form", "my-form-id");
-      expect(primarySubmit).toHaveAttribute("name", "intent");
-      expect(primarySubmit).toHaveAttribute("value", "normal");
-      expect(primarySubmit).toHaveAttribute("type", "submit");
+      expect(screen.getByTestId("save-split-btn-trigger")).toHaveAttribute(
+         "type",
+         "button"
+      );
    });
 });

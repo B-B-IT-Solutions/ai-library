@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import { ChevronDown, History, Loader, Lock } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
@@ -18,48 +17,43 @@ import {
 import { cn } from "@/lib/utils";
 
 type Props = {
-   formId: string;
    isEdit: boolean;
    isSubmitting: boolean;
    /**
-    * Whether the current user's plan allows creating a version snapshot
-    * (`canAccessVersionHistory` tier feature). FREE users still see the
+    * Whether the current user's plan allows creating a prompt content
+    * version (`canAccessVersionHistory` tier feature). FREE users still see the
     * chevron/menu item — it's just disabled — so the feature stays
     * discoverable as an upgrade incentive (see feature spec §5.1/§3.4).
     */
    canAccessVersionHistory: boolean;
+   /** Validates + submits the form as a normal save (no version snapshot). */
+   onSave: () => void;
+   /** Validates + submits the form, archiving the current content as a new version first. */
+   onSaveAsVersion: () => void;
 };
 
 /**
- * Split-button used for the prompt editor's "Speichern" action. The primary
- * (left) segment behaves exactly like the previous plain submit button and
- * never creates a version. The chevron (right) segment opens a dropdown with
- * a single option, "Speichern als neue Version", which submits the very same
- * form via a second, visually hidden submit button — `prompt-form.tsx`
- * distinguishes the two based on `event.nativeEvent.submitter` (name/value
- * "intent"="normal"|"version").
+ * Split-button used for the prompt editor's "Speichern" action. Both segments
+ * call the shared `react-hook-form` instance owned by `prompt-edit.tsx`
+ * directly (`form.handleSubmit(...)`, passed in as `onSave`/`onSaveAsVersion`)
+ * — there is no separate `<form>` element to submit here, so no hidden
+ * mirror button or `submitter`-sniffing is needed to tell the two save paths
+ * apart.
  */
 export const PromptSaveSplitButton = ({
-   formId,
    isEdit,
    isSubmitting,
    canAccessVersionHistory,
+   onSave,
+   onSaveAsVersion,
 }: Props) => {
-   const versionSubmitRef = useRef<HTMLButtonElement>(null);
-
-   const handleSaveAsVersionSelect = () => {
-      versionSubmitRef.current?.click();
-   };
-
    const label = isEdit ? "Prompt speichern" : "Prompt erstellen";
    const loadingLabel = isEdit ? "Wird gespeichert..." : "Wird erstellt...";
 
    const primaryButton = (
       <Button
-         type="submit"
-         form={formId}
-         name="intent"
-         value="normal"
+         type="button"
+         onClick={() => onSave()}
          disabled={isSubmitting}
          className={cn(
             "cursor-pointer bg-blue-700 hover:bg-blue-800",
@@ -85,18 +79,6 @@ export const PromptSaveSplitButton = ({
    return (
       <div className="flex items-stretch" data-testid="save-split-btn">
          {primaryButton}
-         {/* Not user-facing: clicked programmatically to submit with intent=version */}
-         <button
-            type="submit"
-            form={formId}
-            name="intent"
-            value="version"
-            ref={versionSubmitRef}
-            className="hidden"
-            aria-hidden="true"
-            tabIndex={-1}
-            data-testid="save-as-version-submit"
-         />
          <DropdownMenu>
             <DropdownMenuTrigger asChild={true}>
                <Button
@@ -112,7 +94,8 @@ export const PromptSaveSplitButton = ({
             <DropdownMenuContent align="end">
                {canAccessVersionHistory ? (
                   <DropdownMenuItem
-                     onSelect={handleSaveAsVersionSelect}
+                     onSelect={() => onSaveAsVersion()}
+                     disabled={isSubmitting}
                      className="cursor-pointer"
                      data-testid="save-as-version-menu-item"
                   >
