@@ -1,7 +1,7 @@
 # Feature-Spezifikation: Prompt-Text-Versionierung
 
 **Feature-ID:** TBD (nächste verfügbare AI-XXX)
-**Datum:** 2026-07-25 (überarbeitet: explizite statt automatische Versionierung)
+**Datum:** 2026-07-25
 **Status:** Spezifiziert, bereit zur Implementierung
 **Ziel-Tiers:** BASIC + PRO (Zugriff und Erstellung)
 **Abhängigkeiten:** `Prompt`/`PromptContent`-Modell, Prompt-Editor (`src/components/prompts/detail/edit/`), Subscription-Tier-System (`src/lib/subscription/access-control.ts`)
@@ -18,11 +18,7 @@
 2. **Content-Creator & Marketer** — testen Ton/Formulierung über mehrere Anläufe, wollen risikofrei experimentieren
 3. **Freelancer/Consultants** — passen denselben Prompt für verschiedene Kontexte an und wollen nicht versehentlich eine kundenspezifische Fassung verlieren
 
-**Lösung:** Der Nutzer entscheidet **selbst und explizit**, wann eine Änderung als neue Version festgehalten wird. Normales Speichern aktualisiert den Prompt-Text wie bisher, **ohne** die Historie zu belasten. Erst wenn der Nutzer aktiv "als neue Version speichern" wählt, wird ein benannter Checkpoint erzeugt, den er später einsehen und wiederherstellen kann.
-
-> **Wichtige Design-Entscheidung 1 (Korrektur ggü. erster Fassung dieser Spec):** Ursprünglich war ein automatischer Snapshot bei *jeder* Content-Änderung vorgesehen. Das wurde bewusst verworfen: Automatische Versionierung bei jedem Save hätte die Historie mit trivialen Zwischenständen (Tippfehler-Korrekturen, Wort-Ersetzungen) überflutet und den eigentlichen Wert — das Auffinden einer *bedeutsamen* früheren Fassung — verwässert. Versionen sind daher **bewusst gesetzte Sicherungspunkte**, keine automatische Audit-Trail-Protokollierung jeder Tastatureingabe.
->
-> **Wichtige Design-Entscheidung 2 (Korrektur ggü. zweiter Fassung dieser Spec):** Beim expliziten Auslösen wird nicht der *neu eingegebene* Text zur Version, sondern der *bisherige* Text, der dabei überschrieben wird — siehe §3.3 für die genaue Regel und die Begründung.
+**Lösung:** Der Prompt-Editor erhält zwei Speichern-Buttons: "Speichern" (unverändertes Verhalten, keine Version) und "Speichern als neue Version". Klickt der Nutzer auf Letzteren, wird zunächst der **bisherige** Prompt-Text als Sicherungspunkt in der Historie abgelegt, **bevor** der neu eingegebene Text live gesetzt wird. Versionierung ist damit nie automatisch — sie entsteht ausschließlich durch diesen expliziten Klick — und sie sichert immer den Stand, der gerade abgelöst wird, nicht das Ergebnis der aktuellen Bearbeitung. Details und Begründung in §3.3.
 
 **Abgrenzung:** Versioniert wird ausschließlich `PromptContent.content` (der eigentliche Prompt-Text mit Platzhaltern). Titel, Beschreibung, Kategorien, Modell und Formularfelder (`PromptField`) werden **nicht** versioniert — das bleibt Full-Vision-Scope (siehe §14). Diese Eingrenzung deckt sich mit der Nutzeranfrage ("Text des Prompts versionieren") und hält den MVP-Schnitt sauber.
 
@@ -74,7 +70,7 @@ contentVersions PromptContentVersion[]
 
 ### 3.3 Kernprinzip: Version = Snapshot des BISHERIGEN Inhalts, gesichert bevor er überschrieben wird
 
-> **Korrektur ggü. vorheriger Fassung dieser Spec:** Ursprünglich sollte der Button "Speichern als neue Version" den *neuen*, gerade eingegebenen Text zur Version machen. Das ist nicht das erwartete Verhalten — Nutzer erwarten, dass beim Klick auf "Speichern als neue Version" zunächst der *bisherige* Text als Sicherungspunkt archiviert wird, bevor die neue Fassung live geht. Das entspricht dem vertrauten Mental Model von Versionierungswerkzeugen ("bevor ich etwas überschreibe, wird das Alte aufgehoben, damit ich zurück kann") und macht die Funktion zu einem echten Sicherheitsnetz für riskante Änderungen — nicht zu einer Aufnahme des Ergebnisses.
+> Beim Klick auf "Speichern als neue Version" wird zunächst der *bisherige* Text als Sicherungspunkt archiviert, bevor die neue Fassung live geht. Das entspricht dem vertrauten Mental Model von Versionierungswerkzeugen ("bevor ich etwas überschreibe, wird das Alte aufgehoben, damit ich zurück kann") und macht die Funktion zu einem echten Sicherheitsnetz für riskante Änderungen.
 
 `PromptContent.content` bleibt wie bisher die **aktuelle, live editierbare Fassung** und wird bei **jedem** Speichern aktualisiert — unabhängig davon, ob eine Version erzeugt wird. `PromptContentVersion` ist eine vom Nutzer **explizit ausgelöste** Momentaufnahme des Inhalts, der gerade **abgelöst** wird, ausgelöst über zwei getrennte Buttons im Editor (siehe §5.1):
 
@@ -83,7 +79,7 @@ contentVersions PromptContentVersion[]
 - Praktische Konsequenz: Um eine bestimmte Fassung wirklich in der Historie zu sichern, muss der Nutzer *vor der nächsten* riskanten Änderung auf "Speichern als neue Version" klicken (also gewissermaßen "jetzigen Stand sichern, bevor ich weiter experimentiere") — nicht nachträglich, wenn ihm eine Fassung gefällt. Das ist ein Lernkurven-Aspekt, den Onboarding/Tooltip adressieren sollten (siehe §5.1, Tooltip-Text).
 - Das bedeutet auch: Zwischen zwei Versionen kann die "aktuelle" Fassung bereits mehrfach unversioniert verändert worden sein (via einfaches "Speichern"). Das ist weiterhin gewollt — die Historie zeigt bewusst gesetzte Sicherungspunkte, nicht jede Zwischenbearbeitung.
 
-**Restore folgt exakt derselben Regel** — deshalb bietet der Restore-Dialog aktiv an, den aktuellen (um Wiederherstellen abzulösenden) Stand vor dem Überschreiben noch als Version zu sichern (siehe §5.4, V-6). Restore ist technisch **derselbe Vorgang** wie ein normales Speichern mit aktivierter Versionierung, nur dass `content` dabei der Wert der wiederherzustellenden Version ist. Es gibt dadurch **nur eine** Snapshot-Regel im gesamten System, keine Sonderfälle mehr (siehe Vereinfachung in §6.3).
+**Restore folgt exakt derselben Regel** — deshalb bietet der Restore-Dialog aktiv an, den aktuellen (um Wiederherstellen abzulösenden) Stand vor dem Überschreiben noch als Version zu sichern (siehe §5.4, V-6). Restore ist technisch **derselbe Vorgang** wie ein normales Speichern mit aktivierter Versionierung, nur dass `content` dabei der Wert der wiederherzustellenden Version ist. Es gibt dadurch **nur eine** Snapshot-Regel im gesamten System (siehe §6.3).
 
 ### 3.4 Modell-Regeln & Invarianten
 
@@ -94,7 +90,7 @@ contentVersions PromptContentVersion[]
 | `versionNumber` ist fortlaufend pro Prompt, beginnend bei 1                                   | Nachvollziehbare Reihenfolge, unabhängig von `createdAt`-Kollisionen        |
 | Versions-Insert + Update von `PromptContent.content` laufen in **einer DB-Transaktion**        | Verhindert Inkonsistenz bei Teilausfall (Version gespeichert, Content nicht) |
 | `onDelete: Cascade` von `Prompt` auf `PromptContentVersion`                                    | Löschen eines Prompts entfernt vollständig dessen Historie                  |
-FREE-Nutzer können `saveAsVersion` nicht aktivieren — der Button "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie mehr, die man FREE vorenthalten müsste |
+| FREE-Nutzer können `saveAsVersion` nicht aktivieren — der Button "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie, die man FREE vorenthalten müsste |
 | Der Button "Speichern als neue Version" existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
 
 ---
@@ -140,8 +136,8 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 **Enforcement:**
 
 - Da FREE-Nutzer die Versionierungs-Option im UI gar nicht sehen, ist ein serverseitiger Guard trotzdem zwingend (Bypass-Schutz): `updatePrompt` ignoriert `saveAsVersion: true` serverseitig bei FREE-Tier (kein Fehler, aber kein Snapshot — analog zu "silently ignored" bei nicht verfügbaren Features) **oder** wirft `SubscriptionAccessError`, falls `saveAsVersion` explizit per API-Bypass gesendet wird. Empfehlung: harter Fehler (`VERSION_HISTORY_UPGRADE_REQUIRED`), damit kein stiller Datenverlust der Nutzerabsicht entsteht und die Upgrade-Notwendigkeit klar kommuniziert wird.
-- `getPromptVersions()` / `getPromptVersion()` / `restorePromptVersion()` prüfen `canAccessFeature(tier, "canAccessVersionHistory")`; bei FREE liefert die Liste nur `{ locked: true }` (kein Count mehr nötig, da FREE-Nutzer grundsätzlich keine Versionen erzeugen können — anders als im automatischen Modell gibt es hier keine "im Hintergrund gesammelten" Versionen, die als Upgrade-Köder dienen könnten).
-- Rotation (BASIC, max. 20): Nach jedem expliziten Versions-Insert prüft der Service die Anzahl vorhandener Versionen für den Prompt; bei > 20 werden die ältesten (niedrigste `versionNumber`) über das Limit hinaus gelöscht. Da Versionen jetzt seltener/bewusster entstehen, dürfte dieses Limit in der Praxis deutlich seltener greifen als im automatischen Modell — beobachten und ggf. nach Launch anpassen.
+- `getPromptVersions()` / `getPromptVersion()` / `restorePromptVersion()` prüfen `canAccessFeature(tier, "canAccessVersionHistory")`; bei FREE liefert die Liste nur `{ locked: true }`, da FREE-Nutzer grundsätzlich keine Versionen erzeugen können.
+- Rotation (BASIC, max. 20): Nach jedem expliziten Versions-Insert prüft der Service die Anzahl vorhandener Versionen für den Prompt; bei > 20 werden die ältesten (niedrigste `versionNumber`) über das Limit hinaus gelöscht.
 
 ---
 
@@ -360,7 +356,7 @@ async pUpdatePromptWithVersioning(
 }
 ```
 
-> **Vereinfachung ggü. vorheriger Fassung:** Der frühere Entwurf brauchte einen internen `isRestoreOperation`-Marker, um zu unterscheiden, ob der neue oder der alte Content zur Version wird. Mit der korrigierten Regel "immer der bisherige Content wird gesichert" entfällt diese Fallunterscheidung vollständig — `restorePromptVersion()` (§6.2) ruft dieselbe Methode einfach mit `content = version.content` auf, ohne dass das Repository wissen muss, dass es sich um ein Restore handelt.
+> Da immer der bisherige Content gesichert wird, braucht `pUpdatePromptWithVersioning` keine Unterscheidung danach, ob der Aufruf vom Editor-Save oder von `restorePromptVersion()` (§6.2) kommt — Letzteres ruft dieselbe Methode einfach mit `content = version.content` auf.
 
 ### 6.4 Service-Invarianten
 

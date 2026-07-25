@@ -34,14 +34,26 @@ nicht von einer Checkbox/Options-Feld ausgehen, wenn "der Nutzer soll wählen k�
 sichtbare, gleichrangige Buttons statt versteckter Formular-Optionen.** Backend-Contract (`saveAsVersion`/
 `versionNote` in `DPromptUpdate`) blieb bei beiden Korrekturen unverändert — nur der Client-Trigger ändert sich.
 
+**Dritte Korrektur (Snapshot-Richtung, 2026-07-25):** Zweite Überarbeitung ließ beim Klick auf "Speichern als
+neue Version" den NEUEN (gerade eingegebenen) Text zur Version werden. Nutzer korrigierte: das ist nicht
+nutzerfreundlich — erwartet wird, dass VOR dem Aktualisieren des Contents der BISHERIGE Text als Version
+gesichert wird (Sicherheitsnetz-Mental-Model: "bevor ich überschreibe, wird das Alte aufgehoben"). Das ist
+exakt die Regel, die der Restore-Flow von Anfang an schon hatte — jetzt für beide Aufrufer (Editor-Button UND
+Restore) vereinheitlicht: `pUpdatePromptWithVersioning` liest IMMER zuerst den aktuellen (bisherigen) Content
+und sichert genau diesen, bevor der neue Content geschrieben wird. Das eliminierte einen zuvor nötigen
+internen `isRestoreOperation`-Marker komplett — schöne Nebenwirkung: eine einzige Regel statt zwei Sonderfälle.
+**Lehre: bei "Version speichern"-artigen Features im Zweifel das Sicherheitsnetz-Modell (alter Zustand wird
+bewahrt) annehmen, nicht das Checkpoint-Modell (neuer Zustand wird benannt) — Nutzer denkt in "bevor ich etwas
+riskiere, sichere ich den Ist-Zustand", nicht in "ich benenne das Ergebnis meiner Änderung".**
+
 **Key decisions (non-negotiable laut aktueller Spec):**
 
 - Nur `content` (Prompt-Text) wird versioniert — nicht Titel/Beschreibung/Felder. MVP-Scope bewusst eng.
 - **Explizites Modell über zwei Buttons:** "Speichern" (bestehend, erzeugt nie eine Version) und "Speichern
   als neue Version" (neu, eigenständiger Button, nicht Checkbox). Normales Speichern erzeugt NIE eine
-  Version. Version = Snapshot des NEUEN Inhalts (nicht des alten) zum Zeitpunkt, an dem der Nutzer den
-  zweiten Button klickt — Meilenstein-Modell, kein Audit-Trail. Button nur im Edit-Modus sichtbar (nicht bei
-  Neuanlage) und nur für BASIC/PRO.
+  Version. Version = Snapshot des BISHERIGEN Inhalts (nicht des neuen!), gesichert unmittelbar bevor er
+  überschrieben wird — Sicherheitsnetz-Modell, kein Audit-Trail und kein "Checkpoint des Ergebnisses". Button
+  nur im Edit-Modus sichtbar (nicht bei Neuanlage) und nur für BASIC/PRO.
 - Restore ist die einzige Stelle mit einer sicheren Voreinstellung (Checkbox "Aktuelle Fassung vorher
   sichern" ist dort standardmäßig AN) — einzige Ausnahme vom sonst konsequenten Opt-in, weil dort echter
   unwiderruflicher Datenverlust droht (die "aktuelle, unversionierte" Fassung existiert sonst nirgends).
