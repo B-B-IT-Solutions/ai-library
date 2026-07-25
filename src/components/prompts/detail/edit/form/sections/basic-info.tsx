@@ -41,7 +41,6 @@ export const BasicInfo = ({ control }: Props) => {
             name="model"
             label="KI Modell"
             placeholder="Modell auswählen oder erstellen"
-            required={true}
             queryOptions={infiniteLoadPromptModelsPageOptions}
             control={control}
          />

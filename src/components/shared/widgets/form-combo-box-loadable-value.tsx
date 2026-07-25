@@ -110,7 +110,7 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
 
    const selectValue = (value: string) => {
       field.onChange(trim(value));
-      setSearch("");
+      updateSearch("");
       setOpen(false);
    };
 
@@ -141,6 +141,28 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
          <CommandEmpty data-testid="command-empty">
             Keine Modelle gefunden.
          </CommandEmpty>
+      );
+   };
+
+   const renderCreateValue = () => {
+      if (!canCreate) {
+         return;
+      }
+      return (
+         <>
+            <CommandSeparator />
+            <CommandGroup heading="Neues Modell">
+               <CommandItem
+                  value={`__create__${trimmedSearch}`}
+                  onSelect={() => selectValue(trimmedSearch)}
+                  className="font-medium text-primary data-[selected=true]:text-primary"
+                  data-testid="create-option-item"
+               >
+                  <Plus className="h-4 w-4" />
+                  &bdquo;{trimmedSearch}&ldquo; als neues Modell anlegen
+               </CommandItem>
+            </CommandGroup>
+         </>
       );
    };
 
@@ -225,25 +247,7 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
                                     })}
                                  </InfiniteScroll>
                               </CommandGroup>
-                              {canCreate && (
-                                 <>
-                                    <CommandSeparator />
-                                    <CommandGroup heading="Neues Modell">
-                                       <CommandItem
-                                          value={`__create__${trimmedSearch}`}
-                                          onSelect={() =>
-                                             selectValue(trimmedSearch)
-                                          }
-                                          className="font-medium text-primary data-[selected=true]:text-primary"
-                                          data-testid="create-option-item"
-                                       >
-                                          <Plus className="h-4 w-4" />
-                                          &bdquo;{trimmedSearch}&ldquo; als
-                                          neues Modell anlegen
-                                       </CommandItem>
-                                    </CommandGroup>
-                                 </>
-                              )}
+                              {renderCreateValue()}
                            </CommandList>
                         </Command>
                      </PopoverContent>
