@@ -42,9 +42,9 @@ import {
 import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
-import { initPromptTemplate } from "./utils";
 
 import { PromptEditForm } from "./prompt-form";
+import { initPromptTemplate } from "./utils";
 
 jest.setTimeout(10000);
 
