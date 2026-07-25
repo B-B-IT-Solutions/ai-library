@@ -20,9 +20,7 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
 import { createPromptModel } from "@/data/actions/prompt";
 import { DPromptModelUpdate } from "@/data/types/domain/prompt";
-import { initPromptModel } from "../utils";
-
-import { updateModelSchemaBackendValidation } from "./update-model.schema";
+import { initPromptModel, updateModelSchemaBackendValidation } from "../utils";
 
 type Props = {
    open: boolean;

@@ -25,7 +25,7 @@ import {
 } from "@/data/types/domain/prompt";
 import { initPromptModel } from "../utils";
 
-import { updateModelSchemaBackendValidation } from "./update-model.schema";
+import { updateModelSchemaBackendValidation } from "../utils/update-model.schema";
 
 type Props = {
    open: boolean;
@@ -85,8 +85,8 @@ export const UpdateModelDialog = ({ open, onClose, model }: Props) => {
                <DialogTitle>Modell umbenennen</DialogTitle>
                <DialogDescription>
                   Benenne das Modell <strong>{model.name}</strong> um. Die
-                  Änderung wirkt sich auf alle Prompts aus, denen dieses
-                  Modell zugewiesen ist.
+                  Änderung wirkt sich auf alle Prompts aus, denen dieses Modell
+                  zugewiesen ist.
                </DialogDescription>
             </DialogHeader>
             <Form {...form}>
