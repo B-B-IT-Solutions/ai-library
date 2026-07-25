@@ -225,9 +225,7 @@ describe("UsePromptForm functionality tests", () => {
       promptData.prompt.content = "Hello {{name}}";
       promptData.allVariables.push(field);
 
-      render(
-         <UsePromptForm promptData={promptData} recommendedModel="chatgpt" />
-      );
+      render(<UsePromptForm promptData={promptData} model="chatgpt" />);
 
       await waitFor(() => {
          assertRendered();
@@ -259,7 +257,7 @@ describe("UsePromptForm functionality tests", () => {
       promptData.prompt.content = "Hello {{name}}";
       promptData.allVariables.push(field);
 
-      render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);
+      render(<UsePromptForm promptData={promptData} model="gpt" />);
 
       await waitFor(() => {
          assertRendered();
@@ -291,7 +289,7 @@ describe("UsePromptForm functionality tests", () => {
       promptData.prompt.content = "Hello {{name}}";
       promptData.allVariables.push(field);
 
-      render(<UsePromptForm promptData={promptData} recommendedModel="gpt" />);
+      render(<UsePromptForm promptData={promptData} model="gpt" />);
 
       await waitFor(() => {
          assertRendered();

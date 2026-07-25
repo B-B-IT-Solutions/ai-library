@@ -14,7 +14,12 @@ export const codeReviewTemplateWithFields = (
    title: "KI-gestützte Code-Review",
    description:
       "Lassen Sie Ihren Code von einer KI analysieren mit Fokus auf Best Practices, Performance und Sicherheit.",
-   recommendedModel: "Claude",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "Claude" } },
+         create: { name: "Claude", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Entwicklung",
@@ -121,7 +126,12 @@ export const emailTemplateWithFields = (userId: string): PromptCreateInput => ({
    title: "Professionelle E-Mail-Vorlage",
    description:
       "Erstellen Sie professionelle E-Mails für verschiedene Anlässe und Tonalitäten.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Kommunikation",
@@ -233,7 +243,12 @@ export const socialMediaPostTemplate = (userId: string): PromptCreateInput => ({
    title: "Social Media Post Generator",
    description:
       "Erstellen Sie ansprechende Social Media Posts für verschiedene Plattformen mit der optimalen Tonalität und Länge.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Copywriting",
@@ -379,7 +394,12 @@ export const productDescriptionTemplate = (
    title: "Produkt-Beschreibung Generator",
    description:
       "Erstellen Sie überzeugende Produktbeschreibungen, die verkaufen und Ihre Zielgruppe ansprechen.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Copywriting",
@@ -511,7 +531,12 @@ export const blogOutlineTemplate = (userId: string): PromptCreateInput => ({
    title: "Blog-Artikel Struktur Generator",
    description:
       "Erstellen Sie durchdachte Blog-Strukturen mit Headlines, Subheadlines und Content-Gliederung.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Copywriting",
@@ -655,7 +680,12 @@ export const marketingEmailTemplate = (userId: string): PromptCreateInput => ({
    title: "Marketing-E-Mail Kampagne",
    description:
       "Erstellen Sie conversion-optimierte Marketing-E-Mails für Newsletter, Produktlaunches und Kampagnen.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Copywriting",
@@ -830,7 +860,12 @@ export const seoMetaDescriptionTemplate = (
    title: "SEO Meta-Description Generator",
    description:
       "Erstellen Sie klickstarke Meta-Descriptions und Title-Tags für bessere Rankings und höhere CTR.",
-   recommendedModel: "ChatGPT",
+   model: {
+      connectOrCreate: {
+         where: { userId_name: { userId, name: "ChatGPT" } },
+         create: { name: "ChatGPT", userId },
+      },
+   },
    categories: {
       connectOrCreate: promptCategories(userId, [
          "Copywriting",

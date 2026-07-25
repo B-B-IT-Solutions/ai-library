@@ -3,21 +3,16 @@
 import { Control } from "react-hook-form";
 
 import {
+   FormComboBoxLoadableValue,
    FormComboBoxLoadableValues,
    FormInput,
-   FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { infiniteLoadPromptCategoriesPageOptions } from "@/data/ts-queries/prompt";
+import {
+   infiniteLoadPromptCategoriesPageOptions,
+   infiniteLoadPromptModelsPageOptions,
+} from "@/data/ts-queries/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-
-const RECOMMENDED_MODELS = [
-   "Claude",
-   "ChatGPT",
-   "Gemini",
-   "Perplexity",
-   "Midjourney",
-];
 
 type Props = {
    control: Control<DPromptUpdate>;
@@ -42,10 +37,11 @@ export const BasicInfo = ({ control }: Props) => {
             rows={3}
             control={control}
          />
-         <FormSelect<DPromptUpdate>
-            name="recommendedModel"
-            label="Empfohlenes Modell"
-            options={RECOMMENDED_MODELS}
+         <FormComboBoxLoadableValue<DPromptUpdate>
+            name="model"
+            label="KI Modell"
+            placeholder="Modell auswählen oder erstellen"
+            queryOptions={infiniteLoadPromptModelsPageOptions}
             control={control}
          />
          <FormComboBoxLoadableValues<DPromptUpdate>

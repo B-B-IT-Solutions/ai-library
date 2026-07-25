@@ -1,11 +1,12 @@
 ﻿import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
-import { map, uniq } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
    DPromptCategoriesPage,
+   DPromptModelsPage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -26,6 +27,12 @@ import {
    PromptDeleteArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
+   PromptModelCountArgs,
+   PromptModelCreateArgs,
+   PromptModelDeleteArgs,
+   PromptModelFindFirstArgs,
+   PromptModelFindManyArgs,
+   PromptModelUpdateArgs,
    PromptUpdateArgs,
    PromptUpdateInput,
    PromptWhereInput,
@@ -35,12 +42,13 @@ import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
    toDPromptCategoryWithUsage,
+   toDPromptModelsWithUsage,
    toDPromptPreviews,
    toDPrompts,
    toDPromptWithContent,
 } from "./prompt.mapper";
 import { PromptRepository } from "./prompt.user.repository";
-import { resolveCategoriesWhereInput } from "./utils";
+import { resolveCategoriesWhereInput, resolveModelsWhereInput } from "./utils";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -73,6 +81,7 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -119,6 +128,7 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "asc" },
          skip: 20,
@@ -165,6 +175,7 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { title: "asc" },
          skip: 0,
@@ -211,6 +222,7 @@ describe("pGetPromptsPage tests", () => {
          where: { userId },
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { title: "desc" },
          skip: 20,
@@ -440,6 +452,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -486,6 +499,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -519,6 +533,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -545,13 +560,14 @@ describe("resolveWhereInput tests", () => {
 
       const expectedWhere: PromptWhereInput = {
          userId,
-         recommendedModel: { in: ["gpt-4", "claude"] },
+         model: { name: { in: ["gpt-4", "claude"] } },
       };
 
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -585,6 +601,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -618,6 +635,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -653,6 +671,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -687,6 +706,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -729,7 +749,7 @@ describe("resolveWhereInput tests", () => {
          categories: {
             some: { name: { in: filter.categories } },
          },
-         recommendedModel: { in: filter.models },
+         model: { name: { in: filter.models } },
          isFavorite: filter.isFavorite,
          collectionEntries: {
             some: { collectionId: { in: filter.collectionIds } },
@@ -740,6 +760,7 @@ describe("resolveWhereInput tests", () => {
          where: expectedWhere,
          include: {
             categories: true,
+            model: true,
          },
          orderBy: { createdAt: "desc" },
          skip: 0,
@@ -773,6 +794,7 @@ describe("pGetPrompt tests", () => {
          where: { id, userId },
          include: {
             categories: true,
+            model: true,
          },
       };
       expect(result).toBeNull();
@@ -794,6 +816,7 @@ describe("pGetPrompt tests", () => {
          where: { id, userId },
          include: {
             categories: true,
+            model: true,
          },
       };
       expect(result).toEqual(expectedResult);
@@ -819,6 +842,7 @@ describe("pGetPromptContent tests", () => {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },
@@ -842,6 +866,7 @@ describe("pGetPromptContent tests", () => {
          include: {
             content: true,
             categories: true,
+            model: true,
             fields: true,
             globalFields: true,
          },
@@ -870,7 +895,17 @@ describe("pCreatePrompt tests", () => {
       const expectedInput: PromptCreateInput = {
          title: data.title,
          description: data.description,
-         recommendedModel: data.recommendedModel,
+         model: {
+            connectOrCreate: {
+               where: {
+                  userId_name: { userId, name: data.model },
+               },
+               create: {
+                  name: data.model,
+                  userId,
+               },
+            },
+         },
          categories: {
             connectOrCreate: map(data.categories, (catName: string) => ({
                where: {
@@ -916,6 +951,7 @@ describe("pCreatePrompt tests", () => {
          data: expectedInput,
          include: {
             categories: true,
+            model: true,
          },
       };
 
@@ -940,7 +976,12 @@ describe("pUpdatePrompt tests", () => {
       const expectedInput: PromptUpdateInput = {
          title: data.title,
          description: data.description,
-         recommendedModel: data.recommendedModel,
+         model: {
+            connectOrCreate: {
+               where: { userId_name: { userId, name: data.model } },
+               create: { name: data.model, userId },
+            },
+         },
          categories: {
             set: [],
             connectOrCreate: map(data.categories, (catName) => ({
@@ -1386,32 +1427,322 @@ describe("pPromptCategoryExists tests", () => {
    });
 });
 
-describe("pGetTemplateModels tests", () => {
+describe("pGetPromptModels tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    test("models retrieved - test", async () => {
       const userId = "user-id-1";
-      const descriptors = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(descriptors);
+      const models = ptestData.pPromptModels();
+      prismaMock.promptModel.findMany.mockResolvedValue(models);
 
       const result = await repository.pGetPromptModels(userId);
 
-      const expecteModels = map(descriptors, (d) => d.recommendedModel);
-      const expectedResult = uniq(expecteModels).sort();
+      const expectedResult = map(models, (m) => m.name);
 
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptModelFindManyArgs = {
          where: { userId },
          select: {
-            recommendedModel: true,
+            name: true,
+         },
+         orderBy: {
+            name: "asc",
          },
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetPromptModelsPage tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("query undefined - test", async () => {
+      const userId = "user-id-1";
+      const models = ptestData.pPromptModels(3);
+      const modelNames = map(models, (m) => m.name);
+      const totalEntries = 15;
+      prismaMock.promptModel.findMany.mockResolvedValue(models);
+      prismaMock.promptModel.count.mockResolvedValue(totalEntries);
+
+      const result = await repository.pGetPromptModelsPage(userId);
+
+      const expectedResult: DPromptModelsPage = {
+         content: modelNames,
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: modelNames.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere = resolveModelsWhereInput(userId);
+      const expectedFindManyArgs: PromptModelFindManyArgs = {
+         where: expectedWhere,
+         select: {
+            name: true,
+         },
+         orderBy: { name: "asc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptModelCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptModel.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("query defined - test", async () => {
+      const userId = "user-id-1";
+      const models = ptestData.pPromptModels(1);
+      const modelNames = map(models, (m) => m.name);
+      const totalEntries = 10;
+      prismaMock.promptModel.findMany.mockResolvedValue(models);
+      prismaMock.promptModel.count.mockResolvedValue(totalEntries);
+
+      const query = dtestData.dPromptModelsPageQuery();
+
+      const result = await repository.pGetPromptModelsPage(userId, query);
+
+      const expectedResult: DPromptModelsPage = {
+         content: modelNames,
+         pageNumber: 1,
+         pageSize: 10,
+         numberOfElements: modelNames.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedWhere = resolveModelsWhereInput(userId, query.filter);
+
+      const expectedFindManyArgs: PromptModelFindManyArgs = {
+         where: expectedWhere,
+         select: {
+            name: true,
+         },
+         orderBy: { name: "asc" },
+         skip: 10,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptModelCountArgs = {
+         where: expectedWhere,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptModel.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+});
+
+describe("pGetPromptModelsWithUsage tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("models retrieved - test", async () => {
+      const userId = "user-id-1";
+      const models = ptestData.pPromptModelsWithUsage();
+
+      prismaMock.promptModel.findMany.mockResolvedValue(models);
+
+      const result = await repository.pGetPromptModelsWithUsage(userId);
+
+      const expectedResult = toDPromptModelsWithUsage(models);
+
+      const expectedArgs: PromptModelFindManyArgs = {
+         where: { userId },
+         select: {
+            id: true,
+            name: true,
+            _count: {
+               select: { prompts: true },
+            },
+         },
+         orderBy: { name: "asc" },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pCreatePromptModel tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("model created - test", async () => {
+      const userId = "user-id-1";
+
+      const update = dtestData.dPromptModelUpdate();
+
+      await repository.pCreatePromptModel(userId, update);
+
+      const expectedArgs: PromptModelCreateArgs = {
+         data: {
+            userId,
+            name: update.name,
+         },
+      };
+
+      expect(prismaMock.promptModel.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.create).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pUpdatePromptModel tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("model renamed - test", async () => {
+      const userId = "user-id-1";
+      const modelId = 1;
+
+      const update = dtestData.dPromptModelUpdate();
+      await repository.pUpdatePromptModel(userId, modelId, update);
+
+      const expectedArgs: PromptModelUpdateArgs = {
+         where: { id: modelId, userId },
+         data: { name: update.name },
+      };
+
+      expect(prismaMock.promptModel.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.update).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pDeletePromptModel tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("model deleted - test", async () => {
+      const userId = "user-id-1";
+      const modelId = 1;
+
+      await repository.pDeletePromptModel(userId, modelId);
+
+      const expectedArgs: PromptModelDeleteArgs = {
+         where: { id: modelId, userId },
+      };
+
+      expect(prismaMock.promptModel.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.delete).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
+describe("pPromptModelExists tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("name exists - true - test", async () => {
+      const userId = "user-id-1";
+      const name = "model 1";
+      const excludeModelId = 1;
+
+      const model = ptestData.pPromptModel();
+      prismaMock.promptModel.findFirst.mockResolvedValue(model);
+
+      const result = await repository.pPromptModelExists(
+         userId,
+         name,
+         excludeModelId
+      );
+
+      const expectedArgs: PromptModelFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: { not: excludeModelId },
+         },
+         select: { id: true },
+      };
+
+      expect(result).toBe(true);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   test("name exists - false - test", async () => {
+      const userId = "user-id-1";
+      const name = "GPT-4";
+      const excludeModelId = 1;
+
+      prismaMock.promptModel.findFirst.mockResolvedValue(null);
+
+      const result = await repository.pPromptModelExists(
+         userId,
+         name,
+         excludeModelId
+      );
+
+      const expectedArgs: PromptModelFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+            id: { not: excludeModelId },
+         },
+         select: { id: true },
+      };
+
+      expect(result).toBe(false);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   test("excludeModelId not provided - id filter omitted - test", async () => {
+      const userId = "user-id-1";
+      const name = "model 1";
+
+      prismaMock.promptModel.findFirst.mockResolvedValue(null);
+
+      const result = await repository.pPromptModelExists(userId, name);
+
+      const expectedArgs: PromptModelFindFirstArgs = {
+         where: {
+            userId,
+            name: { equals: name, mode: "insensitive" },
+         },
+         select: { id: true },
+      };
+
+      expect(result).toBe(false);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptModel.findFirst).toHaveBeenCalledWith(
+         expectedArgs
       );
    });
 });

@@ -7,6 +7,10 @@ import {
    DPromptCategoriesPageQuery,
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
+   DPromptModelUpdate,
+   DPromptModelWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -25,7 +29,7 @@ import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
 
-import { CategoryNameConflictError } from "./errors";
+import { NameConflictError } from "./errors";
 import { resolveAllTemplateFields } from "./utils";
 
 export class PromptService {
@@ -169,7 +173,7 @@ export class PromptService {
       return {
          content: content,
          title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
+         recommendedModel: descriptor.model,
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
@@ -195,7 +199,7 @@ export class PromptService {
             title: descriptor.title,
             content: template.content,
             categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
+            recommendedModel: descriptor.model,
          },
          null,
          2
@@ -258,7 +262,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new CategoryNameConflictError(name);
+         throw new NameConflictError("Kategorie", name);
       }
 
       await this.repository.pCreatePromptCategory(userId, data);
@@ -277,7 +281,7 @@ export class PromptService {
       );
 
       if (isConflict) {
-         throw new CategoryNameConflictError(name);
+         throw new NameConflictError("Kategorie", name);
       }
 
       await this.repository.pUpdatePromptCategory(userId, categoryId, data);
@@ -305,5 +309,72 @@ export class PromptService {
 
    async getPromptModels(userId: string): Promise<string[]> {
       return await this.repository.pGetPromptModels(userId);
+   }
+
+   async getPromptModelsPage(
+      userId: string,
+      query?: DPromptModelsPageQuery
+   ): Promise<DPromptModelsPage> {
+      return await this.repository.pGetPromptModelsPage(userId, query);
+   }
+
+   async getPromptModelsWithUsage(
+      userId: string
+   ): Promise<DPromptModelWithUsage[]> {
+      return await this.repository.pGetPromptModelsWithUsage(userId);
+   }
+
+   async createPromptModel(
+      userId: string,
+      data: DPromptModelUpdate
+   ): Promise<void> {
+      const { name } = data;
+      const isConflict = await this.isConflictingPromptModelName(
+         userId,
+         undefined,
+         name
+      );
+
+      if (isConflict) {
+         throw new NameConflictError("Modell", name);
+      }
+
+      await this.repository.pCreatePromptModel(userId, data);
+   }
+
+   async updatePromptModel(
+      userId: string,
+      modelId: number,
+      data: DPromptModelUpdate
+   ): Promise<void> {
+      const { name } = data;
+      const isConflict = await this.isConflictingPromptModelName(
+         userId,
+         modelId,
+         name
+      );
+
+      if (isConflict) {
+         throw new NameConflictError("Modell", name);
+      }
+
+      await this.repository.pUpdatePromptModel(userId, modelId, data);
+   }
+
+   async deletePromptModel(userId: string, modelId: number): Promise<void> {
+      await this.repository.pDeletePromptModel(userId, modelId);
+   }
+
+   async isConflictingPromptModelName(
+      userId: string,
+      modelId: number | undefined,
+      name: string
+   ): Promise<boolean> {
+      const trimmedName = trim(name);
+      return await this.repository.pPromptModelExists(
+         userId,
+         trimmedName,
+         modelId
+      );
    }
 }

@@ -34,11 +34,16 @@ export const categorySchema = z
    .min(1, "Kategorie darf nicht leer sein")
    .max(50, `Kategorie zu lang (maximal 50 Zeichen)`);
 
+export const modelSchema = z
+   .string()
+   .trim()
+   .max(50, `Modell zu lang (maximal 50 Zeichen)`);
+
 export const updateTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string(),
    content: z.string(),
-   recommendedModel: z.string(),
+   model: modelSchema,
    categories: z
       .array(categorySchema)
       .max(5, `Maximal 5 Kategorien pro Prompt`),
@@ -48,4 +53,8 @@ export const updateTemplateSchema = z.object({
 
 export const updatePromptCategorySchema = z.object({
    name: categorySchema,
+});
+
+export const updatePromptModelSchema = z.object({
+   name: modelSchema.min(1, "Modell darf nicht leer sein"),
 });

@@ -72,7 +72,7 @@ const TestWrapper = ({
          title: "",
          description: "",
          content: "",
-         recommendedModel: "Claude",
+         model: "Claude",
          categories: [],
          fields: map(fields, existingTemplateFieldInitValues),
          globalFieldIds: [],

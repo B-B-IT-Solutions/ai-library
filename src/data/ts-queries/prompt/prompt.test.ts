@@ -14,6 +14,7 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import {
    getPromptCategoriesPage,
    getPromptGenerationData,
+   getPromptModelsPage,
    getPromptPreviewsPage,
    getPromptsPage,
    togglePromptFavorite,
@@ -21,6 +22,8 @@ import {
 import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -31,11 +34,13 @@ import { ActionResult } from "@/data/types/utils";
 
 import {
    infiniteLoadPromptCategoriesPageOptions,
+   infiniteLoadPromptModelsPageOptions,
    infiniteLoadPromptPreviewsPageOptions,
    infiniteLoadPromptsPageOptions,
    loadPromptTemplatingDataOptions,
    toggleFavoriteOptions,
    useInfiniteLoadPromptCategoriesPage,
+   useInfiniteLoadPromptModelsPage,
    useInfiniteLoadPromptPreviewsPage,
    useInfiniteLoadPromptsPage,
    useLoadPromptTemplatingData,
@@ -60,6 +65,10 @@ const getPromptCategoriesPageMock =
    getPromptCategoriesPage as jest.MockedFunction<
       typeof getPromptCategoriesPage
    >;
+
+const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
+   typeof getPromptModelsPage
+>;
 
 const getPromptGenerationDataMock =
    getPromptGenerationData as jest.MockedFunction<
@@ -243,6 +252,61 @@ describe("loadPromptCategoriesPage hooks tests", () => {
          expect(getPromptCategoriesPageMock).toHaveBeenCalledWith(
             expectedQuery
          );
+      });
+   });
+});
+
+describe("loadPromptModelsPage hooks tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("infiniteLoadPromptModelsPageOptions - test", async () => {
+      const search = "mark";
+
+      const expectedOptions: UndefinedInitialDataInfiniteOptions<
+         DPromptModelsPage,
+         Error,
+         InfiniteData<DPromptModelsPage>,
+         QueryKey,
+         number
+      > = {
+         queryKey: ["prompts", "models", { search }],
+         queryFn: jest.fn(),
+         initialPageParam: 0,
+         getNextPageParam: jest.fn(),
+         placeholderData: keepPreviousData,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = infiniteLoadPromptModelsPageOptions(search);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useInfiniteLoadPromptModelsPage test", async () => {
+      const page = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(page);
+
+      const search = "search - 1";
+
+      const { result } = renderHookWithReactQuery(() =>
+         useInfiniteLoadPromptModelsPage(search)
+      );
+
+      const expectedQuery: DPromptModelsPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: { search },
+      };
+
+      await waitFor(() => {
+         expect(result.current.data?.pageParams).toEqual([0]);
+         expect(result.current.data?.pages).toHaveLength(1);
+         expect(result.current.data?.pages[0]).toEqual(page);
+         expect(getPromptModelsPageMock).toHaveBeenCalledTimes(1);
+         expect(getPromptModelsPageMock).toHaveBeenCalledWith(expectedQuery);
       });
    });
 });

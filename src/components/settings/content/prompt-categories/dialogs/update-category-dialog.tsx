@@ -23,9 +23,10 @@ import {
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
 } from "@/data/types/domain/prompt";
-import { initPromptCategory } from "../utils";
-
-import { updateCategorySchemaBackendValidation } from "./update-category.schema";
+import {
+   initPromptCategory,
+   updateCategorySchemaBackendValidation,
+} from "../utils";
 
 type Props = {
    open: boolean;
@@ -84,9 +85,9 @@ export const UpdateCategoryDialog = ({ open, onClose, category }: Props) => {
             <DialogHeader>
                <DialogTitle>Kategorie umbenennen</DialogTitle>
                <DialogDescription>
-                  Benenne die Kategorie <strong>{category.name}</strong> um.
-                  Die Änderung wirkt sich auf alle Prompts aus, die dieser
-                  Kategorie zugeordnet sind.
+                  Benenne die Kategorie <strong>{category.name}</strong> um. Die
+                  Änderung wirkt sich auf alle Prompts aus, die dieser Kategorie
+                  zugeordnet sind.
                </DialogDescription>
             </DialogHeader>
             <Form {...form}>

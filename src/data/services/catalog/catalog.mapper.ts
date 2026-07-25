@@ -18,7 +18,7 @@ export const toPromptUpdate = (
       title: entry.title,
       description: entry.description,
       content: entry.content,
-      recommendedModel: entry.recommendedModel,
+      model: entry.recommendedModel,
       categories: entry.category ? [entry.category.name] : [],
       fields,
       globalFieldIds: [],

@@ -2,6 +2,7 @@
 import { map } from "es-toolkit/compat";
 
 import {
+   PromptModelWithUsage,
    PromptPreview,
    PromptWithCategories,
    PromptWithContent,
@@ -9,6 +10,7 @@ import {
 import { PromptCategoryWithUsage } from "@/data/types/db/prompt";
 import {
    DPrompt,
+   DPromptModelWithUsage,
    DPromptPreview,
    DPromptVariable,
    DPromptWithContent,
@@ -20,6 +22,8 @@ import {
    toDPrompt,
    toDPromptCategoriesWithUsage,
    toDPromptCategoryWithUsage,
+   toDPromptModelsWithUsage,
+   toDPromptModelWithUsage,
    toDPromptPreview,
    toDPromptPreviews,
    toDPrompts,
@@ -50,7 +54,7 @@ const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
       id: prompt.id,
       title: prompt.title,
       description: prompt.description,
-      recommendedModel: prompt.recommendedModel,
+      model: prompt.model?.name ?? "",
       isFavorite: prompt.isFavorite,
       categories: prompt.categories,
       fields: [],
@@ -112,6 +116,22 @@ export const toDPromptCategoryWithUsageInternal = (
    };
 };
 
+export const toDPromptModelsWithUsageInternal = (
+   models: PromptModelWithUsage[]
+): DPromptModelWithUsage[] => {
+   return map(models, toDPromptModelWithUsageInternal);
+};
+
+export const toDPromptModelWithUsageInternal = (
+   model: PromptModelWithUsage
+): DPromptModelWithUsage => {
+   return {
+      id: model.id,
+      name: model.name,
+      count: model._count.prompts,
+   };
+};
+
 describe("prompt mappers tests", () => {
    it("toDPromptPreviews test", async () => {
       const prompts = ptestData.pPromptPreviews();
@@ -143,6 +163,7 @@ describe("prompt mappers tests", () => {
 
    it("toDPromptWithContent test", async () => {
       const prompt = ptestData.pPromptWithContent();
+      prompt.model = null;
       const result = toDPromptWithContent(prompt);
       const expectedResult = toDPromptWithContentInternal(prompt);
       expect(result).toEqual(expectedResult);
@@ -159,6 +180,20 @@ describe("prompt mappers tests", () => {
       const category = ptestData.pPromptCategoryWithUsage();
       const result = toDPromptCategoryWithUsage(category);
       const expectedResult = toDPromptCategoryWithUsageInternal(category);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptModelsWithUsage test", async () => {
+      const models = ptestData.pPromptModelsWithUsage();
+      const result = toDPromptModelsWithUsage(models);
+      const expectedResult = toDPromptModelsWithUsageInternal(models);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDPromptModelWithUsage test", async () => {
+      const model = ptestData.pPromptModelWithUsage();
+      const result = toDPromptModelWithUsage(model);
+      const expectedResult = toDPromptModelWithUsageInternal(model);
       expect(result).toEqual(expectedResult);
    });
 });

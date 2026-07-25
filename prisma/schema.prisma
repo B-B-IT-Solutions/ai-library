@@ -40,6 +40,7 @@ model User {
   promptDescriptors         Prompt0[]
   promptCategories          Prompt0Category[]
   promptTemplateCategories  PromptCategory[]
+  promptModels              PromptModel[]
   prompts                   Prompt[]
   workflows                 Workflow[]
 
@@ -164,17 +165,18 @@ model Prompt0FollowUp {
 }
 
 model Prompt {
-  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId           String           @map("user_id") @db.Uuid
-  title            String           @db.VarChar(250)
-  description      String           @db.VarChar(750)
-  categories       PromptCategory[]
-  recommendedModel String           @map("recommended_model") @db.VarChar(250)
-  isFavorite       Boolean          @default(false) @map("is_favorite")
-  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime         @updatedAt @map("updated_at")
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String           @map("user_id") @db.Uuid
+  title       String           @db.VarChar(250)
+  description String           @db.VarChar(750)
+  categories  PromptCategory[]
+  modelId     Int?             @map("model_id")
+  isFavorite  Boolean          @default(false) @map("is_favorite")
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime         @updatedAt @map("updated_at")
 
   user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  model             PromptModel?             @relation(fields: [modelId], references: [id], onDelete: SetNull)
   content           PromptContent?
   fields            PromptField[]
   globalFields      PromptGlobalField[]
@@ -250,6 +252,18 @@ model PromptCategory {
   @@unique([userId, name])
   @@index([userId])
   @@map("prompt_category")
+}
+
+model PromptModel {
+  id      Int      @id @default(autoincrement())
+  userId  String   @map("user_id") @db.Uuid
+  name    String   @db.VarChar(250)
+  prompts Prompt[]
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("prompt_model")
 }
 
 model GlobalPromptField {

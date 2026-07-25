@@ -101,7 +101,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
       return some(values, (v) => normalize(v) === normalize(value));
    };
 
-   const canCreateNewCategorey = () => {
+   const canCreateNewValue = () => {
       return (
          !isEmpty(trimmedSearch) &&
          !some(options, (o) => normalize(o) === normalize(trimmedSearch)) &&
@@ -111,7 +111,7 @@ export const FormComboBoxLoadableValues = <T extends FieldValues>({
       );
    };
 
-   const canCreate = canCreateNewCategorey();
+   const canCreate = canCreateNewValue();
 
    const addValue = (value: string) => {
       const newValue = trim(value);

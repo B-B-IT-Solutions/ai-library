@@ -26,6 +26,7 @@ import {
 } from "@/data/types/db/product";
 import {
    PromptCategoryWithUsage,
+   PromptModelWithUsage,
    PromptPreview,
    PromptWithCategories,
    PromptWithContent,
@@ -65,6 +66,7 @@ import {
    PromptContent,
    PromptField,
    PromptGlobalField,
+   PromptModel,
    Subscription,
    SubscriptionHistory,
    SubscriptionPlan,
@@ -516,6 +518,7 @@ export const pPromptWithCategories = (index = 1): PromptWithCategories => {
    return {
       ...templateDescriptor,
       categories,
+      model: pPromptModel(index),
    };
 };
 
@@ -540,7 +543,7 @@ export const pPrompt = (index = 1): Prompt => {
       userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       title: `title ${index}`,
       description: `description ${index}`,
-      recommendedModel: `model ${index}`,
+      modelId: index,
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
@@ -551,6 +554,7 @@ export const pPromptWithRelations = (index = 1): PromptWithRelations => {
    return {
       ...pPrompt(index),
       categories: pPromptCategories(index),
+      model: pPromptModel(index),
       fields: pPromptFields(3),
       globalFields: pPromptGlobalFields(),
    };
@@ -615,6 +619,34 @@ export const pPromptCategory = (index = 1): PromptCategory => {
       id: Math.random(),
       userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       name: `category ${index}`,
+   };
+};
+
+export const pPromptModelsWithUsage = (
+   count = 3
+): PromptModelWithUsage[] => {
+   return range(0, count).map((i) => pPromptModelWithUsage(i));
+};
+
+export const pPromptModelWithUsage = (index = 1): PromptModelWithUsage => {
+   return {
+      id: Math.random(),
+      name: `model ${index}`,
+      _count: {
+         prompts: index + 10,
+      },
+   };
+};
+
+export const pPromptModels = (count = 3): PromptModel[] => {
+   return range(0, count).map((i) => pPromptModel(i));
+};
+
+export const pPromptModel = (index = 1): PromptModel => {
+   return {
+      id: index,
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
+      name: `model ${index}`,
    };
 };
 

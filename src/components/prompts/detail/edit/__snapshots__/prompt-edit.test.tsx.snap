@@ -134,17 +134,17 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_14_-form-item"
+                    for="_r_f_-form-item"
                   >
                     Titel
                   </label>
                   <input
-                    aria-describedby="_r_14_-form-item-description"
+                    aria-describedby="_r_f_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_14_-form-item"
+                    id="_r_f_-form-item"
                     name="title"
                     placeholder="Geben Sie den Titel des Prompts ein"
                     value="title 1"
@@ -159,17 +159,17 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_15_-form-item"
+                    for="_r_g_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_15_-form-item-description"
+                    aria-describedby="_r_g_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_15_-form-item"
+                    id="_r_g_-form-item"
                     name="description"
                     placeholder="Beschreiben Sie den Zweck dieses Prompts"
                     rows="3"
@@ -180,39 +180,39 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
-                  data-testid="recommendedModel"
+                  data-testid="model"
                 >
                   <label
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_16_-form-item"
+                    for="_r_h_-form-item"
                   >
-                    Empfohlenes Modell
+                    KI Modell
                   </label>
                   <div
-                    class="relative"
+                    data-slot="popover"
+                    data-testid="mock-react-popover-root"
                   >
                     <button
-                      aria-autocomplete="none"
-                      aria-controls="radix-_r_17_"
+                      aria-describedby="_r_h_-form-item-description"
                       aria-expanded="false"
-                      class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
-                      data-size="default"
-                      data-slot="select-trigger"
-                      data-state="closed"
-                      data-testid="recommendedModel-trigger"
-                      dir="ltr"
+                      aria-invalid="false"
+                      class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                      data-slot="popover-trigger"
+                      data-testid="combobox-trigger"
+                      id="_r_h_-form-item"
                       role="combobox"
                       type="button"
                     >
                       <span
-                        data-slot="select-value"
-                        style="pointer-events: none;"
-                      />
+                        class="truncate"
+                      >
+                        model 1
+                      </span>
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-chevron-down size-4 opacity-50"
+                        class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -224,45 +224,16 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="m6 9 6 6 6-6"
+                          d="m7 15 5 5 5-5"
+                        />
+                        <path
+                          d="m7 9 5-5 5 5"
                         />
                       </svg>
                     </button>
                     <div
-                      data-testid="mock-react-portal"
+                      data-testid="mock-react-popover-portal"
                     />
-                    <select
-                      aria-hidden="true"
-                      name="recommendedModel"
-                      style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                      tabindex="-1"
-                    >
-                      <option
-                        value="Claude"
-                      >
-                        Claude
-                      </option>
-                      <option
-                        value="ChatGPT"
-                      >
-                        ChatGPT
-                      </option>
-                      <option
-                        value="Gemini"
-                      >
-                        Gemini
-                      </option>
-                      <option
-                        value="Perplexity"
-                      >
-                        Perplexity
-                      </option>
-                      <option
-                        value="Midjourney"
-                      >
-                        Midjourney
-                      </option>
-                    </select>
                   </div>
                 </div>
                 <div
@@ -274,7 +245,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection defined - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_18_-form-item"
+                    for="_r_i_-form-item"
                   >
                     Kategorien
                   </label>
@@ -720,17 +691,17 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_o_-form-item"
+                    for="_r_a_-form-item"
                   >
                     Titel
                   </label>
                   <input
-                    aria-describedby="_r_o_-form-item-description"
+                    aria-describedby="_r_a_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_o_-form-item"
+                    id="_r_a_-form-item"
                     name="title"
                     placeholder="Geben Sie den Titel des Prompts ein"
                     value="title 1"
@@ -745,17 +716,17 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_p_-form-item"
+                    for="_r_b_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_p_-form-item-description"
+                    aria-describedby="_r_b_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_p_-form-item"
+                    id="_r_b_-form-item"
                     name="description"
                     placeholder="Beschreiben Sie den Zweck dieses Prompts"
                     rows="3"
@@ -766,39 +737,39 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
-                  data-testid="recommendedModel"
+                  data-testid="model"
                 >
                   <label
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_q_-form-item"
+                    for="_r_c_-form-item"
                   >
-                    Empfohlenes Modell
+                    KI Modell
                   </label>
                   <div
-                    class="relative"
+                    data-slot="popover"
+                    data-testid="mock-react-popover-root"
                   >
                     <button
-                      aria-autocomplete="none"
-                      aria-controls="radix-_r_r_"
+                      aria-describedby="_r_c_-form-item-description"
                       aria-expanded="false"
-                      class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
-                      data-size="default"
-                      data-slot="select-trigger"
-                      data-state="closed"
-                      data-testid="recommendedModel-trigger"
-                      dir="ltr"
+                      aria-invalid="false"
+                      class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                      data-slot="popover-trigger"
+                      data-testid="combobox-trigger"
+                      id="_r_c_-form-item"
                       role="combobox"
                       type="button"
                     >
                       <span
-                        data-slot="select-value"
-                        style="pointer-events: none;"
-                      />
+                        class="truncate"
+                      >
+                        model 1
+                      </span>
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-chevron-down size-4 opacity-50"
+                        class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -810,45 +781,16 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="m6 9 6 6 6-6"
+                          d="m7 15 5 5 5-5"
+                        />
+                        <path
+                          d="m7 9 5-5 5 5"
                         />
                       </svg>
                     </button>
                     <div
-                      data-testid="mock-react-portal"
+                      data-testid="mock-react-popover-portal"
                     />
-                    <select
-                      aria-hidden="true"
-                      name="recommendedModel"
-                      style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                      tabindex="-1"
-                    >
-                      <option
-                        value="Claude"
-                      >
-                        Claude
-                      </option>
-                      <option
-                        value="ChatGPT"
-                      >
-                        ChatGPT
-                      </option>
-                      <option
-                        value="Gemini"
-                      >
-                        Gemini
-                      </option>
-                      <option
-                        value="Perplexity"
-                      >
-                        Perplexity
-                      </option>
-                      <option
-                        value="Midjourney"
-                      >
-                        Midjourney
-                      </option>
-                    </select>
                   </div>
                 </div>
                 <div
@@ -860,7 +802,7 @@ exports[`PromptEdit rendering tests edit existing entry - collection undefined -
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_s_-form-item"
+                    for="_r_d_-form-item"
                   >
                     Kategorien
                   </label>
@@ -1306,17 +1248,17 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_c_-form-item"
+                    for="_r_5_-form-item"
                   >
                     Titel
                   </label>
                   <input
-                    aria-describedby="_r_c_-form-item-description"
+                    aria-describedby="_r_5_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_c_-form-item"
+                    id="_r_5_-form-item"
                     name="title"
                     placeholder="Geben Sie den Titel des Prompts ein"
                     value=""
@@ -1331,17 +1273,17 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_d_-form-item"
+                    for="_r_6_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_d_-form-item-description"
+                    aria-describedby="_r_6_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_d_-form-item"
+                    id="_r_6_-form-item"
                     name="description"
                     placeholder="Beschreiben Sie den Zweck dieses Prompts"
                     rows="3"
@@ -1350,41 +1292,39 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
-                  data-testid="recommendedModel"
+                  data-testid="model"
                 >
                   <label
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_e_-form-item"
+                    for="_r_7_-form-item"
                   >
-                    Empfohlenes Modell
+                    KI Modell
                   </label>
                   <div
-                    class="relative"
+                    data-slot="popover"
+                    data-testid="mock-react-popover-root"
                   >
                     <button
-                      aria-autocomplete="none"
-                      aria-controls="radix-_r_f_"
+                      aria-describedby="_r_7_-form-item-description"
                       aria-expanded="false"
-                      class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
-                      data-size="default"
-                      data-slot="select-trigger"
-                      data-state="closed"
-                      data-testid="recommendedModel-trigger"
-                      dir="ltr"
+                      aria-invalid="false"
+                      class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                      data-slot="popover-trigger"
+                      data-testid="combobox-trigger"
+                      id="_r_7_-form-item"
                       role="combobox"
                       type="button"
                     >
                       <span
-                        data-slot="select-value"
-                        style="pointer-events: none;"
+                        class="truncate text-muted-foreground"
                       >
-                        Claude
+                        Modell auswählen oder erstellen
                       </span>
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-chevron-down size-4 opacity-50"
+                        class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -1396,46 +1336,16 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="m6 9 6 6 6-6"
+                          d="m7 15 5 5 5-5"
+                        />
+                        <path
+                          d="m7 9 5-5 5 5"
                         />
                       </svg>
                     </button>
                     <div
-                      data-testid="mock-react-portal"
+                      data-testid="mock-react-popover-portal"
                     />
-                    <select
-                      aria-hidden="true"
-                      name="recommendedModel"
-                      style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                      tabindex="-1"
-                    >
-                      <option
-                        selected=""
-                        value="Claude"
-                      >
-                        Claude
-                      </option>
-                      <option
-                        value="ChatGPT"
-                      >
-                        ChatGPT
-                      </option>
-                      <option
-                        value="Gemini"
-                      >
-                        Gemini
-                      </option>
-                      <option
-                        value="Perplexity"
-                      >
-                        Perplexity
-                      </option>
-                      <option
-                        value="Midjourney"
-                      >
-                        Midjourney
-                      </option>
-                    </select>
                   </div>
                 </div>
                 <div
@@ -1447,7 +1357,7 @@ exports[`PromptEdit rendering tests new entry - collection defined - test 1`] = 
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_g_-form-item"
+                    for="_r_8_-form-item"
                   >
                     Kategorien
                   </label>
@@ -1822,7 +1732,7 @@ exports[`PromptEdit rendering tests new entry - collection undefined - test 1`] 
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
-                  data-testid="recommendedModel"
+                  data-testid="model"
                 >
                   <label
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
@@ -1830,33 +1740,31 @@ exports[`PromptEdit rendering tests new entry - collection undefined - test 1`] 
                     data-slot="form-label"
                     for="_r_2_-form-item"
                   >
-                    Empfohlenes Modell
+                    KI Modell
                   </label>
                   <div
-                    class="relative"
+                    data-slot="popover"
+                    data-testid="mock-react-popover-root"
                   >
                     <button
-                      aria-autocomplete="none"
-                      aria-controls="radix-_r_3_"
+                      aria-describedby="_r_2_-form-item-description"
                       aria-expanded="false"
-                      class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
-                      data-size="default"
-                      data-slot="select-trigger"
-                      data-state="closed"
-                      data-testid="recommendedModel-trigger"
-                      dir="ltr"
+                      aria-invalid="false"
+                      class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                      data-slot="popover-trigger"
+                      data-testid="combobox-trigger"
+                      id="_r_2_-form-item"
                       role="combobox"
                       type="button"
                     >
                       <span
-                        data-slot="select-value"
-                        style="pointer-events: none;"
+                        class="truncate text-muted-foreground"
                       >
-                        Claude
+                        Modell auswählen oder erstellen
                       </span>
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-chevron-down size-4 opacity-50"
+                        class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -1868,46 +1776,16 @@ exports[`PromptEdit rendering tests new entry - collection undefined - test 1`] 
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="m6 9 6 6 6-6"
+                          d="m7 15 5 5 5-5"
+                        />
+                        <path
+                          d="m7 9 5-5 5 5"
                         />
                       </svg>
                     </button>
                     <div
-                      data-testid="mock-react-portal"
+                      data-testid="mock-react-popover-portal"
                     />
-                    <select
-                      aria-hidden="true"
-                      name="recommendedModel"
-                      style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                      tabindex="-1"
-                    >
-                      <option
-                        selected=""
-                        value="Claude"
-                      >
-                        Claude
-                      </option>
-                      <option
-                        value="ChatGPT"
-                      >
-                        ChatGPT
-                      </option>
-                      <option
-                        value="Gemini"
-                      >
-                        Gemini
-                      </option>
-                      <option
-                        value="Perplexity"
-                      >
-                        Perplexity
-                      </option>
-                      <option
-                        value="Midjourney"
-                      >
-                        Midjourney
-                      </option>
-                    </select>
                   </div>
                 </div>
                 <div
@@ -1919,7 +1797,7 @@ exports[`PromptEdit rendering tests new entry - collection undefined - test 1`] 
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_4_-form-item"
+                    for="_r_3_-form-item"
                   >
                     Kategorien
                   </label>

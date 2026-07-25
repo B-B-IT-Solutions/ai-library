@@ -10,7 +10,7 @@ const toDPromptInternal = (entry: DCatalogEntryWithContent): DPrompt => {
       id: entry.id,
       title: entry.title,
       description: entry.description,
-      recommendedModel: entry.recommendedModel,
+      model: entry.recommendedModel,
       categories: entry.category ? [{ name: entry.category.name }] : [],
       fields: [],
       globalFieldIds: [],

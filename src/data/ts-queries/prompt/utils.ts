@@ -19,4 +19,7 @@ export const promptKeys = {
    categories: (search?: string) => {
       return [...promptKeys.all, "categories", { search }] as const;
    },
+   models: (search?: string) => {
+      return [...promptKeys.all, "models", { search }] as const;
+   },
 };

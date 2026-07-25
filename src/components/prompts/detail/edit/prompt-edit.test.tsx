@@ -37,6 +37,7 @@ import { Action, ExternalToast, toast } from "sonner";
 import {
    createPrompt,
    getPromptCategoriesPage,
+   getPromptModelsPage,
    updatePrompt,
 } from "@/data/actions/prompt";
 import {
@@ -61,6 +62,9 @@ const getPromptCategoriesPageMock =
    getPromptCategoriesPage as jest.MockedFunction<
       typeof getPromptCategoriesPage
    >;
+const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
+   typeof getPromptModelsPage
+>;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertBtnRendered = () => {
@@ -108,6 +112,9 @@ describe("PromptEdit rendering tests", () => {
    beforeEach(() => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("new entry - collection undefined - test", async () => {
@@ -185,6 +192,9 @@ describe("PromptEdit functionality tests", () => {
 
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("new entry - save btn clicked - success - test", async () => {
@@ -223,7 +233,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -313,7 +323,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {
@@ -370,7 +380,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {
@@ -420,7 +430,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -494,7 +504,7 @@ describe("PromptEdit functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude",
+         model: "",
       };
 
       const expectedPayload: DPromptUpdateCrate = {
@@ -547,7 +557,7 @@ describe("PromptEdit functionality tests", () => {
          categories: initValue.categories,
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
-         recommendedModel: initValue.recommendedModel,
+         model: initValue.model,
       };
 
       await waitFor(() => {

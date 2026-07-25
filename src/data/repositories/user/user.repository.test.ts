@@ -14,6 +14,7 @@ import {
    UserUpdateArgs,
 } from "@/generated/prisma/models";
 
+import { DEFAULT_PROMPT_MODEL_NAMES } from "./constants";
 import { toDUserInternal } from "./user.mapper";
 import { UserRepository } from "./user.repository";
 
@@ -186,6 +187,9 @@ describe("pCreateUser tests", () => {
          password: createData.hashedPassword,
          legalNoticesAcceptedAt: createData.legalNoticesAcceptedAt,
          trialEndsAt: createData.trialEndsAt,
+         promptModels: {
+            create: DEFAULT_PROMPT_MODEL_NAMES.map((name) => ({ name })),
+         },
       };
 
       const expectedCreateArgs: UserCreateArgs = {

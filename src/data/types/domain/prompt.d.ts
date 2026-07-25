@@ -3,6 +3,7 @@
 import {
    promptVariableSchema,
    updatePromptCategorySchema,
+   updatePromptModelSchema,
    updateTemplateSchema,
 } from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
@@ -28,6 +29,13 @@ export type DPromptCategoriesFilter = {
    search?: string;
 };
 
+export type DPromptModelsPageQuery = PageQuery<DPromptModelsFilter>;
+export type DPromptModelsPage = Page<string>;
+
+export type DPromptModelsFilter = {
+   search?: string;
+};
+
 export type DPromptVariableUpdate = z.infer<typeof promptVariableSchema>;
 
 export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
@@ -49,6 +57,14 @@ export type DPromptCategoryWithUsage = {
 
 export type DPromptCategoryUpdate = z.infer<typeof updatePromptCategorySchema>;
 
+export type DPromptModelWithUsage = {
+   id: number;
+   name: string;
+   count: number;
+};
+
+export type DPromptModelUpdate = z.infer<typeof updatePromptModelSchema>;
+
 export type DPromptTemplatingData = {
    prompt: DPromptWithContent;
    allVariables: DPromptVariable[];
@@ -58,7 +74,7 @@ export type DPrompt = {
    id: string;
    title: string;
    description: string;
-   recommendedModel: string;
+   model: string;
    isFavorite: boolean;
    categories: DPromptCategory[];
    fields: DPromptVariable[];

@@ -4,12 +4,14 @@ import { Sort } from "@/data/types/common";
 import { DPromptsFilter } from "@/data/types/domain/prompt";
 import {
    PromptCategoryWhereInput,
+   PromptModelWhereInput,
    PromptOrderByWithRelationInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
 
 import {
    resolveCategoriesWhereInput,
+   resolveModelsWhereInput,
    resolvePromptOrderBy,
    resolvePromptWhereInput,
 } from "./utils";
@@ -86,7 +88,7 @@ describe("resolvePromptWhereInput tests", () => {
 
       const expectedWhere: PromptWhereInput = {
          userId,
-         recommendedModel: { in: ["gpt-4", "claude"] },
+         model: { name: { in: ["gpt-4", "claude"] } },
       };
 
       expect(result).toEqual(expectedWhere);
@@ -175,7 +177,7 @@ describe("resolvePromptWhereInput tests", () => {
          categories: {
             some: { name: { in: filter.categories } },
          },
-         recommendedModel: { in: filter.models },
+         model: { name: { in: filter.models } },
          isFavorite: filter.isFavorite,
          collectionEntries: {
             some: { collectionId: { in: filter.collectionIds } },
@@ -206,6 +208,36 @@ describe("resolveCategoriesWhereInput tests", () => {
       const filter = dtestData.dPromptCategoriesFilter();
       const result = resolveCategoriesWhereInput(userId, filter);
       const expectedWhere: PromptCategoryWhereInput = {
+         userId,
+         name: {
+            contains: filter.search,
+            mode: "insensitive",
+         },
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+});
+
+describe("resolveModelsWhereInput  tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("filter undefined - test", async () => {
+      const userId = "user-id-1";
+      const result = resolveModelsWhereInput(userId);
+      const expectedWhere: PromptModelWhereInput = {
+         userId,
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+
+   test("filter defined - test", async () => {
+      const userId = "user-id-1";
+
+      const filter = dtestData.dPromptModelsFilter();
+      const result = resolveModelsWhereInput(userId, filter);
+      const expectedWhere: PromptModelWhereInput = {
          userId,
          name: {
             contains: filter.search,

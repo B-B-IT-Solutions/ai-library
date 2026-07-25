@@ -6,7 +6,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import { CategoryNameConflictError } from "@/data/services/prompt/errors";
+import { NameConflictError } from "@/data/services/prompt/errors";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPrompt,
@@ -14,6 +14,10 @@ import {
    DPromptCategoriesPageQuery,
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
+   DPromptModelUpdate,
+   DPromptModelWithUsage,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -27,7 +31,10 @@ import {
 } from "@/data/types/domain/prompt";
 import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
-import { updatePromptCategorySchema } from "@/data/types/validators/template";
+import {
+   updatePromptCategorySchema,
+   updatePromptModelSchema,
+} from "@/data/types/validators/template";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
@@ -320,7 +327,7 @@ export const createPromptCategory = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof CategoryNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
@@ -352,7 +359,7 @@ export const updatePromptCategory = async (
    } catch (error) {
       console.error(formatError(error));
 
-      if (error instanceof CategoryNameConflictError) {
+      if (error instanceof NameConflictError) {
          return {
             success: false,
             message: error.message,
@@ -413,6 +420,130 @@ export const getPromptModels = async (): Promise<string[]> => {
    } catch (error) {
       console.error(formatError(error));
       return [];
+   }
+};
+
+export const getPromptModelsPage = async (
+   query?: DPromptModelsPageQuery
+): Promise<DPromptModelsPage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptModelsPage(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
+};
+
+export const getPromptModelsWithUsage = async (): Promise<
+   DPromptModelWithUsage[]
+> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptModelsWithUsage(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const createPromptModel = async (
+   data: DPromptModelUpdate
+): Promise<ActionResult> => {
+   try {
+      const vData = updatePromptModelSchema.parse(data);
+
+      const user = await requireUser();
+      const service = getService();
+      await service.createPromptModel(user.id, vData);
+
+      return {
+         success: true,
+         message: "Modell erfolgreich erstellt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+
+      if (error instanceof NameConflictError) {
+         return {
+            success: false,
+            message: error.message,
+         };
+      }
+
+      return {
+         success: false,
+         message: "Modell konnte nicht erstellt werden",
+      };
+   }
+};
+
+export const updatePromptModel = async (
+   modelId: number,
+   update: DPromptModelUpdate
+): Promise<ActionResult> => {
+   try {
+      const vUpdate = updatePromptModelSchema.parse(update);
+
+      const user = await requireUser();
+      const service = getService();
+      await service.updatePromptModel(user.id, modelId, vUpdate);
+
+      return {
+         success: true,
+         message: "Modell erfolgreich umbenannt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+
+      if (error instanceof NameConflictError) {
+         return {
+            success: false,
+            message: error.message,
+         };
+      }
+
+      return {
+         success: false,
+         message: "Modell konnte nicht umbenannt werden",
+      };
+   }
+};
+
+export const deletePromptModel = async (
+   modelId: number
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      await service.deletePromptModel(user.id, modelId);
+
+      return {
+         success: true,
+         message: "Modell erfolgreich gelöscht",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Modell konnte nicht gelöscht werden",
+      };
+   }
+};
+
+export const isConflictingPromptModelName = async (
+   modelId: number | undefined,
+   name: string
+): Promise<boolean> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.isConflictingPromptModelName(user.id, modelId, name);
+   } catch (error) {
+      console.error(formatError(error));
+      return false;
    }
 };
 

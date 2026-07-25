@@ -16,6 +16,7 @@ import {
 import {
    getPromptCategoriesPage,
    getPromptGenerationData,
+   getPromptModelsPage,
    getPromptPreviewsPage,
    getPromptsPage,
    togglePromptFavorite,
@@ -23,6 +24,8 @@ import {
 import {
    DPromptCategoriesPage,
    DPromptCategoriesPageQuery,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
    DPromptsPage,
@@ -144,6 +147,40 @@ export const useInfiniteLoadPromptCategoriesPage = (
    search: string
 ): UseInfiniteQueryResult<InfiniteData<DPromptCategoriesPage>, Error> => {
    const options = infiniteLoadPromptCategoriesPageOptions(search);
+   return useInfiniteQuery(options);
+};
+
+export const infiniteLoadPromptModelsPageOptions = (
+   search: string
+): UndefinedInitialDataInfiniteOptions<
+   DPromptModelsPage,
+   Error,
+   InfiniteData<DPromptModelsPage>,
+   QueryKey,
+   number
+> => {
+   return {
+      queryKey: promptKeys.models(search),
+      queryFn: async ({ pageParam }) => {
+         const query: DPromptModelsPageQuery = pageQuery(
+            pageParam,
+            PAGE_SIZE,
+            undefined,
+            { search }
+         );
+         return await getPromptModelsPage(query);
+      },
+      initialPageParam: INIT_PAGE_NUMBER,
+      getNextPageParam: getNextPageParam,
+      placeholderData: keepPreviousData,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useInfiniteLoadPromptModelsPage = (
+   search: string
+): UseInfiniteQueryResult<InfiniteData<DPromptModelsPage>, Error> => {
+   const options = infiniteLoadPromptModelsPageOptions(search);
    return useInfiniteQuery(options);
 };
 

@@ -50,6 +50,11 @@ import {
    DPromptCategory,
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
+   DPromptModelsFilter,
+   DPromptModelsPage,
+   DPromptModelsPageQuery,
+   DPromptModelUpdate,
+   DPromptModelWithUsage,
    DPromptPreview,
    DPromptPreviewsPage,
    DPromptPreviewsPageQuery,
@@ -689,6 +694,34 @@ export const dPromptCategoriesFilter = (index = 1): DPromptCategoriesFilter => {
    };
 };
 
+export const dPromptModelsPage = (count = 3): DPromptModelsPage => {
+   const models = range(0, count).map((i) => `model ${i}`);
+   return {
+      content: models,
+      numberOfElements: models.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
+export const dPromptModelsPageQuery = (index = 1): DPromptModelsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dPromptModelsFilter(index),
+   };
+};
+
+export const dPromptModelsFilter = (index = 1): DPromptModelsFilter => {
+   return {
+      search: `search ${index}`,
+   };
+};
+
 export const dPrompts = (count = 3): DPrompt[] => {
    return range(0, count).map((i) => dPrompt(i));
 };
@@ -701,7 +734,7 @@ export const dPrompt = (index = 1): DPrompt => {
       categories: dPromptCategories(),
       fields: dPromptVariables(),
       globalFieldIds: dGlobalPromptFieldIds(),
-      recommendedModel: `model ${index}`,
+      model: `model ${index}`,
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
@@ -739,7 +772,7 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       description: `updated description ${index}`,
       content: `updated content ${index}`,
       categories: ["category 1"],
-      recommendedModel: `model ${index}`,
+      model: `model ${index}`,
       fields: dPromptVariableUpdates(),
       globalFieldIds: dGlobalPromptFieldIds(),
    };
@@ -848,6 +881,24 @@ export const dPromptCategoryWithUsage = (
 export const dPromptCategoryUpdate = (index = 1): DPromptCategoryUpdate => {
    return {
       name: `category ${index}`,
+   };
+};
+
+export const dPromptModelsWithUsage = (count = 3): DPromptModelWithUsage[] => {
+   return range(0, count).map((i) => dPromptModelWithUsage(i));
+};
+
+export const dPromptModelWithUsage = (index = 1): DPromptModelWithUsage => {
+   return {
+      id: index,
+      name: `model ${index}`,
+      count: index,
+   };
+};
+
+export const dPromptModelUpdate = (index = 1): DPromptModelUpdate => {
+   return {
+      name: `model ${index}`,
    };
 };
 

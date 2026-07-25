@@ -113,6 +113,17 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
                   Prompts Kategorien
                 </span>
               </a>
+              <a
+                class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+                data-testid="prompt-models-link"
+                href="prompt-models"
+              >
+                <span
+                  class="font-medium"
+                >
+                  Prompts Modelle
+                </span>
+              </a>
             </div>
           </nav>
         </aside>

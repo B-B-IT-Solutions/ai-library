@@ -29,7 +29,10 @@ import {
    renderWithReactQuery,
 } from "@tests";
 
-import { getPromptCategoriesPage } from "@/data/actions/prompt";
+import {
+   getPromptCategoriesPage,
+   getPromptModelsPage,
+} from "@/data/actions/prompt";
 
 import { PromptEditForm } from "./prompt-form";
 
@@ -39,6 +42,9 @@ const getPromptCategoriesPageMock =
    getPromptCategoriesPage as jest.MockedFunction<
       typeof getPromptCategoriesPage
    >;
+const getPromptModelsPageMock = getPromptModelsPage as jest.MockedFunction<
+   typeof getPromptModelsPage
+>;
 
 const assertRendered = () => {
    const form = screen.getByTestId("prompt-edit-form");
@@ -79,6 +85,9 @@ describe("PromptEditForm rendering tests", () => {
    beforeEach(() => {
       const page = dtestData.dPromptCategoriesPage();
       getPromptCategoriesPageMock.mockResolvedValue(page);
+
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
    });
 
    it("new entry - rendered - test", async () => {

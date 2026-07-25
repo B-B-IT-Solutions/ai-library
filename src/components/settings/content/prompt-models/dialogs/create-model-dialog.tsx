@@ -1,0 +1,117 @@
+"use client";
+
+import { useEffect, useMemo, useTransition } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import { Button } from "@/components/shadcn/button";
+import {
+   Dialog,
+   DialogContent,
+   DialogDescription,
+   DialogFooter,
+   DialogHeader,
+   DialogTitle,
+} from "@/components/shadcn/dialog";
+import { Form } from "@/components/shadcn/form";
+import { FormInput } from "@/components/shared/widgets";
+import { createPromptModel } from "@/data/actions/prompt";
+import { DPromptModelUpdate } from "@/data/types/domain/prompt";
+import { initPromptModel, updateModelSchemaBackendValidation } from "../utils";
+
+type Props = {
+   open: boolean;
+   onClose: () => void;
+};
+
+export const CreateModelDialog = ({ open, onClose }: Props) => {
+   const router = useRouter();
+   const [isPending, startTransition] = useTransition();
+
+   const createSchema = useMemo(() => updateModelSchemaBackendValidation(), []);
+
+   const form = useForm<DPromptModelUpdate>({
+      resolver: zodResolver(createSchema),
+      defaultValues: initPromptModel(),
+   });
+
+   useEffect(() => {
+      if (open) {
+         form.reset(initPromptModel());
+      }
+   }, [open, form]);
+
+   const onSubmit: SubmitHandler<DPromptModelUpdate> = async (data) => {
+      startTransition(async () => {
+         const result = await createPromptModel(data);
+         if (result.success) {
+            toast.success(result.message);
+            router.refresh();
+            onClose();
+         } else {
+            toast.error(result.message);
+         }
+      });
+   };
+
+   const confirmBtnLabel = () => {
+      if (isPending) {
+         return (
+            <>
+               <Loader className="h-4 w-4" />
+               Wird erstellt
+            </>
+         );
+      }
+      return "Erstellen";
+   };
+
+   return (
+      <Dialog open={open} onOpenChange={onClose}>
+         <DialogContent data-testid="create-model-dialog">
+            <DialogHeader>
+               <DialogTitle>Neues Modell erstellen</DialogTitle>
+               <DialogDescription>
+                  Erstelle ein neues Modell, um es deinen Prompts zuzuweisen.
+               </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+               >
+                  <FormInput<DPromptModelUpdate>
+                     name="name"
+                     label="Name"
+                     placeholder="Modell-Name"
+                     control={form.control}
+                  />
+                  <DialogFooter>
+                     <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onClose}
+                        disabled={isPending}
+                        className="cursor-pointer"
+                        data-testid="cancel-btn"
+                     >
+                        Abbrechen
+                     </Button>
+                     <Button
+                        type="submit"
+                        disabled={isPending}
+                        className="cursor-pointer"
+                        data-testid="submit-btn"
+                     >
+                        {confirmBtnLabel()}
+                     </Button>
+                  </DialogFooter>
+               </form>
+            </Form>
+         </DialogContent>
+      </Dialog>
+   );
+};

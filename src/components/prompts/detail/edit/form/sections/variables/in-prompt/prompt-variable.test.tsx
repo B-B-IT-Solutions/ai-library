@@ -56,7 +56,7 @@ const TestWrapper = ({ index, isUsed, onRemove, variables }: Props) => {
          title: "",
          description: "",
          content: "",
-         recommendedModel: "Claude",
+         model: "Claude",
          categories: [],
          globalFieldIds: [],
          fields: variables,

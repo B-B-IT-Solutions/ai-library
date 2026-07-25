@@ -20,9 +20,10 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput } from "@/components/shared/widgets";
 import { createPromptCategory } from "@/data/actions/prompt";
 import { DPromptCategoryUpdate } from "@/data/types/domain/prompt";
-import { initPromptCategory } from "../utils";
-
-import { updateCategorySchemaBackendValidation } from "./update-category.schema";
+import {
+   initPromptCategory,
+   updateCategorySchemaBackendValidation,
+} from "../utils";
 
 type Props = {
    open: boolean;
