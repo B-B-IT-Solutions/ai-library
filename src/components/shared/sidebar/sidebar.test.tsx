@@ -38,7 +38,7 @@ const assertHeader = () => {
 
 const assertMenuItems = () => {
    const groupLibrary = screen.getByTestId("group-library");
-   const prompts = screen.getByTestId("menu-item-templates");
+   const prompts = screen.getByTestId("menu-item-prompts");
    const collections = screen.getByTestId("menu-item-collections");
    const workflows = screen.getByTestId("menu-item-workflows");
    const workflowsBadge = screen.getByTestId("menu-item-workflows-badge");
