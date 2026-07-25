@@ -14,7 +14,6 @@ import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PublicProductService } from "@/data/services/product";
 import { PromptService, PublicPromptService } from "@/data/services/prompt";
-import { Prompt0Service } from "@/data/services/prompt0";
 import {
    PublicSettingsService,
    SettingsService,
@@ -51,7 +50,6 @@ export class ServiceFactory {
    private productService?: PublicProductService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
-   private prompt0Service?: Prompt0Service;
    private promptService?: PromptService;
    private publicPromptService?: PublicPromptService;
    private workflowService?: WorkflowService;
@@ -187,15 +185,6 @@ export class ServiceFactory {
          );
       }
       return this.productService;
-   }
-
-   getPrompt0Service(): Prompt0Service {
-      if (!this.prompt0Service) {
-         this.prompt0Service = new Prompt0Service(
-            this.repositories.prompt0Repository()
-         );
-      }
-      return this.prompt0Service;
    }
 
    getPromptService(): PromptService {

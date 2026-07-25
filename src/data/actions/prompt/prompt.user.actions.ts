@@ -26,10 +26,8 @@ import {
    DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
-   DPromptVariableValues,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { ActionResult } from "@/data/types/utils";
 import {
    updatePromptCategorySchema,
@@ -184,37 +182,6 @@ export const getPromptGenerationData = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
-   }
-};
-
-export const composePromptFromTemplate = async (
-   descriptorId: string,
-   fieldValues: DPromptVariableValues
-): Promise<ActionResult<DPrompt0Update>> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid Descriptor ID.");
-      }
-
-      const user = await requireUser();
-
-      const service = getService();
-      const promptData = await service.composePromptFromTemplate(
-         user.id,
-         descriptorId,
-         fieldValues
-      );
-      return {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Prompt konnte nicht generiert werden",
-      };
    }
 };
 

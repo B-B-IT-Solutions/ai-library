@@ -13,7 +13,7 @@ import {
 
 describe("getNextPageParam", () => {
    test("getNextPageParam - totalPages 50 -  test", async () => {
-      const page = dtestData.dPrompt0sPage();
+      const page = dtestData.dPromptsPage();
       page.pageNumber = 0;
       page.totalPages = 50;
       expect(getNextPageParam(page)).toEqual(1);
@@ -32,7 +32,7 @@ describe("getNextPageParam", () => {
    });
 
    test("getNextPageParam - totalPages 5 -  test", async () => {
-      const page = dtestData.dPrompt0sPage();
+      const page = dtestData.dPromptsPage();
       page.pageNumber = 0;
       page.totalPages = 5;
       expect(getNextPageParam(page)).toEqual(1);
@@ -51,7 +51,7 @@ describe("getNextPageParam", () => {
    });
 
    test("getNextPageParam - totalPages 0 -  test", async () => {
-      const page = dtestData.dPrompt0sPage();
+      const page = dtestData.dPromptsPage();
       page.pageNumber = 0;
       page.totalPages = 0;
       expect(getNextPageParam(page)).toBeNull();
@@ -96,7 +96,7 @@ describe("pageQuery tests", () => {
 
    test("pageQuery  - with filter -  test", async () => {
       const globalFilter = "test 1";
-      const filter = dtestData.dPrompt0sFilter();
+      const filter = dtestData.dPromptsFilter();
       expect(pageQuery(5, 10, globalFilter, filter)).toEqual(
          expectedQuery(5, 10, globalFilter, filter)
       );
@@ -104,7 +104,7 @@ describe("pageQuery tests", () => {
 
    test("pageQuery  - with filter + sort -  test", async () => {
       const globalFilter = "test 1";
-      const promptsFilter = dtestData.dPrompt0sFilter();
+      const promptsFilter = dtestData.dPromptsFilter();
       const sort1 = dtestData.sort("field1", "desc");
       expect(pageQuery(5, 10, globalFilter, promptsFilter, sort1)).toEqual(
          expectedQuery(5, 10, globalFilter, promptsFilter, sort1)
@@ -115,7 +115,7 @@ describe("pageQuery tests", () => {
 describe("pageQueryKey tests", () => {
    test("pageQueryKey  test", async () => {
       expect(pageQueryKey()).toEqual({});
-      const query = dtestData.dPrompt0sPageQuery();
+      const query = dtestData.dPromptsPageQuery();
       expect(pageQueryKey(query)).toEqual({ query });
    });
 });
@@ -124,7 +124,7 @@ describe("filterQueryKey tests", () => {
    test("filterQueryKey  test", async () => {
       expect(filterQueryKey()).toEqual({});
 
-      const filters = dtestData.dPrompt0sFilter();
+      const filters = dtestData.dPromptsFilter();
       expect(filterQueryKey(filters)).toEqual({ filters });
 
       const sort = dtestData.sort();

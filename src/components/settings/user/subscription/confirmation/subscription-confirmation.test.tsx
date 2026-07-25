@@ -6,11 +6,11 @@ import { SubscriptionConfirmation } from "./subscription-confirmation";
 
 const assertRendered = () => {
    const confirmation = screen.getByTestId("subscription-confirmation");
-   const promptsLink = screen.getByTestId("prompts-link");
+   const templatesLink = screen.getByTestId("templates-link");
    const subscriptionLink = screen.getByTestId("view-subscription-link");
 
    assertInDocument(confirmation);
-   assertInDocument(promptsLink);
+   assertInDocument(templatesLink);
    assertInDocument(subscriptionLink);
 };
 

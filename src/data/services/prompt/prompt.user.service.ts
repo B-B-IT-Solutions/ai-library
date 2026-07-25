@@ -19,12 +19,9 @@ import {
    DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
-   DPromptVariableValues,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
-import { TemplateEngine } from "@/lib/template";
 import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
@@ -139,44 +136,6 @@ export class PromptService {
       }
 
       return null;
-   }
-
-   async composePromptFromTemplate(
-      userId: string,
-      descriptorId: string,
-      fieldValues: DPromptVariableValues
-   ): Promise<DPrompt0Update> {
-      const descriptor = await this.getPrompt(userId, descriptorId);
-
-      if (!descriptor) {
-         throw new Error(
-            `TemplateDescriptor with ID ${descriptorId} not found`
-         );
-      }
-
-      const template = await this.getPromptWithContent(userId, descriptor.id);
-
-      if (!template) {
-         throw new Error(`Template with ID ${descriptor.id} not found`);
-      }
-
-      const validation = TemplateEngine.validate(template.fields, fieldValues);
-
-      if (!validation.valid) {
-         throw new Error(
-            `Provided template fields are invalid: ${JSON.stringify(validation.errors)}`
-         );
-      }
-
-      const content = TemplateEngine.replace(template.content, fieldValues);
-
-      return {
-         content: content,
-         title: descriptor.title,
-         recommendedModel: descriptor.model,
-         categories: descriptor.categories.map((cat) => cat.name),
-         followUpPrompts: [],
-      };
    }
 
    async downloadPrompt(userId: string, descriptorId: string): Promise<string> {

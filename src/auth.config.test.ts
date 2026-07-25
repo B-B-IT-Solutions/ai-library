@@ -146,7 +146,6 @@ describe("auth.config - CredentialsProvider - tests", () => {
 
 describe("auth.config - callback.authorized - tests", () => {
    const userProtectedPaths = [
-      "/prompts",
       "/collections",
       "/settings",
       "/subscription",

@@ -5,7 +5,6 @@ export {
    updatePrompt,
    deletePrompt,
    getPromptGenerationData,
-   composePromptFromTemplate,
    downloadPrompt,
    isConflictingPromptCategoryName,
    getPromptCategoriesWithUsage,

@@ -7,18 +7,12 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
 import { NameConflictError } from "@/data/services/prompt/errors";
-import {
-   DPrompt,
-   DPromptsUsage,
-   DPromptVariableValues,
-} from "@/data/types/domain/prompt";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
+import { DPrompt, DPromptsUsage } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 
 import {
-   composePromptFromTemplate,
    createPrompt,
    createPromptCategory,
    createPromptModel,
@@ -55,8 +49,6 @@ const sUpdatePrompt = PromptService.prototype.updatePrompt;
 const sDeletePrompt = PromptService.prototype.deletePrompt;
 const sGetPromptGenerationData =
    PromptService.prototype.getPromptGenerationData;
-const sComposePromptFromTemplate =
-   PromptService.prototype.composePromptFromTemplate;
 const sDownloadPrompt = PromptService.prototype.downloadPrompt;
 const sTogglePromptFavorite = PromptService.prototype.togglePromptFavorite;
 const sGetPromptCategories = PromptService.prototype.getPromptCategories;
@@ -103,10 +95,6 @@ const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
 const sGetPromptGenerationDataMock =
    sGetPromptGenerationData as jest.MockedFunction<
       typeof sGetPromptGenerationData
-   >;
-const sComposePromptFromTemplateMock =
-   sComposePromptFromTemplate as jest.MockedFunction<
-      typeof sComposePromptFromTemplate
    >;
 const sDownloadPromptMock = sDownloadPrompt as jest.MockedFunction<
    typeof sDownloadPrompt
@@ -726,113 +714,6 @@ describe("getPromptGenerationData tests", () => {
    });
 });
 
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const fieldValues: DPromptVariableValues = { field1: "value1" };
-
-      const result = await composePromptFromTemplate(invalidId, fieldValues);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Prompt konnte nicht generiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith("Invalid Descriptor ID.");
-   });
-
-   it("user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptVariableValues = { field1: "value1" };
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Prompt konnte nicht generiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptVariableValues = {
-         name: "User-1 Name",
-         email: "invalid-email",
-      };
-      const errorMessage = "Provided template fields are invalid";
-      const error = new Error(errorMessage);
-      sComposePromptFromTemplateMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Prompt konnte nicht generiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         user.id,
-         templateId,
-         fieldValues
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptVariableValues = {
-         name: "User-1 Name",
-         email: "test1@email.com",
-         age: 30,
-      };
-      const promptData = dtestData.dPrompt0Update();
-      sComposePromptFromTemplateMock.mockResolvedValue(promptData);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult<DPrompt0Update> = {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         user.id,
-         templateId,
-         fieldValues
-      );
-   });
-});
-
 describe("downloadPrompt tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -980,7 +861,7 @@ describe("togglePromptFavorite tests", () => {
       sTogglePromptFavoriteMock.mockResolvedValue();
 
       const result = await togglePromptFavorite(promptId, isFavorite);
-      const expectedResult: ActionResult<DPrompt0Update> = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
       };
@@ -1004,7 +885,7 @@ describe("togglePromptFavorite tests", () => {
       sTogglePromptFavoriteMock.mockResolvedValue();
 
       const result = await togglePromptFavorite(promptId, isFavorite);
-      const expectedResult: ActionResult<DPrompt0Update> = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Aus Favoriten entfernt",
       };

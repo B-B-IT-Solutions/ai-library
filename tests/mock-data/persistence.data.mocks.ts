@@ -32,7 +32,6 @@ import {
    PromptWithContent,
    PromptWithRelations,
 } from "@/data/types/db/prompt";
-import { Prompt0sPage, Prompt0WithRelations } from "@/data/types/db/prompt0";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
@@ -58,10 +57,6 @@ import {
    ProductInstruction,
    ProductUseCase,
    Prompt,
-   Prompt0,
-   Prompt0Category,
-   Prompt0FollowUp,
-   Prompt0Version,
    PromptCategory,
    PromptContent,
    PromptField,
@@ -76,10 +71,6 @@ import {
    WorkflowStep,
    WorkflowStepEdge,
 } from "@/generated/prisma/client";
-import {
-   Prompt0CreateInput,
-   Prompt0UpdateInput,
-} from "@/generated/prisma/models";
 
 export const pUser = (index = 1): User => {
    return {
@@ -650,123 +641,6 @@ export const pPromptModel = (index = 1): PromptModel => {
    };
 };
 
-export const pPromptDescriptorsPage = (): Prompt0sPage => {
-   const descriptors = pPromptDescriptorsWithRelations();
-   return {
-      content: descriptors,
-      numberOfElements: descriptors.length,
-      pageNumber: 1,
-      pageSize: 3,
-      totalElements: 15,
-      totalPages: 5,
-   };
-};
-
-export const pPromptDescriptorsWithRelations = (
-   count = 3
-): Prompt0WithRelations[] => {
-   return range(0, count).map((i) => pPromptDescriptorWithRelations(i));
-};
-
-export const pPromptDescriptorWithRelations = (
-   index = 1
-): Prompt0WithRelations => {
-   const descriptor = pPromptDescriptor(index);
-   const categories = pPrompt0Categories();
-   const promptFollowUps = pPromptFollowUps();
-   const versions = pPromptVersions();
-   return {
-      ...descriptor,
-      categories,
-      followUpPrompts: promptFollowUps,
-      versions,
-   };
-};
-
-export const pPromptDescriptors = (count = 3): Prompt0[] => {
-   return range(0, count).map((i) => pPromptDescriptor(i));
-};
-
-export const pPromptDescriptor = (index = 1): Prompt0 => {
-   return {
-      id: `334db648-f300-4284-8149-075ff465d75${index}`,
-      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
-      title: `title ${index}`,
-      content: `content ${index}`,
-      recommendedModel: `model ${index}`,
-      isFavorite: true,
-      currentVersion: index,
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pPromptDescriptorCreateInput = (index = 1): Prompt0CreateInput => {
-   return {
-      title: `title ${index}`,
-      content: `content ${index}`,
-      recommendedModel: `model ${index}`,
-      isFavorite: true,
-      user: {
-         connect: {
-            id: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
-         },
-      },
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pPromptDescriptorUpdateInput = (index = 1): Prompt0UpdateInput => {
-   return {
-      content: `content ${index}`,
-      title: `title ${index}`,
-      recommendedModel: `model ${index}`,
-      isFavorite: true,
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pPrompt0Categories = (count = 3): Prompt0Category[] => {
-   return range(0, count).map((i) => pPrompt0Category(i));
-};
-
-export const pPrompt0Category = (index = 1): Prompt0Category => {
-   return {
-      id: Math.random(),
-      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
-      name: `category ${index}`,
-   };
-};
-
-export const pPromptFollowUps = (count = 3): Prompt0FollowUp[] => {
-   return range(0, count).map((i) => pPromptFollowUp(i));
-};
-
-export const pPromptFollowUp = (index = 1): Prompt0FollowUp => {
-   return {
-      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
-      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      content: `content ${index}`,
-      order: index,
-      createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pPromptVersions = (count = 3): Prompt0Version[] => {
-   return range(0, count).map((i) => pPromptVersion(i));
-};
-
-export const pPromptVersion = (index = 1): Prompt0Version => {
-   return {
-      id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
-      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      version: index,
-      content: `content ${index}`,
-      createdAt: new Date("2025-09-27"),
-   };
-};
 
 export const pPromptGlobalFields = (count = 3): PromptGlobalField[] => {
    return range(0, count).map((i) => pPromptGlobalField(i));
