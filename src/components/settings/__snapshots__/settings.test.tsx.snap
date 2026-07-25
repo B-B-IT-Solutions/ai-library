@@ -94,7 +94,7 @@ exports[`Settings rendering tests section account - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>
@@ -205,7 +205,7 @@ exports[`Settings rendering tests section general - rendered - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>
@@ -771,7 +771,7 @@ exports[`Settings rendering tests section global-template-fields - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>
@@ -882,7 +882,7 @@ exports[`Settings rendering tests section prompt-categories - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>
@@ -993,7 +993,7 @@ exports[`Settings rendering tests section prompt-models - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>
@@ -1104,7 +1104,7 @@ exports[`Settings rendering tests section subscription - test 1`] = `
             <span
               class="font-medium"
             >
-              Modelle
+              Prompts Modelle
             </span>
           </a>
         </div>

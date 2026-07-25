@@ -121,7 +121,7 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
                 <span
                   class="font-medium"
                 >
-                  Modelle
+                  Prompts Modelle
                 </span>
               </a>
             </div>

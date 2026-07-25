@@ -7,9 +7,9 @@ import {
    UndefinedInitialDataInfiniteOptions,
    useInfiniteQuery,
 } from "@tanstack/react-query";
-import { flatMap, isEmpty, some, trim } from "es-toolkit/compat";
+import { flatMap, isEmpty, isEqual, some, trim } from "es-toolkit/compat";
 import { Check, ChevronsUpDown, Loader, Plus } from "lucide-react";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Button } from "@/components/shadcn/button";
@@ -71,6 +71,8 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
    const [search, setSearch] = useState("");
    const [searchFilter, setFilterSearch] = useState("");
 
+   const { field } = useController({ name, control });
+
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteQuery(queryOptions(searchFilter));
 
@@ -89,7 +91,11 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
    }, 300);
 
    const trimmedSearch = trim(search);
-   const isFilterSearchDebounced = !(search === searchFilter);
+   const isFilterSearchDebounced = !isEqual(search, searchFilter);
+
+   const isSelected = (option: string) => {
+      return normalize(option) === normalize(field.value ?? "");
+   };
 
    const canCreateNewValue = () => {
       return (
@@ -101,6 +107,12 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
    };
 
    const canCreate = canCreateNewValue();
+
+   const selectValue = (value: string) => {
+      field.onChange(trim(value));
+      setSearch("");
+      setOpen(false);
+   };
 
    const renderLabel = () => {
       if (required) {
@@ -136,13 +148,7 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
       <FormField
          control={control}
          name={name}
-         render={({ field }) => {
-            const selectValue = (value: string) => {
-               field.onChange(trim(value));
-               setSearch("");
-               setOpen(false);
-            };
-
+         render={() => {
             return (
                <FormItem className={cn(className)} data-testid={name}>
                   {renderLabel()}
@@ -193,9 +199,7 @@ export const FormComboBoxLoadableValue = <T extends FieldValues>({
                                     threshold={0.1}
                                  >
                                     {options.map((option) => {
-                                       const selected =
-                                          normalize(option) ===
-                                          normalize(field.value ?? "");
+                                       const selected = isSelected(option);
                                        return (
                                           <CommandItem
                                              key={option}
