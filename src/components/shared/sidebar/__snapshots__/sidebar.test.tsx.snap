@@ -116,7 +116,7 @@ exports[`Sidebar rendering tests sidebar collapsed - rendered test 1`] = `
                       data-sidebar="menu-button"
                       data-size="default"
                       data-slot="sidebar-menu-button"
-                      data-testid="menu-item-templates"
+                      data-testid="menu-item-prompts"
                       href="/prompts"
                     >
                       <svg
@@ -590,7 +590,7 @@ exports[`Sidebar rendering tests sidebar open - rendered test 1`] = `
                       data-sidebar="menu-button"
                       data-size="default"
                       data-slot="sidebar-menu-button"
-                      data-testid="menu-item-templates"
+                      data-testid="menu-item-prompts"
                       href="/prompts"
                     >
                       <svg
