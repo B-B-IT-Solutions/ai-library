@@ -185,17 +185,12 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
                     data-testid="model"
                   >
                     <label
-                      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                       data-error="false"
                       data-slot="form-label"
                       for="_r_7_-form-item"
                     >
                       KI Modell
-                      <span
-                        class="text-destructive"
-                      >
-                        *
-                      </span>
                     </label>
                     <div
                       data-slot="popover"
@@ -1145,17 +1140,12 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
                     data-testid="model"
                   >
                     <label
-                      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                       data-error="false"
                       data-slot="form-label"
                       for="_r_2_-form-item"
                     >
                       KI Modell
-                      <span
-                        class="text-destructive"
-                      >
-                        *
-                      </span>
                     </label>
                     <div
                       data-slot="popover"
