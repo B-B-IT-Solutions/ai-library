@@ -23,9 +23,10 @@ import {
    DPromptCategoryUpdate,
    DPromptCategoryWithUsage,
 } from "@/data/types/domain/prompt";
-import { initPromptCategory } from "../utils";
-
-import { updateCategorySchemaBackendValidation } from "../utils/update-category.schema";
+import {
+   initPromptCategory,
+   updateCategorySchemaBackendValidation,
+} from "../utils";
 
 type Props = {
    open: boolean;

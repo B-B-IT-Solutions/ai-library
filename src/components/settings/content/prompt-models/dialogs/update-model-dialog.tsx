@@ -23,9 +23,7 @@ import {
    DPromptModelUpdate,
    DPromptModelWithUsage,
 } from "@/data/types/domain/prompt";
-import { initPromptModel } from "../utils";
-
-import { updateModelSchemaBackendValidation } from "../utils/update-model.schema";
+import { initPromptModel, updateModelSchemaBackendValidation } from "../utils";
 
 type Props = {
    open: boolean;
