@@ -27,7 +27,13 @@ const TestWrapper = () => {
             <TabsList>
                <TabsTrigger value={tabid}>Prompt</TabsTrigger>
             </TabsList>
-            <PromptEditorTab tabId={tabid} form={form} />
+            <PromptEditorTab
+               tabId={tabid}
+               form={form}
+               isEdit={false}
+               versionNote=""
+               onVersionNoteChange={jest.fn()}
+            />
          </Tabs>
       </FormProvider>
    );

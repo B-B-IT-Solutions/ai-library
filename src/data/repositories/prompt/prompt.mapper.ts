@@ -13,9 +13,14 @@ import {
    DPromptModelWithUsage,
    DPromptPreview,
    DPromptVariable,
+   DPromptVersion,
+   DPromptVersionSummary,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
-import { PromptField } from "@/generated/prisma/client";
+import {
+   PromptContentVersion,
+   PromptField,
+} from "@/generated/prisma/client";
 
 export const toDPromptPreviews = (
    pPrompts: PromptPreview[]
@@ -94,6 +99,37 @@ export const toDPromptCategoryWithUsage = (
       id: category.id,
       name: category.name,
       count: category._count.prompts,
+   };
+};
+
+export const toDPromptVersion = (
+   version: PromptContentVersion
+): DPromptVersion => {
+   return {
+      id: version.id,
+      promptId: version.promptId,
+      versionNumber: version.versionNumber,
+      content: version.content,
+      note: version.note,
+      createdAt: version.createdAt.toISOString(),
+   };
+};
+
+export const toDPromptVersionSummaries = (
+   versions: Omit<PromptContentVersion, "content">[]
+): DPromptVersionSummary[] => {
+   return map(versions, toDPromptVersionSummary);
+};
+
+export const toDPromptVersionSummary = (
+   version: Omit<PromptContentVersion, "content">
+): DPromptVersionSummary => {
+   return {
+      id: version.id,
+      promptId: version.promptId,
+      versionNumber: version.versionNumber,
+      note: version.note,
+      createdAt: version.createdAt.toISOString(),
    };
 };
 

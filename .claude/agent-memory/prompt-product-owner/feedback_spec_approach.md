@@ -32,3 +32,22 @@ producing the spec — confirms thoroughness here is valued over speed for spec-
 codebase, default to full-stack tracing first and reuse the German Ist/Soll/Begründung table
 format for the critique section, layered with the standard PO structure (stories,
 acceptance criteria, MVP/full vision, tier fit) from [[project_app_identity]].
+
+**Keep revision history OUT of the spec document itself.** During iterative correction of
+`[[project_prompt_versioning_feature]]` (four rounds of user corrections on the same doc), I had
+been adding "Korrektur ggü. vorheriger Fassung" / "ursprünglich war X vorgesehen" callouts directly
+into the spec to explain what changed and why. User explicitly said: "entferne alle Hinweise was
+die vorherige Spezifikation gesagt hat - das ist eine komplete neue Spezifikation, also in der
+Spezifikation soll nur stehen, was soll implementiert werden."
+
+**Why:** A spec document is a description of what to build, not a changelog of how the PO's
+thinking evolved. Revision narration is noise for a developer implementing it and noise for anyone
+reading it later without the conversation context.
+
+**How to apply:** When a spec gets corrected across multiple turns, edit it in place to read as if
+it were written correctly from the start — no "ursprünglich", "Korrektur ggü.", "frühere Fassung",
+"Design-Entscheidung (Korrektur ...)" callouts, no revision counters in date lines. Rationale/
+"why this design" explanations are fine and encouraged (e.g. "dies folgt dem Sicherheitsnetz-Modell,
+weil Nutzer X erwarten") — just don't frame them as corrections of an earlier draft. The revision
+history itself still belongs in agent memory (e.g. project-type feature memory files) so future
+sessions know what was tried and rejected — just not in the shipped spec doc.

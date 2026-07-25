@@ -2,11 +2,12 @@
 
 import {
    promptVariableSchema,
+   promptVersionOptionsSchema,
    updatePromptCategorySchema,
    updatePromptModelSchema,
    updatePromptSchema,
 } from "@/data/types/validators/prompt";
-import { Page, PageQuery } from "../common";
+import { Page, PageQuery, Pagination } from "../common";
 
 export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
 export type DPromptsPage = Page<DPrompt>;
@@ -125,3 +126,30 @@ export type DPromptsUsage = {
    current: number;
    limit: number; // -1 = unlimited
 };
+
+// DPromptUpdateOptions ist bewusst GETRENNT von DPromptUpdate: DPromptUpdate bildet
+// ausschließlich die editierbaren Prompt-Felder ab (Titel, Beschreibung, Content, Fields, ...);
+// ob ein Save zusätzlich einen Versions-Snapshot auslöst, ist keine Eigenschaft des
+// Prompts, sondern eine Verhaltensoption des jeweiligen Funktionsaufrufs.
+export type DPromptUpdateOptions = z.infer<typeof promptVersionOptionsSchema>;
+
+export type DPromptVersion = {
+   id: string;
+   promptId: string;
+   versionNumber: number;
+   content: string;
+   note: string | null;
+   createdAt: string;
+};
+
+export type DPromptVersionSummary = Omit<DPromptVersion, "content">;
+
+export type DPromptVersionsPageQuery = {
+   pagination?: Pagination;
+};
+
+export type DPromptVersionsPage = Page<DPromptVersionSummary>;
+
+export type DPromptVersionsResult =
+   | { locked: true }
+   | { locked: false; page: DPromptVersionsPage; hasUnversionedChanges: boolean };

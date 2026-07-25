@@ -1,0 +1,1 @@
+- [PromptContentVersion review findings](project_prompt_content_versioning_review.md) — open issues from the 2026-07-25 AI-216-library review (version race condition, locked-flag conflation, silent fetch failures, hardcoded limits)

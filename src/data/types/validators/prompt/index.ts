@@ -4,4 +4,5 @@ export {
    promptVariableTypeSchema,
    updatePromptCategorySchema,
    updatePromptModelSchema,
+   promptVersionOptionsSchema,
 } from "./prompt.schema";

@@ -330,7 +330,8 @@ describe("PromptEdit functionality tests", () => {
          expect(updatePromptMock).toHaveBeenCalledTimes(1);
          expect(updatePromptMock).toHaveBeenCalledWith(
             prompt.id,
-            expectedPayload
+            expectedPayload,
+            undefined
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
@@ -387,7 +388,8 @@ describe("PromptEdit functionality tests", () => {
          expect(updatePromptMock).toHaveBeenCalledTimes(1);
          expect(updatePromptMock).toHaveBeenCalledWith(
             prompt.id,
-            expectedPayload
+            expectedPayload,
+            undefined
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
@@ -564,11 +566,189 @@ describe("PromptEdit functionality tests", () => {
          expect(updatePromptMock).toHaveBeenCalledTimes(1);
          expect(updatePromptMock).toHaveBeenCalledWith(
             prompt.id,
-            expectedPayload
+            expectedPayload,
+            undefined
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.asPath).toEqual("/");
+      });
+   });
+});
+
+describe("PromptEdit save-as-version split-button tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      const categoriesPage = dtestData.dPromptCategoriesPage();
+      getPromptCategoriesPageMock.mockResolvedValue(categoriesPage);
+      const modelsPage = dtestData.dPromptModelsPage();
+      getPromptModelsPageMock.mockResolvedValue(modelsPage);
+   });
+
+   it("create mode - no chevron/split-button rendered - test", async () => {
+      const fields = dtestData.dGlobalPromptFields();
+
+      renderWithReactQuery(<PromptEdit globalFields={fields} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      expect(
+         screen.queryByTestId("save-split-btn")
+      ).not.toBeInTheDocument();
+      assertInDocument(getByTestId(headerActions, "save-btn"));
+   });
+
+   it("edit mode - canAccessVersionHistory true - chevron opens menu with enabled item - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
+
+      renderWithReactQuery(
+         <PromptEdit
+            prompt={prompt}
+            globalFields={fields}
+            canAccessVersionHistory={true}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      assertInDocument(getByTestId(headerActions, "save-split-btn"));
+
+      const trigger = getByTestId(headerActions, "save-split-btn-trigger");
+      await userEvent.click(trigger);
+
+      const menuItem = screen.getAllByTestId("save-as-version-menu-item")[0];
+      assertInDocument(menuItem);
+      assertHasAttributeWithValue(menuItem, "data-testid", "save-as-version-menu-item");
+   });
+
+   it("edit mode - canAccessVersionHistory true - selecting menu item saves with saveAsVersion - test", async () => {
+      const result: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+      updatePromptMock.mockResolvedValue(result);
+
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
+
+      renderWithReactQuery(
+         <PromptEdit
+            prompt={prompt}
+            globalFields={fields}
+            canAccessVersionHistory={true}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const trigger = getByTestId(headerActions, "save-split-btn-trigger");
+      await userEvent.click(trigger);
+
+      const menuItems = screen.getAllByTestId("save-as-version-menu-item");
+      await userEvent.click(menuItems[0]);
+
+      const initValue = initPromptTemplate(prompt);
+      const expectedPayload: DPromptUpdate = {
+         title: initValue.title,
+         description: initValue.description,
+         content: initValue.content,
+         categories: initValue.categories,
+         fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
+         model: initValue.model,
+      };
+
+      await waitFor(() => {
+         expect(updatePromptMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptMock).toHaveBeenCalledWith(
+            prompt.id,
+            expectedPayload,
+            { saveAsVersion: true, versionNote: undefined }
+         );
+      });
+   });
+
+   it("edit mode - canAccessVersionHistory false (default) - menu item disabled with lock hint - test", async () => {
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
+
+      renderWithReactQuery(
+         <PromptEdit prompt={prompt} globalFields={fields} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const headerActions = screen.getByTestId("header-actions");
+      const trigger = getByTestId(headerActions, "save-split-btn-trigger");
+      await userEvent.click(trigger);
+
+      const menuItems = screen.getAllByTestId("save-as-version-menu-item");
+      assertInDocument(menuItems[0]);
+      assertInDocument(screen.getAllByText("Ab BASIC verfügbar")[0]);
+
+      await userEvent.click(menuItems[0]);
+
+      await waitFor(() => {
+         expect(updatePromptMock).not.toHaveBeenCalled();
+      });
+   });
+
+   it("edit mode - note entered and saved as version - note included in versionOptions - test", async () => {
+      const result: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+      updatePromptMock.mockResolvedValue(result);
+
+      const prompt = dtestData.dPromptWithContent();
+      const fields = dtestData.dGlobalPromptFields();
+
+      renderWithReactQuery(
+         <PromptEdit
+            prompt={prompt}
+            globalFields={fields}
+            canAccessVersionHistory={true}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      await userEvent.click(screen.getByTestId("add-version-note-btn"));
+      await userEvent.type(
+         screen.getByTestId("version-note-textarea"),
+         "Vor Ton-Anpassung gesichert"
+      );
+
+      const headerActions = screen.getByTestId("header-actions");
+      const trigger = getByTestId(headerActions, "save-split-btn-trigger");
+      await userEvent.click(trigger);
+      const menuItems = screen.getAllByTestId("save-as-version-menu-item");
+      await userEvent.click(menuItems[0]);
+
+      await waitFor(() => {
+         expect(updatePromptMock).toHaveBeenCalledTimes(1);
+         expect(updatePromptMock).toHaveBeenCalledWith(
+            prompt.id,
+            expect.anything(),
+            {
+               saveAsVersion: true,
+               versionNote: "Vor Ton-Anpassung gesichert",
+            }
+         );
       });
    });
 });

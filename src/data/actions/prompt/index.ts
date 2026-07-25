@@ -22,8 +22,11 @@ export {
    deletePromptModel,
    isConflictingPromptModelName,
    getPromptPreviewsPage,
+   getPromptVersion,
+   getPromptVersions,
    getPromptWithContent,
    getPromptsUsage,
+   restorePromptVersion,
 } from "./prompt.user.actions";
 
 export {

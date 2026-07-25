@@ -20,6 +20,8 @@ const expectFreeTierFeatures: TierFeatures = {
    canUseWorkflows: false,
    maxWorkflows: 0,
    maxWorkflowSteps: 0,
+   canAccessVersionHistory: false,
+   maxStoredPromptVersions: 0,
 };
 
 const expectBasicTierFeatures: TierFeatures = {
@@ -32,6 +34,8 @@ const expectBasicTierFeatures: TierFeatures = {
    canUseWorkflows: true,
    maxWorkflows: 5,
    maxWorkflowSteps: 10,
+   canAccessVersionHistory: true,
+   maxStoredPromptVersions: 20,
 };
 
 const expectProTierFeatures: TierFeatures = {
@@ -44,6 +48,8 @@ const expectProTierFeatures: TierFeatures = {
    canUseWorkflows: true,
    maxWorkflows: -1,
    maxWorkflowSteps: -1,
+   canAccessVersionHistory: true,
+   maxStoredPromptVersions: -1,
 };
 
 describe("TIER_FEATURES", () => {
@@ -67,14 +73,17 @@ describe("canAccessFeature tests", () => {
          ["FREE", "canPurchaseItems", false],
          ["FREE", "canExportPrompts", false],
          ["FREE", "canUseAdvancedFeatures", false],
+         ["FREE", "canAccessVersionHistory", false],
          ["BASIC", "canAccessMarketplace", true],
          ["BASIC", "canPurchaseItems", true],
          ["BASIC", "canExportPrompts", true],
          ["BASIC", "canUseAdvancedFeatures", false],
+         ["BASIC", "canAccessVersionHistory", true],
          ["PRO", "canAccessMarketplace", true],
          ["PRO", "canPurchaseItems", true],
          ["PRO", "canExportPrompts", true],
          ["PRO", "canUseAdvancedFeatures", true],
+         ["PRO", "canAccessVersionHistory", true],
       ])(
          "should return %s for %s tier accessing %s",
          (tier, feature, expected) => {
@@ -98,6 +107,22 @@ describe("canAccessFeature tests", () => {
          expect(canAccessFeature("PRO", "maxPrompts")).toBe(true);
          expect(canAccessFeature("PRO", "maxLibraryItems")).toBe(true);
       });
+
+      it("should return false for FREE tier maxStoredPromptVersions (0)", () => {
+         expect(canAccessFeature("FREE", "maxStoredPromptVersions")).toBe(
+            false
+         );
+      });
+
+      it("should return true for BASIC tier maxStoredPromptVersions (20)", () => {
+         expect(canAccessFeature("BASIC", "maxStoredPromptVersions")).toBe(
+            true
+         );
+      });
+
+      it("should return true for PRO tier unlimited maxStoredPromptVersions", () => {
+         expect(canAccessFeature("PRO", "maxStoredPromptVersions")).toBe(true);
+      });
    });
 });
 
@@ -106,10 +131,13 @@ describe("getFeatureLimit tests", () => {
       it.each<[DSubscriptionTier, FeatureName, number]>([
          ["FREE", "maxPrompts", 5],
          ["FREE", "maxLibraryItems", 3],
+         ["FREE", "maxStoredPromptVersions", 0],
          ["BASIC", "maxPrompts", 50],
          ["BASIC", "maxLibraryItems", 20],
+         ["BASIC", "maxStoredPromptVersions", 20],
          ["PRO", "maxPrompts", -1],
          ["PRO", "maxLibraryItems", -1],
+         ["PRO", "maxStoredPromptVersions", -1],
       ])(
          "should return %s for %s tier %s feature",
          (tier, feature, expected) => {

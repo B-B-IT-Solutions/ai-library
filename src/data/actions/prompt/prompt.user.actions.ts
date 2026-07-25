@@ -26,10 +26,15 @@ import {
    DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptUpdateOptions,
+   DPromptVersion,
+   DPromptVersionsPageQuery,
+   DPromptVersionsResult,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 import {
+   promptVersionOptionsSchema,
    updatePromptCategorySchema,
    updatePromptModelSchema,
 } from "@/data/types/validators/prompt";
@@ -123,16 +128,21 @@ export const createPrompt = async (
 
 export const updatePrompt = async (
    descriptorId: string,
-   data: DPromptUpdate
+   data: DPromptUpdate,
+   versionOptions?: DPromptUpdateOptions
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Descriptor ID.");
       }
 
+      const vVersionOptions = versionOptions
+         ? promptVersionOptionsSchema.parse(versionOptions)
+         : undefined;
+
       const user = await requireUser();
       const service = getService();
-      await service.updatePrompt(user.id, descriptorId, data);
+      await service.updatePrompt(user.id, descriptorId, data, vVersionOptions);
 
       return {
          success: true,
@@ -140,9 +150,95 @@ export const updatePrompt = async (
       };
    } catch (error) {
       console.error(formatError(error));
+
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
+
       return {
          success: false,
          message: "Vorlage konnte nicht aktualisiert werden",
+      };
+   }
+};
+
+export const getPromptVersions = async (
+   promptId: string,
+   query?: DPromptVersionsPageQuery
+): Promise<DPromptVersionsResult> => {
+   try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Descriptor ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptVersions(user.id, promptId, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return { locked: true };
+   }
+};
+
+export const getPromptVersion = async (
+   promptId: string,
+   versionId: string
+): Promise<DPromptVersion | null> => {
+   try {
+      if (!isValidUuid(promptId) || !isValidUuid(versionId)) {
+         throw new Error("Invalid ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptVersion(user.id, promptId, versionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const restorePromptVersion = async (
+   promptId: string,
+   versionId: string,
+   keepCurrentAsVersion: boolean = true
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(promptId) || !isValidUuid(versionId)) {
+         throw new Error("Invalid ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      await service.restorePromptVersion(
+         user.id,
+         promptId,
+         versionId,
+         keepCurrentAsVersion
+      );
+
+      return {
+         success: true,
+         message: "Version wiederhergestellt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+
+      if (error instanceof SubscriptionAccessError) {
+         return {
+            success: false,
+            message: error.message,
+            upgradeRequired: true,
+         };
+      }
+
+      return {
+         success: false,
+         message: "Version konnte nicht wiederhergestellt werden",
       };
    }
 };

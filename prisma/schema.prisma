@@ -116,6 +116,7 @@ model Prompt {
   productItems      ProductItem[]
   collectionEntries LibraryCollectionEntry[]
   workflowSteps     WorkflowStep[]
+  contentVersions   PromptContentVersion[]
 
   @@index([userId])
   @@map("prompt")
@@ -128,6 +129,21 @@ model PromptContent {
   prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
 
   @@map("prompt_content")
+}
+
+model PromptContentVersion {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  promptId      String   @map("prompt_id") @db.Uuid
+  versionNumber Int      @map("version_number")
+  content       String   @map("content") @db.Text
+  note          String?  @db.VarChar(500)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, versionNumber])
+  @@index([promptId])
+  @@map("prompt_content_version")
 }
 
 model PromptGlobalField {

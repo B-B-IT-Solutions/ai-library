@@ -19,9 +19,18 @@ import {
    DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptUpdateOptions,
+   DPromptVersion,
+   DPromptVersionsPageQuery,
+   DPromptVersionsResult,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
-import { FeatureName, TIER_FEATURES } from "@/lib/subscription/access-control";
+import {
+   canAccessFeature,
+   FeatureName,
+   getFeatureLimit,
+   TIER_FEATURES,
+} from "@/lib/subscription/access-control";
 import { CollectionService } from "../collection";
 import { SettingsService } from "../settings";
 import { SubscriptionService } from "../subscription";
@@ -95,14 +104,117 @@ export class PromptService {
    async updatePrompt(
       userId: string,
       descriptorId: string,
-      data: DPromptUpdate
+      data: DPromptUpdate,
+      versionOptions?: DPromptUpdateOptions
    ) {
       const prompt = await this.getPrompt(userId, descriptorId);
       if (!prompt) {
          throw new Error("TemplateDescriptor not found");
       }
 
-      await this.repository.pUpdatePrompt(userId, descriptorId, data);
+      let maxStoredVersions: number | undefined;
+      if (versionOptions?.saveAsVersion) {
+         const tier = await this.subscriptionService.requireFeatureAccess(
+            userId,
+            "canAccessVersionHistory"
+         );
+         maxStoredVersions = getFeatureLimit(
+            tier,
+            "maxStoredPromptVersions"
+         ) as number;
+      }
+
+      await this.repository.pUpdatePromptWithVersioning(
+         userId,
+         descriptorId,
+         data,
+         versionOptions,
+         maxStoredVersions
+      );
+   }
+
+   async getPromptVersions(
+      userId: string,
+      promptId: string,
+      query?: DPromptVersionsPageQuery
+   ): Promise<DPromptVersionsResult> {
+      const tier = await this.subscriptionService.getUserTier(userId);
+      if (!canAccessFeature(tier, "canAccessVersionHistory")) {
+         return { locked: true };
+      }
+
+      const prompt = await this.getPromptWithContent(userId, promptId);
+      if (!prompt) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
+      const [page, latestVersionContent] = await Promise.all([
+         this.repository.pGetPromptVersionsPage(promptId, query?.pagination),
+         this.repository.pGetLatestPromptVersionContent(promptId),
+      ]);
+
+      const hasUnversionedChanges =
+         latestVersionContent !== null && latestVersionContent !== prompt.content;
+
+      return { locked: false, page, hasUnversionedChanges };
+   }
+
+   async getPromptVersion(
+      userId: string,
+      promptId: string,
+      versionId: string
+   ): Promise<DPromptVersion | null> {
+      await this.subscriptionService.requireFeatureAccess(
+         userId,
+         "canAccessVersionHistory"
+      );
+
+      return await this.repository.pGetPromptVersion(
+         userId,
+         promptId,
+         versionId
+      );
+   }
+
+   async restorePromptVersion(
+      userId: string,
+      promptId: string,
+      versionId: string,
+      keepCurrentAsVersion: boolean = true
+   ): Promise<void> {
+      const tier = await this.subscriptionService.requireFeatureAccess(
+         userId,
+         "canAccessVersionHistory"
+      );
+
+      const version = await this.repository.pGetPromptVersion(
+         userId,
+         promptId,
+         versionId
+      );
+      if (!version) {
+         throw new Error("Version not found");
+      }
+
+      const maxStoredVersions = getFeatureLimit(
+         tier,
+         "maxStoredPromptVersions"
+      ) as number;
+
+      // Restore runs through the exact same "archive the outgoing content first"
+      // rule as a normal editor save-as-version (see pRestorePromptContent) — no
+      // special case is needed, only the content being written differs.
+      await this.repository.pRestorePromptContent(
+         promptId,
+         version.content,
+         {
+            saveAsVersion: keepCurrentAsVersion,
+            versionNote: keepCurrentAsVersion
+               ? `Automatisch gesichert vor Wiederherstellen von Version ${version.versionNumber}`
+               : undefined,
+         },
+         maxStoredVersions
+      );
    }
 
    async deletePrompt(userId: string, descriptorId: string) {
