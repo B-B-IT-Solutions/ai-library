@@ -10,7 +10,7 @@ exports[`Models rendering tests models empty - test 1`] = `
       <h2
         class="text-xl font-semibold text-slate-900"
       >
-        Modelle
+        Prompts Modelle
       </h2>
       <p
         class="mt-1 text-sm text-slate-500"
@@ -165,7 +165,7 @@ exports[`Models rendering tests models retrieved - test 1`] = `
       <h2
         class="text-xl font-semibold text-slate-900"
       >
-        Modelle
+        Prompts Modelle
       </h2>
       <p
         class="mt-1 text-sm text-slate-500"

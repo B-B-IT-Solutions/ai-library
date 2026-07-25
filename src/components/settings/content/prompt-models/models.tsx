@@ -20,8 +20,8 @@ export const Models = async () => {
                <Cpu className="mx-auto mb-3 h-8 w-8 text-slate-400" />
                <p className="font-medium text-slate-600">Noch keine Modelle</p>
                <p className="mt-1 text-sm text-slate-400">
-                  Erstelle dein erstes Modell oder weise es direkt einem
-                  Prompt zu
+                  Erstelle dein erstes Modell oder weise es direkt einem Prompt
+                  zu
                </p>
             </div>
          );
@@ -47,7 +47,9 @@ export const Models = async () => {
    return (
       <div className="space-y-4" data-testid="prompt-models">
          <div>
-            <h2 className="text-xl font-semibold text-slate-900">Modelle</h2>
+            <h2 className="text-xl font-semibold text-slate-900">
+               Prompts Modelle
+            </h2>
             <p className="mt-1 text-sm text-slate-500">
                Verwalte deine Modelle. Änderungen wirken sich auf alle
                verknüpften Prompts aus.
