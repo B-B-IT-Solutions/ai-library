@@ -10,7 +10,6 @@ import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PublicProductService } from "./product";
 import { PromptService, PublicPromptService } from "./prompt";
-import { Prompt0Service } from "./prompt0";
 import { ServiceFactory } from "./service.factory";
 import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
@@ -189,19 +188,6 @@ describe("getPublicProductService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getPublicProductService();
       const service2 = serviceFactory.getPublicProductService();
-      expect(service1).toBe(service2);
-   });
-});
-
-describe("getPrompt0Service tests", () => {
-   it("new instance - test", () => {
-      const service = serviceFactory.getPrompt0Service();
-      expect(service).toBeInstanceOf(Prompt0Service);
-   });
-
-   it("existing instance - test", () => {
-      const service1 = serviceFactory.getPrompt0Service();
-      const service2 = serviceFactory.getPrompt0Service();
       expect(service1).toBe(service2);
    });
 });

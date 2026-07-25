@@ -71,17 +71,6 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
-   DPrompt0,
-   DPrompt0Category,
-   DPrompt0FollowUp,
-   DPrompt0FollowUpUpdate,
-   DPrompt0sFilter,
-   DPrompt0sPage,
-   DPrompt0sPageQuery,
-   DPrompt0Update,
-   DPrompt0Version,
-} from "@/data/types/domain/prompt0";
-import {
    DGlobalPromptField,
    DGlobalPromptFieldUpdate,
 } from "@/data/types/domain/settings";
@@ -902,38 +891,6 @@ export const dPromptModelUpdate = (index = 1): DPromptModelUpdate => {
    };
 };
 
-export const dPrompt0sPage = (): DPrompt0sPage => {
-   const prompts = dPrompt0s();
-   return {
-      content: prompts,
-      numberOfElements: prompts.length,
-      pageNumber: 1,
-      pageSize: 3,
-      totalElements: 15,
-      totalPages: 5,
-   };
-};
-
-export const dPrompt0s = (count = 3): DPrompt0[] => {
-   return range(0, count).map((i) => dPrompt0(i));
-};
-
-export const dPrompt0 = (index = 1): DPrompt0 => {
-   return {
-      id: `334db648-f300-4284-8149-075ff465d75${index}`,
-      title: `title ${index}`,
-      currentVersion: 1,
-      content: "content 1",
-      categories: dPrompt0Categories(),
-      recommendedModel: `model ${index}`,
-      isFavorite: true,
-      followUpPrompts: dPromptFollowUps(),
-      versions: dPrompt0Versions(),
-      updatedAt: new Date("2025-09-27").toISOString(),
-      createdAt: new Date("2025-09-27").toISOString(),
-   };
-};
-
 export const dCatalogEntriesSitemapData = (
    count = 3
 ): DCatalogEntrySitemapData[] => {
@@ -1042,99 +999,6 @@ export const dCatalogEntryField = (index = 1): DCatalogEntryField => ({
    defaultValue: null,
    options: ["option-1", "option-2", "option-3"],
 });
-
-export const dPrompt0Update = (index = 1): DPrompt0Update => {
-   return {
-      title: `title ${index}`,
-      content: `updated content ${index}`,
-      categories: ["category 1"],
-      recommendedModel: `model ${index}`,
-      followUpPrompts: dPrompt0FollowUpUpdates(),
-   };
-};
-
-export const dPrompt0FollowUpUpdates = (
-   count = 3
-): DPrompt0FollowUpUpdate[] => {
-   return range(0, count).map((i) => dPrompt0FollowUpUpdate(i));
-};
-
-export const dPrompt0FollowUpUpdate = (index = 1): DPrompt0FollowUpUpdate => {
-   return {
-      content: `prompt follow up update ${index}`,
-      order: index,
-   };
-};
-
-export const dPrompt0FollowUps = (count = 3): DPrompt0FollowUp[] => {
-   return range(0, count).map((i) => dPrompt0FollowUp(i));
-};
-
-export const dPrompt0FollowUp = (index = 1): DPrompt0FollowUp => {
-   return {
-      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
-      content: `prompt follow up ${index}`,
-      order: index,
-   };
-};
-
-export const dPrompt0CategoriesString = (count = 3): string[] => {
-   return map(dPrompt0Categories(count), (c) => c.name);
-};
-
-export const dPrompt0Categories = (count = 3): DPrompt0Category[] => {
-   return range(0, count).map((i) => dPromptCategory(i));
-};
-
-export const dPrompt0Category = (index = 1): DPrompt0Category => {
-   return {
-      name: `category ${index}`,
-   };
-};
-
-export const dPromptFollowUps = (count = 3): DPrompt0FollowUp[] => {
-   return range(0, count).map((i) => dPromptFollowUp(i));
-};
-
-export const dPromptFollowUp = (index = 1): DPrompt0FollowUp => {
-   return {
-      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
-      content: `content ${index}`,
-      order: index,
-   };
-};
-
-export const dPrompt0Versions = (count = 3): DPrompt0Version[] => {
-   return range(0, count).map((i) => dPrompt0Version(i));
-};
-
-export const dPrompt0Version = (index = 1): DPrompt0Version => {
-   return {
-      id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
-      version: index,
-      content: `content ${index}`,
-      createdAt: new Date("2025-09-27").toISOString(),
-   };
-};
-
-export const dPrompt0sPageQuery = (): DPrompt0sPageQuery => {
-   return {
-      pagination: {
-         pageNumber: 15,
-         pageSize: 5,
-      },
-      filter: dPrompt0sFilter(),
-      globalFilter: "test 1",
-   };
-};
-
-export const dPrompt0sFilter = (): DPrompt0sFilter => {
-   return {
-      search: "search-1",
-      categories: ["cat 1", "cat 2", "cat 3"],
-      isFavorite: false,
-   };
-};
 
 export const sort = (field = "field1", order: SortOrder = "desc"): Sort => {
    return { field, order };

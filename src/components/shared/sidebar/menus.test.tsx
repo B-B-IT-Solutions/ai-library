@@ -1,7 +1,6 @@
 import {
    Braces,
    Compass,
-   FileText,
    Folder,
    GitBranch,
    Package,
@@ -34,12 +33,6 @@ const expectedNavigationMenu1: DMenuItem[] = [
       url: "/workflows",
       badge: "Beta",
    },
-   // {
-   //    id: "/prompts",
-   //    title: "Prompts",
-   //    icon: FileText,
-   //    url: "/prompts",
-   // },
 ];
 
 const expectedNavigationMenu2: DMenuItem[] = [

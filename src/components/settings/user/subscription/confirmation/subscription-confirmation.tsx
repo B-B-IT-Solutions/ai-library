@@ -35,7 +35,7 @@ export const SubscriptionConfirmation = () => {
          <CardContent className="pb-8">
             <div className="flex flex-col items-center gap-4">
                <Button asChild={true} size="lg">
-                  <Link href="/prompts" data-testid="prompts-link">
+                  <Link href="/templates" data-testid="templates-link">
                      Zu meinen Prompts
                   </Link>
                </Button>

@@ -2,7 +2,6 @@
 jest.mock("@/data/services/settings");
 jest.mock("@/data/services/subscription");
 jest.mock("@/data/services/collection");
-jest.mock("@/lib/template");
 jest.mock("@/lib/subscription/server-guards");
 
 import { dtestData } from "@tests";
@@ -13,12 +12,9 @@ import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPromptsUsage,
    DPromptTemplatingData,
-   DPromptVariableValues,
 } from "@/data/types/domain/prompt";
-import { DPrompt0Update } from "@/data/types/domain/prompt0";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 import { FeatureName } from "@/lib/subscription/access-control";
-import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { CollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
@@ -48,11 +44,6 @@ const promptService = new PromptService(
    subscriptionServiceMock,
    collectionServiceMock
 );
-
-const sValidate = TemplateEngine.validate;
-const sReplace = TemplateEngine.replace;
-const sValidateMock = sValidate as jest.MockedFunction<typeof sValidate>;
-const sReplaceMock = sReplace as jest.MockedFunction<typeof sReplace>;
 
 describe("getPromptsPage tests", () => {
    beforeEach(() => {
@@ -363,133 +354,6 @@ describe("getPromptGenerationData tests", () => {
       expect(
          settingsServiceMock.getGlobalPromptFieldsByIds
       ).toHaveBeenCalledWith(userId, globalFieldIds);
-   });
-});
-
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("descriptor not found - test", async () => {
-      promptRepoMock.pGetPrompt.mockResolvedValue(null);
-
-      const userId = "user-id-1";
-      const id = "non-existent-id";
-      const fieldValues: DPromptVariableValues = {};
-
-      const fn = () =>
-         promptService.composePromptFromTemplate(userId, id, fieldValues);
-
-      await expect(fn).rejects.toThrow(
-         `TemplateDescriptor with ID ${id} not found`
-      );
-
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
-      expect(promptRepoMock.pGetPromptContent).not.toHaveBeenCalled();
-      expect(sValidateMock).not.toHaveBeenCalled();
-   });
-
-   it("template not found - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
-      promptRepoMock.pGetPromptContent.mockResolvedValue(null);
-
-      const userId = "user-id-1";
-      const { id } = descriptor;
-      const fieldValues: DPromptVariableValues = {};
-
-      const fn = () =>
-         promptService.composePromptFromTemplate(userId, id, fieldValues);
-
-      await expect(fn).rejects.toThrow(`Template with ID ${id} not found`);
-
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).not.toHaveBeenCalled();
-   });
-
-   it("fieldValues invalid - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
-
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
-
-      const validationResult: FieldsValidationResult = {
-         valid: false,
-         errors: {
-            email: "invalid email",
-         },
-      };
-      sValidateMock.mockReturnValue(validationResult);
-
-      const userId = "user-id-1";
-      const { id } = descriptor;
-      const fieldValues: DPromptVariableValues = {
-         email: "invalid-email",
-      };
-
-      const fn = () =>
-         promptService.composePromptFromTemplate(userId, id, fieldValues);
-
-      await expect(fn).rejects.toThrow("Provided template fields are invalid:");
-
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
-   });
-
-   it("composePromptFromTemplate - fieldValues valid - test", async () => {
-      const descriptor = dtestData.dPrompt();
-      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
-
-      const template = dtestData.dPromptWithContent();
-      promptRepoMock.pGetPromptContent.mockResolvedValue(template);
-
-      const validationResult: FieldsValidationResult = {
-         valid: true,
-         errors: {},
-      };
-      const content = "Hello, your email is test1@email.com.";
-      sValidateMock.mockReturnValue(validationResult);
-      sReplaceMock.mockReturnValue(content);
-
-      const userId = "user-id-1";
-      const { id } = descriptor;
-      const fieldValues: DPromptVariableValues = {
-         email: "test1@email.com",
-      };
-
-      const result = await promptService.composePromptFromTemplate(
-         userId,
-         id,
-         fieldValues
-      );
-
-      const expectedResult: DPrompt0Update = {
-         content: content,
-         title: descriptor.title,
-         recommendedModel: descriptor.model,
-         categories: descriptor.categories.map((cat) => cat.name),
-         followUpPrompts: [],
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPrompt).toHaveBeenCalledWith(userId, id);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptContent).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
-      expect(sReplaceMock).toHaveBeenCalledTimes(1);
-      expect(sReplaceMock).toHaveBeenCalledWith(template.content, fieldValues);
    });
 });
 

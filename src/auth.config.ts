@@ -45,7 +45,6 @@ export const authConfig: NextAuthConfig = {
       authorized({ request, auth }) {
          // Array of regex patterns of paths we want to protect
          const protectedPaths = [
-            /\/prompts/,
             /\/collections/,
             /\/settings/,
             /\/subscription/,

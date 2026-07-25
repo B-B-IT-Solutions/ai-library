@@ -37,9 +37,7 @@ model User {
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
   globalPromptFields        GlobalPromptField[]
-  promptDescriptors         Prompt0[]
-  promptCategories          Prompt0Category[]
-  promptTemplateCategories  PromptCategory[]
+  promptCategories          PromptCategory[]
   promptModels              PromptModel[]
   prompts                   Prompt[]
   workflows                 Workflow[]
@@ -97,71 +95,6 @@ model PasswordResetToken {
 
   @@id([identifier, token])
   @@map("password_reset_token")
-}
-
-model Prompt0 {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId           String            @map("user_id") @db.Uuid
-  title            String            @db.VarChar(500)
-  content          String            @db.Text
-  categories       Prompt0Category[]
-  recommendedModel String            @map("recommended_model") @db.VarChar(250)
-  isFavorite       Boolean           @default(false) @map("is_favorite")
-  currentVersion   Int               @default(0) @map("current_version")
-  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime          @updatedAt @map("updated_at")
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  prompt0Content   Prompt0Content?
-  versions         Prompt0Version[]
-  followUpPrompts  Prompt0FollowUp[]
-
-  @@index([userId])
-  @@map("prompt0")
-}
-
-model Prompt0Content {
-  id         String  @id @db.Uuid
-  content    String  @db.Text
-  descriptor Prompt0 @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@map("prompt0_content")
-}
-
-model Prompt0Category {
-  id      Int       @id @default(autoincrement())
-  userId  String    @map("user_id") @db.Uuid
-  name    String    @db.VarChar(250)
-  prompts Prompt0[]
-  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, name])
-  @@index([userId])
-  @@map("prompt0_category")
-}
-
-model Prompt0Version {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  promptId  String   @map("prompt_id") @db.Uuid
-  content   String   @db.Text
-  version   Int
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  prompt    Prompt0  @relation(fields: [promptId], references: [id], onDelete: Cascade)
-
-  @@unique([promptId, version])
-  @@index([promptId])
-  @@map("prompt0_version")
-}
-
-model Prompt0FollowUp {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  promptId  String   @map("prompt_id") @db.Uuid
-  content   String   @db.Text
-  order     Int      @default(0)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  prompt    Prompt0  @relation(fields: [promptId], references: [id], onDelete: Cascade)
-
-  @@index([promptId])
-  @@map("prompt0_follow_up")
 }
 
 model Prompt {
