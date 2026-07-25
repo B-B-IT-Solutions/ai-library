@@ -39,7 +39,7 @@ export const modelSchema = z
    .trim()
    .max(50, `Modell zu lang (maximal 50 Zeichen)`);
 
-export const updateTemplateSchema = z.object({
+export const updatePromptSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string(),
    content: z.string(),

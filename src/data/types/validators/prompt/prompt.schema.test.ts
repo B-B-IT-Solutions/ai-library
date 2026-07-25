@@ -7,10 +7,10 @@ import {
    promptVariableTypeSchema,
    updatePromptCategorySchema,
    updatePromptModelSchema,
-   updateTemplateSchema,
+   updatePromptSchema,
 } from "./prompt.schema";
 
-describe("templateFieldTypeSchema - tests", () => {
+describe("promptVariableTypeSchema - tests", () => {
    it("TEXT type valid - test", () => {
       const validatedValue = promptVariableTypeSchema.parse("TEXT");
       expect(validatedValue).toBe("TEXT");
@@ -528,7 +528,7 @@ describe("modelSchema - tests", () => {
    });
 });
 
-describe("updateTemplateSchema - tests", () => {
+describe("updatePromptSchema - tests", () => {
    const validField = {
       name: "email",
       label: "Email Address",
@@ -549,7 +549,7 @@ describe("updateTemplateSchema - tests", () => {
 
    describe("Valid data", () => {
       it("complete valid data - test", () => {
-         const validatedValues = updateTemplateSchema.parse(validTemplateData);
+         const validatedValues = updatePromptSchema.parse(validTemplateData);
          expect(validatedValues).toEqual(validTemplateData);
       });
 
@@ -559,7 +559,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: [],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toEqual([]);
       });
 
@@ -569,7 +569,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.fields).toEqual([]);
       });
 
@@ -579,7 +579,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["Vertrieb", "Sales", "Support", "HR"],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toEqual([
             "Vertrieb",
             "Sales",
@@ -616,7 +616,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [field1, field2, field3],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.fields).toHaveLength(3);
          expect(validatedValues.fields).toEqual([field1, field2, field3]);
       });
@@ -629,7 +629,7 @@ describe("updateTemplateSchema - tests", () => {
             title: "",
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -642,7 +642,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -652,7 +652,7 @@ describe("updateTemplateSchema - tests", () => {
             title: "   ",
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.title).toBe("   ");
       });
    });
@@ -664,7 +664,7 @@ describe("updateTemplateSchema - tests", () => {
             description: "",
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues).toEqual(templateData);
       });
 
@@ -677,7 +677,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
    });
@@ -689,7 +689,7 @@ describe("updateTemplateSchema - tests", () => {
             content: "",
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues).toEqual(templateData);
       });
 
@@ -702,7 +702,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -712,7 +712,7 @@ describe("updateTemplateSchema - tests", () => {
             content: "Hello {{name}}, your email is {{email}}!",
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.content).toBe(
             "Hello {{name}}, your email is {{email}}!"
          );
@@ -726,7 +726,7 @@ describe("updateTemplateSchema - tests", () => {
             model: "",
          };
 
-         const validatedValue = updateTemplateSchema.parse(templateData);
+         const validatedValue = updatePromptSchema.parse(templateData);
          expect(validatedValue.model).toBe("");
       });
 
@@ -739,7 +739,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -752,7 +752,7 @@ describe("updateTemplateSchema - tests", () => {
                model: model,
             };
 
-            const validatedValues = updateTemplateSchema.parse(templateData);
+            const validatedValues = updatePromptSchema.parse(templateData);
             expect(validatedValues.model).toBe(model);
          });
       });
@@ -768,7 +768,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -778,7 +778,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: "Vertrieb",
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -788,7 +788,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["Vertrieb"],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toEqual(["Vertrieb"]);
       });
 
@@ -798,7 +798,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["A", "B", "C", "D", "E"],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toHaveLength(5);
       });
 
@@ -808,7 +808,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["A", "B", "C", "D", "E", "F"],
          };
 
-         const result = updateTemplateSchema.safeParse(templateData);
+         const result = updatePromptSchema.safeParse(templateData);
          expect(result.success).toBe(false);
          expect(result.error?.issues[0].message).toBe(
             "Maximal 5 Kategorien pro Prompt"
@@ -821,7 +821,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["a".repeat(51)],
          };
 
-         const result = updateTemplateSchema.safeParse(templateData);
+         const result = updatePromptSchema.safeParse(templateData);
          expect(result.success).toBe(false);
          expect(result.error?.issues[0].message).toBe(
             "Kategorie zu lang (maximal 50 Zeichen)"
@@ -834,7 +834,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: [""],
          };
 
-         const result = updateTemplateSchema.safeParse(templateData);
+         const result = updatePromptSchema.safeParse(templateData);
          expect(result.success).toBe(false);
          expect(result.error?.issues[0].message).toBe(
             "Kategorie darf nicht leer sein"
@@ -847,7 +847,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["  Vertrieb  ", "Sales "],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toEqual(["Vertrieb", "Sales"]);
       });
 
@@ -857,7 +857,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: ["Vertrieb", "Vertrieb"],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.categories).toEqual(["Vertrieb", "Vertrieb"]);
       });
    });
@@ -872,7 +872,7 @@ describe("updateTemplateSchema - tests", () => {
             categories: [],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -882,7 +882,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: "not an array",
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -898,7 +898,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [invalidField],
          };
 
-         const fn = () => updateTemplateSchema.parse(templateData);
+         const fn = () => updatePromptSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
@@ -919,7 +919,7 @@ describe("updateTemplateSchema - tests", () => {
             fields: [completeField],
          };
 
-         const validatedValues = updateTemplateSchema.parse(templateData);
+         const validatedValues = updatePromptSchema.parse(templateData);
          expect(validatedValues.fields).toHaveLength(1);
          expect(validatedValues.fields[0]).toEqual(completeField);
       });
@@ -968,7 +968,7 @@ describe("updateTemplateSchema - tests", () => {
             ],
          };
 
-         const validatedValues = updateTemplateSchema.parse(realWorldTemplate);
+         const validatedValues = updatePromptSchema.parse(realWorldTemplate);
          expect(validatedValues.title).toBe("Vertrieb Email Campaign");
          expect(validatedValues.fields).toHaveLength(4);
          expect(validatedValues.categories).toHaveLength(3);
@@ -985,7 +985,7 @@ describe("updateTemplateSchema - tests", () => {
             globalFieldIds: [],
          };
 
-         const validatedValues = updateTemplateSchema.parse(minimalTemplate);
+         const validatedValues = updatePromptSchema.parse(minimalTemplate);
          expect(validatedValues).toEqual(minimalTemplate);
       });
    });

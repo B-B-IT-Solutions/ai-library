@@ -1,5 +1,5 @@
 export {
-   updateTemplateSchema,
+   updatePromptSchema,
    promptVariableSchema,
    promptVariableTypeSchema,
    updatePromptCategorySchema,

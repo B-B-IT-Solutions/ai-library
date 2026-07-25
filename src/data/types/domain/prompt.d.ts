@@ -4,7 +4,7 @@ import {
    promptVariableSchema,
    updatePromptCategorySchema,
    updatePromptModelSchema,
-   updateTemplateSchema,
+   updatePromptSchema,
 } from "@/data/types/validators/prompt";
 import { Page, PageQuery } from "../common";
 
@@ -38,7 +38,7 @@ export type DPromptModelsFilter = {
 
 export type DPromptVariableUpdate = z.infer<typeof promptVariableSchema>;
 
-export type DPromptUpdate = z.infer<typeof updateTemplateSchema>;
+export type DPromptUpdate = z.infer<typeof updatePromptSchema>;
 
 export type DPromptUpdateCrate = {
    data: DPromptUpdate;
