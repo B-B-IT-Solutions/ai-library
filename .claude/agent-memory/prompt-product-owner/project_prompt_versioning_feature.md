@@ -67,6 +67,17 @@ Inkonsistenz" dokumentierte offene Frage #1 ist dadurch aufgelöst. **Lehre: bei
 Gating generell "sichtbar aber gesperrt" (Feature-Teasing/Upgrade-Anreiz) gegenüber "komplett versteckt"
 bevorzugen, wenn nicht explizit anders gesagt — nicht von mir aus auf "kein totes UI-Element" schließen.**
 
+**Sechste Korrektur (API-Signatur, 2026-07-25):** Fünfte Überarbeitung mischte `saveAsVersion`/`versionNote`
+in den `DPromptUpdate`-Datenpayload (`updatePrompt(id, { ...data, saveAsVersion })`, additive Felder auf
+`updatePromptSchema`). Nutzer korrigierte: `saveAsVersion` gehört **nicht** in den Data-Payload, sondern als
+**zusätzlicher Parameter des Funktionsaufrufs**. Umgesetzt als dritter, optionaler Parameter `versionOptions:
+DPromptUpdateOptions` auf `updatePrompt`/`pUpdatePromptWithVersioning`, mit eigenem Zod-Schema
+`promptVersionOptionsSchema` — `updatePromptSchema`/`DPromptUpdate` bleiben dadurch von diesem Feature
+komplett unangetastet. **Lehre: generelles API-Design-Prinzip für diesen Nutzer — Verhaltensoptionen eines
+Aufrufs (wie/ob etwas passiert) nicht mit der eigentlichen Nutzlast (was gespeichert wird) im selben Objekt
+vermischen. Bei künftigen Feature-Flags/Optionen an bestehenden Update-Funktionen default zu einem separaten
+Options-Parameter greifen, nicht additiv ins Domain-Update-Objekt spreaden.**
+
 **Key decisions (non-negotiable laut aktueller Spec):**
 
 - Nur `content` (Prompt-Text) wird versioniert — nicht Titel/Beschreibung/Felder. MVP-Scope bewusst eng.
@@ -79,8 +90,9 @@ bevorzugen, wenn nicht explizit anders gesagt — nicht von mir aus auf "kein to
 - Restore ist die einzige Stelle mit einer sicheren Voreinstellung (Checkbox "Aktuelle Fassung vorher
   sichern" ist dort standardmäßig AN) — einzige Ausnahme vom sonst konsequenten Opt-in, weil dort echter
   unwiderruflicher Datenverlust droht (die "aktuelle, unversionierte" Fassung existiert sonst nirgends).
-- Optionale Änderungsnotiz (`versionNote`, max 500 Zeichen) — additiv zu `updatePromptSchema`, nicht auf
-  `Prompt` persistiert, nur an die erzeugte Version gehängt.
+- Optionale Änderungsnotiz (`versionNote`, max 500 Zeichen) — Teil von `DPromptUpdateOptions`/
+  `promptVersionOptionsSchema` (eigenes Schema, NICHT `updatePromptSchema`), nicht auf `Prompt` persistiert,
+  nur an die erzeugte Version gehängt.
 - Tier-Gating: FREE **sieht** die Versionierungs-Option im Editor (Chevron sichtbar, wie BASIC/PRO), der
   Menüeintrag ist aber `disabled` mit Lock-Icon + Tooltip "Ab BASIC verfügbar" — sichtbar-aber-gesperrt, nicht
   versteckt. Serverseitiger Guard (`VERSION_HISTORY_UPGRADE_REQUIRED`) schützt zusätzlich vor API-Bypass.

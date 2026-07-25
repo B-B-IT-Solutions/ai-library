@@ -158,7 +158,7 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 - Klick auf das primäre Segment ("Speichern") speichert wie gehabt, ohne Version.
 - Klick auf den Menüeintrag "Speichern als neue Version" archiviert zuerst den **bisherigen** Content als neue `PromptContentVersion` und speichert **danach** den Prompt inkl. des neuen, gerade eingegebenen Contents (Regel siehe §3.3). Hilfetext im Menüeintrag (`DropdownMenuItem`, kleine sekundäre Zeile oder Tooltip): _"Sichert deinen aktuellen Stand in der Versionshistorie, bevor deine Änderung gespeichert wird."_
 - **Technische Umsetzung:** Das primäre Segment bleibt ein natives `<button type="submit" form={formId} name="intent" value="normal">`, identisch zum bisherigen `submitBtn()`-Muster (HTML-`form`-Attribut, kein Zugriff auf die React-Hook-Form-Instanz von `prompt-edit.tsx` aus nötig). Der Menüeintrag im Dropdown ist kein natives Submit-Element; sein `onSelect`-Handler löst stattdessen einen Klick auf ein zweites, visuell verstecktes (`className="hidden"`, per Ref referenziertes) `<button type="submit" form={formId} name="intent" value="version">` aus. Beide Buttons hängen am selben `<form id={formId}>` und lösen dieselbe Formularvalidierung aus — es gibt weiterhin nur **ein** Formular.
-- **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert anhand des `name`/`value`-Attributs (`value="version"` vs. `value="normal"`), welcher der beiden Buttons den Submit ausgelöst hat. Daraus wird `saveAsVersion: boolean` abgeleitet und an `updatePrompt(id, { ...data, saveAsVersion })` übergeben.
+- **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert anhand des `name`/`value`-Attributs (`value="version"` vs. `value="normal"`), welcher der beiden Submit-Elemente den Submit ausgelöst hat. Daraus wird `saveAsVersion: boolean` abgeleitet und **getrennt von den Formulardaten** als dritter Parameter übergeben: `updatePrompt(id, data, { saveAsVersion, versionNote })` — `data` (das RHF-Formularobjekt, `DPromptUpdate`) enthält `saveAsVersion`/`versionNote` zu keinem Zeitpunkt.
 - **Notizfeld:** Unterhalb des bestehenden `FormMDEditor` (Feld `content`) in `prompt-text.tsx` bleibt ein optionales, eingeklapptes Feld erhalten (`+ Notiz hinzufügen`, Feld `versionNote`, max. 500 Zeichen), unabhängig vom Split-Button immer sichtbar/befüllbar. Der Wert wird nur ausgewertet, wenn tatsächlich über den Menüeintrag "Speichern als neue Version" gespeichert wurde.
 - **Sichtbarkeit — Create-Modus:** Das Chevron-Segment wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4). Im Create-Modus (`/prompts/new`) reduziert sich der Split-Button für **alle** Tiers auf einen einzelnen, regulären "Prompt erstellen"-Button ohne Chevron.
 - **Sichtbarkeit — FREE-Tier:** Im Bearbeiten-Modus wird das Chevron-Segment für **alle** Tiers gerendert, also auch für FREE — das Feature soll sichtbar/discoverable sein, nicht komplett versteckt. Für FREE ist der Menüeintrag "Speichern als neue Version" jedoch `disabled` (kein `onSelect`, keine Wirkung bei Klick), zusätzlich mit einem `Lock`-Icon (lucide-react) markiert. Ein Tooltip bzw. eine kleine sekundäre Zeile im Menüeintrag erklärt: _"Ab BASIC verfügbar"_ + optional Link zu `/subscription/pricing`. Implementierungshinweis: Radix' `data-disabled`-Styling setzt i.d.R. `pointer-events: none` auf das `DropdownMenuItem` selbst — für einen funktionierenden Hover-Tooltip auf einem disabled Item muss der Tooltip-Trigger auf einem umschließenden `<span>` mit eigenem `pointer-events: auto` sitzen (bekanntes Radix-Muster für "disabled with tooltip").
@@ -253,16 +253,29 @@ Klick "Wiederherstellen" auf Version 3
 | `getPromptVersion(promptId, versionId)`                          | Einzelne Version inkl. `content`, für "Ansehen". Ownership-Check. Gated hinter `canAccessVersionHistory`. |
 | `restorePromptVersion(promptId, versionId, { keepCurrentAsVersion })` | Übernimmt `version.content` als neuen `PromptContent.content`. Sichert optional (Default: ja) die aktuelle Fassung vorher als neue Version. Gated hinter `canAccessVersionHistory`. |
 
-`updatePrompt(descriptorId, data)` (bestehende Action) wird um die optionalen Felder `saveAsVersion` (boolean, default `false`) und `versionNote` in `DPromptUpdate` erweitert — kein neuer Action-Name nötig, da der bestehende Single-Submit-Formularfluss unverändert bleibt.
+`updatePrompt(descriptorId, data)` (bestehende Action) wird um einen **dritten, optionalen Parameter** `versionOptions` erweitert — `saveAsVersion` und `versionNote` sind bewusst **nicht** Teil von `data: DPromptUpdate`. `DPromptUpdate` beschreibt ausschließlich die editierbaren Felder des Prompts (Titel, Beschreibung, Content, Felder, …); ob und wie dieser Save zusätzlich einen Versions-Snapshot auslöst, ist eine Verhaltensoption des Aufrufs, kein Attribut des Prompts selbst — beide sollten daher nicht im selben Objekt vermischt werden:
+
+```typescript
+updatePrompt(
+  descriptorId: string,
+  data: DPromptUpdate,
+  versionOptions?: DPromptUpdateOptions
+): Promise<ActionResult>
+```
 
 ### 6.2 Service (`src/data/services/prompt/prompt.user.service.ts`)
 
 ```typescript
-async updatePrompt(userId: string, descriptorId: string, data: DPromptUpdate) {
+async updatePrompt(
+  userId: string,
+  descriptorId: string,
+  data: DPromptUpdate,
+  versionOptions?: DPromptUpdateOptions
+) {
   const prompt = await this.getPrompt(userId, descriptorId);
   if (!prompt) throw new Error("TemplateDescriptor not found");
 
-  if (data.saveAsVersion) {
+  if (versionOptions?.saveAsVersion) {
     const tier = await this.subscriptionService.getUserTier(userId);
     if (!canAccessFeature(tier, "canAccessVersionHistory")) {
       throw new SubscriptionAccessError(
@@ -272,7 +285,7 @@ async updatePrompt(userId: string, descriptorId: string, data: DPromptUpdate) {
     }
   }
 
-  await this.repository.pUpdatePromptWithVersioning(userId, descriptorId, data);
+  await this.repository.pUpdatePromptWithVersioning(userId, descriptorId, data, versionOptions);
 }
 
 async restorePromptVersion(
@@ -296,13 +309,17 @@ async restorePromptVersion(
   // "Speichern als neue Version" — pUpdatePromptWithVersioning sichert IMMER den
   // bisherigen Content, bevor der neue (hier: version.content) geschrieben wird.
   // Kein Sonderfall nötig, siehe §6.3.
-  await this.repository.pUpdatePromptWithVersioning(userId, promptId, {
-    content: version.content,
-    saveAsVersion: keepCurrentAsVersion,
-    versionNote: keepCurrentAsVersion
-      ? `Automatisch gesichert vor Wiederherstellen von Version ${version.versionNumber}`
-      : undefined,
-  } as Partial<DPromptUpdate>);
+  await this.repository.pUpdatePromptWithVersioning(
+    userId,
+    promptId,
+    { content: version.content } as Partial<DPromptUpdate>,
+    {
+      saveAsVersion: keepCurrentAsVersion,
+      versionNote: keepCurrentAsVersion
+        ? `Automatisch gesichert vor Wiederherstellen von Version ${version.versionNumber}`
+        : undefined,
+    }
+  );
 }
 ```
 
@@ -310,16 +327,17 @@ async restorePromptVersion(
 
 ### 6.3 Repository (`src/data/repositories/prompt/prompt.user.repository.ts`)
 
-`pUpdatePrompt` wird zu `pUpdatePromptWithVersioning` erweitert:
+`pUpdatePrompt` wird zu `pUpdatePromptWithVersioning` erweitert und übernimmt dasselbe Prinzip: `data` bleibt reine Content-/Feld-Nutzlast, die Versionierungs-Steuerung ist ein eigener Parameter.
 
 ```typescript
 async pUpdatePromptWithVersioning(
   userId: string,
   descriptorId: string,
-  data: DPromptUpdate
+  data: DPromptUpdate,
+  versionOptions?: DPromptUpdateOptions
 ) {
   return this.prisma.$transaction(async (tx) => {
-    if (data.saveAsVersion) {
+    if (versionOptions?.saveAsVersion) {
       // Immer der BISHERIGE Content wird zur Version — unabhängig davon, ob der
       // Aufruf vom normalen Editor-Save oder von restorePromptVersion() kommt.
       // Dadurch entfällt jede Sonderfall-Unterscheidung: eine einzige Regel für
@@ -339,7 +357,7 @@ async pUpdatePromptWithVersioning(
           promptId: descriptorId,
           versionNumber: nextVersionNumber,
           content: current!.content, // der Stand VOR dieser Änderung
-          note: data.versionNote || null,
+          note: versionOptions.versionNote || null,
         },
       });
 
@@ -359,7 +377,7 @@ async pUpdatePromptWithVersioning(
 }
 ```
 
-> Da immer der bisherige Content gesichert wird, braucht `pUpdatePromptWithVersioning` keine Unterscheidung danach, ob der Aufruf vom Editor-Save oder von `restorePromptVersion()` (§6.2) kommt — Letzteres ruft dieselbe Methode einfach mit `content = version.content` auf.
+> Da immer der bisherige Content gesichert wird, braucht `pUpdatePromptWithVersioning` keine Unterscheidung danach, ob der Aufruf vom Editor-Save oder von `restorePromptVersion()` (§6.2) kommt — Letzteres ruft dieselbe Methode einfach mit `data = { content: version.content }` auf.
 
 ### 6.4 Service-Invarianten
 
@@ -390,10 +408,14 @@ export type DPromptVersionsResult =
   | { locked: true } // FREE
   | { locked: false; page: Page<DPromptVersionSummary>; hasUnversionedChanges: boolean }; // BASIC/PRO
 
-// Erweiterung des bestehenden Update-Typs (additiv, optional):
-// updatePromptSchema erhält:
-//   saveAsVersion: z.boolean().optional().default(false)
-//   versionNote: z.string().max(500).optional()
+// DPromptUpdateOptions ist bewusst GETRENNT von DPromptUpdate (siehe §12 für das
+// zugehörige Zod-Schema promptVersionOptionsSchema, aus dem dieser Typ abgeleitet wird).
+// DPromptUpdate bildet ausschließlich die editierbaren Prompt-Felder ab (Titel,
+// Beschreibung, Content, Fields, ...); ob ein Save zusätzlich einen Versions-Snapshot
+// auslöst, ist keine Eigenschaft des Prompts, sondern eine Verhaltensoption des
+// jeweiligen Funktionsaufrufs. DPromptUpdate/updatePromptSchema bleiben dadurch
+// unverändert von diesem Feature.
+export type DPromptUpdateOptions = z.infer<typeof promptVersionOptionsSchema>;
 ```
 
 `hasUnversionedChanges` speist den Hinweistext aus §5.3 ("Seit Version 4 wurden Änderungen gespeichert, die nicht als eigene Version markiert sind") — Ableitung: `PromptContent.updatedAt` (sofern vorhanden) bzw. Vergleich von `PromptContent.content` mit `content` der neuesten `PromptContentVersion`.
@@ -484,7 +506,8 @@ Then:   Nur ein regulärer Button "Prompt erstellen" wird gerendert, ohne Chevro
 
 ```
 Given:  Nutzer ist FREE
-When:   Nutzer sendet updatePrompt(...) mit saveAsVersion: true direkt (API-Bypass)
+When:   Nutzer ruft die Server Action updatePrompt(id, data, { saveAsVersion: true })
+        direkt auf (API-Bypass, versionOptions als dritter Parameter manipuliert)
 Then:   Server antwortet mit Error VERSION_HISTORY_UPGRADE_REQUIRED
   And:  Content wird NICHT gespeichert (gesamte Transaktion schlägt fehl)
 ```
@@ -596,10 +619,10 @@ Then:   Keine Version wird gelöscht
 ## 10. Implementierungs-Reihenfolge
 
 1. **Prisma-Schema:** `PromptContentVersion`-Modell + Relation auf `Prompt`, Migration, Client generieren
-2. **Domain Types:** `DPromptVersion`, `DPromptVersionsResult`; `updatePromptSchema` um optionale `saveAsVersion`/`versionNote` erweitern
+2. **Domain Types:** `DPromptVersion`, `DPromptVersionsResult`, `DPromptUpdateOptions` (eigenes, von `DPromptUpdate`/`updatePromptSchema` getrenntes Schema `promptVersionOptionsSchema`, siehe §12) — `updatePromptSchema` bleibt unverändert
 3. **Tier-Konfiguration:** `TIER_FEATURES` um `canAccessVersionHistory` + `maxStoredPromptVersions` erweitern (inkl. Tests in `access-control.test.ts`)
-4. **Repository:** `pUpdatePromptWithVersioning` (Transaktion, explizites Insert nur bei `saveAsVersion`, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
-5. **Service:** `updatePrompt` mit Tier-Gate für `saveAsVersion` ergänzen, `restorePromptVersion` mit Tier-Gate + `keepCurrentAsVersion`-Logik
+4. **Repository:** `pUpdatePromptWithVersioning(userId, descriptorId, data, versionOptions?)` (Transaktion, explizites Insert nur bei `versionOptions?.saveAsVersion`, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
+5. **Service:** `updatePrompt` um dritten Parameter `versionOptions?: DPromptUpdateOptions` + Tier-Gate ergänzen, `restorePromptVersion` mit Tier-Gate + `keepCurrentAsVersion`-Logik
 6. **Server Actions:** `getPromptVersions`, `getPromptVersion`, `restorePromptVersion`
 7. **UI — Editor:** Split-Button "Speichern" (primäres Segment) mit Dropdown-Option "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), verstecktes zweites Submit-Element + submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Chevron im Create-Modus für alle Tiers ausgeblendet, im Edit-Modus für FREE sichtbar aber mit disabled Menüeintrag (Lock-Icon + Tooltip)
 8. **UI — Sidebar & Sheet:** `VersionHistoryButton`, `version-history-sheet.tsx`, Ansehen-/Wiederherstellen-Flow (inkl. Checkbox "Aktuelle Fassung sichern"), Variablen-Mismatch-Warnung
@@ -625,13 +648,18 @@ Then:   Keine Version wird gelöscht
 
 **Datei:** `src/data/types/validators/prompt.ts`
 
+`updatePromptSchema` (und damit `DPromptUpdate`) bleibt **unverändert** — dieses Feature fügt dort keine Felder hinzu. Stattdessen ein eigenes, kleines Schema für die Versionierungs-Steuerung:
+
 ```typescript
-export const updatePromptSchema = z.object({
-  // ...bestehende Felder...
-  saveAsVersion: z.boolean().optional().default(false),
+export const promptVersionOptionsSchema = z.object({
+  saveAsVersion: z.boolean().default(false),
   versionNote: z.string().max(500).optional(),
 });
+
+export type DPromptUpdateOptions = z.infer<typeof promptVersionOptionsSchema>;
 ```
+
+Wird in der Server Action `updatePrompt(descriptorId, data, versionOptions)` unabhängig von `updatePromptSchema` validiert (z.B. `promptVersionOptionsSchema.optional().parse(versionOptions)`).
 
 ---
 
