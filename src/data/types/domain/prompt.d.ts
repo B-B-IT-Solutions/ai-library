@@ -5,7 +5,7 @@ import {
    updatePromptCategorySchema,
    updatePromptModelSchema,
    updateTemplateSchema,
-} from "@/data/types/validators/template";
+} from "@/data/types/validators/prompt";
 import { Page, PageQuery } from "../common";
 
 export type DPromptsPageQuery = PageQuery<DPromptsFilter>;

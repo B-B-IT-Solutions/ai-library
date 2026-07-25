@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { promptVariableTypeSchema } from "@/data/types/validators/template";
+import { promptVariableTypeSchema } from "@/data/types/validators/prompt";
 
 export const globalPromptFieldSchema = z.object({
    name: z.string().min(1, "Name ist erforderlich").max(50).regex(/^\S+$/, {

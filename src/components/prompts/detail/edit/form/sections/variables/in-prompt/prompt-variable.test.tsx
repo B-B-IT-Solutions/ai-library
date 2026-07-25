@@ -17,7 +17,7 @@ import {
    DPromptUpdate,
    DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
-import { updateTemplateSchema } from "@/data/types/validators/template";
+import { updateTemplateSchema } from "@/data/types/validators/prompt";
 
 import { PromptVariable } from "./prompt-variable";
 

@@ -1,330 +1,1055 @@
-import { title } from "process";
 import { ZodError } from "zod";
 
 import {
-   updatePromptFollowUpSchema,
-   updatePromptSchema,
+   categorySchema,
+   modelSchema,
+   promptVariableSchema,
+   promptVariableTypeSchema,
+   updatePromptCategorySchema,
+   updatePromptModelSchema,
+   updateTemplateSchema,
 } from "./prompt.schema";
 
-describe("updatePromptFollowUpSchema - tests", () => {
-   it("updatePromptFollowUpSchema - complete valid data - test", () => {
-      const data = {
-         id: "follow-up-1",
-         content: "What else would you like to know?",
-         order: 0,
-      };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result).toEqual(data);
+describe("templateFieldTypeSchema - tests", () => {
+   it("TEXT type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("TEXT");
+      expect(validatedValue).toBe("TEXT");
    });
 
-   it("updatePromptFollowUpSchema - id optional - test", () => {
-      const data = {
-         content: "Follow-up question",
-         order: 1,
-      };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result.id).toBeUndefined();
-      expect(result.content).toBe("Follow-up question");
-      expect(result.order).toBe(1);
+   it("TEXTAREA type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("TEXTAREA");
+      expect(validatedValue).toBe("TEXTAREA");
    });
 
-   it("updatePromptFollowUpSchema - order can be 0 - test", () => {
-      const data = { content: "Content", order: 0 };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result.order).toBe(0);
+   it("SELECT type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("SELECT");
+      expect(validatedValue).toBe("SELECT");
    });
 
-   it("updatePromptFollowUpSchema - order can be positive integer - test", () => {
-      const data = { content: "Content", order: 5 };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result.order).toBe(5);
+   it("CHECKBOX type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("CHECKBOX");
+      expect(validatedValue).toBe("CHECKBOX");
    });
 
-   it("updatePromptFollowUpSchema - order can be negative integer - test", () => {
-      const data = { content: "Content", order: -1 };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result.order).toBe(-1);
+   it("RADIO type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("RADIO");
+      expect(validatedValue).toBe("RADIO");
    });
 
-   it("updatePromptFollowUpSchema - missing content invalid - test", () => {
-      const data = { order: 0 };
+   it("NUMBER type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("NUMBER");
+      expect(validatedValue).toBe("NUMBER");
+   });
 
-      const fn = () => updatePromptFollowUpSchema.parse(data);
+   it("DATE type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("DATE");
+      expect(validatedValue).toBe("DATE");
+   });
+
+   it("EMAIL type valid - test", () => {
+      const validatedValue = promptVariableTypeSchema.parse("EMAIL");
+      expect(validatedValue).toBe("EMAIL");
+   });
+
+   it("invalid type - test", () => {
+      const fn = () => promptVariableTypeSchema.parse("INVALID_TYPE");
       expect(fn).toThrow(ZodError);
    });
 
-   it("updatePromptFollowUpSchema - missing order invalid - test", () => {
-      const data = { content: "Content" };
-
-      const fn = () => updatePromptFollowUpSchema.parse(data);
+   it("empty string - test", () => {
+      const fn = () => promptVariableTypeSchema.parse("");
       expect(fn).toThrow(ZodError);
-   });
-
-   it("updatePromptFollowUpSchema - order not a number invalid - test", () => {
-      const data = { content: "Content", order: "first" };
-
-      const fn = () => updatePromptFollowUpSchema.parse(data);
-      expect(fn).toThrow(ZodError);
-   });
-
-   it("updatePromptFollowUpSchema - content empty string valid - test", () => {
-      const data = { content: "", order: 0 };
-
-      const result = updatePromptFollowUpSchema.parse(data);
-      expect(result.content).toBe("");
    });
 });
 
-describe("updatePromptSchema - tests", () => {
-   const validFollowUp = {
-      id: "fu-1",
-      content: "Tell me more",
+describe("promptVariableSchema - tests", () => {
+   it("complete valid data - test", () => {
+      const fieldData = {
+         name: "email",
+         label: "Email Address",
+         description: "Enter your email address",
+         type: "EMAIL" as const,
+         required: true,
+         order: 1,
+         defaultValue: "user@example.com",
+         options: ["option1", "option2"],
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues).toEqual(fieldData);
+   });
+
+   it("minimal valid data - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Name",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues).toEqual({
+         name: "name",
+         label: "Name",
+         type: "TEXT",
+         required: true,
+         order: 0,
+      });
+   });
+
+   it("name empty string invalid - test", () => {
+      const fieldData = {
+         name: "",
+         label: "Label",
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name exceeds max length - test", () => {
+      const fieldData = {
+         name: "a".repeat(51),
+         label: "Label",
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name at max length valid - test", () => {
+      const fieldData = {
+         name: "a".repeat(50),
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.name).toBe("a".repeat(50));
+   });
+
+   it("label empty string invalid - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "",
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("label exceeds max length - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "a".repeat(251),
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("label at max length valid - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "a".repeat(250),
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.label).toBe("a".repeat(250));
+   });
+
+   it("description optional - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.description).toBeUndefined();
+   });
+
+   it("description exceeds max length - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         description: "a".repeat(501),
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("description at max length valid - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         description: "a".repeat(500),
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.description).toBe("a".repeat(500));
+   });
+
+   it("invalid type - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "INVALID",
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("required can be true - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.required).toBe(true);
+   });
+
+   it("required can be false - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: false,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.required).toBe(false);
+   });
+
+   it("order can be 0 - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.order).toBe(0);
+   });
+
+   it("order can be positive integer - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 5,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.order).toBe(5);
+   });
+
+   it("order can be negative integer - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: -1,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.order).toBe(-1);
+   });
+
+   it("order must be integer - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         order: 1.5,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("defaultValue optional - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.defaultValue).toBeUndefined();
+   });
+
+   it("defaultValue can be set - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "TEXT" as const,
+         required: true,
+         order: 0,
+         defaultValue: "Default text",
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.defaultValue).toBe("Default text");
+   });
+
+   it("options optional - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+         type: "SELECT" as const,
+         required: true,
+         order: 0,
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.options).toBeUndefined();
+   });
+
+   it("options can be array of strings - test", () => {
+      const fieldData = {
+         name: "country",
+         label: "Country",
+         type: "SELECT" as const,
+         required: true,
+         order: 0,
+         options: ["USA", "UK", "Germany"],
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.options).toEqual(["USA", "UK", "Germany"]);
+   });
+
+   it("options can be empty array - test", () => {
+      const fieldData = {
+         name: "country",
+         label: "Country",
+         type: "SELECT" as const,
+         required: true,
+         order: 0,
+         options: [],
+      };
+
+      const validatedValues = promptVariableSchema.parse(fieldData);
+      expect(validatedValues.options).toEqual([]);
+   });
+
+   it("missing name invalid - test", () => {
+      const fieldData = {
+         label: "Label",
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing label invalid - test", () => {
+      const fieldData = {
+         name: "name",
+         type: "TEXT" as const,
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing type invalid - test", () => {
+      const fieldData = {
+         name: "name",
+         label: "Label",
+      };
+
+      const fn = () => promptVariableSchema.parse(fieldData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("all field types valid - test", () => {
+      const types = [
+         "TEXT",
+         "TEXTAREA",
+         "SELECT",
+         "CHECKBOX",
+         "RADIO",
+         "NUMBER",
+         "DATE",
+         "EMAIL",
+      ] as const;
+
+      types.forEach((type) => {
+         const fieldData = {
+            name: "field",
+            label: "Field",
+            type: type,
+            required: true,
+            order: 0,
+         };
+
+         const validatedValues = promptVariableSchema.parse(fieldData);
+         expect(validatedValues.type).toBe(type);
+      });
+   });
+});
+
+describe("categorySchema - tests", () => {
+   it("valid category - test", () => {
+      const validatedValue = categorySchema.parse("Vertrieb");
+      expect(validatedValue).toBe("Vertrieb");
+   });
+
+   it("trims leading and trailing whitespace - test", () => {
+      const validatedValue = categorySchema.parse("  Vertrieb  ");
+      expect(validatedValue).toBe("Vertrieb");
+   });
+
+   it("single character valid - test", () => {
+      const validatedValue = categorySchema.parse("A");
+      expect(validatedValue).toBe("A");
+   });
+
+   it("empty string invalid - test", () => {
+      const result = categorySchema.safeParse("");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie darf nicht leer sein"
+      );
+   });
+
+   it("whitespace only string invalid - test", () => {
+      const result = categorySchema.safeParse("   ");
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie darf nicht leer sein"
+      );
+   });
+
+   it("at max length (50 chars) valid - test", () => {
+      const validatedValue = categorySchema.parse("a".repeat(50));
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("exceeds max length (51 chars) invalid - test", () => {
+      const result = categorySchema.safeParse("a".repeat(51));
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Kategorie zu lang (maximal 50 Zeichen)"
+      );
+   });
+
+   it("length check applies after trimming - test", () => {
+      const paddedValue = ` ${"a".repeat(50)} `;
+      const validatedValue = categorySchema.parse(paddedValue);
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("non-string value invalid - test", () => {
+      const fn = () => categorySchema.parse(123);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("modelSchema - tests", () => {
+   it("valid model - test", () => {
+      const validatedValue = modelSchema.parse("Claude");
+      expect(validatedValue).toBe("Claude");
+   });
+
+   it("trims leading and trailing whitespace - test", () => {
+      const validatedValue = modelSchema.parse("  Claude  ");
+      expect(validatedValue).toBe("Claude");
+   });
+
+   it("single character valid - test", () => {
+      const validatedValue = modelSchema.parse("A");
+      expect(validatedValue).toBe("A");
+   });
+
+   it("empty string valid - test", () => {
+      const validatedValue = modelSchema.parse("");
+      expect(validatedValue).toBe("");
+   });
+
+   it("whitespace only string valid - test", () => {
+      const validatedValue = modelSchema.parse("   ");
+      expect(validatedValue).toBe("");
+   });
+
+   it("at max length (50 chars) valid - test", () => {
+      const validatedValue = modelSchema.parse("a".repeat(50));
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("exceeds max length (51 chars) invalid - test", () => {
+      const result = modelSchema.safeParse("a".repeat(51));
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe(
+         "Modell zu lang (maximal 50 Zeichen)"
+      );
+   });
+
+   it("length check applies after trimming - test", () => {
+      const paddedValue = ` ${"a".repeat(50)} `;
+      const validatedValue = modelSchema.parse(paddedValue);
+      expect(validatedValue).toBe("a".repeat(50));
+   });
+
+   it("non-string value invalid - test", () => {
+      const fn = () => modelSchema.parse(123);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("updateTemplateSchema - tests", () => {
+   const validField = {
+      name: "email",
+      label: "Email Address",
+      type: "EMAIL" as const,
+      required: true,
       order: 0,
    };
 
-   const validData = {
-      title: "My Prompt",
-      content: "Write a summary about {{topic}}",
-      categories: ["Marketing", "Sales"],
-      recommendedModel: "claude-sonnet-4-6",
-      followUpPrompts: [validFollowUp],
+   const validTemplateData = {
+      title: "Test Template",
+      description: "A test template description",
+      content: "Hello {{email}}, welcome to {{company}}!",
+      model: "gpt-4",
+      categories: ["Vertrieb", "Sales"],
+      fields: [validField],
+      globalFieldIds: [],
    };
 
    describe("Valid data", () => {
-      it("updatePromptSchema - complete valid data - test", () => {
-         const result = updatePromptSchema.parse(validData);
-         expect(result).toEqual(validData);
+      it("complete valid data - test", () => {
+         const validatedValues = updateTemplateSchema.parse(validTemplateData);
+         expect(validatedValues).toEqual(validTemplateData);
       });
 
-      it("updatePromptSchema - empty categories array valid - test", () => {
-         const data = { ...validData, categories: [] };
-
-         const result = updatePromptSchema.parse(data);
-         expect(result.categories).toEqual([]);
-      });
-
-      it("updatePromptSchema - empty followUpPrompts array valid - test", () => {
-         const data = { ...validData, followUpPrompts: [] };
-
-         const result = updatePromptSchema.parse(data);
-         expect(result.followUpPrompts).toEqual([]);
-      });
-
-      it("updatePromptSchema - multiple categories valid - test", () => {
-         const data = {
-            ...validData,
-            categories: ["Marketing", "Sales", "Support"],
+      it("empty categories array valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: [],
          };
 
-         const result = updatePromptSchema.parse(data);
-         expect(result.categories).toHaveLength(3);
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual([]);
       });
 
-      it("updatePromptSchema - multiple followUpPrompts valid - test", () => {
-         const data = {
-            ...validData,
-            followUpPrompts: [
-               { content: "Follow up 1", order: 0 },
-               { content: "Follow up 2", order: 1 },
-               { id: "fu-3", content: "Follow up 3", order: 2 },
-            ],
+      it("empty fields array valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            fields: [],
          };
 
-         const result = updatePromptSchema.parse(data);
-         expect(result.followUpPrompts).toHaveLength(3);
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.fields).toEqual([]);
       });
 
-      it("updatePromptSchema - empty content valid - test", () => {
-         const data = { ...validData, content: "" };
+      it("multiple categories valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["Vertrieb", "Sales", "Support", "HR"],
+         };
 
-         const result = updatePromptSchema.parse(data);
-         expect(result.content).toBe("");
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual([
+            "Vertrieb",
+            "Sales",
+            "Support",
+            "HR",
+         ]);
+      });
+
+      it("multiple fields valid - test", () => {
+         const field1 = {
+            name: "email",
+            label: "Email",
+            type: "EMAIL" as const,
+            required: true,
+            order: 0,
+         };
+         const field2 = {
+            name: "name",
+            label: "Name",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         };
+         const field3 = {
+            name: "age",
+            label: "Age",
+            type: "NUMBER" as const,
+            required: false,
+            order: 2,
+         };
+
+         const templateData = {
+            ...validTemplateData,
+            fields: [field1, field2, field3],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.fields).toHaveLength(3);
+         expect(validatedValues.fields).toEqual([field1, field2, field3]);
       });
    });
 
    describe("Title validation", () => {
-      it("updatePromptSchema - title with exactly 3 characters valid - test", () => {
-         const data = { ...validData, title: "ABC" };
+      it("empty title invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            title: "",
+         };
 
-         const result = updatePromptSchema.parse(data);
-         expect(result.title).toBe("ABC");
-      });
-
-      it("updatePromptSchema - title with 2 characters invalid - test", () => {
-         const data = { ...validData, title: "AB" };
-
-         const fn = () => updatePromptSchema.parse(data);
+         const fn = () => updateTemplateSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
-      it("updatePromptSchema - title empty string invalid - test", () => {
-         const data = { ...validData, title: "" };
+      it("missing title invalid - test", () => {
+         const templateData = {
+            description: "A test description",
+            content: "Content",
+            model: "gpt-4",
+            categories: [],
+            fields: [],
+         };
 
-         const fn = () => updatePromptSchema.parse(data);
+         const fn = () => updateTemplateSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
-      it("updatePromptSchema - missing title invalid - test", () => {
-         const data = { ...validData, title: undefined };
+      it("whitespace only title invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            title: "   ",
+         };
 
-         const fn = () => updatePromptSchema.parse(data);
-         expect(fn).toThrow(ZodError);
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.title).toBe("   ");
+      });
+   });
+
+   describe("Description validation", () => {
+      it("empty description valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            description: "",
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
       });
 
-      it("updatePromptSchema - title error message - test", () => {
-         const data = { ...validData, title: "AB" };
+      it("missing description invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            content: "Content",
+            model: "gpt-4",
+            categories: [],
+            fields: [],
+         };
 
-         try {
-            updatePromptSchema.parse(data);
-         } catch (error) {
-            expect(error).toBeInstanceOf(ZodError);
-            const zodError = error as ZodError;
-            const titleError = zodError.issues.find(
-               (e) => e.path[0] === "title"
-            );
-            expect(titleError?.message).toBe("Titel ist erforderlich");
-         }
+         const fn = () => updateTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
       });
    });
 
    describe("Content validation", () => {
-      it("updatePromptSchema - missing content invalid - test", () => {
-         const data = { ...validData, content: undefined };
+      it("empty content valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            content: "",
+         };
 
-         const fn = () => updatePromptSchema.parse(data);
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
+      });
+
+      it("missing content invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            model: "gpt-4",
+            categories: [],
+            fields: [],
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
-      it("updatePromptSchema - content with template variables valid - test", () => {
-         const data = {
-            ...validData,
-            content: "Hello {{name}}, your topic is {{topic}}!",
+      it("content with variables valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            content: "Hello {{name}}, your email is {{email}}!",
          };
 
-         const result = updatePromptSchema.parse(data);
-         expect(result.content).toBe(
-            "Hello {{name}}, your topic is {{topic}}!"
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.content).toBe(
+            "Hello {{name}}, your email is {{email}}!"
          );
       });
    });
 
-   describe("Categories validation", () => {
-      it("updatePromptSchema - missing categories invalid - test", () => {
-         const data = { ...validData, categories: undefined };
+   describe("KI Model validation", () => {
+      it("empty model invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            model: "",
+         };
 
-         const fn = () => updatePromptSchema.parse(data);
+         const validatedValue = updateTemplateSchema.parse(templateData);
+         expect(validatedValue.model).toBe("");
+      });
+
+      it("missing model invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            content: "Content",
+            categories: [],
+            fields: [],
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
       });
 
-      it("updatePromptSchema - categories must be array - test", () => {
-         const data = { ...validData, categories: "Marketing" };
-
-         const fn = () => updatePromptSchema.parse(data);
-         expect(fn).toThrow(ZodError);
-      });
-
-      it("updatePromptSchema - single category valid - test", () => {
-         const data = { ...validData, categories: ["Marketing"] };
-
-         const result = updatePromptSchema.parse(data);
-         expect(result.categories).toEqual(["Marketing"]);
-      });
-   });
-
-   describe("RecommendedModel validation", () => {
-      it("updatePromptSchema - empty recommendedModel valid - test", () => {
-         const data = { ...validData, recommendedModel: "" };
-
-         const result = updatePromptSchema.parse(data);
-         expect(result.recommendedModel).toBe("");
-      });
-
-      it("updatePromptSchema - missing recommendedModel invalid - test", () => {
-         const data = { ...validData, recommendedModel: undefined };
-
-         const fn = () => updatePromptSchema.parse(data);
-         expect(fn).toThrow(ZodError);
-      });
-
-      it("updatePromptSchema - different model names valid - test", () => {
-         const models = [
-            "claude-sonnet-4-6",
-            "claude-opus-4-6",
-            "gpt-4",
-            "custom-model",
-         ];
+      it("different model names valid - test", () => {
+         const models = ["gpt-4", "gpt-3.5-turbo", "claude-3", "custom-model"];
 
          models.forEach((model) => {
-            const data = { ...validData, recommendedModel: model };
-            const result = updatePromptSchema.parse(data);
-            expect(result.recommendedModel).toBe(model);
+            const templateData = {
+               ...validTemplateData,
+               model: model,
+            };
+
+            const validatedValues = updateTemplateSchema.parse(templateData);
+            expect(validatedValues.model).toBe(model);
          });
       });
    });
 
-   describe("FollowUpPrompts validation", () => {
-      it("updatePromptSchema - missing followUpPrompts invalid - test", () => {
-         const data = { ...validData, followUpPrompts: undefined };
-
-         const fn = () => updatePromptSchema.parse(data);
-         expect(fn).toThrow(ZodError);
-      });
-
-      it("updatePromptSchema - followUpPrompts must be array - test", () => {
-         const data = { ...validData, followUpPrompts: "not an array" };
-
-         const fn = () => updatePromptSchema.parse(data);
-         expect(fn).toThrow(ZodError);
-      });
-
-      it("updatePromptSchema - invalid followUpPrompt in array invalid - test", () => {
-         const data = {
-            ...validData,
-            followUpPrompts: [{ content: "Missing order" }],
+   describe("Categories validation", () => {
+      it("missing categories invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            content: "Content",
+            model: "gpt-4",
+            fields: [],
          };
 
-         const fn = () => updatePromptSchema.parse(data);
+         const fn = () => updateTemplateSchema.parse(templateData);
          expect(fn).toThrow(ZodError);
+      });
+
+      it("categories must be array - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: "Vertrieb",
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("single category valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["Vertrieb"],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual(["Vertrieb"]);
+      });
+
+      it("exactly 5 categories valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["A", "B", "C", "D", "E"],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toHaveLength(5);
+      });
+
+      it("more than 5 categories invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["A", "B", "C", "D", "E", "F"],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Maximal 5 Kategorien pro Prompt"
+         );
+      });
+
+      it("category exceeding max length invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["a".repeat(51)],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Kategorie zu lang (maximal 50 Zeichen)"
+         );
+      });
+
+      it("empty string category invalid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: [""],
+         };
+
+         const result = updateTemplateSchema.safeParse(templateData);
+         expect(result.success).toBe(false);
+         expect(result.error?.issues[0].message).toBe(
+            "Kategorie darf nicht leer sein"
+         );
+      });
+
+      it("category values are trimmed - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["  Vertrieb  ", "Sales "],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual(["Vertrieb", "Sales"]);
+      });
+
+      it("duplicate categories are not deduplicated by the schema - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            categories: ["Vertrieb", "Vertrieb"],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.categories).toEqual(["Vertrieb", "Vertrieb"]);
+      });
+   });
+
+   describe("Fields validation", () => {
+      it("missing fields invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            content: "Content",
+            model: "gpt-4",
+            categories: [],
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("fields must be array - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            fields: "not an array",
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("invalid field in fields array - test", () => {
+         const invalidField = {
+            name: "",
+            label: "Label",
+            type: "TEXT",
+         };
+
+         const templateData = {
+            ...validTemplateData,
+            fields: [invalidField],
+         };
+
+         const fn = () => updateTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("fields with complete field data valid - test", () => {
+         const completeField = {
+            name: "email",
+            label: "Email Address",
+            description: "Enter your email",
+            type: "EMAIL" as const,
+            required: true,
+            order: 1,
+            defaultValue: "user@example.com",
+            options: [],
+         };
+
+         const templateData = {
+            ...validTemplateData,
+            fields: [completeField],
+         };
+
+         const validatedValues = updateTemplateSchema.parse(templateData);
+         expect(validatedValues.fields).toHaveLength(1);
+         expect(validatedValues.fields[0]).toEqual(completeField);
       });
    });
 
    describe("Complex scenarios", () => {
-      it("updatePromptSchema - real world prompt data - test", () => {
-         const realWorldData = {
-            title: "Blog Post Generator",
+      it("real world template data - test", () => {
+         const realWorldTemplate = {
+            title: "Vertrieb Email Campaign",
+            description: "Create personalized Vertrieb emails",
             content:
-               "Write a blog post about {{topic}} targeting {{audience}}. Tone: {{tone}}.",
-            categories: ["Content", "Marketing"],
-            recommendedModel: "claude-sonnet-4-6",
-            followUpPrompts: [
-               { content: "Make it shorter", order: 0 },
-               { content: "Make it more formal", order: 1 },
-               { id: "fu-3", content: "Add more examples", order: 2 },
+               "Dear {{firstName}} {{lastName}},\n\nWe are excited to offer you {{offer}}.\n\nBest regards,\n{{company}}",
+            model: "gpt-4-turbo",
+            categories: ["Vertrieb", "Email", "Sales"],
+            globalFieldIds: [],
+            fields: [
+               {
+                  name: "firstName",
+                  label: "First Name",
+                  type: "TEXT" as const,
+                  required: true,
+                  order: 0,
+               },
+               {
+                  name: "lastName",
+                  label: "Last Name",
+                  type: "TEXT" as const,
+                  required: true,
+                  order: 1,
+               },
+               {
+                  name: "offer",
+                  label: "Offer Description",
+                  type: "TEXTAREA" as const,
+                  required: true,
+                  order: 2,
+               },
+               {
+                  name: "company",
+                  label: "Company Name",
+                  type: "TEXT" as const,
+                  required: false,
+                  order: 3,
+                  defaultValue: "Your Company",
+               },
             ],
          };
 
-         const result = updatePromptSchema.parse(realWorldData);
-         expect(result.title).toBe("Blog Post Generator");
-         expect(result.followUpPrompts).toHaveLength(3);
-         expect(result.categories).toHaveLength(2);
+         const validatedValues = updateTemplateSchema.parse(realWorldTemplate);
+         expect(validatedValues.title).toBe("Vertrieb Email Campaign");
+         expect(validatedValues.fields).toHaveLength(4);
+         expect(validatedValues.categories).toHaveLength(3);
       });
 
-      it("updatePromptSchema - minimal valid data - test", () => {
-         const minimalData = {
-            title: "Min",
-            content: "",
+      it("minimal valid template - test", () => {
+         const minimalTemplate = {
+            title: "T",
+            description: "D",
+            content: "C",
+            model: "M",
             categories: [],
-            recommendedModel: "",
-            followUpPrompts: [],
+            fields: [],
+            globalFieldIds: [],
          };
 
-         const result = updatePromptSchema.parse(minimalData);
-         expect(result).toEqual(minimalData);
+         const validatedValues = updateTemplateSchema.parse(minimalTemplate);
+         expect(validatedValues).toEqual(minimalTemplate);
       });
+   });
+});
+
+describe("updatePromptCategorySchema - tests", () => {
+   it("valid name - test", () => {
+      const validatedValues = updatePromptCategorySchema.parse({
+         name: "Vertrieb",
+      });
+      expect(validatedValues.name).toBe("Vertrieb");
+   });
+
+   it("trims whitespace - test", () => {
+      const validatedValues = updatePromptCategorySchema.parse({
+         name: "  Vertrieb  ",
+      });
+      expect(validatedValues.name).toBe("Vertrieb");
+   });
+
+   it("empty name invalid - test", () => {
+      const fn = () => updatePromptCategorySchema.parse({ name: "" });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name exceeding max length invalid - test", () => {
+      const fn = () =>
+         updatePromptCategorySchema.parse({ name: "a".repeat(51) });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing name invalid - test", () => {
+      const fn = () => updatePromptCategorySchema.parse({});
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("updatePromptModelSchema - tests", () => {
+   it("valid name - test", () => {
+      const validatedValues = updatePromptModelSchema.parse({
+         name: "Claude",
+      });
+      expect(validatedValues.name).toBe("Claude");
+   });
+
+   it("trims whitespace - test", () => {
+      const validatedValues = updatePromptModelSchema.parse({
+         name: "  Claude  ",
+      });
+      expect(validatedValues.name).toBe("Claude");
+   });
+
+   it("empty name invalid - test", () => {
+      const fn = () => updatePromptModelSchema.parse({ name: "" });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("name exceeding max length invalid - test", () => {
+      const fn = () => updatePromptModelSchema.parse({ name: "a".repeat(51) });
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("missing name invalid - test", () => {
+      const fn = () => updatePromptModelSchema.parse({});
+      expect(fn).toThrow(ZodError);
    });
 });

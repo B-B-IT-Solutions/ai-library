@@ -16,7 +16,7 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
-import { updateTemplateSchema } from "@/data/types/validators/template";
+import { updateTemplateSchema } from "@/data/types/validators/prompt";
 
 import { BasicInfo } from "./sections";
 import { PromptFormTabs } from "./tabs";

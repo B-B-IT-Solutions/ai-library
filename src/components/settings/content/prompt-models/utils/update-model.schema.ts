@@ -1,5 +1,5 @@
 import { isConflictingPromptModelName } from "@/data/actions/prompt";
-import { updatePromptModelSchema } from "@/data/types/validators/template";
+import { updatePromptModelSchema } from "@/data/types/validators/prompt";
 
 /**
  * Model schema that additionally validates, against the backend, that no
