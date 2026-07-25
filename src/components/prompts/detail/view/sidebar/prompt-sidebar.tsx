@@ -1,18 +1,27 @@
 import { DCollectionPreview } from "@/data/types/domain/collection";
-import { DPrompt } from "@/data/types/domain/prompt";
+import { DPromptVersionsResult, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import {
    DeletePromptButton,
    DownloadPromptButton,
    EditPromptButton,
    UsePromptButton,
 } from "../../../buttons";
+import { VersionHistoryButton } from "../../versioning";
 
 type Props = {
-   prompt: DPrompt;
+   prompt: DPromptWithContent;
    currentCollection?: DCollectionPreview;
+   versionsResult: DPromptVersionsResult;
+   globalFields: DGlobalPromptField[];
 };
 
-export const PromptSidebar = ({ prompt, currentCollection }: Props) => {
+export const PromptSidebar = ({
+   prompt,
+   currentCollection,
+   versionsResult,
+   globalFields,
+}: Props) => {
    return (
       <aside
          className="space-y-3 lg:sticky lg:top-8 lg:self-start"
@@ -26,6 +35,11 @@ export const PromptSidebar = ({ prompt, currentCollection }: Props) => {
             <EditPromptButton
                prompt={prompt}
                currentCollection={currentCollection}
+            />
+            <VersionHistoryButton
+               prompt={prompt}
+               versionsResult={versionsResult}
+               globalFields={globalFields}
             />
             <DownloadPromptButton prompt={prompt} />
             <DeletePromptButton prompt={prompt} />

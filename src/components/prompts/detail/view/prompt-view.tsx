@@ -1,5 +1,6 @@
 import { DCollectionPreview } from "@/data/types/domain/collection";
-import { DPromptWithContent } from "@/data/types/domain/prompt";
+import { DPromptVersionsResult, DPromptWithContent } from "@/data/types/domain/prompt";
+import { DGlobalPromptField } from "@/data/types/domain/settings";
 import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptForm } from "./form";
@@ -8,9 +9,16 @@ import { PromptSidebar } from "./sidebar";
 type Props = {
    prompt: DPromptWithContent;
    currentCollection?: DCollectionPreview;
+   versionsResult: DPromptVersionsResult;
+   globalFields: DGlobalPromptField[];
 };
 
-export const PromptView = ({ prompt, currentCollection }: Props) => {
+export const PromptView = ({
+   prompt,
+   currentCollection,
+   versionsResult,
+   globalFields,
+}: Props) => {
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
@@ -38,6 +46,8 @@ export const PromptView = ({ prompt, currentCollection }: Props) => {
                   <PromptSidebar
                      prompt={prompt}
                      currentCollection={currentCollection}
+                     versionsResult={versionsResult}
+                     globalFields={globalFields}
                   />
                </div>
             </div>

@@ -11,6 +11,7 @@ import {
    DPromptPreviewsPageQuery,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptUpdateOptions,
    DPromptVariableType,
    DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
@@ -21,6 +22,9 @@ import {
    PromptCategoryFindFirstArgs,
    PromptCategoryFindManyArgs,
    PromptCategoryUpdateArgs,
+   PromptContentVersionCountArgs,
+   PromptContentVersionFindFirstArgs,
+   PromptContentVersionFindManyArgs,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -45,6 +49,8 @@ import {
    toDPromptModelsWithUsage,
    toDPromptPreviews,
    toDPrompts,
+   toDPromptVersion,
+   toDPromptVersionSummaries,
    toDPromptWithContent,
 } from "./prompt.mapper";
 import { PromptRepository } from "./prompt.user.repository";
@@ -961,68 +967,494 @@ describe("pCreatePrompt tests", () => {
    });
 });
 
-describe("pUpdatePrompt tests", () => {
+describe("pUpdatePromptWithVersioning tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
+      prismaMock.$transaction.mockImplementation((arg: any) => {
+         if (Array.isArray(arg)) {
+            return Promise.all(arg);
+         }
+         return arg(prismaMock);
+      });
    });
 
-   test("prompt updated - test", async () => {
+   const expectedUpdateInput = (
+      userId: string,
+      data: ReturnType<typeof dtestData.dPromptUpdate>
+   ): PromptUpdateInput => ({
+      title: data.title,
+      description: data.description,
+      model: {
+         connectOrCreate: {
+            where: { userId_name: { userId, name: data.model } },
+            create: { name: data.model, userId },
+         },
+      },
+      categories: {
+         set: [],
+         connectOrCreate: map(data.categories, (catName) => ({
+            where: { userId_name: { userId, name: catName } },
+            create: { name: catName, userId },
+         })),
+      },
+      content: {
+         update: {
+            content: data.content,
+         },
+      },
+      fields: {
+         deleteMany: {},
+         create: map(data.fields, (field: DPromptVariableUpdate) => ({
+            name: field.name,
+            label: field.label,
+            description: field.description,
+            type: field.type as DPromptVariableType,
+            required: field.required,
+            order: field.order,
+            defaultValue: field.defaultValue,
+            options: field.options,
+         })),
+      },
+      globalFields: {
+         deleteMany: {},
+         create: map(data.globalFieldIds, (id, idx) => ({
+            globalFieldId: id,
+            order: idx,
+         })),
+      },
+   });
+
+   test("no versionOptions - updates prompt, no version created - test", async () => {
       const userId = "user-id-123";
       const data = dtestData.dPromptUpdate();
       const prompt = ptestData.pPromptWithCategories();
 
-      await repository.pUpdatePrompt(userId, prompt.id, data);
-
-      const expectedInput: PromptUpdateInput = {
-         title: data.title,
-         description: data.description,
-         model: {
-            connectOrCreate: {
-               where: { userId_name: { userId, name: data.model } },
-               create: { name: data.model, userId },
-            },
-         },
-         categories: {
-            set: [],
-            connectOrCreate: map(data.categories, (catName) => ({
-               where: { userId_name: { userId, name: catName } },
-               create: { name: catName, userId },
-            })),
-         },
-         content: {
-            update: {
-               content: data.content,
-            },
-         },
-         fields: {
-            deleteMany: {},
-            create: map(data.fields, (field: DPromptVariableUpdate) => ({
-               name: field.name,
-               label: field.label,
-               description: field.description,
-               type: field.type as DPromptVariableType,
-               required: field.required,
-               order: field.order,
-               defaultValue: field.defaultValue,
-               options: field.options,
-            })),
-         },
-         globalFields: {
-            deleteMany: {},
-            create: map(data.globalFieldIds, (id, idx) => ({
-               globalFieldId: id,
-               order: idx,
-            })),
-         },
-      };
+      await repository.pUpdatePromptWithVersioning(userId, prompt.id, data);
 
       const expectedUpdateArgs: PromptUpdateArgs = {
          where: { id: prompt.id },
-         data: expectedInput,
+         data: expectedUpdateInput(userId, data),
       };
 
       expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.update).toHaveBeenCalledWith(expectedUpdateArgs);
+      expect(prismaMock.promptContentVersion.create).not.toHaveBeenCalled();
+   });
+
+   test("saveAsVersion false - updates prompt, no version created - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: false };
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions
+      );
+
+      expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContentVersion.create).not.toHaveBeenCalled();
+   });
+
+   test("saveAsVersion true - archives PREVIOUS content, then updates prompt - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const versionOptions: DPromptUpdateOptions = {
+         saveAsVersion: true,
+         versionNote: "Vor Ton-Anpassung gesichert",
+      };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions
+      );
+
+      expect(prismaMock.promptContent.findUnique).toHaveBeenCalledWith({
+         where: { promptId: prompt.id },
+      });
+      expect(prismaMock.promptContentVersion.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContentVersion.create).toHaveBeenCalledWith({
+         data: {
+            promptId: prompt.id,
+            versionNumber: 1,
+            content: currentContent.content, // the PREVIOUS content, not data.content
+            note: versionOptions.versionNote,
+         },
+      });
+      expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.update).toHaveBeenCalledWith({
+         where: { id: prompt.id },
+         data: expectedUpdateInput(userId, data),
+      });
+   });
+
+   test("saveAsVersion true - versionNumber continues from last version - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const lastVersion = ptestData.pPromptContentVersion(4);
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(lastVersion);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions
+      );
+
+      expect(prismaMock.promptContentVersion.create).toHaveBeenCalledWith({
+         data: {
+            promptId: prompt.id,
+            versionNumber: lastVersion.versionNumber + 1,
+            content: currentContent.content,
+            note: null,
+         },
+      });
+   });
+
+   test("saveAsVersion true - no versionNote - stores null note - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions
+      );
+
+      expect(prismaMock.promptContentVersion.create).toHaveBeenCalledWith(
+         expect.objectContaining({ data: expect.objectContaining({ note: null }) })
+      );
+   });
+
+   test("saveAsVersion true - no existing PromptContent - skips archiving - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(null);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions
+      );
+
+      expect(prismaMock.promptContentVersion.create).not.toHaveBeenCalled();
+      expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
+   });
+
+   test("saveAsVersion true - rotation - deletes oldest versions beyond maxStoredVersions - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+      const maxStoredVersions = 20;
+      const oldestVersions = [{ id: "v-1" }, { id: "v-2" }];
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+      prismaMock.promptContentVersion.count.mockResolvedValue(22);
+      prismaMock.promptContentVersion.findMany.mockResolvedValue(
+         oldestVersions as never
+      );
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions,
+         maxStoredVersions
+      );
+
+      expect(prismaMock.promptContentVersion.count).toHaveBeenCalledWith({
+         where: { promptId: prompt.id },
+      });
+      expect(prismaMock.promptContentVersion.findMany).toHaveBeenCalledWith({
+         where: { promptId: prompt.id },
+         orderBy: { versionNumber: "asc" },
+         take: 2,
+         select: { id: true },
+      });
+      expect(prismaMock.promptContentVersion.deleteMany).toHaveBeenCalledWith({
+         where: { id: { in: ["v-1", "v-2"] } },
+      });
+   });
+
+   test("saveAsVersion true - within maxStoredVersions - no rotation - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+      const maxStoredVersions = 20;
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+      prismaMock.promptContentVersion.count.mockResolvedValue(5);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions,
+         maxStoredVersions
+      );
+
+      expect(prismaMock.promptContentVersion.deleteMany).not.toHaveBeenCalled();
+   });
+
+   test("saveAsVersion true - maxStoredVersions -1 (unlimited) - no rotation attempted - test", async () => {
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const versionOptions: DPromptUpdateOptions = { saveAsVersion: true };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      await repository.pUpdatePromptWithVersioning(
+         userId,
+         prompt.id,
+         data,
+         versionOptions,
+         -1
+      );
+
+      expect(prismaMock.promptContentVersion.count).not.toHaveBeenCalled();
+      expect(prismaMock.promptContentVersion.deleteMany).not.toHaveBeenCalled();
+   });
+});
+
+describe("pRestorePromptContent tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+      prismaMock.$transaction.mockImplementation((arg: any) => {
+         if (Array.isArray(arg)) {
+            return Promise.all(arg);
+         }
+         return arg(prismaMock);
+      });
+   });
+
+   test("saveAsVersion false - only updates content, no version archived - test", async () => {
+      const prompt = ptestData.pPromptWithCategories();
+      const newContent = "restored content";
+
+      await repository.pRestorePromptContent(prompt.id, newContent);
+
+      expect(prismaMock.promptContentVersion.create).not.toHaveBeenCalled();
+      expect(prismaMock.promptContent.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptContent.update).toHaveBeenCalledWith({
+         where: { promptId: prompt.id },
+         data: { content: newContent },
+      });
+      expect(prismaMock.prompt.update).not.toHaveBeenCalled();
+   });
+
+   test("saveAsVersion true - archives current content, then restores - test", async () => {
+      const prompt = ptestData.pPromptWithCategories();
+      const currentContent = ptestData.pPromptContent();
+      const newContent = "restored content";
+      const versionOptions: DPromptUpdateOptions = {
+         saveAsVersion: true,
+         versionNote: "Automatisch gesichert vor Wiederherstellen von Version 2",
+      };
+
+      prismaMock.promptContent.findUnique.mockResolvedValue(currentContent);
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      await repository.pRestorePromptContent(
+         prompt.id,
+         newContent,
+         versionOptions,
+         20
+      );
+
+      expect(prismaMock.promptContentVersion.create).toHaveBeenCalledWith({
+         data: {
+            promptId: prompt.id,
+            versionNumber: 1,
+            content: currentContent.content,
+            note: versionOptions.versionNote,
+         },
+      });
+      expect(prismaMock.promptContent.update).toHaveBeenCalledWith({
+         where: { promptId: prompt.id },
+         data: { content: newContent },
+      });
+      // Restore never touches title/description/model/categories/fields
+      expect(prismaMock.prompt.update).not.toHaveBeenCalled();
+   });
+});
+
+describe("pGetPromptVersionsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("query undefined - defaults pagination - test", async () => {
+      const promptId = "prompt-id-1";
+      const versions = ptestData.pPromptContentVersions();
+      const totalEntries = 4;
+
+      prismaMock.promptContentVersion.findMany.mockResolvedValue(versions);
+      prismaMock.promptContentVersion.count.mockResolvedValue(totalEntries);
+
+      const result = await repository.pGetPromptVersionsPage(promptId);
+
+      const expectedFindManyArgs: PromptContentVersionFindManyArgs = {
+         where: { promptId },
+         select: {
+            id: true,
+            promptId: true,
+            versionNumber: true,
+            note: true,
+            createdAt: true,
+         },
+         orderBy: { versionNumber: "desc" },
+         skip: 0,
+         take: 20,
+      };
+      const expectedCountArgs: PromptContentVersionCountArgs = {
+         where: { promptId },
+      };
+
+      expect(result).toEqual({
+         content: toDPromptVersionSummaries(versions),
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: versions.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      });
+      expect(prismaMock.promptContentVersion.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptContentVersion.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("custom pagination - test", async () => {
+      const promptId = "prompt-id-1";
+      const versions = ptestData.pPromptContentVersions(2);
+
+      prismaMock.promptContentVersion.findMany.mockResolvedValue(versions);
+      prismaMock.promptContentVersion.count.mockResolvedValue(2);
+
+      await repository.pGetPromptVersionsPage(promptId, {
+         pageNumber: 1,
+         pageSize: 5,
+      });
+
+      expect(prismaMock.promptContentVersion.findMany).toHaveBeenCalledWith(
+         expect.objectContaining({ skip: 5, take: 5 })
+      );
+   });
+});
+
+describe("pGetPromptVersion tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("version found - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "prompt-id-1";
+      const version = ptestData.pPromptContentVersion();
+
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(version);
+
+      const result = await repository.pGetPromptVersion(
+         userId,
+         promptId,
+         version.id
+      );
+
+      const expectedArgs: PromptContentVersionFindFirstArgs = {
+         where: {
+            id: version.id,
+            promptId,
+            prompt: { userId },
+         },
+      };
+
+      expect(result).toEqual(toDPromptVersion(version));
+      expect(prismaMock.promptContentVersion.findFirst).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   test("version not found - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "prompt-id-1";
+
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      const result = await repository.pGetPromptVersion(
+         userId,
+         promptId,
+         "missing-version-id"
+      );
+
+      expect(result).toBeNull();
+   });
+});
+
+describe("pGetLatestPromptVersionContent tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("version exists - returns content - test", async () => {
+      const promptId = "prompt-id-1";
+      const version = ptestData.pPromptContentVersion();
+
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(version);
+
+      const result = await repository.pGetLatestPromptVersionContent(promptId);
+
+      expect(result).toBe(version.content);
+      expect(prismaMock.promptContentVersion.findFirst).toHaveBeenCalledWith({
+         where: { promptId },
+         orderBy: { versionNumber: "desc" },
+         select: { content: true },
+      });
+   });
+
+   test("no versions - returns null - test", async () => {
+      const promptId = "prompt-id-1";
+
+      prismaMock.promptContentVersion.findFirst.mockResolvedValue(null);
+
+      const result = await repository.pGetLatestPromptVersionContent(promptId);
+
+      expect(result).toBeNull();
    });
 });
 

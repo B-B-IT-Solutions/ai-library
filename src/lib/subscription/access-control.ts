@@ -10,6 +10,8 @@ export type TierFeatures = {
    canUseWorkflows: boolean;
    maxWorkflows: number; // -1 for unlimited
    maxWorkflowSteps: number; // -1 for unlimited
+   canAccessVersionHistory: boolean; // umfasst sowohl "Version erstellen" als auch "ansehen/wiederherstellen"
+   maxStoredPromptVersions: number; // -1 = unbegrenzt
 };
 
 export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
@@ -23,6 +25,8 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canUseWorkflows: false,
       maxWorkflows: 0,
       maxWorkflowSteps: 0,
+      canAccessVersionHistory: false,
+      maxStoredPromptVersions: 0,
    },
    BASIC: {
       maxPrompts: 50,
@@ -34,6 +38,8 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canUseWorkflows: true,
       maxWorkflows: 5,
       maxWorkflowSteps: 10,
+      canAccessVersionHistory: true,
+      maxStoredPromptVersions: 20,
    },
    PRO: {
       maxPrompts: -1, // unlimited
@@ -45,6 +51,8 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
       canUseWorkflows: true,
       maxWorkflows: -1, // unlimited
       maxWorkflowSteps: -1, // unlimited
+      canAccessVersionHistory: true,
+      maxStoredPromptVersions: -1,
    },
 };
 

@@ -58,3 +58,11 @@ export const updatePromptCategorySchema = z.object({
 export const updatePromptModelSchema = z.object({
    name: modelSchema.min(1, "Modell darf nicht leer sein"),
 });
+
+// Bewusst GETRENNT von updatePromptSchema/DPromptUpdate: ob ein Save zusätzlich
+// einen Versions-Snapshot auslöst, ist eine Verhaltensoption des Aufrufs, kein
+// Attribut des Prompts selbst (siehe prompt-content-versioning-feature-spec.md, §6.1/§12).
+export const promptVersionOptionsSchema = z.object({
+   saveAsVersion: z.boolean().default(false),
+   versionNote: z.string().max(500).optional(),
+});

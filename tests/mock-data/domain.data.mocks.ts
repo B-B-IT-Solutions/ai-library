@@ -65,9 +65,13 @@ import {
    DPromptTemplatingData,
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptUpdateOptions,
    DPromptVariable,
    DPromptVariableUpdate,
    DPromptVariableValues,
+   DPromptVersion,
+   DPromptVersionsPage,
+   DPromptVersionSummary,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import {
@@ -764,6 +768,56 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       model: `model ${index}`,
       fields: dPromptVariableUpdates(),
       globalFieldIds: dGlobalPromptFieldIds(),
+   };
+};
+
+export const dPromptUpdateOptions = (index = 1): DPromptUpdateOptions => {
+   return {
+      saveAsVersion: true,
+      versionNote: `note ${index}`,
+   };
+};
+
+export const dPromptVersions = (count = 3): DPromptVersion[] => {
+   return range(0, count).map((i) => dPromptVersion(i));
+};
+
+export const dPromptVersion = (index = 1): DPromptVersion => {
+   return {
+      id: `9c1c6c4a-2f5f-4c3a-9d3a-9c1c6c4a2f5${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      versionNumber: index,
+      content: `content ${index}`,
+      note: `note ${index}`,
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptVersionSummaries = (
+   count = 3
+): DPromptVersionSummary[] => {
+   return range(0, count).map((i) => dPromptVersionSummary(i));
+};
+
+export const dPromptVersionSummary = (index = 1): DPromptVersionSummary => {
+   return {
+      id: `9c1c6c4a-2f5f-4c3a-9d3a-9c1c6c4a2f5${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      versionNumber: index,
+      note: `note ${index}`,
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptVersionsPage = (count = 3): DPromptVersionsPage => {
+   const content = dPromptVersionSummaries(count);
+   return {
+      content,
+      pageNumber: 0,
+      pageSize: 20,
+      numberOfElements: content.length,
+      totalPages: 1,
+      totalElements: content.length,
    };
 };
 

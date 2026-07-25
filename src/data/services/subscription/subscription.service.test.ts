@@ -19,6 +19,7 @@ import {
    DTrialStatus,
 } from "@/data/types/domain/subscription";
 import {
+   canAccessFeature,
    FeatureName,
    getFeatureLimit,
    hasReachedLimit,
@@ -33,6 +34,10 @@ const getFeatureLimitMock = getFeatureLimit as jest.MockedFunction<
 
 const hasReachedLimitMock = hasReachedLimit as jest.MockedFunction<
    typeof hasReachedLimit
+>;
+
+const canAccessFeatureMock = canAccessFeature as jest.MockedFunction<
+   typeof canAccessFeature
 >;
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -665,6 +670,43 @@ describe("requireCountLimit tests", () => {
       expect(userServiceMock.getUserInternalById).toHaveBeenCalledWith(userId);
       expect(getFeatureLimitMock).toHaveBeenCalledTimes(1);
       expect(getFeatureLimitMock).toHaveBeenCalledWith(tier, feature);
+   });
+});
+
+describe("requireFeatureAccess tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("canAccessFeature true - returns resolved tier - test", async () => {
+      const userId = "user-id-1";
+      const feature: FeatureName = "canAccessVersionHistory";
+
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
+      canAccessFeatureMock.mockReturnValue(true);
+
+      const result = await service.requireFeatureAccess(userId, feature);
+
+      // no active subscription, no admin/promo/trial => resolves to FREE
+      expect(result).toBe("FREE");
+      expect(canAccessFeatureMock).toHaveBeenCalledTimes(1);
+      expect(canAccessFeatureMock).toHaveBeenCalledWith("FREE", feature);
+   });
+
+   it("canAccessFeature false - throws SubscriptionAccessError - test", async () => {
+      const userId = "user-id-1";
+      const feature: FeatureName = "canAccessVersionHistory";
+
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+      userServiceMock.getUserInternalById.mockResolvedValue(null);
+      canAccessFeatureMock.mockReturnValue(false);
+
+      const fn = () => service.requireFeatureAccess(userId, feature);
+
+      await expect(fn).rejects.toThrow(SubscriptionAccessError);
+      expect(canAccessFeatureMock).toHaveBeenCalledTimes(1);
+      expect(canAccessFeatureMock).toHaveBeenCalledWith("FREE", feature);
    });
 });
 

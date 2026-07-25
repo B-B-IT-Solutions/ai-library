@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { PromptEdit } from "@/components/prompts";
 import { getCollectionPreviewById } from "@/data/actions/collection";
-import { getPromptWithContent } from "@/data/actions/prompt";
+import { getPromptVersions, getPromptWithContent } from "@/data/actions/prompt";
 import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -39,12 +39,15 @@ export const EditPromptPage = async ({ params, searchParams }: PageProps) => {
       return notFound();
    }
 
+   const versionsResult = await getPromptVersions(prompt.id);
+
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-edit-page">
          <PromptEdit
             prompt={prompt}
             globalFields={globalFields}
             currentCollection={collection || undefined}
+            canAccessVersionHistory={!versionsResult.locked}
          />
       </div>
    );

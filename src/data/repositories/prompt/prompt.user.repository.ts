@@ -1,6 +1,7 @@
 ﻿import { trim } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
+import { Pagination } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptWithCategories,
@@ -21,10 +22,14 @@ import {
    DPromptsPage,
    DPromptsPageQuery,
    DPromptUpdate,
+   DPromptUpdateOptions,
    DPromptVariableType,
    DPromptVariableUpdate,
+   DPromptVersion,
+   DPromptVersionsPage,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
+import { PrismaClient } from "@/generated/prisma/client";
 import {
    PromptCategoryCountArgs,
    PromptCategoryCreateArgs,
@@ -33,6 +38,9 @@ import {
    PromptCategoryFindManyArgs,
    PromptCategoryUpdateArgs,
    PromptCategoryWhereInput,
+   PromptContentVersionCountArgs,
+   PromptContentVersionFindFirstArgs,
+   PromptContentVersionFindManyArgs,
    PromptCountArgs,
    PromptCreateArgs,
    PromptCreateInput,
@@ -55,6 +63,8 @@ import {
    toDPromptModelsWithUsage,
    toDPromptPreviews,
    toDPrompts,
+   toDPromptVersion,
+   toDPromptVersionSummaries,
    toDPromptWithContent,
 } from "./prompt.mapper";
 import {
@@ -256,11 +266,206 @@ export class PromptRepository {
       return toDPrompt(newEntry as PromptWithCategories);
    }
 
-   async pUpdatePrompt(
+   /**
+    * Updates title/description/model/categories/fields/globalFields/content of a
+    * prompt. When `versionOptions.saveAsVersion` is set, the content that is being
+    * REPLACED (i.e. the value of `PromptContent.content` *before* this update) is
+    * archived as a new `PromptContentVersion` row first, in the same transaction as
+    * the content update — this is the single "snapshot the outgoing content" rule
+    * that both a normal editor save-as-version and `pRestorePromptContent` rely on
+    * (see prompt-content-versioning-feature-spec.md, §3.3/§6.3).
+    */
+   async pUpdatePromptWithVersioning(
+      userId: string,
+      descriptorId: string,
+      data: DPromptUpdate,
+      versionOptions?: DPromptUpdateOptions,
+      maxStoredVersions?: number
+   ): Promise<void> {
+      const client = this.transactionCapableClient();
+
+      await client.$transaction(async (tx) => {
+         if (versionOptions?.saveAsVersion) {
+            await this.archiveCurrentContentAsVersion(
+               tx,
+               descriptorId,
+               versionOptions.versionNote,
+               maxStoredVersions
+            );
+         }
+
+         await this.applyPromptUpdate(tx, userId, descriptorId, data);
+      });
+   }
+
+   /**
+    * Restores a prompt's content to a previous version's content. Unlike
+    * `pUpdatePromptWithVersioning`, this only ever touches `PromptContent.content` —
+    * title/description/model/categories/fields/globalFields are intentionally left
+    * untouched, since a restore is only about the prompt text.
+    */
+   async pRestorePromptContent(
+      descriptorId: string,
+      newContent: string,
+      versionOptions?: DPromptUpdateOptions,
+      maxStoredVersions?: number
+   ): Promise<void> {
+      const client = this.transactionCapableClient();
+
+      await client.$transaction(async (tx) => {
+         if (versionOptions?.saveAsVersion) {
+            await this.archiveCurrentContentAsVersion(
+               tx,
+               descriptorId,
+               versionOptions.versionNote,
+               maxStoredVersions
+            );
+         }
+
+         await tx.promptContent.update({
+            where: { promptId: descriptorId },
+            data: { content: newContent },
+         });
+      });
+   }
+
+   async pGetPromptVersionsPage(
+      descriptorId: string,
+      pagination?: Pagination
+   ): Promise<DPromptVersionsPage> {
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const args = {
+         where: { promptId: descriptorId },
+         select: {
+            id: true,
+            promptId: true,
+            versionNumber: true,
+            note: true,
+            createdAt: true,
+         },
+         orderBy: { versionNumber: "desc" },
+         skip,
+         take: pageSize,
+      } satisfies PromptContentVersionFindManyArgs;
+
+      const countArgs = {
+         where: { promptId: descriptorId },
+      } satisfies PromptContentVersionCountArgs;
+
+      const [versions, totalElements] = await Promise.all([
+         this.prisma.promptContentVersion.findMany(args),
+         this.prisma.promptContentVersion.count(countArgs),
+      ]);
+
+      return {
+         content: toDPromptVersionSummaries(versions),
+         pageNumber,
+         pageSize,
+         numberOfElements: versions.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements,
+      };
+   }
+
+   async pGetPromptVersion(
+      userId: string,
+      descriptorId: string,
+      versionId: string
+   ): Promise<DPromptVersion | null> {
+      const args = {
+         where: {
+            id: versionId,
+            promptId: descriptorId,
+            prompt: { userId },
+         },
+      } satisfies PromptContentVersionFindFirstArgs;
+
+      const version = await this.prisma.promptContentVersion.findFirst(args);
+      return version ? toDPromptVersion(version) : null;
+   }
+
+   async pGetLatestPromptVersionContent(
+      descriptorId: string
+   ): Promise<string | null> {
+      const args = {
+         where: { promptId: descriptorId },
+         orderBy: { versionNumber: "desc" },
+         select: { content: true },
+      } satisfies PromptContentVersionFindFirstArgs;
+
+      const version = await this.prisma.promptContentVersion.findFirst(args);
+      return version?.content ?? null;
+   }
+
+   private async archiveCurrentContentAsVersion(
+      tx: DbClient,
+      descriptorId: string,
+      versionNote?: string,
+      maxStoredVersions?: number
+   ): Promise<void> {
+      const current = await tx.promptContent.findUnique({
+         where: { promptId: descriptorId },
+      });
+
+      if (!current) {
+         return;
+      }
+
+      const lastVersion = await tx.promptContentVersion.findFirst({
+         where: { promptId: descriptorId },
+         orderBy: { versionNumber: "desc" },
+      });
+      const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
+
+      await tx.promptContentVersion.create({
+         data: {
+            promptId: descriptorId,
+            versionNumber: nextVersionNumber,
+            content: current.content,
+            note: versionNote || null,
+         },
+      });
+
+      if (maxStoredVersions !== undefined && maxStoredVersions !== -1) {
+         await this.rotateVersionsIfNeeded(tx, descriptorId, maxStoredVersions);
+      }
+   }
+
+   private async rotateVersionsIfNeeded(
+      tx: DbClient,
+      descriptorId: string,
+      maxStoredVersions: number
+   ): Promise<void> {
+      const totalVersions = await tx.promptContentVersion.count({
+         where: { promptId: descriptorId },
+      });
+
+      const excess = totalVersions - maxStoredVersions;
+      if (excess <= 0) {
+         return;
+      }
+
+      const oldestVersions = await tx.promptContentVersion.findMany({
+         where: { promptId: descriptorId },
+         orderBy: { versionNumber: "asc" },
+         take: excess,
+         select: { id: true },
+      });
+
+      await tx.promptContentVersion.deleteMany({
+         where: { id: { in: map(oldestVersions, (v) => v.id) } },
+      });
+   }
+
+   private async applyPromptUpdate(
+      tx: DbClient,
       userId: string,
       descriptorId: string,
       data: DPromptUpdate
-   ) {
+   ): Promise<void> {
       const input: PromptUpdateInput = {
          title: data.title,
          description: data.description,
@@ -309,7 +514,18 @@ export class PromptRepository {
          data: input,
       };
 
-      await this.prisma.prompt.update(args);
+      await tx.prompt.update(args);
+   }
+
+   /**
+    * `this.prisma` is typed as `PrismaClient | Prisma.TransactionClient` so that
+    * repositories can also be bound to an outer transaction (see `DbClient`).
+    * `Prisma.TransactionClient` never has `$transaction` itself (Prisma disallows
+    * nesting transactions) — in practice `PromptRepository` is always constructed
+    * with the top-level client for these entry points, so this cast is safe.
+    */
+   private transactionCapableClient(): PrismaClient {
+      return this.prisma as PrismaClient;
    }
 
    async pDeletePrompt(userId: string, descriptorId: string) {

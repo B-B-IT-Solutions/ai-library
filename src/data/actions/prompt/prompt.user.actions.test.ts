@@ -31,9 +31,12 @@ import {
    getPromptPreviewsPage,
    getPromptsPage,
    getPromptsUsage,
+   getPromptVersion,
+   getPromptVersions,
    getPromptWithContent,
    isConflictingPromptCategoryName,
    isConflictingPromptModelName,
+   restorePromptVersion,
    togglePromptFavorite,
    updatePrompt,
    updatePromptCategory,
@@ -46,6 +49,9 @@ const sGetPromptsPage = PromptService.prototype.getPromptsPage;
 const sGetPrompt = PromptService.prototype.getPrompt;
 const sCreatePrompt = PromptService.prototype.createPrompt;
 const sUpdatePrompt = PromptService.prototype.updatePrompt;
+const sGetPromptVersions = PromptService.prototype.getPromptVersions;
+const sGetPromptVersion = PromptService.prototype.getPromptVersion;
+const sRestorePromptVersion = PromptService.prototype.restorePromptVersion;
 const sDeletePrompt = PromptService.prototype.deletePrompt;
 const sGetPromptGenerationData =
    PromptService.prototype.getPromptGenerationData;
@@ -89,6 +95,14 @@ const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
 const sUpdatePromptMock = sUpdatePrompt as jest.MockedFunction<
    typeof sUpdatePrompt
 >;
+const sGetPromptVersionsMock = sGetPromptVersions as jest.MockedFunction<
+   typeof sGetPromptVersions
+>;
+const sGetPromptVersionMock = sGetPromptVersion as jest.MockedFunction<
+   typeof sGetPromptVersion
+>;
+const sRestorePromptVersionMock =
+   sRestorePromptVersion as jest.MockedFunction<typeof sRestorePromptVersion>;
 const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
    typeof sDeletePrompt
 >;
@@ -551,12 +565,38 @@ describe("updatePrompt tests", () => {
       expect(sUpdatePromptMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
-         updateData
+         updateData,
+         undefined
       );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("descriptor updated - test", async () => {
+   it("SubscriptionAccessError - upgradeRequired true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError(
+         "Versionierung ist ab BASIC verfügbar.",
+         "canAccessVersionHistory"
+      );
+      sUpdatePromptMock.mockRejectedValue(error);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptUpdate();
+      const versionOptions = dtestData.dPromptUpdateOptions();
+
+      const result = await updatePrompt(descriptorId, updateData, versionOptions);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("descriptor updated - no versionOptions - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sUpdatePromptMock.mockResolvedValue();
@@ -577,7 +617,238 @@ describe("updatePrompt tests", () => {
       expect(sUpdatePromptMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
-         updateData
+         updateData,
+         undefined
+      );
+   });
+
+   it("descriptor updated - saveAsVersion true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sUpdatePromptMock.mockResolvedValue();
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptUpdate();
+      const versionOptions = dtestData.dPromptUpdateOptions();
+
+      const result = await updatePrompt(descriptorId, updateData, versionOptions);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId,
+         updateData,
+         versionOptions
+      );
+   });
+});
+
+describe("getPromptVersions tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const result = await getPromptVersions("invalid-uuid-1");
+
+      expect(result).toEqual({ locked: true });
+      expect(requireUserMock).not.toHaveBeenCalled();
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sGetPromptVersionsMock.mockRejectedValue(new Error("db error"));
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const result = await getPromptVersions(promptId);
+
+      expect(result).toEqual({ locked: true });
+   });
+
+   it("versions retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionsResult = {
+         locked: false as const,
+         page: dtestData.dPromptVersionsPage(),
+         hasUnversionedChanges: false,
+      };
+      sGetPromptVersionsMock.mockResolvedValue(versionsResult);
+
+      const result = await getPromptVersions(promptId);
+
+      expect(result).toEqual(versionsResult);
+      expect(sGetPromptVersionsMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         undefined
+      );
+   });
+});
+
+describe("getPromptVersion tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const result = await getPromptVersion("invalid-uuid-1", "invalid-uuid-2");
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sGetPromptVersionMock.mockRejectedValue(new Error("db error"));
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionId = "223e4567-e89b-12d3-a456-426614174000";
+      const result = await getPromptVersion(promptId, versionId);
+
+      expect(result).toBeNull();
+   });
+
+   it("version retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const version = dtestData.dPromptVersion();
+      sGetPromptVersionMock.mockResolvedValue(version);
+
+      const result = await getPromptVersion(version.promptId, version.id);
+
+      expect(result).toEqual(version);
+      expect(sGetPromptVersionMock).toHaveBeenCalledWith(
+         user.id,
+         version.promptId,
+         version.id
+      );
+   });
+});
+
+describe("restorePromptVersion tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const result = await restorePromptVersion(
+         "invalid-uuid-1",
+         "invalid-uuid-2"
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Version konnte nicht wiederhergestellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+   });
+
+   it("SubscriptionAccessError - upgradeRequired true - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new SubscriptionAccessError(
+         "Versionsverlauf ist ab BASIC verfügbar.",
+         "canAccessVersionHistory"
+      );
+      sRestorePromptVersionMock.mockRejectedValue(error);
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionId = "223e4567-e89b-12d3-a456-426614174000";
+      const result = await restorePromptVersion(promptId, versionId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: error.message,
+         upgradeRequired: true,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sRestorePromptVersionMock.mockRejectedValue(new Error("db error"));
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionId = "223e4567-e89b-12d3-a456-426614174000";
+      const result = await restorePromptVersion(promptId, versionId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Version konnte nicht wiederhergestellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("version restored - default keepCurrentAsVersion - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sRestorePromptVersionMock.mockResolvedValue();
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionId = "223e4567-e89b-12d3-a456-426614174000";
+      const result = await restorePromptVersion(promptId, versionId);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Version wiederhergestellt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sRestorePromptVersionMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         versionId,
+         true
+      );
+   });
+
+   it("version restored - keepCurrentAsVersion false - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sRestorePromptVersionMock.mockResolvedValue();
+
+      const promptId = "123e4567-e89b-12d3-a456-426614174000";
+      const versionId = "223e4567-e89b-12d3-a456-426614174000";
+      const result = await restorePromptVersion(promptId, versionId, false);
+
+      expect(result.success).toBe(true);
+      expect(sRestorePromptVersionMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         versionId,
+         false
       );
    });
 });

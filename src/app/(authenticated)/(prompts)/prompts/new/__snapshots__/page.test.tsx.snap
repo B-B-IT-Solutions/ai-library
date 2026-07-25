@@ -96,7 +96,9 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
               data-slot="button"
               data-testid="save-btn"
               form="prompt-edit-form"
+              name="intent"
               type="submit"
+              value="normal"
             >
               Prompt erstellen
             </button>
@@ -944,7 +946,9 @@ exports[`NewPromptPage rendering tests collectionId defined - test 1`] = `
             data-slot="button"
             data-testid="save-btn"
             form="prompt-edit-form"
+            name="intent"
             type="submit"
+            value="normal"
           >
             Prompt erstellen
           </button>
@@ -1051,7 +1055,9 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
               data-slot="button"
               data-testid="save-btn"
               form="prompt-edit-form"
+              name="intent"
               type="submit"
+              value="normal"
             >
               Prompt erstellen
             </button>
@@ -1899,7 +1905,9 @@ exports[`NewPromptPage rendering tests collectionId undefined - test 1`] = `
             data-slot="button"
             data-testid="save-btn"
             form="prompt-edit-form"
+            name="intent"
             type="submit"
+            value="normal"
           >
             Prompt erstellen
           </button>

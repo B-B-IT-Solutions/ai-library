@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 
 import { PromptView } from "@/components/prompts";
 import { getCollectionPreviewById } from "@/data/actions/collection";
-import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
+import {
+   getPrompt,
+   getPromptVersions,
+   getPromptWithContent,
+} from "@/data/actions/prompt";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 export type PageParams = {
    id: string;
@@ -43,11 +48,18 @@ export const PromptPage = async ({ params, searchParams }: PageProps) => {
       return notFound();
    }
 
+   const [versionsResult, globalFields] = await Promise.all([
+      getPromptVersions(prompt.id),
+      getGlobalPromptFields(),
+   ]);
+
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-view-page">
          <PromptView
             prompt={prompt}
             currentCollection={collection || undefined}
+            versionsResult={versionsResult}
+            globalFields={globalFields}
          />
       </div>
    );

@@ -12,6 +12,7 @@ import {
    DTrialStatus,
 } from "@/data/types/domain/subscription";
 import {
+   canAccessFeature,
    FeatureName,
    getFeatureLimit,
    hasReachedLimit,
@@ -170,6 +171,28 @@ export class SubscriptionService {
             feature
          );
       }
+   }
+
+   /**
+    * Checks whether the user's tier has access to a boolean tier feature (e.g.
+    * canAccessVersionHistory). Throws `SubscriptionAccessError` when it doesn't.
+    * Returns the resolved tier so callers can derive additional tier-dependent
+    * values (e.g. a numeric limit) without a second lookup.
+    */
+   async requireFeatureAccess(
+      userId: string,
+      feature: FeatureName
+   ): Promise<DSubscriptionTier> {
+      const tier = await this.getUserTier(userId);
+
+      if (!canAccessFeature(tier, feature)) {
+         throw new SubscriptionAccessError(
+            `Diese Funktion ist mit deinem aktuellen Plan (${tier}) nicht verfügbar. Bitte upgrade dein Abo.`,
+            feature
+         );
+      }
+
+      return tier;
    }
 
    isSubscriptionActive(subscription: DSubscription | null): boolean {

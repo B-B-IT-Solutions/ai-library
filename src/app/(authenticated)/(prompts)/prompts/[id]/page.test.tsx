@@ -1,5 +1,6 @@
 jest.mock("@/data/actions/prompt");
 jest.mock("@/data/actions/collection");
+jest.mock("@/data/actions/settings");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
@@ -7,7 +8,12 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getCollectionPreviewById } from "@/data/actions/collection";
-import { getPrompt, getPromptWithContent } from "@/data/actions/prompt";
+import {
+   getPrompt,
+   getPromptVersions,
+   getPromptWithContent,
+} from "@/data/actions/prompt";
+import { getGlobalPromptFields } from "@/data/actions/settings";
 
 import {
    generateMetadata,
@@ -21,6 +27,14 @@ const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
 const getPromptWithContentMock = getPromptWithContent as jest.MockedFunction<
    typeof getPromptWithContent
+>;
+
+const getPromptVersionsMock = getPromptVersions as jest.MockedFunction<
+   typeof getPromptVersions
+>;
+
+const getGlobalPromptFieldsMock = getGlobalPromptFields as jest.MockedFunction<
+   typeof getGlobalPromptFields
 >;
 
 const getCollectionPreviewByIdMock =
@@ -69,6 +83,8 @@ describe("PromptPage rendering tests", () => {
    it("prompt retrieved - collectionId undefined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       getPromptWithContentMock.mockResolvedValue(prompt);
+      getPromptVersionsMock.mockResolvedValue({ locked: true });
+      getGlobalPromptFieldsMock.mockResolvedValue([]);
 
       const pageParams: PageParams = { id: "prompt-id-1" };
       const searchParams: PageSearchParams = {};
@@ -94,6 +110,8 @@ describe("PromptPage rendering tests", () => {
    it("prompt retrieved - collectionId defined - test", async () => {
       const prompt = dtestData.dPromptWithContent();
       getPromptWithContentMock.mockResolvedValue(prompt);
+      getPromptVersionsMock.mockResolvedValue({ locked: true });
+      getGlobalPromptFieldsMock.mockResolvedValue([]);
 
       const collection = dtestData.dCollectionPreview();
       getCollectionPreviewByIdMock.mockResolvedValue(collection);

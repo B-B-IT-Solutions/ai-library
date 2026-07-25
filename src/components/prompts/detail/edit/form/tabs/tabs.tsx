@@ -21,6 +21,9 @@ type Props = {
    globalFields: DGlobalPromptField[];
    isEditorExpanded: boolean;
    onToggleExpand: () => void;
+   isEdit: boolean;
+   versionNote: string;
+   onVersionNoteChange: (note: string) => void;
 };
 
 export const PromptFormTabs = ({
@@ -28,6 +31,9 @@ export const PromptFormTabs = ({
    globalFields,
    isEditorExpanded,
    onToggleExpand,
+   isEdit,
+   versionNote,
+   onVersionNoteChange,
 }: Props) => {
    const { fields } = useFieldArray({
       control: form.control,
@@ -115,7 +121,13 @@ export const PromptFormTabs = ({
                )}
             </Button>
          </div>
-         <PromptEditorTab tabId={editorTabId} form={form} />
+         <PromptEditorTab
+            tabId={editorTabId}
+            form={form}
+            isEdit={isEdit}
+            versionNote={versionNote}
+            onVersionNoteChange={onVersionNoteChange}
+         />
          <PromptVariablesTab
             tabId={variablesTabId}
             form={form}

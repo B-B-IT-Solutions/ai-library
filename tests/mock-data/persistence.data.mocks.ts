@@ -59,6 +59,7 @@ import {
    Prompt,
    PromptCategory,
    PromptContent,
+   PromptContentVersion,
    PromptField,
    PromptGlobalField,
    PromptModel,
@@ -561,6 +562,23 @@ export const pPromptContent = (index = 1): PromptContent => {
    return {
       promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
       content: `content ${index}`,
+   };
+};
+
+export const pPromptContentVersions = (
+   count = 3
+): PromptContentVersion[] => {
+   return range(0, count).map((i) => pPromptContentVersion(i));
+};
+
+export const pPromptContentVersion = (index = 1): PromptContentVersion => {
+   return {
+      id: `9c1c6c4a-2f5f-4c3a-9d3a-9c1c6c4a2f5${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      versionNumber: index,
+      content: `content ${index}`,
+      note: `note ${index}`,
+      createdAt: new Date("2025-09-27"),
    };
 };
 

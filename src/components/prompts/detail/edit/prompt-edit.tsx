@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Loader } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -18,17 +17,27 @@ import { PromptBreadcrumb } from "../../breadcrumbs";
 import { isEditMode, promptEditNavigateBackUrl } from "../../utils";
 
 import { PromptEditForm } from "./form/prompt-form";
+import { PromptSaveSplitButton } from "./prompt-save-split-button";
 
 type Props = {
    prompt?: DPromptWithContent;
    currentCollection?: DCollectionPreview;
    globalFields: DGlobalPromptField[];
+   /**
+    * Whether the current user's plan allows creating a prompt content
+    * version (`canAccessVersionHistory` tier feature). Defaults to `false`
+    * (safe/locked) so existing callers that don't pass it keep the "Speichern
+    * als neue Version" option visible-but-disabled, matching the FREE tier
+    * behaviour (see feature spec §5.1).
+    */
+   canAccessVersionHistory?: boolean;
 };
 
 export const PromptEdit = ({
    prompt,
    currentCollection,
    globalFields,
+   canAccessVersionHistory = false,
 }: Props) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -74,24 +83,14 @@ export const PromptEdit = ({
       );
    };
 
-   const submitBtn = () => {
+   const saveBtn = () => {
       return (
-         <Button
-            type="submit"
-            form={formId}
-            disabled={isSubmitting}
-            className="cursor-pointer bg-blue-700 hover:bg-blue-800"
-            data-testid="save-btn"
-         >
-            {isSubmitting ? (
-               <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
-               </>
-            ) : (
-               <>{isEdit ? "Prompt speichern" : "Prompt erstellen"}</>
-            )}
-         </Button>
+         <PromptSaveSplitButton
+            formId={formId}
+            isEdit={isEdit}
+            isSubmitting={isSubmitting}
+            canAccessVersionHistory={canAccessVersionHistory}
+         />
       );
    };
 
@@ -99,7 +98,7 @@ export const PromptEdit = ({
       return (
          <div className="flex items-center gap-2">
             {cancelBtn()}
-            {submitBtn()}
+            {saveBtn()}
          </div>
       );
    };

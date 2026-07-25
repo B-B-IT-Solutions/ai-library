@@ -13,6 +13,7 @@ import { DCollectionPreview } from "@/data/types/domain/collection";
 import {
    DPromptUpdate,
    DPromptUpdateCrate,
+   DPromptUpdateOptions,
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
@@ -48,6 +49,7 @@ export const PromptEditForm = ({
 
    const { isSubmitting } = form.formState;
    const [isEditorExpanded, setIsEditorExpanded] = useState(false);
+   const [versionNote, setVersionNote] = useState("");
 
    useEffect(() => {
       onSubmittingChange?.(isSubmitting);
@@ -57,13 +59,35 @@ export const PromptEditForm = ({
       setIsEditorExpanded((value) => !value);
    }, []);
 
-   const onSubmit: SubmitHandler<DPromptUpdate> = async (data) => {
+   const onSubmit: SubmitHandler<DPromptUpdate> = async (data, event) => {
+      // Which of the two submit buttons in the split-button (see
+      // prompt-save-split-button.tsx) triggered this submit — the native
+      // "submit" event exposes it as `submitter` (standard DOM API). This is
+      // intentionally NOT part of `data`/DPromptUpdate: whether a save also
+      // creates a version snapshot is a behavior of the call, not a field of
+      // the prompt (see feature spec §5.1/§6.1).
+      const submitter = (event?.nativeEvent as SubmitEvent | undefined)
+         ?.submitter as HTMLButtonElement | undefined;
+      const saveAsVersion = submitter?.value === "version";
+
+      const versionOptions: DPromptUpdateOptions | undefined =
+         isEdit && saveAsVersion
+            ? { saveAsVersion: true, versionNote: versionNote || undefined }
+            : undefined;
+
       if (isEdit) {
-         const result = await updatePrompt(prompt.id, data);
+         const result = await updatePrompt(prompt.id, data, versionOptions);
          if (result.success) {
             toast.success(result.message);
             const viewUrl = viewPromptUrl(prompt, currentCollection);
             router.push(viewUrl);
+         } else if (result.upgradeRequired) {
+            toast.error(result.message, {
+               action: {
+                  label: "Upgrade",
+                  onClick: () => router.push("/subscription/pricing"),
+               },
+            });
          } else {
             toast.error(result.message);
          }
@@ -109,6 +133,9 @@ export const PromptEditForm = ({
                      globalFields={globalFields}
                      isEditorExpanded={isEditorExpanded}
                      onToggleExpand={toggleExpanded}
+                     isEdit={isEdit}
+                     versionNote={versionNote}
+                     onVersionNoteChange={setVersionNote}
                   />
                </div>
             </form>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -31,6 +32,7 @@ const TestWrapper = ({
       resolver: zodResolver(updatePromptSchema),
       mode: "all",
    });
+   const [versionNote, setVersionNote] = useState("");
 
    form.trigger();
 
@@ -41,6 +43,9 @@ const TestWrapper = ({
             globalFields={globalFields}
             isEditorExpanded={isEditorExpanded}
             onToggleExpand={onToggleExpand}
+            isEdit={!!prompt}
+            versionNote={versionNote}
+            onVersionNoteChange={setVersionNote}
          />
       </FormProvider>
    );

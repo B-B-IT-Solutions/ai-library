@@ -229,10 +229,10 @@ describe("updatePrompt tests", () => {
          userId,
          descriptorId
       );
-      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePromptWithVersioning).not.toHaveBeenCalled();
    });
 
-   it("prompt updated - test", async () => {
+   it("no versionOptions - updates without version, no tier check - test", async () => {
       const userId = "user-id-1";
       const update = dtestData.dPromptUpdate();
       const descriptor = dtestData.dPrompt();
@@ -246,11 +246,351 @@ describe("updatePrompt tests", () => {
          userId,
          descriptor.id
       );
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.requireFeatureAccess).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePromptWithVersioning).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptRepoMock.pUpdatePromptWithVersioning).toHaveBeenCalledWith(
          userId,
          descriptor.id,
-         update
+         update,
+         undefined,
+         undefined
+      );
+   });
+
+   it("saveAsVersion false - updates without version, no tier check - test", async () => {
+      const userId = "user-id-1";
+      const update = dtestData.dPromptUpdate();
+      const descriptor = dtestData.dPrompt();
+      const versionOptions = { saveAsVersion: false };
+
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+
+      await promptService.updatePrompt(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions
+      );
+
+      expect(subscriptionServiceMock.requireFeatureAccess).not.toHaveBeenCalled();
+      expect(promptRepoMock.pUpdatePromptWithVersioning).toHaveBeenCalledWith(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions,
+         undefined
+      );
+   });
+
+   it("saveAsVersion true - BASIC tier - resolves maxStoredVersions=20 - test", async () => {
+      const userId = "user-id-1";
+      const update = dtestData.dPromptUpdate();
+      const descriptor = dtestData.dPrompt();
+      const versionOptions = dtestData.dPromptUpdateOptions();
+
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("BASIC");
+
+      await promptService.updatePrompt(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions
+      );
+
+      expect(subscriptionServiceMock.requireFeatureAccess).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.requireFeatureAccess).toHaveBeenCalledWith(
+         userId,
+         "canAccessVersionHistory"
+      );
+      expect(promptRepoMock.pUpdatePromptWithVersioning).toHaveBeenCalledWith(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions,
+         20
+      );
+   });
+
+   it("saveAsVersion true - PRO tier - resolves maxStoredVersions=-1 (unlimited) - test", async () => {
+      const userId = "user-id-1";
+      const update = dtestData.dPromptUpdate();
+      const descriptor = dtestData.dPrompt();
+      const versionOptions = dtestData.dPromptUpdateOptions();
+
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("PRO");
+
+      await promptService.updatePrompt(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions
+      );
+
+      expect(promptRepoMock.pUpdatePromptWithVersioning).toHaveBeenCalledWith(
+         userId,
+         descriptor.id,
+         update,
+         versionOptions,
+         -1
+      );
+   });
+
+   it("saveAsVersion true - FREE tier - requireFeatureAccess rejects, repo not called - test", async () => {
+      const userId = "user-id-1";
+      const update = dtestData.dPromptUpdate();
+      const descriptor = dtestData.dPrompt();
+      const versionOptions = dtestData.dPromptUpdateOptions();
+      const error = new Error("Versionierung ist ab BASIC verfügbar.");
+
+      promptRepoMock.pGetPrompt.mockResolvedValue(descriptor);
+      subscriptionServiceMock.requireFeatureAccess.mockRejectedValue(error);
+
+      const fn = async () =>
+         await promptService.updatePrompt(
+            userId,
+            descriptor.id,
+            update,
+            versionOptions
+         );
+
+      await expect(fn).rejects.toThrow(error);
+      expect(promptRepoMock.pUpdatePromptWithVersioning).not.toHaveBeenCalled();
+   });
+});
+
+describe("getPromptVersions tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("FREE tier - locked, no repo calls - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "prompt-id-1";
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("FREE");
+
+      const result = await promptService.getPromptVersions(userId, promptId);
+
+      expect(result).toEqual({ locked: true });
+      expect(promptRepoMock.pGetPromptContent).not.toHaveBeenCalled();
+      expect(promptRepoMock.pGetPromptVersionsPage).not.toHaveBeenCalled();
+   });
+
+   it("BASIC tier - prompt not found - throws - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "prompt-id-1";
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptContent.mockResolvedValue(null);
+
+      const fn = async () =>
+         await promptService.getPromptVersions(userId, promptId);
+
+      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
+   });
+
+   it("BASIC tier - latest version content differs - hasUnversionedChanges true - test", async () => {
+      const userId = "user-id-1";
+      const prompt = dtestData.dPromptWithContent();
+      const page = dtestData.dPromptVersionsPage();
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
+      promptRepoMock.pGetPromptVersionsPage.mockResolvedValue(page);
+      promptRepoMock.pGetLatestPromptVersionContent.mockResolvedValue(
+         "some other content"
+      );
+
+      const result = await promptService.getPromptVersions(userId, prompt.id);
+
+      expect(result).toEqual({
+         locked: false,
+         page,
+         hasUnversionedChanges: true,
+      });
+      expect(promptRepoMock.pGetPromptVersionsPage).toHaveBeenCalledWith(
+         prompt.id,
+         undefined
+      );
+   });
+
+   it("BASIC tier - latest version content matches - hasUnversionedChanges false - test", async () => {
+      const userId = "user-id-1";
+      const prompt = dtestData.dPromptWithContent();
+      const page = dtestData.dPromptVersionsPage();
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
+      promptRepoMock.pGetPromptVersionsPage.mockResolvedValue(page);
+      promptRepoMock.pGetLatestPromptVersionContent.mockResolvedValue(
+         prompt.content
+      );
+
+      const result = await promptService.getPromptVersions(userId, prompt.id);
+
+      expect(result).toEqual({
+         locked: false,
+         page,
+         hasUnversionedChanges: false,
+      });
+   });
+
+   it("BASIC tier - no versions exist - hasUnversionedChanges false - test", async () => {
+      const userId = "user-id-1";
+      const prompt = dtestData.dPromptWithContent();
+      const page = dtestData.dPromptVersionsPage(0);
+
+      subscriptionServiceMock.getUserTier.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptContent.mockResolvedValue(prompt);
+      promptRepoMock.pGetPromptVersionsPage.mockResolvedValue(page);
+      promptRepoMock.pGetLatestPromptVersionContent.mockResolvedValue(null);
+
+      const result = await promptService.getPromptVersions(userId, prompt.id);
+
+      expect(result).toEqual({
+         locked: false,
+         page,
+         hasUnversionedChanges: false,
+      });
+   });
+});
+
+describe("getPromptVersion tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("access granted - returns version - test", async () => {
+      const userId = "user-id-1";
+      const version = dtestData.dPromptVersion();
+
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptVersion.mockResolvedValue(version);
+
+      const result = await promptService.getPromptVersion(
+         userId,
+         version.promptId,
+         version.id
+      );
+
+      expect(result).toEqual(version);
+      expect(subscriptionServiceMock.requireFeatureAccess).toHaveBeenCalledWith(
+         userId,
+         "canAccessVersionHistory"
+      );
+      expect(promptRepoMock.pGetPromptVersion).toHaveBeenCalledWith(
+         userId,
+         version.promptId,
+         version.id
+      );
+   });
+
+   it("access denied - propagates error, repo not called - test", async () => {
+      const userId = "user-id-1";
+      const error = new Error("Versionsverlauf ist ab BASIC verfügbar.");
+
+      subscriptionServiceMock.requireFeatureAccess.mockRejectedValue(error);
+
+      const fn = async () =>
+         await promptService.getPromptVersion(userId, "prompt-id", "version-id");
+
+      await expect(fn).rejects.toThrow(error);
+      expect(promptRepoMock.pGetPromptVersion).not.toHaveBeenCalled();
+   });
+});
+
+describe("restorePromptVersion tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("access denied - propagates error, repo restore not called - test", async () => {
+      const userId = "user-id-1";
+      const error = new Error("Versionsverlauf ist ab BASIC verfügbar.");
+
+      subscriptionServiceMock.requireFeatureAccess.mockRejectedValue(error);
+
+      const fn = async () =>
+         await promptService.restorePromptVersion(
+            userId,
+            "prompt-id",
+            "version-id"
+         );
+
+      await expect(fn).rejects.toThrow(error);
+      expect(promptRepoMock.pGetPromptVersion).not.toHaveBeenCalled();
+      expect(promptRepoMock.pRestorePromptContent).not.toHaveBeenCalled();
+   });
+
+   it("version not found - throws - test", async () => {
+      const userId = "user-id-1";
+
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptVersion.mockResolvedValue(null);
+
+      const fn = async () =>
+         await promptService.restorePromptVersion(
+            userId,
+            "prompt-id",
+            "version-id"
+         );
+
+      await expect(fn).rejects.toThrow("Version not found");
+      expect(promptRepoMock.pRestorePromptContent).not.toHaveBeenCalled();
+   });
+
+   it("keepCurrentAsVersion default true - archives with auto-generated note - test", async () => {
+      const userId = "user-id-1";
+      const version = dtestData.dPromptVersion(2);
+
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("BASIC");
+      promptRepoMock.pGetPromptVersion.mockResolvedValue(version);
+
+      await promptService.restorePromptVersion(
+         userId,
+         version.promptId,
+         version.id
+      );
+
+      expect(promptRepoMock.pRestorePromptContent).toHaveBeenCalledWith(
+         version.promptId,
+         version.content,
+         {
+            saveAsVersion: true,
+            versionNote: `Automatisch gesichert vor Wiederherstellen von Version ${version.versionNumber}`,
+         },
+         20
+      );
+   });
+
+   it("keepCurrentAsVersion false - no version archived - test", async () => {
+      const userId = "user-id-1";
+      const version = dtestData.dPromptVersion(2);
+
+      subscriptionServiceMock.requireFeatureAccess.mockResolvedValue("PRO");
+      promptRepoMock.pGetPromptVersion.mockResolvedValue(version);
+
+      await promptService.restorePromptVersion(
+         userId,
+         version.promptId,
+         version.id,
+         false
+      );
+
+      expect(promptRepoMock.pRestorePromptContent).toHaveBeenCalledWith(
+         version.promptId,
+         version.content,
+         {
+            saveAsVersion: false,
+            versionNote: undefined,
+         },
+         -1
       );
    });
 });
@@ -275,7 +615,7 @@ describe("deletePrompt tests", () => {
          userId,
          descriptorId
       );
-      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+      expect(promptRepoMock.pDeletePrompt).not.toHaveBeenCalled();
    });
 
    it("prompt deleted - test", async () => {
