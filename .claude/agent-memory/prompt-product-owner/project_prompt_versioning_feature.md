@@ -58,6 +58,15 @@ Korrektur) bleibt dadurch unverändert gültig. **Lehre: bei diesem Nutzer UI-Vo
 konsolidierter erwarten (Split-Button statt zwei Buttons, Button statt Checkbox war die Gegenrichtung bei
 Korrektur 2 — die gemeinsame Linie ist "sichtbar und direkt erreichbar, aber nicht redundant/raumgreifend").**
 
+**Fünfte Korrektur (FREE-Sichtbarkeit, 2026-07-25):** Vierte Überarbeitung blendete das Split-Button-Chevron
+für FREE-Nutzer im Editor komplett aus ("kein totes UI-Element" — meine eigene Annahme, nicht vom Nutzer
+verlangt). Nutzer korrigierte: FREE soll den Button/die Option **sehen**, sie aber **nicht anklicken können**
+— sichtbar-aber-disabled statt komplett versteckt, mit Lock-Icon + Tooltip ("Ab BASIC verfügbar"). Macht die
+Sidebar (§5.2, war schon immer "sichtbar mit CTA") und den Editor jetzt konsistent — die zuvor als "bewusste
+Inkonsistenz" dokumentierte offene Frage #1 ist dadurch aufgelöst. **Lehre: bei diesem Nutzer für FREE-Tier-
+Gating generell "sichtbar aber gesperrt" (Feature-Teasing/Upgrade-Anreiz) gegenüber "komplett versteckt"
+bevorzugen, wenn nicht explizit anders gesagt — nicht von mir aus auf "kein totes UI-Element" schließen.**
+
 **Key decisions (non-negotiable laut aktueller Spec):**
 
 - Nur `content` (Prompt-Text) wird versioniert — nicht Titel/Beschreibung/Felder. MVP-Scope bewusst eng.
@@ -72,21 +81,23 @@ Korrektur 2 — die gemeinsame Linie ist "sichtbar und direkt erreichbar, aber n
   unwiderruflicher Datenverlust droht (die "aktuelle, unversionierte" Fassung existiert sonst nirgends).
 - Optionale Änderungsnotiz (`versionNote`, max 500 Zeichen) — additiv zu `updatePromptSchema`, nicht auf
   `Prompt` persistiert, nur an die erzeugte Version gehängt.
-- Tier-Gating: FREE sieht die Versionierungs-Option im Editor gar nicht (kein totes UI). Serverseitiger
-  Guard (`VERSION_HISTORY_UPGRADE_REQUIRED`) schützt trotzdem vor API-Bypass. BASIC: max. 20 aufbewahrte
-  Versionen (Rotation, älteste zuerst gelöscht). PRO: unbegrenzt. Erweitert bestehendes `TIER_FEATURES`-
-  Pattern in `src/lib/subscription/access-control.ts` (`canAccessVersionHistory`, `maxStoredPromptVersions`).
-- Anders als im verworfenen automatischen Modell: FREE sammelt KEINE Versionen im Hintergrund mehr (da ohne
-  explizite Nutzeraktion nichts entsteht) — der "stille Upgrade-Köder" aus der ersten Fassung entfällt.
+- Tier-Gating: FREE **sieht** die Versionierungs-Option im Editor (Chevron sichtbar, wie BASIC/PRO), der
+  Menüeintrag ist aber `disabled` mit Lock-Icon + Tooltip "Ab BASIC verfügbar" — sichtbar-aber-gesperrt, nicht
+  versteckt. Serverseitiger Guard (`VERSION_HISTORY_UPGRADE_REQUIRED`) schützt zusätzlich vor API-Bypass.
+  BASIC: max. 20 aufbewahrte Versionen (Rotation, älteste zuerst gelöscht). PRO: unbegrenzt. Erweitert
+  bestehendes `TIER_FEATURES`-Pattern in `src/lib/subscription/access-control.ts` (`canAccessVersionHistory`,
+  `maxStoredPromptVersions`).
+- FREE sammelt weiterhin KEINE Versionen im Hintergrund (da ohne erfolgreiche Nutzeraktion nichts entsteht,
+  der disabled Menüeintrag kann ja nicht geklickt werden) — kein "stiller Upgrade-Köder" durch angesammelte
+  Daten, sondern reines UI-Teasing der Funktion selbst.
 - Wiederverwendet bestehende Utilities `extractVariablesFromContent`/`resolveVariableStatus`
   (aus dem "Platzhalter"-Tab) für eine nicht-blockierende Warnung beim Restore, wenn die wiederhergestellte
   Version Platzhalter enthält, die aktuell nicht als Felder existieren.
 
 **Offene, nicht entschiedene Fragen (siehe Spec §13):**
 
-- Ob der Versionsverlauf-Sidebar-Button bei FREE sichtbar (mit Upgrade-CTA) bleiben soll, obwohl die
-  Erstellungs-Option im Editor für FREE komplett ausgeblendet ist (bewusste UX-Inkonsistenz, empfohlen aber
-  nicht festgelegt).
+- Ob der disabled Menüeintrag bei FREE zusätzlich klickbar sein soll (öffnet Upgrade-Toast) statt rein
+  passiv per Tooltip zu informieren.
 - Marketplace-Käufer sehen nach einem Restore automatisch die neue Fassung (kein Kaufzeitpunkt-Snapshot,
   `ProductItem.templateId` referenziert live) — als rechtlich/vertrauensrelevanter Edge Case markiert,
   nicht gelöst.

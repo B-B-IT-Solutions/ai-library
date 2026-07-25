@@ -35,7 +35,7 @@
 | V-5 | Als Nutzer möchte ich eine frühere Version wiederherstellen, damit ich zu einer Fassung zurück kann, die besser funktioniert hat.                            | BASIC+ |
 | V-6 | Als Nutzer möchte ich beim Wiederherstellen die Wahl haben, ob die aktuelle (noch unversionierte) Fassung vorher als Version gesichert wird, damit ich nichts verliere, aber auch nicht zwingend jeden Zwischenstand behalten muss. | BASIC+ |
 | V-7 | Als Nutzer möchte ich gewarnt werden, wenn eine wiederhergestellte Version Platzhalter enthält, die es in meinen aktuellen Feldern nicht mehr gibt.           | BASIC+ |
-| V-8 | Als FREE-Nutzer möchte ich in der Sidebar sehen, dass Versionierung ein Bezahl-Feature ist, damit ich den Wert einer Upgrade-Entscheidung beurteilen kann.   | FREE   |
+| V-8 | Als FREE-Nutzer möchte ich sowohl in der Sidebar als auch im Editor sehen, dass Versionierung existiert und ein Bezahl-Feature ist (statt es komplett versteckt zu bekommen), damit ich den Wert einer Upgrade-Entscheidung beurteilen kann.   | FREE   |
 | V-9 | Als BASIC-Nutzer möchte ich verstehen, dass nur die letzten 20 Versionen aufbewahrt werden, damit ich nicht überrascht werde, wenn ältere fehlen.            | BASIC  |
 
 ---
@@ -90,8 +90,8 @@ contentVersions PromptContentVersion[]
 | `versionNumber` ist fortlaufend pro Prompt, beginnend bei 1                                   | Nachvollziehbare Reihenfolge, unabhängig von `createdAt`-Kollisionen        |
 | Versions-Insert + Update von `PromptContent.content` laufen in **einer DB-Transaktion**        | Verhindert Inkonsistenz bei Teilausfall (Version gespeichert, Content nicht) |
 | `onDelete: Cascade` von `Prompt` auf `PromptContentVersion`                                    | Löschen eines Prompts entfernt vollständig dessen Historie                  |
-| FREE-Nutzer können `saveAsVersion` nicht aktivieren — das Split-Button-Chevron mit der Option "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie, die man FREE vorenthalten müsste |
-| Das Split-Button-Chevron mit der Option "Speichern als neue Version" existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
+| FREE-Nutzer sehen das Split-Button-Chevron und den Menüeintrag "Speichern als neue Version", können ihn aber nicht anklicken (`disabled`) | Feature-Discoverability als Upgrade-Anreiz: FREE-Nutzer sollen wissen, dass es Versionsverlauf gibt, statt es komplett zu verstecken. `saveAsVersion` kann dadurch clientseitig ohnehin nicht auf `true` gesetzt werden — serverseitiger Guard bleibt trotzdem als Bypass-Schutz bestehen |
+| Das Split-Button-Chevron existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
 
 ---
 
@@ -127,7 +127,7 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 
 | Feature                                    |      FREE       |        BASIC         |      PRO      |
 | ------------------------------------------- | :--------------: | :-------------------: | :------------: |
-| Split-Button-Option "Speichern als neue Version" im Editor | 🔒 nicht sichtbar (nur einfacher "Speichern"-Button) |           ✅           |       ✅        |
+| Split-Button-Option "Speichern als neue Version" im Editor | 👁 sichtbar, 🔒 deaktiviert (Lock-Icon) |           ✅           |       ✅        |
 | Versionsverlauf ansehen                     | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
 | Version wiederherstellen                    | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
 | Aufbewahrte Versionen pro Prompt            |         —         | max. **20** (rotierend) | ✅ unbegrenzt   |
@@ -160,7 +160,8 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 - **Technische Umsetzung:** Das primäre Segment bleibt ein natives `<button type="submit" form={formId} name="intent" value="normal">`, identisch zum bisherigen `submitBtn()`-Muster (HTML-`form`-Attribut, kein Zugriff auf die React-Hook-Form-Instanz von `prompt-edit.tsx` aus nötig). Der Menüeintrag im Dropdown ist kein natives Submit-Element; sein `onSelect`-Handler löst stattdessen einen Klick auf ein zweites, visuell verstecktes (`className="hidden"`, per Ref referenziertes) `<button type="submit" form={formId} name="intent" value="version">` aus. Beide Buttons hängen am selben `<form id={formId}>` und lösen dieselbe Formularvalidierung aus — es gibt weiterhin nur **ein** Formular.
 - **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert anhand des `name`/`value`-Attributs (`value="version"` vs. `value="normal"`), welcher der beiden Buttons den Submit ausgelöst hat. Daraus wird `saveAsVersion: boolean` abgeleitet und an `updatePrompt(id, { ...data, saveAsVersion })` übergeben.
 - **Notizfeld:** Unterhalb des bestehenden `FormMDEditor` (Feld `content`) in `prompt-text.tsx` bleibt ein optionales, eingeklapptes Feld erhalten (`+ Notiz hinzufügen`, Feld `versionNote`, max. 500 Zeichen), unabhängig vom Split-Button immer sichtbar/befüllbar. Der Wert wird nur ausgewertet, wenn tatsächlich über den Menüeintrag "Speichern als neue Version" gespeichert wurde.
-- **Sichtbarkeit:** Das Chevron-Segment (und damit die Option "Speichern als neue Version") wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4) **und** der Nutzer BASIC/PRO ist. Für FREE-Nutzer und im Create-Modus (`/prompts/new`) reduziert sich der Split-Button auf einen einzelnen, regulären "Speichern"/"Prompt erstellen"-Button ohne Chevron — kein totes, gesperrtes UI-Element.
+- **Sichtbarkeit — Create-Modus:** Das Chevron-Segment wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4). Im Create-Modus (`/prompts/new`) reduziert sich der Split-Button für **alle** Tiers auf einen einzelnen, regulären "Prompt erstellen"-Button ohne Chevron.
+- **Sichtbarkeit — FREE-Tier:** Im Bearbeiten-Modus wird das Chevron-Segment für **alle** Tiers gerendert, also auch für FREE — das Feature soll sichtbar/discoverable sein, nicht komplett versteckt. Für FREE ist der Menüeintrag "Speichern als neue Version" jedoch `disabled` (kein `onSelect`, keine Wirkung bei Klick), zusätzlich mit einem `Lock`-Icon (lucide-react) markiert. Ein Tooltip bzw. eine kleine sekundäre Zeile im Menüeintrag erklärt: _"Ab BASIC verfügbar"_ + optional Link zu `/subscription/pricing`. Implementierungshinweis: Radix' `data-disabled`-Styling setzt i.d.R. `pointer-events: none` auf das `DropdownMenuItem` selbst — für einen funktionierenden Hover-Tooltip auf einem disabled Item muss der Tooltip-Trigger auf einem umschließenden `<span>` mit eigenem `pointer-events: auto` sitzen (bekanntes Radix-Muster für "disabled with tooltip").
 - **Ladezustand:** Der gesamte Split-Button wird während `isSubmitting` deaktiviert (bestehendes Verhalten von `submitBtn()`). Das primäre Segment zeigt weiterhin "Wird gespeichert..." unabhängig davon, welches der beiden Segmente den Submit ausgelöst hat — UI-Detail ohne Produktauswirkung, dem Entwickler überlassen.
 
 ### 5.2 Einstiegspunkt: Sidebar-Button "Versionsverlauf"
@@ -175,7 +176,7 @@ Neuer Button analog zu `EditPromptButton`/`DownloadPromptButton`:
 
 Position: zwischen `EditPromptButton` und `DownloadPromptButton`. Zeigt Badge mit Versionsanzahl, wenn > 0 (z.B. "Versionsverlauf · 4").
 
-**FREE-Zustand:** Button bleibt sichtbar (Discoverability für das Feature selbst, auch wenn die Erstellung im Editor ausgeblendet ist), öffnet aber ein Upgrade-Prompt: _"Versionsverlauf ist ab BASIC verfügbar. Speichere bewusste Checkpoints deines Prompt-Texts und kehre jederzeit zu einer früheren Fassung zurück."_ + CTA-Button zu `/subscription/pricing`.
+**FREE-Zustand:** Button bleibt sichtbar (konsistent mit dem sichtbaren, aber deaktivierten Split-Button-Chevron im Editor, siehe §5.1), öffnet aber ein Upgrade-Prompt: _"Versionsverlauf ist ab BASIC verfügbar. Speichere bewusste Checkpoints deines Prompt-Texts und kehre jederzeit zu einer früheren Fassung zurück."_ + CTA-Button zu `/subscription/pricing`.
 
 ### 5.3 Versionsverlauf-Panel (Sheet)
 
@@ -459,13 +460,16 @@ Then:   PromptContent.content wird aktualisiert
   And:  Keine PromptContentVersion wird erzeugt, die Notiz wird nirgends gespeichert
 ```
 
-### AC-5: Split-Button-Chevron für FREE nicht sichtbar
+### AC-5: Split-Button-Chevron für FREE sichtbar, aber Option deaktiviert
 
 ```
 Given:  Nutzer ist FREE
 When:   Nutzer öffnet den Prompt-Editor (Bearbeiten-Modus)
-Then:   Nur ein regulärer Button "Speichern" wird gerendert, ohne Chevron/Dropdown
-  And:  Die Option "Speichern als neue Version" ist nirgends erreichbar
+Then:   Der Split-Button wird inkl. Chevron gerendert (identisch zu BASIC/PRO)
+  And:  Öffnet der Nutzer das Dropdown, ist der Eintrag "Speichern als neue Version"
+        sichtbar, mit Lock-Icon markiert und als disabled dargestellt
+  And:  Ein Klick auf den Eintrag löst keinen Submit aus und hat keine Wirkung
+  And:  Hover über den Eintrag zeigt einen Tooltip/Hinweis "Ab BASIC verfügbar"
 ```
 
 ### AC-5b: Split-Button-Chevron im Create-Modus nicht sichtbar
@@ -585,6 +589,7 @@ Then:   Keine Version wird gelöscht
 | `getPromptVersion` für gelöschte/fremde Version aufgerufen                  | 404 / Ownership-Error, analog zu bestehenden Prompt-Actions                                                    |
 | Nutzer wählt "Speichern als neue Version" bei einem invaliden Formular (z.B. Pflichtfeld leer) | Wie beim regulären "Speichern": Formularvalidierung greift zuerst (HTML-`form`-Attribut-Bindung löst dieselbe RHF-Validierung aus), Submit wird verhindert, keine Version erzeugt |
 | Dropdown-Menü des Split-Buttons ist geöffnet, Nutzer klickt außerhalb | Menü schließt sich (Standard-`DropdownMenu`-Verhalten), kein Submit wird ausgelöst |
+| FREE-Nutzer navigiert per Tastatur zum disabled Menüeintrag "Speichern als neue Version" | Fokussierbar bleiben (nicht `tabIndex={-1}`), aber `Enter`/`Space` lösen keinen Submit aus; Tooltip-Inhalt muss auch per Tastaturfokus (nicht nur Hover) erreichbar sein (Barrierefreiheit) |
 
 ---
 
@@ -596,7 +601,7 @@ Then:   Keine Version wird gelöscht
 4. **Repository:** `pUpdatePromptWithVersioning` (Transaktion, explizites Insert nur bei `saveAsVersion`, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
 5. **Service:** `updatePrompt` mit Tier-Gate für `saveAsVersion` ergänzen, `restorePromptVersion` mit Tier-Gate + `keepCurrentAsVersion`-Logik
 6. **Server Actions:** `getPromptVersions`, `getPromptVersion`, `restorePromptVersion`
-7. **UI — Editor:** Split-Button "Speichern" (primäres Segment) mit Dropdown-Option "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), verstecktes zweites Submit-Element + submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Chevron/Dropdown ausgeblendet für FREE und im Create-Modus
+7. **UI — Editor:** Split-Button "Speichern" (primäres Segment) mit Dropdown-Option "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), verstecktes zweites Submit-Element + submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Chevron im Create-Modus für alle Tiers ausgeblendet, im Edit-Modus für FREE sichtbar aber mit disabled Menüeintrag (Lock-Icon + Tooltip)
 8. **UI — Sidebar & Sheet:** `VersionHistoryButton`, `version-history-sheet.tsx`, Ansehen-/Wiederherstellen-Flow (inkl. Checkbox "Aktuelle Fassung sichern"), Variablen-Mismatch-Warnung
 9. **Unit- und Integrationstests:** Repository (kein Insert ohne `saveAsVersion`, Rotation), Service (Tier-Gates), Actions, Komponenten (Sheet-States: leer, gesperrt, mit Einträgen; Split-Button-Chevron sichtbar/ausgeblendet je Tier und Modus; korrekte `submitter`-Erkennung bei beiden Submit-Elementen)
 
@@ -634,7 +639,7 @@ export const updatePromptSchema = z.object({
 
 | #   | Frage                                                                                             | Empfehlung (unverbindlich)                                                                                       |
 | --- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 1   | Soll der Versionsverlauf-Sidebar-Button bei FREE sichtbar (mit Upgrade-CTA) oder komplett ausgeblendet sein? | Sichtbar mit CTA — Discoverability für das Feature selbst ist wertvoll, auch wenn die *Erstellung* im Editor für FREE ausgeblendet bleibt (Inkonsistenz ist bewusst, da unterschiedliche UX-Ziele: Editor soll nicht mit totem UI überladen werden, Sidebar darf gezielt bewerben) |
+| 1   | Soll der disabled Menüeintrag "Speichern als neue Version" bei Klick (statt komplett wirkungslos zu sein) einen Upgrade-Hinweis/Toast auslösen, statt sich nur per Tooltip beim Hover zu erklären? | Für MVP wie spezifiziert: rein disabled + Tooltip, kein Klick-Handler. Ein klickbarer Upgrade-Toast wäre eine zusätzliche Konversions-Chance direkt im Editor und könnte nach Launch anhand der Klickrate auf den bereits vorhandenen Sidebar-CTA (§5.2) evaluiert werden |
 | 2   | Soll die Checkbox "Aktuelle Fassung vorher sichern" im Restore-Dialog wirklich standardmäßig aktiviert sein, obwohl das Feature sonst konsequent "opt-in" ist? | Ja, empfohlen als einzige Ausnahme — hier droht echter, unwiderruflicher Datenverlust (siehe §5.4), das rechtfertigt eine sichere Voreinstellung |
 | 3   | Soll Restore eines Prompts, der aktiv in Workflow-Steps referenziert wird, einen Warnhinweis zeigen ("Wird in 2 Workflows verwendet")? | Sinnvolle Ergänzung, aber kein Blocker für MVP — als Folgekarte nach Launch prüfen                              |
 | 4   | Marketplace-Käufer und Content-Änderungen nach Kauf: rechtlich/vertrauensrelevant?                 | Sollte vor Launch mit Marketplace-Verantwortlichem geklärt werden — ggf. reicht ein Hinweis "Verkäufer kann Inhalt nach Kauf ändern" in den AGB/Produktdetails, statt technischer Lösung im MVP |
