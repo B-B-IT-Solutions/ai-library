@@ -1,6 +1,6 @@
 ---
 name: project-prompt-versioning-feature
-description: Prompt-Text-Versionierung Feature — explizite Versionierung via zweiten Button "Speichern als neue Version" (NICHT Checkbox, NICHT automatisch), BASIC+PRO Zugriff
+description: Prompt-Text-Versionierung Feature — explizite Versionierung via Split-Button-Option "Speichern als neue Version" an "Speichern" (NICHT Checkbox, NICHT zweiter Button, NICHT automatisch), BASIC+PRO Zugriff
 metadata:
    type: project
 ---
@@ -46,14 +46,27 @@ internen `isRestoreOperation`-Marker komplett — schöne Nebenwirkung: eine ein
 bewahrt) annehmen, nicht das Checkpoint-Modell (neuer Zustand wird benannt) — Nutzer denkt in "bevor ich etwas
 riskiere, sichere ich den Ist-Zustand", nicht in "ich benenne das Ergebnis meiner Änderung".**
 
+**Vierte Korrektur (UI-Komposition, 2026-07-25):** Dritte Überarbeitung zeigte "Speichern" und "Speichern als
+neue Version" als zwei gleichrangige, nebeneinanderstehende Buttons. Nutzer korrigierte: "Speichern als neue
+Version" soll keine eigene Schaltfläche sein, sondern eine **Split-Button-Option** von "Speichern" (primäres
+Segment "Speichern" + Chevron öffnet Dropdown mit der Option). Löst nebenbei das zuvor dokumentierte Mobile-
+Crowding-Problem (drei Buttons nebeneinander). Technisch umgesetzt ohne die RHF-Instanz in die Parent-
+Komponente (`prompt-edit.tsx`) heben zu müssen: primäres Segment bleibt natives `<button type="submit"
+form={formId}>`, der Dropdown-Menüeintrag klickt programmatisch ein zweites, verstecktes Submit-Element mit
+`value="version"` — die bereits gebaute `submitter`-basierte Unterscheidung in `prompt-form.tsx` (dritte
+Korrektur) bleibt dadurch unverändert gültig. **Lehre: bei diesem Nutzer UI-Vorschläge tendenziell kompakter/
+konsolidierter erwarten (Split-Button statt zwei Buttons, Button statt Checkbox war die Gegenrichtung bei
+Korrektur 2 — die gemeinsame Linie ist "sichtbar und direkt erreichbar, aber nicht redundant/raumgreifend").**
+
 **Key decisions (non-negotiable laut aktueller Spec):**
 
 - Nur `content` (Prompt-Text) wird versioniert — nicht Titel/Beschreibung/Felder. MVP-Scope bewusst eng.
-- **Explizites Modell über zwei Buttons:** "Speichern" (bestehend, erzeugt nie eine Version) und "Speichern
-  als neue Version" (neu, eigenständiger Button, nicht Checkbox). Normales Speichern erzeugt NIE eine
-  Version. Version = Snapshot des BISHERIGEN Inhalts (nicht des neuen!), gesichert unmittelbar bevor er
-  überschrieben wird — Sicherheitsnetz-Modell, kein Audit-Trail und kein "Checkpoint des Ergebnisses". Button
-  nur im Edit-Modus sichtbar (nicht bei Neuanlage) und nur für BASIC/PRO.
+- **Explizites Modell über Split-Button:** "Speichern" (primäres Segment, erzeugt nie eine Version) + Chevron-
+  Dropdown mit Option "Speichern als neue Version" (nicht Checkbox, nicht zweiter gleichrangiger Button).
+  Normales Speichern erzeugt NIE eine Version. Version = Snapshot des BISHERIGEN Inhalts (nicht des neuen!),
+  gesichert unmittelbar bevor er überschrieben wird — Sicherheitsnetz-Modell, kein Audit-Trail und kein
+  "Checkpoint des Ergebnisses". Chevron/Dropdown nur im Edit-Modus sichtbar (nicht bei Neuanlage) und nur für
+  BASIC/PRO — reduziert sich sonst auf einen einfachen "Speichern"-Button ohne Chevron.
 - Restore ist die einzige Stelle mit einer sicheren Voreinstellung (Checkbox "Aktuelle Fassung vorher
   sichern" ist dort standardmäßig AN) — einzige Ausnahme vom sonst konsequenten Opt-in, weil dort echter
   unwiderruflicher Datenverlust droht (die "aktuelle, unversionierte" Fassung existiert sonst nirgends).

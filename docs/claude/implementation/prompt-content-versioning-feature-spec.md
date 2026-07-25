@@ -18,7 +18,7 @@
 2. **Content-Creator & Marketer** — testen Ton/Formulierung über mehrere Anläufe, wollen risikofrei experimentieren
 3. **Freelancer/Consultants** — passen denselben Prompt für verschiedene Kontexte an und wollen nicht versehentlich eine kundenspezifische Fassung verlieren
 
-**Lösung:** Der Prompt-Editor erhält zwei Speichern-Buttons: "Speichern" (unverändertes Verhalten, keine Version) und "Speichern als neue Version". Klickt der Nutzer auf Letzteren, wird zunächst der **bisherige** Prompt-Text als Sicherungspunkt in der Historie abgelegt, **bevor** der neu eingegebene Text live gesetzt wird. Versionierung ist damit nie automatisch — sie entsteht ausschließlich durch diesen expliziten Klick — und sie sichert immer den Stand, der gerade abgelöst wird, nicht das Ergebnis der aktuellen Bearbeitung. Details und Begründung in §3.3.
+**Lösung:** Der bestehende "Speichern"-Button im Prompt-Editor wird zu einem Split-Button: Das primäre Segment speichert wie bisher (keine Version), ein Chevron öffnet ein Dropdown mit der zusätzlichen Option "Speichern als neue Version". Wählt der Nutzer diese Option, wird zunächst der **bisherige** Prompt-Text als Sicherungspunkt in der Historie abgelegt, **bevor** der neu eingegebene Text live gesetzt wird. Versionierung ist damit nie automatisch — sie entsteht ausschließlich durch diese explizite Auswahl — und sie sichert immer den Stand, der gerade abgelöst wird, nicht das Ergebnis der aktuellen Bearbeitung. Details und Begründung in §3.3, UI-Umsetzung in §5.1.
 
 **Abgrenzung:** Versioniert wird ausschließlich `PromptContent.content` (der eigentliche Prompt-Text mit Platzhaltern). Titel, Beschreibung, Kategorien, Modell und Formularfelder (`PromptField`) werden **nicht** versioniert — das bleibt Full-Vision-Scope (siehe §14). Diese Eingrenzung deckt sich mit der Nutzeranfrage ("Text des Prompts versionieren") und hält den MVP-Schnitt sauber.
 
@@ -28,7 +28,7 @@
 
 | #   | Story                                                                                                                                                          | Tier   |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| V-1 | Als Nutzer möchte ich zwischen einem Button "Speichern" und einem eigenständigen Button "Speichern als neue Version" wählen können, damit nicht jede kleine Korrektur automatisch die Historie aufbläht. | BASIC+ |
+| V-1 | Als Nutzer möchte ich beim Speichern zwischen dem normalen "Speichern" und einer zusätzlichen Option "Speichern als neue Version" wählen können, damit nicht jede kleine Korrektur automatisch die Historie aufbläht. | BASIC+ |
 | V-2 | Als Nutzer möchte ich beim Markieren als Version optional eine kurze Notiz hinterlassen, damit ich später weiß, was diese Fassung ausmacht.                 | BASIC+ |
 | V-3 | Als Nutzer möchte ich eine Liste aller von mir bewusst gesetzten Versionen meines Prompt-Texts sehen, mit Zeitpunkt und Notiz.                               | BASIC+ |
 | V-4 | Als Nutzer möchte ich den Inhalt einer früheren Version ansehen können, ohne sie sofort zu übernehmen.                                                       | BASIC+ |
@@ -72,7 +72,7 @@ contentVersions PromptContentVersion[]
 
 > Beim Klick auf "Speichern als neue Version" wird zunächst der *bisherige* Text als Sicherungspunkt archiviert, bevor die neue Fassung live geht. Das entspricht dem vertrauten Mental Model von Versionierungswerkzeugen ("bevor ich etwas überschreibe, wird das Alte aufgehoben, damit ich zurück kann") und macht die Funktion zu einem echten Sicherheitsnetz für riskante Änderungen.
 
-`PromptContent.content` bleibt wie bisher die **aktuelle, live editierbare Fassung** und wird bei **jedem** Speichern aktualisiert — unabhängig davon, ob eine Version erzeugt wird. `PromptContentVersion` ist eine vom Nutzer **explizit ausgelöste** Momentaufnahme des Inhalts, der gerade **abgelöst** wird, ausgelöst über zwei getrennte Buttons im Editor (siehe §5.1):
+`PromptContent.content` bleibt wie bisher die **aktuelle, live editierbare Fassung** und wird bei **jedem** Speichern aktualisiert — unabhängig davon, ob eine Version erzeugt wird. `PromptContentVersion` ist eine vom Nutzer **explizit ausgelöste** Momentaufnahme des Inhalts, der gerade **abgelöst** wird, ausgelöst über den Split-Button im Editor (siehe §5.1):
 
 - Klickt der Nutzer **"Speichern"** → nur `PromptContent.content` wird aktualisiert, **keine** neue Zeile in `PromptContentVersion`. Der bisherige Text ist danach unwiederbringlich überschrieben.
 - Klickt der Nutzer **"Speichern als neue Version"** → der **bisherige** Inhalt von `PromptContent.content` (also der Stand *vor* dieser Bearbeitung) wird zuerst als neue `PromptContentVersion`-Zeile archiviert; **danach** wird `PromptContent.content` auf den neuen, gerade eingegebenen Text aktualisiert. Der neue Text selbst erscheint zu diesem Zeitpunkt **nicht** als eigene Version — er ist einfach die "Aktuelle Fassung", bis er seinerseits durch einen weiteren Klick auf "Speichern als neue Version" archiviert wird.
@@ -90,8 +90,8 @@ contentVersions PromptContentVersion[]
 | `versionNumber` ist fortlaufend pro Prompt, beginnend bei 1                                   | Nachvollziehbare Reihenfolge, unabhängig von `createdAt`-Kollisionen        |
 | Versions-Insert + Update von `PromptContent.content` laufen in **einer DB-Transaktion**        | Verhindert Inkonsistenz bei Teilausfall (Version gespeichert, Content nicht) |
 | `onDelete: Cascade` von `Prompt` auf `PromptContentVersion`                                    | Löschen eines Prompts entfernt vollständig dessen Historie                  |
-| FREE-Nutzer können `saveAsVersion` nicht aktivieren — der Button "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie, die man FREE vorenthalten müsste |
-| Der Button "Speichern als neue Version" existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
+| FREE-Nutzer können `saveAsVersion` nicht aktivieren — das Split-Button-Chevron mit der Option "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie, die man FREE vorenthalten müsste |
+| Das Split-Button-Chevron mit der Option "Speichern als neue Version" existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
 
 ---
 
@@ -127,7 +127,7 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 
 | Feature                                    |      FREE       |        BASIC         |      PRO      |
 | ------------------------------------------- | :--------------: | :-------------------: | :------------: |
-| Button "Speichern als neue Version" im Editor | 🔒 nicht sichtbar |           ✅           |       ✅        |
+| Split-Button-Option "Speichern als neue Version" im Editor | 🔒 nicht sichtbar (nur einfacher "Speichern"-Button) |           ✅           |       ✅        |
 | Versionsverlauf ansehen                     | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
 | Version wiederherstellen                    | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
 | Aufbewahrte Versionen pro Prompt            |         —         | max. **20** (rotierend) | ✅ unbegrenzt   |
@@ -143,23 +143,25 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 
 ## 5. UI — Editor-Integration
 
-### 5.1 Zweiter Button "Speichern als neue Version"
+### 5.1 "Speichern als neue Version" als Split-Button-Option von "Speichern"
 
 **Dateien:** `src/components/prompts/detail/edit/prompt-edit.tsx` (Buttons), `src/components/prompts/detail/edit/form/prompt-form.tsx` (Submit-Logik), `src/components/prompts/detail/edit/form/sections/prompt-text.tsx` (optionale Notiz)
 
-Statt einer Checkbox gibt es **zwei getrennte, gleichwertig sichtbare Buttons** neben "Abbrechen" — sowohl im Desktop-Header als auch im Mobile-Footer von `prompt-edit.tsx` (dort werden `cancelBtn()`/`submitBtn()` bereits heute dupliziert gerendert, § siehe bestehende `actions()`-Funktion):
+"Speichern als neue Version" ist keine gleichrangige eigene Schaltfläche, sondern eine **Split-Button-Option** des bestehenden "Speichern"-Buttons — sowohl im Desktop-Header als auch im Mobile-Footer von `prompt-edit.tsx` (dort werden `cancelBtn()`/`submitBtn()` bereits heute dupliziert gerendert, siehe bestehende `actions()`-Funktion):
 
 ```
-[Abbrechen]   [Speichern als neue Version]   [Speichern]
+[Abbrechen]   [ Speichern | ▾ ]
+                            └─ Speichern als neue Version
 ```
 
-- **"Speichern"** (primär, bestehender Button, unverändertes Verhalten): speichert den Prompt inkl. Content, erzeugt **keine** Version.
-- **"Speichern als neue Version"** (neu, sekundärer/outline Button): archiviert zuerst den **bisherigen** Content als neue `PromptContentVersion` und speichert **danach** den Prompt inkl. des neuen, gerade eingegebenen Contents. Tooltip/Hilfetext am Button: _"Sichert deinen aktuellen Stand in der Versionshistorie, bevor deine Änderung gespeichert wird."_ — das macht die Vorher/Nachher-Logik ohne langen Erklärtext verständlich.
-- Beide Buttons sind `type="submit"`, referenzieren über das HTML-`form`-Attribut dasselbe `<form id={formId}>` (bestehendes Muster, siehe `submitBtn()` in `prompt-edit.tsx`) und lösen dieselbe Formularvalidierung aus — es gibt weiterhin nur **ein** Formular, nur zwei Auslöser.
-- **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert den geklickten Button anhand eines `name`/`value`-Attributs, z.B. `name="intent" value="version"` vs. `value="normal"`. Daraus wird `saveAsVersion: boolean` abgeleitet und an `updatePrompt(id, { ...data, saveAsVersion })` übergeben. Dieses Muster ist Standard-HTML und benötigt keinen zusätzlichen Client-State.
-- **Notizfeld:** Unterhalb des bestehenden `FormMDEditor` (Feld `content`) in `prompt-text.tsx` bleibt ein optionales, eingeklapptes Feld erhalten (`+ Notiz hinzufügen`, Feld `versionNote`, max. 500 Zeichen) — unabhängig von den beiden Buttons immer sichtbar/befüllbar. Der Wert wird nur ausgewertet, wenn tatsächlich "Speichern als neue Version" geklickt wurde; bei "Speichern" wird er ignoriert (nicht gelöscht — bleibt im Formular stehen, falls der Nutzer doch noch auf den anderen Button wechselt).
-- **Sichtbarkeit:** "Speichern als neue Version" wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4) **und** der Nutzer BASIC/PRO ist. Für FREE-Nutzer und im Create-Modus (`/prompts/new`) existiert ausschließlich der reguläre "Speichern"/"Prompt erstellen"-Button — kein totes, gesperrtes UI-Element.
-- **Ladezustand:** Beide Buttons werden während `isSubmitting` deaktiviert (bestehendes Verhalten). Welcher der beiden konkret "Wird gespeichert..." anzeigt, richtet sich danach, welcher Button den Submit ausgelöst hat (kleine lokale State-Variable oder Auswertung von `submitter` beim Klick) — UI-Detail ohne Produktauswirkung, dem Entwickler überlassen.
+- Der Split-Button besteht aus zwei zusammenhängenden Segmenten: links das breite, primäre Segment **"Speichern"** (unverändertes Verhalten, erzeugt keine Version), rechts ein schmales Chevron-Segment, das ein Dropdown-Menü (`DropdownMenu`/`DropdownMenuTrigger`/`DropdownMenuContent`, bestehendes shadcn/Radix-Muster wie z.B. in `prompt-more-options-button.tsx`) mit genau einem Eintrag öffnet: **"Speichern als neue Version"**.
+- Klick auf das primäre Segment ("Speichern") speichert wie gehabt, ohne Version.
+- Klick auf den Menüeintrag "Speichern als neue Version" archiviert zuerst den **bisherigen** Content als neue `PromptContentVersion` und speichert **danach** den Prompt inkl. des neuen, gerade eingegebenen Contents (Regel siehe §3.3). Hilfetext im Menüeintrag (`DropdownMenuItem`, kleine sekundäre Zeile oder Tooltip): _"Sichert deinen aktuellen Stand in der Versionshistorie, bevor deine Änderung gespeichert wird."_
+- **Technische Umsetzung:** Das primäre Segment bleibt ein natives `<button type="submit" form={formId} name="intent" value="normal">`, identisch zum bisherigen `submitBtn()`-Muster (HTML-`form`-Attribut, kein Zugriff auf die React-Hook-Form-Instanz von `prompt-edit.tsx` aus nötig). Der Menüeintrag im Dropdown ist kein natives Submit-Element; sein `onSelect`-Handler löst stattdessen einen Klick auf ein zweites, visuell verstecktes (`className="hidden"`, per Ref referenziertes) `<button type="submit" form={formId} name="intent" value="version">` aus. Beide Buttons hängen am selben `<form id={formId}>` und lösen dieselbe Formularvalidierung aus — es gibt weiterhin nur **ein** Formular.
+- **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert anhand des `name`/`value`-Attributs (`value="version"` vs. `value="normal"`), welcher der beiden Buttons den Submit ausgelöst hat. Daraus wird `saveAsVersion: boolean` abgeleitet und an `updatePrompt(id, { ...data, saveAsVersion })` übergeben.
+- **Notizfeld:** Unterhalb des bestehenden `FormMDEditor` (Feld `content`) in `prompt-text.tsx` bleibt ein optionales, eingeklapptes Feld erhalten (`+ Notiz hinzufügen`, Feld `versionNote`, max. 500 Zeichen), unabhängig vom Split-Button immer sichtbar/befüllbar. Der Wert wird nur ausgewertet, wenn tatsächlich über den Menüeintrag "Speichern als neue Version" gespeichert wurde.
+- **Sichtbarkeit:** Das Chevron-Segment (und damit die Option "Speichern als neue Version") wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4) **und** der Nutzer BASIC/PRO ist. Für FREE-Nutzer und im Create-Modus (`/prompts/new`) reduziert sich der Split-Button auf einen einzelnen, regulären "Speichern"/"Prompt erstellen"-Button ohne Chevron — kein totes, gesperrtes UI-Element.
+- **Ladezustand:** Der gesamte Split-Button wird während `isSubmitting` deaktiviert (bestehendes Verhalten von `submitBtn()`). Das primäre Segment zeigt weiterhin "Wird gespeichert..." unabhängig davon, welches der beiden Segmente den Submit ausgelöst hat — UI-Detail ohne Produktauswirkung, dem Entwickler überlassen.
 
 ### 5.2 Einstiegspunkt: Sidebar-Button "Versionsverlauf"
 
@@ -411,13 +413,13 @@ Then:   PromptContent.content ist jetzt "Text B"
   And:  Keine neue PromptContentVersion wird erzeugt
 ```
 
-### AC-2: Explizite Versionierung über zweiten Button — der BISHERIGE Text wird zur Version
+### AC-2: Explizite Versionierung über Split-Button-Option — der BISHERIGE Text wird zur Version
 
 ```
 Given:  Prompt existiert mit content = "Text A"
   And:  Nutzer ist BASIC oder PRO
-When:   Nutzer ändert content auf "Text B" und klickt den Button
-        "Speichern als neue Version"
+When:   Nutzer ändert content auf "Text B", öffnet das Split-Button-Dropdown
+        und wählt "Speichern als neue Version"
 Then:   PromptContent.content ist jetzt "Text B" (der neue, live editierte Text)
   And:  Eine neue PromptContentVersion wird erzeugt mit content = "Text A"
         (der BISHERIGE Text, nicht "Text B"), versionNumber = 1
@@ -430,7 +432,8 @@ Then:   PromptContent.content ist jetzt "Text B" (der neue, live editierte Text)
 ```
 Given:  Nutzer ist BASIC oder PRO, Prompt hat content = "Text A"
 When:   Nutzer ändert den Text, öffnet "+ Notiz hinzufügen", trägt
-        "Vor Ton-Anpassung gesichert" ein, klickt "Speichern als neue Version"
+        "Vor Ton-Anpassung gesichert" ein, wählt im Split-Button-Dropdown
+        "Speichern als neue Version"
 Then:   Die neu erzeugte PromptContentVersion (mit content = "Text A") hat
         note = "Vor Ton-Anpassung gesichert"
 ```
@@ -441,35 +444,36 @@ Then:   Die neu erzeugte PromptContentVersion (mit content = "Text A") hat
 Given:  Prompt existiert mit content = "Text A", letzte Version (Nr. 3) hat ebenfalls
         content = "Text A"
 When:   Nutzer trägt Notiz "Für Kunde final freigegeben" ein (ohne den Text zu ändern)
-        und klickt "Speichern als neue Version"
+        und wählt im Split-Button-Dropdown "Speichern als neue Version"
 Then:   Eine neue PromptContentVersion (Nr. 4) wird erzeugt mit content = "Text A"
         (identisch zum bisherigen und zum weiterhin unveränderten aktuellen Stand)
         und note = "Für Kunde final freigegeben"
 ```
 
-### AC-4b: Notiz ohne Klick auf "Speichern als neue Version" bleibt wirkungslos
+### AC-4b: Notiz ohne Auswahl von "Speichern als neue Version" bleibt wirkungslos
 
 ```
 Given:  Nutzer hat im optionalen Notizfeld "Ton angepasst" eingetragen
-When:   Nutzer klickt stattdessen den Button "Speichern"
+When:   Nutzer klickt stattdessen das primäre Split-Button-Segment "Speichern"
 Then:   PromptContent.content wird aktualisiert
   And:  Keine PromptContentVersion wird erzeugt, die Notiz wird nirgends gespeichert
 ```
 
-### AC-5: Zweiter Button für FREE nicht sichtbar
+### AC-5: Split-Button-Chevron für FREE nicht sichtbar
 
 ```
 Given:  Nutzer ist FREE
 When:   Nutzer öffnet den Prompt-Editor (Bearbeiten-Modus)
-Then:   Nur der Button "Speichern" wird gerendert, "Speichern als neue Version" fehlt
+Then:   Nur ein regulärer Button "Speichern" wird gerendert, ohne Chevron/Dropdown
+  And:  Die Option "Speichern als neue Version" ist nirgends erreichbar
 ```
 
-### AC-5b: Zweiter Button im Create-Modus nicht sichtbar
+### AC-5b: Split-Button-Chevron im Create-Modus nicht sichtbar
 
 ```
 Given:  Nutzer ist BASIC oder PRO
 When:   Nutzer öffnet den Editor für einen neuen Prompt (/prompts/new)
-Then:   Nur der Button "Prompt erstellen" wird gerendert, "Speichern als neue Version" fehlt
+Then:   Nur ein regulärer Button "Prompt erstellen" wird gerendert, ohne Chevron/Dropdown
 ```
 
 ### AC-6: Versionierungs-Bypass bei FREE serverseitig blockiert
@@ -579,8 +583,8 @@ Then:   Keine Version wird gelöscht
 | BASIC-Nutzer upgradet auf PRO nach Rotation                                 | Bereits rotierte (gelöschte) Versionen sind nicht wiederherstellbar — nur ab dem Upgrade-Zeitpunkt wächst die Historie unbegrenzt weiter |
 | FREE-Nutzer upgradet auf BASIC/PRO                                          | Keine rückwirkende Historie vorhanden (da FREE nie Versionen erzeugen konnte) — Historie beginnt bei der ersten expliziten Versionierung nach dem Upgrade |
 | `getPromptVersion` für gelöschte/fremde Version aufgerufen                  | 404 / Ownership-Error, analog zu bestehenden Prompt-Actions                                                    |
-| Drei Buttons (Abbrechen, Speichern als neue Version, Speichern) auf schmalen Mobile-Viewports | Mobile-Footer in `prompt-edit.tsx` muss geprüft werden (`flex-wrap` oder Umbruch auf zwei Zeilen); ggf. Full-Vision-Kandidat, "Speichern als neue Version" bei sehr schmalen Screens hinter einem Dropdown am Haupt-Button zu verstecken |
-| Nutzer klickt "Speichern als neue Version" bei einem invaliden Formular (z.B. Pflichtfeld leer) | Wie beim regulären "Speichern": Formularvalidierung greift zuerst (HTML-`form`-Attribut-Bindung löst dieselbe RHF-Validierung aus), Submit wird verhindert, keine Version erzeugt |
+| Nutzer wählt "Speichern als neue Version" bei einem invaliden Formular (z.B. Pflichtfeld leer) | Wie beim regulären "Speichern": Formularvalidierung greift zuerst (HTML-`form`-Attribut-Bindung löst dieselbe RHF-Validierung aus), Submit wird verhindert, keine Version erzeugt |
+| Dropdown-Menü des Split-Buttons ist geöffnet, Nutzer klickt außerhalb | Menü schließt sich (Standard-`DropdownMenu`-Verhalten), kein Submit wird ausgelöst |
 
 ---
 
@@ -592,9 +596,9 @@ Then:   Keine Version wird gelöscht
 4. **Repository:** `pUpdatePromptWithVersioning` (Transaktion, explizites Insert nur bei `saveAsVersion`, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
 5. **Service:** `updatePrompt` mit Tier-Gate für `saveAsVersion` ergänzen, `restorePromptVersion` mit Tier-Gate + `keepCurrentAsVersion`-Logik
 6. **Server Actions:** `getPromptVersions`, `getPromptVersion`, `restorePromptVersion`
-7. **UI — Editor:** Zweiter Button "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Button ausgeblendet für FREE und im Create-Modus
+7. **UI — Editor:** Split-Button "Speichern" (primäres Segment) mit Dropdown-Option "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), verstecktes zweites Submit-Element + submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Chevron/Dropdown ausgeblendet für FREE und im Create-Modus
 8. **UI — Sidebar & Sheet:** `VersionHistoryButton`, `version-history-sheet.tsx`, Ansehen-/Wiederherstellen-Flow (inkl. Checkbox "Aktuelle Fassung sichern"), Variablen-Mismatch-Warnung
-9. **Unit- und Integrationstests:** Repository (kein Insert ohne `saveAsVersion`, Rotation), Service (Tier-Gates), Actions, Komponenten (Sheet-States: leer, gesperrt, mit Einträgen; zweiter Button sichtbar/ausgeblendet je Tier und Modus; korrekte `submitter`-Erkennung bei beiden Buttons)
+9. **Unit- und Integrationstests:** Repository (kein Insert ohne `saveAsVersion`, Rotation), Service (Tier-Gates), Actions, Komponenten (Sheet-States: leer, gesperrt, mit Einträgen; Split-Button-Chevron sichtbar/ausgeblendet je Tier und Modus; korrekte `submitter`-Erkennung bei beiden Submit-Elementen)
 
 ---
 
@@ -603,7 +607,7 @@ Then:   Keine Version wird gelöscht
 | Bereich                        | MVP (diese Spezifikation)                                     | Full Vision                                                                 |
 | -------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Versionierter Umfang             | Nur `PromptContent.content`                                       | Auch Titel, Beschreibung, Felder (`PromptField`) versioniert                    |
-| Auslöser                         | Zweiter Button "Speichern als neue Version" (sichert bisherigen Content) | Zusätzlich: automatische "Zwischenspeicherung" alle X Minuten als optionale, separat abschaltbare Einstellung für Power-User |
+| Auslöser                         | Split-Button-Option "Speichern als neue Version" (sichert bisherigen Content) | Zusätzlich: automatische "Zwischenspeicherung" alle X Minuten als optionale, separat abschaltbare Einstellung für Power-User |
 | "Seit letzter Version geändert"-Hinweis | Einfacher String-Vergleich (kein exakter Zeitstempel, da `PromptContent` aktuell kein `updatedAt` besitzt) | `PromptContent.updatedAt` ergänzen für exakte Zeitangabe im Hinweistext          |
 | Vergleich                        | Einzelne Version ansehen (Volltext)                               | Side-by-side-Diff mit Zeilen-Highlighting (z.B. via `diff`-Library)             |
 | Restore-Auswirkung auf Marketplace/Workflows | Kein Snapshot zum Kaufzeitpunkt, live-Referenz (dokumentierter Edge Case) | Kaufzeitpunkt-Snapshot für Marketplace-Produkte; Versions-Pinning in Workflow-Steps |
@@ -635,5 +639,5 @@ export const updatePromptSchema = z.object({
 | 3   | Soll Restore eines Prompts, der aktiv in Workflow-Steps referenziert wird, einen Warnhinweis zeigen ("Wird in 2 Workflows verwendet")? | Sinnvolle Ergänzung, aber kein Blocker für MVP — als Folgekarte nach Launch prüfen                              |
 | 4   | Marketplace-Käufer und Content-Änderungen nach Kauf: rechtlich/vertrauensrelevant?                 | Sollte vor Launch mit Marketplace-Verantwortlichem geklärt werden — ggf. reicht ein Hinweis "Verkäufer kann Inhalt nach Kauf ändern" in den AGB/Produktdetails, statt technischer Lösung im MVP |
 | 5   | Ist das BASIC-Limit von 20 Versionen im expliziten Modell noch treffend, oder zu niedrig/hoch bemessen, da Versionen jetzt seltener entstehen? | Vorerst beibehalten und nach Launch anhand echter Nutzungsdaten (Ø Versionen pro Prompt bei BASIC) validieren   |
-| 6   | Soll "Speichern als neue Version" visuell als primärer oder sekundärer Button erscheinen (Reihenfolge/Hervorhebung)? | Empfehlung: "Speichern" bleibt primär (blau, wie bisher), "Speichern als neue Version" als Outline-/Sekundär-Button links davon — vermeidet, dass Nutzer versehentlich immer die aufwändigere Aktion wählen |
-| 7   | Reicht ein einfaches, immer sichtbares Notizfeld, oder sollte "Speichern als neue Version" einen kurzen Bestätigungs-Dialog mit Notizfeld öffnen (statt sofort zu speichern)? | MVP: kein Dialog, sofortiges Speichern wie beim regulären Button — geringste Friktion. Ein Dialog wäre expliziter, kostet aber einen zusätzlichen Klick bei jeder Versionierung; als Full-Vision-Option offen halten, falls Nutzertests zeigen, dass Notizen sonst zu oft leer bleiben |
+| 6   | Reicht ein einfaches, immer sichtbares Notizfeld im Editor, oder sollte die Dropdown-Option "Speichern als neue Version" einen kurzen Bestätigungs-Dialog mit Notizfeld öffnen (statt sofort zu speichern)? | MVP: kein Dialog, sofortiges Speichern wie beim primären Segment — geringste Friktion. Ein Dialog wäre expliziter, kostet aber einen zusätzlichen Klick bei jeder Versionierung; als Full-Vision-Option offen halten, falls Nutzertests zeigen, dass Notizen sonst zu oft leer bleiben |
+| 7   | Soll der zuletzt über das Dropdown gewählte Modus ("mit Version") für den nächsten Save als neuer Standard des primären Segments übernommen werden (analog zu manchen Split-Button-Patterns, z.B. Slack)? | Nein für MVP — das primäre Segment bleibt immer "Speichern" ohne Version, um Überraschungen zu vermeiden; könnte als Full-Vision-Option evaluiert werden |
