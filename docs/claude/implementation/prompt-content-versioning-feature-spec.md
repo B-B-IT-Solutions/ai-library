@@ -1,9 +1,9 @@
 # Feature-Spezifikation: Prompt-Text-Versionierung
 
 **Feature-ID:** TBD (nächste verfügbare AI-XXX)
-**Datum:** 2026-07-25
+**Datum:** 2026-07-25 (überarbeitet: explizite statt automatische Versionierung)
 **Status:** Spezifiziert, bereit zur Implementierung
-**Ziel-Tiers:** BASIC + PRO (Zugriff), Datenerfassung für alle Tiers (siehe §4)
+**Ziel-Tiers:** BASIC + PRO (Zugriff und Erstellung)
 **Abhängigkeiten:** `Prompt`/`PromptContent`-Modell, Prompt-Editor (`src/components/prompts/detail/edit/`), Subscription-Tier-System (`src/lib/subscription/access-control.ts`)
 
 ---
@@ -18,7 +18,11 @@
 2. **Content-Creator & Marketer** — testen Ton/Formulierung über mehrere Anläufe, wollen risikofrei experimentieren
 3. **Freelancer/Consultants** — passen denselben Prompt für verschiedene Kontexte an und wollen nicht versehentlich eine kundenspezifische Fassung verlieren
 
-**Lösung:** Jede inhaltliche Änderung am Prompt-Text erzeugt automatisch einen Snapshot der vorherigen Fassung. Der Nutzer kann den Verlauf einsehen, eine frühere Version ansehen und wiederherstellen — ohne einen zusätzlichen manuellen Schritt beim Speichern. Ein optionales Notizfeld erlaubt es (v.a. Power-Usern), Änderungen zu kommentieren.
+**Lösung:** Der Nutzer entscheidet **selbst und explizit**, wann eine Änderung als neue Version festgehalten wird. Normales Speichern aktualisiert den Prompt-Text wie bisher, **ohne** die Historie zu belasten. Erst wenn der Nutzer aktiv "als neue Version speichern" wählt, wird ein benannter Checkpoint erzeugt, den er später einsehen und wiederherstellen kann.
+
+> **Wichtige Design-Entscheidung 1 (Korrektur ggü. erster Fassung dieser Spec):** Ursprünglich war ein automatischer Snapshot bei *jeder* Content-Änderung vorgesehen. Das wurde bewusst verworfen: Automatische Versionierung bei jedem Save hätte die Historie mit trivialen Zwischenständen (Tippfehler-Korrekturen, Wort-Ersetzungen) überflutet und den eigentlichen Wert — das Auffinden einer *bedeutsamen* früheren Fassung — verwässert. Versionen sind daher **bewusst gesetzte Sicherungspunkte**, keine automatische Audit-Trail-Protokollierung jeder Tastatureingabe.
+>
+> **Wichtige Design-Entscheidung 2 (Korrektur ggü. zweiter Fassung dieser Spec):** Beim expliziten Auslösen wird nicht der *neu eingegebene* Text zur Version, sondern der *bisherige* Text, der dabei überschrieben wird — siehe §3.3 für die genaue Regel und die Begründung.
 
 **Abgrenzung:** Versioniert wird ausschließlich `PromptContent.content` (der eigentliche Prompt-Text mit Platzhaltern). Titel, Beschreibung, Kategorien, Modell und Formularfelder (`PromptField`) werden **nicht** versioniert — das bleibt Full-Vision-Scope (siehe §14). Diese Eingrenzung deckt sich mit der Nutzeranfrage ("Text des Prompts versionieren") und hält den MVP-Schnitt sauber.
 
@@ -26,16 +30,17 @@
 
 ## 2. User Stories
 
-| #   | Story                                                                                                                                                          | Tier                    |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| V-1 | Als Nutzer möchte ich, dass jede gespeicherte Änderung am Prompt-Text automatisch eine neue Version erzeugt, ohne dass ich daran denken muss.                | Alle (Erfassung), BASIC+ (Nutzung) |
-| V-2 | Als Nutzer möchte ich beim Speichern optional eine kurze Notiz hinterlassen, damit ich später weiß, warum ich diese Änderung gemacht habe.                   | BASIC+                   |
-| V-3 | Als Nutzer möchte ich eine Liste aller früheren Versionen meines Prompt-Texts sehen, mit Zeitpunkt und Notiz.                                                | BASIC+                   |
-| V-4 | Als Nutzer möchte ich den Inhalt einer früheren Version ansehen können, ohne sie sofort zu übernehmen.                                                       | BASIC+                   |
-| V-5 | Als Nutzer möchte ich eine frühere Version wiederherstellen, damit ich zu einer Fassung zurück kann, die besser funktioniert hat.                            | BASIC+                   |
-| V-6 | Als Nutzer möchte ich gewarnt werden, wenn eine wiederhergestellte Version Platzhalter enthält, die es in meinen aktuellen Feldern nicht mehr gibt.           | BASIC+                   |
-| V-7 | Als FREE-Nutzer möchte ich sehen, dass Versionsverlauf existiert (Anzahl gespeicherter Versionen), aber zum Ansehen/Wiederherstellen auf BASIC/PRO upgraden. | FREE                      |
-| V-8 | Als BASIC-Nutzer möchte ich verstehen, dass nur die letzten 20 Versionen aufbewahrt werden, damit ich nicht überrascht werde, wenn ältere fehlen.            | BASIC                    |
+| #   | Story                                                                                                                                                          | Tier   |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| V-1 | Als Nutzer möchte ich zwischen einem Button "Speichern" und einem eigenständigen Button "Speichern als neue Version" wählen können, damit nicht jede kleine Korrektur automatisch die Historie aufbläht. | BASIC+ |
+| V-2 | Als Nutzer möchte ich beim Markieren als Version optional eine kurze Notiz hinterlassen, damit ich später weiß, was diese Fassung ausmacht.                 | BASIC+ |
+| V-3 | Als Nutzer möchte ich eine Liste aller von mir bewusst gesetzten Versionen meines Prompt-Texts sehen, mit Zeitpunkt und Notiz.                               | BASIC+ |
+| V-4 | Als Nutzer möchte ich den Inhalt einer früheren Version ansehen können, ohne sie sofort zu übernehmen.                                                       | BASIC+ |
+| V-5 | Als Nutzer möchte ich eine frühere Version wiederherstellen, damit ich zu einer Fassung zurück kann, die besser funktioniert hat.                            | BASIC+ |
+| V-6 | Als Nutzer möchte ich beim Wiederherstellen die Wahl haben, ob die aktuelle (noch unversionierte) Fassung vorher als Version gesichert wird, damit ich nichts verliere, aber auch nicht zwingend jeden Zwischenstand behalten muss. | BASIC+ |
+| V-7 | Als Nutzer möchte ich gewarnt werden, wenn eine wiederhergestellte Version Platzhalter enthält, die es in meinen aktuellen Feldern nicht mehr gibt.           | BASIC+ |
+| V-8 | Als FREE-Nutzer möchte ich in der Sidebar sehen, dass Versionierung ein Bezahl-Feature ist, damit ich den Wert einer Upgrade-Entscheidung beurteilen kann.   | FREE   |
+| V-9 | Als BASIC-Nutzer möchte ich verstehen, dass nur die letzten 20 Versionen aufbewahrt werden, damit ich nicht überrascht werde, wenn ältere fehlen.            | BASIC  |
 
 ---
 
@@ -67,22 +72,30 @@ model PromptContentVersion {
 contentVersions PromptContentVersion[]
 ```
 
-### 3.3 Kernprinzip: Snapshot des ALTEN Zustands, nicht des neuen
+### 3.3 Kernprinzip: Version = Snapshot des BISHERIGEN Inhalts, gesichert bevor er überschrieben wird
 
-`PromptContent.content` bleibt wie bisher die **aktuelle, live editierbare Fassung**. `PromptContentVersion` ist ein **Append-only-Log vergangener Zustände**. Beim Speichern wird — falls sich `content` tatsächlich ändert — der **bisherige** Inhalt als neue Version weggeschrieben, bevor der neue Inhalt in `PromptContent` geschrieben wird. Das hat zwei Vorteile:
+> **Korrektur ggü. vorheriger Fassung dieser Spec:** Ursprünglich sollte der Button "Speichern als neue Version" den *neuen*, gerade eingegebenen Text zur Version machen. Das ist nicht das erwartete Verhalten — Nutzer erwarten, dass beim Klick auf "Speichern als neue Version" zunächst der *bisherige* Text als Sicherungspunkt archiviert wird, bevor die neue Fassung live geht. Das entspricht dem vertrauten Mental Model von Versionierungswerkzeugen ("bevor ich etwas überschreibe, wird das Alte aufgehoben, damit ich zurück kann") und macht die Funktion zu einem echten Sicherheitsnetz für riskante Änderungen — nicht zu einer Aufnahme des Ergebnisses.
 
-- Keine Datenmigration nötig: Bestehende Prompts brauchen keine "Version 1"-Rückwirkung; ihre Historie beginnt einfach beim nächsten Save.
-- **Wiederherstellen ist kein Sonderfall** — es ist technisch identisch zu einem normalen Speichern mit `content = versionX.content`, läuft also durch dieselbe Snapshot-Logik (inkl. Absicherung des aktuellen Standes vor dem Überschreiben). Der Nutzer kann also nie versehentlich Inhalte durch ein Restore endgültig verlieren.
+`PromptContent.content` bleibt wie bisher die **aktuelle, live editierbare Fassung** und wird bei **jedem** Speichern aktualisiert — unabhängig davon, ob eine Version erzeugt wird. `PromptContentVersion` ist eine vom Nutzer **explizit ausgelöste** Momentaufnahme des Inhalts, der gerade **abgelöst** wird, ausgelöst über zwei getrennte Buttons im Editor (siehe §5.1):
+
+- Klickt der Nutzer **"Speichern"** → nur `PromptContent.content` wird aktualisiert, **keine** neue Zeile in `PromptContentVersion`. Der bisherige Text ist danach unwiederbringlich überschrieben.
+- Klickt der Nutzer **"Speichern als neue Version"** → der **bisherige** Inhalt von `PromptContent.content` (also der Stand *vor* dieser Bearbeitung) wird zuerst als neue `PromptContentVersion`-Zeile archiviert; **danach** wird `PromptContent.content` auf den neuen, gerade eingegebenen Text aktualisiert. Der neue Text selbst erscheint zu diesem Zeitpunkt **nicht** als eigene Version — er ist einfach die "Aktuelle Fassung", bis er seinerseits durch einen weiteren Klick auf "Speichern als neue Version" archiviert wird.
+- Praktische Konsequenz: Um eine bestimmte Fassung wirklich in der Historie zu sichern, muss der Nutzer *vor der nächsten* riskanten Änderung auf "Speichern als neue Version" klicken (also gewissermaßen "jetzigen Stand sichern, bevor ich weiter experimentiere") — nicht nachträglich, wenn ihm eine Fassung gefällt. Das ist ein Lernkurven-Aspekt, den Onboarding/Tooltip adressieren sollten (siehe §5.1, Tooltip-Text).
+- Das bedeutet auch: Zwischen zwei Versionen kann die "aktuelle" Fassung bereits mehrfach unversioniert verändert worden sein (via einfaches "Speichern"). Das ist weiterhin gewollt — die Historie zeigt bewusst gesetzte Sicherungspunkte, nicht jede Zwischenbearbeitung.
+
+**Restore folgt exakt derselben Regel** — deshalb bietet der Restore-Dialog aktiv an, den aktuellen (um Wiederherstellen abzulösenden) Stand vor dem Überschreiben noch als Version zu sichern (siehe §5.4, V-6). Restore ist technisch **derselbe Vorgang** wie ein normales Speichern mit aktivierter Versionierung, nur dass `content` dabei der Wert der wiederherzustellenden Version ist. Es gibt dadurch **nur eine** Snapshot-Regel im gesamten System, keine Sonderfälle mehr (siehe Vereinfachung in §6.3).
 
 ### 3.4 Modell-Regeln & Invarianten
 
 | Regel                                                                                       | Begründung                                                                 |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Version wird nur erzeugt, wenn `newContent !== currentContent` (String-Vergleich nach Trim)  | Vermeidet Rausch-Einträge bei Saves ohne inhaltliche Textänderung           |
+| Version wird **ausschließlich** erzeugt, wenn der Nutzer explizit auf "Speichern als neue Version" klickt (`saveAsVersion = true`) | Kernentscheidung dieser Spec — keine automatische Versionierung bei jedem Save |
+| Eine explizit ausgelöste Version wird auch dann erzeugt, wenn sich der Content seit der letzten Version nicht geändert hat | Respektiert die bewusste Nutzerabsicht (z.B. reine Notiz "Für Kunde X final freigegeben" ohne Textänderung); UI zeigt dazu einen informativen, nicht blockierenden Hinweis |
 | `versionNumber` ist fortlaufend pro Prompt, beginnend bei 1                                   | Nachvollziehbare Reihenfolge, unabhängig von `createdAt`-Kollisionen        |
-| Snapshot + Update von `PromptContent.content` laufen in **einer DB-Transaktion**              | Verhindert Inkonsistenz bei Teilausfall (Version gespeichert, Content nicht) |
+| Versions-Insert + Update von `PromptContent.content` laufen in **einer DB-Transaktion**        | Verhindert Inkonsistenz bei Teilausfall (Version gespeichert, Content nicht) |
 | `onDelete: Cascade` von `Prompt` auf `PromptContentVersion`                                    | Löschen eines Prompts entfernt vollständig dessen Historie                  |
-| Versionszeilen werden **unabhängig vom Tier des Nutzers** geschrieben (siehe §4 für Ausnahme BASIC-Rotation) | FREE-Nutzer verlieren beim Upgrade keine Historie, die "im Hintergrund" bereits entstanden ist — siehe Monetarisierungs-Hinweis in §4 |
+FREE-Nutzer können `saveAsVersion` nicht aktivieren — der Button "Speichern als neue Version" ist im UI gar nicht vorhanden | Konsequenz aus dem expliziten Modell: ohne Nutzeraktion entsteht keine Version, es gibt daher auch keine "im Hintergrund gesammelte" Historie mehr, die man FREE vorenthalten müsste |
+| Der Button "Speichern als neue Version" existiert nur im Bearbeiten-Modus (`isEdit = true`), nicht bei der Neuanlage eines Prompts | Für einen noch nie gespeicherten Prompt gibt es keine sinnvolle "erste Version" zu markieren — die Historie beginnt frühestens beim ersten Edit |
 
 ---
 
@@ -93,15 +106,15 @@ Erweiterung von `TIER_FEATURES` in `src/lib/subscription/access-control.ts`:
 ```typescript
 export type TierFeatures = {
   // ...bestehende Felder...
-  canAccessVersionHistory: boolean;
-  maxStoredPromptVersions: number; // -1 = unbegrenzt, 0 = keine Rotation (alles behalten)
+  canAccessVersionHistory: boolean; // umfasst sowohl "Version erstellen" als auch "ansehen/wiederherstellen"
+  maxStoredPromptVersions: number; // -1 = unbegrenzt
 };
 
 export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
   FREE: {
     // ...
     canAccessVersionHistory: false,
-    maxStoredPromptVersions: -1, // wird weiterhin gespeichert, nur UI-Zugriff gesperrt
+    maxStoredPromptVersions: 0,
   },
   BASIC: {
     // ...
@@ -118,39 +131,39 @@ export const TIER_FEATURES: Record<DSubscriptionTier, TierFeatures> = {
 
 | Feature                                    |      FREE       |        BASIC         |      PRO      |
 | ------------------------------------------- | :--------------: | :-------------------: | :------------: |
-| Versionen werden im Hintergrund gespeichert |        ✅        |           ✅           |       ✅        |
+| Button "Speichern als neue Version" im Editor | 🔒 nicht sichtbar |           ✅           |       ✅        |
 | Versionsverlauf ansehen                     | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
 | Version wiederherstellen                    | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
-| Aufbewahrte Versionen pro Prompt            |    unbegrenzt¹    | max. **20** (rotierend) | ✅ unbegrenzt   |
-| Änderungsnotiz erfassen                     | 🔒 (Upgrade-CTA)  |           ✅           |       ✅        |
-
-¹ FREE-Nutzer sammeln unbegrenzt Versionen, ohne Zugriff — das ist bewusst ein Upgrade-Hebel (siehe §13, offene Entscheidung).
+| Aufbewahrte Versionen pro Prompt            |         —         | max. **20** (rotierend) | ✅ unbegrenzt   |
+| Änderungsnotiz erfassen                     | 🔒 (nicht sichtbar) |           ✅           |       ✅        |
 
 **Enforcement:**
 
-- `getPromptVersions()`-Server-Action prüft `canAccessFeature(tier, "canAccessVersionHistory")`; bei FREE liefert sie **nur die Anzahl**, nicht den Inhalt (`{ locked: true, count: number }`), damit die UI "12 Versionen gespeichert — Upgrade zum Ansehen" zeigen kann, ohne Content-Leaks an FREE-Nutzer.
-- `restorePromptVersion()` wirft `SubscriptionAccessError` bei FREE, analog zum bestehenden Muster in `subscription-enforcement.md` (`upgradeRequired: true` im `ActionResult`).
-- Rotation (BASIC, max. 20): Nach jedem Snapshot-Insert prüft der Service die Anzahl vorhandener Versionen für den Prompt; bei > 20 werden die ältesten (niedrigste `versionNumber`) über das Limit hinaus gelöscht. **Nur für BASIC**, nicht für FREE (siehe Fußnote ¹) oder PRO.
+- Da FREE-Nutzer die Versionierungs-Option im UI gar nicht sehen, ist ein serverseitiger Guard trotzdem zwingend (Bypass-Schutz): `updatePrompt` ignoriert `saveAsVersion: true` serverseitig bei FREE-Tier (kein Fehler, aber kein Snapshot — analog zu "silently ignored" bei nicht verfügbaren Features) **oder** wirft `SubscriptionAccessError`, falls `saveAsVersion` explizit per API-Bypass gesendet wird. Empfehlung: harter Fehler (`VERSION_HISTORY_UPGRADE_REQUIRED`), damit kein stiller Datenverlust der Nutzerabsicht entsteht und die Upgrade-Notwendigkeit klar kommuniziert wird.
+- `getPromptVersions()` / `getPromptVersion()` / `restorePromptVersion()` prüfen `canAccessFeature(tier, "canAccessVersionHistory")`; bei FREE liefert die Liste nur `{ locked: true }` (kein Count mehr nötig, da FREE-Nutzer grundsätzlich keine Versionen erzeugen können — anders als im automatischen Modell gibt es hier keine "im Hintergrund gesammelten" Versionen, die als Upgrade-Köder dienen könnten).
+- Rotation (BASIC, max. 20): Nach jedem expliziten Versions-Insert prüft der Service die Anzahl vorhandener Versionen für den Prompt; bei > 20 werden die ältesten (niedrigste `versionNumber`) über das Limit hinaus gelöscht. Da Versionen jetzt seltener/bewusster entstehen, dürfte dieses Limit in der Praxis deutlich seltener greifen als im automatischen Modell — beobachten und ggf. nach Launch anpassen.
 
 ---
 
 ## 5. UI — Editor-Integration
 
-### 5.1 Optionale Änderungsnotiz
+### 5.1 Zweiter Button "Speichern als neue Version"
 
-**Datei:** `src/components/prompts/detail/edit/form/sections/prompt-text.tsx`
+**Dateien:** `src/components/prompts/detail/edit/prompt-edit.tsx` (Buttons), `src/components/prompts/detail/edit/form/prompt-form.tsx` (Submit-Logik), `src/components/prompts/detail/edit/form/sections/prompt-text.tsx` (optionale Notiz)
 
-Unterhalb des bestehenden `FormMDEditor` (Feld `content`) wird ein **eingeklapptes** optionales Textfeld ergänzt (kein Pflichtfeld, kein zusätzlicher Klick im Regelfall):
+Statt einer Checkbox gibt es **zwei getrennte, gleichwertig sichtbare Buttons** neben "Abbrechen" — sowohl im Desktop-Header als auch im Mobile-Footer von `prompt-edit.tsx` (dort werden `cancelBtn()`/`submitBtn()` bereits heute dupliziert gerendert, § siehe bestehende `actions()`-Funktion):
 
 ```
-[Prompt-Text-Editor — unverändert]
-
-▸ Änderungsnotiz hinzufügen (optional)
+[Abbrechen]   [Speichern als neue Version]   [Speichern]
 ```
 
-- Klick auf den Link/Chevron blendet ein einzeiliges Input-Feld ein: `versionNote` (max. 500 Zeichen).
-- Wird **nicht** auf `Prompt`/`PromptContent` persistiert, sondern nur an die neu erzeugte `PromptContentVersion`-Zeile gehängt (siehe §6). Kein Schema-Change an `updatePromptSchema`-Pflichtfeldern nötig — additive, optionale Erweiterung von `DPromptUpdate`.
-- Für FREE-Nutzer: Feld ist nicht sichtbar (kein Wert für sie, da sie ohnehin keinen Zugriff auf die Historie haben) — vermeidet Verwirrung ("wozu eine Notiz, die ich nie sehe").
+- **"Speichern"** (primär, bestehender Button, unverändertes Verhalten): speichert den Prompt inkl. Content, erzeugt **keine** Version.
+- **"Speichern als neue Version"** (neu, sekundärer/outline Button): archiviert zuerst den **bisherigen** Content als neue `PromptContentVersion` und speichert **danach** den Prompt inkl. des neuen, gerade eingegebenen Contents. Tooltip/Hilfetext am Button: _"Sichert deinen aktuellen Stand in der Versionshistorie, bevor deine Änderung gespeichert wird."_ — das macht die Vorher/Nachher-Logik ohne langen Erklärtext verständlich.
+- Beide Buttons sind `type="submit"`, referenzieren über das HTML-`form`-Attribut dasselbe `<form id={formId}>` (bestehendes Muster, siehe `submitBtn()` in `prompt-edit.tsx`) und lösen dieselbe Formularvalidierung aus — es gibt weiterhin nur **ein** Formular, nur zwei Auslöser.
+- **Unterscheidung im `onSubmit`-Handler** (`prompt-form.tsx`): React Hook Forms `handleSubmit(onSubmit)` reicht das native Submit-Event durch; `event.nativeEvent.submitter` (Standard-DOM-API) identifiziert den geklickten Button anhand eines `name`/`value`-Attributs, z.B. `name="intent" value="version"` vs. `value="normal"`. Daraus wird `saveAsVersion: boolean` abgeleitet und an `updatePrompt(id, { ...data, saveAsVersion })` übergeben. Dieses Muster ist Standard-HTML und benötigt keinen zusätzlichen Client-State.
+- **Notizfeld:** Unterhalb des bestehenden `FormMDEditor` (Feld `content`) in `prompt-text.tsx` bleibt ein optionales, eingeklapptes Feld erhalten (`+ Notiz hinzufügen`, Feld `versionNote`, max. 500 Zeichen) — unabhängig von den beiden Buttons immer sichtbar/befüllbar. Der Wert wird nur ausgewertet, wenn tatsächlich "Speichern als neue Version" geklickt wurde; bei "Speichern" wird er ignoriert (nicht gelöscht — bleibt im Formular stehen, falls der Nutzer doch noch auf den anderen Button wechselt).
+- **Sichtbarkeit:** "Speichern als neue Version" wird nur gerendert, wenn `isEdit === true` (kein Sinn bei Neuanlage, siehe §3.4) **und** der Nutzer BASIC/PRO ist. Für FREE-Nutzer und im Create-Modus (`/prompts/new`) existiert ausschließlich der reguläre "Speichern"/"Prompt erstellen"-Button — kein totes, gesperrtes UI-Element.
+- **Ladezustand:** Beide Buttons werden während `isSubmitting` deaktiviert (bestehendes Verhalten). Welcher der beiden konkret "Wird gespeichert..." anzeigt, richtet sich danach, welcher Button den Submit ausgelöst hat (kleine lokale State-Variable oder Auswertung von `submitter` beim Klick) — UI-Detail ohne Produktauswirkung, dem Entwickler überlassen.
 
 ### 5.2 Einstiegspunkt: Sidebar-Button "Versionsverlauf"
 
@@ -162,9 +175,9 @@ Neuer Button analog zu `EditPromptButton`/`DownloadPromptButton`:
 <VersionHistoryButton prompt={prompt} />
 ```
 
-Position: zwischen `EditPromptButton` und `DownloadPromptButton`. Zeigt Badge mit Versionsanzahl, wenn > 0 (z.B. "Versionsverlauf · 7").
+Position: zwischen `EditPromptButton` und `DownloadPromptButton`. Zeigt Badge mit Versionsanzahl, wenn > 0 (z.B. "Versionsverlauf · 4").
 
-**FREE-Zustand:** Button bleibt sichtbar (Discoverability!), öffnet aber ein Upgrade-Prompt statt der Liste: _"12 Versionen gespeichert. Upgrade auf BASIC, um deinen Versionsverlauf anzusehen und wiederherzustellen."_ + CTA-Button zu `/subscription/pricing`. Das folgt demselben Muster wie der Workflows-Sidebar-Eintrag für FREE (siehe `workflows-feature-spec.md` §5.2/§11 AC-10).
+**FREE-Zustand:** Button bleibt sichtbar (Discoverability für das Feature selbst, auch wenn die Erstellung im Editor ausgeblendet ist), öffnet aber ein Upgrade-Prompt: _"Versionsverlauf ist ab BASIC verfügbar. Speichere bewusste Checkpoints deines Prompt-Texts und kehre jederzeit zu einer früheren Fassung zurück."_ + CTA-Button zu `/subscription/pricing`.
 
 ### 5.3 Versionsverlauf-Panel (Sheet)
 
@@ -176,14 +189,15 @@ Layout (Sheet von rechts, analog zu bestehenden Radix/shadcn-Sheet-Patterns im P
 ┌─────────────────────────────────────────┐
 │  Versionsverlauf                    [✕]  │
 ├─────────────────────────────────────────┤
-│  ● Aktuelle Version                      │
+│  ● Aktuelle Fassung                      │
 │    zuletzt bearbeitet vor 2 Stunden      │
+│    (ggf. neuer als die letzte Version)   │
 │                                           │
-│  ○ Version 6 · vor 2 Stunden             │
+│  ○ Version 4 · vor 2 Tagen               │
 │    "Ton auf 'locker' angepasst"          │
 │    [Ansehen]  [Wiederherstellen]         │
 │                                           │
-│  ○ Version 5 · vor 1 Tag                 │
+│  ○ Version 3 · vor 1 Woche               │
 │    (keine Notiz)                         │
 │    [Ansehen]  [Wiederherstellen]         │
 │                                           │
@@ -194,6 +208,7 @@ Layout (Sheet von rechts, analog zu bestehenden Radix/shadcn-Sheet-Patterns im P
 ```
 
 - Jeder Eintrag zeigt: relative Zeitangabe (date-fns v4, wie im übrigen Projekt üblich), Notiz (falls vorhanden, sonst `"(keine Notiz)"` in `text-muted-foreground`).
+- Hinweistext unter "Aktuelle Fassung", wenn seit der letzten Version unversionierte Änderungen gespeichert wurden: _"Seit Version 4 wurden Änderungen gespeichert, die nicht als eigene Version markiert sind."_ — macht das explizite Modell transparent und erinnert an die Option aus §5.1.
 - **"Ansehen":** öffnet den Inhalt dieser Version read-only (z.B. in einem zweiten, überlagernden Panel oder Accordion-Expand direkt in der Liste) — via `MDRenderer`, identisch zur Darstellung im `PromptForm`-View-Modus.
 - **"Wiederherstellen":** löst Bestätigungsdialog aus (§5.4).
 - BASIC-Hinweis am Fuß der Liste, wenn Gesamtzahl ≥ 15: _"Es werden nur die letzten 20 Versionen aufbewahrt. Upgrade auf PRO für unbegrenzte Historie."_
@@ -201,19 +216,25 @@ Layout (Sheet von rechts, analog zu bestehenden Radix/shadcn-Sheet-Patterns im P
 ### 5.4 Wiederherstellen-Flow
 
 ```
-Klick "Wiederherstellen" auf Version 5
+Klick "Wiederherstellen" auf Version 3
   → Bestätigungsdialog:
-     "Version 5 wiederherstellen?"
-     "Die aktuelle Fassung wird automatisch als neue Version gesichert,
-      bevor Version 5 übernommen wird — es geht nichts verloren."
+     "Version 3 wiederherstellen?"
+
+     ☑ Aktuelle Fassung vorher als neue Version sichern
+        (empfohlen — sonst gehen seit der letzten Version gespeicherte,
+         unversionierte Änderungen unwiderruflich verloren)
+
      [Abbrechen]  [Wiederherstellen]
 
-  → Server Action restorePromptVersion(promptId, versionId)
-  → Bei Erfolg: Sheet schließt, Toast "Version 5 wiederhergestellt",
+  → Server Action restorePromptVersion(promptId, versionId, { keepCurrentAsVersion: boolean })
+  → Bei Erfolg: Sheet schließt, Toast "Version 3 wiederhergestellt",
     Editor/View lädt aktualisierten Content
 ```
 
-**Variablen-Mismatch-Warnung (V-6):** Nach erfolgreichem Restore (oder bereits im Bestätigungsdialog, client-seitig) wird die wiederherzustellende `content`-Fassung durch die bereits vorhandene Utility `extractVariablesFromContent` (`src/components/prompts/detail/edit/form/utils/variables.ts`) gejagt und mit den aktuellen `PromptField`/`GlobalPromptField`-Namen abgeglichen (dieselbe Logik wie `resolveVariableStatus` in `src/components/prompts/detail/edit/form/tabs/utils.ts`, bereits produktiv im "Platzhalter"-Tab für neu erkannte Variablen). Ergebnis wird als Warn-Box im Bestätigungsdialog angezeigt, **blockiert aber nicht** (analog zum bestehenden "neue Variable erkannt"-Badge — informativ, nicht hart validierend):
+- Checkbox **"Aktuelle Fassung vorher als neue Version sichern"** ist **standardmäßig aktiviert** (einziger Ort in dieser Spec, an dem eine Versionierungs-Option vorausgewählt ist) — das ist die einzige Stelle, an der tatsächlicher, unwiderruflicher Datenverlust droht (die "aktuelle, unversionierte" Fassung existiert sonst nirgends). Der Nutzer kann bewusst abwählen, wenn er die aktuelle Fassung für irrelevant hält.
+- Wird die Checkbox aktiv gelassen, entsteht dieselbe Art Versions-Zeile wie beim Klick auf "Speichern als neue Version" im Editor (§3.3/§5.1) — der Restore-Dialog ist lediglich ein zweiter Aufrufer derselben zugrundeliegenden Regel ("bisherigen Content sichern, bevor er überschrieben wird"), nur mit einer System-Notiz (`"Automatisch gesichert vor Wiederherstellen von Version 3"`), falls der Nutzer keine eigene Notiz einträgt.
+
+**Variablen-Mismatch-Warnung (V-7):** Nach erfolgreichem Restore (oder bereits im Bestätigungsdialog, client-seitig) wird die wiederherzustellende `content`-Fassung durch die bereits vorhandene Utility `extractVariablesFromContent` (`src/components/prompts/detail/edit/form/utils/variables.ts`) gejagt und mit den aktuellen `PromptField`/`GlobalPromptField`-Namen abgeglichen (dieselbe Logik wie `resolveVariableStatus` in `src/components/prompts/detail/edit/form/tabs/utils.ts`, bereits produktiv im "Platzhalter"-Tab für neu erkannte Variablen). Ergebnis wird als Warn-Box im Bestätigungsdialog angezeigt, **blockiert aber nicht**:
 
 ```
 ⚠ Diese Version enthält Platzhalter, die aktuell nicht als Felder definiert
@@ -225,17 +246,15 @@ Klick "Wiederherstellen" auf Version 5
 
 ## 6. Server Actions, Services & Repositories
 
-Neue Schicht analog zu bestehenden Prompt-Patterns:
-
 ### 6.1 Server Actions (`src/data/actions/prompt/prompt.user.actions.ts`)
 
-| Action                                        | Beschreibung                                                                                       |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `getPromptVersions(promptId, query)`           | Paginierte Liste (`Page<DPromptVersion>`). Bei FREE: `{ locked: true, count }` statt Inhalten.       |
-| `getPromptVersion(promptId, versionId)`        | Einzelne Version inkl. `content`, für "Ansehen". Ownership-Check. Gated hinter `canAccessVersionHistory`. |
-| `restorePromptVersion(promptId, versionId)`    | Übernimmt `version.content` als neuen `PromptContent.content` — läuft durch dieselbe Snapshot-Logik wie `updatePrompt`. Gated hinter `canAccessVersionHistory`. |
+| Action                                                          | Beschreibung                                                                                       |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `getPromptVersions(promptId, query)`                             | Paginierte Liste (`Page<DPromptVersion>`). Bei FREE: `{ locked: true }` ohne Inhalte.                 |
+| `getPromptVersion(promptId, versionId)`                          | Einzelne Version inkl. `content`, für "Ansehen". Ownership-Check. Gated hinter `canAccessVersionHistory`. |
+| `restorePromptVersion(promptId, versionId, { keepCurrentAsVersion })` | Übernimmt `version.content` als neuen `PromptContent.content`. Sichert optional (Default: ja) die aktuelle Fassung vorher als neue Version. Gated hinter `canAccessVersionHistory`. |
 
-`updatePrompt(descriptorId, data)` (bestehende Action) wird um das optionale `versionNote`-Feld in `DPromptUpdate` erweitert — kein neuer Action-Name nötig.
+`updatePrompt(descriptorId, data)` (bestehende Action) wird um die optionalen Felder `saveAsVersion` (boolean, default `false`) und `versionNote` in `DPromptUpdate` erweitert — kein neuer Action-Name nötig, da der bestehende Single-Submit-Formularfluss unverändert bleibt.
 
 ### 6.2 Service (`src/data/services/prompt/prompt.user.service.ts`)
 
@@ -244,14 +263,25 @@ async updatePrompt(userId: string, descriptorId: string, data: DPromptUpdate) {
   const prompt = await this.getPrompt(userId, descriptorId);
   if (!prompt) throw new Error("TemplateDescriptor not found");
 
-  await this.repository.pUpdatePromptWithVersioning(
-    userId,
-    descriptorId,
-    data // enthält optional data.versionNote
-  );
+  if (data.saveAsVersion) {
+    const tier = await this.subscriptionService.getUserTier(userId);
+    if (!canAccessFeature(tier, "canAccessVersionHistory")) {
+      throw new SubscriptionAccessError(
+        "Versionierung ist ab BASIC verfügbar.",
+        "canAccessVersionHistory"
+      );
+    }
+  }
+
+  await this.repository.pUpdatePromptWithVersioning(userId, descriptorId, data);
 }
 
-async restorePromptVersion(userId: string, promptId: string, versionId: string) {
+async restorePromptVersion(
+  userId: string,
+  promptId: string,
+  versionId: string,
+  keepCurrentAsVersion: boolean = true
+) {
   const tier = await this.subscriptionService.getUserTier(userId);
   if (!canAccessFeature(tier, "canAccessVersionHistory")) {
     throw new SubscriptionAccessError(
@@ -263,17 +293,25 @@ async restorePromptVersion(userId: string, promptId: string, versionId: string) 
   const version = await this.repository.pGetPromptVersion(userId, promptId, versionId);
   if (!version) throw new Error("Version not found");
 
-  // Läuft durch denselben Snapshot-Pfad wie ein normales Speichern:
+  // Läuft durch exakt dieselbe Speicher-Pipeline wie ein normales Speichern mit
+  // "Speichern als neue Version" — pUpdatePromptWithVersioning sichert IMMER den
+  // bisherigen Content, bevor der neue (hier: version.content) geschrieben wird.
+  // Kein Sonderfall nötig, siehe §6.3.
   await this.repository.pUpdatePromptWithVersioning(userId, promptId, {
     content: version.content,
-    versionNote: `Wiederhergestellt aus Version ${version.versionNumber}`,
+    saveAsVersion: keepCurrentAsVersion,
+    versionNote: keepCurrentAsVersion
+      ? `Automatisch gesichert vor Wiederherstellen von Version ${version.versionNumber}`
+      : undefined,
   } as Partial<DPromptUpdate>);
 }
 ```
 
+> **Wichtig:** Beim Restore wird die Version **vor** dem Überschreiben aus der aktuellen `PromptContent.content` gebildet (nicht aus `version.content`!) — die Reihenfolge in `pUpdatePromptWithVersioning` (§6.3) sorgt dafür automatisch: Sie liest immer zuerst den bisherigen Content und sichert genau diesen, bevor der übergebene neue Content (`data.content`, hier = `version.content`) geschrieben wird. Das gilt identisch für den normalen Editor-Save.
+
 ### 6.3 Repository (`src/data/repositories/prompt/prompt.user.repository.ts`)
 
-`pUpdatePrompt` wird zu `pUpdatePromptWithVersioning` erweitert (oder intern um einen Versionierungs-Schritt ergänzt):
+`pUpdatePrompt` wird zu `pUpdatePromptWithVersioning` erweitert:
 
 ```typescript
 async pUpdatePromptWithVersioning(
@@ -282,14 +320,15 @@ async pUpdatePromptWithVersioning(
   data: DPromptUpdate
 ) {
   return this.prisma.$transaction(async (tx) => {
-    const current = await tx.promptContent.findUnique({
-      where: { promptId: descriptorId },
-    });
+    if (data.saveAsVersion) {
+      // Immer der BISHERIGE Content wird zur Version — unabhängig davon, ob der
+      // Aufruf vom normalen Editor-Save oder von restorePromptVersion() kommt.
+      // Dadurch entfällt jede Sonderfall-Unterscheidung: eine einzige Regel für
+      // beide Aufrufer (siehe §3.3).
+      const current = await tx.promptContent.findUnique({
+        where: { promptId: descriptorId },
+      });
 
-    const contentChanged =
-      current && current.content.trim() !== data.content.trim();
-
-    if (contentChanged) {
       const lastVersion = await tx.promptContentVersion.findFirst({
         where: { promptId: descriptorId },
         orderBy: { versionNumber: "desc" },
@@ -300,12 +339,11 @@ async pUpdatePromptWithVersioning(
         data: {
           promptId: descriptorId,
           versionNumber: nextVersionNumber,
-          content: current!.content, // Snapshot des ALTEN Inhalts
+          content: current!.content, // der Stand VOR dieser Änderung
           note: data.versionNote || null,
         },
       });
 
-      // BASIC-Rotation: älteste über Limit hinaus löschen
       await this.rotateVersionsIfNeeded(tx, userId, descriptorId);
     }
 
@@ -315,20 +353,23 @@ async pUpdatePromptWithVersioning(
       where: { id: descriptorId },
       data: {
         /* ...bestehende Felder..., */
-        content: { update: { content: data.content } },
+        content: { update: { content: data.content } }, // der NEUE Content wird live gesetzt
       },
     });
   });
 }
 ```
 
+> **Vereinfachung ggü. vorheriger Fassung:** Der frühere Entwurf brauchte einen internen `isRestoreOperation`-Marker, um zu unterscheiden, ob der neue oder der alte Content zur Version wird. Mit der korrigierten Regel "immer der bisherige Content wird gesichert" entfällt diese Fallunterscheidung vollständig — `restorePromptVersion()` (§6.2) ruft dieselbe Methode einfach mit `content = version.content` auf, ohne dass das Repository wissen muss, dass es sich um ein Restore handelt.
+
 ### 6.4 Service-Invarianten
 
-| Regel                                                                              | Error-Code                     |
-| ------------------------------------------------------------------------------------ | -------------------------------- |
-| Jede Version-Action prüft `prompt.userId === session.user.id`                       | `403 Forbidden`                  |
-| `getPromptVersion`/`restorePromptVersion` bei FREE                                   | `VERSION_HISTORY_UPGRADE_REQUIRED` |
-| Snapshot + Content-Update laufen atomar (`$transaction`)                            | Rollback bei Fehler               |
+| Regel                                                                              | Error-Code                          |
+| ------------------------------------------------------------------------------------ | -------------------------------------- |
+| Jede Version-Action prüft `prompt.userId === session.user.id`                       | `403 Forbidden`                       |
+| `saveAsVersion: true` bei FREE (egal ob im Editor-Save oder Restore)                 | `VERSION_HISTORY_UPGRADE_REQUIRED`     |
+| `getPromptVersion`/`restorePromptVersion` bei FREE                                   | `VERSION_HISTORY_UPGRADE_REQUIRED`     |
+| Versions-Insert + Content-Update laufen atomar (`$transaction`)                     | Rollback bei Fehler                    |
 
 ---
 
@@ -344,79 +385,153 @@ export type DPromptVersion = {
   createdAt: string;
 };
 
-export type DPromptVersionSummary = Omit<DPromptVersion, "content">; // für Listenansicht ohne Volltext, falls Payload-Größe relevant wird
+export type DPromptVersionSummary = Omit<DPromptVersion, "content">; // für Listenansicht ohne Volltext
 
 export type DPromptVersionsResult =
-  | { locked: true; count: number } // FREE
-  | { locked: false; page: Page<DPromptVersionSummary> }; // BASIC/PRO
+  | { locked: true } // FREE
+  | { locked: false; page: Page<DPromptVersionSummary>; hasUnversionedChanges: boolean }; // BASIC/PRO
 
 // Erweiterung des bestehenden Update-Typs (additiv, optional):
-// updatePromptSchema erhält: versionNote: z.string().max(500).optional()
+// updatePromptSchema erhält:
+//   saveAsVersion: z.boolean().optional().default(false)
+//   versionNote: z.string().max(500).optional()
 ```
+
+`hasUnversionedChanges` speist den Hinweistext aus §5.3 ("Seit Version 4 wurden Änderungen gespeichert, die nicht als eigene Version markiert sind") — Ableitung: `PromptContent.updatedAt` (sofern vorhanden) bzw. Vergleich von `PromptContent.content` mit `content` der neuesten `PromptContentVersion`.
+
+> **Hinweis:** `PromptContent` hat aktuell kein `updatedAt`-Feld (siehe `prisma/schema.prisma`, Zeilen 124–131) — für einen exakten Zeitstempel der letzten unversionierten Änderung müsste `PromptContent` um `updatedAt DateTime @updatedAt` ergänzt werden. Alternativ genügt für die MVP-Anzeige ein reiner String-Vergleich (`content !== letzteVersion.content`) ohne Zeitstempel-Anspruch — siehe §14.
 
 ---
 
 ## 8. Acceptance Criteria
 
-### AC-1: Automatischer Snapshot bei Textänderung
+### AC-1: Normales Speichern erzeugt keine Version (Standardverhalten)
 
 ```
-Given:  Prompt existiert mit content = "Alt-Text"
+Given:  Prompt existiert mit content = "Text A"
   And:  Nutzer ist BASIC oder PRO
-When:   Nutzer ändert content im Editor auf "Neu-Text" und speichert
-Then:   Eine neue PromptContentVersion wird erzeugt mit content = "Alt-Text", versionNumber = 1
-  And:  PromptContent.content ist jetzt "Neu-Text"
+When:   Nutzer ändert content auf "Text B" und klickt den Button "Speichern"
+Then:   PromptContent.content ist jetzt "Text B"
+  And:  Keine neue PromptContentVersion wird erzeugt
 ```
 
-### AC-2: Kein Snapshot ohne inhaltliche Änderung
+### AC-2: Explizite Versionierung über zweiten Button — der BISHERIGE Text wird zur Version
 
 ```
-Given:  Prompt existiert mit content = "Text"
-When:   Nutzer öffnet den Editor, ändert nur den Titel, speichert
-Then:   Keine neue PromptContentVersion wird erzeugt
+Given:  Prompt existiert mit content = "Text A"
+  And:  Nutzer ist BASIC oder PRO
+When:   Nutzer ändert content auf "Text B" und klickt den Button
+        "Speichern als neue Version"
+Then:   PromptContent.content ist jetzt "Text B" (der neue, live editierte Text)
+  And:  Eine neue PromptContentVersion wird erzeugt mit content = "Text A"
+        (der BISHERIGE Text, nicht "Text B"), versionNumber = 1
+  And:  "Text B" erscheint im Versionsverlauf-Sheet als "Aktuelle Fassung",
+        nicht als eigene nummerierte Version
 ```
 
-### AC-3: Änderungsnotiz wird an die Version gehängt
+### AC-3: Änderungsnotiz wird an die archivierte (bisherige) Version gehängt
 
 ```
-Given:  Nutzer ist BASIC oder PRO, ändert den Prompt-Text
-When:   Nutzer öffnet "Änderungsnotiz hinzufügen", trägt "Ton angepasst" ein, speichert
-Then:   Die neu erzeugte PromptContentVersion hat note = "Ton angepasst"
+Given:  Nutzer ist BASIC oder PRO, Prompt hat content = "Text A"
+When:   Nutzer ändert den Text, öffnet "+ Notiz hinzufügen", trägt
+        "Vor Ton-Anpassung gesichert" ein, klickt "Speichern als neue Version"
+Then:   Die neu erzeugte PromptContentVersion (mit content = "Text A") hat
+        note = "Vor Ton-Anpassung gesichert"
 ```
 
-### AC-4: Versionsverlauf ansehen (BASIC/PRO)
+### AC-4: Version ohne inhaltliche Änderung wird trotzdem erzeugt
+
+```
+Given:  Prompt existiert mit content = "Text A", letzte Version (Nr. 3) hat ebenfalls
+        content = "Text A"
+When:   Nutzer trägt Notiz "Für Kunde final freigegeben" ein (ohne den Text zu ändern)
+        und klickt "Speichern als neue Version"
+Then:   Eine neue PromptContentVersion (Nr. 4) wird erzeugt mit content = "Text A"
+        (identisch zum bisherigen und zum weiterhin unveränderten aktuellen Stand)
+        und note = "Für Kunde final freigegeben"
+```
+
+### AC-4b: Notiz ohne Klick auf "Speichern als neue Version" bleibt wirkungslos
+
+```
+Given:  Nutzer hat im optionalen Notizfeld "Ton angepasst" eingetragen
+When:   Nutzer klickt stattdessen den Button "Speichern"
+Then:   PromptContent.content wird aktualisiert
+  And:  Keine PromptContentVersion wird erzeugt, die Notiz wird nirgends gespeichert
+```
+
+### AC-5: Zweiter Button für FREE nicht sichtbar
+
+```
+Given:  Nutzer ist FREE
+When:   Nutzer öffnet den Prompt-Editor (Bearbeiten-Modus)
+Then:   Nur der Button "Speichern" wird gerendert, "Speichern als neue Version" fehlt
+```
+
+### AC-5b: Zweiter Button im Create-Modus nicht sichtbar
+
+```
+Given:  Nutzer ist BASIC oder PRO
+When:   Nutzer öffnet den Editor für einen neuen Prompt (/prompts/new)
+Then:   Nur der Button "Prompt erstellen" wird gerendert, "Speichern als neue Version" fehlt
+```
+
+### AC-6: Versionierungs-Bypass bei FREE serverseitig blockiert
+
+```
+Given:  Nutzer ist FREE
+When:   Nutzer sendet updatePrompt(...) mit saveAsVersion: true direkt (API-Bypass)
+Then:   Server antwortet mit Error VERSION_HISTORY_UPGRADE_REQUIRED
+  And:  Content wird NICHT gespeichert (gesamte Transaktion schlägt fehl)
+```
+
+### AC-7: Versionsverlauf ansehen (BASIC/PRO)
 
 ```
 Given:  Prompt hat 3 gespeicherte Versionen
   And:  Nutzer ist BASIC oder PRO
 When:   Nutzer klickt "Versionsverlauf" in der Sidebar
-Then:   Sheet öffnet sich mit "Aktuelle Version" + 3 historischen Einträgen (neueste zuerst)
+Then:   Sheet öffnet sich mit "Aktuelle Fassung" + 3 historischen Einträgen (neueste zuerst)
   And:  Jeder Eintrag zeigt Zeitpunkt und Notiz (oder "(keine Notiz)")
 ```
 
-### AC-5: Versionsverlauf gesperrt (FREE)
+### AC-8: Versionsverlauf gesperrt (FREE)
 
 ```
-Given:  Prompt hat 3 gespeicherte Versionen
-  And:  Nutzer ist FREE
+Given:  Nutzer ist FREE
 When:   Nutzer klickt "Versionsverlauf" in der Sidebar
-Then:   Upgrade-Hinweis wird angezeigt: "3 Versionen gespeichert. Upgrade auf BASIC..."
+Then:   Upgrade-Hinweis wird angezeigt: "Versionsverlauf ist ab BASIC verfügbar..."
   And:  Kein Versionsinhalt wird an den Client übertragen
 ```
 
-### AC-6: Version wiederherstellen
+### AC-9: Version wiederherstellen mit Sicherung der aktuellen Fassung (Default)
 
 ```
-Given:  Prompt hat aktuellen content = "Neu-Text"
-  And:  Version 1 mit content = "Alt-Text" existiert
+Given:  Prompt hat aktuellen content = "Text C" (unversioniert seit Version 2)
+  And:  Version 2 mit content = "Text B" existiert
   And:  Nutzer ist BASIC oder PRO
-When:   Nutzer klickt "Wiederherstellen" bei Version 1, bestätigt den Dialog
-Then:   PromptContent.content wird zu "Alt-Text"
-  And:  Eine neue PromptContentVersion (versionNumber 2) wird erzeugt mit content = "Neu-Text"
-  And:  Toast "Version 1 wiederhergestellt" erscheint
+When:   Nutzer klickt "Wiederherstellen" bei Version 2, lässt die Checkbox
+        "Aktuelle Fassung vorher sichern" aktiviert, bestätigt
+Then:   Eine neue PromptContentVersion (Nr. 3) wird erzeugt mit content = "Text C"
+        und einer automatischen Notiz
+  And:  PromptContent.content wird zu "Text B"
+  And:  Toast "Version 2 wiederhergestellt" erscheint
 ```
 
-### AC-7: Wiederherstellen bei FREE blockiert
+### AC-10: Version wiederherstellen ohne Sicherung der aktuellen Fassung
+
+```
+Given:  Prompt hat aktuellen content = "Text C" (unversioniert)
+  And:  Version 2 mit content = "Text B" existiert
+When:   Nutzer klickt "Wiederherstellen" bei Version 2, deaktiviert die Checkbox
+        "Aktuelle Fassung vorher sichern", bestätigt
+Then:   PromptContent.content wird zu "Text B"
+  And:  KEINE neue PromptContentVersion wird erzeugt
+  And:  "Text C" ist ab sofort unwiederbringlich verloren (keine Warnung mehr nötig,
+        da bereits im Dialog kommuniziert)
+```
+
+### AC-11: Wiederherstellen bei FREE blockiert
 
 ```
 Given:  Nutzer ist FREE
@@ -424,33 +539,32 @@ When:   Nutzer versucht restorePromptVersion(...) direkt aufzurufen (API-Bypass)
 Then:   Server antwortet mit Error VERSION_HISTORY_UPGRADE_REQUIRED, upgradeRequired: true
 ```
 
-### AC-8: Variablen-Mismatch-Warnung beim Restore
+### AC-12: Variablen-Mismatch-Warnung beim Restore
 
 ```
-Given:  Version 1 enthält "{{alte_variable}}" im Text
+Given:  Version 2 enthält "{{alte_variable}}" im Text
   And:  Aktuelle PromptFields enthalten kein Feld "alte_variable"
-When:   Nutzer öffnet den Bestätigungsdialog für "Wiederherstellen" von Version 1
+When:   Nutzer öffnet den Bestätigungsdialog für "Wiederherstellen" von Version 2
 Then:   Warn-Box zeigt: "Diese Version enthält Platzhalter, die aktuell nicht als
         Felder definiert sind: {{alte_variable}}"
   And:  "Wiederherstellen"-Button bleibt trotzdem aktiv (nicht blockierend)
 ```
 
-### AC-9: BASIC-Rotation bei 20 Versionen
+### AC-13: BASIC-Rotation bei 20 Versionen
 
 ```
 Given:  Nutzer ist BASIC, Prompt hat bereits 20 gespeicherte Versionen
-When:   Nutzer speichert eine weitere inhaltliche Änderung
-Then:   Eine 21. Version wird erzeugt
-  And:  Die älteste Version (versionNumber = 1) wird automatisch gelöscht
+When:   Nutzer erstellt (explizit) eine 21. Version
+Then:   Die älteste Version (versionNumber = 1) wird automatisch gelöscht
   And:  Es existieren weiterhin genau 20 Versionen
 ```
 
-### AC-10: Kein Rotation-Limit bei PRO
+### AC-14: Kein Rotation-Limit bei PRO
 
 ```
 Given:  Nutzer ist PRO, Prompt hat 50 gespeicherte Versionen
-When:   Nutzer speichert eine weitere inhaltliche Änderung
-Then:   Eine 51. Version wird erzeugt, keine wird gelöscht
+When:   Nutzer erstellt (explizit) eine 51. Version
+Then:   Keine Version wird gelöscht
 ```
 
 ---
@@ -460,27 +574,31 @@ Then:   Eine 51. Version wird erzeugt, keine wird gelöscht
 | Situation                                                                 | Verhalten                                                                                                     |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Prompt wird gelöscht                                                        | `onDelete: Cascade` — alle `PromptContentVersion`-Zeilen werden mitgelöscht                                    |
-| Nutzer restored eine Version, deren `content` identisch zum aktuellen ist   | Kein neuer Snapshot (greift dieselbe Dedup-Regel wie AC-2); Toast "Kein Unterschied zur aktuellen Version" statt "wiederhergestellt" |
-| Zwei Browser-Tabs speichern gleichzeitig                                    | Last-write-wins auf `PromptContent`; beide Saves erzeugen jeweils einen eigenen, korrekten Versions-Snapshot (Transaktion verhindert Nummern-Kollision) |
-| Prompt wird über Workflow-Step (`PROMPT_REF`) referenziert und Content per Restore geändert | Workflow-Runner liest `content` live (`getPromptGenerationData`) — Restore wirkt sich sofort auf laufende/künftige Workflow-Ausführungen aus. Kein Blocker, aber dokumentierter Hinweis im Bestätigungsdialog erwägenswert (siehe §13) |
-| Prompt ist Teil eines gekauften Marketplace-Produkts (`ProductItem`)        | `ProductItem.templateId` verweist live auf den Prompt — Käufer sehen nach einem Restore ebenfalls die wiederhergestellte Fassung, nicht die zum Kaufzeitpunkt aktuelle. Kein Snapshot-Mechanismus für Marketplace-Käufe vorhanden (siehe offene Frage §13) |
+| Nutzer klickt "Speichern als neue Version", der (bisherige) Content ist identisch zur letzten Version | Version wird trotzdem erzeugt (siehe AC-4) — respektiert explizite Nutzerabsicht, kein Dedup-Block            |
+| Nutzer restored eine Version, deren `content` identisch zur aktuellen Fassung ist | Restore läuft trotzdem durch; optionale Sicherung erzeugt ggf. eine inhaltlich identische neue Version — kein Sonderfall nötig |
+| Zwei Browser-Tabs speichern gleichzeitig, beide mit `saveAsVersion: true`   | Last-write-wins auf `PromptContent`; beide Saves erzeugen jeweils einen eigenen, korrekten Versions-Snapshot (Transaktion verhindert Nummern-Kollision) |
+| Nutzer speichert mehrfach unversioniert (Text A → B → C via "Speichern"), dann einmal mit "Speichern als neue Version" (→ Text D) | Nur der letzte unversionierte Stand direkt vor dem Versionierungs-Klick ("Text C") wird zur Version — die dazwischenliegenden Stände (A, B) sind nicht einzeln rekonstruierbar (bewusste Design-Konsequenz des expliziten Modells, siehe §3.3) |
+| Prompt wird über Workflow-Step (`PROMPT_REF`) referenziert und Content per Restore geändert | Workflow-Runner liest `content` live (`getPromptGenerationData`) — Restore wirkt sich sofort auf laufende/künftige Workflow-Ausführungen aus. Kein Blocker, aber dokumentierter Hinweis (siehe §13) |
+| Prompt ist Teil eines gekauften Marketplace-Produkts (`ProductItem`)        | `ProductItem.templateId` verweist live auf den Prompt — Käufer sehen nach einem Restore ebenfalls die wiederhergestellte Fassung. Kein Snapshot-Mechanismus für Marketplace-Käufe vorhanden (siehe offene Frage §13) |
 | BASIC-Nutzer upgradet auf PRO nach Rotation                                 | Bereits rotierte (gelöschte) Versionen sind nicht wiederherstellbar — nur ab dem Upgrade-Zeitpunkt wächst die Historie unbegrenzt weiter |
-| FREE-Nutzer upgradet auf BASIC/PRO                                          | Sofortiger Zugriff auf die bereits im Hintergrund gesammelte volle Historie (kein Datenverlust durch Tier-Wechsel) |
+| FREE-Nutzer upgradet auf BASIC/PRO                                          | Keine rückwirkende Historie vorhanden (da FREE nie Versionen erzeugen konnte) — Historie beginnt bei der ersten expliziten Versionierung nach dem Upgrade |
 | `getPromptVersion` für gelöschte/fremde Version aufgerufen                  | 404 / Ownership-Error, analog zu bestehenden Prompt-Actions                                                    |
+| Drei Buttons (Abbrechen, Speichern als neue Version, Speichern) auf schmalen Mobile-Viewports | Mobile-Footer in `prompt-edit.tsx` muss geprüft werden (`flex-wrap` oder Umbruch auf zwei Zeilen); ggf. Full-Vision-Kandidat, "Speichern als neue Version" bei sehr schmalen Screens hinter einem Dropdown am Haupt-Button zu verstecken |
+| Nutzer klickt "Speichern als neue Version" bei einem invaliden Formular (z.B. Pflichtfeld leer) | Wie beim regulären "Speichern": Formularvalidierung greift zuerst (HTML-`form`-Attribut-Bindung löst dieselbe RHF-Validierung aus), Submit wird verhindert, keine Version erzeugt |
 
 ---
 
 ## 10. Implementierungs-Reihenfolge
 
 1. **Prisma-Schema:** `PromptContentVersion`-Modell + Relation auf `Prompt`, Migration, Client generieren
-2. **Domain Types:** `DPromptVersion`, `DPromptVersionsResult`; `updatePromptSchema` um optionales `versionNote` erweitern
+2. **Domain Types:** `DPromptVersion`, `DPromptVersionsResult`; `updatePromptSchema` um optionale `saveAsVersion`/`versionNote` erweitern
 3. **Tier-Konfiguration:** `TIER_FEATURES` um `canAccessVersionHistory` + `maxStoredPromptVersions` erweitern (inkl. Tests in `access-control.test.ts`)
-4. **Repository:** `pUpdatePromptWithVersioning` (Transaktion, Dedup, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
-5. **Service:** `updatePrompt` auf neue Repository-Methode umstellen, `restorePromptVersion` mit Tier-Gate ergänzen
+4. **Repository:** `pUpdatePromptWithVersioning` (Transaktion, explizites Insert nur bei `saveAsVersion`, Rotation), `pGetPromptVersions`, `pGetPromptVersion`
+5. **Service:** `updatePrompt` mit Tier-Gate für `saveAsVersion` ergänzen, `restorePromptVersion` mit Tier-Gate + `keepCurrentAsVersion`-Logik
 6. **Server Actions:** `getPromptVersions`, `getPromptVersion`, `restorePromptVersion`
-7. **UI — Editor:** Optionale Änderungsnotiz in `prompt-text.tsx`
-8. **UI — Sidebar & Sheet:** `VersionHistoryButton`, `version-history-sheet.tsx`, Ansehen-/Wiederherstellen-Flow, Variablen-Mismatch-Warnung (Wiederverwendung von `extractVariablesFromContent`/`resolveVariableStatus`)
-9. **Unit- und Integrationstests:** Repository (Dedup, Rotation, Transaktion), Service (Tier-Gate), Actions, Komponenten (Sheet-States: leer, gesperrt, mit Einträgen)
+7. **UI — Editor:** Zweiter Button "Speichern als neue Version" in `prompt-edit.tsx` (Header + Mobile-Footer), submitter-basierte Unterscheidung im `onSubmit`-Handler von `prompt-form.tsx`, optionale Notiz in `prompt-text.tsx`; Button ausgeblendet für FREE und im Create-Modus
+8. **UI — Sidebar & Sheet:** `VersionHistoryButton`, `version-history-sheet.tsx`, Ansehen-/Wiederherstellen-Flow (inkl. Checkbox "Aktuelle Fassung sichern"), Variablen-Mismatch-Warnung
+9. **Unit- und Integrationstests:** Repository (kein Insert ohne `saveAsVersion`, Rotation), Service (Tier-Gates), Actions, Komponenten (Sheet-States: leer, gesperrt, mit Einträgen; zweiter Button sichtbar/ausgeblendet je Tier und Modus; korrekte `submitter`-Erkennung bei beiden Buttons)
 
 ---
 
@@ -489,8 +607,9 @@ Then:   Eine 51. Version wird erzeugt, keine wird gelöscht
 | Bereich                        | MVP (diese Spezifikation)                                     | Full Vision                                                                 |
 | -------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Versionierter Umfang             | Nur `PromptContent.content`                                       | Auch Titel, Beschreibung, Felder (`PromptField`) versioniert                    |
+| Auslöser                         | Zweiter Button "Speichern als neue Version" (sichert bisherigen Content) | Zusätzlich: automatische "Zwischenspeicherung" alle X Minuten als optionale, separat abschaltbare Einstellung für Power-User |
+| "Seit letzter Version geändert"-Hinweis | Einfacher String-Vergleich (kein exakter Zeitstempel, da `PromptContent` aktuell kein `updatedAt` besitzt) | `PromptContent.updatedAt` ergänzen für exakte Zeitangabe im Hinweistext          |
 | Vergleich                        | Einzelne Version ansehen (Volltext)                               | Side-by-side-Diff mit Zeilen-Highlighting (z.B. via `diff`-Library)             |
-| Benennung                        | Automatische Nummerierung + optionale Freitext-Notiz              | Benannte Meilenstein-Versionen ("Tagged Versions", z.B. "Für Kunde X finalisiert") |
 | Restore-Auswirkung auf Marketplace/Workflows | Kein Snapshot zum Kaufzeitpunkt, live-Referenz (dokumentierter Edge Case) | Kaufzeitpunkt-Snapshot für Marketplace-Produkte; Versions-Pinning in Workflow-Steps |
 | Rotation                         | Hartes Limit bei BASIC (20), kein manuelles Pinning                | Nutzer kann einzelne Versionen vor Rotation schützen ("anpinnen")               |
 | Sharing                          | Historie ist privat, nicht Teil von Collection-Sharing-Tokens      | Öffentliche Collection-Viewer könnten (optional) Versionsverlauf einsehen        |
@@ -504,6 +623,7 @@ Then:   Eine 51. Version wird erzeugt, keine wird gelöscht
 ```typescript
 export const updatePromptSchema = z.object({
   // ...bestehende Felder...
+  saveAsVersion: z.boolean().optional().default(false),
   versionNote: z.string().max(500).optional(),
 });
 ```
@@ -514,7 +634,10 @@ export const updatePromptSchema = z.object({
 
 | #   | Frage                                                                                             | Empfehlung (unverbindlich)                                                                                       |
 | --- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 1   | Sollen FREE-Nutzer wirklich unbegrenzt Versionen im Hintergrund ansammeln (Storage-Kosten vs. Upgrade-Hebel)? | Ja, mit einer Obergrenze zur Kostenkontrolle (z.B. still bei 50 kappen, ohne UI-Hinweis) — starker Upgrade-Anreiz ("bereits 50 Versionen gespeichert"), vertretbares Storage-Volumen bei reinem Text |
-| 2   | Soll `versionNote` an BASIC/PRO gekoppelt sein oder für alle (auch FREE, ohne Sichtbarkeit) erfassbar sein? | Wie spezifiziert: nur BASIC/PRO sehen/nutzen das Feld — vermeidet Verwirrung bei FREE                            |
+| 1   | Soll der Versionsverlauf-Sidebar-Button bei FREE sichtbar (mit Upgrade-CTA) oder komplett ausgeblendet sein? | Sichtbar mit CTA — Discoverability für das Feature selbst ist wertvoll, auch wenn die *Erstellung* im Editor für FREE ausgeblendet bleibt (Inkonsistenz ist bewusst, da unterschiedliche UX-Ziele: Editor soll nicht mit totem UI überladen werden, Sidebar darf gezielt bewerben) |
+| 2   | Soll die Checkbox "Aktuelle Fassung vorher sichern" im Restore-Dialog wirklich standardmäßig aktiviert sein, obwohl das Feature sonst konsequent "opt-in" ist? | Ja, empfohlen als einzige Ausnahme — hier droht echter, unwiderruflicher Datenverlust (siehe §5.4), das rechtfertigt eine sichere Voreinstellung |
 | 3   | Soll Restore eines Prompts, der aktiv in Workflow-Steps referenziert wird, einen Warnhinweis zeigen ("Wird in 2 Workflows verwendet")? | Sinnvolle Ergänzung, aber kein Blocker für MVP — als Folgekarte nach Launch prüfen                              |
 | 4   | Marketplace-Käufer und Content-Änderungen nach Kauf: rechtlich/vertrauensrelevant?                 | Sollte vor Launch mit Marketplace-Verantwortlichem geklärt werden — ggf. reicht ein Hinweis "Verkäufer kann Inhalt nach Kauf ändern" in den AGB/Produktdetails, statt technischer Lösung im MVP |
+| 5   | Ist das BASIC-Limit von 20 Versionen im expliziten Modell noch treffend, oder zu niedrig/hoch bemessen, da Versionen jetzt seltener entstehen? | Vorerst beibehalten und nach Launch anhand echter Nutzungsdaten (Ø Versionen pro Prompt bei BASIC) validieren   |
+| 6   | Soll "Speichern als neue Version" visuell als primärer oder sekundärer Button erscheinen (Reihenfolge/Hervorhebung)? | Empfehlung: "Speichern" bleibt primär (blau, wie bisher), "Speichern als neue Version" als Outline-/Sekundär-Button links davon — vermeidet, dass Nutzer versehentlich immer die aufwändigere Aktion wählen |
+| 7   | Reicht ein einfaches, immer sichtbares Notizfeld, oder sollte "Speichern als neue Version" einen kurzen Bestätigungs-Dialog mit Notizfeld öffnen (statt sofort zu speichern)? | MVP: kein Dialog, sofortiges Speichern wie beim regulären Button — geringste Friktion. Ein Dialog wäre expliziter, kostet aber einen zusätzlichen Klick bei jeder Versionierung; als Full-Vision-Option offen halten, falls Nutzertests zeigen, dass Notizen sonst zu oft leer bleiben |

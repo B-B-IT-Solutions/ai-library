@@ -1,4 +1,4 @@
 - [App Identity](project_app_identity.md) — Vision Notes: app name, tagline, value prop, core differentiators, 6 user segments
 - [Workflows Feature](project_workflows_feature.md) — Branching prompt-chains, BASIC+PRO, copy-paste runner, PROMPT_REF or STANDALONE steps, private MVP
 - [Spec-Writing Approach](feedback_spec_approach.md) — trace full stack before spec; match repo's German Ist/Soll/Begründung doc format
-- [Prompt Versioning Feature](project_prompt_versioning_feature.md) — Content-only snapshot-on-save, BASIC 20-version rotation, PRO unlimited, restore=normal update
+- [Prompt Versioning Feature](project_prompt_versioning_feature.md) — 2nd button "Speichern als neue Version" (not checkbox, not automatic), BASIC 20-rotation, PRO unlimited, restore=safe-save default
