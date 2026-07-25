@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { flatMap, isEmpty, some, trim } from "es-toolkit/compat";
 import { Check, ChevronsUpDown, Loader, Plus } from "lucide-react";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Button } from "@/components/shadcn/button";
