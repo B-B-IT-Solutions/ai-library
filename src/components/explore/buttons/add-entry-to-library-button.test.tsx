@@ -145,7 +145,7 @@ describe("AddCatalogEntryToLibraryButton functionality tests", () => {
       const event = null as unknown as MouseEvent<HTMLButtonElement>;
       action.onClick(event);
 
-      expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+      expect(mockRouter.asPath).toEqual(`/prompts/${descriptorId}`);
    });
 
    it("authenticated - btn clicked - error - test", async () => {

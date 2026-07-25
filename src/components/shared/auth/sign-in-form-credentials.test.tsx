@@ -211,7 +211,7 @@ describe("CredentialsSignInForm functionality tests", () => {
          password: passwordValue,
       };
 
-      const expectedRedirectTo = "/templates";
+      const expectedRedirectTo = "/prompts";
 
       await waitFor(() => {
          expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
@@ -279,7 +279,7 @@ describe("CredentialsSignInForm functionality tests", () => {
          password: passwordValue,
       };
 
-      const expectedRedirectTo = "/templates";
+      const expectedRedirectTo = "/prompts";
 
       await waitFor(() => {
          assertEmailNotVerifiedRendered();

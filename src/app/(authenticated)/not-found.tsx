@@ -14,7 +14,7 @@ export const AuthenticatedNotFound = () => {
             Die angeforderte Seite konnte nicht gefunden werden.
          </p>
          <Button asChild={true} variant="outline">
-            <Link href="/templates" data-testid="home-link">
+            <Link href="/prompts" data-testid="home-link">
                Zurück zur Startseite
             </Link>
          </Button>

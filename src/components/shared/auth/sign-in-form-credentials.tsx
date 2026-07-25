@@ -37,7 +37,7 @@ export const CredentialsSignInForm = () => {
    });
 
    const searchParams = useSearchParams();
-   const callbackUrl = searchParams.get("callbackUrl") || "/templates";
+   const callbackUrl = searchParams.get("callbackUrl") || "/prompts";
 
    const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
       setUnverifiedEmail(null);

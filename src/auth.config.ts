@@ -50,7 +50,7 @@ export const authConfig: NextAuthConfig = {
             /\/subscription/,
             /^\/marketplace/,
             /\/products\/(.*)/,
-            /^\/templates/,
+            /^\/prompts/,
             /\/checkout/,
             /\/orders\/(.*)/,
             /\/profile/,
@@ -63,7 +63,7 @@ export const authConfig: NextAuthConfig = {
          // Redirect authenticated users from public/landing routes to the app
          if (auth) {
             if (pathname === "/" || pathname.startsWith("/auth/")) {
-               return NextResponse.redirect(new URL("/templates", request.url));
+               return NextResponse.redirect(new URL("/prompts", request.url));
             }
             if (pathname === "/preview/marketplace") {
                return NextResponse.redirect(
@@ -71,7 +71,7 @@ export const authConfig: NextAuthConfig = {
                );
             }
             if (pathname.startsWith("/admin") && auth.user?.role !== "ADMIN") {
-               return NextResponse.redirect(new URL("/templates", request.url));
+               return NextResponse.redirect(new URL("/prompts", request.url));
             }
          }
 

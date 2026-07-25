@@ -151,7 +151,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/subscription",
       "/marketplace",
       "/products/123",
-      "/templates",
+      "/prompts",
       "/checkout",
       "/profile",
       "/user/123",
@@ -170,9 +170,9 @@ describe("auth.config - callback.authorized - tests", () => {
       jest.clearAllMocks();
    });
 
-   it("authorized - authenticated user on root '/' redirected to /templates - test", () => {
+   it("authorized - authenticated user on root '/' redirected to /prompts - test", () => {
       const fromPath = "/";
-      const toPath = "/templates";
+      const toPath = "/prompts";
 
       const response = ntestData.nextResponse(307);
       redirectMock.mockReturnValue(response);
@@ -222,9 +222,9 @@ describe("auth.config - callback.authorized - tests", () => {
       expect(redirectMock).toHaveBeenCalledWith(expectUrl);
    });
 
-   it("authorized - authenticated user on '/auth/' routes redirected to /templates - test", () => {
+   it("authorized - authenticated user on '/auth/' routes redirected to /prompts - test", () => {
       const authPaths = ["/auth/sign-in", "/auth/sign-up"];
-      const toPath = "/templates";
+      const toPath = "/prompts";
 
       forEach(authPaths, (fromPath) => {
          redirectMock.mockClear();
@@ -312,8 +312,8 @@ describe("auth.config - callback.authorized - tests", () => {
       });
    });
 
-   it("authorized - admin protected path access without admin role redirected to /templates  - test", () => {
-      const toPath = "/templates";
+   it("authorized - admin protected path access without admin role redirected to /prompts  - test", () => {
+      const toPath = "/prompts";
 
       forEach(adminProtectedPaths, (path) => {
          redirectMock.mockClear();

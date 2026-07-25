@@ -14,10 +14,10 @@ import { DMenuItem } from "./types";
 
 export const navigationMenu1: DMenuItem[] = [
    {
-      id: "/templates",
+      id: "/prompts",
       title: "Prompts",
       icon: Braces,
-      url: "/templates",
+      url: "/prompts",
    },
    {
       id: "/collections",

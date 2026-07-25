@@ -9,7 +9,7 @@ export const viewPromptUrl = (
    prompt: DPrompt,
    collection?: DCollectionPreview
 ) => {
-   const viewUrl = `/templates/${prompt.id}`;
+   const viewUrl = `/prompts/${prompt.id}`;
    if (collection) {
       return `${viewUrl}?collectionId=${collection.id}`;
    }
@@ -20,7 +20,7 @@ export const editPromptUrl = (
    prompt: DPrompt,
    collection?: DCollectionPreview
 ) => {
-   const editUrl = `/templates/${prompt.id}/edit`;
+   const editUrl = `/prompts/${prompt.id}/edit`;
    if (collection) {
       return `${editUrl}?collectionId=${collection.id}`;
    }
@@ -29,9 +29,9 @@ export const editPromptUrl = (
 
 export const newPromptUrl = (collection?: DCollectionPreview) => {
    if (collection) {
-      return `/templates/new?collectionId=${collection.id}`;
+      return `/prompts/new?collectionId=${collection.id}`;
    }
-   return "/templates/new";
+   return "/prompts/new";
 };
 
 export const promptEditNavigateBackUrl = (
@@ -42,21 +42,21 @@ export const promptEditNavigateBackUrl = (
 
    if (collection) {
       if (isEdit) {
-         return `/templates/${prompt!.id}?collectionId=${collection.id}`;
+         return `/prompts/${prompt!.id}?collectionId=${collection.id}`;
       }
       return `/collections/${collection.id}`;
    }
 
    if (isEdit) {
-      return `/templates/${prompt!.id}`;
+      return `/prompts/${prompt!.id}`;
    }
 
-   return "/templates";
+   return "/prompts";
 };
 
 export const breadcrumbRootUrl = (collection?: DCollectionPreview) => {
    if (collection) {
       return `/collections/${collection.id}`;
    }
-   return "/templates";
+   return "/prompts";
 };

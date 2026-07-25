@@ -80,7 +80,7 @@ describe("Sidebar rendering tests", () => {
 
    it("sidebar open - rendered test", async () => {
       const user = dtestData.dLoginUser();
-      const url = "/templates";
+      const url = "/prompts";
       const { container } = renderWithSidebar(<Sidebar user={user} />, url);
 
       await waitFor(() => {
@@ -94,7 +94,7 @@ describe("Sidebar rendering tests", () => {
 
    it("sidebar collapsed - rendered test", async () => {
       const user = dtestData.dLoginUser();
-      const url = "/templates";
+      const url = "/prompts";
       const { container } = renderWithSidebar(
          <Sidebar user={user} />,
          url,
@@ -136,7 +136,7 @@ describe("Sidebar functionality tests", () => {
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      await assertNavigateToMenuItem("/templates", "/templates");
+      await assertNavigateToMenuItem("/prompts", "/prompts");
       await assertNavigateToMenuItem("/collections", "/collections");
       await assertNavigateToMenuItem("/explore", "/explore");
       // await assertNavigateToMenuItem("/marketplace", "/marketplace");
@@ -153,7 +153,7 @@ describe("Sidebar functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertMenuItemActive("/settings", true);
-         assertMenuItemActive("/templates", false);
+         assertMenuItemActive("/prompts", false);
          assertMenuItemActive("/collections", false);
       });
    });

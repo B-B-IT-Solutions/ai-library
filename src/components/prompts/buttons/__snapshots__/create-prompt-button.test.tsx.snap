@@ -6,7 +6,7 @@ exports[`CreatePromptButton rendering tests requirePlanUpgrade false - collectio
     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
     data-slot="button"
     data-testid="create-prompt-btn"
-    href="/templates/new?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
+    href="/prompts/new?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
   >
     <svg
       aria-hidden="true"
@@ -39,7 +39,7 @@ exports[`CreatePromptButton rendering tests requirePlanUpgrade false - size sm -
     class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
     data-slot="button"
     data-testid="create-prompt-btn"
-    href="/templates/new"
+    href="/prompts/new"
   >
     <svg
       aria-hidden="true"
@@ -72,7 +72,7 @@ exports[`CreatePromptButton rendering tests requirePlanUpgrade false - size unde
     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
     data-slot="button"
     data-testid="create-prompt-btn"
-    href="/templates/new"
+    href="/prompts/new"
   >
     <svg
       aria-hidden="true"

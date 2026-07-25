@@ -40,7 +40,7 @@ exports[`PublicPromptItems rendering tests prompts - empty - test 1`] = `
       class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-2 bg-blue-700 hover:bg-blue-800"
       data-slot="button"
       data-testid="create-prompt-btn"
-      href="/templates/new"
+      href="/prompts/new"
     >
       <svg
         aria-hidden="true"
@@ -130,7 +130,7 @@ exports[`PublicPromptItems rendering tests view grid - test 1`] = `
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/preview/templates/334db648-f300-4284-8149-075ff465d750?col=public-token-1"
+          href="/preview/prompts/334db648-f300-4284-8149-075ff465d750?col=public-token-1"
         >
           <h4
             class="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -272,7 +272,7 @@ exports[`PublicPromptItems rendering tests view grid - test 1`] = `
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/preview/templates/334db648-f300-4284-8149-075ff465d751?col=public-token-1"
+          href="/preview/prompts/334db648-f300-4284-8149-075ff465d751?col=public-token-1"
         >
           <h4
             class="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -414,7 +414,7 @@ exports[`PublicPromptItems rendering tests view grid - test 1`] = `
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/preview/templates/334db648-f300-4284-8149-075ff465d752?col=public-token-1"
+          href="/preview/prompts/334db648-f300-4284-8149-075ff465d752?col=public-token-1"
         >
           <h4
             class="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"

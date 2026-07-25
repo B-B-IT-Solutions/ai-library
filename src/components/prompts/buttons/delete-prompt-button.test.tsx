@@ -59,7 +59,7 @@ describe("DeletePromptButton rendering tests", () => {
 describe("DeletePromptButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      mockRouter.push("/templates/test-id");
+      mockRouter.push("/prompts/test-id");
    });
 
    it("confirm btn clicked - result.success true - test", async () => {
@@ -92,7 +92,7 @@ describe("DeletePromptButton functionality tests", () => {
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(actionResult.message);
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 
@@ -126,7 +126,7 @@ describe("DeletePromptButton functionality tests", () => {
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
-         expect(mockRouter.pathname).toEqual("/templates/test-id");
+         expect(mockRouter.pathname).toEqual("/prompts/test-id");
       });
    });
 
@@ -151,7 +151,7 @@ describe("DeletePromptButton functionality tests", () => {
 
       await waitFor(() => {
          expect(deletePromptMock).not.toHaveBeenCalled();
-         expect(mockRouter.pathname).toEqual("/templates/test-id");
+         expect(mockRouter.pathname).toEqual("/prompts/test-id");
       });
    });
 });

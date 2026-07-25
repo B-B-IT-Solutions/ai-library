@@ -122,7 +122,7 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie false - te
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-templates"
-                        href="/templates"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -658,7 +658,7 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie true - tes
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-templates"
-                        href="/templates"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -1194,7 +1194,7 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie undefined 
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-templates"
-                        href="/templates"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -1730,7 +1730,7 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive fal
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-templates"
-                        href="/templates"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -2266,7 +2266,7 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive tru
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-templates"
-                        href="/templates"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"

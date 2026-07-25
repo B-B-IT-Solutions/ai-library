@@ -28,8 +28,8 @@ export const PublicPromptMoreOptionsButton = ({
    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
    const templateDetailsUrl = collectionToken
-      ? `/preview/templates/${prompt.id}?col=${collectionToken}`
-      : `/preview/templates/${prompt.id}`;
+      ? `/preview/prompts/${prompt.id}?col=${collectionToken}`
+      : `/preview/prompts/${prompt.id}`;
 
    const handleContextMenuOpen = (open: boolean) => {
       if (open) {

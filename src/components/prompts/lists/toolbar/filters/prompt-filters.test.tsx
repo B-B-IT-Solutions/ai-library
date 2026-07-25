@@ -63,7 +63,7 @@ describe("PromptFilters rendering tests", () => {
    });
 
    it("filters empty - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "";
       const { container } = renderWithRouter(
          <PromptFilters categories={[]} models={[]} collections={[]} />,
@@ -92,7 +92,7 @@ describe("PromptFilters rendering tests", () => {
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollectionPreviews();
 
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "f_categories=cat-1";
       const { container } = renderWithRouter(
          <PromptFilters
@@ -132,7 +132,7 @@ describe("PromptFilters functinality tests", () => {
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollectionPreviews();
 
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
@@ -176,7 +176,7 @@ describe("PromptFilters functinality tests", () => {
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollectionPreviews();
 
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
@@ -220,7 +220,7 @@ describe("PromptFilters functinality tests", () => {
       const models = dtestData.dTemplateModels();
       const collections = dtestData.dCollectionPreviews();
 
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "f_categories=cat-1&f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
