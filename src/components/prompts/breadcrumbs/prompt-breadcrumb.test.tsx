@@ -141,7 +141,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 
@@ -156,7 +156,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 
@@ -173,7 +173,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
       });
    });
 });

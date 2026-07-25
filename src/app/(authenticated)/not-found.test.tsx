@@ -44,7 +44,7 @@ describe("AuthenticatedNotFound functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.asPath).toEqual("/templates");
+         expect(mockRouter.asPath).toEqual("/prompts");
       });
    });
 });

@@ -20,7 +20,7 @@ export const DeletePromptButton = ({ prompt, asMenuItem }: Props) => {
       const result = await deletePrompt(prompt.id);
       if (result.success) {
          toast.success(result.message);
-         router.push("/templates");
+         router.push("/prompts");
       } else {
          toast.error(result.message);
       }

@@ -56,7 +56,7 @@ exports[`PromptBreadcrumb rendering test variant edit - root defined - test 1`] 
           class="transition-colors hover:text-foreground max-w-40 truncate"
           data-slot="breadcrumb-link"
           data-testid="item-link"
-          href="/templates/334db648-f300-4284-8149-075ff465d751"
+          href="/prompts/334db648-f300-4284-8149-075ff465d751"
           title="title 1"
         >
           title 1
@@ -86,7 +86,7 @@ exports[`PromptBreadcrumb rendering test variant edit - root undefined - test 1`
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/templates"
+          href="/prompts"
         >
           Prompts
         </a>
@@ -123,7 +123,7 @@ exports[`PromptBreadcrumb rendering test variant edit - root undefined - test 1`
           class="transition-colors hover:text-foreground max-w-40 truncate"
           data-slot="breadcrumb-link"
           data-testid="item-link"
-          href="/templates/334db648-f300-4284-8149-075ff465d751"
+          href="/prompts/334db648-f300-4284-8149-075ff465d751"
           title="title 1"
         >
           title 1
@@ -220,7 +220,7 @@ exports[`PromptBreadcrumb rendering test variant new - root undefined - test 1`]
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/templates"
+          href="/prompts"
         >
           Prompts
         </a>
@@ -355,7 +355,7 @@ exports[`PromptBreadcrumb rendering test variant view - root undefined - test 1`
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/templates"
+          href="/prompts"
         >
           Prompts
         </a>

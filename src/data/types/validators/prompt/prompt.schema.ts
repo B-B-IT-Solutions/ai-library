@@ -1,15 +1,60 @@
-import z from "zod";
+import { z } from "zod";
 
-export const updatePromptFollowUpSchema = z.object({
-   id: z.string().optional(),
-   content: z.string(),
+export const promptVariableTypeSchema = z.enum([
+   "TEXT",
+   "TEXTAREA",
+   "SELECT",
+   "CHECKBOX",
+   "RADIO",
+   "NUMBER",
+   "DATE",
+   "EMAIL",
+]);
+
+export const promptVariableSchema = z.object({
+   name: z
+      .string()
+      .min(1, "Name ist erforderlich")
+      .max(50, "Name zu lang (maximal 50 Zeichen)")
+      .regex(/^\S+$/, {
+         message: "Name darf keine Leerzeichen enthalten.",
+      }),
+   label: z.string().min(1, "Label ist erforderlich").max(250),
+   description: z.string().max(500).optional(),
+   type: promptVariableTypeSchema,
+   required: z.boolean(),
+   defaultValue: z.string().optional(),
+   options: z.array(z.string()).optional(),
    order: z.number(),
 });
 
+export const categorySchema = z
+   .string()
+   .trim()
+   .min(1, "Kategorie darf nicht leer sein")
+   .max(50, `Kategorie zu lang (maximal 50 Zeichen)`);
+
+export const modelSchema = z
+   .string()
+   .trim()
+   .max(50, `Modell zu lang (maximal 50 Zeichen)`);
+
 export const updatePromptSchema = z.object({
-   title: z.string().min(3, "Titel ist erforderlich"),
+   title: z.string().min(1, "Titel ist erforderlich"),
+   description: z.string(),
    content: z.string(),
-   categories: z.array(z.string()),
-   recommendedModel: z.string(),
-   followUpPrompts: z.array(updatePromptFollowUpSchema),
+   model: modelSchema,
+   categories: z
+      .array(categorySchema)
+      .max(5, `Maximal 5 Kategorien pro Prompt`),
+   fields: z.array(promptVariableSchema),
+   globalFieldIds: z.array(z.string()),
+});
+
+export const updatePromptCategorySchema = z.object({
+   name: categorySchema,
+});
+
+export const updatePromptModelSchema = z.object({
+   name: modelSchema.min(1, "Modell darf nicht leer sein"),
 });

@@ -121,8 +121,8 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie false - te
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="menu-item-templates"
-                        href="/templates"
+                        data-testid="menu-item-prompts"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -657,8 +657,8 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie true - tes
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="menu-item-templates"
-                        href="/templates"
+                        data-testid="menu-item-prompts"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -1193,8 +1193,8 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests sidebarCookie undefined 
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="menu-item-templates"
-                        href="/templates"
+                        data-testid="menu-item-prompts"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -1729,8 +1729,8 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive fal
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="menu-item-templates"
-                        href="/templates"
+                        data-testid="menu-item-prompts"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"
@@ -2265,8 +2265,8 @@ exports[`AuthenticatedUserLayoutWrapper rendering tests trialStatus.isActive tru
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="menu-item-templates"
-                        href="/templates"
+                        data-testid="menu-item-prompts"
+                        href="/prompts"
                       >
                         <svg
                           aria-hidden="true"

@@ -120,7 +120,7 @@ describe("PublicPromptMoreOptionsButton functionality tests", () => {
       await waitFor(() => {
          assertContextMenuNotRendered();
          assertDateStateClosed();
-         expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/preview/prompts/${prompt.id}`);
       });
    });
 });

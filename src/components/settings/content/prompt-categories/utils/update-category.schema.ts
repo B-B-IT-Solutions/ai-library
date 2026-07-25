@@ -1,5 +1,5 @@
 import { isConflictingPromptCategoryName } from "@/data/actions/prompt";
-import { updatePromptCategorySchema } from "@/data/types/validators/template";
+import { updatePromptCategorySchema } from "@/data/types/validators/prompt";
 
 /**
  * Category schema that additionally validates, against the backend, that no

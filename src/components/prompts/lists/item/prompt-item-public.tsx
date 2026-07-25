@@ -17,8 +17,8 @@ type Props = {
 
 export const PublicPromptItem = ({ prompt, collectionToken, ref }: Props) => {
    const templateDetailsUrl = collectionToken
-      ? `/preview/templates/${prompt.id}?col=${collectionToken}`
-      : `/preview/templates/${prompt.id}`;
+      ? `/preview/prompts/${prompt.id}?col=${collectionToken}`
+      : `/preview/prompts/${prompt.id}`;
 
    const categories = () => (
       <div className="flex flex-wrap gap-1" data-testid="categories">

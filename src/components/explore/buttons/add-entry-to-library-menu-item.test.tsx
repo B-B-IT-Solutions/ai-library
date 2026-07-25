@@ -154,7 +154,7 @@ describe("AddCatalogEntryToLibraryMenuItem functionality tests", () => {
       action.onClick(event);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(`/templates/${descriptorId}`);
+         expect(mockRouter.asPath).toEqual(`/prompts/${descriptorId}`);
       });
    });
 

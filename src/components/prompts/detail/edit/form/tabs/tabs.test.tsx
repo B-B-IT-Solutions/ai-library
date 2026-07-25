@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { DPromptUpdate, DPromptWithContent } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
-import { updateTemplateSchema } from "@/data/types/validators/template";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
 import { initPromptTemplate } from "../utils";
 
 import { PromptFormTabs } from "./tabs";
@@ -28,7 +28,7 @@ const TestWrapper = ({
 }: TestWrapperProps) => {
    const form = useForm<DPromptUpdate>({
       defaultValues: initPromptTemplate(prompt),
-      resolver: zodResolver(updateTemplateSchema),
+      resolver: zodResolver(updatePromptSchema),
       mode: "all",
    });
 

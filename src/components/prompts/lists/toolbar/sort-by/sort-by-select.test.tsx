@@ -11,7 +11,7 @@ const assertRendered = () => {
 
 describe("SortBySelect rendering tests", () => {
    it("sortBy asc(createdAt) - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "sort=asc(createdAt)";
 
       const { container } = renderWithRouter(
@@ -28,7 +28,7 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("sortBy desc(createdAt) - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "sort=desc(createdAt)";
 
       const { container } = renderWithRouter(
@@ -45,7 +45,7 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("sortBy asc(title) - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "sort=asc(title)";
 
       const { container } = renderWithRouter(
@@ -68,7 +68,7 @@ describe("SortBySelect functinality tests", () => {
    });
 
    it("option asc(date) selected - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "sort=asc(title)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
@@ -105,7 +105,7 @@ describe("SortBySelect functinality tests", () => {
    });
 
    it("option desc(title) selected - test", async () => {
-      const url = "/templates";
+      const url = "/prompts";
       const searchParams = "sort=asc(title)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);

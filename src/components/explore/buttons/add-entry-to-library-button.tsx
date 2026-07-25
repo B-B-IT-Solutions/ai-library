@@ -32,7 +32,7 @@ export const AddCatalogEntryToLibraryButton = ({
                action: {
                   label: "Jetzt anzeigen",
                   onClick: () => {
-                     router.push(`/templates/${result.data!.templateId}`);
+                     router.push(`/prompts/${result.data!.templateId}`);
                   },
                },
                duration: 5000,

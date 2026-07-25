@@ -37,7 +37,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertBtnHrefAttribute("/templates/new");
+         assertBtnHrefAttribute("/prompts/new");
       });
 
       expect(container).toMatchSnapshot();
@@ -48,7 +48,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertBtnHrefAttribute("/templates/new");
+         assertBtnHrefAttribute("/prompts/new");
       });
 
       expect(container).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertBtnHrefAttribute(`/templates/new?collectionId=${collection.id}`);
+         assertBtnHrefAttribute(`/prompts/new?collectionId=${collection.id}`);
       });
 
       expect(container).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe("CreatePromptButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual("/templates/new");
+         expect(mockRouter.asPath).toEqual("/prompts/new");
       });
    });
 
@@ -117,7 +117,7 @@ describe("CreatePromptButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates/new");
+         expect(mockRouter.pathname).toEqual("/prompts/new");
          expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });

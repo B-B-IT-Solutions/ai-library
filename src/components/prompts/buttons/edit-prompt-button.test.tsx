@@ -98,7 +98,7 @@ describe("EditPromptButton functionality tests", () => {
       await userEvent.click(editBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}/edit`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}/edit`);
       });
    });
 
@@ -119,7 +119,7 @@ describe("EditPromptButton functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(
-            `/templates/${prompt.id}/edit?collectionId=${collection.id}`
+            `/prompts/${prompt.id}/edit?collectionId=${collection.id}`
          );
       });
    });

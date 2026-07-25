@@ -81,7 +81,7 @@ describe("PromptItem functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.asPath).toEqual(
-            `/preview/templates/${prompt.id}?col=${collectionToken}`
+            `/preview/prompts/${prompt.id}?col=${collectionToken}`
          );
       });
    });
@@ -109,7 +109,7 @@ describe("PromptItem functionality tests", () => {
       userEvent.click(viewPromptItem);
 
       await waitFor(() => {
-         expect(mockRouter.asPath).toEqual(`/preview/templates/${prompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/preview/prompts/${prompt.id}`);
       });
    });
 });

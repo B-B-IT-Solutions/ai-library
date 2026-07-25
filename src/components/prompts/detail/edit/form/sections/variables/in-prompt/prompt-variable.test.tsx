@@ -17,7 +17,7 @@ import {
    DPromptUpdate,
    DPromptVariableUpdate,
 } from "@/data/types/domain/prompt";
-import { updateTemplateSchema } from "@/data/types/validators/template";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { PromptVariable } from "./prompt-variable";
 
@@ -50,7 +50,7 @@ type Props = {
 
 const TestWrapper = ({ index, isUsed, onRemove, variables }: Props) => {
    const form = useForm<DPromptUpdate>({
-      resolver: zodResolver(updateTemplateSchema),
+      resolver: zodResolver(updatePromptSchema),
       mode: "onBlur",
       defaultValues: {
          title: "",

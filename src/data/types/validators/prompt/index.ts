@@ -1,1 +1,7 @@
-export { updatePromptSchema } from "./prompt.schema";
+export {
+   updatePromptSchema,
+   promptVariableSchema,
+   promptVariableTypeSchema,
+   updatePromptCategorySchema,
+   updatePromptModelSchema,
+} from "./prompt.schema";

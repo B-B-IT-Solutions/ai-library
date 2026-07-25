@@ -116,7 +116,7 @@ describe("CollectionHeader functionality tests", () => {
       await userEvent.click(createBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates/new");
+         expect(mockRouter.pathname).toEqual("/prompts/new");
          expect(mockRouter.query).toEqual({
             collectionId: collection.id,
          });

@@ -151,7 +151,7 @@ describe("OrderDetailPage functionality tests", () => {
       await userEvent.click(link);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/templates");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 });

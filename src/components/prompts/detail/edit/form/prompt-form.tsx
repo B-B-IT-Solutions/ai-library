@@ -16,7 +16,7 @@ import {
    DPromptWithContent,
 } from "@/data/types/domain/prompt";
 import { DGlobalPromptField } from "@/data/types/domain/settings";
-import { updateTemplateSchema } from "@/data/types/validators/template";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { BasicInfo } from "./sections";
 import { PromptFormTabs } from "./tabs";
@@ -41,7 +41,7 @@ export const PromptEditForm = ({
    const isEdit = !!prompt;
 
    const form = useForm<DPromptUpdate>({
-      resolver: zodResolver(updateTemplateSchema),
+      resolver: zodResolver(updatePromptSchema),
       defaultValues: initPromptTemplate(prompt),
       mode: "onBlur",
    });

@@ -124,7 +124,7 @@ describe("PromptEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCancelBtnHref("/templates");
+         assertCancelBtnHref("/prompts");
       });
 
       expect(container).toMatchSnapshot();
@@ -155,7 +155,7 @@ describe("PromptEdit rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCancelBtnHref(`/templates/${prompt.id}`);
+         assertCancelBtnHref(`/prompts/${prompt.id}`);
       });
 
       expect(container).toMatchSnapshot();
@@ -177,7 +177,7 @@ describe("PromptEdit rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCancelBtnHref(
-            `/templates/${prompt.id}?collectionId=${collection.id}`
+            `/prompts/${prompt.id}?collectionId=${collection.id}`
          );
       });
 
@@ -245,7 +245,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.asPath).toEqual(`/templates/${newPrompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/prompts/${newPrompt.id}`);
       });
    });
 
@@ -281,7 +281,7 @@ describe("PromptEdit functionality tests", () => {
          expect(createPromptMock).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(createResult.message);
-         expect(mockRouter.pathname).toEqual(`/templates/${newPrompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${newPrompt.id}`);
          expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
@@ -334,7 +334,7 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.asPath).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.asPath).toEqual(`/prompts/${prompt.id}`);
       });
    });
 
@@ -391,7 +391,7 @@ describe("PromptEdit functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
          expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });

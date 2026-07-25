@@ -62,7 +62,7 @@ exports[`PromptItem rendering tests currentCollection defined - test 1`] = `
       <a
         class="group/title"
         data-testid="view-details-link-title"
-        href="/templates/334db648-f300-4284-8149-075ff465d751?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
+        href="/prompts/334db648-f300-4284-8149-075ff465d751?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
       >
         <h4
           class="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -263,7 +263,7 @@ exports[`PromptItem rendering tests currentCollection undefined - test 1`] = `
       <a
         class="group/title"
         data-testid="view-details-link-title"
-        href="/templates/334db648-f300-4284-8149-075ff465d751"
+        href="/prompts/334db648-f300-4284-8149-075ff465d751"
       >
         <h4
           class="line-clamp-2 cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"

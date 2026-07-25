@@ -128,7 +128,7 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
 
          <div className="flex gap-4">
             <Link
-               href="/templates"
+               href="/prompts"
                className="flex-1"
                data-testid="library-link"
             >

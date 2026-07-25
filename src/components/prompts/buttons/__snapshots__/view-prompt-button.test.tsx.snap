@@ -7,7 +7,7 @@ exports[`ViewPromptButton rendering tests collection defined - test 1`] = `
     data-slot="dropdown-menu-item"
     data-testid="view-prompt-menu-item"
     data-variant="default"
-    href="/templates/334db648-f300-4284-8149-075ff465d751?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
+    href="/prompts/334db648-f300-4284-8149-075ff465d751?collectionId=457bf695-6f74-44aa-9b3a-e179ea9e8171"
   >
     <svg
       aria-hidden="true"
@@ -43,7 +43,7 @@ exports[`ViewPromptButton rendering tests collection undefined - test 1`] = `
     data-slot="dropdown-menu-item"
     data-testid="view-prompt-menu-item"
     data-variant="default"
-    href="/templates/334db648-f300-4284-8149-075ff465d751"
+    href="/prompts/334db648-f300-4284-8149-075ff465d751"
   >
     <svg
       aria-hidden="true"

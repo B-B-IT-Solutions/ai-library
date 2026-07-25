@@ -32,7 +32,7 @@ import { ActionResult } from "@/data/types/utils";
 import {
    updatePromptCategorySchema,
    updatePromptModelSchema,
-} from "@/data/types/validators/template";
+} from "@/data/types/validators/prompt";
 import { SubscriptionAccessError } from "@/lib/subscription/server-guards";
 import { AiLibAuthenticationError } from "../types";
 

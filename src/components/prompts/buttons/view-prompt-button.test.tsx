@@ -61,7 +61,7 @@ describe("ViewPromptButton functionality tests", () => {
       await userEvent.click(viewBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
       });
    });
 
@@ -82,7 +82,7 @@ describe("ViewPromptButton functionality tests", () => {
       await userEvent.click(viewBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${prompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
          expect(mockRouter.query).toEqual({ collectionId: collection.id });
       });
    });
