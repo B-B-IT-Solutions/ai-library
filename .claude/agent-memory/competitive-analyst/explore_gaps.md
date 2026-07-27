@@ -27,10 +27,18 @@ shipped 2026-05-07) — diese Lücken sind Iteration 2, kein Rebuild.
 - **Keine Tags, nur eine Kategorie pro Eintrag** (`DCatalogEntry.category` ist Singular, kein
   Array).
 - **Kein Beispiel-Output auf der Detailseite.** `catalog-entry-view.tsx` zeigt nur die
-  Formularstruktur (Feldnamen/Typen als Vorschau), kein ausgefülltes Beispielergebnis. Der
-  Live-Test (`UseCatalogEntryLazyButton` → `UsePromptDialog`) existiert und funktioniert bereits
-  (in-platform LLM-Call), ist aber UX-seitig nicht als Vertrauens-/Beweis-Element inszeniert,
-  sondern nur als sekundärer Action-Button neben "In Library übernehmen".
+  Formularstruktur (Feldnamen/Typen als Vorschau), kein ausgefülltes Beispielergebnis.
+  **Korrektur (2026-07-27, code-verifiziert in `use-prompt-form.tsx`):** Der "Live-Test" ist
+  KEIN echter In-Platform-LLM-Call. Er füllt das Formular, zeigt die aufgelöste Vorlage als
+  Text-Vorschau (`PromptPreview`) und bietet dann "Kopieren" oder "In KI öffnen" (öffnet
+  ChatGPT/Claude/Gemini/Perplexity extern mit vorbefülltem Query-Parameter, `ai-services.ts`).
+  Es gibt keinen gehosteten Modell-Aufruf und keinen tatsächlichen Output innerhalb der
+  Plattform. Der reale Vorteil ist also "strukturierte Vorbefüllung + Ein-Klick-Handoff an
+  Wunsch-Tool", nicht "Ergebnis vorher sehen". Das ist immer noch besser als reines
+  Copy-Paste-Rohtext bei allen 5 Wettbewerbern, aber schwächer als in
+  `explore-katalog-erweiterung-spec.md` (Abschnitt 3, 7) und in einer früheren Version dieser
+  Memory-Datei dargestellt. Diese Dateien sollten bei nächster Bearbeitung entsprechend
+  präzisiert werden.
 - **Keine redaktionelle Content-Schicht** (Blog/Guides/FAQ) innerhalb von `/explore` — nur Katalog
   + Detailseiten.
 

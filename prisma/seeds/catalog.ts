@@ -1,6 +1,40 @@
-import { PrismaClient } from "@/generated/prisma/client";
+import {
+   CatalogCategory,
+   CatalogEntry,
+   CatalogEntryField,
+   PrismaClient,
+} from "@/generated/prisma/client";
 
-const catalogCategories = [
+type CatalogCategoryData = Omit<
+   CatalogCategory,
+   "id" | "createdAt" | "updatedAt"
+>;
+
+type CatalogEntryFieldData = Omit<
+   CatalogEntryField,
+   "id" | "catalogEntryId" | "defaultValue" | "description" | "options"
+> & {
+   description?: string;
+   options?: string[];
+};
+
+type CatalogEntryData = Omit<
+   CatalogEntry,
+   | "content"
+   | "id"
+   | "createdAt"
+   | "updatedAt"
+   | "status"
+   | "categoryId"
+   | "copyCount"
+   | "publishedAt"
+> & {
+   content: string;
+   categorySlug: string;
+   fields: CatalogEntryFieldData[];
+};
+
+const catalogCategories: CatalogCategoryData[] = [
    {
       name: "Marketing & Content",
       slug: "marketing-content",
@@ -46,9 +80,37 @@ const catalogCategories = [
       description: "Vorlagen für Zeitmanagement, Meetings und Organisation",
       order: 7,
    },
+   {
+      name: "HR & Recruiting",
+      slug: "hr-recruiting",
+      description:
+         "Vorlagen für Personalgewinnung, Mitarbeiterführung und HR-Prozesse",
+      order: 8,
+   },
+   {
+      name: "Kundenservice & Support",
+      slug: "kundenservice-support",
+      description:
+         "Vorlagen für Kundenkommunikation, Support-Anfragen und Beschwerdemanagement",
+      order: 9,
+   },
+   {
+      name: "Vertrieb & Sales",
+      slug: "vertrieb-sales",
+      description:
+         "Vorlagen für Akquise, Angebote und Verhandlungen im Vertrieb",
+      order: 10,
+   },
+   {
+      name: "Bewerbung & Karriere",
+      slug: "bewerbung-karriere",
+      description:
+         "Vorlagen für Bewerbungen, Vorstellungsgespräche und Karriereplanung",
+      order: 11,
+   },
 ];
 
-const catalogEntries = [
+const catalogEntries: CatalogEntryData[] = [
    {
       slug: "blog-post-outline-erstellen",
       title: "Blog-Post Outline erstellen",
@@ -722,6 +784,1372 @@ const catalogEntries = [
             type: "TEXT" as const,
             required: true,
             order: 1,
+         },
+      ],
+   },
+
+   // ── HR & Recruiting ──────────────────────────────────────────────
+   {
+      slug: "stellenanzeige-erstellen",
+      title: "Stellenanzeige erstellen",
+      description:
+         "Erstelle eine ansprechende, zielgruppengerechte Stellenanzeige, die qualifizierte Kandidat:innen anspricht statt nur Anforderungen aufzulisten. Ideal für HR-Teams und Recruiter, die schneller passende Bewerbungen erhalten wollen.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Erstelle eine Stellenanzeige für folgende Position:\n\nJobtitel: {{jobtitel}}\nUnternehmen/Team: {{unternehmen}}\nWichtigste Aufgaben: {{aufgaben}}\nMuss-Anforderungen: {{anforderungen}}\n\nDie Anzeige soll:\n1. Mit einem einladenden Intro-Absatz beginnen (kein generisches "Wir suchen...")\n2. Aufgaben als konkrete Verantwortlichkeiten formulieren, nicht als Stichwortliste\n3. Zwischen Muss- und Kann-Anforderungen unterscheiden\n4. Einen Abschnitt zu Benefits/Teamkultur enthalten\n5. Mit einem klaren, einladenden Call-to-Action enden\n\nTon: {{tonalitaet}}',
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "jobtitel",
+            label: "Jobtitel",
+            description: "Für welche Position wird gesucht?",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "unternehmen",
+            label: "Unternehmen / Team",
+            description: "Für welches Unternehmen oder Team?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "aufgaben",
+            label: "Wichtigste Aufgaben",
+            description: "Was sind die Kernaufgaben der Rolle?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "anforderungen",
+            label: "Muss-Anforderungen",
+            description: "Welche Qualifikationen sind zwingend?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 3,
+         },
+         {
+            name: "tonalitaet",
+            label: "Tonalität",
+            description: "Wie soll die Anzeige klingen?",
+            type: "SELECT" as const,
+            required: true,
+            order: 4,
+            options: [
+               "Modern & locker",
+               "Klassisch & seriös",
+               "Startup-Energie",
+               "Corporate",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "bewerbungsscreening-kandidatenprofil",
+      title: "Bewerbungs-Screening: Kandidatenprofil bewerten",
+      description:
+         "Bewerte einen Lebenslauf strukturiert gegen ein Anforderungsprofil und erhalte eine objektive Einschätzung mit Begründung. Spart Zeit bei der Vorauswahl und macht Screening-Entscheidungen nachvollziehbar.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Bewerte folgenden Kandidaten für die ausgeschriebene Position:\n\nAnforderungsprofil: {{anforderungsprofil}}\nLebenslauf/Bewerbung: {{lebenslauf}}\n\nErstelle eine strukturierte Einschätzung:\n1. Erfüllungsgrad der Muss-Kriterien (je Kriterium: erfüllt/teilweise/nicht erfüllt)\n2. Relevante Stärken für die Position\n3. Mögliche Lücken oder offene Fragen fürs Interview\n4. Gesamteinschätzung (Einladen / Nachfragen / Absagen) mit kurzer Begründung\n\nBleibe sachlich und beziehe dich nur auf Fakten aus dem Lebenslauf, keine Spekulation über Persönlichkeit.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "anforderungsprofil",
+            label: "Anforderungsprofil",
+            description: "Welche Kriterien muss die Person erfüllen?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "lebenslauf",
+            label: "Lebenslauf / Bewerbung",
+            description: "Füge den Inhalt der Bewerbung ein",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "absage-email-formulieren",
+      title: "Absage-E-Mail an Bewerber formulieren",
+      description:
+         "Verfasse eine wertschätzende, rechtlich unproblematische Absage, die die Employer Brand schützt statt zu beschädigen. Besonders wichtig bei Kandidat:innen, die weit im Prozess kamen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Schreibe eine Absage-E-Mail an einen Bewerber:\n\nName/Anrede: {{anrede}}\nPosition: {{position}}\nProzessphase: {{phase}}\nGrund (intern, nicht 1:1 übernehmen): {{grund}}\n\nDie E-Mail soll:\n- Wertschätzend und persönlich klingen, nicht wie eine Massen-Absage\n- Die Absage klar, aber ohne unnötige Härte kommunizieren\n- Keine rechtlich angreifbaren Begründungen enthalten (z.B. Alter, Herkunft)\n- Bei weit fortgeschrittenen Kandidaten: Tür für zukünftigen Kontakt offenlassen\n- Kurz sein (max. 150 Wörter)",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "anrede",
+            label: "Anrede",
+            description: "Name/Anrede des Bewerbers",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "position",
+            label: "Position",
+            description: "Für welche Stelle wurde sich beworben?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "phase",
+            label: "Prozessphase",
+            description: "In welcher Phase steht die Absage?",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "Nach Bewerbungseingang",
+               "Nach erstem Interview",
+               "Nach finaler Runde",
+            ],
+         },
+         {
+            name: "grund",
+            label: "Grund (intern)",
+            description: "Warum wird abgesagt? (nicht direkt übernehmen)",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "onboarding-plan-mitarbeiter",
+      title: "Onboarding-Plan für neue Mitarbeitende",
+      description:
+         "Erstelle einen strukturierten 30-60-90-Tage-Onboarding-Plan, der neue Mitarbeitende schneller produktiv macht und Frühfluktuation reduziert.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen Onboarding-Plan:\n\nPosition: {{position}}\nAbteilung: {{abteilung}}\nWichtigste Tools/Systeme: {{tools}}\n\nStruktur:\n1. Woche 1: Ankommen (Zugänge, Team kennenlernen, Grundlagen)\n2. Tag 30: Erste eigenständige Aufgaben\n3. Tag 60: Vertiefung und erste Projektverantwortung\n4. Tag 90: Volle Produktivität, erstes Feedbackgespräch\n\nFür jede Phase: konkrete Ziele, Meilensteine und Check-in-Termine.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "position",
+            label: "Position",
+            description: "Für welche Rolle ist das Onboarding?",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "abteilung",
+            label: "Abteilung",
+            description: "Welcher Abteilung gehört die Position an?",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "tools",
+            label: "Wichtigste Tools/Systeme",
+            description: "Welche Systeme muss die Person lernen?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "interviewfragen-generieren",
+      title: "Interviewfragen für eine Position generieren",
+      description:
+         "Erhalte einen strukturierten Interview-Leitfaden mit fachlichen, verhaltensbasierten und kulturellen Fragen. Reduziert Bauchgefühl-Entscheidungen und macht Interviews vergleichbar.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen Interview-Leitfaden für:\n\nPosition: {{position}}\nSeniorität: {{senioritaet}}\nWichtigste Kompetenzen: {{kompetenzen}}\n\nErstelle je 3 Fragen für:\n1. Fachliche Kompetenz\n2. Verhaltensbasierte Fragen (STAR-Methode: Situation, Task, Action, Result)\n3. Team-/Kulturfit\n4. Motivation/Erwartungen an die Rolle\n\nGib zu jeder Frage kurz an, worauf bei der Antwort zu achten ist.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "senioritaet",
+            label: "Seniorität",
+            type: "SELECT" as const,
+            required: true,
+            order: 1,
+            options: ["Junior", "Mid-Level", "Senior", "Lead/Management"],
+         },
+         {
+            name: "kompetenzen",
+            label: "Wichtigste Kompetenzen",
+            description: "Welche Fähigkeiten sind entscheidend?",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "mitarbeiter-leistungsbeurteilung",
+      title: "Mitarbeiter-Leistungsbeurteilung schreiben",
+      description:
+         "Formuliere eine faire, konkrete Leistungsbeurteilung basierend auf Stichpunkten – klar genug für Entwicklungsgespräche, ohne vage Floskeln.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Leistungsbeurteilung:\n\nMitarbeiter:in / Rolle: {{rolle}}\nZeitraum: {{zeitraum}}\nStichpunkte zu Leistung/Verhalten: {{stichpunkte}}\nEntwicklungsziele: {{entwicklungsziele}}\n\nStruktur:\n1. Zusammenfassung der Kernleistung (2-3 Sätze)\n2. Stärken mit konkreten Beispielen\n3. Entwicklungsfelder mit konkreten Beispielen, konstruktiv formuliert\n4. Ziele für die nächste Periode\n\nTon: wertschätzend, konkret, keine austauschbaren Floskeln.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "rolle",
+            label: "Mitarbeiter:in / Rolle",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zeitraum",
+            label: "Zeitraum",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "stichpunkte",
+            label: "Stichpunkte zu Leistung/Verhalten",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "entwicklungsziele",
+            label: "Entwicklungsziele",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "arbeitszeugnis-formulieren",
+      title: "Arbeitszeugnis formulieren",
+      description:
+         "Erstelle ein wohlwollend formuliertes, aber wahrheitsgemäßes Arbeitszeugnis nach gängiger Zeugnissprache. Besonders hilfreich, um Standardformulierungen korrekt einzuordnen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle ein Arbeitszeugnis:\n\nPosition: {{position}}\nBeschäftigungsdauer: {{dauer}}\nWichtigste Aufgaben: {{aufgaben}}\nLeistungsniveau: {{leistungsniveau}}\nGrund des Austritts: {{austrittsgrund}}\n\nNutze die übliche Struktur eines qualifizierten Zeugnisses:\n1. Einleitung (Position, Eintrittsdatum, Unternehmen)\n2. Tätigkeitsbeschreibung\n3. Leistungsbeurteilung (in wohlwollender Zeugnissprache passend zum angegebenen Leistungsniveau)\n4. Sozialverhalten\n5. Schlussformel passend zum Austrittsgrund\n\nHinweis: Ergebnis vor Verwendung von einer Fachperson (HR/Anwalt) prüfen lassen.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "dauer",
+            label: "Beschäftigungsdauer",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "aufgaben",
+            label: "Wichtigste Aufgaben",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "leistungsniveau",
+            label: "Leistungsniveau",
+            type: "SELECT" as const,
+            required: true,
+            order: 3,
+            options: [
+               "Stets zur vollen Zufriedenheit (sehr gut)",
+               "Zur vollen Zufriedenheit (gut)",
+               "Zur Zufriedenheit (befriedigend)",
+               "Im Großen und Ganzen zur Zufriedenheit (ausreichend)",
+            ],
+         },
+         {
+            name: "austrittsgrund",
+            label: "Grund des Austritts",
+            type: "SELECT" as const,
+            required: true,
+            order: 4,
+            options: [
+               "Eigene Kündigung",
+               "Arbeitgeberseitige Kündigung",
+               "Vertragsende befristet",
+               "Einvernehmliche Trennung",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "exit-interview-fragen",
+      title: "Exit-Interview-Fragen erstellen",
+      description:
+         "Erstelle einen Fragenkatalog für Austrittsgespräche, der ehrliches Feedback ermöglicht statt Höflichkeitsfloskeln – wichtig, um echte Kündigungsgründe zu verstehen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen Exit-Interview-Leitfaden:\n\nPosition: {{position}}\nKündigungsgrund (falls bekannt): {{kuendigungsgrund}}\n\nErstelle 8-10 offene Fragen zu:\n1. Gründe für den Weggang\n2. Führung und Zusammenarbeit\n3. Arbeitsumfeld und Kultur\n4. Was hätte den Weggang verhindern können\n5. Was war besonders positiv\n\nFormuliere die Fragen so, dass sie ehrliches statt beschönigendes Feedback fördern.",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "kuendigungsgrund",
+            label: "Kündigungsgrund (falls bekannt)",
+            type: "TEXT" as const,
+            required: false,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "probezeit-feedback-vorbereiten",
+      title: "Probezeit-Feedbackgespräch vorbereiten",
+      description:
+         "Bereite ein strukturiertes Feedbackgespräch zur Probezeit vor – inklusive klarer Empfehlung. Reduziert Unsicherheit bei Führungskräften, die diese Gespräche selten führen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Bereite ein Probezeit-Feedbackgespräch vor:\n\nPosition: {{position}}\nBeobachtungen zur Leistung: {{beobachtungen}}\nEmpfehlung: {{empfehlung}}\n\nErstelle:\n1. Gesprächsstruktur (Einstieg, Hauptteil, Abschluss)\n2. 3-5 konkrete, belegbare Beobachtungen als Gesprächspunkte\n3. Formulierungsvorschlag für die Empfehlung (Übernahme / Verlängerung / Beendigung)\n4. Vorschlag für nächste Schritte je nach Ausgang",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "beobachtungen",
+            label: "Beobachtungen zur Leistung",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "empfehlung",
+            label: "Empfehlung",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "Übernahme empfohlen",
+               "Verlängerung der Probezeit",
+               "Beendigung empfohlen",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "mitarbeiterumfrage-erstellen",
+      title: "Mitarbeiterumfrage / Pulse-Check erstellen",
+      description:
+         "Erstelle eine kurze, fokussierte Mitarbeiterumfrage zu einem spezifischen Thema – ohne die Ermüdung langer Standard-Fragebögen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Pulse-Check-Umfrage:\n\nThema: {{thema}}\nZielgruppe: {{zielgruppe}}\nAnzahl Fragen: {{anzahl_fragen}}\n\nErstelle {{anzahl_fragen}} Fragen, davon:\n- Mehrheit als Skalenfragen (1-5, Zustimmung)\n- 1-2 offene Fragen für Freitext-Feedback\n\nVermeide Suggestivfragen und Doppelfragen (zwei Aspekte in einer Frage).",
+      categorySlug: "hr-recruiting",
+      fields: [
+         {
+            name: "thema",
+            label: "Thema",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "anzahl_fragen",
+            label: "Anzahl Fragen",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: ["5", "8", "10"],
+         },
+      ],
+   },
+
+   // ── Kundenservice & Support ──────────────────────────────────────
+   {
+      slug: "beschwerde-antwort-formulieren",
+      title: "Antwort auf Kundenbeschwerde formulieren",
+      description:
+         "Formuliere eine deeskalierende, lösungsorientierte Antwort auf eine Kundenbeschwerde. Reduziert Eskalationen und schützt die Kundenbeziehung, statt nur Prozesse zu erklären.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Formuliere eine Antwort auf folgende Kundenbeschwerde:\n\nBeschwerde des Kunden: {{beschwerde}}\nUnternehmenssicht/Fakten: {{fakten}}\nAngebotene Lösung: {{loesung}}\n\nDie Antwort soll:\n1. Das Anliegen ernst nehmen, ohne unnötig Schuld einzuräumen\n2. Empathie zeigen, bevor Fakten erklärt werden\n3. Die Lösung klar und konkret benennen\n4. Mit einem versöhnlichen, professionellen Abschluss enden\n\nTon: {{tonalitaet}}",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "beschwerde",
+            label: "Beschwerde des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "fakten",
+            label: "Unternehmenssicht / Fakten",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "loesung",
+            label: "Angebotene Lösung",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "tonalitaet",
+            label: "Tonalität",
+            type: "SELECT" as const,
+            required: true,
+            order: 3,
+            options: [
+               "Empathisch",
+               "Sachlich-professionell",
+               "Herzlich-persönlich",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "faq-eintrag-erstellen",
+      title: "FAQ-Eintrag aus Support-Anfrage erstellen",
+      description:
+         "Wandle eine wiederkehrende Support-Anfrage in einen klaren FAQ-Eintrag um. Reduziert Ticketvolumen, indem häufige Fragen selbsterklärend beantwortet werden.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen FAQ-Eintrag basierend auf dieser Support-Anfrage:\n\nUrsprüngliche Anfrage: {{anfrage}}\nLösung/Antwort: {{antwort}}\n\nErstelle:\n1. Eine klare, suchfreundliche Frage als Überschrift (wie ein Kunde selbst formulieren würde)\n2. Eine kurze, vollständige Antwort in einfacher Sprache\n3. Falls relevant: nummerierte Schritt-für-Schritt-Anleitung\n4. Einen Hinweis, an wen man sich bei weiteren Problemen wenden kann",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "anfrage",
+            label: "Ursprüngliche Anfrage",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "antwort",
+            label: "Lösung / Antwort",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "ticket-zusammenfassung",
+      title: "Support-Ticket zusammenfassen",
+      description:
+         "Fasse einen langen Ticket-Verlauf in eine kompakte Übersicht zusammen. Spart Zeit bei Übergaben zwischen Support-Ebenen (Tier 1 zu Tier 2).",
+      recommendedModel: "GPT-4o",
+      content:
+         "Fasse folgenden Ticket-Verlauf zusammen:\n\nTicket-Verlauf: {{verlauf}}\n\nErstelle eine Zusammenfassung mit:\n1. Kernproblem (1-2 Sätze)\n2. Bisher unternommene Schritte\n3. Aktueller Status\n4. Offene Fragen / benötigte Informationen für die nächste Ebene\n5. Priorität (Kritisch/Hoch/Mittel/Niedrig) mit Begründung",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "verlauf",
+            label: "Ticket-Verlauf",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+      ],
+   },
+   {
+      slug: "entschuldigungs-email-kunde",
+      title: "Entschuldigungs-E-Mail an Kunden",
+      description:
+         "Formuliere eine aufrichtige Entschuldigung nach einem Fehler oder Ausfall, die Vertrauen zurückgewinnt statt defensiv zu wirken.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Schreibe eine Entschuldigungs-E-Mail:\n\nVorfall: {{vorfall}}\nAuswirkung auf den Kunden: {{auswirkung}}\nWiedergutmachung: {{wiedergutmachung}}\n\nDie E-Mail soll:\n- Sich klar und ohne Ausreden entschuldigen\n- Kurz erklären, was passiert ist (ohne technisches Klein-Klein)\n- Die Wiedergutmachung konkret benennen\n- Beschreiben, was künftig anders gemacht wird\n\nVermeide: "Wir bedauern etwaige Unannehmlichkeiten" und ähnliche Floskeln.',
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "vorfall",
+            label: "Vorfall",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "auswirkung",
+            label: "Auswirkung auf den Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "wiedergutmachung",
+            label: "Wiedergutmachung",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "eskalations-antwort-erstellen",
+      title: "Antwort auf eskalierte Kundenanfrage",
+      description:
+         "Formuliere eine souveräne Antwort auf eine eskalierte, emotional aufgeladene Kundenanfrage (z.B. Drohung mit Kündigung oder Öffentlichkeit).",
+      recommendedModel: "GPT-4o",
+      content:
+         "Formuliere eine Antwort auf diese eskalierte Anfrage:\n\nAnfrage des Kunden: {{anfrage}}\nEskalationsgrad: {{eskalationsgrad}}\nHandlungsspielraum: {{handlungsspielraum}}\n\nDie Antwort soll:\n1. Ruhig und souverän bleiben, nicht defensiv\n2. Die Dringlichkeit anerkennen\n3. Einen konkreten nächsten Schritt mit Zeitrahmen nennen\n4. Bei Bedarf einen persönlichen Kontakt (Telefonat) anbieten",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "anfrage",
+            label: "Anfrage des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "eskalationsgrad",
+            label: "Eskalationsgrad",
+            type: "SELECT" as const,
+            required: true,
+            order: 1,
+            options: [
+               "Verärgert",
+               "Sehr verärgert / Kündigungsdrohung",
+               "Öffentliche Beschwerde angedroht",
+            ],
+         },
+         {
+            name: "handlungsspielraum",
+            label: "Handlungsspielraum",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "kuendigung-rueckgewinnung",
+      title: "Rückgewinnungs-Angebot bei Kündigung formulieren",
+      description:
+         "Erstelle ein individuelles Rückgewinnungsangebot für einen kündigenden Kunden, ohne verzweifelt zu wirken.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Rückgewinnungs-Antwort:\n\nKündigungsgrund des Kunden: {{kuendigungsgrund}}\nKundenwert/Historie: {{kundenwert}}\nMögliches Angebot: {{angebot}}\n\nDie Antwort soll:\n1. Den Kündigungsgrund ernst nehmen, nicht nur ein Rabattangebot hinterherwerfen\n2. Das Angebot als Reaktion auf den genannten Grund positionieren\n3. Eine klare Frist für die Rückmeldung setzen\n4. Auch für den Fall einer endgültigen Kündigung wertschätzend bleiben",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "kuendigungsgrund",
+            label: "Kündigungsgrund des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "kundenwert",
+            label: "Kundenwert / Historie",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "angebot",
+            label: "Mögliches Angebot",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "support-antwort-ton-anpassen",
+      title: "Support-Antwort im Kundenton anpassen",
+      description:
+         "Passe eine Standard-Antwort an den Kommunikationsstil des jeweiligen Kunden an. Persönlichere Antworten erhöhen die Kundenzufriedenheit messbar.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Passe folgende Antwort an den Ton des Kunden an:\n\nStandard-Antwort: {{standard_antwort}}\nBeispieltext des Kunden (zeigt seinen Ton): {{kunden_beispiel}}\n\nBehalte den fachlichen Inhalt exakt bei, aber passe Wortwahl, Satzlänge und Förmlichkeit an den Stil des Kunden an.",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "standard_antwort",
+            label: "Standard-Antwort",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "kunden_beispiel",
+            label: "Beispieltext des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "self-service-anleitung-erstellen",
+      title: "Schritt-für-Schritt-Anleitung für Self-Service erstellen",
+      description:
+         "Erstelle eine klare Anleitung, mit der Kunden ein Problem selbst lösen können – reduziert wiederkehrende Support-Anfragen.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Self-Service-Anleitung:\n\nProblem/Aufgabe: {{problem}}\nErforderliche Schritte (Stichpunkte): {{schritte_stichpunkte}}\nZielgruppe (technisches Niveau): {{zielgruppe}}\n\nErstelle eine nummerierte Schritt-für-Schritt-Anleitung, angepasst an das technische Niveau der Zielgruppe. Ergänze wo hilfreich Hinweise auf typische Stolperfallen.",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "problem",
+            label: "Problem / Aufgabe",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "schritte_stichpunkte",
+            label: "Erforderliche Schritte (Stichpunkte)",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe (technisches Niveau)",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "Technisch versiert",
+               "Durchschnittlich",
+               "Wenig technikaffin",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "kundenfeedback-auswerten",
+      title: "Kundenfeedback / NPS-Kommentare auswerten",
+      description:
+         "Cluster eine Menge an Freitext-Kundenfeedback nach Themen und Sentiment. Macht große Mengen unstrukturiertes Feedback auf einen Blick auswertbar.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Analysiere folgendes Kundenfeedback:\n\nFeedback-Kommentare: {{feedback}}\n\nErstelle:\n1. Die 5 häufigsten Themen-Cluster mit Beispielzitaten\n2. Sentiment je Cluster (überwiegend positiv/negativ/gemischt)\n3. Die 3 dringendsten Handlungsempfehlungen\n4. Eine kurze Management-Zusammenfassung (3-4 Sätze)",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "feedback",
+            label: "Feedback-Kommentare",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+      ],
+   },
+   {
+      slug: "chatbot-antwortbaustein-erstellen",
+      title: "Chatbot-Antwortbaustein für häufige Frage erstellen",
+      description:
+         "Erstelle einen wiederverwendbaren Antwortbaustein für Chatbots oder Makro-Antworten im Ticketsystem.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen Antwortbaustein für folgende häufige Frage:\n\nFrage/Anliegen: {{anliegen}}\nWichtigste Fakten der Antwort: {{fakten}}\n\nErstelle einen Baustein, der:\n- Kurz und direkt antwortet (max. 4 Sätze)\n- Platzhalter für Personalisierung enthält (z.B. [Name], [Bestellnummer])\n- Eine Option für Eskalation an einen Menschen enthält, falls die Antwort nicht passt",
+      categorySlug: "kundenservice-support",
+      fields: [
+         {
+            name: "anliegen",
+            label: "Frage / Anliegen",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "fakten",
+            label: "Wichtigste Fakten der Antwort",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+
+   // ── Vertrieb & Sales ─────────────────────────────────────────────
+   {
+      slug: "cold-outreach-email",
+      title: "Cold-Outreach-E-Mail erstellen",
+      description:
+         "Erstelle eine personalisierte Kaltakquise-E-Mail, die tatsächlich gelesen wird – kein generisches Massen-Template.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Erstelle eine Cold-Outreach-E-Mail:\n\nZielperson/Firma: {{zielperson}}\nUnser Angebot: {{angebot}}\nKonkreter Aufhänger (z.B. aktuelle News, gemeinsamer Kontakt): {{aufhaenger}}\nGewünschtes nächstes Ding: {{cta}}\n\nDie E-Mail soll:\n1. Mit dem konkreten Aufhänger beginnen, nicht mit der eigenen Firma\n2. Den Nutzen in einem Satz auf den Punkt bringen\n3. Kurz sein (max. 100 Wörter)\n4. Eine niedrigschwellige, konkrete CTA enthalten (kein "Lass uns mal connecten")',
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "zielperson",
+            label: "Zielperson / Firma",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "angebot",
+            label: "Unser Angebot",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "aufhaenger",
+            label: "Konkreter Aufhänger",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "cta",
+            label: "Gewünschter nächster Schritt",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "angebotstext-erstellen",
+      title: "Angebotstext / Proposal erstellen",
+      description:
+         "Strukturiere ein überzeugendes Geschäftsangebot, das Nutzen vor Preis kommuniziert und Einwände vorwegnimmt.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle ein Angebot:\n\nKunde: {{kunde}}\nLeistung/Produkt: {{leistung}}\nHerausforderung des Kunden: {{herausforderung}}\nPreis/Konditionen: {{preis}}\n\nStruktur:\n1. Ausgangslage (Herausforderung des Kunden in eigenen Worten)\n2. Vorgeschlagene Lösung\n3. Konkreter Nutzen/erwartetes Ergebnis\n4. Leistungsumfang\n5. Investition (Preis, eingebettet nach dem Nutzen)\n6. Nächste Schritte",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "kunde",
+            label: "Kunde",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "leistung",
+            label: "Leistung / Produkt",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "herausforderung",
+            label: "Herausforderung des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "preis",
+            label: "Preis / Konditionen",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "einwandbehandlung-vorbereiten",
+      title: "Einwandbehandlung vorbereiten",
+      description:
+         "Bereite überzeugende Antworten auf typische Kaufeinwände vor – strukturiert statt improvisiert im Gespräch.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Bereite Antworten auf folgenden Einwand vor:\n\nEinwand des Kunden: {{einwand}}\nUnser Produkt/Angebot: {{angebot}}\n\nErstelle:\n1. Eine empathische Anerkennung des Einwands (nicht widersprechen)\n2. Eine klärende Rückfrage, um den wahren Grund zu verstehen\n3. Eine faktenbasierte Antwort mit konkretem Beleg (Zahl, Beispiel, Referenz)\n4. Eine Überleitung zurück zum nächsten Schritt",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "einwand",
+            label: "Einwand des Kunden",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "angebot",
+            label: "Unser Produkt/Angebot",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "follow-up-email-nach-meeting",
+      title: "Follow-up-E-Mail nach Sales-Meeting",
+      description:
+         "Fasse ein Sales-Gespräch professionell zusammen und hältst die Dynamik zum nächsten Schritt aufrecht.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Follow-up-E-Mail:\n\nBesprochene Punkte: {{besprochene_punkte}}\nOffene Fragen des Kunden: {{offene_fragen}}\nVereinbarter nächster Schritt: {{naechster_schritt}}\n\nDie E-Mail soll:\n1. Kurz danken und den Gesprächskontext bestätigen\n2. Die wichtigsten Punkte stichpunktartig zusammenfassen\n3. Offene Fragen aktiv beantworten oder terminieren\n4. Den nächsten Schritt mit konkretem Datum benennen",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "besprochene_punkte",
+            label: "Besprochene Punkte",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "offene_fragen",
+            label: "Offene Fragen des Kunden",
+            type: "TEXTAREA" as const,
+            required: false,
+            order: 1,
+         },
+         {
+            name: "naechster_schritt",
+            label: "Vereinbarter nächster Schritt",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "discovery-call-fragen",
+      title: "Discovery-Call: Qualifizierende Fragen erstellen",
+      description:
+         "Erstelle einen Fragenkatalog für Erstgespräche, der echten Bedarf aufdeckt statt nur Produktfeatures zu präsentieren.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle Discovery-Call-Fragen für:\n\nZielgruppe/Branche: {{zielgruppe}}\nUnser Angebot: {{angebot}}\n\nErstelle je 2-3 Fragen zu:\n1. Aktuelle Situation und Prozess\n2. Konkrete Schmerzpunkte / Kosten des Status quo\n3. Entscheidungsprozess und Budget\n4. Zeitlicher Druck / Dringlichkeit\n\nFormuliere offene Fragen, keine Ja/Nein-Fragen.",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe / Branche",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "angebot",
+            label: "Unser Angebot",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "sales-pitch-elevator",
+      title: "Elevator Pitch erstellen",
+      description:
+         "Erstelle einen prägnanten 30-Sekunden-Pitch, der in Netzwerk-Situationen oder am Telefon sofort Interesse weckt.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle einen Elevator Pitch:\n\nProdukt/Dienstleistung: {{produkt}}\nZielgruppe: {{zielgruppe}}\nGrößter Nutzen: {{nutzen}}\n\nStruktur (max. 4 Sätze, ca. 30 Sekunden gesprochen):\n1. Wer wir sind (1 Satz)\n2. Welches Problem wir lösen (1 Satz)\n3. Wie/wodurch wir uns unterscheiden (1 Satz)\n4. Eine Frage oder ein Einstiegssatz für den Dialog",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "produkt",
+            label: "Produkt / Dienstleistung",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielgruppe",
+            label: "Zielgruppe",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "nutzen",
+            label: "Größter Nutzen",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "linkedin-sales-nachricht",
+      title: "LinkedIn-Kontaktanfrage / Sales-Nachricht",
+      description:
+         "Erstelle eine LinkedIn-Nachricht für Social Selling, die nicht wie eine automatisierte Massenanfrage wirkt.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine LinkedIn-Nachricht:\n\nZielperson (Rolle/Kontext): {{zielperson}}\nGemeinsamer Anknüpfungspunkt: {{anknuepfungspunkt}}\nZiel der Nachricht: {{ziel}}\n\nDie Nachricht soll:\n- Max. 3-4 Sätze lang sein\n- Mit dem Anknüpfungspunkt beginnen, nicht mit dem Verkaufsangebot\n- Keine Buzzwords oder Templates-Sprache enthalten\n- Mit einer konkreten, niedrigschwelligen Frage enden",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "zielperson",
+            label: "Zielperson (Rolle/Kontext)",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "anknuepfungspunkt",
+            label: "Gemeinsamer Anknüpfungspunkt",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "ziel",
+            label: "Ziel der Nachricht",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "Vernetzen",
+               "Call vereinbaren",
+               "Content teilen",
+               "Feedback einholen",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "verhandlungsstrategie-preis",
+      title: "Preisverhandlung: Strategie vorbereiten",
+      description:
+         "Bereite eine Verhandlungsstrategie für ein Preisgespräch vor, inklusive Verhandlungsspielraum und Alternativen zum reinen Rabatt.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Bereite eine Preisverhandlung vor:\n\nAusgangspreis: {{ausgangspreis}}\nGeforderter Rabatt/Position des Kunden: {{kundenposition}}\nUnser Verhandlungsspielraum: {{spielraum}}\n\nErstelle:\n1. Unsere Ziel- und Grenzposition\n2. 3 Alternativen zum reinen Preisnachlass (z.B. Laufzeit, Umfang, Zahlungsbedingungen)\n3. Konkrete Formulierungen für die ersten Verhandlungssätze\n4. Eine Exit-Option, falls keine Einigung möglich ist",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "ausgangspreis",
+            label: "Ausgangspreis",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "kundenposition",
+            label: "Geforderter Rabatt / Position des Kunden",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "spielraum",
+            label: "Unser Verhandlungsspielraum",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "kundenreferenz-case-study",
+      title: "Kundenreferenz / Case Study strukturieren",
+      description:
+         "Wandle Rohinformationen zu einem Kundenprojekt in eine überzeugende Case Study um, die im Sales-Prozess als Beweis dient.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle eine Case Study:\n\nKunde/Branche: {{kunde}}\nAusgangssituation: {{ausgangssituation}}\nUnsere Lösung: {{loesung}}\nErgebnis (mit Zahlen wenn möglich): {{ergebnis}}\n\nStruktur:\n1. Herausforderung (Ausgangslage aus Kundensicht)\n2. Lösung (was wurde umgesetzt)\n3. Ergebnis (konkret, idealerweise quantifiziert)\n4. Zitat-Vorschlag, das der Kunde so gesagt haben könnte (zur Freigabe)",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "kunde",
+            label: "Kunde / Branche",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "ausgangssituation",
+            label: "Ausgangssituation",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "loesung",
+            label: "Unsere Lösung",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "ergebnis",
+            label: "Ergebnis (mit Zahlen wenn möglich)",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "lead-qualifizierung-kriterien",
+      title: "Lead-Qualifizierung nach BANT strukturieren",
+      description:
+         "Bewerte einen Lead systematisch nach Budget, Autorität, Bedarf und Zeitrahmen (BANT) statt nach Bauchgefühl.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Qualifiziere folgenden Lead nach BANT:\n\nInformationen zum Lead: {{lead_infos}}\n\nBewerte strukturiert:\n1. Budget: Ist ein Budget vorhanden/realistisch?\n2. Authority: Spricht die Kontaktperson mit Entscheidungsbefugnis?\n3. Need: Wie konkret ist der Bedarf?\n4. Timeline: Wie dringend/wann soll entschieden werden?\n\nGib eine Gesamteinschätzung (Heiß/Warm/Kalt) und empfohlene nächste Schritte.",
+      categorySlug: "vertrieb-sales",
+      fields: [
+         {
+            name: "lead_infos",
+            label: "Informationen zum Lead",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+      ],
+   },
+
+   // ── Bewerbung & Karriere ─────────────────────────────────────────
+   {
+      slug: "anschreiben-erstellen",
+      title: "Anschreiben für Bewerbung erstellen",
+      description:
+         "Erstelle ein individuelles Anschreiben, das konkret auf die Stelle eingeht statt generische Floskeln aneinanderzureihen.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Erstelle ein Bewerbungsanschreiben:\n\nZielposition: {{position}}\nUnternehmen: {{unternehmen}}\nEigene relevante Erfahrung: {{erfahrung}}\nMotivation für die Stelle: {{motivation}}\n\nDas Anschreiben soll:\n1. Mit einem konkreten Bezug zur Stelle/zum Unternehmen beginnen, nicht mit "Hiermit bewerbe ich mich..."\n2. 2-3 relevante Erfahrungen mit Ergebnis verknüpfen\n3. Die Motivation glaubwürdig und spezifisch machen\n4. Mit einem klaren, selbstbewussten Abschluss enden\n5. Max. 300 Wörter',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "position",
+            label: "Zielposition",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "unternehmen",
+            label: "Unternehmen",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "erfahrung",
+            label: "Eigene relevante Erfahrung",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "motivation",
+            label: "Motivation für die Stelle",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "lebenslauf-optimieren",
+      title: "Lebenslauf-Abschnitt optimieren",
+      description:
+         "Formuliere Berufserfahrung im Lebenslauf ergebnisorientiert statt als reine Aufgabenliste – entscheidend, um im ersten Screening aufzufallen.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Optimiere folgenden Lebenslauf-Abschnitt:\n\nAktueller Text: {{aktueller_text}}\nZielposition: {{zielposition}}\n\nFormuliere jede Aufgabe nach dem Muster "[Aktion] → [Ergebnis/Kennzahl]" statt als reine Tätigkeitsbeschreibung. Nutze aktive Verben. Passe die Formulierung so an, dass sie zur Zielposition passt, ohne Fakten zu verfälschen.',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "aktueller_text",
+            label: "Aktueller Text",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielposition",
+            label: "Zielposition",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "interview-vorbereitung-antworten",
+      title: "Vorstellungsgespräch: Antworten vorbereiten",
+      description:
+         "Bereite überzeugende Antworten auf typische Interviewfragen vor, basierend auf der eigenen Erfahrung – nach der STAR-Methode.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Bereite eine Interview-Antwort vor:\n\nFrage: {{frage}}\nRelevante eigene Erfahrung: {{erfahrung}}\n\nStrukturiere die Antwort nach STAR:\n- Situation: Kontext kurz beschreiben\n- Task: Was war die Aufgabe/Herausforderung?\n- Action: Was hast du konkret getan?\n- Result: Was war das Ergebnis (idealerweise messbar)?\n\nHalte die Antwort auf 60-90 Sekunden Sprechzeit begrenzt.",
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "frage",
+            label: "Frage",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "erfahrung",
+            label: "Relevante eigene Erfahrung",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "gehaltsverhandlung-vorbereiten",
+      title: "Gehaltsverhandlung vorbereiten",
+      description:
+         "Bereite Argumente und Formulierungen für eine Gehaltsverhandlung vor – selbstbewusst, aber ohne Konfrontation.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Bereite eine Gehaltsverhandlung vor:\n\nAktuelles/erwartetes Gehalt: {{gehalt_situation}}\nEigene Leistungen/Marktwert-Argumente: {{argumente}}\nGesprächsanlass: {{anlass}}\n\nErstelle:\n1. Eine klare Zielzahl und eine Verhandlungsuntergrenze\n2. 3 konkrete Argumente basierend auf Leistung/Marktdaten\n3. Einen Formulierungsvorschlag für den Gesprächseinstieg\n4. Eine Antwort für den Fall, dass zunächst "Nein" kommt',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "gehalt_situation",
+            label: "Aktuelles / erwartetes Gehalt",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "argumente",
+            label: "Eigene Leistungen / Marktwert-Argumente",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "anlass",
+            label: "Gesprächsanlass",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: [
+               "Jahresgespräch",
+               "Neues Jobangebot",
+               "Beförderung",
+               "Gegenangebot",
+            ],
+         },
+      ],
+   },
+   {
+      slug: "linkedin-profil-optimieren",
+      title: "LinkedIn-Profil-Text optimieren",
+      description:
+         'Formuliere die LinkedIn-"Über mich"-Sektion so, dass sie in Suchergebnissen und beim Lesen sofort Klarheit über den eigenen Wert schafft.',
+      recommendedModel: "GPT-4o",
+      content:
+         'Optimiere den LinkedIn-"Über mich"-Text:\n\nAktueller Text/Stichpunkte: {{aktueller_text}}\nZielrolle/Branche: {{zielrolle}}\n\nStruktur:\n1. Erste Zeile: Wer bin ich + größter Nutzen (wird in der Vorschau angezeigt, muss stark sein)\n2. Kernkompetenzen mit konkreten Beispielen\n3. Was mich antreibt / Arbeitsweise\n4. Klare Aussage, wonach ich suche oder wofür ich offen bin',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "aktueller_text",
+            label: "Aktueller Text / Stichpunkte",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielrolle",
+            label: "Zielrolle / Branche",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "karriereziele-formulieren",
+      title: "Karriereziele strukturiert formulieren",
+      description:
+         "Formuliere eigene Karriereziele klar und konkret – nützlich für Mitarbeitergespräche, Bewerbungen oder die eigene Orientierung.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Formuliere Karriereziele:\n\nAktuelle Position: {{aktuelle_position}}\nGrobe Richtung/Interessen: {{richtung}}\nZeithorizont: {{zeithorizont}}\n\nErstelle:\n1. Ein konkretes Ziel für den Zeithorizont (SMART formuliert)\n2. 3 Zwischenschritte dorthin\n3. Fähigkeiten, die dafür aufgebaut werden müssen\n4. Wie sich dieses Ziel im Gespräch mit einer Führungskraft glaubwürdig begründen lässt",
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "aktuelle_position",
+            label: "Aktuelle Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "richtung",
+            label: "Grobe Richtung / Interessen",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "zeithorizont",
+            label: "Zeithorizont",
+            type: "SELECT" as const,
+            required: true,
+            order: 2,
+            options: ["1 Jahr", "3 Jahre", "5 Jahre"],
+         },
+      ],
+   },
+   {
+      slug: "kuendigung-schreiben",
+      title: "Kündigungsschreiben verfassen",
+      description:
+         "Erstelle ein formal korrektes, professionelles Kündigungsschreiben – ohne unnötige Erklärungen oder Emotionen, die später gegen einen verwendet werden könnten.",
+      recommendedModel: "GPT-4o",
+      content:
+         "Erstelle ein Kündigungsschreiben:\n\nArbeitgeber: {{arbeitgeber}}\nPosition: {{position}}\nKündigungsdatum: {{datum}}\nKündigungsfrist: {{frist}}\n\nDas Schreiben soll:\n- Formal korrekt sein (Betreff, Datum, klare Kündigungserklärung)\n- Das Enddatum unter Einhaltung der Frist konkret benennen\n- Um ein qualifiziertes Arbeitszeugnis bitten\n- Kurz und sachlich bleiben, keine Begründung des Weggangs enthalten",
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "arbeitgeber",
+            label: "Arbeitgeber",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "datum",
+            label: "Kündigungsdatum",
+            type: "TEXT" as const,
+            required: true,
+            order: 2,
+         },
+         {
+            name: "frist",
+            label: "Kündigungsfrist",
+            type: "TEXT" as const,
+            required: true,
+            order: 3,
+         },
+      ],
+   },
+   {
+      slug: "dankes-email-nach-interview",
+      title: "Dankes-E-Mail nach Vorstellungsgespräch",
+      description:
+         "Verfasse eine kurze Dankes-Mail nach dem Interview, die im Kopf bleibt statt generisch zu wirken.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Erstelle eine Dankes-E-Mail nach dem Interview:\n\nAnsprechpartner: {{ansprechpartner}}\nPosition: {{position}}\nKonkreter Gesprächsmoment, an den ich anknüpfen will: {{gespraechsmoment}}\n\nDie E-Mail soll:\n- Kurz sein (max. 100 Wörter)\n- Auf einen konkreten Moment aus dem Gespräch Bezug nehmen (kein generisches "Danke für Ihre Zeit")\n- Kurz nochmal die eigene Eignung unterstreichen\n- Interesse an der Stelle bekräftigen',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "ansprechpartner",
+            label: "Ansprechpartner",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "position",
+            label: "Position",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "gespraechsmoment",
+            label: "Konkreter Gesprächsmoment",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
+         },
+      ],
+   },
+   {
+      slug: "staerken-schwaechen-analyse",
+      title: "Stärken-Schwächen-Analyse für Bewerbung",
+      description:
+         "Erarbeite eine ehrliche, aber bewerbungstaugliche Stärken-Schwächen-Analyse – inklusive glaubwürdiger Formulierung von Schwächen.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Erstelle eine Stärken-Schwächen-Analyse:\n\nZielposition: {{zielposition}}\nBisherige Erfahrung/Selbsteinschätzung: {{selbsteinschaetzung}}\n\nErstelle:\n1. 3 Stärken mit je einem konkreten Beleg aus der Erfahrung\n2. 2 Schwächen, glaubwürdig formuliert (echte Entwicklungsfelder, keine verkappten Stärken wie "ich bin zu perfektionistisch")\n3. Für jede Schwäche: was aktiv dagegen unternommen wird',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "zielposition",
+            label: "Zielposition",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "selbsteinschaetzung",
+            label: "Bisherige Erfahrung / Selbsteinschätzung",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 1,
+         },
+      ],
+   },
+   {
+      slug: "quereinstieg-positionierung",
+      title: "Quereinstieg: Erfahrung glaubwürdig positionieren",
+      description:
+         "Positioniere branchenfremde Erfahrung überzeugend für eine Bewerbung in einem neuen Feld – zeigt Transfer-Kompetenzen statt Lücken.",
+      recommendedModel: "GPT-4o",
+      content:
+         'Positioniere folgende Erfahrung für einen Quereinstieg:\n\nBisherige Branche/Rolle: {{bisherige_rolle}}\nZielbranche/Zielrolle: {{zielrolle}}\nÜbertragbare Fähigkeiten (Stichpunkte): {{faehigkeiten}}\n\nErstelle:\n1. Eine kurze Positionierungs-Aussage, die den Wechsel als Stärke framt\n2. 3 konkrete Beispiele, wie bisherige Erfahrung in der neuen Rolle Mehrwert schafft\n3. Formulierungsvorschlag für die "Warum der Wechsel"-Frage im Interview',
+      categorySlug: "bewerbung-karriere",
+      fields: [
+         {
+            name: "bisherige_rolle",
+            label: "Bisherige Branche / Rolle",
+            type: "TEXT" as const,
+            required: true,
+            order: 0,
+         },
+         {
+            name: "zielrolle",
+            label: "Zielbranche / Zielrolle",
+            type: "TEXT" as const,
+            required: true,
+            order: 1,
+         },
+         {
+            name: "faehigkeiten",
+            label: "Übertragbare Fähigkeiten (Stichpunkte)",
+            type: "TEXTAREA" as const,
+            required: true,
+            order: 2,
          },
       ],
    },
