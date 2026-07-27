@@ -2207,7 +2207,7 @@ export const initCatalogData = async (prisma: PrismaClient) => {
                   type: f.type,
                   required: f.required,
                   order: f.order,
-                  options: (f as { options?: string[] }).options ?? undefined,
+                  options: f.options ?? undefined,
                })),
             },
          },
