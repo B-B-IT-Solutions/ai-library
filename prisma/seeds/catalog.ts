@@ -973,6 +973,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "Für welche Position wird interviewt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -980,6 +981,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "senioritaet",
             label: "Seniorität",
+            description: "Auf welchem Erfahrungslevel ist die Rolle?",
             type: "SELECT" as const,
             required: true,
             order: 1,
@@ -1008,6 +1010,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "rolle",
             label: "Mitarbeiter:in / Rolle",
+            description: "Für wen wird die Beurteilung erstellt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1015,6 +1018,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zeitraum",
             label: "Zeitraum",
+            description: "Für welchen Zeitraum gilt die Beurteilung?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1022,6 +1026,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "stichpunkte",
             label: "Stichpunkte zu Leistung/Verhalten",
+            description: "Was ist aufgefallen? (Beobachtungen, Ergebnisse)",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1029,6 +1034,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "entwicklungsziele",
             label: "Entwicklungsziele",
+            description: "Welche Ziele wurden vereinbart?",
             type: "TEXTAREA" as const,
             required: true,
             order: 3,
@@ -1048,6 +1054,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "Für welche Position wird das Zeugnis ausgestellt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1055,6 +1062,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "dauer",
             label: "Beschäftigungsdauer",
+            description: "Wie lange war die Person beschäftigt?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1062,6 +1070,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "aufgaben",
             label: "Wichtigste Aufgaben",
+            description: "Was waren die wichtigsten Aufgaben?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1069,6 +1078,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "leistungsniveau",
             label: "Leistungsniveau",
+            description: "Wie soll die Leistung bewertet werden?",
             type: "SELECT" as const,
             required: true,
             order: 3,
@@ -1082,6 +1092,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "austrittsgrund",
             label: "Grund des Austritts",
+            description: "Warum endet das Arbeitsverhältnis?",
             type: "SELECT" as const,
             required: true,
             order: 4,
@@ -1107,6 +1118,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "Für welche Position wird das Interview geführt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1114,6 +1126,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kuendigungsgrund",
             label: "Kündigungsgrund (falls bekannt)",
+            description: "Warum verlässt die Person das Unternehmen? (optional)",
             type: "TEXT" as const,
             required: false,
             order: 1,
@@ -1133,6 +1146,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "Für welche Position gilt die Probezeit?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1140,6 +1154,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "beobachtungen",
             label: "Beobachtungen zur Leistung",
+            description: "Was ist während der Probezeit aufgefallen?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1147,6 +1162,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "empfehlung",
             label: "Empfehlung",
+            description: "Wie lautet die Tendenz?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -1171,6 +1187,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "thema",
             label: "Thema",
+            description: "Worum soll es in der Umfrage gehen?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1178,6 +1195,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielgruppe",
             label: "Zielgruppe",
+            description: "Wer wird befragt?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1185,6 +1203,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anzahl_fragen",
             label: "Anzahl Fragen",
+            description: "Wie viele Fragen soll die Umfrage haben?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -1207,6 +1226,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "beschwerde",
             label: "Beschwerde des Kunden",
+            description: "Was genau bemängelt der Kunde?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1214,6 +1234,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "fakten",
             label: "Unternehmenssicht / Fakten",
+            description: "Was ist aus Unternehmenssicht tatsächlich passiert?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1221,6 +1242,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "loesung",
             label: "Angebotene Lösung",
+            description: "Welche Lösung wird dem Kunden angeboten?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1228,6 +1250,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "tonalitaet",
             label: "Tonalität",
+            description: "Wie soll die Antwort klingen?",
             type: "SELECT" as const,
             required: true,
             order: 3,
@@ -1252,6 +1275,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anfrage",
             label: "Ursprüngliche Anfrage",
+            description: "Wie hat der Kunde die Frage gestellt?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1259,6 +1283,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "antwort",
             label: "Lösung / Antwort",
+            description: "Wie wurde die Anfrage gelöst?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1278,6 +1303,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "verlauf",
             label: "Ticket-Verlauf",
+            description: "Füge den kompletten Ticket-Verlauf ein",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1297,6 +1323,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "vorfall",
             label: "Vorfall",
+            description: "Was ist passiert?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1304,6 +1331,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "auswirkung",
             label: "Auswirkung auf den Kunden",
+            description: "Wie hat sich der Vorfall auf den Kunden ausgewirkt?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1311,6 +1339,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "wiedergutmachung",
             label: "Wiedergutmachung",
+            description: "Was wird als Ausgleich angeboten?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1330,6 +1359,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anfrage",
             label: "Anfrage des Kunden",
+            description: "Was fordert oder droht der Kunde?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1337,6 +1367,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "eskalationsgrad",
             label: "Eskalationsgrad",
+            description: "Wie stark ist die Eskalation?",
             type: "SELECT" as const,
             required: true,
             order: 1,
@@ -1349,6 +1380,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "handlungsspielraum",
             label: "Handlungsspielraum",
+            description: "Was kann konkret angeboten werden?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1368,6 +1400,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kuendigungsgrund",
             label: "Kündigungsgrund des Kunden",
+            description: "Warum möchte der Kunde kündigen?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1375,6 +1408,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kundenwert",
             label: "Kundenwert / Historie",
+            description: "Wie wichtig/lange ist der Kunde schon dabei?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1382,6 +1416,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "angebot",
             label: "Mögliches Angebot",
+            description: "Was könnte dem Kunden angeboten werden?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1401,6 +1436,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "standard_antwort",
             label: "Standard-Antwort",
+            description: "Die ursprüngliche, noch unpersönliche Antwort",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1408,6 +1444,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kunden_beispiel",
             label: "Beispieltext des Kunden",
+            description: "Ein Textbeispiel des Kunden, das seinen Ton zeigt",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1427,6 +1464,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "problem",
             label: "Problem / Aufgabe",
+            description: "Welches Problem soll der Kunde selbst lösen können?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1434,6 +1472,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "schritte_stichpunkte",
             label: "Erforderliche Schritte (Stichpunkte)",
+            description: "Welche Schritte sind nötig? (grobe Stichpunkte reichen)",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1441,6 +1480,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielgruppe",
             label: "Zielgruppe (technisches Niveau)",
+            description: "Wie technisch versiert ist die Zielgruppe?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -1465,6 +1505,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "feedback",
             label: "Feedback-Kommentare",
+            description: "Füge die Rohkommentare ein (z.B. aus Umfragen oder Reviews)",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1484,6 +1525,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anliegen",
             label: "Frage / Anliegen",
+            description: "Welche Frage wird häufig gestellt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1491,6 +1533,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "fakten",
             label: "Wichtigste Fakten der Antwort",
+            description: "Welche Informationen muss die Antwort enthalten?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1512,6 +1555,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielperson",
             label: "Zielperson / Firma",
+            description: "Wer wird kontaktiert?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1519,6 +1563,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "angebot",
             label: "Unser Angebot",
+            description: "Was bieten wir an?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1526,6 +1571,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "aufhaenger",
             label: "Konkreter Aufhänger",
+            description: "Was ist der konkrete Anlass für die Kontaktaufnahme?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1533,6 +1579,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "cta",
             label: "Gewünschter nächster Schritt",
+            description: "Was soll die Person als Nächstes tun?",
             type: "TEXT" as const,
             required: true,
             order: 3,
@@ -1552,6 +1599,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kunde",
             label: "Kunde",
+            description: "Für welchen Kunden ist das Angebot?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1559,6 +1607,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "leistung",
             label: "Leistung / Produkt",
+            description: "Was wird angeboten?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1566,6 +1615,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "herausforderung",
             label: "Herausforderung des Kunden",
+            description: "Welches Problem hat der Kunde?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1573,6 +1623,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "preis",
             label: "Preis / Konditionen",
+            description: "Was kostet die Leistung?",
             type: "TEXT" as const,
             required: true,
             order: 3,
@@ -1592,6 +1643,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "einwand",
             label: "Einwand des Kunden",
+            description: "Welchen Einwand hat der Kunde geäußert?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1599,6 +1651,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "angebot",
             label: "Unser Produkt/Angebot",
+            description: "Worum geht es bei unserem Angebot?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1618,6 +1671,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "besprochene_punkte",
             label: "Besprochene Punkte",
+            description: "Was wurde im Gespräch besprochen?",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1625,6 +1679,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "offene_fragen",
             label: "Offene Fragen des Kunden",
+            description: "Welche Fragen sind noch offen? (optional)",
             type: "TEXTAREA" as const,
             required: false,
             order: 1,
@@ -1632,6 +1687,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "naechster_schritt",
             label: "Vereinbarter nächster Schritt",
+            description: "Was wurde als Nächstes vereinbart?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1651,6 +1707,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielgruppe",
             label: "Zielgruppe / Branche",
+            description: "Für wen/welche Branche ist der Call?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1658,6 +1715,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "angebot",
             label: "Unser Angebot",
+            description: "Was bieten wir an?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1677,6 +1735,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "produkt",
             label: "Produkt / Dienstleistung",
+            description: "Was wird angeboten?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1684,6 +1743,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielgruppe",
             label: "Zielgruppe",
+            description: "Für wen ist das Angebot?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1691,6 +1751,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "nutzen",
             label: "Größter Nutzen",
+            description: "Was ist der größte Nutzen für die Zielgruppe?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1710,6 +1771,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielperson",
             label: "Zielperson (Rolle/Kontext)",
+            description: "Wer soll kontaktiert werden?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1717,6 +1779,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anknuepfungspunkt",
             label: "Gemeinsamer Anknüpfungspunkt",
+            description: "Was verbindet euch? (z.B. Post, gemeinsame Kontakte, Ereignis)",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1724,6 +1787,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "ziel",
             label: "Ziel der Nachricht",
+            description: "Was soll die Nachricht erreichen?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -1749,6 +1813,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "ausgangspreis",
             label: "Ausgangspreis",
+            description: "Was ist der ursprüngliche Preis?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1756,6 +1821,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kundenposition",
             label: "Geforderter Rabatt / Position des Kunden",
+            description: "Was fordert oder erwartet der Kunde?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1763,6 +1829,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "spielraum",
             label: "Unser Verhandlungsspielraum",
+            description: "Wie weit können wir entgegenkommen?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -1782,6 +1849,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "kunde",
             label: "Kunde / Branche",
+            description: "Welcher Kunde/welche Branche wird vorgestellt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1789,6 +1857,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "ausgangssituation",
             label: "Ausgangssituation",
+            description: "Was war die Ausgangssituation des Kunden?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1796,6 +1865,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "loesung",
             label: "Unsere Lösung",
+            description: "Was wurde konkret umgesetzt?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1803,6 +1873,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "ergebnis",
             label: "Ergebnis (mit Zahlen wenn möglich)",
+            description: "Was hat sich für den Kunden verbessert?",
             type: "TEXT" as const,
             required: true,
             order: 3,
@@ -1822,6 +1893,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "lead_infos",
             label: "Informationen zum Lead",
+            description: "Was ist über den Lead bekannt? (Notizen, Gesprächsverlauf)",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1843,6 +1915,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Zielposition",
+            description: "Für welche Stelle bewirbst du dich?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1850,6 +1923,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "unternehmen",
             label: "Unternehmen",
+            description: "Bei welchem Unternehmen?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1857,6 +1931,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "erfahrung",
             label: "Eigene relevante Erfahrung",
+            description: "Welche Erfahrung ist für die Stelle relevant?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -1864,6 +1939,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "motivation",
             label: "Motivation für die Stelle",
+            description: "Warum möchtest du genau dort arbeiten?",
             type: "TEXTAREA" as const,
             required: true,
             order: 3,
@@ -1883,6 +1959,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "aktueller_text",
             label: "Aktueller Text",
+            description: "Der bestehende Text aus deinem Lebenslauf",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1890,6 +1967,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielposition",
             label: "Zielposition",
+            description: "Für welche Stelle bewirbst du dich?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -1909,6 +1987,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "frage",
             label: "Frage",
+            description: "Welche Interviewfrage soll beantwortet werden?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1916,6 +1995,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "erfahrung",
             label: "Relevante eigene Erfahrung",
+            description: "Welche Erfahrung passt zu dieser Frage?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1935,6 +2015,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "gehalt_situation",
             label: "Aktuelles / erwartetes Gehalt",
+            description: "Was verdienst du aktuell bzw. was erwartest du?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -1942,6 +2023,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "argumente",
             label: "Eigene Leistungen / Marktwert-Argumente",
+            description: "Was spricht für ein höheres Gehalt?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -1949,6 +2031,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "anlass",
             label: "Gesprächsanlass",
+            description: "In welchem Kontext findet das Gespräch statt?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -1974,6 +2057,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "aktueller_text",
             label: "Aktueller Text / Stichpunkte",
+            description: "Der bestehende Text oder Stichpunkte zu dir",
             type: "TEXTAREA" as const,
             required: true,
             order: 0,
@@ -1981,6 +2065,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielrolle",
             label: "Zielrolle / Branche",
+            description: "Welche Rolle/Branche strebst du an?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -2000,6 +2085,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "aktuelle_position",
             label: "Aktuelle Position",
+            description: "Was machst du aktuell?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -2007,6 +2093,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "richtung",
             label: "Grobe Richtung / Interessen",
+            description: "Wohin möchtest du dich grob entwickeln?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -2014,6 +2101,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zeithorizont",
             label: "Zeithorizont",
+            description: "Bis wann soll das Ziel erreicht sein?",
             type: "SELECT" as const,
             required: true,
             order: 2,
@@ -2034,6 +2122,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "arbeitgeber",
             label: "Arbeitgeber",
+            description: "Bei welchem Arbeitgeber?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -2041,6 +2130,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "In welcher Position?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -2048,6 +2138,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "datum",
             label: "Kündigungsdatum",
+            description: "Ab wann soll gekündigt werden?",
             type: "TEXT" as const,
             required: true,
             order: 2,
@@ -2055,6 +2146,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "frist",
             label: "Kündigungsfrist",
+            description: "Welche Kündigungsfrist gilt?",
             type: "TEXT" as const,
             required: true,
             order: 3,
@@ -2074,6 +2166,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "ansprechpartner",
             label: "Ansprechpartner",
+            description: "Wer hat das Interview geführt?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -2081,6 +2174,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "position",
             label: "Position",
+            description: "Um welche Stelle ging es?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -2088,6 +2182,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "gespraechsmoment",
             label: "Konkreter Gesprächsmoment",
+            description: "Welcher Moment aus dem Gespräch soll aufgegriffen werden?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
@@ -2107,6 +2202,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielposition",
             label: "Zielposition",
+            description: "Für welche Stelle ist die Analyse gedacht?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -2114,6 +2210,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "selbsteinschaetzung",
             label: "Bisherige Erfahrung / Selbsteinschätzung",
+            description: "Wie schätzt du deine bisherige Erfahrung ein?",
             type: "TEXTAREA" as const,
             required: true,
             order: 1,
@@ -2133,6 +2230,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "bisherige_rolle",
             label: "Bisherige Branche / Rolle",
+            description: "In welcher Branche/Rolle warst du bisher tätig?",
             type: "TEXT" as const,
             required: true,
             order: 0,
@@ -2140,6 +2238,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "zielrolle",
             label: "Zielbranche / Zielrolle",
+            description: "In welche Branche/Rolle möchtest du wechseln?",
             type: "TEXT" as const,
             required: true,
             order: 1,
@@ -2147,6 +2246,7 @@ const catalogEntries: CatalogEntryData[] = [
          {
             name: "faehigkeiten",
             label: "Übertragbare Fähigkeiten (Stichpunkte)",
+            description: "Welche Fähigkeiten lassen sich übertragen?",
             type: "TEXTAREA" as const,
             required: true,
             order: 2,
