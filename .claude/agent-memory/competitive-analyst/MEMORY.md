@@ -6,3 +6,7 @@
 - [Strategic Build Priorities](build_priorities.md) — ✅ Explore feed SHIPPED (2026-05-07). Next: in-platform testing → viral prompt sharing → creator dashboard → team workspaces
 - [Positioning Angles](positioning_angles.md) — Three validated messaging frames for differentiation
 - [Catalog Domain Architecture](architecture_catalog_domain.md) — PromptTemplateDescriptor ist user-private; Explore nutzt separates CatalogEntry-Modell mit Copy-Aktion
+- [German Explore Competitors](explore_de_competitors.md) — prompta.ch, promptarchiv.de, promptvorlage.de, aipromptgalaxy.de, getpromptlibrary.com (2026-07)
+- [Explore Catalog Gaps](explore_gaps.md) — Code-verified: only 17 entries (not 28), no popularity sort despite copyCount data, no model filter, no example output; "Live-Test" is deep-link handoff, not real LLM call
+- [Multimedia Tool Integration Deferred](multimedia_tool_integration.md) — Bild/Video/Audio-Generator-Anbindung zurückgestellt (2026-07-27); Deep-Link-Prefill bei diesen Tools technisch unbestätigt
+- [Catalog 1300 Rollout Tracker](catalog_1300_rollout.md) — Ausbau 17→1300 Prompts in Tranchen; Stand: 57 Einträge/11 Kategorien nach Tranche 1 (2026-07-27)
